@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">
+			This is a provisional schema for PingTheSemanticWeb exportation pings lists.
+		</xsd:documentation>
+	</xsd:annotation>
+
+	<xsd:element name="pingthesemanticwebUpdate">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="rdfdocument" type="RdfDocument" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:attribute name="version" type="xsd:string" use="required"/>
+			<xsd:attribute name="updated" type="xsd:string" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:complexType name="RdfDocument">
+		<xsd:attribute name="url" type="xsd:string" use="required"/>
+		<xsd:attribute name="created" type="xsd:string" use="required"/>
+		<xsd:attribute name="updated" type="xsd:string" use="required"/>
+		<xsd:attribute name="serialization" use="required">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="xml"/>
+					<xsd:enumeration value="n3"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+
+</xsd:schema>

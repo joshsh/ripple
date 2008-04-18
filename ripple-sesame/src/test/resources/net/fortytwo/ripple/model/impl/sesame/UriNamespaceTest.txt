@@ -1,0 +1,2 @@
+http://example.org/hashNs#foo	http://example.org/hashNs#	foo
+http://example.org/slashNs/foo	http://example.org/slashNs/	foo

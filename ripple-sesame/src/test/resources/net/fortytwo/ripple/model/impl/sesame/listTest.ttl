@@ -1,0 +1,44 @@
+@prefix : <urn:test.RippleListTest.FromRdfTest#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+
+:simpleList a rdf:List;
+	rdf:first "1";
+	rdf:rest [
+			rdf:first "2";
+			rdf:rest rdf:nil ];
+	.
+
+:firstBranchingList a rdf:List;
+	rdf:first "1a";
+	rdf:first "1b";
+	rdf:rest [
+			rdf:first "2";
+			rdf:rest rdf:nil ];
+	.
+
+:restBranchingList a rdf:List;
+	rdf:first "1";
+	rdf:rest [
+			rdf:first "2a";
+			rdf:rest rdf:nil ];
+	rdf:rest [
+			rdf:first "2b";
+			rdf:rest rdf:nil ];
+	.
+
+:firstAndRestBranchingList a rdf:List;
+	rdf:first "1a";
+	rdf:first "1b";
+	rdf:rest [
+			rdf:first "2a";
+			rdf:rest rdf:nil ];
+	rdf:rest [
+			rdf:first "2b";
+			rdf:rest rdf:nil ];
+	.
+
+:circularList a rdf:List;
+	rdf:first "1";
+	rdf:rest :circularList;
+	.
+

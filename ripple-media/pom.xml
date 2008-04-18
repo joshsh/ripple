@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This is a Maven 2 Project Object Model -->
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
+
+    <groupId>net.fortytwo.ripple</groupId>
+    <artifactId>ripple-media</artifactId>
+    <version>0.5</version>
+    <name>Ripple Media Extension</name>
+    <description>Media and speech extension for the Ripple Semantic Web scripting language</description>
+    <url>http://ripple.fortytwo.net/</url>
+    <inceptionYear>2007</inceptionYear>
+    <licenses></licenses>
+    <developers>
+        <developer>
+            <id>josh</id>
+            <name>Joshua Shinavier</name>
+            <email>josh@fortytwo.net</email>
+            <url>http://fortytwo.net</url>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+            <timezone>-8</timezone>
+            <properties>
+                <!--<picUrl>...</picUrl>-->
+            </properties>
+        </developer>
+    </developers>
+    <organization>
+        <name>Joshua Shinavier</name>
+    </organization>
+    <issueManagement>
+        <system>GForge Tracker</system>
+        <url>http://projects.semwebcentral.org/tracker/?atid=573&amp;group_id=125&amp;func=browse</url>
+    </issueManagement>
+
+    <repositories>
+        <repository>
+            <id>fortytwo</id>
+            <name>fortytwo.net Maven repository</name>
+            <url>http://fortytwo.net/maven2</url>
+        </repository>
+        <!--<repository>
+              <id>scriptlandia-repo</id>
+              <name>Scriptlandia Maven2 repository</name>
+              <url>http://scriptlandia-repository.googlecode.com/svn/trunk/tools</url>
+          </repository>-->
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>net.fortytwo.ripple</groupId>
+            <artifactId>ripple-demo</artifactId>
+            <version>0.5</version>
+        </dependency>
+
+        <!--<dependency>
+              <groupId>javax.speech</groupId>
+              <artifactId>jsapi</artifactId>
+              <version>1.0</version>
+          </dependency>-->
+
+        <dependency>
+            <groupId>edu.cmu</groupId>
+            <artifactId>sphinx</artifactId>
+            <version>4</version>
+            <type>jar</type>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.speech</groupId>
+            <artifactId>freetts</artifactId>
+            <version>1.2.1</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.speech</groupId>
+            <artifactId>freetts-cmu_us_kal</artifactId>
+            <version>1.2.1</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.speech</groupId>
+            <artifactId>freetts-en_us</artifactId>
+            <type>jar</type>
+            <version>1.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.speech</groupId>
+            <artifactId>freetts-cmudict04</artifactId>
+            <type>jar</type>
+            <version>1.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.speech</groupId>
+            <artifactId>freetts-cmulex</artifactId>
+            <type>jar</type>
+            <version>1.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.speech</groupId>
+            <artifactId>freetts-cmu_time_awb</artifactId>
+            <type>jar</type>
+            <version>1.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.speech</groupId>
+            <artifactId>freetts-cmutimelex</artifactId>
+            <type>jar</type>
+            <version>1.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.speech</groupId>
+            <artifactId>freetts-jsapi</artifactId>
+            <type>jar</type>
+            <version>1.2.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.3.1</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+        <directory>target</directory>
+        <outputDirectory>target/classes</outputDirectory>
+        <testOutputDirectory>target/test-classes</testOutputDirectory>
+        <finalName>${artifactId}-${version}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+        </testResources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/assembly/standalone.xml</descriptor>
+                    </descriptors>
+                    <finalName>${project.artifactId}-${project.version}</finalName>
+                    <outputDirectory>target</outputDirectory>
+                    <workDirectory>target/assembly/work</workDirectory>
+                    <tarLongFileMode>warn</tarLongFileMode>
+                    <archive>
+                        <manifest>
+                            <mainClass>net.fortytwo.ripple.Demo</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <!-- Create a single JAR with all dependencies. -->
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attached</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.0</version>
+                <configuration>
+                    <!--<aggregate>true</aggregate>-->
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <configLocation>${basedir}/src/site/checkstyle.xml</configLocation>
+                    <!--<aggregate>true</aggregate>-->
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <!-- Note: version 2.1 appears to be buggy -->
+                <version>2.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </reporting>
+
+</project>

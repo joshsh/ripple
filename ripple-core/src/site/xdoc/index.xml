@@ -1,0 +1,29 @@
+<document>
+
+    <properties>
+        <title>Ripple Java Implementation</title>
+        <author email="josh@fortytwo.net">Joshua Shinavier</author>
+    </properties>
+
+    <body>
+
+        <section name="Ripple Semantic Web Scripting Language">
+
+            This is a directory of generated documentation and reports for Ripple's Java implementation.  General information about the Ripple scripting language can be found on the <a href="http://ripple.fortytwo.net/">main website</a>.
+
+            <subsection name="JavaDoc">
+                <A HREF="apidocs/index.html">JavaDoc</A> API reference.
+            </subsection>
+
+            <subsection name="Reporting">
+                <UL>
+                    <LI><A HREF="cobertura/index.html">Cobertura</A> code coverage.</LI>
+                    <LI><A HREF="checkstyle.html">Checkstyle</A> reports.</LI>
+                </UL>
+            </subsection>
+
+        </section>
+
+    </body>
+
+</document>

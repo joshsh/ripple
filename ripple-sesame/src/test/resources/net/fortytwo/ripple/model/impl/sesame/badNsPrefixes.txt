@@ -1,0 +1,8 @@
+no spaces allowed
+no.periods
+no_colons:
+:nocolons
+no:colons
+-no_leading_dashes
+_no_leading_underscores
+123no_leading_numbers

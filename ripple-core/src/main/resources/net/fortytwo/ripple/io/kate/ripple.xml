@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE language SYSTEM "language.dtd">
+
+<language name="Ripple" version="0.3" kateversion="2.5.0" section="Scripts" extensions="*.rpl" mimetype="text" author="Joshua Shinavier (josh@fortytwo.net)" license="">
+	<highlighting>
+		<list name="keywords">
+			<item> @count </item>
+			<item> @define </item>
+			<item> @export </item>
+			<item> @help </item>
+			<item> @list </item>
+			<item> @prefix </item>
+			<item> @quit </item>
+			<item> @saveas </item>
+			<item> @serql </item>
+			<item> @undefine </item>
+		</list>
+		<contexts>
+			<context attribute="Normal Text" lineEndContext="#stay" name="Default">
+				<keyword attribute="Keyword" context="#stay" String="keywords"/>
+				<Float attribute="Float" context="#stay"/>
+				<Int attribute="Decimal" context="#stay"/>
+				<RegExpr attribute="Char" context="#stay" String="'.'"/>
+				<RegExpr String="#.*$" attribute = "Comment" context="#stay"/>
+				<DetectChar attribute="String" context="String" char="&quot;"/>
+				<DetectChar attribute="Uri" context="Uri" char="&lt;"/>
+<!--				<Detect2Chars attribute="Comment" context="Multi/inline Comment" char="(" char1=":" beginRegion="Comment"/>-->
+				<DetectChar attribute="Symbol" context="#stay" char="{" beginRegion="Brace1" />
+				<DetectChar attribute="Symbol" context="#stay" char="}" endRegion="Brace1" />
+				<DetectChar attribute="Symbol" context="#stay" char="(" beginRegion="Parenthesis" />
+				<DetectChar attribute="Symbol" context="#stay" char=")" endRegion="Parenthesis" />
+				<DetectChar attribute="Symbol" context="#stay" char="[" beginRegion="Bracket" />
+				<DetectChar attribute="Symbol" context="#stay" char="]" endRegion="Bracket" />
+				<DetectChar attribute="Symbol" context="#stay" char=";"/>
+				<DetectChar attribute="Symbol" context="#stay" char=":"/>
+				<DetectChar attribute="Symbol" context="#stay" char="."/>
+				<DetectChar attribute="Symbol" context="#stay" char=","/>
+				<DetectChar attribute="Symbol" context="#stay" char="/"/>
+				<!--        <RegExpr String=".*:" attribute="Prefix" context="#stay"/>-->
+			</context>
+			<context attribute="String" lineEndContext="#stay" name="String">
+				<DetectChar attribute="String" context="#pop" char="&quot;"/>
+			</context>
+			<context attribute="Uri" lineEndContext="#stay" name="Uri">
+				<DetectChar attribute="Uri" context="#pop" char="&gt;"/>
+			</context>
+			<!--
+			<context attribute="Comment" lineEndContext="#stay" name="Multi/inline Comment">
+				<Detect2Chars attribute="Comment" context="#pop" char=":" char1=")" endRegion="Comment"/>
+			</context>-->
+		</contexts>
+		<itemDatas>
+			<itemData name="Normal Text" defStyleNum="dsNormal" />
+			<itemData name="Keyword"     defStyleNum="dsKeyword" />
+			<itemData name="Decimal"     defStyleNum="dsDecVal" />
+			<itemData name="Base-N"      defStyleNum="dsBaseN" />
+			<itemData name="Float"       defStyleNum="dsFloat" />
+			<itemData name="Char"        defStyleNum="dsChar" />
+			<itemData name="String"      defStyleNum="dsString" />
+			<itemData name="Comment"     defStyleNum="dsComment" />
+			<itemData name="Uri"         color="#7060FF"/><!--defStyleNum="dsOther"/-->
+			<itemData name="Prefix"      color="#000040"/>
+			<itemData name="Symbol"      color="#404080" selColor="#d0d0c0"/>
+		</itemDatas>
+	</highlighting>
+	<general>
+		<comments>
+			<comment name="singleLine" start="#"/>
+<!--			<comment name="multiLine" start="(:" end=":)" />-->
+		</comments>
+		<keywords casesensitive="1" />
+	</general>
+</language>
+
+<!-- kate: tab-width 4 -->

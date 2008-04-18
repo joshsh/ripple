@@ -1,0 +1,54 @@
+@prefix etc:   <http://fortytwo.net/2007/08/ripple/etc#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#>.
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rpl:   <http://fortytwo.net/2007/03/ripple/schema#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+etc:dateTimeToMillis
+	a rpl:Function ;
+	rpl:arity 1 ;
+	rpl:parameters (
+		[
+			rdfs:label "dateTime" ;
+			rpl:parameterType xsd:dateTime ;
+			rpl:isTransparent true ]
+		) ;
+	rdfs:label "dateTimeToMillis" ;
+	rpl:returnType xsd:long ;
+	rdfs:comment "dateTime -> [milliseconds since the Unix epoch]" ;
+	.
+
+etc:get
+	a rpl:Function ;
+	rpl:arity 1 ;
+	rpl:parameters (
+		[
+			rdfs:label "uri" ;
+			rpl:isTransparent true ]
+		) ;
+	rpl:returnType xsd:string ;
+	rdfs:label "get" ;
+	rdfs:comment "issues a GET request and produces the received data as a string" ;
+	.
+
+etc:invert
+	a rpl:Function ;
+	rpl:arity 1 ;
+	rpl:parameters (
+		[
+			rdfs:label "mapping" ;
+			rpl:isTransparent true ]
+		) ;
+	rdfs:label "invert" ;
+	rdfs:comment "mapping -> inverse_mapping" ;
+	.
+
+etc:time
+	a rpl:Function ;
+	rpl:arity 0 ;
+	rpl:parameters rdf:nil ;
+	rpl:returnType xsd:long ;
+	rdfs:label "time" ;
+	rdfs:comment "=>  t  -- pushes the current time, in milliseconds since the Unix epoch" ;
+	.

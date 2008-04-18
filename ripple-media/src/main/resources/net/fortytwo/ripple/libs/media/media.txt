@@ -1,0 +1,20 @@
+========================================
+media:play
+========================================
+
+# Untested.
+<http://www.bachcentral.com/WTCBkII/Fugue4.mid> play >> .  # <http://www.bachcentral.com/WTCBkII/Fugue4.mid>
+
+
+========================================
+media:speak
+========================================
+
+"Hello World!" speak >> .  # "Hello World!"
+
+
+========================================
+media:show
+========================================
+
+<http://www.gnu.org/graphics/gnu-head-banner.png> show >> .  # <http://www.gnu.org/graphics/gnu-head-banner.png>

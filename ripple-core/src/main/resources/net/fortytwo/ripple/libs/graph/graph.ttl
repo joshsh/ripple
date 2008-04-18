@@ -1,0 +1,313 @@
+@prefix graph:  <http://fortytwo.net/2007/08/ripple/graph#>.
+@prefix owl:    <http://www.w3.org/2002/07/owl#>.
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix rpl:    <http://fortytwo.net/2007/03/ripple/schema#>.
+@prefix xml:    <http://www.w3.org/XML/1998/namespace#>.
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#>.
+
+graph:assert
+	a rpl:Function ;
+	rpl:arity 3 ;
+	rpl:parameters (
+		[
+			rdfs:label "subj" ;
+			rdfs:comment "the subject of the assertion" ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "pred" ;
+			rdfs:comment "the predicate of the assertion" ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "obj" ;
+			rdfs:comment "the object of the assertion" ;
+			rpl:isTransparent false ]
+		) ;
+	rdfs:label "assert" ;
+	rdfs:comment "subj pred obj  =>  subj  -- has the side-effect of asserting the statement (subj, pred, obj)" ;
+	owl:sameAs <http://fortytwo.net/2007/05/ripple/graph#assert> ;
+	.
+
+graph:back
+	a rpl:Function ;
+	rpl:arity 2 ;
+	rpl:parameters (
+		[
+			rdfs:label "obj" ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "pred" ;
+			rpl:isTransparent true ]
+		) ;
+	rdfs:label "back" ;
+	rdfs:comment "obj pred => subj" ;
+	owl:sameAs <http://fortytwo.net/2007/05/ripple/etc#back> ;
+	.
+
+graph:comments
+	a rpl:Function ;
+	rpl:arity 1 ;
+	rpl:parameters (
+		[
+			rdfs:label "doc" ;
+			rdfs:comment "a Semantic Web document" ;
+			rpl:isTransparent true ]
+		) ;
+	rpl:returnType xsd:string ;
+	rdfs:label "comments" ;
+	rdfs:comment "doc  =>  comment  -- for each comment in doc" ;
+	.
+
+graph:compare
+	a rpl:Function ;
+	rpl:arity 2 ;
+	rpl:parameters (
+		[
+			rdfs:label "x" ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "y" ;
+			rpl:isTransparent true ]
+		) ;
+	rpl:returnType xsd:integer ;
+	rdfs:label "compare" ;
+	rdfs:comment "x y  =>  i  -- where i is -1 if x < y, 0 if x = y, and 1 if x > y" ;
+	owl:sameAs <http://fortytwo.net/2007/05/ripple/graph#compare> ;
+	.
+
+graph:contains
+	a rpl:Function ;
+	rpl:arity 1 ;
+	rpl:returnType rdf:Resource ;
+	rpl:parameters (
+		[
+			rdfs:label "c" ;
+			rdfs:comment "an RDF Container; for instance, a Bag" ;
+			rpl:parameterType rdfs:Container ;
+			rpl:isTransparent true ]
+		) ;
+	rdfs:label "contains" ;
+	rdfs:comment "c  =>  x  -- for each member x of Container c" ;
+	owl:sameAs <http://fortytwo.net/2007/05/ripple/graph#contains> ;
+	.
+
+graph:deny
+	a rpl:Function ;
+	rpl:arity 3 ;
+	rpl:parameters (
+		[
+			rdfs:label "s" ;
+			rdfs:comment "the subject of the assertion" ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "p" ;
+			rdfs:comment "the predicate of the assertion" ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "o" ;
+			rdfs:comment "the object of the assertion" ;
+			rpl:isTransparent false ]
+		) ;
+	rdfs:label "deny" ;
+	rdfs:comment "s p o  =>  s  -- has the side-effect of revoking the statement (s, p, o)" ;
+	owl:sameAs <http://fortytwo.net/2007/05/ripple/graph#deny> ;
+	.
+
+graph:equal
+	a rpl:Function ;
+	rpl:arity 2 ;
+	rpl:parameters (
+		[
+			rdfs:label "x" ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "y" ;
+			rpl:isTransparent true ]
+		) ;
+	rpl:returnType rpl:Function ;
+	rdfs:label "equal" ;
+	rdfs:comment "x y  =>  b  -- where b is true if x and y are equal, otherwise false" ;
+	owl:sameAs <http://fortytwo.net/2007/05/ripple/graph#equal> ;
+	.
+
+graph:forget
+	a rpl:Function ;
+	rpl:arity 1 ;
+	rpl:parameters (
+		[
+			rdfs:label "x" ;
+			rpl:isTransparent false ]
+		) ;
+	rdfs:label "forget" ;
+	rdfs:comment "x  =>  x  -- has the side-effect of revoking all statements about x" ;
+	owl:sameAs <http://fortytwo.net/2007/05/ripple/graph#forget> ;
+	.
+
+graph:inContext
+	a rpl:Function ;
+	rpl:arity 2 ;
+	rpl:parameters (
+		[
+			rdfs:label "pred" ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "ctx" ;
+			rpl:isTransparent true ]
+		) ;
+	rdfs:label "inContext" ;
+	rdfs:comment "pred ctx  =>  pred' (where pred' is the RDF predicate mapping for predicate pred, but constrained to named graph ctx)" ;
+	.
+	
+graph:infer
+	a rpl:Function ;
+	rpl:arity 1 ;
+	rpl:parameters (
+		[
+			rdfs:label "pred" ;
+			rpl:isTransparent true ]
+		) ;
+	rdfs:label "infer" ;
+	rdfs:comment "subj pred  =>  obj (where obj may be an inferred object)" ;
+	.
+
+graph:links
+	a rpl:Function ;
+	rpl:arity 1 ;
+	rpl:parameters (
+		[
+			rdfs:label "subj" ;
+			rpl:isTransparent true ]
+		) ;
+	rdfs:label "links" ;
+	rdfs:comment "subj  =>  subj pred obj ctx" ;
+	.
+
+graph:namespaces
+	a rpl:Function ;
+	rpl:arity 1 ;
+	rpl:parameters (
+		[
+			rdfs:label "doc" ;
+			rdfs:comment "a Semantic Web document" ;
+			rpl:isTransparent true ]
+		) ;
+	rpl:returnType rdf:List ;
+	rdfs:label "namespaces" ;
+	rdfs:comment "doc  =>  (prefix name)  -- for each namespace defined in document doc" ;
+	.
+
+graph:new
+	a rpl:Function ;
+	rpl:arity 0 ;
+	rpl:parameters rdf:nil ;
+	rdfs:label "new" ;
+	rdfs:comment "=>  n  -- where n is a new blank node" ;
+	owl:sameAs <http://fortytwo.net/2007/05/ripple/graph#new> ;
+	.
+
+graph:quads
+	a rpl:Function ;
+	rpl:arity 1 ;
+	rpl:parameters (
+		[
+			rdfs:label "doc" ;
+			rdfs:comment "a Semantic Web document" ;
+			rpl:isTransparent true ]
+		) ;
+	rpl:returnType rdf:List ;
+	rdfs:label "quads" ;
+	rdfs:comment "doc  =>  subj pred obj ctx  -- for each statement (subj pred obj ctx) in document doc" ;
+	.
+
+graph:toDouble
+	a rpl:Function ;
+	rpl:arity 1 ;
+	rpl:parameters (
+		[
+			rdfs:label "x" ;
+			rpl:isTransparent true ]
+		) ;
+	rpl:returnType xsd:double ;
+	rdfs:label "toDouble" ;
+	rdfs:comment "x  =>  x as double literal" ;
+	owl:sameAs <http://fortytwo.net/2007/05/ripple/graph#toDouble> ;
+	.
+
+graph:toInteger
+	a rpl:Function ;
+	rpl:arity 1 ;
+	rpl:parameters (
+		[
+			rdfs:label "x" ;
+			rpl:isTransparent true ]
+		) ;
+	rpl:returnType xsd:integer ;
+	rdfs:label "toInteger" ;
+	rdfs:comment "x  =>  x as integer literal" ;
+	owl:sameAs <http://fortytwo.net/2007/05/ripple/graph#toInteger> ;
+	.
+
+graph:toString
+	a rpl:Function ;
+	rpl:arity 1 ;
+	rpl:parameters (
+		[
+			rdfs:label "x" ;
+			rpl:isTransparent true ]
+		) ;
+	rpl:returnType xsd:string ;
+	rdfs:label "toString" ;
+	rdfs:comment "x  =>  string representation of x" ;
+	owl:sameAs <http://fortytwo.net/2007/05/ripple/graph#toString> ;
+	.
+
+graph:toUri
+	a rpl:Function ;
+	rpl:arity 1 ;
+	rpl:parameters (
+		[
+			rdfs:label "s" ;
+			rdf:type xsd:string ;
+			rpl:isTransparent true ]
+		) ;
+	rdfs:label "toUri" ;
+	rdfs:comment "s  =>  uri -- where uri is the URI whose string representation is s" ;
+	.
+
+graph:triples
+	a rpl:Function ;
+	rpl:arity 1 ;
+	rpl:parameters (
+		[
+			rdfs:label "doc" ;
+			rdfs:comment "a Semantic Web document" ;
+			rpl:isTransparent true ]
+		) ;
+	rpl:returnType rdf:List ;
+	rdfs:label "triples" ;
+	rdfs:comment "doc  =>  subj pred obj  -- for each triple (subj pred obj) in document doc" ;
+	.
+
+xml:lang
+	a rpl:Function ;
+	rpl:arity 1 ;
+	rpl:parameters (
+		[
+			rdfs:label "l" ;
+			rpl:isTransparent true ]
+		);
+	rdfs:label "lang" ;
+	rdfs:comment "l  =>  language tag of literal l" ;
+	.
+
+xsd:type
+	a rpl:Function ;
+	rpl:arity 1 ;
+	rpl:parameters (
+		[
+			rdfs:label "l" ;
+			rpl:isTransparent true ]
+		);
+	rdfs:label "type" ;
+	rdfs:comment "l  =>  data type of literal l" ;
+	.

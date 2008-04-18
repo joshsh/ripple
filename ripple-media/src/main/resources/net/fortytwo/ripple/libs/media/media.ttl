@@ -1,0 +1,39 @@
+@prefix media:  <http://fortytwo.net/2007/08/ripple/media#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rpl:   <http://fortytwo.net/2007/03/ripple/schema#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+media:play
+	a rpl:Function ;
+	rpl:arity 1 ;
+	rpl:parameters (
+		[
+			rdfs:label "midiUri" ;
+			rpl:isTransparent true ]
+		) ;
+	rdfs:label "play" ;
+	rdfs:comment "midiUri => midiUri  -- has the side-effect of playing the MIDI file" .
+
+media:show
+	a rpl:Function ;
+	rpl:arity 1 ;
+	rpl:parameters (
+		[
+			rdfs:label "imgUri" ;
+			rpl:isTransparent true ]
+		) ;
+	rdfs:label "show" ;
+	rdfs:comment "imgUri => imgUri  -- has the side-effect of displaying the image at URI imgUri" .
+
+media:speak
+	a rpl:Function ;
+	rpl:arity 1 ;
+	rpl:parameters (
+		[
+			rdfs:label "text" ;
+			rpl:parameterType xsd:string ;
+			rpl:isTransparent true ]
+		) ;
+	rdfs:label "speak" ;
+	rdfs:comment "text => text  -- has the side-effect of speaking the text" .

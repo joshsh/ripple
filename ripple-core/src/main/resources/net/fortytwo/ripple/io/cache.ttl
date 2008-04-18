@@ -1,0 +1,37 @@
+# rapper -q -i turtle -o rdfxml cache.ttl > cache.rdf
+
+@prefix cache: <http://fortytwo.net/2007/08/ripple/cache#>.
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+cache:Cache
+	a rdfs:Class;
+	rdfs:comment "a resource representing a Ripple web cache";
+	.
+
+cache:includesDocument
+	a rdf:Property;
+	rdfs:domain cache:Cache;
+	rdfs:range xsd:string;
+	rdfs:comment "indicates that a document has been successfully imported into the cache";
+	.
+
+cache:excludesDocument
+	a rdf:Property;
+	rdfs:domain cache:Cache;
+	rdfs:range xsd:string;
+	rdfs:comment "indicates that a document has been tried but not successfully dereferenced";
+	.
+
+#cache:lastAccessed
+#	a rdf:Property;
+#	rdfs:domain cache:InformationResource;
+#	rdfs:range xsd:dateTime;
+#	rdfs:comment "the most recent date and time at which a document was requested"
+#	.
+
+<urn:net.fortytwo.ripple.store.meta>
+	a cache:Cache;
+	rdfs:comment "an indexical resource which stands for 'this cache'";
+	.

@@ -1,0 +1,219 @@
+========================================
+graph:assert
+========================================
+
+/new rdfs:label "foo" /assert
+    rdfs:label "foo" /assert.
+
+
+========================================
+graph:back
+========================================
+
+rdf: rdfs:isDefinedBy back >> .  # lots of terms in the rdf: namespace
+
+
+========================================
+graph:comments
+========================================
+
+# I have yet to get this primitive to do anything.  Apparently the Sesame
+# parsers simply discard comments.
+<http://www.w3.org/People/Berners-Lee/card#i> comments >> .
+
+
+========================================
+graph:compare
+========================================
+
+2 2 compare >> .  # 0
+1 2 compare >> .  # -1
+2 1 compare >> .  # 1
+
+(1 2 3) (1 2 3) compare >> .  # 0
+(1 2 3) (1 2 4) compare >> .  # -1
+(1 2 3) (1 1 3) compare >> .  # 1
+
+
+========================================
+graph:contains
+========================================
+
+/new
+    rdf:_1 "one" /assert
+    rdf:_2 "two" /assert
+    rdf:_3 "three" /assert
+    /contains.
+
+
+========================================
+graph:deny
+========================================
+
+/new rdfs:label "foo" /assert
+    rdfs:label "foo" /deny.
+
+# Note: currently, this doesn't work.
+rdfs:Class rdfs:label "Class" /deny.
+
+
+========================================
+graph:equal
+========================================
+
+2 2 /equal.
+"one" "one" /equal.
+dup joy:dup /equal.
+
+2 3 /equal.
+
+
+========================================
+graph:forget
+========================================
+
+new >> rdfs:label "foo" assert >> forget >> .
+
+rpl:arity.
+@count statements.
+rpl:arity forget >> "don't resolve rpl:arity again" swap >> swap >> .
+@count statements.
+
+
+========================================
+graph:inContext
+========================================
+
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+:timbl >> foaf:name <http://www.w3.org/People/Berners-Lee/card#> inContext >> >>.  # "Timothy Berners-Lee"
+:timbl >> foaf:name <http://example.org/bogusContext#> inContext >> >>.  # {}
+
+
+========================================
+graph:infer
+========================================
+
+[Sail-dependent]
+
+
+========================================
+graph:links
+========================================
+
+rdf:type links >> .  # lots of statements about rdf:type
+
+
+========================================
+graph:namespaces
+========================================
+
+<http://www.w3.org/People/Berners-Lee/card#i> namespaces >> .
+
+
+========================================
+graph:new
+========================================
+
+/new.
+
+
+========================================
+graph:quads
+========================================
+
+@define subjects:
+    quads >> pop >> pop >> pop >> unique >> .
+@define predicates:
+    quads >> pop >> pop >> popd >> unique >> .
+@define objects:
+    quads >> pop >> popd >> popd >> unique >> .
+@define contexts:  # Note: this name conflicts with the @contexts directive
+    quads >> popd >> popd >> popd >> unique >> .
+@define nodes:
+    quads >> union >>{3} unique >> .
+
+@define timbl: <http://www.w3.org/People/Berners-Lee/card#i>.
+
+<http://www.w3.org/People/Berners-Lee/card#i> :subjects >> toString >> .
+<http://www.w3.org/People/Berners-Lee/card#i> :predicates >> toString >> .
+<http://www.w3.org/People/Berners-Lee/card#i> :objects >> toString >>.
+<http://www.w3.org/People/Berners-Lee/card#i> :contexts >> toString >>.
+<http://www.w3.org/People/Berners-Lee/card#i> :nodes >> toString >> .
+
+
+========================================
+graph:toDouble
+========================================
+
+"3.14"/toDouble.  # 3.14
+
+
+========================================
+graph:toInteger
+========================================
+
+"42"/toInteger.  # 42
+
+<http://sws.geonames.org/5811704/>
+    /<http://www.geonames.org/ontology#population>
+    /toInteger.  # 361364
+
+
+========================================
+graph:toString
+========================================
+
+"foo"/toString.
+2/toString.
+/new/toString.
+rdfs:Class/toString.
+(1 2 /dup)/toString.
+
+
+========================================
+graph:toUri
+========================================
+
+"http://www.w3.org/2000/01/rdf-schema#Class"/toUri.  # rdfs:Class
+
+
+========================================
+graph:triples
+========================================
+
+@define subjects:
+    triples >> pop >> pop >> unique >> .
+@define predicates:
+    triples >> pop >> popd >> unique >> .
+@define objects:
+    triples >> popd >> popd >> unique >> .
+@define nodes:
+    triples >> union >>{2} unique >> .
+
+@define timbl: <http://www.w3.org/People/Berners-Lee/card#i>.
+
+<http://www.w3.org/People/Berners-Lee/card#i> :subjects >> toString >> .
+<http://www.w3.org/People/Berners-Lee/card#i> :predicates >> toString >> .
+<http://www.w3.org/People/Berners-Lee/card#i> :objects >> toString >>.
+<http://www.w3.org/People/Berners-Lee/card#i> :nodes >> toString >> .
+
+
+========================================
+xml:lang
+========================================
+
+"vierzig"@de /xml:lang.  # "de"
+"vierzig"@de /lang.  # "de"
+"vierzig" /lang.  # ""
+42/lang.  # ""
+rdf:/lang.  # [nothing]
+
+
+========================================
+xsd:type
+========================================
+
+42/xsd:type.  # xsd:integer
+"foo"/type.  # xsd:string
+rdf:/type.  # [nothing]
+rdf:/dc:title/type.  # [nothing]

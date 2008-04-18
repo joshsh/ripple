@@ -1,0 +1,8 @@
+grammar javax.speech.demo;
+
+public <sentence> = Hello world |
+          Hello Java Unleashed |
+          Java Speech API |
+          computer |
+          bye |
+          I program computers;

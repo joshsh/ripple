@@ -1,0 +1,64 @@
+@prefix owl:      <http://www.w3.org/2002/07/owl#>.
+@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rpl:      <http://fortytwo.net/2007/03/ripple/schema#> .
+@prefix services: <http://fortytwo.net/2007/08/ripple/services#> .
+@prefix swoogle:  <http://daml.umbc.edu/ontologies/webofbelief/1.4/swoogle.owl#> .
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+
+services:pingTheSemanticWeb
+	a rpl:Function ;
+	rpl:arity 2 ;
+	rpl:returnType xsd:string ;
+	rpl:parameters (
+		[
+			rdfs:label "type" ;
+			rdfs:comment "one of the values 'all', 'foaf', 'sioc', 'doap', 'rdfs' or 'owl'" ;
+			rpl:parameterType xsd:string ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "maxResults" ;
+			rpl:parameterType xsd:integer ;
+			rpl:isTransparent true ]
+		) ;
+	rdfs:label "pingTheSemanticWeb" ;
+	rdfs:comment "requests a list of URIs from the 'Ping the Semantic Web' service" ;
+	owl:sameAs <http://fortytwo.net/2007/05/ripple/etc#pingTheSemanticWeb> ;
+	.
+
+services:swoogleIt
+	a rpl:Function ;
+	rpl:arity 3 ;
+	rpl:parameters (
+		[
+			rdfs:label "key" ;
+			rpl:parameterType xsd:string ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "queryType" ;
+			rpl:parameterType swoogle:SwoogleQueryType ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "searchString" ;
+			rpl:parameterType xsd:string ;
+			rpl:isTransparent true ]
+		) ;
+	rdfs:label "swoogleIt" ;
+	rdfs:comment "grabs search results from the Swoogle web service" ;
+	owl:sameAs <http://fortytwo.net/2007/05/ripple/etc#swoogleIt> ;
+	.
+
+services:uriqr
+	a rpl:Function ;
+	rpl:arity 1 ;
+	rpl:returnType xsd:string ;
+	rpl:parameters (
+		[
+			rdfs:label "s" ;
+			rdfs:comment "a search string" ;
+			rpl:parameterType xsd:string ;
+			rpl:isTransparent true ]
+		) ;
+	rdfs:label "uriqr" ;
+	rdfs:comment "finds resources associated with the given string" ;
+	.

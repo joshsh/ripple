@@ -1,0 +1,214 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+	  "-//Puppy Crawl//DTD Check Configuration 1.2//EN"
+	  "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+
+<!--
+    
+    This is a somewhat more permissive Checkstyle configuration than the
+    default sun_checks.xml provided with Maven.
+    
+    Last edit: 9/22/05 by Josh Shinavier (JJS)
+    
+    -->
+
+<module name="Checker">
+	
+	
+	<!-- Checks that a package.html file exists for each package.     -->
+	<!-- See http://checkstyle.sf.net/config_javadoc.html#PackageHtml -->
+	<module name="PackageHtml"/>
+	
+	
+	<!-- Checks whether files end with a new line.                        -->
+	<!-- See http://checkstyle.sf.net/config_misc.html#NewlineAtEndOfFile -->
+	<module name="NewlineAtEndOfFile"/>
+	
+	
+	<!-- Checks that property files contain the same keys.         -->
+	<!-- See http://checkstyle.sf.net/config_misc.html#Translation -->
+	<module name="Translation"/>
+	
+	
+	<module name="TreeWalker">
+		
+		
+		<!-- Checks for Javadoc comments.                     -->
+		<!-- See http://checkstyle.sf.net/config_javadoc.html -->
+		<!-- [JJS 7/27/05] Disabled this check for private members -->
+		<!-- [JJS 9/16/05] Disabled this check for protected members -->
+		<!-- [JJS 9/24/07] Disabled this check for all methods -->
+		<!--<module name="JavadocMethod">
+			<property name="scope" value="public"/>
+		</module>-->
+		<module name="JavadocType">
+			<property name="scope" value="public"/>
+		</module>
+		<module name="JavadocVariable">
+			<property name="scope" value="public"/>
+		</module>
+		<module name="JavadocStyle">
+			<property name="scope" value="public"/>
+		</module>
+		
+		
+		<!-- Checks for Naming Conventions.                  -->
+		<!-- See http://checkstyle.sf.net/config_naming.html -->
+		<module name="ConstantName"/>
+		<module name="LocalFinalVariableName"/>
+		<module name="LocalVariableName"/>
+		<module name="MemberName"/>
+		<module name="MethodName"/>
+		<!-- [JJS 7/27/05] Slightly modified the package name format -->
+		<module name="PackageName">
+			<property name="format"
+				  value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
+		</module>
+		<module name="ParameterName"/>
+		<module name="StaticVariableName"/>
+		<module name="TypeName"/>
+		
+		
+		<!-- Checks for Headers                                -->
+		<!-- See http://checkstyle.sf.net/config_header.html   -->
+		<!-- <module name="Header">                            -->
+			<!-- The follow property value demonstrates the ability     -->
+			<!-- to have access to ANT properties. In this case it uses -->
+			<!-- the ${basedir} property to allow Checkstyle to be run  -->
+			<!-- from any directory within a project. See property      -->
+			<!-- expansion,                                             -->
+			<!-- http://checkstyle.sf.net/config.html#properties        -->
+			<!-- <property                                              -->
+				<!--     name="headerFile"                                  -->
+				<!--     value="${basedir}/java.header"/>                   -->
+			<!-- </module> -->
+		
+		<!-- Following interprets the header file as regular expressions. -->
+		<!-- <module name="RegexpHeader"/>                                -->
+		
+		
+		<!-- Checks for imports                              -->
+		<!-- See http://checkstyle.sf.net/config_import.html -->
+		<module name="AvoidStarImport"/>
+		<module name="IllegalImport"/> <!-- defaults to sun.* packages -->
+		<module name="RedundantImport"/>
+		<module name="UnusedImports"/>
+		
+		
+		<!-- Checks for Size Violations.                    -->
+		<!-- See http://checkstyle.sf.net/config_sizes.html -->
+		<module name="FileLength"/>
+		<!-- [JJS 9/22/05] expanded line length to 100 characters-->
+		<!-- [JJS 9/22/05] disabled this check entirely -->
+		<!--<module name="LineLength">
+			<property name="max" value="100"/>
+		</module>-->
+		<module name="MethodLength"/>
+		<module name="ParameterNumber"/>
+		
+		
+		<!-- Checks for whitespace                               -->
+		<!-- See http://checkstyle.sf.net/config_whitespace.html -->
+		<!-- [JJS 9/14/07] Disabled, as it disallows whitespace padding in a for
+		     loop which cycles through an Iterator. -->
+		<!--<module name="EmptyForIteratorPad"/>-->
+		<module name="MethodParamPad"/>
+		<!-- [JJS 8/17/05] Disabled these two checks, which disallow whitespace
+		     padding within an array initialization, e.g.:
+		     Object [] myarray = { a, b, c };
+		     <module name="NoWhitespaceAfter"/>
+		     <module name="NoWhitespaceBefore"/>-->
+		<module name="OperatorWrap"/>
+		<!-- [JJS 7/27/05] Disabled the check disallowing whitespace padding
+		     within parentheses.
+		<module name="ParenPad"/>-->
+		<module name="TypecastParenPad"/>
+		<!-- [JJS 9/14/07] Disabled the check disallowing tab characters -->
+		<!--<module name="TabCharacter"/>-->
+		<module name="WhitespaceAfter"/>
+		<!-- [JJS 8/17/05] Modified the WhitespaceAround check to exclude
+		     logical operators LAND and LOR.
+		     I also had to remove GENERIC_START, GENERIC_END,
+		     TYPE_EXTENSION_AND and WILDCARD_TYPE as CheckStyle had a problem
+		     with them -->
+		<module name="WhitespaceAround">
+			<property name="tokens" value="ASSIGN, BAND, BAND_ASSIGN, BOR,
+				  BOR_ASSIGN, BSR, BSR_ASSIGN, BXOR, BXOR_ASSIGN, COLON, DIV,
+				  DIV_ASSIGN, EQUAL, GE, GT, LCURLY, LE, LITERAL_ASSERT,
+				  LITERAL_CATCH, LITERAL_DO, LITERAL_ELSE, LITERAL_FINALLY,
+				  LITERAL_FOR, LITERAL_IF, LITERAL_RETURN, LITERAL_SYNCHRONIZED,
+				  LITERAL_TRY, LITERAL_WHILE, LT, MINUS, MINUS_ASSIGN, MOD,
+				  MOD_ASSIGN, NOT_EQUAL, PLUS, PLUS_ASSIGN, QUESTION, RCURLY, SL,
+				  SLIST, SL_ASSIGN, SR, SR_ASSIGN, STAR, STAR_ASSIGN"/>
+		</module>
+
+		
+		<!-- Modifier Checks                                    -->
+		<!-- See http://checkstyle.sf.net/config_modifiers.html -->
+		<module name="ModifierOrder"/>
+		<module name="RedundantModifier"/>
+		
+		
+		<!-- Checks for blocks. You know, those {}'s         -->
+		<!-- See http://checkstyle.sf.net/config_blocks.html -->
+		<!-- [JJS 9/14/07] Disabled LeftCurly and RightCurly, as I don't like to
+		     be told where to put my braces -->
+		<module name="AvoidNestedBlocks"/>
+		<module name="EmptyBlock"/>
+		<!--<module name="LeftCurly"/>-->
+		<module name="NeedBraces"/>
+		<!--<module name="RightCurly"/>-->
+		
+		
+		<!-- Checks for common coding problems               -->
+		<!-- See http://checkstyle.sf.net/config_coding.html -->
+		<!-- [JJS 9/14/07] Disabled the check for inline conditionals... they're
+		     handy.
+		     Disabled the check for missing switch default, which is often not
+		     needed. -->
+		<!--<module name="AvoidInlineConditionals"/>-->
+		<module name="DoubleCheckedLocking"/>    <!-- MY FAVOURITE -->
+		<module name="EmptyStatement"/>
+		<module name="EqualsHashCode"/>
+		<!-- [JJS 9/14/07] Disabled because of usefulness of the forbidden
+		     behavior in constructors -->
+		<!--<module name="HiddenField"/>-->
+		<module name="IllegalInstantiation"/>
+		<module name="InnerAssignment"/>
+		<module name="MagicNumber"/>
+		<!--<module name="MissingSwitchDefault"/>-->
+		<module name="RedundantThrows"/>
+		<module name="SimplifyBooleanExpression"/>
+		<module name="SimplifyBooleanReturn"/>
+		
+		
+		<!-- Checks for class design                         -->
+		<!-- See http://checkstyle.sf.net/config_design.html -->
+		<!-- [JJS 7/27/05] Disabled the DesignForExtension module -->
+		<!--<module name="DesignForExtension"/>-->
+		<module name="FinalClass"/>
+		<module name="HideUtilityClassConstructor"/>
+		<module name="InterfaceIsType"/>
+		<!-- [JJS 7/27/05] Added the property to allow protected members -->
+		<module name="VisibilityModifier">
+			<property name="protectedAllowed" value="true"/>
+		</module>
+		
+		
+		<!-- Miscellaneous other checks.                   -->
+		<!-- See http://checkstyle.sf.net/config_misc.html -->
+		<!-- [JJS 9/14/07] Disabled GenericIllegalRegexp as it complains about
+		     tabs on otherwise empty lines, which are frequent and harmless -->
+		<module name="ArrayTypeStyle"/>
+		<module name="FinalParameters"/>
+		<!--<module name="GenericIllegalRegexp">
+			<property name="format" value="\s+$"/>
+			<property name="message" value="Line has trailing spaces."/>
+		</module>-->
+		<module name="TodoComment"/>
+		<module name="UpperEll"/>
+		
+		
+	</module>
+	
+</module>

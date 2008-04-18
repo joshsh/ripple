@@ -1,0 +1,15 @@
+#  See slides for RDF talk
+#
+# http://www.w3.org/2000/Talks/0906-xmlweb-tbl/slide6-0.html
+#
+
+@prefix p:  <http://www.example.org/personal_details#> .
+@prefix m:  <http://www.example.org/meeting_organization#> .
+
+<http://www.example.org/people#fred>
+	p:GivenName  	"Fred";
+	p:hasEmail 		<mailto:fred@example.com>;
+	m:attending 	<http://meetings.example.com/cal#m1> .
+
+<http://meetings.example.com/cal#m1>
+	m:homePage 		<http://meetings.example.com/m1/hp> .
