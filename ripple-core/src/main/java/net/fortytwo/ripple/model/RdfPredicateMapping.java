@@ -25,14 +25,18 @@ public class RdfPredicateMapping implements StackMapping
 {
     private static final int ARITY = 1;
 
-    private RippleValue predicate;
+    private RdfValue predicate;
     private RdfValue context;
 	private boolean includeInferred;
 
     // Note: only the types SP_O and OP_S are supported for now
     private GetStatementsQuery.Type type = GetStatementsQuery.Type.SP_O;
 
-    public RdfPredicateMapping( final RippleValue pred, final boolean includeInferred )
+    /**
+     * @param pred must contain a Resource value
+     * @param includeInferred
+     */
+    public RdfPredicateMapping( final RdfValue pred, final boolean includeInferred )
 	{
 		this.predicate = pred;
 		this.includeInferred = includeInferred;
@@ -67,6 +71,14 @@ public class RdfPredicateMapping implements StackMapping
         Resource ctx;
         try {
             Value src = sourceVal.toRdf( mc ).getRdfValue();
+
+            // Note: this check will need to be changed if other types of
+            // queries become available.
+            if ( GetStatementsQuery.Type.SP_O == type && !( src instanceof Resource ) )
+            {
+                return;
+            }
+            
             pred = (URI) predicate.toRdf( mc ).getRdfValue();
             ctx = ( null == context ) ? null : (Resource) context.toRdf( mc ).getRdfValue();
             switch ( type )

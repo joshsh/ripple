@@ -63,4 +63,9 @@ public class ListDequotation implements StackMapping
     {
         return new NullStackMapping();
     }
+
+    public String toString()
+    {
+        return "Dequote(" + list + ")";
+    }
 }

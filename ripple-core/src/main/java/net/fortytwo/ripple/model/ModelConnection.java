@@ -103,7 +103,6 @@ public interface ModelConnection
     RippleList list();
     RippleList list( RippleValue v );
 	RippleList list( RippleValue v, RippleList rest );
-	RippleList invert( RippleList l );
 	RippleList concat( RippleList head, RippleList tail );
 	
 	void setNamespace( String prefix, String ns, boolean override ) throws RippleException;

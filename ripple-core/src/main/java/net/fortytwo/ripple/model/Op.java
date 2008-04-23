@@ -90,6 +90,11 @@ public class Op implements StackMapping, RippleValue
     {
         return new NullStackMapping();
     }
+    
+    public String toString()
+    {
+        return "op";
+    }
 }
 
 // kate: tab-width 4

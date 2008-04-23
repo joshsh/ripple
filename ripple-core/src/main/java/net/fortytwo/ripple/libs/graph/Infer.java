@@ -17,7 +17,9 @@ import net.fortytwo.ripple.model.RdfPredicateMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
+import net.fortytwo.ripple.model.RdfValue;
 import net.fortytwo.ripple.flow.Sink;
+import org.openrdf.model.Resource;
 
 /**
  * A primitive which follows inferred forward triples from a resource.
@@ -45,13 +47,17 @@ public class Infer extends PrimitiveStackMapping
 		final ModelConnection mc = arg.getModelConnection();
 		RippleList stack = arg.getStack();
 
-		RippleValue pred;
-
-		pred = stack.getFirst();
+		RdfValue pred = stack.getFirst().toRdf( mc );
 		stack = stack.getRest();
 
-		sink.put( arg.with(
-				stack.push( new Operator( new RdfPredicateMapping( pred.toRdf( mc ), true ) ) ) ) );
+        // FIXME: bit of a hack
+        if ( !( pred.getRdfValue() instanceof Resource ) )
+        {
+            return;
+        }
+
+        sink.put( arg.with(
+				stack.push( new Operator( new RdfPredicateMapping( pred, true ) ) ) ) );
 	}
 }
 

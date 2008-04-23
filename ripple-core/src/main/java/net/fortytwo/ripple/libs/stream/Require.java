@@ -25,7 +25,7 @@ import net.fortytwo.ripple.model.ModelConnection;
  */
 public class Require extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
+	private static final int ARITY = 2;
 
 	public Require()
 		throws RippleException

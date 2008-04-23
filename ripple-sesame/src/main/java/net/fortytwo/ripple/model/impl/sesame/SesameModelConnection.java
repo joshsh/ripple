@@ -141,12 +141,7 @@ public class SesameModelConnection implements ModelConnection
 	{
 		return new SesameList( v, rest );
 	}
-	
-	public RippleList invert( RippleList l )
-	{
-		return SesameList.invert( l );
-	}
-	
+
 	public RippleList concat( final RippleList head, final RippleList tail )
 	{
 		return SesameList.concat( head, tail );

@@ -43,10 +43,6 @@ public class SesameList extends RippleList
 
     private static Map<Value, Source<RippleList, RippleException>> nativeLists = new HashMap<Value, Source<RippleList, RippleException>>();
 
-    private static ExpressionOrder expressionOrder;
-    private static boolean printPadded;
-    private static boolean initialized = false;
-
     private Resource rdfEquivalent = null;
 
     public static RippleList nilList()
@@ -54,13 +50,6 @@ public class SesameList extends RippleList
         return NIL;
     }
 
-    private static void initialize() throws RippleException
-    {
-        RippleProperties props = Ripple.getProperties();
-        expressionOrder = ExpressionOrder.find(props.getString( Ripple.EXPRESSION_ORDER ) );
-        printPadded = props.getBoolean( Ripple.LIST_PADDING );
-        initialized = true;
-    }
     public SesameList( final RippleValue first )
 	{
 		this.first = first;
@@ -97,9 +86,9 @@ public class SesameList extends RippleList
 		return new SesameList( first, this );
 	}
 
-	public static RippleList invert( final ListNode<RippleValue> rs )
-	{
-		ListNode<RippleValue> in = rs;
+    public RippleList invert()
+    {
+		ListNode<RippleValue> in = this;
 		RippleList out = NIL;
 
 		while ( NIL != in )
@@ -109,7 +98,7 @@ public class SesameList extends RippleList
 		}
 
 		return out;
-	}
+    }
 
 	public boolean isActive()
 	{
@@ -344,105 +333,6 @@ RDFImporter importer = new RDFImporter( mc );
 	}
 
 	////////////////////////////////////////////////////////////////////////////
-
-	public String toString()
-	{
-        if ( !initialized )
-        {
-            try {
-                initialize();
-            } catch (RippleException e) {
-                initialized = true;
-                e.logError();
-            }
-        }
-
-        StringBuilder sb = new StringBuilder();
-
-		ListNode<RippleValue> cur =
-			( ExpressionOrder.DIAGRAMMATIC == expressionOrder )
-			? this: invert( this );
-
-		sb.append( printPadded ? "( " : "(" );
-		
-		boolean isFirst = true;
-		while ( NIL != cur )
-		{
-			RippleValue val = cur.getFirst();
-
-			if ( isFirst )
-			{
-				isFirst = false;
-			}
-			
-			//else if ( Operator.OP != val )
-			//{
-				sb.append( " " );
-			//}
-
-			if ( Operator.OP == val )
-			{
-				sb.append( "!" );
-			}
-
-			else
-			{
-				sb.append( val );
-			}
-
-			cur = cur.getRest();
-		}
-		
-		sb.append( printPadded ? " )" : ")" );
-
-		return sb.toString();
-	}
-
-	// Note: assumes diagrammatic order
-	public void printTo( final RipplePrintStream p )
-		throws RippleException
-	{
-        if ( !initialized )
-        {
-            initialize();
-        }
-
-		ListNode<RippleValue> cur =
-			( ExpressionOrder.DIAGRAMMATIC == expressionOrder )
-			? this : invert( this );
-
-		p.print( printPadded ? "( " : "(" );
-		
-		boolean isFirst = true;
-		while ( NIL != cur )
-		{
-			RippleValue val = cur.getFirst();
-
-			if ( isFirst )
-			{
-				isFirst = false;
-			}
-
-			else if ( Operator.OP != val )
-			{
-				p.print( " " );
-			}
-
-			if ( Operator.OP == val )
-			{
-				p.print( "!" );
-			}
-
-			else
-			{
-				p.print( val );
-			}
-			
-			cur = cur.getRest();
-		}
-
-		p.print( printPadded ? " )" : ")" );
-	}
 
 	public boolean equals( final Object o )
 	{

@@ -196,7 +196,7 @@ public abstract class RippleTestCase extends TestCase
 
 	public static RippleList createQueue( final ModelConnection mc, final RippleValue... values ) throws RippleException
 	{
-		return mc.invert( createStack( mc, values ) );
+		return createStack( mc, values ).invert();
 	}
 
 	public static void assertCollectorsEqual( Collector<RippleList, RippleException> expected, Collector<RippleList, RippleException> actual ) throws Exception

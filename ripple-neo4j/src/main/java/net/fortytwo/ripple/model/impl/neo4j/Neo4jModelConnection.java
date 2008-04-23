@@ -219,10 +219,6 @@ public class Neo4jModelConnection implements ModelConnection {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public RippleList invert(RippleList l) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
     public RippleList concat(RippleList head, RippleList tail) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }

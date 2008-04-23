@@ -15,6 +15,7 @@ import net.fortytwo.ripple.io.RipplePrintStream;
 import net.fortytwo.ripple.flow.Sink;
 
 import org.openrdf.model.vocabulary.RDF;
+import org.openrdf.model.Resource;
 
 public class Operator implements RippleValue
 {
@@ -26,7 +27,7 @@ public class Operator implements RippleValue
 	private StackMapping mapping;
 	private RdfValue rdfEquivalent = null;
 
-	public Operator( final RdfValue pred ) throws RippleException
+	private Operator( final RdfValue pred ) throws RippleException
 	{
 		mapping = new RdfPredicateMapping( pred, Ripple.useInference() );
 	}
@@ -132,7 +133,7 @@ return rdfEquivalent;
 			}
 
 			// An RDF value not otherwise recognizable becomes a predicate filter.
-			else
+			else if ( ( (RdfValue) v ).getRdfValue() instanceof Resource)
 			{
 				opSink.put( new Operator( (RdfValue) v ) );
 				return;

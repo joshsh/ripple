@@ -11,10 +11,19 @@ package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.ListNode;
+import net.fortytwo.ripple.RippleProperties;
+import net.fortytwo.ripple.Ripple;
+import net.fortytwo.ripple.io.RipplePrintStream;
+import net.fortytwo.ripple.model.enums.ExpressionOrder;
 
 public abstract class RippleList extends ListNode<RippleValue> implements RippleValue
 {
-	protected RippleValue first;
+    // Constants
+    private static ExpressionOrder expressionOrder;
+    private static boolean printPadded;
+    private static boolean initialized = false;
+
+    protected RippleValue first;
 	protected RippleList rest;
 
 	public RippleValue getFirst()
@@ -65,4 +74,113 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
 	
 	public abstract RippleList push( RippleValue v ) throws RippleException;
     public abstract boolean isNil();
+    public abstract RippleList invert();
+
+    private static void initialize() throws RippleException
+    {
+        RippleProperties props = Ripple.getProperties();
+        expressionOrder = ExpressionOrder.find(props.getString( Ripple.EXPRESSION_ORDER ) );
+        printPadded = props.getBoolean( Ripple.LIST_PADDING );
+        initialized = true;
+    }
+
+    public String toString()
+	{
+        if ( !initialized )
+        {
+            try {
+                initialize();
+            } catch (RippleException e) {
+                initialized = true;
+                e.logError();
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+		RippleList cur =
+			( ExpressionOrder.DIAGRAMMATIC == expressionOrder )
+			? this: invert();
+
+		sb.append( printPadded ? "( " : "(" );
+
+		boolean isFirst = true;
+		while ( !cur.isNil() )
+		{
+			RippleValue val = cur.getFirst();
+
+			if ( isFirst )
+			{
+				isFirst = false;
+			}
+
+            else
+            {
+				sb.append( " " );
+			}
+
+			if ( Operator.OP == val )
+			{
+				sb.append( ">>" );
+			}
+
+			else
+			{
+				sb.append( val );
+			}
+
+			cur = cur.getRest();
+		}
+
+		sb.append( printPadded ? " )" : ")" );
+
+		return sb.toString();
+	}
+
+
+	// Note: assumes diagrammatic order
+	public void printTo( final RipplePrintStream p )
+		throws RippleException
+	{
+        if ( !initialized )
+        {
+            initialize();
+        }
+
+		RippleList cur =
+			( ExpressionOrder.DIAGRAMMATIC == expressionOrder )
+			? this : invert();
+
+		p.print( printPadded ? "( " : "(" );
+
+		boolean isFirst = true;
+		while ( !cur.isNil() )
+		{
+			RippleValue val = cur.getFirst();
+
+			if ( isFirst )
+			{
+				isFirst = false;
+			}
+
+			else
+			{
+				p.print( " " );
+			}
+
+			if ( Operator.OP == val )
+			{
+				p.print( ">>" );
+			}
+
+			else
+			{
+				p.print( val );
+			}
+
+			cur = cur.getRest();
+		}
+
+		p.print( printPadded ? " )" : ")" );
+	}
 }

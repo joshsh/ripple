@@ -19,6 +19,7 @@ import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RdfPredicateMapping;
 import net.fortytwo.ripple.model.RdfValue;
 import net.fortytwo.ripple.model.StackMappingWrapper;
+import org.openrdf.model.Resource;
 
 // kate: tab-width 4
 
@@ -52,8 +53,14 @@ public class InContext extends PrimitiveStackMapping
 		RippleList stack = arg.getStack();
         RdfValue context = stack.getFirst().toRdf( mc );
         stack = stack.getRest();
-        RippleValue pred = stack.getFirst();
+        RdfValue pred = stack.getFirst().toRdf( mc );
         stack = stack.getRest();
+
+        // FIXME: bit of a hack
+        if ( !( pred.getRdfValue() instanceof Resource ) )
+        {
+            return;
+        }
 
         boolean includeInferred = false;
         RdfPredicateMapping map = new RdfPredicateMapping( pred, includeInferred );

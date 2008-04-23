@@ -67,7 +67,7 @@ public class TurtleView implements Sink<RippleList, RippleException>
 		RippleValue first = stack.getFirst();
 
 		// View the list in right-to-left order
-		RippleList list = mc.invert( stack );
+		RippleList list = stack.invert();
 
 		ps.print( "rdf:_" + ++index + INDEX_SEPARATOR );
 		ps.print( printEntireStack ? list : first );

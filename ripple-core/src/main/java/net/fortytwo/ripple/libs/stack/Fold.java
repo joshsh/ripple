@@ -60,7 +60,7 @@ public class Fold extends PrimitiveStackMapping
 		{
 			public void put( final RippleList list ) throws RippleException
 			{
-				RippleList lList = mc.invert( list );
+				RippleList lList = list.invert();
 				RippleList result = rest.push( v );
 		
 				while ( !lList.isNil() )

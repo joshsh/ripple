@@ -50,7 +50,7 @@ public class RippleQueryCmd extends Command
 				public void put( final RippleList l ) throws RippleException
 				{
 					// Note: the first element of the list will also be a list
-					final RippleList stack = mc.invert( (RippleList) l.getFirst() );
+					final RippleList stack = ( (RippleList) l.getFirst() ).invert();
 
 					Sink<RippleList, RippleException> composedWithSink = new Sink<RippleList, RippleException>()
 					{

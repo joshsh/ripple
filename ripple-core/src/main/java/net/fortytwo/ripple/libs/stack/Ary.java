@@ -71,6 +71,11 @@ public class Ary extends PrimitiveStackMapping
         {
             return new NullStackMapping();
         }
+
+        public String toString()
+        {
+            return "NaryId(" + n + ")";
+        }
     }
 
 	public void applyTo( final StackContext arg,
