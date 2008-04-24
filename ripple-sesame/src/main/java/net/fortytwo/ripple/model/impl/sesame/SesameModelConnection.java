@@ -929,7 +929,21 @@ public class SesameModelConnection implements ModelConnection
 	
 	////////////////////////////////////////////////////////////////////////////
 
-	public RippleValue createTypedLiteral( final String value, final RippleValue type ) throws RippleException
+    public Literal createPlainLiteral( final String value ) throws RippleException
+	{
+		try
+		{
+            return valueFactory.createLiteral( value );
+        }
+
+		catch ( Throwable t )
+		{
+			reset( true );
+			throw new RippleException( t );
+		}
+    }
+
+    public RdfValue createTypedLiteral( final String value, final RippleValue type ) throws RippleException
 	{
 		Value v = type.toRdf( this ).getRdfValue();
 	
@@ -951,7 +965,7 @@ public class SesameModelConnection implements ModelConnection
 		return model.getBridge().get( uri );
 	}
 	
-	public RippleValue value( final String s ) throws RippleException
+	public RdfValue value( final String s ) throws RippleException
 	{
 		try
 		{
@@ -966,7 +980,7 @@ public class SesameModelConnection implements ModelConnection
 		}
 	}
 	
-	public RippleValue value( final String s, final String language )
+	public RdfValue value( final String s, final String language )
 		throws RippleException
 	{
 		try
@@ -982,7 +996,7 @@ public class SesameModelConnection implements ModelConnection
 		}
 	}
 	
-	public RippleValue value( final String s, final URI dataType )
+	public RdfValue value( final String s, final URI dataType )
 		throws RippleException
 	{
 		try
@@ -998,7 +1012,7 @@ public class SesameModelConnection implements ModelConnection
 		}
 	}
 	
-	public RippleValue value( final boolean b )
+	public RdfValue value( final boolean b )
 		throws RippleException
 	{
 		try

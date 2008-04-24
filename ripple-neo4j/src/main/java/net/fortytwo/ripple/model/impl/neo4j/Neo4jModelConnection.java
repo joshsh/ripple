@@ -24,6 +24,7 @@ import org.openrdf.model.Statement;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Value;
 import org.openrdf.model.Namespace;
+import org.openrdf.model.Literal;
 
 import java.io.OutputStream;
 import java.util.Date;
@@ -171,23 +172,27 @@ public class Neo4jModelConnection implements ModelConnection {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public RippleValue createTypedLiteral(String value, RippleValue type) throws RippleException {
+    public Literal createPlainLiteral(String label) throws RippleException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public RippleValue value(String s) throws RippleException {
+    public RdfValue createTypedLiteral(String value, RippleValue type) throws RippleException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public RippleValue value(String s, String language) throws RippleException {
+    public RdfValue value(String s) throws RippleException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public RdfValue value(String s, String language) throws RippleException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }// FIXME: this should use an implementation-independent URI class
 
-    public RippleValue value(String s, URI dataType) throws RippleException {
+    public RdfValue value(String s, URI dataType) throws RippleException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public RippleValue value(boolean b) throws RippleException {
+    public RdfValue value(boolean b) throws RippleException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

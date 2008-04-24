@@ -21,6 +21,7 @@ import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
+import org.openrdf.model.Literal;
 
 public interface ModelConnection
 {
@@ -87,13 +88,15 @@ public interface ModelConnection
 // FIXME: Statements should not be part of the ModelConnection API
 	Statement createStatement( Resource subj, final URI pred, final Value obj ) throws RippleException;
 
-	RippleValue createTypedLiteral( String value, final RippleValue type ) throws RippleException;
-	
-	RippleValue value( String s ) throws RippleException;
-	RippleValue value( String s, String language ) throws RippleException;
+// Fixme: Literals should not be part of the ModelConnection API
+    Literal createPlainLiteral( String label ) throws RippleException;
+    RdfValue createTypedLiteral( String label, final RippleValue type ) throws RippleException;
+
+	RdfValue value( String s ) throws RippleException;
+	RdfValue value( String s, String language ) throws RippleException;
 // FIXME: this should use an implementation-independent URI class
-	RippleValue value( String s, URI dataType ) throws RippleException;
-	RippleValue value( boolean b ) throws RippleException;
+	RdfValue value( String s, URI dataType ) throws RippleException;
+	RdfValue value( boolean b ) throws RippleException;
 	NumericValue value( int i ) throws RippleException;
 	NumericValue value( long l ) throws RippleException;
 	NumericValue value( double d ) throws RippleException;

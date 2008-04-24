@@ -15,6 +15,8 @@ import net.fortytwo.ripple.Ripple;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
+import org.openrdf.model.Literal;
+import org.openrdf.model.vocabulary.XMLSchema;
 
 /**
  * Author: josh
@@ -23,6 +25,9 @@ import org.openrdf.model.Value;
  */
 public class RdfPredicateMapping implements StackMapping
 {
+    // TODO: make this into a configuration property, or find another solution
+    private static final boolean STRING_LITERALS_EQUIVALENT_TO_PLAIN_LITERALS = true;
+
     private static final int ARITY = 1;
 
     private RdfValue predicate;
@@ -98,6 +103,30 @@ public class RdfPredicateMapping implements StackMapping
             throw new RippleException( e );
         }
 
+        Sink<RippleValue, RippleException> resultSink = new ValueSink( arg, sink );
+
+        submitQuery(subj, pred, obj, ctx, resultSink, mc);
+
+        if ( STRING_LITERALS_EQUIVALENT_TO_PLAIN_LITERALS
+                && null != obj
+                && obj instanceof Literal )
+        {
+            URI datatype = ( (Literal) obj ).getDatatype();
+
+            if ( null == datatype )
+            {
+                Literal newObj = (Literal) mc.createTypedLiteral( ( (Literal) obj ).getLabel(), new RdfValue( XMLSchema.STRING ) ).getRdfValue();
+                submitQuery(subj, pred, newObj, ctx, resultSink, mc);
+            }
+
+            else if ( XMLSchema.STRING == datatype )
+            {
+                Literal newObj = mc.createPlainLiteral( ( (Literal) obj ).getLabel() );
+                submitQuery(subj, pred, newObj, ctx, resultSink, mc);
+            }
+        }
+
+        /*
         GetStatementsQuery query = new GetStatementsQuery();
         query.type = type;
         query.subject = subj;
@@ -109,7 +138,6 @@ public class RdfPredicateMapping implements StackMapping
             query.contexts[0] = ctx;
         }
 
-        Sink<RippleValue, RippleException> resultSink = new ValueSink( arg, sink );
 
 		if ( Ripple.asynchronousQueries() )
 		{
@@ -121,10 +149,41 @@ public class RdfPredicateMapping implements StackMapping
 		{
             mc.query( query, resultSink );
             //mc.multiply( sourceVal, predicate, resultSink, includeInferred );
-		}
+		}*/
 	}
 
-	public String toString()
+    private void submitQuery( final Resource subj,
+                              final URI pred,
+                              final Value obj,
+                              final Resource ctx,
+                              final Sink<RippleValue, RippleException> sink,
+                              final ModelConnection mc ) throws RippleException
+    {
+        GetStatementsQuery query = new GetStatementsQuery();
+        query.type = type;
+        query.subject = subj;
+        query.predicate = pred;
+        query.object = obj;
+        if ( null != ctx )
+        {
+            query.contexts = new Resource[1];
+            query.contexts[0] = ctx;
+        }
+
+        if ( Ripple.asynchronousQueries() )
+		{
+            mc.queryAsynch( query, sink );
+            //mc.multiplyAsynch( sourceVal, predicate, resultSink, includeInferred );
+		}
+
+		else
+		{
+            mc.query( query, sink );
+            //mc.multiply( sourceVal, predicate, resultSink, includeInferred );
+		}
+    }
+
+    public String toString()
 	{
 		return "Predicate(" + predicate + ")";
 	}
