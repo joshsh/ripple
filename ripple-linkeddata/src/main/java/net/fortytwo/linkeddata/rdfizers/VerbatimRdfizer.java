@@ -7,9 +7,11 @@
  */
 
 
-package net.fortytwo.linkeddata.sail;
+package net.fortytwo.linkeddata.rdfizers;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.linkeddata.Rdfizer;
+import net.fortytwo.linkeddata.ContextMemo;
 import org.openrdf.model.URI;
 import org.openrdf.rio.*;
 

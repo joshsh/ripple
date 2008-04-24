@@ -17,6 +17,8 @@ import net.fortytwo.ripple.rdf.diff.RdfDiffTee;
 import net.fortytwo.ripple.rdf.diff.SynchronizedRdfDiffSink;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.URIMap;
+import net.fortytwo.linkeddata.WebClosure;
+import net.fortytwo.linkeddata.SparqlUpdater;
 import org.apache.log4j.Logger;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Resource;

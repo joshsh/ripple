@@ -29,12 +29,15 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Random;
 
 
 public final class RDFUtils
 {
 	private static final Logger LOGGER = Logger.getLogger( RDFUtils.class );
 
+    private static final Random RAND = new Random();
+    
     private static Map<RDFFormat, MediaType> rdfFormatToMediaTypeMap;
 	private static Map<MediaType, RDFFormat> mediaTypeToRdfFormatMap;
 	private static List<Variant> rdfVariants = null;
@@ -462,5 +465,37 @@ System.out.println( RDFFormat.TURTLE.getName() + ": " + RDFFormat.TURTLE.getMIME
 		//           http://example.com///
 		//           etc.
 		return memo;
+	}
+
+    public static URI createBNodeUri( final String id, final ValueFactory vf ) throws RippleException
+	{
+		try
+		{
+			return vf.createURI( Ripple.URN_BNODE_PREFIX + id );
+		}
+
+		catch ( Throwable t )
+		{
+			throw new RippleException( t );
+		}
+	}
+
+	public static URI createBNodeUri( final ValueFactory vf ) throws RippleException
+	{
+		// Local name will be a UUID (without the dashes).
+		byte[] bytes = new byte[32];
+
+		// Artificially constrain the fist character to be a letter, so the
+		// local part of the URI is N3-friendly.
+		bytes[0] = (byte) ( 'a' + RAND.nextInt( 5 ) );
+
+		// Remaining characters are hexadecimal digits.
+		for ( int i = 1; i < 32; i++ )
+		{
+			int c = RAND.nextInt( 16 );
+			bytes[i] = (byte) ( ( c > 9 ) ? c - 10 + 'a' : c + '0' );
+		}
+
+		return createBNodeUri( new String( bytes ), vf );
 	}
 }

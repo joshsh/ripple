@@ -7,7 +7,7 @@
  */
 
 
-package net.fortytwo.linkeddata.sail;
+package net.fortytwo.linkeddata;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

@@ -61,10 +61,8 @@ public class SesameModelConnection implements ModelConnection
 {
 	private static final Logger LOGGER
 		= Logger.getLogger( ModelConnection.class );
-	
-	private Random rand = new Random();
 
-	private SesameModel model;
+    private SesameModel model;
 	private SailConnection sailConnection;
 	private RdfDiffSink listenerSink;
 	private ValueFactory valueFactory;
@@ -770,39 +768,7 @@ public class SesameModelConnection implements ModelConnection
 	}
 	
 	////////////////////////////////////////////////////////////////////////////
-	
-	private URI createBNodeUri( final String id ) throws RippleException
-	{
-		try
-		{
-			return valueFactory.createURI( Ripple.URN_BNODE_PREFIX + id );
-		}
-		
-		catch ( Throwable t )
-		{
-			throw new RippleException( t );
-		}
-	}
-		
-	private URI createBNodeUri() throws RippleException
-	{
-		// Local name will be a UUID (without the dashes).
-		byte[] bytes = new byte[32];
-		
-		// Artificially constrain the fist character to be a letter, so the
-		// local part of the URI is N3-friendly.
-		bytes[0] = (byte) ( 'a' + rand.nextInt( 5 ) );
-		
-		// Remaining characters are hexadecimal digits.
-		for ( int i = 1; i < 32; i++ )
-		{
-			int c = rand.nextInt( 16 );
-			bytes[i] = (byte) ( ( c > 9 ) ? c - 10 + 'a' : c + '0' );
-		}
-		
-		return createBNodeUri( new String( bytes ) );
-	}
-	
+
 	public URI createUri( final String s ) throws RippleException
 	{
 		try
@@ -865,7 +831,7 @@ public class SesameModelConnection implements ModelConnection
 		
 		else
 		{
-			return createBNodeUri();
+			return RDFUtils.createBNodeUri( valueFactory );
 		}
 	}
 	
@@ -887,7 +853,7 @@ public class SesameModelConnection implements ModelConnection
 		
 		else
 		{
-			return createBNodeUri( id );
+			return RDFUtils.createBNodeUri( id, valueFactory );
 		}
 	}
 	

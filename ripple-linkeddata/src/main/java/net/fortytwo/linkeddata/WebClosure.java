@@ -7,12 +7,12 @@
  */
 
 
-package net.fortytwo.linkeddata.sail;
+package net.fortytwo.linkeddata;
 
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.URIMap;
 import net.fortytwo.ripple.StringUtils;
+import net.fortytwo.ripple.URIMap;
 import net.fortytwo.ripple.rdf.BNodeToURIFilter;
 import net.fortytwo.ripple.rdf.RDFBuffer;
 import net.fortytwo.ripple.rdf.RDFSink;
@@ -45,10 +45,12 @@ import java.util.Map;
 public class WebClosure  // TODO: the name is a little misleading...
 {
 	// TODO: these should probably not be HTTP URIs
-	public static final String CACHE_NS = "http://fortytwo.net/2008/01/webclosure#";
-	public static final String CACHE_CONTEXT = "http://fortytwo.net/2008/01/webclosure#context";
-	public static final String CACHE_MEMO = "http://fortytwo.net/2008/01/webclosure#memo";
-	
+	public static final String
+            CACHE_NS = "http://fortytwo.net/2008/01/webclosure#",
+            CACHE_CONTEXT = "http://fortytwo.net/2008/01/webclosure#context",
+            CACHE_MEMO = "http://fortytwo.net/2008/01/webclosure#memo",
+            FULL_MEMO = "http://fortytwo.net/2008/01/webclosure#fullMemo";
+
 	private static final Logger LOGGER = Logger.getLogger( WebClosure.class );
 
 	private Map<String, ContextMemo> memos = new HashMap<String, ContextMemo>();
@@ -58,7 +60,7 @@ public class WebClosure  // TODO: the name is a little misleading...
 			= new HashMap<MediaType, MediaTypeInfo>();
 
 	// Maps URI schemes to Dereferencers
-	private Map<String, URIDereferencer> dereferencers = new HashMap<String, URIDereferencer>();
+	private Map<String, Dereferencer> dereferencers = new HashMap<String, Dereferencer>();
 
     private URIMap URIMap;
 	private ValueFactory valueFactory;
@@ -144,7 +146,7 @@ public class WebClosure  // TODO: the name is a little misleading...
 		addRdfizer( mediaType, rdfizer, 1.0 );
 	}
 
-	public void addDereferencer( final String scheme, final URIDereferencer uriDereferencer )
+	public void addDereferencer( final String scheme, final Dereferencer uriDereferencer )
 	{
 		dereferencers.put( scheme, uriDereferencer );
 	}
@@ -183,7 +185,7 @@ public class WebClosure  // TODO: the name is a little misleading...
 		String memoUri = RDFUtils.inferContext( uri );
 
 		ContextMemo memo;
-		URIDereferencer dref;
+		Dereferencer dref;
 
 		// Note: this URL should be treated as a "black box" once created; it
 		// need not resemble the URI it was created from.
@@ -344,7 +346,7 @@ public class WebClosure  // TODO: the name is a little misleading...
 		return logStatus( uri, status );
 	}
 
-	private URIDereferencer chooseDereferencer( final String uri ) throws RippleException
+	private Dereferencer chooseDereferencer( final String uri ) throws RippleException
 	{
 		String scheme;
 

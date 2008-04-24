@@ -16,11 +16,21 @@ import net.fortytwo.ripple.RippleProperties;
 import net.fortytwo.ripple.rdf.RDFUtils;
 import net.fortytwo.ripple.rdf.diff.RdfDiffSink;
 import net.fortytwo.ripple.URIMap;
+import net.fortytwo.linkeddata.Rdfizer;
+import net.fortytwo.linkeddata.ContextMemo;
+import net.fortytwo.linkeddata.WebClosure;
+import net.fortytwo.linkeddata.ContextProperty;
+import net.fortytwo.linkeddata.dereferencers.FileURIDereferencer;
+import net.fortytwo.linkeddata.dereferencers.JarURIDereferencer;
+import net.fortytwo.linkeddata.dereferencers.HTTPURIDereferencer;
+import net.fortytwo.linkeddata.rdfizers.ImageRdfizer;
+import net.fortytwo.linkeddata.rdfizers.VerbatimRdfizer;
 import org.apache.log4j.Logger;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
+import org.openrdf.model.Resource;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailChangedListener;
@@ -31,6 +41,8 @@ import org.restlet.data.MediaType;
 
 import java.io.File;
 import java.util.Map;
+import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * A thread-safe Sail which treats the Semantic Web as a single global graph of
@@ -38,7 +50,9 @@ import java.util.Map;
  */
 public class LinkedDataSail implements StackableSail
 {
-	private static final String LOG_FAILED_URIS = "net.fortytwo.linkeddata.logFailedUris";
+	private static final String
+            LOG_FAILED_URIS = "net.fortytwo.linkeddata.logFailedUris",
+            USE_COMPACT_MEMO_FORMAT = "net.fortytwo.linkeddata.useCompactMemoFormat";
 
 	private static final Logger LOGGER = Logger.getLogger( LinkedDataSail.class );
 
@@ -155,8 +169,16 @@ return null;
 
 	public void shutDown() throws SailException
 	{
-		persistCacheMetadata();
-	}
+        try
+        {
+            persistCacheMetadata();
+        }
+
+        catch ( RippleException e )
+        {
+            throw new SailException( e );
+        }
+    }
 
 	// Extended API ////////////////////////////////////////////////////////////
 
@@ -226,36 +248,69 @@ public WebClosure getClosureManager()
 	 * Writes cache metadata to the base Sail.
 	 * Note: for now, this metadata resides in the null context.
 	 */
-	public void persistCacheMetadata() throws SailException
-	{
-		synchronized ( baseSail )
+	public void persistCacheMetadata() throws SailException, RippleException {
+        LOGGER.debug( "writing context memos" );
+
+        boolean compact, useBNodes;
+        compact = Ripple.getProperties().getBoolean( USE_COMPACT_MEMO_FORMAT );
+        useBNodes = Ripple.getProperties().getBoolean( Ripple.USE_BLANK_NODES );
+
+        synchronized ( baseSail )
 		{
 			ValueFactory vf = getValueFactory();
-			SailConnection sc = baseSail.getConnection();
+            URI fullMemo = vf.createURI( WebClosure.FULL_MEMO );
+            SailConnection sc = baseSail.getConnection();
 
-			// TODO: move this so that it's a default which can be overridden
-			sc.setNamespace( "cache", WebClosure.CACHE_NS );
+            try
+            {
+                // TODO: move this so that it's a default which can be overridden
+                sc.setNamespace( "cache", WebClosure.CACHE_NS );
 
-			// Clear any existing cache metadata (in any named graph).
-			sc.removeStatements( null, null, null, cacheContext );
+                // Clear any existing cache metadata (in any named graph).
+                sc.removeStatements( null, null, null, cacheContext );
+                sc.commit();
 
-			sc.commit();
+                Map<String, ContextMemo> map = webClosure.getMemos();
+                for ( String k : map.keySet() )
+                {
+                    ContextMemo memo = map.get( k );
+                    URI contextURI = vf.createURI( k );
 
-			LOGGER.debug( "writing memos" );
-			Map<String, ContextMemo> map = webClosure.getMemos();
-			for ( String k : map.keySet() )
-			{
-				ContextMemo memo = map.get( k );
+                    // Write context memo in the compact, statement-per-context format
+                    if ( compact )
+                    {
+                        Literal memoLit = vf.createLiteral( memo.toString() );
+                        sc.addStatement( contextURI, cacheMemo, memoLit, cacheContext );
+                    }
 
-				URI uri = vf.createURI( k );
-				Literal memoLit = vf.createLiteral( memo.toString() );
+                    // Write context memo in the expanded, statement-per-property format
+                    else
+                    {
+                        Resource memoResource = useBNodes
+                                ? vf.createBNode()
+                                : RDFUtils.createBNodeUri( vf );
+                        sc.addStatement( contextURI, fullMemo, memoResource, cacheContext );
 
-				sc.addStatement( uri, cacheMemo, memoLit, cacheContext );
-			}
+                        for ( ContextProperty entry : memo.getEntries() )
+                        {
+                            URI key = vf.createURI( WebClosure.CACHE_NS + entry.key );
+                            URI datatype = entry.valueDatatype;
+                            Literal value = ( null == datatype )
+                                    ? vf.createLiteral( entry.value )
+                                    : vf.createLiteral( entry.value, datatype );
+                            sc.addStatement( memoResource, key, value, cacheContext );
+                        }
+                    }
+                }
 
-			sc.commit();
-			sc.close();
-		}
+                sc.commit();
+            }
+
+            finally
+            {
+                sc.close();
+            }
+        }
 	}
 
 	/**
@@ -264,26 +319,104 @@ public WebClosure getClosureManager()
 	 */
 	private void restoreCacheMetaData() throws SailException, RippleException
 	{
-		synchronized ( baseSail )
+        LOGGER.debug( "reading context memos" );
+
+        // TODO: determine the memo format based on the cache itself, rather than the configuration property
+        boolean compact = Ripple.getProperties().getBoolean( USE_COMPACT_MEMO_FORMAT );
+        
+        synchronized ( baseSail )
 		{
 			CloseableIteration<? extends Statement, SailException> iter;
 			SailConnection sc = baseSail.getConnection();
 
-			// Read memos.
-			iter = sc.getStatements( null, cacheMemo, null, false, cacheContext );
-			while ( iter.hasNext() )
-			{
-				Statement st = iter.next();
-				URI subj = (URI) st.getSubject();
-				Literal obj = (Literal) st.getObject();
+            try
+            {
+                // Read context memos in the compact, statement-per-context
+                if ( compact )
+                {
+                    iter = sc.getStatements( null, cacheMemo, null, false, cacheContext );
 
-				ContextMemo memo = new ContextMemo( obj.getLabel() );
-				webClosure.addMemo( subj.toString(), memo );
-			}
-			iter.close();
+                    try
+                    {
+                        while ( iter.hasNext() )
+                        {
+                            Statement st = iter.next();
+                            URI subj = (URI) st.getSubject();
+                            Literal obj = (Literal) st.getObject();
 
-			sc.close();
-		}
+                            ContextMemo memo = new ContextMemo( obj.getLabel() );
+                            webClosure.addMemo( subj.toString(), memo );
+                        }
+                    }
+
+                    finally
+                    {
+                        iter.close();
+                    }
+                }
+
+                // Read context memos in the expanded, statement-per-property format
+                else
+                {
+                    URI fullMemo = getValueFactory().createURI( WebClosure.FULL_MEMO );
+                    Collection<Statement> toMemos = new LinkedList<Statement>();
+                    iter = sc.getStatements( null, fullMemo, null, false, cacheContext );
+
+                    try
+                    {
+                        while ( iter.hasNext() )
+                        {
+                            toMemos.add( iter.next() );
+                        }
+                    }
+
+                    finally
+                    {
+                        iter.close();
+                    }
+
+                    for ( Statement st : toMemos )
+                    {
+                        URI contextResource = (URI) st.getSubject();
+                        Resource memoResource = (URI) st.getObject();
+
+                        Collection<ContextProperty> entries
+                                = new LinkedList<ContextProperty>();
+
+                        iter = sc.getStatements( memoResource, null, null, false, cacheContext );
+
+                        try
+                        {
+                            while ( iter.hasNext() )
+                            {
+                                Statement memoSt = iter.next();
+                                URI pred = memoSt.getPredicate();
+                                Literal obj = (Literal) memoSt.getObject();
+
+                                ContextProperty entry = new ContextProperty();
+                                entry.key = pred.getLocalName();
+                                entry.value = obj.getLabel();
+                                // Note: datatype is unimportant here; it's only for external applications
+                                entries.add( entry );
+                            }
+                        }
+
+                        finally
+                        {
+                            iter.close();
+                        }
+
+                        ContextMemo memo = new ContextMemo( entries );
+                        webClosure.addMemo( contextResource.toString(), memo );
+                    }
+                }
+            }
+
+            finally
+            {
+                sc.close();
+            }
+        }
 	}
 	
 	public static boolean logFailedUris()

@@ -1,39 +1,39 @@
 /*
- * $URL$
- * $Revision$
- * $Author$
+ * $URL: https://ripple.googlecode.com/svn/trunk/ripple-linkeddata/src/main/java/net/fortytwo/linkeddata/sail/FileURIDereferencer.java $
+ * $Revision: 6 $
+ * $Author: parcour $
  *
  * Copyright (C) 2007-2008 Joshua Shinavier
  */
 
 
-package net.fortytwo.linkeddata.sail;
+package net.fortytwo.linkeddata.dereferencers;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.rdf.RDFUtils;
+import net.fortytwo.linkeddata.Dereferencer;
 import org.openrdf.rio.RDFFormat;
 import org.restlet.resource.Representation;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.JarURLConnection;
-import java.net.URL;
+import java.io.FileInputStream;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 
-public class JarURIDereferencer implements URIDereferencer
+public class FileURIDereferencer implements Dereferencer
 {
 	public Representation dereference( final String uri ) throws RippleException
 	{
-		return new JarRepresentation( uri );
+		return new FileRepresentation( uri );
 	}
 
-	private class JarRepresentation extends Representation
+	private class FileRepresentation extends Representation
 	{
 		private InputStream inputStream;
 
-		public JarRepresentation( final String uri ) throws RippleException
+		public FileRepresentation( final String uri ) throws RippleException
 		{
 			RDFFormat format = RDFUtils.guessRdfFormat( uri, null );
 			/*if ( null == format )
@@ -41,14 +41,10 @@ public class JarURIDereferencer implements URIDereferencer
 				throw new RippleException( "could not guess format for URI: " + uri );
 			}*/
 			setMediaType( RDFUtils.findMediaType( format ) );
-
-			JarURLConnection jc;
-
+ 
 			try
 			{
-//System.out.println( "uri = " + uri );
-				jc = (JarURLConnection) ( new URL( uri ).openConnection() );
-				inputStream = jc.getInputStream();
+				inputStream = new FileInputStream( uri.substring( 5 ) );
 			}
 
 			catch ( IOException e )

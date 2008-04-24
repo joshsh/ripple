@@ -7,12 +7,14 @@
  */
 
 
-package net.fortytwo.linkeddata.sail;
+package net.fortytwo.linkeddata;
 
 import org.openrdf.model.URI;
 import org.openrdf.rio.RDFHandler;
 
 import java.io.InputStream;
+
+import net.fortytwo.linkeddata.ContextMemo;
 
 /**
  * Author: josh

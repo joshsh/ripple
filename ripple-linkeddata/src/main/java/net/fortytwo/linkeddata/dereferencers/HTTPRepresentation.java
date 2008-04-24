@@ -1,13 +1,13 @@
 /*
- * $URL$
- * $Revision$
- * $Author$
+ * $URL: https://ripple.googlecode.com/svn/trunk/ripple-linkeddata/src/main/java/net/fortytwo/linkeddata/sail/HTTPRepresentation.java $
+ * $Revision: 6 $
+ * $Author: parcour $
  *
  * Copyright (C) 2007-2008 Joshua Shinavier
  */
 
 
-package net.fortytwo.linkeddata.sail;
+package net.fortytwo.linkeddata.dereferencers;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.StringUtils;
@@ -57,7 +57,6 @@ public class HTTPRepresentation extends Representation
 		{
 			throw new RippleException( e );
 		}
-
 
 		InputStream is = null;
 

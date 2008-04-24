@@ -7,7 +7,7 @@
  */
 
 
-package net.fortytwo.linkeddata.sail;
+package net.fortytwo.linkeddata.rdfizers;
 
 import org.openrdf.rio.RDFHandler;
 import org.openrdf.model.URI;
@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.util.Iterator;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.linkeddata.Rdfizer;
+import net.fortytwo.linkeddata.ContextMemo;
 
 // TODO: follow instructions at http://www.barregren.se/blog/how-read-exif-and-iptc-java-image-i-o-api
 // example images: http://www.exif.org/samples/

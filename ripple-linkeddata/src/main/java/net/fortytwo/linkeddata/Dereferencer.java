@@ -7,12 +7,12 @@
  */
 
 
-package net.fortytwo.linkeddata.sail;
+package net.fortytwo.linkeddata;
 
 import net.fortytwo.ripple.RippleException;
 import org.restlet.resource.Representation;
 
-public interface URIDereferencer
+public interface Dereferencer
 {
 	/**
 	 *
