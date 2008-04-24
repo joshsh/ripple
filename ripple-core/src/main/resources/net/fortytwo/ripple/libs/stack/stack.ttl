@@ -38,6 +38,7 @@ stack:apply
 	rdfs:label "apply" ;
 	rdfs:comment "p  => p!  -- push an active copy of p, or 'execute p'" ;
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#i> ;
+	owl:sameAs <http://fortytwo.net/2007/08/ripple/stack#i> ;
 	.
 
 stack:ary
