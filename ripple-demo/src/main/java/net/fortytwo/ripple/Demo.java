@@ -12,18 +12,22 @@ package net.fortytwo.ripple;
 import gnu.getopt.Getopt;
 import gnu.getopt.LongOpt;
 import net.fortytwo.ripple.cli.CommandLineInterface;
+import net.fortytwo.ripple.cli.TurtleView;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
 import net.fortytwo.ripple.query.LazyEvaluator;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.StackEvaluator;
+import net.fortytwo.ripple.query.QueryPipe;
 import net.fortytwo.ripple.rdf.CloseableIterationSource;
 import net.fortytwo.ripple.rdf.RDFUtils;
 import net.fortytwo.ripple.rdf.SailInserter;
 import net.fortytwo.ripple.rdf.SesameOutputAdapter;
 import net.fortytwo.linkeddata.sail.LinkedDataSail;
 import net.fortytwo.ripple.flow.Source;
+import net.fortytwo.ripple.flow.NullSink;
 import org.apache.log4j.Logger;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;
@@ -53,7 +57,7 @@ import java.util.Properties;
  */
 public final class Demo
 {
-	private static final Logger LOGGER = Logger.getLogger( Demo.class );
+    private static final Logger LOGGER = Logger.getLogger( Demo.class );
 
 	private Demo()
 	{
@@ -93,7 +97,7 @@ public final class Demo
 		throws RippleException
 	{
 //net.fortytwo.ripple.tools.SitemapsUtils.test();
-		// Create a Sesame repository.
+		// Create a Sesame triple store.
 		Sail baseSail = createMemoryStoreSail();
         RDFFormat cacheFormat = getRdfFormat( Ripple.CACHE_FORMAT );
 
@@ -354,7 +358,7 @@ public final class Demo
 			throw new RippleException( e );
 		}
 	}
-	
+
 	private static void saveToFile( final Sail sail, final File file, final RDFFormat format ) throws RippleException
 	{
 		FileOutputStream out;

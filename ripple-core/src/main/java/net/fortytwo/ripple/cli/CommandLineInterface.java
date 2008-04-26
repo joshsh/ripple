@@ -180,7 +180,7 @@ private boolean lastQueryContinued = false;
 			throw new RippleException( t );
 		}
 jline.Terminal term = reader.getTerminal();
-System.out.println( "reader.getTerminal() = " + term );
+//System.out.println( "reader.getTerminal() = " + term );
 
             writeIn = new PipedIOStream();
             //writeIn.write(32);

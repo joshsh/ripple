@@ -8,13 +8,14 @@
 			<includes>
 				<include>LICENSE.txt</include>
 				<include>pom.xml</include>
-				<include>README.txt</include>
+                <include>README.txt</include>
+                <include>example.properties</include>
 			</includes>
 		</fileSet>
 		<fileSet>
 			<fileMode>0775</fileMode>
 			<includes>
-				<include>ripple</include>
+				<include>ripple.sh</include>
 				<include>ripple.bat</include>
 			</includes>
 		</fileSet>
