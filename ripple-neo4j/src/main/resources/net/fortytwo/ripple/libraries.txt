@@ -9,5 +9,4 @@ net.fortytwo.ripple.libs.stack.StackLibrary
 net.fortytwo.ripple.libs.stream.StreamLibrary
 net.fortytwo.ripple.libs.string.StringLibrary
 
-# Temporary!
 net.fortytwo.ripple.libs.neo4j.Neo4jLibrary

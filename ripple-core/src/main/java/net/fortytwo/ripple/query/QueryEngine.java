@@ -193,10 +193,12 @@ public class QueryEngine
 		ModelConnection mc = getConnection();
 
         try {
+            // TODO: restore me
+            /*
             if ( Ripple.getProperties().getBoolean( Ripple.PULL_ENTIRE_MODEL ) );
             {
                 mc.getStatements( null, null, null, updater.adderSink().statementSink(), false );
-            }
+            }*/
 
             mc.getNamespaces( updater.adderSink().namespaceSink() );
         } finally {

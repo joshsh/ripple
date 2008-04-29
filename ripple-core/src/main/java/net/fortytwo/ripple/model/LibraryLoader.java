@@ -85,5 +85,3 @@ public class LibraryLoader extends ClassLoader
 		}
 	}
 }
-
-// kate: tab-width 4

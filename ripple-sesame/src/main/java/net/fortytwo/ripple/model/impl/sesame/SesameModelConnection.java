@@ -30,6 +30,7 @@ import net.fortytwo.ripple.model.RdfValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.GetStatementsQuery;
+import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.rdf.BNodeClosureFilter;
 import net.fortytwo.ripple.rdf.RDFSource;
 import net.fortytwo.ripple.rdf.RDFUtils;
@@ -62,11 +63,11 @@ public class SesameModelConnection implements ModelConnection
 	private static final Logger LOGGER
 		= Logger.getLogger( ModelConnection.class );
 
-    private SesameModel model;
-	private SailConnection sailConnection;
-	private RdfDiffSink listenerSink;
-	private ValueFactory valueFactory;
-	private String name = null;
+    protected final SesameModel model;
+	protected SailConnection sailConnection;
+	protected final RdfDiffSink listenerSink;
+	protected final ValueFactory valueFactory;
+	protected String name = null;
 	private boolean useBlankNodes;
 
     private TaskSet taskSet = new TaskSet();
@@ -78,7 +79,7 @@ public class SesameModelConnection implements ModelConnection
 	
 	////////////////////////////////////////////////////////////////////////////
 	
-	SesameModelConnection( final SesameModel model, final String name, final RdfDiffSink listenerSink )
+	protected SesameModelConnection( final SesameModel model, final String name, final RdfDiffSink listenerSink )
 		throws RippleException
 	{
 		this.model = model;
@@ -587,7 +588,74 @@ public class SesameModelConnection implements ModelConnection
 		}
 	}
 	
-	public void add( final RippleValue subj, final RippleValue pred, final RippleValue obj )
+	public void add( final RippleValue subj, final RippleValue pred, final RippleValue obj, RippleValue... contexts )
+		throws RippleException
+	{
+		Value subjValue = subj.toRdf( this ).getRdfValue();
+		Value predValue = pred.toRdf( this ).getRdfValue();
+		Value objValue = obj.toRdf( this ).getRdfValue();
+
+        // Trick to be able to iterate through contexts even if none are given
+        if ( 0 == contexts.length )
+        {
+            contexts = new RippleValue[1];
+            contexts[0] = null;
+        }
+
+        if ( !( subjValue instanceof Resource )
+				|| !( predValue instanceof URI ) )
+		{
+			return;
+		}
+
+        for ( RippleValue context : contexts )
+        {
+            Value contextValue = ( null == context )
+                    ? null
+                    : context.toRdf( this ).getRdfValue();
+
+            try
+            {
+                if ( null == contextValue )
+                {
+                    // TODO: move this logic up to LinkedDataSail
+                    if ( subjValue instanceof URI )
+                    {
+                        sailConnection.addStatement(
+                            (Resource) subjValue, (URI) predValue, objValue,
+                            RDFUtils.inferContextUri( (URI) subjValue, valueFactory ) );
+                    }
+
+                    else
+                    {
+                        sailConnection.addStatement(
+                            (Resource) subjValue, (URI) predValue, objValue );
+                    }
+                }
+
+                else
+                {
+                    if ( !( contextValue instanceof Resource ) )
+                    {
+                        return;
+                    }
+
+                    sailConnection.addStatement(
+                            (Resource) subjValue, (URI) predValue, objValue, (Resource) contextValue );
+                }
+
+                uncommittedChanges = true;
+            }
+
+            catch ( SailException e )
+            {
+                reset( true );
+                throw new RippleException( e );
+            }
+        }
+    }
+	
+	public void remove( final RippleValue subj, final RippleValue pred, final RippleValue obj, final RippleValue... contexts )
 		throws RippleException
 	{
 		Value subjValue = subj.toRdf( this ).getRdfValue();
@@ -599,50 +667,23 @@ public class SesameModelConnection implements ModelConnection
 		{
 			return;
 		}
-	
-		try
+
+        Resource[] contextResources = new Resource[contexts.length];
+        for ( int i = 0; i < contexts.length ; i++ )
+        {
+            Value contextValue = contexts[i].toRdf( this ).getRdfValue();
+            if ( !( contextValue instanceof Resource ) )
+            {
+                return;
+            }
+
+            contextResources[i] = (Resource) contextValue;
+        }
+        
+        try
 		{
-			if ( subjValue instanceof URI )
-			{
-				sailConnection.addStatement(
-					(Resource) subjValue, (URI) predValue, objValue,
-					RDFUtils.inferContextUri( (URI) subjValue, valueFactory ) );
-			}
-	
-			else
-			{
-				sailConnection.addStatement(
-					(Resource) subjValue, (URI) predValue, objValue );
-			}
-			
-			uncommittedChanges = true;
-		}
-	
-		catch ( SailException e )
-		{
-			reset( true );
-			throw new RippleException( e );
-		}
-	}
-	
-	public void remove( final RippleValue subj, final RippleValue pred, final RippleValue obj )
-		throws RippleException
-	{
-		Value subjValue = subj.toRdf( this ).getRdfValue();
-		Value predValue = pred.toRdf( this ).getRdfValue();
-		Value objValue = obj.toRdf( this ).getRdfValue();
-	
-		if ( !( subjValue instanceof Resource )
-				|| !( predValue instanceof URI ) )
-		{
-			return;
-		}
-	
-		try
-		{
-	//Does this remove the statement from ALL contexts?
 			sailConnection.removeStatements(
-				(Resource) subjValue, (URI) predValue, objValue );
+				(Resource) subjValue, (URI) predValue, objValue, contextResources );
 
 			uncommittedChanges = true;
 		}
@@ -1087,10 +1128,10 @@ public class SesameModelConnection implements ModelConnection
 
     private class QueryTask extends Task
 	{
-		private GetStatementsQuery query;
+		private StatementPatternQuery query;
         private Sink<RippleValue, RippleException> sink;
 
-        public QueryTask( final GetStatementsQuery query, final Sink<RippleValue, RippleException> sink )
+        public QueryTask( final StatementPatternQuery query, final Sink<RippleValue, RippleException> sink )
 		{
 			this.query = query;
             this.sink = sink;
@@ -1110,9 +1151,11 @@ public class SesameModelConnection implements ModelConnection
 		}
 	}
 
-    public void query( final GetStatementsQuery query, final Sink<RippleValue, RippleException> sink) throws RippleException
+    public void query( final StatementPatternQuery query, final Sink<RippleValue, RippleException> sink) throws RippleException
     {
-		Sink<Value, RippleException> valueSink = new Sink<Value, RippleException>()
+        GetStatementsQuery sesameQuery = new GetStatementsQuery( query, this );
+
+        Sink<Value, RippleException> valueSink = new Sink<Value, RippleException>()
 		{
 			public void put( final Value val ) throws RippleException
 			{
@@ -1121,7 +1164,7 @@ public class SesameModelConnection implements ModelConnection
 		};
 	
         try {
-            query.getValues( sailConnection, valueSink );
+            sesameQuery.getValues( sailConnection, valueSink );
         } catch ( RippleException e ) {
             reset( true );
             throw e;
@@ -1129,54 +1172,13 @@ public class SesameModelConnection implements ModelConnection
         //getStatements( query.subject, query.predicate, query.object, stSink, query.includeInferred );
     }
 
-    public void queryAsynch( final GetStatementsQuery query, final Sink<RippleValue, RippleException> sink ) throws RippleException
+    public void queryAsynch( final StatementPatternQuery query, final Sink<RippleValue, RippleException> sink ) throws RippleException
     {
 		QueryTask task = new QueryTask( query, sink );
 		taskSet.add( task );
     }
 
-    private class MultiplyTask extends Task
-	{
-		private RippleValue subj, pred;
-		private Sink<RippleValue, RippleException> sink;
-		private boolean includeInferred;
-	
-		public MultiplyTask( final RippleValue subj,
-							final RippleValue pred,
-							final Sink<RippleValue, RippleException> sink,
-							final boolean includeInferred )
-		{
-			this.subj = subj;
-			this.pred = pred;
-			this.sink = sink;
-			this.includeInferred = includeInferred;
-		}
-	
-		public void executeProtected() throws RippleException
-		{
-			multiply( subj, pred, sink, includeInferred );
-		}
-	
-		protected void stopProtected()
-		{
-			synchronized ( sink )
-			{
-				sink = new NullSink<RippleValue, RippleException>();
-			}
-		}
-	}
-	
-	public void multiplyAsynch( final RippleValue subj,
-								final RippleValue pred,
-								final Sink<RippleValue, RippleException> sink,
-								final boolean includeInferred )
-		throws RippleException
-	{
-		MultiplyTask task = new MultiplyTask( subj, pred, sink, includeInferred );
-		taskSet.add( task );
-	}
-	
-	public void getNamespaces( final Sink<Namespace, RippleException> sink )
+    public void getNamespaces( final Sink<Namespace, RippleException> sink )
 		throws RippleException
 	{
 		CloseableIteration<? extends Namespace, SailException> nsIter = null;
@@ -1328,35 +1330,7 @@ public class SesameModelConnection implements ModelConnection
 			}
 		};
 	}
-	
-	public void multiply( final RippleValue subj, final RippleValue pred, final Sink<RippleValue, RippleException> sink, final boolean includeInferred )
-		throws RippleException
-	{
-		Sink<Statement, RippleException> stSink = new Sink<Statement, RippleException>()
-		{
-			public void put( final Statement st ) throws RippleException
-			{
-				sink.put( valueToRippleValue( st.getObject() ) );
-			}
-		};
-	
-		getStatements( subj.toRdf( this ), pred.toRdf( this ), null, stSink, includeInferred );
-	}
-	
-	public void divide( final RippleValue obj, final RippleValue pred, final Sink<RippleValue, RippleException> sink )
-		throws RippleException
-	{
-		Sink<Statement, RippleException> stSink = new Sink<Statement, RippleException>()
-		{
-			public void put( final Statement st ) throws RippleException
-			{
-				sink.put( valueToRippleValue( st.getSubject() ) );
-			}
-		};
-	
-		getStatements( null, pred.toRdf( this ), obj.toRdf( this ), stSink, false );
-	}
-	
+
 	private void multiplyRdfValues( final RdfValue subj, final RdfValue pred, final Sink<RdfValue, RippleException> sink )
 		throws RippleException
 	{

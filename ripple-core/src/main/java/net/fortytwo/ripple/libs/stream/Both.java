@@ -19,11 +19,11 @@ import net.fortytwo.ripple.model.RippleList;
 /**
  * A filter which consumes two items and produces each item in its own stack.
  */
-public class Union extends PrimitiveStackMapping
+public class Both extends PrimitiveStackMapping
 {
 	private static final int ARITY = 2;
 
-	public Union()
+	public Both()
 		throws RippleException
 	{
 		super();

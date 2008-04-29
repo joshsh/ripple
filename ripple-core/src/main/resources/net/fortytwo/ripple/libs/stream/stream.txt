@@ -1,55 +1,55 @@
 ========================================
+stream:both
+========================================
+
+1 2 both >> .
+1 2 both >> 3 both >> .
+1 2 3 both >> both >> .
+
+
+========================================
 stream:each
 ========================================
 
-(1 2 3)/each.  # 3, 2, 1
+(1 2 3) each >> .  # 3, 2, 1
 
 
 ========================================
 stream:intersect
 ========================================
 
-((1 2) each!) (1 sqrt!) intersect!.  # 1
-((1 -1) each!) (1 sqrt!) intersect!.  # -1, 1
+((1 2) each >>) (1 sqrt >>) intersect >> .  # 1
+((1 -1) each >>) (1 sqrt >>) intersect >> .  # -1, 1
 
 
 ========================================
 stream:limit
 ========================================
 
-2 3 /union 4 /union 2 /limit.
+2 3 union >> 4 union >> 2 limit >> .
 
 
 ========================================
 stack:require
 ========================================
 
-2 2 add! (4 equal!) require!.  # 4
-2 (3 equal!) require!.  # (nothing)
+2 2 add >> (4 equal >>) require >> .  # 4
+2 (3 equal >>) require >> .  # (nothing)
 
 
 ========================================
 stream:scrap
 ========================================
 
-2 /scrap.
-rdf:Property /dup /rdf:type "this won't work" /equal id scrap /ifte/i.
-rdf:Property /dup /rdf:type rdfs:Class /equal id scrap /ifte/i.
-
-
-========================================
-stream:union
-========================================
-
-1 2 /union.
-1 2 /union 3 /union.
-1 2 3 /union /union.
+2 scrap >> .
+rdf:Property dup >> rdf:type >> "this won't work" equal >> id scrap ifte >> apply >> .
+rdf:Property dup >> rdf:type >> rdfs:Class equal >> id scrap ifte >> apply >> .
 
 
 ========================================
 stream:unique
 ========================================
 
-"foo" /unique.
-2 /dup/union/unique.
+"foo" unique >> .
+2 dup >> union >> unique >> .
 

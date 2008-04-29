@@ -12,12 +12,15 @@ package net.fortytwo.ripple.model;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.URIMap;
 import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.ripple.flow.NullSink;
 import net.fortytwo.ripple.model.ModelBridge;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RdfValue;
 
 import org.openrdf.model.vocabulary.OWL;
+import org.openrdf.model.Resource;
+import org.openrdf.model.URI;
 
 /**
  * RDF data and Java implementation of a library of primitive functions.
@@ -68,7 +71,8 @@ public abstract class Library
 		bridge.add( prim, mc );
 
 		// Add all stated aliases (but no aliases of aliases) to the map.
-		mc.multiply( prim, OWL_SAMEAS, aliasSink, false );
+        StatementPatternQuery query = new StatementPatternQuery( prim, OWL_SAMEAS, null, false );
+        mc.query( query, aliasSink );
 
 		return prim;
 	}

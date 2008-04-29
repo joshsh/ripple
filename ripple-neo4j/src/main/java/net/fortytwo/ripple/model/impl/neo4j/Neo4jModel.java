@@ -15,66 +15,35 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.LexiconUpdater;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.LibraryLoader;
+import net.fortytwo.ripple.model.impl.sesame.SesameModel;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.URIMap;
 
 import java.util.Collection;
+
+import org.neo4j.api.core.NeoService;
 
 /**
  * Author: josh
  * Date: Mar 13, 2008
  * Time: 12:03:01 PM
  */
-public class Neo4jModel implements Model {
-	private ModelBridge bridge;
+public class Neo4jModel extends SesameModel {
+    private final NeoService service;
 
-    public Neo4jModel(final URIMap uriMap) throws RippleException {
-        bridge = new ModelBridge();
-        loadSymbols(uriMap);
+    public Neo4jModel(final NeoService service, final URIMap uriMap) throws RippleException {
+        super(null, uriMap);
+        this.service = service;
     }
 
-    public ModelBridge getBridge() {
-        return bridge;
-    }
-
+    @Override
     public ModelConnection getConnection(final String name) throws RippleException {
-        return new Neo4jModelConnection(this, name);
+        return new Neo4jModelConnection(this, service, name);
     }
 
+    @Override
     public ModelConnection getConnection(final String name, final LexiconUpdater updater) throws RippleException {
-        return new Neo4jModelConnection(this, name);
-    }
-
-    public long countStatements() throws RippleException {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public Collection<ModelConnection> openConnections() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public void closeOpenConnections() throws RippleException {
-//To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    // FIXME: code duplicated from SesameModel
-    private void loadSymbols( final URIMap uriMap )
-		throws RippleException
-	{
-		ModelConnection mc = getConnection( "for Model.loadSymbols" );
-
-        try {
-            // At the moment, op needs to be a special value for the sake of the
-            // evaluator.  This has the side-effect of making it a keyword.
-            bridge.add( Operator.OP, mc );
-
-            LibraryLoader loader = new LibraryLoader();
-
-			loader.load( uriMap, mc );
-		} catch ( RippleException e ) {
-			throw e;
-		} finally {
-		    mc.close();
-        }
+        // TODO: use the LexiconUpdater
+        return getConnection(name);
     }
 }

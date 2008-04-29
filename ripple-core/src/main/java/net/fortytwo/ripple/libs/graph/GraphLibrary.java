@@ -27,11 +27,13 @@ public class GraphLibrary extends Library
 		uf.put(
 			NS, getClass().getResource( "graph.ttl" ) + "#" );
 
-		registerPrimitive( Assert.class, NS + "assert", mc );
+        registerPrimitive( Assert.class, NS + "assert", mc );
+        registerPrimitive( AssertIn.class, NS + "assertIn", mc );
 		registerPrimitive( Contains.class, NS + "contains", mc );
 //		registerPrimitive( Count.class, NS + "count", mc );
 		registerPrimitive( Compare.class, NS + "compare", mc );
-		registerPrimitive( Deny.class, NS + "deny", mc );
+        registerPrimitive( Deny.class, NS + "deny", mc );
+        registerPrimitive( DenyIn.class, NS + "denyIn", mc );
 		registerPrimitive( Equal.class, NS + "equal", mc );
 		registerPrimitive( Forget.class, NS + "forget", mc );
 		registerPrimitive( New.class, NS + "new", mc );
@@ -43,7 +45,6 @@ public class GraphLibrary extends Library
 		registerPrimitive( ToUri.class, NS + "toUri", mc );
 
 		// Resource-centric primitives.
-		registerPrimitive( Back.class, NS + "back", mc );
         registerPrimitive( InContext.class, NS + "inContext", mc );
         registerPrimitive( Infer.class, NS + "infer", mc );
 		registerPrimitive( Links.class, NS + "links", mc );

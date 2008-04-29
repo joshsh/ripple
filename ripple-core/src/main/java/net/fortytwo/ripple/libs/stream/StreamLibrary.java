@@ -27,12 +27,12 @@ public class StreamLibrary extends Library
 		uf.put(
 			NS, getClass().getResource( "stream.ttl" ) + "#" );
 
+        registerPrimitive( Both.class, NS + "both", mc );
 		registerPrimitive( Each.class, NS + "each", mc );
 		registerPrimitive( Intersect.class, NS + "intersect", mc );
 		registerPrimitive( Limit.class, NS + "limit", mc );
         registerPrimitive( Require.class, NS + "require", mc );
         registerPrimitive( Scrap.class, NS + "scrap", mc );
-		registerPrimitive( Union.class, NS + "union", mc );
 		registerPrimitive( Unique.class, NS + "unique", mc );
 	}
 }

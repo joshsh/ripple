@@ -20,6 +20,10 @@ import net.fortytwo.ripple.io.RipplePrintStream;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
+import net.fortytwo.ripple.model.GetStatementsQuery;
+import net.fortytwo.ripple.model.StatementPatternQuery;
+import org.openrdf.model.URI;
+import org.openrdf.model.Resource;
 
 public class TurtleView implements Sink<RippleList, RippleException>
 {
@@ -99,8 +103,9 @@ public class TurtleView implements Sink<RippleList, RippleException>
 				ps.print( "\n" );
 	
 				Collector<RippleValue, RippleException> objects = new Collector<RippleValue, RippleException>();
-				mc.multiply( first, predicate, objects, Ripple.useInference() );
-				
+                StatementPatternQuery query = new StatementPatternQuery( first, predicate, null, Ripple.useInference() );
+                mc.query( query, objects );
+
 				int objCount = 0;
 	
 				for ( Iterator<RippleValue> objIter = objects.iterator();

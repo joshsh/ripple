@@ -11,37 +11,46 @@ graph:assert
 	rpl:arity 3 ;
 	rpl:parameters (
 		[
-			rdfs:label "subj" ;
+			rdfs:label "s" ;
 			rdfs:comment "the subject of the assertion" ;
 			rpl:isTransparent true ]
 		[
-			rdfs:label "pred" ;
+			rdfs:label "p" ;
 			rdfs:comment "the predicate of the assertion" ;
 			rpl:isTransparent true ]
 		[
-			rdfs:label "obj" ;
+			rdfs:label "o" ;
 			rdfs:comment "the object of the assertion" ;
 			rpl:isTransparent false ]
 		) ;
 	rdfs:label "assert" ;
-	rdfs:comment "subj pred obj  =>  subj  -- has the side-effect of asserting the statement (subj, pred, obj)" ;
+	rdfs:comment "s p o  =>  s  -- has the side-effect of asserting the statement (s, p, o)" ;
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/graph#assert> ;
 	.
 
-graph:back
+graph:assertIn
 	a rpl:Function ;
-	rpl:arity 2 ;
+	rpl:arity 4 ;
 	rpl:parameters (
 		[
-			rdfs:label "obj" ;
+			rdfs:label "s" ;
+			rdfs:comment "the subject of the assertion" ;
 			rpl:isTransparent true ]
 		[
-			rdfs:label "pred" ;
+			rdfs:label "p" ;
+			rdfs:comment "the predicate of the assertion" ;
 			rpl:isTransparent true ]
+		[
+			rdfs:label "o" ;
+			rdfs:comment "the object of the assertion" ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "g" ;
+			rdfs:comment "the named graph context of the assertion" ;
+			rpl:isTransparent false ]
 		) ;
-	rdfs:label "back" ;
-	rdfs:comment "obj pred => subj" ;
-	owl:sameAs <http://fortytwo.net/2007/05/ripple/etc#back> ;
+	rdfs:label "assertIn" ;
+	rdfs:comment "s p o g  =>  s  -- has the side-effect of asserting the statement (s, p, o, g)" ;
 	.
 
 graph:comments
@@ -111,6 +120,31 @@ graph:deny
 	rdfs:label "deny" ;
 	rdfs:comment "s p o  =>  s  -- has the side-effect of revoking the statement (s, p, o)" ;
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/graph#deny> ;
+	.
+
+graph:denyIn
+	a rpl:Function ;
+	rpl:arity 4 ;
+	rpl:parameters (
+		[
+			rdfs:label "s" ;
+			rdfs:comment "the subject of the assertion" ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "p" ;
+			rdfs:comment "the predicate of the assertion" ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "o" ;
+			rdfs:comment "the object of the assertion" ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "g" ;
+			rdfs:comment "the named graph context of the assertion" ;
+			rpl:isTransparent false ]
+		) ;
+	rdfs:label "denyIn" ;
+	rdfs:comment "s p o g =>  s  -- has the side-effect of revoking the statement (s, p, o, g)" ;
 	.
 
 graph:equal

@@ -69,8 +69,8 @@ public interface ModelConnection
 
 // FIXME: Statements should not be part of the ModelConnection API
 	void add( Statement st, Resource... contexts ) throws RippleException;
-	void add( RippleValue subj, RippleValue pred, RippleValue obj ) throws RippleException;
-	void remove( RippleValue subj, RippleValue pred, RippleValue obj ) throws RippleException;
+	void add( RippleValue subj, RippleValue pred, RippleValue obj, RippleValue... contexts ) throws RippleException;
+	void remove( RippleValue subj, RippleValue pred, RippleValue obj, RippleValue... contexts ) throws RippleException;
 
 // FIXME: URIs should not be part of the ModelConnection API
 	void removeStatementsAbout( RdfValue subj, URI context ) throws RippleException;
@@ -110,11 +110,8 @@ public interface ModelConnection
 	
 	void setNamespace( String prefix, String ns, boolean override ) throws RippleException;
 
-    void query( GetStatementsQuery query, Sink<RippleValue, RippleException> sink ) throws RippleException;
-    void queryAsynch( GetStatementsQuery query, Sink<RippleValue, RippleException> sink ) throws RippleException;
-	void multiplyAsynch( RippleValue subj, RippleValue pred, Sink<RippleValue, RippleException> sink, boolean includeInferred ) throws RippleException;
-	void multiply( RippleValue subj, RippleValue pred, Sink<RippleValue, RippleException> sink, boolean includeInferred ) throws RippleException;
-	void divide( RippleValue obj, RippleValue pred, Sink<RippleValue, RippleException> sink ) throws RippleException;
+    void query( StatementPatternQuery query, Sink<RippleValue, RippleException> sink ) throws RippleException;
+    void queryAsynch( StatementPatternQuery query, Sink<RippleValue, RippleException> sink ) throws RippleException;
 
 // FIXME: Namespaces should not be part of the ModelConnection API
 	void getNamespaces( Sink<Namespace, RippleException> sink ) throws RippleException;

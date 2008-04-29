@@ -23,6 +23,8 @@ import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.RdfValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
+import net.fortytwo.ripple.model.GetStatementsQuery;
+import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.flow.Collector;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.flow.Source;
@@ -31,6 +33,7 @@ import net.fortytwo.ripple.ListNode;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.Value;
+import org.openrdf.model.URI;
 import org.openrdf.model.vocabulary.RDF;
 
 public class SesameList extends RippleList
@@ -318,11 +321,11 @@ RDFImporter importer = new RDFImporter( mc );
 				}
 			};*/
 
-			mc.multiply( head, RDF_FIRST, firstValues, false );
+			multiply( mc, head, RDF_FIRST, firstValues, false );
 			
 			if ( firstValues.size() > 0 || head.toRdf( mc ).getRdfValue().equals( RDF.NIL ) )
 			{
-				mc.multiply( head, RDF_REST, rdfRestSink, false );
+				multiply( mc, head, RDF_REST, rdfRestSink, false );
 			}
 			
 			else
@@ -332,7 +335,17 @@ RDFImporter importer = new RDFImporter( mc );
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////
+    private static void multiply( final ModelConnection mc,
+                           final RippleValue subj,
+                           final RippleValue pred,
+                           final Sink<RippleValue, RippleException> sink,
+                           final boolean includeInferred ) throws RippleException
+    {
+        StatementPatternQuery query = new StatementPatternQuery( subj, pred, null, includeInferred );
+        mc.query( query, sink );
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
 
 	public boolean equals( final Object o )
 	{
@@ -463,7 +476,7 @@ RDFImporter importer = new RDFImporter( mc );
 		sink.put( mc.createStatement(
 			headVal, RDF.TYPE, RDF.LIST ) );
 
-		mc.multiply( head, RDF_FIRST, firstSink, false );
-		mc.multiply( head, RDF_REST, restSink, false );
+		multiply( mc, head, RDF_FIRST, firstSink, false );
+		multiply( mc, head, RDF_REST, restSink, false );
 	}
 }

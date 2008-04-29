@@ -19,6 +19,8 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.RdfValue;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleValue;
+import net.fortytwo.ripple.model.GetStatementsQuery;
+import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.flow.Collector;
 import net.fortytwo.ripple.io.RDFImporter;
 import net.fortytwo.ripple.rdf.SesameInputAdapter;
@@ -208,9 +210,10 @@ System.out.println( "unhandled test case!" );
 			mc.commit();
 			
 			Collector<RippleValue, RippleException> cases = new Collector<RippleValue, RippleException>();
-			mc.divide( URITEST, TYPE, cases );
-
-			Iterator<RippleValue> iter = cases.iterator();
+            StatementPatternQuery query = new StatementPatternQuery( null, TYPE, URITEST, false );
+            mc.query( query, cases );
+            
+            Iterator<RippleValue> iter = cases.iterator();
 			while ( iter.hasNext() )
 			{
 				RippleValue caseValue = iter.next();

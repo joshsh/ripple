@@ -17,6 +17,8 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RdfValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
+import net.fortytwo.ripple.model.GetStatementsQuery;
+import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.commands.RippleQueryCmd;
@@ -30,6 +32,8 @@ import net.fortytwo.ripple.flow.SynchronizedSink;
 import net.fortytwo.ripple.flow.Tee;
 
 import org.openrdf.model.vocabulary.RDF;
+import org.openrdf.model.Resource;
+import org.openrdf.model.URI;
 
 public class VisibleQueryCommand extends Command
 {
@@ -122,7 +126,8 @@ nilSource.put( mc.list() );
 	{
 		try
 		{
-mc.multiply( v, RDF_FIRST, new NullSink<RippleValue, RippleException>(), false );
+            StatementPatternQuery query = new StatementPatternQuery( v, RDF_FIRST, null, false );
+            mc.query( query, new NullSink<RippleValue, RippleException>() );
 		}
 
 		catch ( RippleException e )
@@ -132,5 +137,3 @@ mc.multiply( v, RDF_FIRST, new NullSink<RippleValue, RippleException>(), false )
 		}
 	}
 }
-
-// kate: tab-width 4

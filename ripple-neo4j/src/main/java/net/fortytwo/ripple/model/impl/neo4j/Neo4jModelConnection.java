@@ -16,6 +16,8 @@ import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RdfValue;
 import net.fortytwo.ripple.model.GetStatementsQuery;
+import net.fortytwo.ripple.model.StatementPatternQuery;
+import net.fortytwo.ripple.model.impl.sesame.SesameModelConnection;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.rdf.RDFSource;
 import net.fortytwo.ripple.flow.Sink;
@@ -25,6 +27,7 @@ import org.openrdf.model.Resource;
 import org.openrdf.model.Value;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Literal;
+import org.neo4j.api.core.NeoService;
 
 import java.io.OutputStream;
 import java.util.Date;
@@ -34,15 +37,15 @@ import java.util.Date;
  * Date: Mar 13, 2008
  * Time: 12:03:11 PM
  */
-public class Neo4jModelConnection implements ModelConnection {
-    private String name;
-    private Model model;
+public class Neo4jModelConnection extends SesameModelConnection {
+    private final NeoService service;
 
-    public Neo4jModelConnection(final Model model, final String name) {
-        this.model = model;
-        this.name = name;
+    public Neo4jModelConnection(final Neo4jModel model, final NeoService service, final String name) throws RippleException {
+        super(model, name, null);
+        this.service = service;
     }
 
+    /*
     public Model getModel() {
         return model;
     }
@@ -126,19 +129,24 @@ public class Neo4jModelConnection implements ModelConnection {
     public void add(Statement st, Resource... contexts) throws RippleException {
         //To change body of implemented methods use File | Settings | File Templates.
     }
+*/
 
-    public void add(RippleValue subj, RippleValue pred, RippleValue obj) throws RippleException {
+    @Override
+    public void add(RippleValue subj, RippleValue pred, RippleValue obj, final RippleValue... contexts) throws RippleException {
 //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public void remove(RippleValue subj, RippleValue pred, RippleValue obj) throws RippleException {
+    @Override
+    public void remove(RippleValue subj, RippleValue pred, RippleValue obj, final RippleValue... contexts) throws RippleException {
 //To change body of implemented methods use File | Settings | File Templates.
     }// FIXME: URIs should not be part of the ModelConnection API
 
+    @Override
     public void removeStatementsAbout(RdfValue subj, URI context) throws RippleException {
         //To change body of implemented methods use File | Settings | File Templates.
     }// FIXME: Resources should not be part of the ModelConnection API
 
+    /*
     // FIXME: Resources should not be part of the ModelConnection API
     public long countStatements(Resource... contexts) throws RippleException {
         return 0;  //To change body of implemented methods use File | Settings | File Templates.
@@ -231,37 +239,33 @@ public class Neo4jModelConnection implements ModelConnection {
     public void setNamespace(String prefix, String ns, boolean override) throws RippleException {
 //To change body of implemented methods use File | Settings | File Templates.
     }
+*/
 
-    public void query( final GetStatementsQuery query, final Sink<RippleValue, RippleException> sink) throws RippleException
+    @Override
+    public void query( final StatementPatternQuery query, final Sink<RippleValue, RippleException> sink ) throws RippleException
     {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public void queryAsynch( final GetStatementsQuery query, final Sink<RippleValue, RippleException> sink ) throws RippleException
+    @Override
+    public void queryAsynch( final StatementPatternQuery query, final Sink<RippleValue, RippleException> sink ) throws RippleException
     {
-        //To change body of implemented methods use File | Settings | File Templates.
+        // TODO
+        query( query, sink );
     }
 
-    public void multiplyAsynch(RippleValue subj, RippleValue pred, Sink<RippleValue, RippleException> sink, boolean includeInferred) throws RippleException {
-//To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public void multiply(RippleValue subj, RippleValue pred, Sink<RippleValue, RippleException> sink, boolean includeInferred) throws RippleException {
-//To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public void divide(RippleValue obj, RippleValue pred, Sink<RippleValue, RippleException> sink) throws RippleException {
-//To change body of implemented methods use File | Settings | File Templates.
-    }// FIXME: Namespaces should not be part of the ModelConnection API
-
+    /*
     public void getNamespaces(Sink<Namespace, RippleException> sink) throws RippleException {
         //To change body of implemented methods use File | Settings | File Templates.
     }// FIXME: Statements should not be part of the ModelConnection API
+    */
 
+    @Override
     public void getStatements(RdfValue subj, RdfValue pred, RdfValue obj, Sink<Statement, RippleException> sink, boolean includeInferred) throws RippleException {
-        //To change body of implemented methods use File | Settings | File Templates.
+        // (only graph:links needs this method)
     }
 
+    /*
     public RDFSource getSource() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }// TODO: Namespaces should not be part of the ModelConnection API
@@ -276,5 +280,5 @@ public class Neo4jModelConnection implements ModelConnection {
 
     public void exportNamespace(String ns, OutputStream os) throws RippleException {
 //To change body of implemented methods use File | Settings | File Templates.
-    }
+    }*/
 }

@@ -75,7 +75,8 @@ public class Links extends PrimitiveStackMapping
             }
 		};
 
-		mc.getStatements( subj.toRdf( mc ), null, null, stSink, Ripple.useInference() );
+        // FIXME: only SesameModel supports getStatements()
+        mc.getStatements( subj.toRdf( mc ), null, null, stSink, Ripple.useInference() );
 	}
 }
 

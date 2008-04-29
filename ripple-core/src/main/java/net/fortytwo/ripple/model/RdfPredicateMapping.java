@@ -12,11 +12,6 @@ package net.fortytwo.ripple.model;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.Ripple;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.Literal;
-import org.openrdf.model.vocabulary.XMLSchema;
 
 /**
  * Author: josh
@@ -25,9 +20,6 @@ import org.openrdf.model.vocabulary.XMLSchema;
  */
 public class RdfPredicateMapping implements StackMapping
 {
-    // TODO: make this into a configuration property, or find another solution
-    private static final boolean STRING_LITERALS_EQUIVALENT_TO_PLAIN_LITERALS = true;
-
     private static final int ARITY = 1;
 
     private RdfValue predicate;
@@ -35,7 +27,7 @@ public class RdfPredicateMapping implements StackMapping
 	private boolean includeInferred;
 
     // Note: only the types SP_O and OP_S are supported for now
-    private GetStatementsQuery.Type type = GetStatementsQuery.Type.SP_O;
+    private StatementPatternQuery.Pattern type = StatementPatternQuery.Pattern.SP_O;
 
     /**
      * @param pred must contain a Resource value
@@ -63,6 +55,44 @@ public class RdfPredicateMapping implements StackMapping
 		return true;
 	}
 
+    public void applyTo( final StackContext arg,
+						 final Sink<StackContext, RippleException> sink ) throws RippleException
+	{
+        final ModelConnection mc = arg.getModelConnection();
+		RippleList stack = arg.getStack();
+		RippleValue sourceVal = stack.getFirst();
+        StatementPatternQuery query;
+
+        switch ( this.type )
+        {
+            case SP_O:
+                query = ( null == context )
+                        ? new StatementPatternQuery( sourceVal, predicate, null, includeInferred )
+                        : new StatementPatternQuery( sourceVal, predicate, null, includeInferred, context );
+                break;
+            case PO_S:
+                query = ( null == context )
+                        ? new StatementPatternQuery( null, predicate, sourceVal, includeInferred )
+                        : new StatementPatternQuery( null, predicate, sourceVal, includeInferred, context );
+                break;
+            default:
+                throw new RippleException( "unsupported query type: " + type );
+        }
+
+        Sink<RippleValue, RippleException> resultSink = new ValueSink( arg, sink );
+
+        if ( Ripple.asynchronousQueries() )
+		{
+            mc.queryAsynch( query, resultSink );
+		}
+
+		else
+		{
+            mc.query( query, resultSink );
+		}
+    }
+
+    /*
     public void applyTo( final StackContext arg,
 						 final Sink<StackContext, RippleException> sink ) throws RippleException
 	{
@@ -125,31 +155,6 @@ public class RdfPredicateMapping implements StackMapping
                 submitQuery(subj, pred, newObj, ctx, resultSink, mc);
             }
         }
-
-        /*
-        GetStatementsQuery query = new GetStatementsQuery();
-        query.type = type;
-        query.subject = subj;
-        query.predicate = pred;
-        query.object = obj;
-        if ( null != ctx )
-        {
-            query.contexts = new Resource[1];
-            query.contexts[0] = ctx;
-        }
-
-
-		if ( Ripple.asynchronousQueries() )
-		{
-            mc.queryAsynch( query, resultSink );
-            //mc.multiplyAsynch( sourceVal, predicate, resultSink, includeInferred );
-		}
-
-		else
-		{
-            mc.query( query, resultSink );
-            //mc.multiply( sourceVal, predicate, resultSink, includeInferred );
-		}*/
 	}
 
     private void submitQuery( final Resource subj,
@@ -181,7 +186,7 @@ public class RdfPredicateMapping implements StackMapping
             mc.query( query, sink );
             //mc.multiply( sourceVal, predicate, resultSink, includeInferred );
 		}
-    }
+    }*/
 
     public String toString()
 	{
@@ -196,10 +201,10 @@ public class RdfPredicateMapping implements StackMapping
         switch ( this.type )
         {
             case SP_O:
-                inv.type = GetStatementsQuery.Type.PO_S;
+                inv.type = StatementPatternQuery.Pattern.PO_S;
                 break;
             case PO_S:
-                inv.type = GetStatementsQuery.Type.SP_O;
+                inv.type = StatementPatternQuery.Pattern.SP_O;
                 break;
             default:
                 throw new RippleException( "unsupported query type: " + type );

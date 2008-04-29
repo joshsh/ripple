@@ -5,6 +5,23 @@
 @prefix stream:  <http://fortytwo.net/2007/08/ripple/stream#> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 
+stream:both
+	a rpl:Function ;
+	rpl:arity 2 ;
+	rpl:parameters (
+		[
+			rdfs:label "x" ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "y" ;
+			rpl:isTransparent true ]
+		) ;
+	rdfs:label "both" ;
+	rdfs:comment "x y -> x, y" ;
+	owl:sameAs <http://fortytwo.net/2007/05/ripple/stream#union> ,
+	           <http://fortytwo.net/2007/08/ripple/stream#union> ;
+	.
+	
 stream:each
 	a rpl:Function ;
 	rpl:arity 1;
@@ -68,22 +85,6 @@ stream:scrap
 	rdfs:label "scrap" ;
 	rdfs:comment "transmits no stacks" ;
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/stream#scrap> ;
-	.
-
-stream:union
-	a rpl:Function ;
-	rpl:arity 2 ;
-	rpl:parameters (
-		[
-			rdfs:label "x" ;
-			rpl:isTransparent true ]
-		[
-			rdfs:label "y" ;
-			rpl:isTransparent true ]
-		) ;
-	rdfs:label "union" ;
-	rdfs:comment "transmits both x pushed to the remainder of the stack, as well as y pushed to the remainder of the stack" ;
-	owl:sameAs <http://fortytwo.net/2007/05/ripple/stream#union> ;
 	.
 
 stream:unique

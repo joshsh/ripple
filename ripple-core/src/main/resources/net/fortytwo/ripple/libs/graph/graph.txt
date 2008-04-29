@@ -2,15 +2,15 @@
 graph:assert
 ========================================
 
-/new rdfs:label "foo" /assert
-    rdfs:label "foo" /assert.
+new >> rdfs:label "foo" assert >>
+    rdfs:label "foo" assert >> .
 
 
 ========================================
-graph:back
+graph:assert
 ========================================
 
-rdf: rdfs:isDefinedBy back >> .  # lots of terms in the rdf: namespace
+new >> rdfs:label "foo" <http://example.org/ng> assertIn >> links >> .
 
 
 ========================================
@@ -39,33 +39,49 @@ graph:compare
 graph:contains
 ========================================
 
-/new
-    rdf:_1 "one" /assert
-    rdf:_2 "two" /assert
-    rdf:_3 "three" /assert
-    /contains.
+new >>
+    rdf:_1 "one" assert >>
+    rdf:_2 "two" assert >>
+    rdf:_3 "three" assert >>
+    contains >> .
 
 
 ========================================
 graph:deny
 ========================================
 
-/new rdfs:label "foo" /assert
-    rdfs:label "foo" /deny.
+new >> rdfs:label "foo" assert >>
+    rdfs:label "foo" deny >> .
 
-# Note: currently, this doesn't work.
-rdfs:Class rdfs:label "Class" /deny.
+# Note: this doesn't work, on account of the discrepancy between typed and plain
+# literals.
+rdfs:Class rdfs:label "Class" deny >> .
+
+
+========================================
+graph:denyIn
+========================================
+
+new >>
+    rdfs:label "foo" <http://example.org/ng1> assertIn >>
+    rdfs:label "foo" <http://example.org/ng2> assertIn >>
+    rdfs:label "foo" <http://example.org/ng1> denyIn >>
+    links >> .
+
+# Note: this doesn't work, on account of the discrepancy between typed and plain
+# literals.
+rdfs:Class rdfs:label "Class" deny >> .
 
 
 ========================================
 graph:equal
 ========================================
 
-2 2 /equal.
-"one" "one" /equal.
-dup joy:dup /equal.
+2 2 equal >> .  # true
+"one" "one" equal >> .  # true
+dup stack:dup equal >> .  # true
 
-2 3 /equal.
+2 3 equal >> .  # false
 
 
 ========================================
@@ -114,7 +130,7 @@ graph:namespaces
 graph:new
 ========================================
 
-/new.
+new >> .
 
 
 ========================================
@@ -145,14 +161,14 @@ graph:quads
 graph:toDouble
 ========================================
 
-"3.14"/toDouble.  # 3.14
+"3.14" toDouble >> .  # 3.14
 
 
 ========================================
 graph:toInteger
 ========================================
 
-"42"/toInteger.  # 42
+"42" toInteger >> .  # 42
 
 <http://sws.geonames.org/5811704/>
     /<http://www.geonames.org/ontology#population>
@@ -163,18 +179,18 @@ graph:toInteger
 graph:toString
 ========================================
 
-"foo"/toString.
-2/toString.
-/new/toString.
-rdfs:Class/toString.
-(1 2 /dup)/toString.
+"foo" toString >> .
+2 toString >> .
+new >> toString >> .
+rdfs:Class toString >> .
+(1 2 dup >>) toString >> .
 
 
 ========================================
 graph:toUri
 ========================================
 
-"http://www.w3.org/2000/01/rdf-schema#Class"/toUri.  # rdfs:Class
+"http://www.w3.org/2000/01/rdf-schema#Class" toUri >> .  # rdfs:Class
 
 
 ========================================
@@ -202,18 +218,18 @@ graph:triples
 xml:lang
 ========================================
 
-"vierzig"@de /xml:lang.  # "de"
-"vierzig"@de /lang.  # "de"
-"vierzig" /lang.  # ""
-42/lang.  # ""
-rdf:/lang.  # [nothing]
+"vierzig"@de xml:lang >> .  # "de"
+"vierzig"@de lang >> .  # "de"
+"vierzig" lang >> .  # ""
+42 lang >> .  # ""
+rdf: lang >> .  # [nothing]
 
 
 ========================================
 xsd:type
 ========================================
 
-42/xsd:type.  # xsd:integer
-"foo"/type.  # xsd:string
-rdf:/type.  # [nothing]
-rdf:/dc:title/type.  # [nothing]
+42 xsd:type >> .  # xsd:integer
+"foo" type >> .  # xsd:string
+rdf: type >> .  # [nothing]
+rdf: dc:title >> type >> .  # [nothing]

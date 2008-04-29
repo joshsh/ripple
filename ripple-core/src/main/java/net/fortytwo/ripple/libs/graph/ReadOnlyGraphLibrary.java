@@ -48,7 +48,6 @@ public class ReadOnlyGraphLibrary extends Library
 		registerPrimitive( ToUri.class, NS + "toUri", mc );
 
 		// Resource-centric primitives.
-		registerPrimitive( Back.class, NS + "back", mc );
         registerPrimitive( InContext.class, NS + "inContext", mc );
 		registerPrimitive( Infer.class, NS + "infer", mc );
 		registerPrimitive( Links.class, NS + "links", mc );
