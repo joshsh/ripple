@@ -14,11 +14,11 @@ import net.fortytwo.ripple.rdf.RDFCollector;
 import net.fortytwo.ripple.rdf.RDFSink;
 import net.fortytwo.ripple.rdf.RDFSource;
 
-public class RdfDiffCollector implements RdfDiffSource, RdfDiffSink
+public class RDFDiffCollector implements RDFDiffSource, RDFDiffSink
 {
 	private RDFCollector adderCollector, subtractorCollector;
 
-	public RdfDiffCollector()
+	public RDFDiffCollector()
 	{
 		adderCollector = new RDFCollector();
 		subtractorCollector = new RDFCollector();
@@ -44,7 +44,7 @@ public class RdfDiffCollector implements RdfDiffSource, RdfDiffSink
 		return subtractorCollector;
 	}
 
-	public void writeTo( final RdfDiffSink sink ) throws RippleException
+	public void writeTo( final RDFDiffSink sink ) throws RippleException
 	{
 		adderCollector.writeTo( sink.adderSink() );
 		subtractorCollector.writeTo( sink.subtractorSink() );

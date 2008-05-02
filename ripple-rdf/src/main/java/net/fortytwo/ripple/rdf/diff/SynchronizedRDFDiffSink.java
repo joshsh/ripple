@@ -12,11 +12,11 @@ package net.fortytwo.ripple.rdf.diff;
 import net.fortytwo.ripple.rdf.RDFSink;
 import net.fortytwo.ripple.rdf.SynchronizedRDFSink;
 
-public class SynchronizedRdfDiffSink implements RdfDiffSink
+public class SynchronizedRDFDiffSink implements RDFDiffSink
 {
 	private RDFSink addSink, subSink;
 
-	public SynchronizedRdfDiffSink( final RdfDiffSink sink, final Object synch )
+	public SynchronizedRDFDiffSink( final RDFDiffSink sink, final Object synch )
 	{
 		addSink = new SynchronizedRDFSink( sink.adderSink(), synch );
 		subSink = new SynchronizedRDFSink( sink.subtractorSink(), synch );

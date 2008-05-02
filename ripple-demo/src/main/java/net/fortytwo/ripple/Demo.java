@@ -132,22 +132,7 @@ public final class Demo
 		CommandLineInterface r = new CommandLineInterface( qe, in );
 		r.run();
 
-		Collection<ModelConnection> openConnections = model.openConnections();
-		if ( openConnections.size() > 0 )
-		{
-			Iterator<ModelConnection> i = openConnections.iterator();
-			String s = "" + openConnections.size() + " dangling connections: \"" + i.next().getName() + "\"";
-
-			while ( i.hasNext() )
-			{
-				s += ", \"" + i.next().getName() + "\"";
-			}
-
-			LOGGER.warn( s );
-
-			System.exit( 1 );
-//			model.closeOpenConnections();
-		}
+		model.shutDown();
 
 		try
 		{

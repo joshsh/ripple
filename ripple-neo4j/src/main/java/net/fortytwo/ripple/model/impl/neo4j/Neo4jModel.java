@@ -9,15 +9,11 @@
 
 package net.fortytwo.ripple.model.impl.neo4j;
 
-import net.fortytwo.ripple.model.Model;
-import net.fortytwo.ripple.model.ModelBridge;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.LexiconUpdater;
-import net.fortytwo.ripple.model.Operator;
-import net.fortytwo.ripple.model.LibraryLoader;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.URIMap;
+import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
 
 import java.util.Collection;
 
@@ -42,8 +38,8 @@ public class Neo4jModel extends SesameModel {
     }
 
     @Override
-    public ModelConnection getConnection(final String name, final LexiconUpdater updater) throws RippleException {
-        // TODO: use the LexiconUpdater
+    public ModelConnection getConnection(final String name, final RDFDiffSink listener) throws RippleException {
+        // TODO: use the listener
         return getConnection(name);
     }
 }

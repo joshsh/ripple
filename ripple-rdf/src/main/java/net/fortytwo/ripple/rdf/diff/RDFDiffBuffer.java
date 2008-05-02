@@ -11,11 +11,11 @@ package net.fortytwo.ripple.rdf.diff;
 
 import net.fortytwo.ripple.RippleException;
 
-public class RdfDiffBuffer extends RdfDiffCollector
+public class RDFDiffBuffer extends RDFDiffCollector
 {
-	private RdfDiffSink sink;
+	private RDFDiffSink sink;
 
-	public RdfDiffBuffer( final RdfDiffSink sink )
+	public RDFDiffBuffer( final RDFDiffSink sink )
 	{
 		super();
 		this.sink = sink;

@@ -62,7 +62,7 @@ public class Lexicon
 //                System.out.println("key = " + key);
                 // An extra trip through the bridge replaces aliases with
                 // "definitive" values.
-                Value v = bridge.get( key ).toRdf( mc ).getRdfValue();
+                Value v = mc.value( key ).toRdf( mc ).getRdfValue();
 
                 if ( v instanceof URI )
                 {

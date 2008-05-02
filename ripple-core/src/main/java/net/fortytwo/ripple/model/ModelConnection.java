@@ -101,7 +101,7 @@ public interface ModelConnection
 	NumericValue value( long l ) throws RippleException;
 	NumericValue value( double d ) throws RippleException;
 // FIXME: this should use an implementation-independent URI class
-	RippleValue value( URI uri );
+	RippleValue value( Value v );
 	
     RippleList list();
     RippleList list( RippleValue v );

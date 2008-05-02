@@ -11,7 +11,7 @@ package net.fortytwo.linkeddata.sail;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.ripple.rdf.diff.RdfDiffSink;
+import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
 
 import org.apache.log4j.Logger;
 import org.openrdf.model.Statement;
@@ -24,7 +24,7 @@ public class SailConnectionListenerAdapter implements SailConnectionListener
 	
 	private Sink<Statement, RippleException> addSink, subSink;
 	
-	public SailConnectionListenerAdapter( final RdfDiffSink diffSink )
+	public SailConnectionListenerAdapter( final RDFDiffSink diffSink )
 	{
 		addSink = diffSink.adderSink().statementSink();
 		subSink = diffSink.subtractorSink().statementSink();

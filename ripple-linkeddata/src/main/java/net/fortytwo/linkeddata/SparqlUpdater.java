@@ -17,9 +17,9 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.URIMap;
 import net.fortytwo.ripple.rdf.RDFUtils;
 import net.fortytwo.ripple.rdf.SesameOutputAdapter;
-import net.fortytwo.ripple.rdf.diff.RdfDiffContextFilter;
-import net.fortytwo.ripple.rdf.diff.RdfDiffSink;
-import net.fortytwo.ripple.rdf.diff.RdfDiffSource;
+import net.fortytwo.ripple.rdf.diff.RDFDiffContextFilter;
+import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
+import net.fortytwo.ripple.rdf.diff.RDFDiffSource;
 import net.fortytwo.ripple.util.HTTPUtils;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.NameValuePair;
@@ -34,19 +34,19 @@ import org.openrdf.rio.RDFFormat;
  */
 public class SparqlUpdater
 {
-	private RdfDiffContextFilter contextFilter;
-	private RdfDiffSink sink;
+	private RDFDiffContextFilter contextFilter;
+	private RDFDiffSink sink;
 	private URIMap URIMap;
 
-	public SparqlUpdater( final URIMap URIMap, final RdfDiffSink sink )
+	public SparqlUpdater( final URIMap URIMap, final RDFDiffSink sink )
 	{
 		this.URIMap = URIMap;
 		this.sink = sink;
 
-		contextFilter = new RdfDiffContextFilter();
+		contextFilter = new RDFDiffContextFilter();
 	}
 
-	public RdfDiffSink getSink()
+	public RDFDiffSink getSink()
 	{
 		return contextFilter;
 	}
@@ -57,7 +57,7 @@ public class SparqlUpdater
 		while ( contexts.hasNext() )
 		{
 			Resource context = contexts.next();
-			RdfDiffSource source = contextFilter.sourceForContext( context );
+			RDFDiffSource source = contextFilter.sourceForContext( context );
 
 			// Some statements cannot be written to the Semantic Web.
 			if ( null != context
@@ -85,7 +85,7 @@ source.writeTo( sink );
 		contextFilter.clear();
 	}
 
-	private void postUpdate( final String url, final RdfDiffSource source )
+	private void postUpdate( final String url, final RDFDiffSource source )
 		throws RippleException
 	{
         String postData = createPostData( source );
@@ -120,7 +120,7 @@ System.out.println( "posting update to url <" + url + ">: " + postData );
 System.out.println( "response code = " + responseCode );
 	}
 
-	private static String createPostData( final RdfDiffSource source ) throws RippleException
+	private static String createPostData( final RDFDiffSource source ) throws RippleException
 	{
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		PrintStream ps = new PrintStream( bos );

@@ -14,7 +14,6 @@ import info.aduna.iteration.CloseableIteration;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Random;
 import java.util.Date;
 
 import net.fortytwo.ripple.Ripple;
@@ -35,7 +34,7 @@ import net.fortytwo.ripple.rdf.BNodeClosureFilter;
 import net.fortytwo.ripple.rdf.RDFSource;
 import net.fortytwo.ripple.rdf.RDFUtils;
 import net.fortytwo.ripple.rdf.SesameOutputAdapter;
-import net.fortytwo.ripple.rdf.diff.RdfDiffSink;
+import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
 import net.fortytwo.linkeddata.sail.SailConnectionListenerAdapter;
 import net.fortytwo.ripple.flow.NullSource;
 import net.fortytwo.ripple.flow.Sink;
@@ -65,10 +64,11 @@ public class SesameModelConnection implements ModelConnection
 
     protected final SesameModel model;
 	protected SailConnection sailConnection;
-	protected final RdfDiffSink listenerSink;
+	protected final RDFDiffSink listenerSink;
 	protected final ValueFactory valueFactory;
-	protected String name = null;
-	private boolean useBlankNodes;
+	protected final String name;
+
+    private boolean useBlankNodes;
 
     private TaskSet taskSet = new TaskSet();
 	
@@ -79,7 +79,7 @@ public class SesameModelConnection implements ModelConnection
 	
 	////////////////////////////////////////////////////////////////////////////
 	
-	protected SesameModelConnection( final SesameModel model, final String name, final RdfDiffSink listenerSink )
+	protected SesameModelConnection( final SesameModel model, final String name, final RDFDiffSink listenerSink )
 		throws RippleException
 	{
 		this.model = model;
@@ -537,12 +537,7 @@ public class SesameModelConnection implements ModelConnection
 	}
 	
 	////////////////////////////////////////////////////////////////////////////
-	
-	private RippleValue valueToRippleValue( final Value v ) throws RippleException
-	{
-		return this.model.getBridge().get( v );
-	}
-	
+
 	public void findPredicates( final RippleValue subject,
 								final Sink<RippleValue, RippleException> sink )
 		throws RippleException
@@ -551,7 +546,7 @@ public class SesameModelConnection implements ModelConnection
 		{
 			public void put( final Value v ) throws RippleException
 			{
-				sink.put( valueToRippleValue( v ) );
+				sink.put( value( v ) );
 			}
 		};
 		
@@ -967,9 +962,9 @@ public class SesameModelConnection implements ModelConnection
 	
 	////////////////////////////////////////////////////////////////////////////
 	
-	public RippleValue value( final URI uri )
+	public RippleValue value( final Value v )
 	{
-		return model.getBridge().get( uri );
+		return model.getBridge().get( v );
 	}
 	
 	public RdfValue value( final String s ) throws RippleException
@@ -1159,7 +1154,7 @@ public class SesameModelConnection implements ModelConnection
 		{
 			public void put( final Value val ) throws RippleException
 			{
-				sink.put( valueToRippleValue( val ) );
+				sink.put( value( val ) );
 			}
 		};
 	

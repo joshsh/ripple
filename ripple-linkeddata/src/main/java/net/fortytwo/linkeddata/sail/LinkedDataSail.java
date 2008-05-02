@@ -14,7 +14,7 @@ import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.RippleProperties;
 import net.fortytwo.ripple.rdf.RDFUtils;
-import net.fortytwo.ripple.rdf.diff.RdfDiffSink;
+import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
 import net.fortytwo.ripple.URIMap;
 import net.fortytwo.linkeddata.Rdfizer;
 import net.fortytwo.linkeddata.ContextMemo;
@@ -182,7 +182,7 @@ return null;
 
 	// Extended API ////////////////////////////////////////////////////////////
 
-	public synchronized LinkedDataSailConnection getConnection( final RdfDiffSink listenerSink )
+	public synchronized LinkedDataSailConnection getConnection( final RDFDiffSink listenerSink )
 		throws SailException
 	{
 		return new LinkedDataSailConnection( baseSail, webClosure, URIMap, listenerSink );

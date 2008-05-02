@@ -12,11 +12,11 @@ package net.fortytwo.ripple.rdf.diff;
 import net.fortytwo.ripple.rdf.RDFSink;
 import net.fortytwo.ripple.rdf.RdfTee;
 
-public class RdfDiffTee implements RdfDiffSink
+public class RDFDiffTee implements RDFDiffSink
 {
 	private RdfTee adderTee, subtractorTee;
 
-	public RdfDiffTee( final RdfDiffSink sinkA, final RdfDiffSink sinkB )
+	public RDFDiffTee( final RDFDiffSink sinkA, final RDFDiffSink sinkB )
 	{
 		adderTee = new RdfTee( sinkA.adderSink(), sinkB.adderSink() );
 		subtractorTee = new RdfTee( sinkA.subtractorSink(), sinkB.subtractorSink() );

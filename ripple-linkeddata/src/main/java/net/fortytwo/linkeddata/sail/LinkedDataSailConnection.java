@@ -11,10 +11,10 @@ package net.fortytwo.linkeddata.sail;
 
 import info.aduna.iteration.CloseableIteration;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.rdf.diff.RdfDiffBuffer;
-import net.fortytwo.ripple.rdf.diff.RdfDiffSink;
-import net.fortytwo.ripple.rdf.diff.RdfDiffTee;
-import net.fortytwo.ripple.rdf.diff.SynchronizedRdfDiffSink;
+import net.fortytwo.ripple.rdf.diff.RDFDiffBuffer;
+import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
+import net.fortytwo.ripple.rdf.diff.RDFDiffTee;
+import net.fortytwo.ripple.rdf.diff.SynchronizedRDFDiffSink;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.URIMap;
 import net.fortytwo.linkeddata.WebClosure;
@@ -74,11 +74,11 @@ public class LinkedDataSailConnection implements SailConnection
 	//       operations involving it.
 	private SparqlUpdater sparqlUpdater;
 
-	private RdfDiffSink apiInputSink;
+	private RDFDiffSink apiInputSink;
 
 	// Buffering input to the wrapped SailConnection avoids deadlocks.
-	private RdfDiffBuffer baseSailWriteBuffer;
-	private RdfDiffSink baseSailWriteSink;
+	private RDFDiffBuffer baseSailWriteBuffer;
+	private RDFDiffSink baseSailWriteSink;
 
 	private boolean dereferenceSubject = true;
 	private boolean dereferencePredicate = false;
@@ -429,7 +429,7 @@ public class LinkedDataSailConnection implements SailConnection
 	LinkedDataSailConnection( final Sail baseSail,
 								final WebClosure webClosure,
 								final URIMap URIMap,
-								final RdfDiffSink listenerSink )
+								final RDFDiffSink listenerSink )
 		throws SailException
 	{
 		this.baseSail = baseSail;
@@ -442,11 +442,11 @@ public class LinkedDataSailConnection implements SailConnection
 
 		SailConnectionOutputAdapter adapter
 			= new SailConnectionOutputAdapter( this );
-		baseSailWriteBuffer = new RdfDiffBuffer(
+		baseSailWriteBuffer = new RDFDiffBuffer(
 			( null == listenerSink )
 				? adapter
-				: new RdfDiffTee( adapter, listenerSink ) );
-		baseSailWriteSink = new SynchronizedRdfDiffSink( baseSailWriteBuffer, baseSailWriteBuffer );
+				: new RDFDiffTee( adapter, listenerSink ) );
+		baseSailWriteSink = new SynchronizedRDFDiffSink( baseSailWriteBuffer, baseSailWriteBuffer );
 
 		sparqlUpdater = new SparqlUpdater( URIMap, baseSailWriteSink );
 		apiInputSink = sparqlUpdater.getSink();

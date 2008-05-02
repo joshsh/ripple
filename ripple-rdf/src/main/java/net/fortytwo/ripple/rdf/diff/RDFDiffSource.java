@@ -13,11 +13,11 @@ import net.fortytwo.ripple.RippleException;
 
 import net.fortytwo.ripple.rdf.RDFSource;
 
-public interface RdfDiffSource
+public interface RDFDiffSource
 {
 	RDFSource adderSource();
 	RDFSource subtractorSource();
-	void writeTo( RdfDiffSink sink ) throws RippleException;
+	void writeTo( RDFDiffSink sink ) throws RippleException;
 }
 
 // kate: tab-width 4

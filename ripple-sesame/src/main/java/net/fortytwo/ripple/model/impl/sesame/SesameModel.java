@@ -23,19 +23,21 @@ import net.fortytwo.ripple.model.ModelBridge;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.URIMap;
+import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
 
 import org.apache.log4j.Logger;
 import org.openrdf.sail.Sail;
 
 public class SesameModel implements Model
 {
-	private static final Logger LOGGER = Logger.getLogger( Model.class );
+	private static final Logger LOGGER = Logger.getLogger( SesameModel.class );
 
-	Sail sail;
-	Set<ModelConnection> openConnections = new LinkedHashSet<ModelConnection>();
+	final Sail sail;
+	final Set<ModelConnection> openConnections = new LinkedHashSet<ModelConnection>();
 
-	private ModelBridge bridge;
-	public ModelBridge getBridge()
+	private final ModelBridge bridge;
+
+    public ModelBridge getBridge()
 	{
 		return bridge;
 	}
@@ -51,31 +53,6 @@ public class SesameModel implements Model
 		loadSymbols( uriMap );
 	}
 
-	public Collection<ModelConnection> openConnections()
-	{
-		Collection<ModelConnection> copy = new LinkedList<ModelConnection>();
-		
-		synchronized ( openConnections )
-		{
-			copy.addAll( openConnections );
-		}
-		
-		return copy;
-	}
-
-	public void closeOpenConnections() throws RippleException
-	{
-		synchronized ( openConnections )
-		{
-			Iterator<ModelConnection> i = openConnections.iterator();
-			while ( i.hasNext() )
-			{
-	//			ModelConnection mc = i.next();
-	//			mc.close();
-			}
-		}
-	}
-	
 	private void loadSymbols( final URIMap uriMap )
 		throws RippleException
 	{
@@ -102,8 +79,40 @@ public class SesameModel implements Model
 		return new SesameModelConnection( this, name, null );
 	}
 
-	public ModelConnection getConnection( final String name, final LexiconUpdater updater ) throws RippleException
+	public ModelConnection getConnection( final String name, final RDFDiffSink listener ) throws RippleException
 	{
-		return new SesameModelConnection( this, name, updater );
+		return new SesameModelConnection( this, name, listener );
 	}
+
+    public void shutDown() throws RippleException {
+        synchronized (openConnections) {
+            if ( openConnections.size() > 0 )
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.append( openConnections.size() ).append( " dangling connections: \"" );
+                boolean first = true;
+                for ( ModelConnection mc : openConnections )
+                {
+                    if ( first )
+                    {
+                        first = false;
+                    }
+                    
+                    else
+                    {
+                        sb.append( "," );
+                    }
+
+                    sb.append( mc.getName() );
+                }
+
+                LOGGER.warn( sb.toString() );
+
+                for ( ModelConnection mc : openConnections )
+                {
+                    mc.close();
+                }
+            }
+        }
+    }
 }

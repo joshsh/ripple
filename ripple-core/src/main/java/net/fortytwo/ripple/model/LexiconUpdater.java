@@ -15,7 +15,7 @@ import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.rdf.RDFSink;
-import net.fortytwo.ripple.rdf.diff.RdfDiffSink;
+import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
 
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Resource;
@@ -26,7 +26,7 @@ import org.openrdf.model.Value;
 /**
  * Note: several LexiconUpdaters may safely be attached to a single Lexicon.
  */
-public class LexiconUpdater implements RdfDiffSink
+public class LexiconUpdater implements RDFDiffSink
 {
 // TODO: Unicode characters supported by the lexer / Turtle grammar
 	private static final Pattern PREFIX_PATTERN
@@ -170,5 +170,3 @@ public class LexiconUpdater implements RdfDiffSink
 		return PREFIX_PATTERN.matcher( nsPrefix ).matches();
 	}
 }
-
-// kate: tab-width 4

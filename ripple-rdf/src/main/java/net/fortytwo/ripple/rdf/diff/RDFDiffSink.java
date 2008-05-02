@@ -11,7 +11,7 @@ package net.fortytwo.ripple.rdf.diff;
 
 import net.fortytwo.ripple.rdf.RDFSink;
 
-public interface RdfDiffSink
+public interface RDFDiffSink
 {
 	RDFSink adderSink();
 	RDFSink subtractorSink();

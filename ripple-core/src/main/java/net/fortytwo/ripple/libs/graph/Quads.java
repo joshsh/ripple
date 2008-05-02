@@ -72,7 +72,6 @@ public class Quads extends PrimitiveStackMapping
 	{
 		final ModelConnection mc = arg.getModelConnection();
 		final RippleList rest = arg.getStack().getRest();
-        final ModelBridge bridge = mc.getModel().getBridge();
 
 		RDFSink rdfSink = new RDFSink()
 		{
@@ -83,10 +82,10 @@ public class Quads extends PrimitiveStackMapping
                 {
                     Resource context = st.getContext();
                     resultSink.put( arg.with(
-                            rest.push( bridge.get( new RdfValue( st.getSubject() ) ) )
-                                    .push( bridge.get( new RdfValue( st.getPredicate() ) ) )
-                                    .push( bridge.get( new RdfValue( st.getObject() ) ) )
-                                    .push( ( null == context ) ? mc.list() : bridge.get( new RdfValue( context ) ) ) ) );
+                            rest.push( mc.value( st.getSubject() ) )
+                                    .push( mc.value( st.getPredicate() ) )
+                                    .push( mc.value( st.getObject() ) )
+                                    .push( ( null == context ) ? mc.list() : mc.value( context ) ) ) );
                 }
             };
 

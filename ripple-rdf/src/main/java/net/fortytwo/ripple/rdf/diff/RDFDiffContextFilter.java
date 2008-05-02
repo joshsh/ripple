@@ -21,9 +21,9 @@ import org.openrdf.model.Namespace;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 
-public final class RdfDiffContextFilter implements RdfDiffSink
+public final class RDFDiffContextFilter implements RDFDiffSink
 {
-	private Map<Resource, RdfDiffCollector> contextToCollectorMap;
+	private Map<Resource, RDFDiffCollector> contextToCollectorMap;
 
 	private RDFSink addSink = new RDFSink()
 	{
@@ -33,10 +33,10 @@ public final class RdfDiffContextFilter implements RdfDiffSink
 			{
 				Resource context = st.getContext();
 
-				RdfDiffCollector sink = contextToCollectorMap.get( context );
+				RDFDiffCollector sink = contextToCollectorMap.get( context );
 				if ( null == sink )
 				{
-					sink = new RdfDiffCollector();
+					sink = new RDFDiffCollector();
 					contextToCollectorMap.put( context, sink );
 				}
 
@@ -84,10 +84,10 @@ public final class RdfDiffContextFilter implements RdfDiffSink
 			{
 				Resource context = st.getContext();
 
-				RdfDiffCollector sink = contextToCollectorMap.get( context );
+				RDFDiffCollector sink = contextToCollectorMap.get( context );
 				if ( null == sink )
 				{
-					sink = new RdfDiffCollector();
+					sink = new RDFDiffCollector();
 					contextToCollectorMap.put( context, sink );
 				}
 
@@ -127,9 +127,9 @@ public final class RdfDiffContextFilter implements RdfDiffSink
 		}
 	};
 
-	public RdfDiffContextFilter()
+	public RDFDiffContextFilter()
 	{
-		contextToCollectorMap = new HashMap<Resource, RdfDiffCollector>();
+		contextToCollectorMap = new HashMap<Resource, RDFDiffCollector>();
 
 		clear();
 	}
@@ -139,7 +139,7 @@ public final class RdfDiffContextFilter implements RdfDiffSink
 		return contextToCollectorMap.keySet().iterator();
 	}
 
-	public RdfDiffSource sourceForContext( final Resource context )
+	public RDFDiffSource sourceForContext( final Resource context )
 	{
 		return contextToCollectorMap.get( context );
 	}
@@ -148,7 +148,7 @@ public final class RdfDiffContextFilter implements RdfDiffSink
 	{
 		contextToCollectorMap.clear();
 
-		RdfDiffCollector nullCollector = new RdfDiffCollector();
+		RDFDiffCollector nullCollector = new RDFDiffCollector();
 		contextToCollectorMap.put( null, nullCollector );
 	}
 

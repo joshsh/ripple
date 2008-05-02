@@ -69,7 +69,6 @@ public class Triples extends PrimitiveStackMapping
 	{
 		final ModelConnection mc = arg.getModelConnection();
 		final RippleList rest = arg.getStack().getRest();
-        final ModelBridge bridge = mc.getModel().getBridge();
 
 		RDFSink rdfSink = new RDFSink()
 		{
@@ -79,9 +78,9 @@ public class Triples extends PrimitiveStackMapping
                 public void put( final Statement st ) throws RippleException
                 {
                     resultSink.put( arg.with(
-                            rest.push( bridge.get( new RdfValue( st.getSubject() ) ) )
-                                    .push( bridge.get( new RdfValue( st.getPredicate() ) ) )
-                                    .push( bridge.get( new RdfValue( st.getObject() ) ) ) ) );
+                            rest.push( mc.value( st.getSubject() ) )
+                                    .push( mc.value( st.getPredicate() ) )
+                                    .push( mc.value( st.getObject() ) ) ) );
                 }
             };
 

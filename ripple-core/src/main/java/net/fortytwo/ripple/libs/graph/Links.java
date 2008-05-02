@@ -55,8 +55,6 @@ public class Links extends PrimitiveStackMapping
 		subj = stack.getFirst();
 		//final RippleList rest = stack.getRest();
 
-		final ModelBridge bridge = mc.getModel().getBridge();
-
 		Sink<Statement, RippleException> stSink = new Sink<Statement, RippleException>()
 		{
 			public void put( final Statement st ) throws RippleException
@@ -64,9 +62,9 @@ public class Links extends PrimitiveStackMapping
                 Resource context = st.getContext();
 
 				//RippleValue subj = bridge.get( st.getSubject() );
-				RippleValue pred = bridge.get( st.getPredicate() );
-				RippleValue obj = bridge.get( st.getObject() );
-                RippleValue ctx = ( null == context ) ? mc.list() : bridge.get( new RdfValue( context ) );
+				RippleValue pred = mc.value( st.getPredicate() );
+				RippleValue obj = mc.value( st.getObject() );
+                RippleValue ctx = ( null == context ) ? mc.list() : mc.value( context );
 				//RippleList triple = mc.list( obj ).push( pred ).push( subj );
 
 				//sink.put( arg.with(

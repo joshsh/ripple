@@ -13,14 +13,14 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.NullSink;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.rdf.RDFSink;
-import net.fortytwo.ripple.rdf.diff.RdfDiffSink;
+import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
 
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;
 
 // Note: for maximum clarity, this class should probably be called
 //       "LinkedDataSailConnectionOutputAdapter"
-public class SailConnectionOutputAdapter implements RdfDiffSink
+public class SailConnectionOutputAdapter implements RDFDiffSink
 {
 	private LinkedDataSailConnection sailConnection;
 	private RDFSink addSink, subtractSink;

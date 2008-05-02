@@ -55,17 +55,15 @@ public class Inlinks extends PrimitiveStackMapping
 		final RippleValue obj = stack.getFirst();
 		final RippleList rest = stack.getRest();
 
-		final ModelBridge bridge = mc.getModel().getBridge();
-
 		Sink<Statement, RippleException> stSink = new Sink<Statement, RippleException>()
 		{
 			public void put( final Statement st ) throws RippleException
 			{
                 Resource context = st.getContext();
 
-                RippleValue subj = bridge.get( st.getSubject() );
-				RippleValue pred = bridge.get( st.getPredicate() );
-                RippleValue ctx = ( null == context ) ? mc.list() : bridge.get( new RdfValue( context ) );
+                RippleValue subj = mc.value( st.getSubject() );
+				RippleValue pred = mc.value( st.getPredicate() );
+                RippleValue ctx = ( null == context ) ? mc.list() : mc.value( context );
 
                 sink.put( arg.with( rest.push( subj ).push( pred ).push( obj ).push( ctx ) ) );
             }
