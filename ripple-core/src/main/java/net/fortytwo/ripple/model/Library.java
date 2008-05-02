@@ -67,15 +67,14 @@ public abstract class Library
 			}
 		};
 
-		// Add the primitive's stated URI to the map.
-		bridge.add( prim, mc );
-
 		// Add all stated aliases (but no aliases of aliases) to the map.
         StatementPatternQuery query = new StatementPatternQuery( prim, OWL_SAMEAS, null, false );
         mc.query( query, aliasSink );
 
-		return prim;
+        // Add the primitive's stated URI to the map.  It is added after the
+        // aliases so that it claims
+        bridge.add( prim, mc );
+
+        return prim;
 	}
 }
-
-// kate: tab-width 4

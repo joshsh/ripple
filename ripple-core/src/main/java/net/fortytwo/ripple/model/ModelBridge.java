@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.LinkedHashMap;
 
 import net.fortytwo.ripple.RippleException;
 
@@ -25,11 +26,14 @@ import org.openrdf.model.Value;
 
 public class ModelBridge
 {
-	private Hashtable<Value, RippleValue> rdfToNativeMap;
+    // This map is order-preserving such that the most recently-added keys
+    // appear first in the keySet.  This is important for Lexicon, in which
+    // a keyword maps to the most recently-added URI.
+    private final LinkedHashMap<Value, RippleValue> rdfToNativeMap;
 
 	public ModelBridge()
 	{
-		rdfToNativeMap = new Hashtable<Value, RippleValue>();
+		rdfToNativeMap = new LinkedHashMap<Value, RippleValue>();
 	}
 
 	/**
@@ -119,5 +123,3 @@ public class ModelBridge
 		}
 	}*/
 }
-
-// kate: tab-width 4

@@ -113,6 +113,13 @@ graph:infer
 
 
 ========================================
+graph:inlinks
+========================================
+
+rdf:type . rdfs:Resource inlinks .  # lots of statements with rdfs:Resource as object 
+
+
+========================================
 graph:links
 ========================================
 

@@ -59,13 +59,18 @@ public class Lexicon
 
             for ( Value key : bridge.keySet() )
             {
+//                System.out.println("key = " + key);
                 // An extra trip through the bridge replaces aliases with
                 // "definitive" values.
                 Value v = bridge.get( key ).toRdf( mc ).getRdfValue();
 
                 if ( v instanceof URI )
                 {
-                    String keyword = ( (URI) v ).getLocalName();
+//                    System.out.println("    value = " + v);
+                    
+                    // By using the local name of the key value instead of the mapped-to
+                    String keyword = ( (URI) key ).getLocalName();
+//                    String keyword = ( (URI) v ).getLocalName();
 
                     List<URI> siblings = keywordToUriMap.get( keyword );
 

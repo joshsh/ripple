@@ -204,6 +204,18 @@ graph:infer
 	rdfs:comment "subj pred  =>  obj (where obj may be an inferred object)" ;
 	.
 
+graph:inlinks
+	a rpl:Function ;
+	rpl:arity 1 ;
+	rpl:parameters (
+		[
+			rdfs:label "obj" ;
+			rpl:isTransparent true ]
+		) ;
+	rdfs:label "inlinks" ;
+	rdfs:comment "obj  =>  subj pred obj ctx" ;
+	.
+
 graph:links
 	a rpl:Function ;
 	rpl:arity 1 ;

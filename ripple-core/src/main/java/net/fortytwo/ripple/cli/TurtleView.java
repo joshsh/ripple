@@ -20,10 +20,7 @@ import net.fortytwo.ripple.io.RipplePrintStream;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.GetStatementsQuery;
 import net.fortytwo.ripple.model.StatementPatternQuery;
-import org.openrdf.model.URI;
-import org.openrdf.model.Resource;
 
 public class TurtleView implements Sink<RippleList, RippleException>
 {
@@ -32,8 +29,8 @@ public class TurtleView implements Sink<RippleList, RippleException>
 
 	private static final String INDEX_SEPARATOR = "  ";
 
-	private RipplePrintStream ps;
-	private ModelConnection mc;
+	private final RipplePrintStream printStream;
+	private final ModelConnection modelConnection;
 	private int index = 0;
 
     private boolean printEntireStack;
@@ -42,11 +39,11 @@ public class TurtleView implements Sink<RippleList, RippleException>
     private int maxObjects;
 
     public TurtleView( final RipplePrintStream printStream,
-						final ModelConnection mc )
+						final ModelConnection modelConnection)
 		throws RippleException
 	{
-		ps = printStream;
-		this.mc = mc;
+		this.printStream = printStream;
+		this.modelConnection = modelConnection;
 
         RippleProperties props = Ripple.getProperties();
         this.printEntireStack = props.getBoolean(
@@ -73,67 +70,65 @@ public class TurtleView implements Sink<RippleList, RippleException>
 		// View the list in right-to-left order
 		RippleList list = stack.invert();
 
-		ps.print( "rdf:_" + ++index + INDEX_SEPARATOR );
-		ps.print( printEntireStack ? list : first );
-		ps.print( "\n" );
+		printStream.print( "rdf:_" + ++index + INDEX_SEPARATOR );
+		printStream.print( printEntireStack ? list : first );
+		printStream.print( "\n" );
 
 		if ( showEdges )
 		{
 			Collector<RippleValue, RippleException> predicates = new Collector<RippleValue, RippleException>();
-			mc.findPredicates( first, predicates );
+			modelConnection.findPredicates( first, predicates );
 	
 			int predCount = 0;
 
 			for ( Iterator<RippleValue> predIter = predicates.iterator();
 				predIter.hasNext(); )
 			{
-				ps.print( INDENT );
+				printStream.print( INDENT );
 	
 				// Stop after maxPredicates predicates have been displayed, unless
 				// maxPredicates < 0, which indicates an unlimited number of
 				// predicates.
 				if ( maxPredicates >= 0 && ++predCount > maxPredicates )
 				{
-					ps.print( "[...]\n" );
+					printStream.print( "[...]\n" );
 					break;
 				}
 	
 				RippleValue predicate = predIter.next();
-				ps.print( predicate );
-				ps.print( "\n" );
+				printStream.print( predicate );
+				printStream.print( "\n" );
 	
 				Collector<RippleValue, RippleException> objects = new Collector<RippleValue, RippleException>();
                 StatementPatternQuery query = new StatementPatternQuery( first, predicate, null, Ripple.useInference() );
-                mc.query( query, objects );
+                modelConnection.query( query, objects );
 
 				int objCount = 0;
 	
 				for ( Iterator<RippleValue> objIter = objects.iterator();
 					objIter.hasNext(); )
 				{
-					ps.print( INDENT );
-					ps.print( INDENT );
+					printStream.print( INDENT );
+					printStream.print( INDENT );
 	
 					// Stop after maxObjects objects have been displayed, unless
 					// maxObjects < 0, which indicates an unlimited number of
 					// objects.
 					if ( maxObjects >= 0 && ++objCount > maxObjects )
 					{
-						ps.print( "[...]\n" );
+						printStream.print( "[...]\n" );
 						break;
 					}
 	
 					RippleValue object = objIter.next();
-					ps.print( object );
-					ps.print( ( objIter.hasNext() )
+					printStream.print( object );
+					printStream.print( ( objIter.hasNext() )
 						? ","
 						: ( predIter.hasNext() )
 							? ";" : "." );
-					ps.print( "\n" );
+					printStream.print( "\n" );
 				}
 			}
 		}
 	}
 }
-
-// kate: tab-width 4
