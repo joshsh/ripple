@@ -1,30 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.fortytwo.ripple</groupId>
     <artifactId>ripple-neo4j</artifactId>
-    <name>Ripple4Neo4j</name>
     <version>0.5</version>
+    <packaging>jar</packaging>
+    <name>Ripple4Neo4j</name>
     <description>Ripple Neo4j bindings</description>
-    <url>http://ripple.fortytwo.net/</url>
-    <inceptionYear>2008</inceptionYear>
-    <developers>
-        <developer>
-            <id>josh</id>
-            <name>Joshua Shinavier</name>
-            <email>josh@fortytwo.net</email>
-            <url>http://fortytwo.net/</url>
-            <roles>
-                <role>architect</role>
-                <role>developer</role>
-            </roles>
-            <timezone>-8</timezone>
-        </developer>
-    </developers>
-    <organization>
-        <name>Joshua Shinavier</name>
-    </organization>
+
+    <parent>
+        <groupId>net.fortytwo.ripple</groupId>
+        <artifactId>ripple</artifactId>
+        <version>0.5</version>
+    </parent>
 
     <repositories>
         <repository>
@@ -58,6 +48,8 @@
     </dependencies>
 
     <build>
+        <directory>${basedir}/target</directory>
+        <finalName>${artifactId}-${version}</finalName>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
         <testSourceDirectory>${basedir}/src/test/java</testSourceDirectory>
         <outputDirectory>${basedir}/target/classes</outputDirectory>
@@ -72,8 +64,6 @@
                 <directory>${basedir}/src/test/resources</directory>
             </testResource>
         </testResources>
-        <directory>${basedir}/target</directory>
-        <finalName>${artifactId}-${version}</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

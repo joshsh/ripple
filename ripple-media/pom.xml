@@ -1,43 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!-- This is a Maven 2 Project Object Model -->
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
-    <packaging>jar</packaging>
-
     <groupId>net.fortytwo.ripple</groupId>
     <artifactId>ripple-media</artifactId>
     <version>0.5</version>
+    <packaging>jar</packaging>
     <name>Ripple Media Extension</name>
-    <description>Media and speech extension for the Ripple Semantic Web scripting language</description>
-    <url>http://ripple.fortytwo.net/</url>
-    <inceptionYear>2007</inceptionYear>
-    <licenses></licenses>
-    <developers>
-        <developer>
-            <id>josh</id>
-            <name>Joshua Shinavier</name>
-            <email>josh@fortytwo.net</email>
-            <url>http://fortytwo.net</url>
-            <roles>
-                <role>architect</role>
-                <role>developer</role>
-            </roles>
-            <timezone>-8</timezone>
-            <properties>
-                <!--<picUrl>...</picUrl>-->
-            </properties>
-        </developer>
-    </developers>
-    <organization>
-        <name>Joshua Shinavier</name>
-    </organization>
-    <issueManagement>
-        <system>GForge Tracker</system>
-        <url>http://projects.semwebcentral.org/tracker/?atid=573&amp;group_id=125&amp;func=browse</url>
-    </issueManagement>
+    <description>media and speech extension</description>
+
+    <parent>
+        <groupId>net.fortytwo.ripple</groupId>
+        <artifactId>ripple</artifactId>
+        <version>0.5</version>
+    </parent>
 
     <repositories>
         <repository>
@@ -129,26 +106,24 @@
     </dependencies>
 
     <build>
-        <sourceDirectory>src/main/java</sourceDirectory>
-        <testSourceDirectory>src/test/java</testSourceDirectory>
-        <directory>target</directory>
-        <outputDirectory>target/classes</outputDirectory>
-        <testOutputDirectory>target/test-classes</testOutputDirectory>
+        <directory>${basedir}/target</directory>
         <finalName>${artifactId}-${version}</finalName>
+        <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
+        <testSourceDirectory>${basedir}/src/test/java</testSourceDirectory>
+        <outputDirectory>${basedir}/target/classes</outputDirectory>
+        <testOutputDirectory>${basedir}/target/test-classes</testOutputDirectory>
         <resources>
             <resource>
-                <directory>src/main/resources</directory>
+                <directory>${basedir}/src/main/resources</directory>
             </resource>
         </resources>
         <testResources>
             <testResource>
-                <directory>src/test/resources</directory>
+                <directory>${basedir}/src/test/resources</directory>
             </testResource>
         </testResources>
-
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <source>1.5</source>

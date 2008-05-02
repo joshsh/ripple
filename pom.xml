@@ -1,52 +1,85 @@
-<project>
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>net.fortytwo.ripple</groupId>
-  <artifactId>ripple</artifactId>
-  <version>1</version>
-  <packaging>pom</packaging>
-  <modules>
-    <module>ripple-base</module>
-    <module>ripple-rdf</module>
-    <module>ripple-linkeddata</module>
-    <module>ripple-core</module>
-    <module>ripple-sesame</module>
-    <module>ripple-neo4j</module>
-    <module>ripple-demo</module>
-    <module>ripple-media</module>
-  </modules>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>net.fortytwo.ripple</groupId>
+    <artifactId>ripple</artifactId>
+    <version>0.5</version>
+    <packaging>pom</packaging>
+    <name>Ripple parent project</name>
+    <description>Semantic Web scripting language</description>
 
-  <build>
-    <directory>${basedir}/target</directory>
-            <!--<plugin>
-                <artifactId>maven-doap-plugin</artifactId>
-                <version>1.0-beta-1</version>
-                <executions>
-                    <execution>
-                        <phase>site</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <language>Java</language>
-                    <doapFile>${basedir}/target/${project.artifactId}-${project.version}-doap.rdf</doapFile>
-                    <category>xml</category>
-                    <project>${project}</project>
-                </configuration>
-            </plugin>-->
-  </build>
+    <url>http://ripple.fortytwo.net/</url>
+    <inceptionYear>2007</inceptionYear>
+    <licenses></licenses>
+    <developers>
+        <developer>
+            <id>josh</id>
+            <name>Joshua Shinavier</name>
+            <email>josh@fortytwo.net</email>
+            <url>http://fortytwo.net</url>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+            <timezone>-8</timezone>
+            <properties>
+                <!--<picUrl>...</picUrl>-->
+            </properties>
+        </developer>
+    </developers>
+    <organization>
+        <name>Joshua Shinavier</name>
+    </organization>
+    <issueManagement>
+        <system>GForge Tracker</system>
+        <url>http://code.google.com/p/ripple/issues/list</url>
+    </issueManagement>
 
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
+    <modules>
+        <module>ripple-base</module>
+        <module>ripple-rdf</module>
+        <module>ripple-linkeddata</module>
+        <module>ripple-core</module>
+        <module>ripple-sesame</module>
+        <module>ripple-neo4j</module>
+        <module>ripple-demo</module>
+        <module>ripple-media</module>
+    </modules>
+
+    <build>
+        <directory>${basedir}/target</directory>
+        <!--<plugin>
+            <artifactId>maven-doap-plugin</artifactId>
+            <version>1.0-beta-1</version>
+            <executions>
+                <execution>
+                    <phase>site</phase>
+                    <goals>
+                        <goal>generate</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <language>Java</language>
+                <doapFile>${basedir}/target/${project.artifactId}-${project.version}-doap.rdf</doapFile>
+                <category>xml</category>
+                <project>${project}</project>
+            </configuration>
+        </plugin>-->
+    </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.0</version>
-        <configuration>
-          <aggregate>true</aggregate>
-        </configuration>
-      </plugin>
+                <configuration>
+                    <aggregate>true</aggregate>
+                </configuration>
+            </plugin>
             <plugin>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>2.1</version>
@@ -62,6 +95,6 @@
             <plugin>
                 <artifactId>maven-jxr-plugin</artifactId>
             </plugin>
-    </plugins>
-  </reporting>
+        </plugins>
+    </reporting>
 </project>

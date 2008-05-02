@@ -1,34 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.fortytwo.ripple</groupId>
     <artifactId>ripple-demo</artifactId>
-    <name>Ripple command-line demo</name>
     <version>0.5</version>
-    <description>Semantic Web Scripting Language</description>
-    <url>http://ripple.fortytwo.net/</url>
-    <!--<issueManagement>
-      <system>GForge Tracker</system>
-      <url>http://projects.semwebcentral.org/tracker/?atid=573&amp;group_id=125&amp;func=browse</url>
-    </issueManagement>-->
-    <inceptionYear>2007</inceptionYear>
-    <developers>
-        <developer>
-            <id>josh</id>
-            <name>Joshua Shinavier</name>
-            <email>josh@fortytwo.net</email>
-            <url>http://fortytwo.net/</url>
-            <roles>
-                <role>architect</role>
-                <role>developer</role>
-            </roles>
-            <timezone>-8</timezone>
-        </developer>
-    </developers>
-    <organization>
-        <name>Joshua Shinavier</name>
-    </organization>
+    <packaging>jar</packaging>
+    <name>Ripple command-line demo</name>
+    <description>demo of Ripple on LinkedDataSail</description>
+
+    <parent>
+        <groupId>net.fortytwo.ripple</groupId>
+        <artifactId>ripple</artifactId>
+        <version>0.5</version>
+    </parent>
 
     <repositories>
         <repository>
@@ -44,11 +30,11 @@
             <artifactId>ripple-sesame</artifactId>
             <version>0.5</version>
         </dependency>
-            <dependency>
-                <groupId>org.openrdf</groupId>
-                <artifactId>openrdf-sail-memory</artifactId>
-                <version>2.0</version>
-            </dependency>
+        <dependency>
+            <groupId>org.openrdf</groupId>
+            <artifactId>openrdf-sail-memory</artifactId>
+            <version>2.0</version>
+        </dependency>
         <dependency>
             <groupId>org.deri.sw</groupId>
             <artifactId>semanticsitemap</artifactId>
@@ -57,6 +43,8 @@
     </dependencies>
 
     <build>
+        <directory>${basedir}/target</directory>
+        <finalName>${artifactId}-${version}</finalName>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
         <testSourceDirectory>${basedir}/src/test/java</testSourceDirectory>
         <outputDirectory>${basedir}/target/classes</outputDirectory>
@@ -71,8 +59,6 @@
                 <directory>${basedir}/src/test/resources</directory>
             </testResource>
         </testResources>
-        <directory>${basedir}/target</directory>
-        <finalName>${artifactId}-${version}</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

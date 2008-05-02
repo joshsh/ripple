@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- This is a Maven 2 Project Object Model -->
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <packaging>jar</packaging>
     <groupId>net.fortytwo.ripple</groupId>
     <artifactId>ripple-rdf</artifactId>
     <version>0.5</version>
+    <packaging>jar</packaging>
     <name>Ripple RDF utilities</name>
-    <description>...</description>
+    <description>generic RDF bindings for Ripple</description>
+
+    <parent>
+        <groupId>net.fortytwo.ripple</groupId>
+        <artifactId>ripple</artifactId>
+        <version>0.5</version>
+    </parent>
+
     <repositories>
         <repository>
             <id>aduna-repo</id>
@@ -21,6 +28,7 @@
             <url>http://maven.restlet.org</url>
         </repository>
     </repositories>
+
     <dependencies>
         <dependency>
             <groupId>net.fortytwo.ripple</groupId>
@@ -32,11 +40,11 @@
             <artifactId>org.restlet</artifactId>
             <version>1.0.5</version>
         </dependency>
-    <dependency>
-      <groupId>commons-httpclient</groupId>
-      <artifactId>commons-httpclient</artifactId>
-      <version>3.1</version>
-    </dependency>
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>3.1</version>
+        </dependency>
         <dependency>
             <groupId>org.openrdf</groupId>
             <artifactId>openrdf-model</artifactId>
@@ -77,33 +85,33 @@
             <artifactId>openrdf-rio-turtle</artifactId>
             <version>2.0</version>
         </dependency>
-                <dependency>
-                        <groupId>junit</groupId>
-                        <artifactId>junit</artifactId>
-                        <version>3.8.1</version>
-                        <scope>test</scope>
-                </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+
     <build>
-        <sourceDirectory>src/main/java</sourceDirectory>
-        <testSourceDirectory>src/test/java</testSourceDirectory>
-        <directory>target</directory>
-        <outputDirectory>target/classes</outputDirectory>
-        <testOutputDirectory>target/test-classes</testOutputDirectory>
+        <directory>${basedir}/target</directory>
         <finalName>${artifactId}-${version}</finalName>
+        <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
+        <testSourceDirectory>${basedir}/src/test/java</testSourceDirectory>
+        <outputDirectory>${basedir}/target/classes</outputDirectory>
+        <testOutputDirectory>${basedir}/target/test-classes</testOutputDirectory>
         <resources>
             <resource>
-                <directory>src/main/resources</directory>
+                <directory>${basedir}/src/main/resources</directory>
             </resource>
         </resources>
         <testResources>
             <testResource>
-                <directory>src/test/resources</directory>
+                <directory>${basedir}/src/test/resources</directory>
             </testResource>
         </testResources>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <source>1.5</source>
