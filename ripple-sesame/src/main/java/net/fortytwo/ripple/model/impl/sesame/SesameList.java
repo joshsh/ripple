@@ -14,16 +14,12 @@ import java.util.Map;
 
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.RippleProperties;
-import net.fortytwo.ripple.model.enums.ExpressionOrder;
-import net.fortytwo.ripple.io.RipplePrintStream;
 import net.fortytwo.ripple.io.RDFImporter;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.RdfValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.GetStatementsQuery;
 import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.flow.Collector;
 import net.fortytwo.ripple.flow.Sink;
@@ -33,7 +29,6 @@ import net.fortytwo.ripple.ListNode;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.Value;
-import org.openrdf.model.URI;
 import org.openrdf.model.vocabulary.RDF;
 
 public class SesameList extends RippleList
@@ -108,7 +103,7 @@ public class SesameList extends RippleList
 		return false;
 	}
 
-	public RdfValue toRdf( final ModelConnection mc )
+	public RdfValue toRDF( final ModelConnection mc )
 		throws RippleException
 	{
 		if ( null == rdfEquivalent )
@@ -173,7 +168,7 @@ RDFImporter importer = new RDFImporter( mc );
 			{
 //System.out.println( "    putting first statement" );
 				sink.put(
-					mc.createStatement( curRdf, RDF.FIRST, cur.first.toRdf( mc ).getRdfValue() ) );
+					mc.createStatement( curRdf, RDF.FIRST, cur.first.toRDF( mc ).sesameValue() ) );
 			}
 
 			prevRdf = curRdf;
@@ -207,7 +202,7 @@ RDFImporter importer = new RDFImporter( mc );
 			if ( memoize )
 			{
 //System.out.println("looking for source for list: " + v);
-				Value rdfVal = ( (RdfValue) v ).toRdf( mc ).getRdfValue();
+				Value rdfVal = ( (RdfValue) v ).toRDF( mc ).sesameValue();
 				Source<RippleList, RippleException> source = nativeLists.get( rdfVal );
 				if ( null == source )
 				{
@@ -289,7 +284,7 @@ RDFImporter importer = new RDFImporter( mc );
 						public void put( final RippleValue first ) throws RippleException
 						{
 							SesameList list = new SesameList( first, rest );
-							list.rdfEquivalent = (Resource) head.toRdf( mc ).getRdfValue();
+							list.rdfEquivalent = (Resource) head.toRDF( mc ).sesameValue();
 							sink.put( list );
 						}
 					};
@@ -323,7 +318,7 @@ RDFImporter importer = new RDFImporter( mc );
 
 			multiply( mc, head, RDF_FIRST, firstValues, false );
 			
-			if ( firstValues.size() > 0 || head.toRdf( mc ).getRdfValue().equals( RDF.NIL ) )
+			if ( firstValues.size() > 0 || head.toRDF( mc ).sesameValue().equals( RDF.NIL ) )
 			{
 				multiply( mc, head, RDF_REST, rdfRestSink, false );
 			}
@@ -430,7 +425,7 @@ RDFImporter importer = new RDFImporter( mc );
 									final ModelConnection mc )
 		throws RippleException
 	{
-		writeStatementsTo( toRdf( mc ), sink, mc );
+		writeStatementsTo( toRDF( mc ), sink, mc );
 	}
 
 	public static void writeStatementsTo( final RippleValue head,
@@ -443,19 +438,19 @@ RDFImporter importer = new RDFImporter( mc );
 			return;
 		}
 
-		if ( !( head.toRdf( mc ).getRdfValue() instanceof Resource ) )
+		if ( !( head.toRDF( mc ).sesameValue() instanceof Resource ) )
 		{
 			return;
 		}
 
-		final Resource headVal = (Resource) head.toRdf( mc ).getRdfValue();
+		final Resource headVal = (Resource) head.toRDF( mc ).sesameValue();
 
 		Sink<RippleValue, RippleException> firstSink = new Sink<RippleValue, RippleException>()
 		{
 			public void put( final RippleValue v ) throws RippleException
 			{
 				sink.put( mc.createStatement(
-					headVal, RDF.FIRST, v.toRdf( mc ).getRdfValue() ) );
+					headVal, RDF.FIRST, v.toRDF( mc ).sesameValue() ) );
 			}
 		};
 
@@ -464,7 +459,7 @@ RDFImporter importer = new RDFImporter( mc );
 			public void put( final RippleValue v ) throws RippleException
 			{
 				sink.put( mc.createStatement(
-					headVal, RDF.REST, v.toRdf( mc ).getRdfValue() ) );
+					headVal, RDF.REST, v.toRDF( mc ).sesameValue() ) );
 
 				// Recurse.
 				writeStatementsTo( v, sink, mc );

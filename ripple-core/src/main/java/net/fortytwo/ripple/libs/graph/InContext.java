@@ -51,13 +51,13 @@ public class InContext extends PrimitiveStackMapping
 	{
 		final ModelConnection mc = arg.getModelConnection();
 		RippleList stack = arg.getStack();
-        RdfValue context = stack.getFirst().toRdf( mc );
+        RdfValue context = stack.getFirst().toRDF( mc );
         stack = stack.getRest();
-        RdfValue pred = stack.getFirst().toRdf( mc );
+        RdfValue pred = stack.getFirst().toRDF( mc );
         stack = stack.getRest();
 
         // FIXME: bit of a hack
-        if ( !( pred.getRdfValue() instanceof Resource ) )
+        if ( !( pred.sesameValue() instanceof Resource ) )
         {
             return;
         }

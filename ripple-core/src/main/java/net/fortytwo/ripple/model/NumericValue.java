@@ -30,7 +30,7 @@ public abstract class NumericValue implements RippleValue
 // TODO: move into implementation
 	protected RdfValue rdfEquivalent = null;
 
-	public abstract RdfValue toRdf( final ModelConnection mc ) throws RippleException;
+	public abstract RdfValue toRDF( final ModelConnection mc ) throws RippleException;
 	
 	public NumericLiteralType getType()
 	{
@@ -127,7 +127,7 @@ public abstract class NumericValue implements RippleValue
 
 		else if ( other instanceof RdfValue )
 		{
-            Value v = ( (RdfValue) other ).getRdfValue();
+            Value v = ( (RdfValue) other ).sesameValue();
             if ( v instanceof Literal )
             {
                 Literal l = (Literal) v;

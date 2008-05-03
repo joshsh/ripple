@@ -20,11 +20,11 @@ import org.openrdf.model.Value;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.HashSet;
 
 /**
  * Defines a mapping between keywords and URIs, and between namespace prefixes
@@ -32,7 +32,7 @@ import java.util.Set;
  */
 public class Lexicon
 {
-	private Map<String, List<URI>> keywordToUriMap = null;
+	private Map<String, Set<URI>> keywordToUriMap = null;
 	private Map<URI, String> uriToKeywordMap = null;
 	private Map<String, String> prefixToNamespaceMap = null;
 	private Map<String, String> namespaceToPrefixMap = null;
@@ -52,41 +52,38 @@ public class Lexicon
 		ModelConnection mc = model.getConnection( "for Lexicon constructor" );
 
         try {
-            keywordToUriMap = new HashMap<String, List<URI>>();
+            keywordToUriMap = new HashMap<String, Set<URI>>();
             uriToKeywordMap = new HashMap<URI, String>();
 
-            ModelBridge bridge = model.getBridge();
-
-            for ( Value key : bridge.keySet() )
+            // Note: the order of the "set" of special values is significant.
+            // Specifically, all primary values are expected to come before all
+            // aliases.
+            for ( Value key : model.getSpecialValues() )
             {
-//                System.out.println("key = " + key);
-                // An extra trip through the bridge replaces aliases with
-                // "definitive" values.
-                Value v = mc.value( key ).toRdf( mc ).getRdfValue();
-
-                if ( v instanceof URI )
+                if ( key instanceof URI )
                 {
-//                    System.out.println("    value = " + v);
-                    
-                    // By using the local name of the key value instead of the mapped-to
-                    String keyword = ( (URI) key ).getLocalName();
-//                    String keyword = ( (URI) v ).getLocalName();
+                    Value mapsTo = mc.value( key ).toRDF( mc ).sesameValue();
+                    boolean isPrimary = key.equals( mapsTo );
 
-                    List<URI> siblings = keywordToUriMap.get( keyword );
+                    String keyword = ( (URI) key ).getLocalName();
+
+                    Set<URI> siblings = keywordToUriMap.get( keyword );
 
                     if ( null == siblings )
                     {
-                        siblings = new ArrayList<URI>();
+                        siblings = new HashSet<URI>();
                         keywordToUriMap.put( keyword, siblings );
 
-                        uriToKeywordMap.put( (URI) v, keyword );
+                        uriToKeywordMap.put( (URI) key, keyword );
                     }
 
-                    // The presence of aliases will cause the same URI / keyword
-                    // pair to appear more than once.
-                    if ( !siblings.contains( (URI) v ) )
+                    // Add the value if it is a primary value (possibly
+                    // overriding a previously-added alias value) or if it is an
+                    // alias value which does not conflict with the
+                    // corresponding primary value.
+                    if ( isPrimary || !siblings.contains( mapsTo ) )
                     {
-                        siblings.add( (URI) v );
+                        siblings.add( (URI) key );
                     }
                 }
             }
@@ -95,13 +92,13 @@ public class Lexicon
         }
     }
 
-	public List<URI> uriForKeyword( final String localName )
+	public Set<URI> uriForKeyword( final String localName )
 	{
-		List<URI> result = keywordToUriMap.get( localName );
+		Set<URI> result = keywordToUriMap.get( localName );
 
 		// If there are no results, return an empty list instead of null.
 		return ( null == result )
-			? new ArrayList<URI>()
+			? new HashSet<URI>()
 			: result;
 	}
 

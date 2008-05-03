@@ -28,12 +28,12 @@ public class RdfValue implements RippleValue
 		this.value = value;
 	}
 
-	public Value getRdfValue()
+	public Value sesameValue()
 	{
 		return value;
 	}
 
-	public RdfValue toRdf( final ModelConnection mc )
+	public RdfValue toRDF( final ModelConnection mc )
 	{
 		return this;
 	}

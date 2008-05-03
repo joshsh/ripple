@@ -50,7 +50,7 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
 		p.print( rdfEquivalent );
 	}
 
-	public RdfValue toRdf( final ModelConnection mc )
+	public RdfValue toRDF( final ModelConnection mc )
 		throws RippleException
 	{
 		return rdfEquivalent;

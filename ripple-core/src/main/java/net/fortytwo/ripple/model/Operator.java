@@ -65,7 +65,7 @@ public class Operator implements RippleValue
 		return true;
 	}
 
-public RdfValue toRdf( final ModelConnection mc )
+public RdfValue toRDF( final ModelConnection mc )
 	throws RippleException
 {
 // Note: only correct for OP, but I expect this method only to be used with OP anyway
@@ -133,7 +133,7 @@ return rdfEquivalent;
 			}
 
 			// An RDF value not otherwise recognizable becomes a predicate filter.
-			else if ( ( (RdfValue) v ).getRdfValue() instanceof Resource)
+			else if ( ( (RdfValue) v ).sesameValue() instanceof Resource)
 			{
 				opSink.put( new Operator( (RdfValue) v ) );
 				return;

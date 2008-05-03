@@ -13,6 +13,7 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.model.LibraryLoader;
 import net.fortytwo.ripple.URIMap;
 
 /**
@@ -24,16 +25,17 @@ public class EtcLibrary extends Library
 
     private static PrimitiveStackMapping invertVal;
 
-    public void load( final URIMap uf, final ModelConnection mc )
+    public void load( final URIMap uf,
+                      final LibraryLoader.LibraryLoaderContext context )
 		throws RippleException
 	{
 		uf.put(
 			NS, getClass().getResource( "etc.ttl" ) + "#" );
 
-        registerPrimitive( DateTimeToMillis.class, NS + "dateTimeToMillis", mc );
-        registerPrimitive( Get.class, NS + "get", mc );
-        invertVal = registerPrimitive( Invert.class, NS + "invert", mc );
-		registerPrimitive( Time.class, NS + "time", mc );
+        registerPrimitive( DateTimeToMillis.class, NS + "dateTimeToMillis", context );
+        registerPrimitive( Get.class, NS + "get", context );
+        invertVal = registerPrimitive( Invert.class, NS + "invert", context );
+		registerPrimitive( Time.class, NS + "time", context );
 	}
 
     public static PrimitiveStackMapping getInvertValue()

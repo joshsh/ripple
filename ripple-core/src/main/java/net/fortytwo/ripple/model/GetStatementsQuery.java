@@ -93,17 +93,17 @@ public class GetStatementsQuery
 
     private URI getURI( final RippleValue rv, final ModelConnection mc ) throws RippleException, ClassCastException
     {
-        return (URI) rv.toRdf( mc ).getRdfValue();
+        return (URI) rv.toRDF( mc ).sesameValue();
     }
 
     private Resource getResource( final RippleValue rv, final ModelConnection mc ) throws RippleException, ClassCastException
     {
-        return (Resource) rv.toRdf( mc ).getRdfValue();
+        return (Resource) rv.toRDF( mc ).sesameValue();
     }
 
     private Value getValue( final RippleValue rv, final ModelConnection mc ) throws RippleException
     {
-        return rv.toRdf( mc ).getRdfValue();
+        return rv.toRDF( mc ).sesameValue();
     }
 
     public void getStatements( final SailConnection sc, final Sink<Statement, RippleException> results ) throws RippleException

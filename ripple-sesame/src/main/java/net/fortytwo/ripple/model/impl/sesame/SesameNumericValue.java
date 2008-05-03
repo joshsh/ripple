@@ -51,7 +51,7 @@ public class SesameNumericValue extends NumericValue {
 		throws RippleException
 	{
 		rdfEquivalent = rdf;
-		Value v = rdf.getRdfValue();
+		Value v = rdf.sesameValue();
 
 		if ( !( v instanceof Literal ) )
 		{
@@ -128,7 +128,7 @@ public class SesameNumericValue extends NumericValue {
 		}
 	}
 	
-	public RdfValue toRdf( final ModelConnection mc )
+	public RdfValue toRDF( final ModelConnection mc )
 		throws RippleException
 	{
 		SesameModelConnection smc = (SesameModelConnection) mc;

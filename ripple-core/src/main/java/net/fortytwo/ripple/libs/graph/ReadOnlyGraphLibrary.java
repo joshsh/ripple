@@ -13,6 +13,7 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.URIMap;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Library;
+import net.fortytwo.ripple.model.LibraryLoader;
 
 // kate: tab-width 4
 
@@ -24,16 +25,17 @@ public class ReadOnlyGraphLibrary extends Library
 {
 	private static final String NS = "http://fortytwo.net/2007/08/ripple/graph#";
 
-	public void load( final URIMap uf, final ModelConnection mc )
+    public void load( final URIMap uf,
+                      final LibraryLoader.LibraryLoaderContext context )
 		throws RippleException
 	{
 		uf.put(
 			NS, getClass().getResource( "graph.ttl" ) + "#" );
 
-		registerPrimitive( Contains.class, NS + "contains", mc );
-//		registerPrimitive( Count.class, NS + "count", mc );
-		registerPrimitive( Compare.class, NS + "compare", mc );
-		registerPrimitive( Equal.class, NS + "equal", mc );
+		registerPrimitive( Contains.class, NS + "contains", context );
+//		registerPrimitive( Count.class, NS + "count", context );
+		registerPrimitive( Compare.class, NS + "compare", context );
+		registerPrimitive( Equal.class, NS + "equal", context );
 
 		/* These primitives are excluded
 		registerPrimitive( Assert.class, NS + "assert", mc );
@@ -42,28 +44,28 @@ public class ReadOnlyGraphLibrary extends Library
 		registerPrimitive( New.class, NS + "new", mc );*/
 
 		// Type conversion / literal reification.
-		registerPrimitive( ToDouble.class, NS + "toDouble", mc );
-		registerPrimitive( ToInteger.class, NS + "toInteger", mc );
-		registerPrimitive( ToString.class, NS + "toString", mc );
-		registerPrimitive( ToUri.class, NS + "toUri", mc );
+		registerPrimitive( ToDouble.class, NS + "toDouble", context );
+		registerPrimitive( ToInteger.class, NS + "toInteger", context );
+		registerPrimitive( ToString.class, NS + "toString", context );
+		registerPrimitive( ToUri.class, NS + "toUri", context );
 
 		// Resource-centric primitives.
-        registerPrimitive( InContext.class, NS + "inContext", mc );
-		registerPrimitive( Infer.class, NS + "infer", mc );
-		registerPrimitive( Links.class, NS + "links", mc );
+        registerPrimitive( InContext.class, NS + "inContext", context );
+		registerPrimitive( Infer.class, NS + "infer", context );
+		registerPrimitive( Links.class, NS + "links", context );
 
 		// Document-centric primitives.
-		registerPrimitive( Comments.class, NS + "comments", mc );
-		registerPrimitive( Namespaces.class, NS + "namespaces", mc );
-		registerPrimitive( Triples.class, NS + "triples", mc );
-        registerPrimitive( Quads.class, NS + "quads", mc );
+		registerPrimitive( Comments.class, NS + "comments", context );
+		registerPrimitive( Namespaces.class, NS + "namespaces", context );
+		registerPrimitive( Triples.class, NS + "triples", context );
+        registerPrimitive( Quads.class, NS + "quads", context );
 
 		// Note: the xml: namespace is actually said to be
 		//       http://www.w3.org/XML/1998/namespace
 		//       (i.e. without the hash character).
-		registerPrimitive( Lang.class, "http://www.w3.org/XML/1998/namespace#lang", mc );
+		registerPrimitive( Lang.class, "http://www.w3.org/XML/1998/namespace#lang", context );
 
 		// Note: this URI is bogus.
-		registerPrimitive( Type.class, "http://www.w3.org/2001/XMLSchema#type", mc );
+		registerPrimitive( Type.class, "http://www.w3.org/2001/XMLSchema#type", context );
 	}
 }

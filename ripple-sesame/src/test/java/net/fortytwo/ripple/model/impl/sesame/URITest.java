@@ -19,7 +19,6 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.RdfValue;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.GetStatementsQuery;
 import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.flow.Collector;
 import net.fortytwo.ripple.io.RDFImporter;
@@ -157,7 +156,7 @@ public class URITest extends RippleTestCase
 
 System.out.println( "r = " + r );
 			type = TestType.find(
-					((URI) mc.findSingleObject( r, TEST ).toRdf( mc ).getRdfValue() ).getLocalName() );
+					((URI) mc.findSingleObject( r, TEST ).toRDF( mc ).sesameValue() ).getLocalName() );
 System.out.println( "    type = " + type );
 		}
 

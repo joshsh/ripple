@@ -281,7 +281,7 @@ public class SesameModelConnection implements ModelConnection
 	
 	public boolean toBoolean( final RippleValue rv ) throws RippleException
 	{
-		Literal l = castToLiteral( rv.toRdf( this ).getRdfValue() );
+		Literal l = castToLiteral( rv.toRDF( this ).sesameValue() );
 	
 	//    URI type = lit.getDatatype();
 	//    if ( !type.equals( XMLSchema.BOOLEAN ) )
@@ -302,13 +302,13 @@ public class SesameModelConnection implements ModelConnection
 	
 		else
 		{
-			return new SesameNumericValue( rv.toRdf( this ) );
+			return new SesameNumericValue( rv.toRDF( this ) );
 		}
 	}
 
     public Date toDateValue( RippleValue v ) throws RippleException
     {
-        Literal l = castToLiteral( v.toRdf( this ).getRdfValue() );
+        Literal l = castToLiteral( v.toRDF( this ).sesameValue() );
         
         XMLGregorianCalendar c = l.calendarValue();
         return c.toGregorianCalendar().getTime();
@@ -319,7 +319,7 @@ public class SesameModelConnection implements ModelConnection
 	{
 		if ( v instanceof RdfValue )
 		{
-			Value r = ( (RdfValue) v ).getRdfValue();
+			Value r = ( (RdfValue) v ).sesameValue();
 
 			if ( r instanceof Literal )
 			{
@@ -341,7 +341,7 @@ public class SesameModelConnection implements ModelConnection
 	public URI toUri( final RippleValue rv )
 		throws RippleException
 	{
-		Value v = rv.toRdf( this ).getRdfValue();
+		Value v = rv.toRDF( this ).sesameValue();
 	
 		if ( v instanceof URI )
 		{
@@ -383,8 +383,8 @@ public class SesameModelConnection implements ModelConnection
 	public RdfValue findSingleObject( final RippleValue subj, final RippleValue pred )
 		throws RippleException
 	{
-		RdfValue subjRdf = subj.toRdf( this );
-		RdfValue predRdf = pred.toRdf( this );
+		RdfValue subjRdf = subj.toRDF( this );
+		RdfValue predRdf = pred.toRDF( this );
 		
 		SingleValueSink sink = new SingleValueSink();
 	
@@ -396,8 +396,8 @@ public class SesameModelConnection implements ModelConnection
 	public RdfValue findAtLeastOneObject( final RippleValue subj, final RippleValue pred )
 		throws RippleException
 	{
-		RdfValue subjRdf = subj.toRdf( this );
-		RdfValue predRdf = pred.toRdf( this );
+		RdfValue subjRdf = subj.toRDF( this );
+		RdfValue predRdf = pred.toRDF( this );
 		
 		SingleValueSink sink = new SingleValueSink();
 	
@@ -417,8 +417,8 @@ public class SesameModelConnection implements ModelConnection
 	public RdfValue findAtMostOneObject( final RippleValue subj, final RippleValue pred )
 		throws RippleException
 	{
-		RdfValue subjRdf = subj.toRdf( this );
-		RdfValue predRdf = pred.toRdf( this );
+		RdfValue subjRdf = subj.toRDF( this );
+		RdfValue predRdf = pred.toRDF( this );
 		
 		SingleValueSink sink = new SingleValueSink();
 	
@@ -440,8 +440,8 @@ public class SesameModelConnection implements ModelConnection
 	public RdfValue findUniqueProduct( final RippleValue subj, final RippleValue pred )
 		throws RippleException
 	{
-		RdfValue subjRdf = subj.toRdf( this );
-		RdfValue predRdf = pred.toRdf( this );
+		RdfValue subjRdf = subj.toRDF( this );
+		RdfValue predRdf = pred.toRDF( this );
 		
 		RdfValue v = findAtMostOneObject( subjRdf, predRdf );
 	
@@ -460,7 +460,7 @@ public class SesameModelConnection implements ModelConnection
 	public void copyStatements( final RippleValue src, final RippleValue dest )
 		throws RippleException
 	{
-		final Resource destResource = castToResource( dest.toRdf( this ).getRdfValue() );
+		final Resource destResource = castToResource( dest.toRDF( this ).sesameValue() );
 	
 		Sink<Statement, RippleException> stSink = new Sink<Statement, RippleException>()
 		{
@@ -491,7 +491,7 @@ public class SesameModelConnection implements ModelConnection
 			}
 		};
 	
-		getStatements( src.toRdf( this ), null, null, stSink, false );
+		getStatements( src.toRDF( this ), null, null, stSink, false );
 	}
 	
 	public void removeStatementsAbout( final URI subj )
@@ -523,7 +523,7 @@ public class SesameModelConnection implements ModelConnection
 			}
 		};
 	
-		getStatements( head.toRdf( this ), null, null, stSink, false );
+		getStatements( head.toRDF( this ), null, null, stSink, false );
 	}
 	
 	////////////////////////////////////////////////////////////////////////////
@@ -561,7 +561,7 @@ public class SesameModelConnection implements ModelConnection
 			}
 		};
 	
-		getStatements( subject.toRdf( this ), null, null, predSelector, false );
+		getStatements( subject.toRDF( this ), null, null, predSelector, false );
 	}
 	
 	////////////////////////////////////////////////////////////////////////////
@@ -586,9 +586,9 @@ public class SesameModelConnection implements ModelConnection
 	public void add( final RippleValue subj, final RippleValue pred, final RippleValue obj, RippleValue... contexts )
 		throws RippleException
 	{
-		Value subjValue = subj.toRdf( this ).getRdfValue();
-		Value predValue = pred.toRdf( this ).getRdfValue();
-		Value objValue = obj.toRdf( this ).getRdfValue();
+		Value subjValue = subj.toRDF( this ).sesameValue();
+		Value predValue = pred.toRDF( this ).sesameValue();
+		Value objValue = obj.toRDF( this ).sesameValue();
 
         // Trick to be able to iterate through contexts even if none are given
         if ( 0 == contexts.length )
@@ -607,7 +607,7 @@ public class SesameModelConnection implements ModelConnection
         {
             Value contextValue = ( null == context )
                     ? null
-                    : context.toRdf( this ).getRdfValue();
+                    : context.toRDF( this ).sesameValue();
 
             try
             {
@@ -653,9 +653,9 @@ public class SesameModelConnection implements ModelConnection
 	public void remove( final RippleValue subj, final RippleValue pred, final RippleValue obj, final RippleValue... contexts )
 		throws RippleException
 	{
-		Value subjValue = subj.toRdf( this ).getRdfValue();
-		Value predValue = pred.toRdf( this ).getRdfValue();
-		Value objValue = obj.toRdf( this ).getRdfValue();
+		Value subjValue = subj.toRDF( this ).sesameValue();
+		Value predValue = pred.toRDF( this ).sesameValue();
+		Value objValue = obj.toRDF( this ).sesameValue();
 	
 		if ( !( subjValue instanceof Resource )
 				|| !( predValue instanceof URI ) )
@@ -666,7 +666,7 @@ public class SesameModelConnection implements ModelConnection
         Resource[] contextResources = new Resource[contexts.length];
         for ( int i = 0; i < contexts.length ; i++ )
         {
-            Value contextValue = contexts[i].toRdf( this ).getRdfValue();
+            Value contextValue = contexts[i].toRDF( this ).sesameValue();
             if ( !( contextValue instanceof Resource ) )
             {
                 return;
@@ -694,7 +694,7 @@ public class SesameModelConnection implements ModelConnection
 	public void removeStatementsAbout( final RdfValue subj, final URI context )
 		throws RippleException
 	{
-		Value subjValue = subj.toRdf( this ).getRdfValue();
+		Value subjValue = subj.toRDF( this ).sesameValue();
 	
 		if ( !( subjValue instanceof Resource ) )
 		{
@@ -947,7 +947,7 @@ public class SesameModelConnection implements ModelConnection
 
     public RdfValue createTypedLiteral( final String value, final RippleValue type ) throws RippleException
 	{
-		Value v = type.toRdf( this ).getRdfValue();
+		Value v = type.toRDF( this ).sesameValue();
 	
 		if ( !( v instanceof URI ) )
 		{
@@ -964,7 +964,7 @@ public class SesameModelConnection implements ModelConnection
 	
 	public RippleValue value( final Value v )
 	{
-		return model.getBridge().get( v );
+		return model.specialValues.get( v );
 	}
 	
 	public RdfValue value( final String s ) throws RippleException
@@ -1223,9 +1223,9 @@ public class SesameModelConnection implements ModelConnection
 		throws RippleException
 	{
 //System.out.println("getStatements(" + subj + ", " + pred + ", " + obj + ")");
-        Value rdfSubj = ( null == subj ) ? null : subj.getRdfValue();
-		Value rdfPred = ( null == pred ) ? null : pred.getRdfValue();
-		Value rdfObj = ( null == obj ) ? null : obj.getRdfValue();
+        Value rdfSubj = ( null == subj ) ? null : subj.sesameValue();
+		Value rdfPred = ( null == pred ) ? null : pred.sesameValue();
+		Value rdfObj = ( null == obj ) ? null : obj.sesameValue();
 	
 		if ( ( null == rdfSubj || rdfSubj instanceof Resource )
 				&& ( null == rdfPred || rdfPred instanceof URI ) )

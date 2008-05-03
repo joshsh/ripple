@@ -28,7 +28,7 @@ public class Neo4jNode implements RippleValue {
         return node;
     }
     
-    public RdfValue toRdf(final ModelConnection mc) throws RippleException {
+    public RdfValue toRDF(final ModelConnection mc) throws RippleException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

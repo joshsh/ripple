@@ -12,13 +12,11 @@ package net.fortytwo.ripple.libs.graph;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.ripple.model.ModelBridge;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.model.RdfValue;
 
 import org.openrdf.model.Statement;
 import org.openrdf.model.Resource;
@@ -74,7 +72,7 @@ public class Links extends PrimitiveStackMapping
 		};
 
         // FIXME: only SesameModel supports getStatements()
-        mc.getStatements( subj.toRdf( mc ), null, null, stSink, Ripple.useInference() );
+        mc.getStatements( subj.toRDF( mc ), null, null, stSink, Ripple.useInference() );
 	}
 }
 

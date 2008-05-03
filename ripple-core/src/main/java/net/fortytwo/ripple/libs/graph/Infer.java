@@ -15,7 +15,6 @@ import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RdfPredicateMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RdfValue;
 import net.fortytwo.ripple.flow.Sink;
@@ -47,11 +46,11 @@ public class Infer extends PrimitiveStackMapping
 		final ModelConnection mc = arg.getModelConnection();
 		RippleList stack = arg.getStack();
 
-		RdfValue pred = stack.getFirst().toRdf( mc );
+		RdfValue pred = stack.getFirst().toRDF( mc );
 		stack = stack.getRest();
 
         // FIXME: bit of a hack
-        if ( !( pred.getRdfValue() instanceof Resource ) )
+        if ( !( pred.sesameValue() instanceof Resource ) )
         {
             return;
         }

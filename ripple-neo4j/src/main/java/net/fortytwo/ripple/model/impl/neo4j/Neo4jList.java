@@ -30,7 +30,7 @@ public class Neo4jList extends RippleList {
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public RdfValue toRdf(ModelConnection mc) throws RippleException {
+    public RdfValue toRDF(ModelConnection mc) throws RippleException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

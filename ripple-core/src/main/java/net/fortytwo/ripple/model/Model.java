@@ -9,17 +9,19 @@
 
 package net.fortytwo.ripple.model;
 
-import java.util.Collection;
-
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
 
+import java.util.Set;
+
+import org.openrdf.model.Value;
+
 public interface Model
 {
-	ModelBridge getBridge();
-
 	ModelConnection getConnection( String name ) throws RippleException;
 	ModelConnection getConnection( String name, RDFDiffSink listener ) throws RippleException;
+
+    Set<Value> getSpecialValues();
 
     void shutDown() throws RippleException;
 }
