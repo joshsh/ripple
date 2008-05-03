@@ -1,44 +1,45 @@
 @prefix : <urn:test.RippleListTest.FromRdfTest#>.
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 
 :simpleList a rdf:List;
-	rdf:first "1";
+	rdf:first "1"^^xsd:string;
 	rdf:rest [
-			rdf:first "2";
+			rdf:first "2"^^xsd:string;
 			rdf:rest rdf:nil ];
 	.
 
 :firstBranchingList a rdf:List;
-	rdf:first "1a";
-	rdf:first "1b";
+	rdf:first "1a"^^xsd:string;
+	rdf:first "1b"^^xsd:string;
 	rdf:rest [
-			rdf:first "2";
+			rdf:first "2"^^xsd:string;
 			rdf:rest rdf:nil ];
 	.
 
 :restBranchingList a rdf:List;
-	rdf:first "1";
+	rdf:first "1"^^xsd:string;
 	rdf:rest [
-			rdf:first "2a";
+			rdf:first "2a"^^xsd:string;
 			rdf:rest rdf:nil ];
 	rdf:rest [
-			rdf:first "2b";
+			rdf:first "2b"^^xsd:string;
 			rdf:rest rdf:nil ];
 	.
 
 :firstAndRestBranchingList a rdf:List;
-	rdf:first "1a";
-	rdf:first "1b";
+	rdf:first "1a"^^xsd:string;
+	rdf:first "1b"^^xsd:string;
 	rdf:rest [
-			rdf:first "2a";
+			rdf:first "2a"^^xsd:string;
 			rdf:rest rdf:nil ];
 	rdf:rest [
-			rdf:first "2b";
+			rdf:first "2b"^^xsd:string;
 			rdf:rest rdf:nil ];
 	.
 
 :circularList a rdf:List;
-	rdf:first "1";
+	rdf:first "1"^^xsd:string;
 	rdf:rest :circularList;
 	.
 

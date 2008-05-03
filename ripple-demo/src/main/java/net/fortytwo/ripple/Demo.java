@@ -21,6 +21,7 @@ import net.fortytwo.ripple.query.LazyEvaluator;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.StackEvaluator;
 import net.fortytwo.ripple.query.QueryPipe;
+import net.fortytwo.ripple.query.LazyDebugEvaluator;
 import net.fortytwo.ripple.rdf.CloseableIterationSource;
 import net.fortytwo.ripple.rdf.RDFUtils;
 import net.fortytwo.ripple.rdf.SailInserter;
@@ -123,7 +124,8 @@ public final class Demo
 		Model model = new SesameModel( sail, uriMap );
 
 		// Attach a query engine to the model.
-		StackEvaluator evaluator = new LazyEvaluator();
+        StackEvaluator evaluator = new LazyEvaluator();
+//        StackEvaluator evaluator = new LazyDebugEvaluator();
 		QueryEngine qe
 			= new QueryEngine( model, evaluator, out, err );
 

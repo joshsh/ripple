@@ -10,6 +10,7 @@
 package net.fortytwo.ripple.query;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.io.RipplePrintStream;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.model.Closure;
 import net.fortytwo.ripple.model.StackMapping;
@@ -25,48 +26,6 @@ public class LazyEvaluator extends StackEvaluator
 	private static final Logger LOGGER = Logger.getLogger( LazyEvaluator.class );
 
 	private boolean stopped = true;
-
-	////////////////////////////////////////////////////////////////////////////
-
-	protected class MappingSink implements Sink<StackContext, RippleException>
-	{
-		private StackMapping mapping;
-		private Sink<StackContext, RippleException> sink;
-
-		public MappingSink( final StackMapping mapping, final Sink<StackContext, RippleException> sink )
-		{
-			this.mapping = mapping;
-			this.sink = sink;
-//System.out.println( this + "( " + mapping + ", " + sink + ")" );
-//System.out.println( "    mapping.arity() = " + mapping.arity() );
-		}
-
-		public void put( final StackContext arg ) throws RippleException
-		{
-			if ( stopped )
-			{
-				return;
-			}
-
-			if ( mapping.arity() == 1 )
-			{
-				mapping.applyTo( arg, sink );
-			}
-
-			else
-			{
-				RippleList stack = arg.getStack();
-				RippleValue first = stack.getFirst();
-				RippleList rest = stack.getRest();
-
-				Closure c = new Closure(mapping, first );
-
-				sink.put( arg.with( rest.push( new Operator( c ) ) ) );
-			}
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////
 
 	protected class EvaluatorSink implements Sink<StackContext, RippleException>
 	{
@@ -99,7 +58,7 @@ public class LazyEvaluator extends StackEvaluator
 				RippleList rest = stack.getRest();
 //LOGGER.info( "   rest = " + rest );
 
-				StackMapping f = ( (Operator) first ).getMapping();
+				final StackMapping f = ( (Operator) first ).getMapping();
 //LOGGER.info( "   f = " + f );
 //LOGGER.info( "   f.arity() = " + f.arity() );
 
@@ -114,7 +73,7 @@ public class LazyEvaluator extends StackEvaluator
 				// reduced, to one level per argument.
 				else
 				{
-					// We simply ignore stacks which can't be reduced to
+                    // We simply ignore stacks which can't be reduced to
 					// something with a passive item on top.
 					if ( rest.isNil() )
 					{
@@ -124,10 +83,19 @@ public class LazyEvaluator extends StackEvaluator
 
 					else
 					{
-						( new EvaluatorSink(
-							new MappingSink( f, this ) ) ).put( arg.with( rest ) );
-					}
-				}
+                        final Sink<StackContext, RippleException> thisEval = this;
+                        Sink<StackContext, RippleException> argSink = new Sink<StackContext, RippleException>() {
+                            public void put(final StackContext arg) throws RippleException {
+                                RippleList stack = arg.getStack();
+                                Closure c = new Closure(f, stack.getFirst());
+                                new EvaluatorSink(thisEval).put(arg.with(stack.getRest().push(new Operator(c))));
+                            }
+                        };
+
+                        // Reduce the argument portion of the stack.
+                        new EvaluatorSink(argSink).put(arg.with(stack.getRest()));
+                    }
+                }
 			}
 
 			else

@@ -116,47 +116,13 @@ public abstract class NumericValue implements RippleValue
 	
 	public int compareTo( final RippleValue other )
 	{
-		if ( other instanceof NumericValue )
-		{
-			double n = number.doubleValue(),
-				nOther =  ((NumericValue) other ).number.doubleValue();
-// Note: doesn't take special floating-point number entities into account:
-//       floating-point infinities, negative infinities, negative zero, and NaN
-			return ( n > nOther ) ? 1 : ( n < nOther ) ? -1 : 0;
-		}
-
-		else if ( other instanceof RdfValue )
-		{
-            Value v = ( (RdfValue) other ).sesameValue();
-            if ( v instanceof Literal )
-            {
-                Literal l = (Literal) v;
-                try
-                {
-                    Number num = new Double(l.getLabel());
-                    double n = number.doubleValue(),
-                        nOther =  num.doubleValue();
-                    return ( n > nOther ) ? 1 : ( n < nOther ) ? -1 : 0;
-                }
-
-                catch ( Exception e )
-                {
-                    // Fornow, log the error, but otherwise ignore it and call the objects equal.
-                    new RippleException(e).logError();
-                    return 0;
-                }
-            }
-
-            else
-            {
-                return RippleList.class.getName().compareTo( other.getClass().getName() );
-            }
-        }
-
-		else
-		{
-			return RippleList.class.getName().compareTo( other.getClass().getName() );
-		}
+        // NumericValues are comparable with other NumericValues and with
+        // numeric Literals.
+        return ( other instanceof NumericValue )
+		        ? RdfValue.compare( this, (NumericValue) other )
+                : ( other instanceof RdfValue )
+                        ? - RdfValue.compare( (RdfValue) other, this )
+                        : RdfValue.defaultCompare( this, other );
 	}
 
 	public String toString()

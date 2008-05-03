@@ -24,8 +24,7 @@ public class QueryPipeTest extends RippleTestCase
 {
 	private class QueriesTest extends TestRunnable
 	{
-		public void test()
-			throws Exception
+		public void test() throws Exception
 		{
 			Model model = RippleTestCase.getTestModel();
 			StackEvaluator eval = new LazyEvaluator();

@@ -12,7 +12,6 @@ package net.fortytwo.ripple.libs.graph;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.flow.Sink;
@@ -42,7 +41,6 @@ public class Equal extends PrimitiveStackMapping
 	)
 		throws RippleException
 	{
-		final ModelConnection mc = arg.getModelConnection();
 		RippleList stack = arg.getStack();
 
 		RippleValue a, b, result;
@@ -62,5 +60,3 @@ public class Equal extends PrimitiveStackMapping
 		sink.put( arg.with( stack.push( result ) ) );
 	}
 }
-
-// kate: tab-width 4

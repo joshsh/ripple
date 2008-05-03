@@ -228,5 +228,3 @@ public abstract class RippleTestCase extends TestCase
 		}
 	}
 }
-
-// kate: tab-width 4
