@@ -50,7 +50,7 @@ public class QueryPipeTest extends RippleTestCase
 			// A slightly more complex expression.
 			results.clear();
 			qp.put( "105"
-					+ " ((1 2 3 4 5) 0 add fold!) >>{7}"
+					+ " ((1 2 3 4 5) 0 add fold >>) >>{7}"
 					+ " add >>{6} sub >> .\n" );
 			expected.clear();
 			expected.put( createStack( mc, zero ) );

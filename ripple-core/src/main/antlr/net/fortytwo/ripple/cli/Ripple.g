@@ -219,7 +219,7 @@ COLON : ':' ;
 EQUAL : '=';
 
 OP_APPLY_PRE : '/' ;
-OP_APPLY_POST : ">>" | "!";
+OP_APPLY_POST : ">>";
 OP_INVERSE_APPLY : "<<";
 OP_SUFFIX_OPTIONAL : "?" ;
 OP_SUFFIX_STAR : "*";
