@@ -113,4 +113,3 @@ public class BNodeClosureFilter implements Sink<Resource, RippleException>
 	}
 }
 
-// kate: tab-width 4

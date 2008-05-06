@@ -136,4 +136,3 @@ mc.commit();
 	}
 }
 
-// kate: tab-width 4

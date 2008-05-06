@@ -107,4 +107,3 @@ public class RecognizerAdapter
 	}
 }
 
-// kate: tab-width 4

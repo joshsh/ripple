@@ -99,4 +99,3 @@ public class Limit extends PrimitiveStackMapping
     }
 }
 
-// kate: tab-width 4

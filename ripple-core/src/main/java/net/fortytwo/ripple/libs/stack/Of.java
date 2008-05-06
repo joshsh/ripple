@@ -78,4 +78,3 @@ public class Of extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

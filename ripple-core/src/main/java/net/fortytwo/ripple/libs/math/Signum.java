@@ -57,4 +57,3 @@ public class Signum extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

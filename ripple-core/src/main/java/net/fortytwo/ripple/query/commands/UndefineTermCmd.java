@@ -36,4 +36,3 @@ public class UndefineTermCmd extends Command
 	}
 }
 
-// kate: tab-width 4

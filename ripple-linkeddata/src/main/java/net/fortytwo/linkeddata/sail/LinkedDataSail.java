@@ -425,4 +425,3 @@ public WebClosure getClosureManager()
 	}
 }
 
-// kate: tab-width 4

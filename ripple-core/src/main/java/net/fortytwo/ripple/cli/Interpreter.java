@@ -119,4 +119,3 @@ public class Interpreter
 	}
 }
 
-// kate: tab-width 4

@@ -95,4 +95,3 @@ public class Unique extends PrimitiveStackMapping
     }
 }
 
-// kate: tab-width 4

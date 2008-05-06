@@ -55,4 +55,3 @@ public class Not extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

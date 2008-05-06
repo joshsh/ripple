@@ -60,4 +60,3 @@ public class Infer extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

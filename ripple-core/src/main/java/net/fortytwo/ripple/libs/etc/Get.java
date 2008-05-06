@@ -118,4 +118,3 @@ public class Get extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

@@ -38,5 +38,4 @@ public class AnnotatedAST implements AST<RippleList>
 	}
 }
 
-// kate: tab-width 4
 

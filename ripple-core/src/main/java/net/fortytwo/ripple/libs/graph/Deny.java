@@ -67,4 +67,3 @@ public class Deny extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

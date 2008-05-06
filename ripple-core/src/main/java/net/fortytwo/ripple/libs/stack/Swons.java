@@ -64,4 +64,3 @@ public class Swons extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

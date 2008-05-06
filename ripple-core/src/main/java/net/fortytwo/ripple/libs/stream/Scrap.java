@@ -41,4 +41,3 @@ public class Scrap extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

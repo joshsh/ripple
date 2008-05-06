@@ -21,7 +21,6 @@ import net.fortytwo.ripple.model.NullStackMapping;
 import net.fortytwo.ripple.ListMemoizer;
 import net.fortytwo.ripple.flow.Sink;
 
-// kate: tab-width 4
 
 /**
  * A filter which drops any stack which has already been transmitted and behaves

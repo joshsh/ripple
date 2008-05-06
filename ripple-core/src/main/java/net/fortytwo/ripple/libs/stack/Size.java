@@ -63,4 +63,3 @@ public class Size extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

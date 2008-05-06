@@ -38,4 +38,3 @@ public class BooleanAST implements AST<RippleList>
 	}
 }
 
-// kate: tab-width 4

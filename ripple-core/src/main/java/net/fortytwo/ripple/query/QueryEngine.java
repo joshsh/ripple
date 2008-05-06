@@ -200,11 +200,10 @@ public class QueryEngine
                 mc.getStatements( null, null, null, updater.adderSink().statementSink(), false );
             }*/
 
-            mc.getNamespaces( updater.adderSink().namespaceSink() );
+            mc.getNamespaces().writeTo( updater.adderSink().namespaceSink() );
         } finally {
             mc.close();
         }
     }
 }
 
-// kate: tab-width 4

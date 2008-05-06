@@ -341,4 +341,3 @@ jline.Terminal term = reader.getTerminal();
 	}
 }
 
-// kate: tab-width 4

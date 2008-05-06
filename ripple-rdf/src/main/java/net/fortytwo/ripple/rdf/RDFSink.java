@@ -22,4 +22,3 @@ public interface RDFSink
 	Sink<String, RippleException> commentSink();
 }
 
-// kate: tab-width 4

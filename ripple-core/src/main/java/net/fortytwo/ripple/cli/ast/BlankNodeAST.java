@@ -50,4 +50,3 @@ public class BlankNodeAST implements AST<RippleList>
 	}
 }
 
-// kate: tab-width 4

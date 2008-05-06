@@ -68,4 +68,3 @@ public class GraphLibrary extends Library
 	}
 }
 
-// kate: tab-width 4

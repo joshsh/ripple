@@ -14,6 +14,7 @@ import java.util.Date;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.ripple.flow.Source;
 import net.fortytwo.ripple.rdf.RDFSource;
 
 import org.openrdf.model.Namespace;
@@ -114,7 +115,7 @@ public interface ModelConnection
     void queryAsynch( StatementPatternQuery query, Sink<RippleValue, RippleException> sink ) throws RippleException;
 
 // FIXME: Namespaces should not be part of the ModelConnection API
-	void getNamespaces( Sink<Namespace, RippleException> sink ) throws RippleException;
+	Source<Namespace, RippleException> getNamespaces() throws RippleException;
 // FIXME: Statements should not be part of the ModelConnection API
 	void getStatements( RdfValue subj, RdfValue pred, RdfValue obj, Sink<Statement, RippleException> sink, boolean includeInferred ) throws RippleException;
 

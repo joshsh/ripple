@@ -51,4 +51,3 @@ public class Dup extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

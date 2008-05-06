@@ -62,4 +62,3 @@ public class Uncons extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

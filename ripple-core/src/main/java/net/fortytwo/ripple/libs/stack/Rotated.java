@@ -57,4 +57,3 @@ public class Rotated extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

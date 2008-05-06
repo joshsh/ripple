@@ -131,4 +131,3 @@ public abstract class Task
 	}
 }
 
-// kate: tab-width 4

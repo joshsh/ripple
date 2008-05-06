@@ -62,4 +62,3 @@ public class Xor extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

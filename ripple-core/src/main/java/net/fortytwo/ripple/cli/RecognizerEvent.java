@@ -17,4 +17,3 @@ public enum RecognizerEvent
 	QUIT
 }
 
-// kate: tab-width 4

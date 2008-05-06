@@ -76,4 +76,3 @@ public class Links extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

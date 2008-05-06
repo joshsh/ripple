@@ -18,7 +18,6 @@ import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.regex.StarQuantifier;
 
-// kate: tab-width 4
 
 /**
  * A primitive which optionally activates ("applies") the topmost item on the

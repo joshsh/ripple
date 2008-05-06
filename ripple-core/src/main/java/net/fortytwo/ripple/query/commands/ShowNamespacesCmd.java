@@ -74,4 +74,3 @@ public class ShowNamespacesCmd extends Command
 	}
 }
 
-// kate: tab-width 4

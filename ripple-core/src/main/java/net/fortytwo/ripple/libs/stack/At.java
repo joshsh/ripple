@@ -78,4 +78,3 @@ public class At extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

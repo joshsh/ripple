@@ -791,4 +791,3 @@ public class LinkedDataSailConnection implements SailConnection
 	}	
 }
 
-// kate: tab-width 4

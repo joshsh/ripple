@@ -55,4 +55,3 @@ public class UrlDecode extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

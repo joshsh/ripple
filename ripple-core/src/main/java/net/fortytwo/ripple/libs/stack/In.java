@@ -80,4 +80,3 @@ public class In extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

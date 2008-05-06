@@ -71,4 +71,3 @@ public class SingleContextPipe implements RDFSink
 	}
 }
 
-// kate: tab-width 4

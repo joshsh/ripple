@@ -57,4 +57,3 @@ public class Rolldownd extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

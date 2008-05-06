@@ -208,4 +208,3 @@ public class Uriqr extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

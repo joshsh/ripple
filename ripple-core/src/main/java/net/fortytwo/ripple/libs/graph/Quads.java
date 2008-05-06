@@ -26,7 +26,6 @@ import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;
 import org.openrdf.model.Resource;
 
-// kate: tab-width 4
 
 /**
  * A primitive which consumes an information resource and produces a list

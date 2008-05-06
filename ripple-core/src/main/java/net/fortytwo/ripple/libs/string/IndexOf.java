@@ -57,4 +57,3 @@ public class IndexOf extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

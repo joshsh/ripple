@@ -77,4 +77,3 @@ public class Max extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

@@ -64,4 +64,3 @@ public class Add extends PrimitiveStackMapping
     }
 }
 
-// kate: tab-width 4

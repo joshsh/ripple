@@ -68,4 +68,3 @@ public class Asin extends PrimitiveStackMapping
     }
 }
 
-// kate: tab-width 4

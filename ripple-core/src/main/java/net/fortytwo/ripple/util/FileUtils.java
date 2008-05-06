@@ -62,4 +62,3 @@ public final class FileUtils
 	}
 }
 
-// kate: tab-width 4

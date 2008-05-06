@@ -52,4 +52,3 @@ public class New extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

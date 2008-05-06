@@ -79,4 +79,3 @@ public class Fold extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

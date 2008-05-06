@@ -55,4 +55,3 @@ public class PercentEncode extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

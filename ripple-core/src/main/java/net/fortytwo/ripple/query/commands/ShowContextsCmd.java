@@ -45,4 +45,3 @@ public class ShowContextsCmd extends Command
 	}
 }
 
-// kate: tab-width 4

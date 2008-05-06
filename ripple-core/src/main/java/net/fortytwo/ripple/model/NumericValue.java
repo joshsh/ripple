@@ -140,4 +140,3 @@ public abstract class NumericValue implements RippleValue
 	public abstract NumericValue pow( final NumericValue pow );
 }
 
-// kate: tab-width 4

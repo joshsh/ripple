@@ -9,6 +9,11 @@
 
 package net.fortytwo.ripple.flow;
 
+import net.fortytwo.ripple.RippleException;
+
+import java.util.Iterator;
+import java.util.Collection;
+
 public interface Mapping<D, R, E extends Exception>
 {
 	/**
@@ -17,5 +22,26 @@ public interface Mapping<D, R, E extends Exception>
 	 */
 	boolean isTransparent();
 
-	void applyTo( D arg, Sink<R, E> sink ) throws E;
+    // Open-world, push-based
+    void applyTo( D arg, Sink<R, E> sink ) throws E;
+
+    /*
+    // Open-world, pull-based
+    Iterator<R> applyTo( D arg ) throws E;
+
+    // Closed-world, push-based
+    void applyTo( Iterator<D> source, Sink<R, E> sink ) throws E;
+
+    // Closed-world, pull-based
+    Iterator<R> applyTo( Iterator<D> source ) throws E;
+    
+
+    public class Count<D> implements Mapping<D, Integer, RippleException>
+    {
+        public void applyTo( Collection<D> source, Sink<Integer, RippleException> sink ) throws RippleException
+        {
+            sink.put( new Integer( source.size() ) );
+        }
+    }*/
+
 }

@@ -57,4 +57,3 @@ public class ToUri extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

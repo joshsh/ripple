@@ -160,4 +160,3 @@ public class NumericLiteralTest extends RippleTestCase
 	}
 }
 
-// kate: tab-width 4

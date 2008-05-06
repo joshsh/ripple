@@ -61,4 +61,3 @@ public class Log10 extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

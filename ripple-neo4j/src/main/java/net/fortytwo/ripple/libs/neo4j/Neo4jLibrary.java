@@ -15,7 +15,6 @@ import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
 import net.fortytwo.ripple.URIMap;
 
-// kate: tab-width 4
 /**
  * A collection of hooks into selected web services.
  */

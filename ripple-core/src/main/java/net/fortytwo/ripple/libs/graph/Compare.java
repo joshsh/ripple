@@ -57,4 +57,3 @@ public class Compare extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

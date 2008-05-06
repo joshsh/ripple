@@ -63,4 +63,3 @@ public class Neg extends PrimitiveStackMapping
     }
 }
 
-// kate: tab-width 4

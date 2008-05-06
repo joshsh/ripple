@@ -18,7 +18,6 @@ import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
 
-// kate: tab-width 4
 
 /**
  * A primitive which activates ("applies") the topmost item on the stack one or

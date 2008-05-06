@@ -27,7 +27,7 @@ public class CloseableIterationSource<T, E extends Exception> implements Source<
 	{
 		if ( null == it )
 		{
-			return;
+			throw new RippleException( "CloseableIterationSource may only be written once" );
 		}
 
         try
@@ -37,36 +37,38 @@ public class CloseableIterationSource<T, E extends Exception> implements Source<
                 sink.put( it.next() );
             }
         }
-
-        // FIXME: sloppy...
-        catch (Exception e)
+        
+        catch ( Exception e )
         {
-            if ( e instanceof RippleException )
-            {
-                throw (RippleException) e;
-            }
-
-            else
-            {
-                throw new RippleException( e );
-            }
+            throw ( e instanceof RippleException )
+                    ? (RippleException) e
+                    : new RippleException( e );
         }
 
-
-        close();
-	}
+        finally
+        {
+            close();
+        }
+    }
 	
 	private void close() throws RippleException
 	{
 		if ( null != it )
         {
-            try {
+            try
+            {
                 it.close();
-            } catch (Exception e) {
-                throw new RippleException(e);
+            }
+
+            catch ( Exception e )
+            {
+                throw new RippleException( e );
+            }
+
+            finally
+            {
+                it = null;
             }
         }
-		
-        it = null;
 	}
 }

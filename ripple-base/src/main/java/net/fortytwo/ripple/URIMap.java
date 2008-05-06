@@ -134,4 +134,3 @@ public class URIMap
 	}
 }
 
-// kate: tab-width 4

@@ -14,7 +14,6 @@ import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.model.*;
 import net.fortytwo.ripple.model.regex.TimesQuantifier;
 
-// kate: tab-width 4
 
 /**
  * A primitive which activates ("applies") the topmost item on the stack one or

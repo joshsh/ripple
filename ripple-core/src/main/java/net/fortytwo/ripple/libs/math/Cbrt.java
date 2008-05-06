@@ -55,4 +55,3 @@ public class Cbrt extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

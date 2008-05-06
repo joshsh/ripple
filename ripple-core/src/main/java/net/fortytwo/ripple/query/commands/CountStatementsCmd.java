@@ -27,4 +27,3 @@ public class CountStatementsCmd extends Command
 	}
 }
 
-// kate: tab-width 4

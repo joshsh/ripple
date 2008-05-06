@@ -195,4 +195,3 @@ public class Lexicon
 	}
 }
 
-// kate: tab-width 4

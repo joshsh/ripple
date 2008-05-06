@@ -90,4 +90,3 @@ public class RDFCollector extends RDFSource implements RDFSink
 	}
 }
 
-// kate: tab-width 4

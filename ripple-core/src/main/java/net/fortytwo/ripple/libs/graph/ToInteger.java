@@ -71,4 +71,3 @@ public class ToInteger extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

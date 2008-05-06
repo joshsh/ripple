@@ -28,4 +28,3 @@ public class QuitCmd extends Command
 	}
 }
 
-// kate: tab-width 4

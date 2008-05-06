@@ -24,4 +24,3 @@ public interface Dereferencer
 	Representation dereference( String uri ) throws RippleException;
 }
 
-// kate: tab-width 4

@@ -54,4 +54,3 @@ public class Swapd extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

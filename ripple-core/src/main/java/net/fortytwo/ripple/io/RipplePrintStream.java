@@ -179,4 +179,3 @@ public class RipplePrintStream extends PrintStream
 	}
 }
 
-// kate: tab-width 4

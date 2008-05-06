@@ -115,4 +115,3 @@ public class Namespaces extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

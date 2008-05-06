@@ -54,4 +54,3 @@ public class Dip extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

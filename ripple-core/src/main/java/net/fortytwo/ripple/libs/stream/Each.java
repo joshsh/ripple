@@ -66,4 +66,3 @@ public class Each extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

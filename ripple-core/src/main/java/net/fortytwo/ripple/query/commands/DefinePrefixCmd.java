@@ -73,4 +73,3 @@ public class DefinePrefixCmd extends Command
 	}
 }
 
-// kate: tab-width 4

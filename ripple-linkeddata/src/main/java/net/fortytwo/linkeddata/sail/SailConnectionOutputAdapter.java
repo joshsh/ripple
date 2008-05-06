@@ -115,4 +115,3 @@ public class SailConnectionOutputAdapter implements RDFDiffSink
 	}
 }
 
-// kate: tab-width 4

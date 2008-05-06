@@ -65,4 +65,3 @@ public class TimesApply extends PrimitiveStackMapping
 
 }
 
-// kate: tab-width 4

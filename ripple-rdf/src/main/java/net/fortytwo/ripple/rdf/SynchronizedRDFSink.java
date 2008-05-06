@@ -45,4 +45,3 @@ public class SynchronizedRDFSink implements RDFSink
 	}
 }
 
-// kate: tab-width 4

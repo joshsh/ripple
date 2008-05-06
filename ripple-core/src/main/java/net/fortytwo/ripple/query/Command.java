@@ -43,4 +43,3 @@ protected void stopProtected()
 }
 }
 
-// kate: tab-width 4

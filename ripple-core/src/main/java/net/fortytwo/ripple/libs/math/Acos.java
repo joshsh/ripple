@@ -69,4 +69,3 @@ public class Acos extends PrimitiveStackMapping
     }
 }
 
-// kate: tab-width 4

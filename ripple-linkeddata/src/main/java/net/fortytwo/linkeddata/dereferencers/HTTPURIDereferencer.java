@@ -65,4 +65,3 @@ public class HTTPURIDereferencer implements Dereferencer
 	}
 }
 
-// kate: tab-width 4

@@ -82,4 +82,3 @@ public class TaskSet
 	}
 }
 
-// kate: tab-width 4

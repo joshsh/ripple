@@ -73,4 +73,3 @@ public class Branch extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

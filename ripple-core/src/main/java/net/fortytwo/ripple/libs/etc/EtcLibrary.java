@@ -44,4 +44,3 @@ public class EtcLibrary extends Library
     }
 }
 
-// kate: tab-width 4

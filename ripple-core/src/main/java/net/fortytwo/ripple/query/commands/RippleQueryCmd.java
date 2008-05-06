@@ -98,4 +98,3 @@ public class RippleQueryCmd extends Command
 	}
 }
 
-// kate: tab-width 4

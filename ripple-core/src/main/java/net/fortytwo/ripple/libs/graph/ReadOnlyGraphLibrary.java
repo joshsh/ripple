@@ -15,7 +15,6 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
 
-// kate: tab-width 4
 
 /**
  * A collection of primitives for manipulating data types and RDF graphs,

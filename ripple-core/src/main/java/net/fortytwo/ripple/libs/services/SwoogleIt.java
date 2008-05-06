@@ -165,4 +165,3 @@ URI ctx = mc.createUri( url.toString() );
 	}
 }
 
-// kate: tab-width 4

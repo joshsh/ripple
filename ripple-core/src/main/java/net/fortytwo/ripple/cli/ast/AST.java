@@ -22,4 +22,3 @@ public interface AST<T>
 		throws RippleException;
 }
 
-// kate: tab-width 4

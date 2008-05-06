@@ -61,4 +61,3 @@ public class StartsWith extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

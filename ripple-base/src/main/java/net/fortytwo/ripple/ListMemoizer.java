@@ -207,4 +207,3 @@ public class ListMemoizer<T extends Comparable<T>, M>
 	}
 }
 
-// kate: tab-width 4

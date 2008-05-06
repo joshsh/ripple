@@ -21,8 +21,6 @@ import net.fortytwo.ripple.model.StackContext;
 import org.openrdf.model.Statement;
 import org.openrdf.model.Resource;
 
-// kate: tab-width 4
-
 /**
  * A primitive which consumes a resource and produces a three-element list
  * (subject, resource, object) for each statement about the resource.

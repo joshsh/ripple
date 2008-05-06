@@ -41,4 +41,3 @@ public class Id extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

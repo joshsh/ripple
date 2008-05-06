@@ -396,4 +396,3 @@ public final class Demo
 	}
 }
 
-// kate: tab-width 4

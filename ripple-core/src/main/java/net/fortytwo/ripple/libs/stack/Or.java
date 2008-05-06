@@ -60,4 +60,3 @@ public class Or extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

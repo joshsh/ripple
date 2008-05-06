@@ -80,4 +80,3 @@ public class DefineTermCmd extends Command
 	}
 }
 
-// kate: tab-width 4

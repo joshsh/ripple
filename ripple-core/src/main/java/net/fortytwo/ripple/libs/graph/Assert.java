@@ -67,4 +67,3 @@ public class Assert extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

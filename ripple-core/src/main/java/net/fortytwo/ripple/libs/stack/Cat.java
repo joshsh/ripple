@@ -77,4 +77,3 @@ public class Cat extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

@@ -21,7 +21,6 @@ import net.fortytwo.ripple.model.RdfValue;
 import net.fortytwo.ripple.model.StackMappingWrapper;
 import org.openrdf.model.Resource;
 
-// kate: tab-width 4
 
 /**
  * A primitive which follows consumes an object and predicate, producing

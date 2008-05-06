@@ -58,4 +58,3 @@ public class Floor extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

@@ -57,4 +57,3 @@ public class LastIndexOf extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

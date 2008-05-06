@@ -55,4 +55,3 @@ public class Rollup extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

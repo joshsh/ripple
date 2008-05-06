@@ -17,7 +17,6 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
 
-// kate: tab-width 4
 
 /**
  * A primitive which consumes a subject, predicate and object, then produces the

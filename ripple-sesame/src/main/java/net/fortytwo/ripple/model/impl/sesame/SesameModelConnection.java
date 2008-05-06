@@ -34,12 +34,14 @@ import net.fortytwo.ripple.rdf.BNodeClosureFilter;
 import net.fortytwo.ripple.rdf.RDFSource;
 import net.fortytwo.ripple.rdf.RDFUtils;
 import net.fortytwo.ripple.rdf.SesameOutputAdapter;
+import net.fortytwo.ripple.rdf.CloseableIterationSource;
 import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
 import net.fortytwo.linkeddata.sail.SailConnectionListenerAdapter;
 import net.fortytwo.ripple.flow.NullSource;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.flow.Source;
 import net.fortytwo.ripple.flow.UniqueFilter;
+import net.fortytwo.ripple.flow.Collector;
 
 import org.apache.log4j.Logger;
 import org.openrdf.model.Literal;
@@ -1173,45 +1175,24 @@ public class SesameModelConnection implements ModelConnection
 		taskSet.add( task );
     }
 
-    public void getNamespaces( final Sink<Namespace, RippleException> sink )
-		throws RippleException
+    public Source<Namespace, RippleException> getNamespaces() throws RippleException
 	{
-		CloseableIteration<? extends Namespace, SailException> nsIter = null;
-	
-		Buffer<Namespace, RippleException> buffer = new Buffer<Namespace, RippleException>( sink );
-	
-		try
-		{
-			//synchronized ( model )
-			{
-				nsIter = sailConnection.getNamespaces();
-			}
-	
-			while ( nsIter.hasNext() )
-			{
-				buffer.put( nsIter.next() );
-			}
-	
-			nsIter.close();
-		}
-	
-		catch ( Throwable t )
-		{
-			try
-			{
-				nsIter.close();
-			}
-	
-			catch ( Throwable t2 )
-			{
-				System.exit( 1 );
-			}
-	
-			reset( true );
-			throw new RippleException( t );
-		}
-	
-		buffer.flush();
+        Collector<Namespace, RippleException> results = new Collector<Namespace, RippleException>();
+        Source<Namespace, RippleException> source;
+
+        try
+        {
+            source = new CloseableIterationSource<Namespace, SailException>(
+                    (CloseableIteration<Namespace, SailException>) sailConnection.getNamespaces() );
+        }
+
+        catch (SailException e)
+        {
+            throw new RippleException( e );
+        }
+
+        source.writeTo( results );
+        return results;
 	}
 	
 	//FIXME: Statements should be absent from the ModelConnection API
@@ -1297,16 +1278,7 @@ public class SesameModelConnection implements ModelConnection
 					getStatements( null, null, null, sink, false );
 				}
 			};
-	
-			private Source<Namespace, RippleException> nsSource = new Source<Namespace, RippleException>()
-			{
-				public void writeTo( final Sink<Namespace, RippleException> sink )
-					throws RippleException
-				{
-					getNamespaces( sink );
-				}
-			};
-	
+
 			private Source<String, RippleException> comSource = new NullSource<String, RippleException>();
 	
 			public Source<Statement, RippleException> statementSource()
@@ -1316,7 +1288,7 @@ public class SesameModelConnection implements ModelConnection
 	
 			public Source<Namespace, RippleException> namespaceSource()
 			{
-				return nsSource;
+				return getNamespaces();
 			}
 	
 			public Source<String, RippleException> commentSource()

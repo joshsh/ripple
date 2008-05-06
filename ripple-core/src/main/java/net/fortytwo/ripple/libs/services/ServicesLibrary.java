@@ -35,4 +35,3 @@ public class ServicesLibrary extends Library
 	}
 }
 
-// kate: tab-width 4

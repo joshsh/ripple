@@ -48,4 +48,3 @@ public class Pop extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

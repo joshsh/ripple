@@ -96,4 +96,3 @@ public class Ary extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

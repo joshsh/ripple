@@ -98,4 +98,3 @@ public class RippleException extends Exception
 	}
 }
 
-// kate: tab-width 4

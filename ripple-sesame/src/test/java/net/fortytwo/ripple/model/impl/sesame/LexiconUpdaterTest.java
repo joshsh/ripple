@@ -95,4 +95,3 @@ public class LexiconUpdaterTest extends RippleTestCase
 	}
 }
 
-// kate: tab-width 4

@@ -188,4 +188,3 @@ public class SesameTest extends RippleTestCase
 	}
 }
 
-// kate: tab-width 4

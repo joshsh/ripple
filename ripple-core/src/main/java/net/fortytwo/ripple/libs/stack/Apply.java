@@ -47,4 +47,3 @@ public class Apply extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

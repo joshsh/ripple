@@ -53,4 +53,3 @@ System.out.println("otherCur.getFirst() = " + otherCur.getFirst());*/
 	}
 }
 
-// kate: tab-width 4

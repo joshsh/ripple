@@ -68,4 +68,3 @@ public class Log extends PrimitiveStackMapping
     }
 }
 
-// kate: tab-width 4

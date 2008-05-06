@@ -149,4 +149,3 @@ System.out.println( "response code = " + responseCode );
 	}
 }
 
-// kate: tab-width 4

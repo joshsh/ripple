@@ -49,4 +49,3 @@ public class LexicalCompletor extends RippleCompletor
 	}
 }
 
-// kate: tab-width 4

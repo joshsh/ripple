@@ -65,4 +65,3 @@ public class Sqrt extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

@@ -52,4 +52,3 @@ public class Swap extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

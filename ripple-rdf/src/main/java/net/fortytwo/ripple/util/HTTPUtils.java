@@ -376,4 +376,3 @@ public class HTTPUtils
 	}
 }
 
-// kate: tab-width 4

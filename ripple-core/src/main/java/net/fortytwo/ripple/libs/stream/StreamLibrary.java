@@ -39,4 +39,3 @@ public class StreamLibrary extends Library
 	}
 }
 
-// kate: tab-width 4

@@ -28,4 +28,3 @@ public class RDFBuffer extends RDFCollector
 	}
 }
 
-// kate: tab-width 4

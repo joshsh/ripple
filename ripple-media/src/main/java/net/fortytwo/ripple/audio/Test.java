@@ -74,4 +74,3 @@ public class Test {
 	}
 }
 
-// kate: tab-width 4

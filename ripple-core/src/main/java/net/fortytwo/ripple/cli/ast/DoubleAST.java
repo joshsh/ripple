@@ -38,4 +38,3 @@ public class DoubleAST implements AST<RippleList>
 	}
 }
 
-// kate: tab-width 4

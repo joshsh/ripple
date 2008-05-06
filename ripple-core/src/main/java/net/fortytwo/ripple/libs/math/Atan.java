@@ -63,4 +63,3 @@ public class Atan extends PrimitiveStackMapping
     }
 }
 
-// kate: tab-width 4

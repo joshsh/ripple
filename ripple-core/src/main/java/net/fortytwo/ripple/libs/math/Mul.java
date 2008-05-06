@@ -64,4 +64,3 @@ public class Mul extends PrimitiveStackMapping
     }
 }
 
-// kate: tab-width 4

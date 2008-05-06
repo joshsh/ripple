@@ -48,4 +48,3 @@ public class RedefineTermCmd extends Command
 	}
 }
 
-// kate: tab-width 4

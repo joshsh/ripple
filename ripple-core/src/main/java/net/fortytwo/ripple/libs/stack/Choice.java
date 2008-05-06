@@ -58,4 +58,3 @@ public class Choice extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

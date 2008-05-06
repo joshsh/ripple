@@ -54,4 +54,3 @@ public class Sha1 extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

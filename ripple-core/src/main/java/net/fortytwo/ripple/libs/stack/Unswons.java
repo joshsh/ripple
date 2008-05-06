@@ -62,4 +62,3 @@ public class Unswons extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

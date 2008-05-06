@@ -58,4 +58,3 @@ public class Ceil extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

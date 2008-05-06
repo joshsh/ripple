@@ -166,4 +166,3 @@ public class ListAST extends ListNode<AST> implements AST<RippleList>
 	}
 }
 
-// kate: tab-width 4

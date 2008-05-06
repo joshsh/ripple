@@ -48,4 +48,3 @@ public class URIAST implements AST<RippleList>
 	}
 }
 
-// kate: tab-width 4

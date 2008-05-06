@@ -135,4 +135,3 @@ public class StackLibrary extends Library
 	}
 }
 
-// kate: tab-width 4

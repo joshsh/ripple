@@ -66,4 +66,3 @@ public class DirectiveCompletor extends RippleCompletor
 	}
 }
 
-// kate: tab-width 4

@@ -68,4 +68,3 @@ public class ReplaceAll extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

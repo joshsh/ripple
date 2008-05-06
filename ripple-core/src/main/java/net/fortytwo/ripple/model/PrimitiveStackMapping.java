@@ -114,4 +114,3 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
 
 }
 
-// kate: tab-width 4

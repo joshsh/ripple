@@ -71,4 +71,3 @@ public class ToDouble extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

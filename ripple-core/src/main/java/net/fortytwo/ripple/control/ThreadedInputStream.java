@@ -154,4 +154,3 @@ public class ThreadedInputStream extends InputStream
 	}
 }
 
-// kate: tab-width 4

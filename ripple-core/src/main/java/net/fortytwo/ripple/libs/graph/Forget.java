@@ -58,4 +58,3 @@ public class Forget extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

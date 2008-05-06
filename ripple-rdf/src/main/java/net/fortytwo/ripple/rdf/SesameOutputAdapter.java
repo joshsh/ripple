@@ -122,4 +122,3 @@ public class SesameOutputAdapter implements RDFSink
 	}
 }
 
-// kate: tab-width 4

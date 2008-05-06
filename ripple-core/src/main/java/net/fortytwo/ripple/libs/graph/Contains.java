@@ -59,4 +59,3 @@ public class Contains extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

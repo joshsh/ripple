@@ -49,4 +49,3 @@ public class TaskQueue extends Task
 	}
 }
 
-// kate: tab-width 4

@@ -157,4 +157,3 @@ return rdfEquivalent;
 	}
 }
 
-// kate: tab-width 4

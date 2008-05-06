@@ -57,4 +57,3 @@ public class ToString extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

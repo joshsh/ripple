@@ -17,7 +17,6 @@ import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.StringUtils;
 
-// kate: tab-width 4
 
 /**
  * A primitive which consumes a string and produces its SHA-1 sum.

@@ -104,4 +104,3 @@ public abstract class ThreadWrapper
 	}
 }
 
-// kate: tab-width 4

@@ -58,4 +58,3 @@ public class Pow extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

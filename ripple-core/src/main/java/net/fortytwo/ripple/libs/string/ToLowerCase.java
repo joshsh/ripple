@@ -54,4 +54,3 @@ public class ToLowerCase extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

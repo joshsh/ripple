@@ -63,4 +63,3 @@ public class Sub extends PrimitiveStackMapping
     }
 }
 
-// kate: tab-width 4

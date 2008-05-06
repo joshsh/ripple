@@ -148,4 +148,3 @@ if ( arg.getStack().isNil() )
 	}
 }
 
-// kate: tab-width 4

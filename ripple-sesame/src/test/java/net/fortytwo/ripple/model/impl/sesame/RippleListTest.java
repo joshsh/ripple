@@ -179,4 +179,3 @@ public class RippleListTest extends RippleTestCase
 	}
 }
 
-// kate: tab-width 4

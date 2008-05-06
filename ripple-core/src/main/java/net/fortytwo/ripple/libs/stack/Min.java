@@ -76,4 +76,3 @@ public class Min extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

@@ -111,4 +111,3 @@ public class Comments extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

@@ -71,4 +71,3 @@ public class StringAST implements AST<RippleList>
 	}
 }
 
-// kate: tab-width 4

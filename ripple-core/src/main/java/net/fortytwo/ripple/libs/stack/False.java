@@ -51,4 +51,3 @@ public class False extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

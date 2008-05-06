@@ -55,4 +55,3 @@ public class Trim extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

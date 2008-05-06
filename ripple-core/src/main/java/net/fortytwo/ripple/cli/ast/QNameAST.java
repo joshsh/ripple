@@ -50,4 +50,3 @@ public class QNameAST implements AST<RippleList>
 	}
 }
 
-// kate: tab-width 4

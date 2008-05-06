@@ -71,4 +71,3 @@ public class Matches extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

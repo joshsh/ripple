@@ -45,4 +45,3 @@ public class RdfTee implements RDFSink
 	}
 }
 
-// kate: tab-width 4

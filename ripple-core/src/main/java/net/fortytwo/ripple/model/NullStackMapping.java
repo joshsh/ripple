@@ -43,4 +43,3 @@ public class NullStackMapping implements StackMapping
 
 }
 
-// kate: tab-width 4

@@ -97,4 +97,3 @@ public class Op implements StackMapping, RippleValue
     }
 }
 
-// kate: tab-width 4

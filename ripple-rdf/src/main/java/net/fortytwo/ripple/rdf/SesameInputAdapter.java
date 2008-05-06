@@ -102,4 +102,3 @@ public class SesameInputAdapter implements RDFHandler
 	}
 }
 
-// kate: tab-width 4

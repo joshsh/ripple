@@ -72,4 +72,3 @@ public class RDFImporter implements RDFSink
 	}
 }
 
-// kate: tab-width 4

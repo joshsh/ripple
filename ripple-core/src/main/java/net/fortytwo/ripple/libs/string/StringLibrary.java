@@ -51,4 +51,3 @@ public class StringLibrary extends Library
 	}
 }
 
-// kate: tab-width 4

@@ -38,4 +38,3 @@ public class IntegerAST implements AST<RippleList>
 	}
 }
 
-// kate: tab-width 4

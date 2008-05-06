@@ -54,4 +54,3 @@ public class Closure implements StackMapping
     }
 }
 
-// kate: tab-width 4

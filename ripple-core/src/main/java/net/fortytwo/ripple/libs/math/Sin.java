@@ -63,4 +63,3 @@ public class Sin extends PrimitiveStackMapping
     }
 }
 
-// kate: tab-width 4

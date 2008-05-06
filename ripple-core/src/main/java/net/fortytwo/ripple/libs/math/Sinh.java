@@ -54,4 +54,3 @@ public class Sinh extends PrimitiveStackMapping
 				stack.push( result ) ) );	}
 }
 
-// kate: tab-width 4

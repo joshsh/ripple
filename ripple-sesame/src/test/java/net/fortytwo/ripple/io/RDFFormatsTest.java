@@ -141,4 +141,3 @@ public class RDFFormatsTest extends RippleTestCase
 	}
 }
 
-// kate: tab-width 4

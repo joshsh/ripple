@@ -15,7 +15,6 @@ import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.StackMapping;
 import net.fortytwo.ripple.flow.Sink;
 
-// kate: tab-width 4
 
 public class ListDequotation implements StackMapping
 {

@@ -73,4 +73,3 @@ public class InputStreamEventFilter extends InputStream
 	}
 }
 
-// kate: tab-width 4

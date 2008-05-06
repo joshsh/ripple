@@ -82,4 +82,3 @@ public class Has extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

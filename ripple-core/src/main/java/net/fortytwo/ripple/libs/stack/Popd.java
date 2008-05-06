@@ -51,4 +51,3 @@ public class Popd extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

@@ -62,4 +62,3 @@ public class Mod extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

@@ -121,4 +121,3 @@ sink.put( arg.with(
 	}
 }
 
-// kate: tab-width 4

@@ -55,4 +55,3 @@ public class Rotate extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

@@ -53,4 +53,3 @@ public class Dupd extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

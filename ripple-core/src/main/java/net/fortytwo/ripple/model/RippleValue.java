@@ -23,4 +23,3 @@ public interface RippleValue extends Comparable<RippleValue>
 		throws RippleException;
 }
 
-// kate: tab-width 4

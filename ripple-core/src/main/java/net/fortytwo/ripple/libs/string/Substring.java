@@ -69,4 +69,3 @@ public class Substring extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

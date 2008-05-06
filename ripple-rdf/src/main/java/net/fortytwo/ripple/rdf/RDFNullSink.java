@@ -38,4 +38,3 @@ public class RDFNullSink implements RDFSink
 	}
 }
 
-// kate: tab-width 4

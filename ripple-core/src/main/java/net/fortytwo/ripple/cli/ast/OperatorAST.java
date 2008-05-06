@@ -151,4 +151,3 @@ public class OperatorAST implements AST<RippleList>
 	}
 }
 
-// kate: tab-width 4

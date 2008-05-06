@@ -64,4 +64,3 @@ public class Cons extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

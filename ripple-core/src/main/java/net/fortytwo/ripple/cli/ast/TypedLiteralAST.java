@@ -50,4 +50,3 @@ public class TypedLiteralAST implements AST<RippleList>
 	}
 }
 
-// kate: tab-width 4

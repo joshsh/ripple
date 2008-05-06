@@ -288,4 +288,3 @@ public final class Scheduler
 	}
 }
 
-// kate: tab-width 4

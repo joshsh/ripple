@@ -57,4 +57,3 @@ public class StrCat extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

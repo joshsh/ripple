@@ -56,4 +56,3 @@ public class Dipd extends PrimitiveStackMapping
 	}
 }
 
-// kate: tab-width 4

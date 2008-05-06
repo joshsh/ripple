@@ -97,4 +97,3 @@ public abstract class RippleCompletor implements Completor
 	}
 }
 
-// kate: tab-width 4

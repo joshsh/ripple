@@ -33,4 +33,3 @@ public abstract class RDFSource
 	}
 }
 
-// kate: tab-width 4
