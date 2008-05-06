@@ -168,4 +168,3 @@ public final class RDFDiffContextFilter implements RDFDiffSink
 	}
 }
 
-// kate: tab-width 4

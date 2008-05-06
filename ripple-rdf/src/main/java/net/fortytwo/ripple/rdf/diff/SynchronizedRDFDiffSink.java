@@ -33,4 +33,3 @@ public class SynchronizedRDFDiffSink implements RDFDiffSink
 	}
 }
 
-// kate: tab-width 4

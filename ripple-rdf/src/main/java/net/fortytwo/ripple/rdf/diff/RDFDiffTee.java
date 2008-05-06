@@ -33,4 +33,3 @@ public class RDFDiffTee implements RDFDiffSink
 	}
 }
 
-// kate: tab-width 4

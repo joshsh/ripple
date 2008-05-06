@@ -51,4 +51,3 @@ public class RDFDiff implements RDFDiffSink, RDFDiffSource
 	}
 }
 
-// kate: tab-width 4

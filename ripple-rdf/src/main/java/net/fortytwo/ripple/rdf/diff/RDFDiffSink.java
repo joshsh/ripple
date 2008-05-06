@@ -17,4 +17,3 @@ public interface RDFDiffSink
 	RDFSink subtractorSink();
 }
 
-// kate: tab-width 4

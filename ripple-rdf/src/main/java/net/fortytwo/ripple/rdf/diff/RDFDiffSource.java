@@ -20,4 +20,3 @@ public interface RDFDiffSource
 	void writeTo( RDFDiffSink sink ) throws RippleException;
 }
 
-// kate: tab-width 4

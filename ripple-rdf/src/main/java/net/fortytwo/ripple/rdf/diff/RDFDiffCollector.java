@@ -57,4 +57,3 @@ public class RDFDiffCollector implements RDFDiffSource, RDFDiffSink
 	}
 }
 
-// kate: tab-width 4

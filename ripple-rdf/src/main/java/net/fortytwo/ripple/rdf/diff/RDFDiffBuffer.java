@@ -28,4 +28,3 @@ public class RDFDiffBuffer extends RDFDiffCollector
 	}
 }
 
-// kate: tab-width 4
