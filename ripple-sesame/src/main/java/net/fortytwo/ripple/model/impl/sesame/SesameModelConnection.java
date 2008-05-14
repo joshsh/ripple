@@ -1281,18 +1281,15 @@ public class SesameModelConnection implements ModelConnection
 
 			private Source<String, RippleException> comSource = new NullSource<String, RippleException>();
 	
-			public Source<Statement, RippleException> statementSource()
-			{
+			public Source<Statement, RippleException> statementSource() throws RippleException {
 				return stSource;
 			}
 	
-			public Source<Namespace, RippleException> namespaceSource()
-			{
+			public Source<Namespace, RippleException> namespaceSource() throws RippleException {
 				return getNamespaces();
 			}
 	
-			public Source<String, RippleException> commentSource()
-			{
+			public Source<String, RippleException> commentSource() throws RippleException {
 				return comSource;
 			}
 		};

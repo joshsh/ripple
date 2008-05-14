@@ -17,9 +17,9 @@ import org.openrdf.model.Statement;
 
 public abstract class RDFSource
 {
-	public abstract Source<Statement, RippleException> statementSource();
-	public abstract Source<Namespace, RippleException> namespaceSource();
-	public abstract Source<String, RippleException> commentSource();
+	public abstract Source<Statement, RippleException> statementSource() throws RippleException;
+	public abstract Source<Namespace, RippleException> namespaceSource() throws RippleException;
+	public abstract Source<String, RippleException> commentSource() throws RippleException;
 
 	public void writeTo( final RDFSink sink ) throws RippleException
 	{
