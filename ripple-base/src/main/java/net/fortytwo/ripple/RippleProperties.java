@@ -30,20 +30,29 @@ public class RippleProperties
 	
 	public String getString( final String name ) throws RippleException
 	{
-		String value = getProperty( name );
+		String value = getProperty( name, true );
 		return value;
 	}
 
-	public boolean getBoolean( final String name ) throws RippleException
+    public String getString( final String name, final String defaultValue ) throws RippleException
 	{
-		String value = getProperty( name );
+		String value = getProperty( name, false );
+        
+        return ( null == value )
+                ? defaultValue
+                : value;
+	}
+
+    public boolean getBoolean( final String name ) throws RippleException
+	{
+		String value = getProperty( name, true );
 		
 		return value.equals( "true" );
 	}
 	
 	public int getInt( final String name ) throws RippleException
 	{
-		String value = getProperty( name );
+		String value = getProperty( name, true );
 	
 		try
 		{
@@ -58,7 +67,7 @@ public class RippleProperties
 	
 	public long getLong( final String name ) throws RippleException
 	{
-		String value = getProperty( name );
+		String value = getProperty( name, true );
 		
 		try
 		{
@@ -70,75 +79,28 @@ public class RippleProperties
 			throw new RippleException( e );
 		}
 	}
-	
-	/*public RDFFormat getRdfFormat( final String name ) throws RippleException
-	{
-		String value = getProperty( name );
-		
-		RDFFormat format = RdfUtils.findFormat( value );
-		
-		if ( null == format )
-		{
-			throw new RippleException( "unknown RDF format: " + value );
-		}
-		
-		return format;
-	}*/
-
-    /*public ExpressionOrder getExpressionOrder( final String name ) throws RippleException
-    {
-        String value = getProperty( name );
-
-        ExpressionOrder order = ExpressionOrder.find( value );
-
-        if ( null == order )
-        {
-            throw new RippleException( "unknown expression order: " + value );
-        }
-
-        return order;
-    }
-
-    public EvaluationOrder getEvaluationOrder( final String name ) throws RippleException
-    {
-        String value = getProperty( name );
-
-        EvaluationOrder order = EvaluationOrder.find( value );
-
-        if ( null == order )
-        {
-            throw new RippleException( "unknown evaluation order: " + value );
-        }
-
-        return order;
-    }
-
-    public EvaluationStyle getEvaluationStyle( final String name ) throws RippleException
-    {
-        String value = getProperty( name );
-
-        EvaluationStyle style = EvaluationStyle.find( value );
-
-        if ( null == style )
-        {
-            throw new RippleException( "unknown evaluation style: " + value );
-        }
-
-        return style;
-    }*/
 
     public File getFile( final String name ) throws RippleException
     {
-        String value = getProperty( name );
+        String value = getProperty( name, true );
         
         return new File( value );
     }
 
-    private String getProperty( final String name ) throws RippleException
+    public File getFile( final String name, final File defaultValue ) throws RippleException
+    {
+        String value = getProperty( name, false );
+
+        return ( null == value )
+                ? defaultValue
+                : new File( value );
+    }
+
+    private String getProperty( final String name, final boolean required ) throws RippleException
 	{
 		String s = props.getProperty( name );
 		
-		if ( null == s )
+		if ( null == s && required )
 		{
 			throw new RippleException( "no value for property: " + name );
 		}

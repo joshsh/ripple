@@ -40,6 +40,7 @@ public class SesameList extends RippleList
     private static final RippleList NIL = new SesameList();
 
     private static Map<Value, Source<RippleList, RippleException>> nativeLists = new HashMap<Value, Source<RippleList, RippleException>>();
+    private static Boolean memoize;
 
     private Resource rdfEquivalent = null;
 
@@ -188,7 +189,10 @@ RDFImporter importer = new RDFImporter( mc );
 							final ModelConnection mc )
 		throws RippleException
 	{
-        boolean memoize = Ripple.getProperties().getBoolean( Ripple.MEMOIZE_LISTS_FROM_RDF );
+        if ( null == memoize )
+        {
+            memoize = Ripple.getProperties().getBoolean( Ripple.MEMOIZE_LISTS_FROM_RDF );
+        }
 
         // If already a list...
 		if ( v instanceof RippleList )
@@ -220,7 +224,7 @@ RDFImporter importer = new RDFImporter( mc );
 			
 			else
 			{
-				createList( (RdfValue) v, sink, mc );
+				createList( v, sink, mc );
 			}
 		}
 
