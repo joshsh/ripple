@@ -58,10 +58,9 @@ public class ListAST extends ListNode<AST> implements AST<RippleList>
         return new ListAST( a, this  );
     }
 
-
     public ListAST invert()
 	{
-        if ( isNil( this ) )
+        if ( this.isNil() )
         {
             return this;
         }
@@ -71,7 +70,7 @@ public class ListAST extends ListNode<AST> implements AST<RippleList>
             ListAST in = this;
             ListAST out = new ListAST();
 
-            while ( !isNil( in ) )
+            while ( !in.isNil() )
             {
                 out = new ListAST( in.getFirst(), out );
                 in = in.getRest();
@@ -80,11 +79,10 @@ public class ListAST extends ListNode<AST> implements AST<RippleList>
             return out;
         }
     }
-    
-    public static boolean isNil( final ListNode<AST> listNode )
-	{
-		return ( null == listNode.getFirst() );
-	}
+
+    public boolean isNil() {
+        return null == getFirst();
+    }
 
 	public void evaluate( final Sink<RippleList, RippleException> sink,
 						final QueryEngine qe,
@@ -109,7 +107,7 @@ public class ListAST extends ListNode<AST> implements AST<RippleList>
 
 		ListNode<AST> cur = this;
 		boolean first = true;
-		while ( !isNil( cur ) )
+		while ( !cur.isNil() )
 		{
 			if ( first )
 			{
@@ -135,7 +133,7 @@ public class ListAST extends ListNode<AST> implements AST<RippleList>
 							final ModelConnection mc )
 		throws RippleException
 	{
-		if ( isNil( astList ) )
+		if ( astList.isNil() )
 		{
 			sink.put( mc.list() );
 		}

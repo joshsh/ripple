@@ -11,9 +11,7 @@ package net.fortytwo.ripple.libs.stack;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.Library;
-import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.LibraryLoader;
 import net.fortytwo.ripple.URIMap;
 
@@ -25,16 +23,14 @@ public class StackLibrary extends Library
 {
 	private static final String NS = "http://fortytwo.net/2007/08/ripple/stack#";
 
-	// Some special values.
-	private static RippleValue branchVal, trueVal, falseVal;
+	// Special values.
 	private static PrimitiveStackMapping optApplyVal, starApplyVal, plusApplyVal, timesApplyVal, rangeApplyVal;
 
     public void load( final URIMap uf,
                       final LibraryLoader.LibraryLoaderContext context )
 		throws RippleException
 	{
-		uf.put(
-			NS, getClass().getResource( "stack.ttl" ) + "#" );
+		uf.put( NS, getClass().getResource( "stack.ttl" ) + "#" );
 
 		// Stack shuffling primitives
 		registerPrimitive( Dup.class, NS + "dup", context );
@@ -54,17 +50,6 @@ public class StackLibrary extends Library
 		registerPrimitive( Swapd.class, NS + "swapd", context );
 		registerPrimitive( Swapdd.class, NS + "swapdd", context );
 
-		// Boolean logic and conditionals
-		registerPrimitive( And.class, NS + "and", context );
-		branchVal = registerPrimitive( Branch.class, NS + "branch", context );
-		registerPrimitive( Choice.class, NS + "choice", context );
-		falseVal = registerPrimitive( False.class, NS + "false", context );
-		registerPrimitive( Ifte.class, NS + "ifte", context );
-		registerPrimitive( Not.class, NS + "not", context );
-		registerPrimitive( Or.class, NS + "or", context );
-		trueVal = registerPrimitive( True.class, NS + "true", context );
-		registerPrimitive( Xor.class, NS + "xor", context );
-		
 		// Application primitives
 		registerPrimitive( Apply.class, NS + "apply", context );
 		registerPrimitive( Ary.class, NS + "ary", context );
@@ -93,21 +78,6 @@ public class StackLibrary extends Library
 	}
 
 	////////////////////////////////////////////////////////////////////////////
-
-	public static RippleValue getBranchValue()
-	{
-		return branchVal;
-	}
-
-	public static RippleValue getTrueValue()
-	{
-		return trueVal;
-	}
-
-	public static RippleValue getFalseValue()
-	{
-		return falseVal;
-	}
 
 	public static PrimitiveStackMapping getOptApplyValue()
 	{

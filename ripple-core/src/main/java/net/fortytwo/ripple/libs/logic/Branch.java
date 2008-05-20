@@ -7,9 +7,10 @@
  */
 
 
-package net.fortytwo.ripple.libs.stack;
+package net.fortytwo.ripple.libs.logic;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.stack.StackLibrary;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
@@ -53,12 +54,12 @@ public class Branch extends PrimitiveStackMapping
 		stack = stack.getRest();
 
 		RippleValue result;
-		if ( b.equals( StackLibrary.getTrueValue() ) )
+		if ( b.equals( LogicLibrary.getTrueValue() ) )
 		{
 			result = trueProg;
 		}
 
-		else if ( b.equals( StackLibrary.getFalseValue() ) )
+		else if ( b.equals( LogicLibrary.getFalseValue() ) )
 		{
 			result = falseProg;
 		}

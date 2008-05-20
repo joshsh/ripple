@@ -21,7 +21,7 @@ public class TemplateAST extends ListAST
         ListAST expr = expression;
 
         ListAST params = template;//.invert();
-        while ( !ListAST.isNil( params ) )
+        while ( !params.isNil() )
         {
 //System.out.println("params = " + params);
 //System.out.println("    expr = " + expr);

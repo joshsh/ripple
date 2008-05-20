@@ -7,9 +7,10 @@
  */
 
 
-package net.fortytwo.ripple.libs.stack;
+package net.fortytwo.ripple.libs.logic;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.stack.StackLibrary;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
@@ -57,7 +58,7 @@ public class Ifte extends PrimitiveStackMapping
 				.push( Operator.OP )
 				.push( trueProg )
 				.push( falseProg )
-				.push( StackLibrary.getBranchValue() )
+				.push( LogicLibrary.getBranchValue() )
 				.push( Operator.OP ) ) );
 	}
 }

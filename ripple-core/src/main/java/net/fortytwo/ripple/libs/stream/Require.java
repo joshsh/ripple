@@ -12,6 +12,7 @@ package net.fortytwo.ripple.libs.stream;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.libs.stack.StackLibrary;
+import net.fortytwo.ripple.libs.logic.LogicLibrary;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleValue;
@@ -108,7 +109,7 @@ public class Require extends PrimitiveStackMapping
             b = stack.getFirst();
             stack = stack.getRest();
 
-            if ( b.equals( StackLibrary.getTrueValue() ) )
+            if ( b.equals( LogicLibrary.getTrueValue() ) )
             {
                 sink.put( arg.with( rest ) );
             }

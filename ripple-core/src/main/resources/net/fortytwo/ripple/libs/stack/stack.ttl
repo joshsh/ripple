@@ -5,27 +5,6 @@
 @prefix stack:  <http://fortytwo.net/2007/08/ripple/stack#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
 
-stack:and
-	a rpl:Function ;
-	rpl:arity 2 ;
-	rpl:parameters (
-		[
-			rdfs:label "x" ;
-			rdfs:comment "a boolean value (stack:true or stack:false)" ;
-			rpl:parameterType rpl:Function ;
-			rpl:isTransparent true ]
-		[
-			rdfs:label "y" ;
-			rdfs:comment "a boolean value (stack:true or stack:false)" ;
-			rpl:parameterType rpl:Function ;
-			rpl:isTransparent true ]
-		) ;
-	rpl:returnType rpl:Function ;
-	rdfs:label "and" ;
-	rdfs:comment "x y  =>  z  -- where z is true if x and y are true, otherwise false" ;
-	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#and> ;
-	.
-
 stack:apply
 	a rpl:Function ;
 	rpl:arity 1 ;
@@ -76,30 +55,6 @@ stack:at
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#at> ;
 	.
 
-stack:branch
-	a rpl:Function ;
-	rpl:arity 3 ;
-	rpl:parameters (
-		[
-			rdfs:label "b" ;
-			rpl:parameterType rdf:List ;
-			rpl:isTransparent true ]
-		[
-			rdfs:label "t" ;
-			rdfs:comment "this program is executed if the condition is true" ;
-			rpl:parameterType rdf:List ;
-			rpl:isTransparent true ]
-		[
-			rdfs:label "f" ;
-			rdfs:comment "this program is executed if the condition is false" ;
-			rpl:parameterType rpl:Function ;
-			rpl:isTransparent true ]
-		) ;
-	rdfs:label "branch" ;
-	rdfs:comment "b t f  =>  p!  -- where p is t if b is true, f if b is false" ;
-	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#branch> ;
-	.
-
 stack:cat
 	a rpl:Function ;
 	rpl:arity 2 ;
@@ -119,30 +74,6 @@ stack:cat
 	rdfs:label "cat" ;
 	rdfs:comment "l1 l2  =>  l3  -- where l3 is the concatenation of Lists l1 and l2" ;
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#cat> ;
-	.
-
-stack:choice
-	a rpl:Function ;
-	rpl:arity 3 ;
-	rpl:parameters (
-		[
-			rdfs:label "b" ;
-			rdfs:comment "a boolean value (stack:true or stack:false)" ;
-			rpl:parameterType rpl:Function ;
-			rpl:isTransparent true ]
-		[
-			rdfs:label "t" ;
-			rdfs:comment "the value chosen if b is true" ;
-			rpl:isTransparent true ]
-		[
-			rdfs:label "f" ;
-			rdfs:comment "the value chosen if b is not true" ;
-			rpl:isTransparent true ]
-		) ;
-	rpl:returnType rpl:Function ;
-	rdfs:label "choice" ;
-	rdfs:comment "b t f  =>  x  -- where x is t if b is true, otherwise f" ;
-	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#choice> ;
 	.
 
 stack:cons
@@ -251,22 +182,6 @@ stack:dupdd
 	rdfs:comment "x y z  =>  x x y z" ;
 	.
 
-stack:false
-	a rpl:Function ;
-	rpl:arity 2 ;
-	rpl:parameters (
-		[
-			rdfs:label "x" ;
-			rpl:isTransparent true ]
-		[
-			rdfs:label "y" ;
-			rpl:isTransparent true ]
-		) ;
-	rdfs:label "false" ;
-	rdfs:comment "x y  =>  y   -- note: in Joy, false is a literal value, not a function" ;
-	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#false> ;
-	.
-
 stack:fold
 	a rpl:Function ;
 	rpl:arity 3 ;
@@ -319,30 +234,6 @@ stack:id
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#id> ;
 	.
 
-stack:ifte
-	a rpl:Function ;
-	rpl:arity 3 ;
-	rpl:parameters (
-		[
-			rdfs:label "elsePart" ;
-			rdfs:comment "this program is executed if the condition is false" ;
-			rpl:parameterType rpl:Function ;
-			rpl:isTransparent true ]
-		[
-			rdfs:label "ifPart" ;
-			rdfs:comment "this program is executed if the condition is true" ;
-			rpl:parameterType rdf:List ;
-			rpl:isTransparent true ]
-		[
-			rdfs:label "b" ;
-			rpl:parameterType rdf:List ;
-			rpl:isTransparent true ]
-		) ;
-	rdfs:label "ifte" ;
-	rdfs:comment "b t f =>  p!  -- where p is t if /b evaluates to true, and f if it evaluates to false" ;
-	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#ifte> ;
-	.
-
 stack:in
 	a rpl:Function ;
 	rpl:arity 2 ;
@@ -392,22 +283,6 @@ stack:min
 	rdfs:comment "l  =>  x   -- where x is the least member of l" ;
 	.
 
-stack:not
-	a rpl:Function ;
-	rpl:arity 1 ;
-	rpl:parameters (
-		[
-			rdfs:label "x" ;
-			rdfs:comment "a boolean value (stack:true or stack:false)" ;
-			rpl:parameterType rpl:Function ;
-			rpl:isTransparent true ]
-		) ;
-	rpl:returnType rpl:Function ;
-	rdfs:label "not" ;
-	rdfs:comment "x  =>  y  -- where y is true if x is false, otherwise false" ;
-	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#not> ;
-	.
-
 stack:of
 	a rpl:Function ;
 	rpl:arity 2 ;
@@ -439,27 +314,6 @@ stack:optApply
 		) ;
 	rdfs:label "optApply" ;
 	rdfs:comment "p  =>  p?  -- optionally execute the program p" ;
-	.
-
-stack:or
-	a rpl:Function ;
-	rpl:arity 2 ;
-	rpl:parameters (
-		[
-			rdfs:label "x" ;
-			rdfs:comment "a boolean value (stack:true or stack:false)" ;
-			rpl:parameterType rpl:Function ;
-			rpl:isTransparent true ]
-		[
-			rdfs:label "y" ;
-			rdfs:comment "a boolean value (stack:true or stack:false)" ;
-			rpl:parameterType rpl:Function ;
-			rpl:isTransparent true ]
-		) ;
-	rpl:returnType rpl:Function ;
-	rdfs:label "or" ;
-	rdfs:comment "x y  =>  z  -- where z is true if x or y is true, otherwise false" ;
-	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#or> ;
 	.
 
 stack:plusApply
@@ -787,22 +641,6 @@ stack:timesApply
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#times> ;
 	.
 
-stack:true
-	a rpl:Function ;
-	rpl:arity 2 ;
-	rpl:parameters (
-		[
-			rdfs:label "x" ;
-			rpl:isTransparent true ]
-		[
-			rdfs:label "y" ;
-			rpl:isTransparent true ]
-		) ;
-	rdfs:label "true" ;
-	rdfs:comment "x y  =>  y  -- note: in Joy, true is a literal value, not a function" ;
-	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#true> ;
-	.
-
 stack:uncons
 	a rpl:Function ;
 	rpl:arity 1 ;
@@ -833,25 +671,4 @@ stack:unswons
 	rdfs:label "unswons" ;
 	rdfs:comment "l  =>  r f  -- where f is the first member of l and r is the rest of l" ;
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#unswons> ;
-	.
-
-stack:xor
-	a rpl:Function ;
-	rpl:arity 2 ;
-	rpl:parameters (
-		[
-			rdfs:label "x" ;
-			rdfs:comment "a boolean value (stack:true or stack:false)" ;
-			rpl:parameterType rpl:Function ;
-			rpl:isTransparent true ]
-		[
-			rdfs:label "y" ;
-			rdfs:comment "a boolean value (stack:true or stack:false)" ;
-			rpl:parameterType rpl:Function ;
-			rpl:isTransparent true ]
-		) ;
-	rpl:returnType rpl:Function ;
-	rdfs:label "xor" ;
-	rdfs:comment "x y  =>  z  -- where z is the logical exclusive disjunction of truth values x and y" ;
-	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#xor> ;
 	.

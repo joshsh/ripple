@@ -7,9 +7,10 @@
  */
 
 
-package net.fortytwo.ripple.libs.stack;
+package net.fortytwo.ripple.libs.logic;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.stack.StackLibrary;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleValue;
@@ -36,8 +37,7 @@ public class Xor extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> sink	)
 		throws RippleException
 	{
 		RippleList stack = arg.getStack();
@@ -48,14 +48,14 @@ public class Xor extends PrimitiveStackMapping
 		y = stack.getFirst();
 		stack = stack.getRest();
 
-		RippleValue trueValue = StackLibrary.getTrueValue();
+		RippleValue trueValue = LogicLibrary.getTrueValue();
 
 		// Note: everything apart from joy:true is considered false.
 		boolean xb = ( 0 == x.compareTo( trueValue ) );
 		boolean yb = ( 0 == y.compareTo( trueValue ) );
 		RippleValue result = ( ( xb && !yb ) || ( !xb && yb ) )
 			? trueValue
-			: StackLibrary.getFalseValue();
+			: LogicLibrary.getFalseValue();
 
 		sink.put( arg.with(
 				stack.push( result ) ) );

@@ -11,6 +11,7 @@ package net.fortytwo.ripple.libs.stream;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.stack.StackLibrary;
+import net.fortytwo.ripple.libs.logic.LogicLibrary;
 import net.fortytwo.ripple.model.StackMapping;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
@@ -56,9 +57,9 @@ public class Intersect extends PrimitiveStackMapping
 
 		Operator inner = new Operator( new IntersectInner() );
 		sink.put( arg.with(
-				stack.push( rtrue ).push( Operator.OP ).push( StackLibrary.getTrueValue() ).push( inner ) ) );
+				stack.push( rtrue ).push( Operator.OP ).push( LogicLibrary.getTrueValue() ).push( inner ) ) );
 		sink.put( arg.with(
-				stack.push( rfalse ).push( Operator.OP ).push( StackLibrary.getFalseValue() ).push( inner ) ) );
+				stack.push( rfalse ).push( Operator.OP ).push( LogicLibrary.getFalseValue() ).push( inner ) ) );
 	}
 
 	////////////////////////////////////////////////////////////////////////////
@@ -83,12 +84,12 @@ public class Intersect extends PrimitiveStackMapping
 			RippleList stack = arg.getStack();
 			RippleValue marker = stack.getFirst();
 
-			if ( marker.equals( StackLibrary.getTrueValue() ) )
+			if ( marker.equals( LogicLibrary.getTrueValue() ) )
 			{
 				applyTrue( arg, sink );
 			}
 
-			if ( marker.equals( StackLibrary.getFalseValue() ) )
+			if ( marker.equals( LogicLibrary.getFalseValue() ) )
 			{
 				applyFalse( arg, sink );
 			}

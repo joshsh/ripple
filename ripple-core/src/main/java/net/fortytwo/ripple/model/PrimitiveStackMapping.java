@@ -16,7 +16,7 @@ import net.fortytwo.ripple.io.RipplePrintStream;
 
 public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
 {
-	private RdfValue rdfEquivalent = null;
+	private RdfValue rdfEquivalent;
 //	private FunctionTypeAnnotation typeAnnotation = null;
 	private boolean transparent;
 
@@ -66,8 +66,9 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
 	
 	public boolean equals( final Object o )
 	{
-        return ( o instanceof PrimitiveStackMapping)
-			? ( o == this ) : false;
+        return ( o instanceof RippleValue )
+                ? 0 == compareTo( (RippleValue) o )
+                : false;
 	}
 
 	public boolean isActive()
@@ -75,28 +76,23 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
 		return false;
 	}
 
-	public int compareTo( final RippleValue other )
+    // TODO: this logic is incomplete
+    public int compareTo( final RippleValue other )
 	{
 //System.out.println( "[" + this + "].compareTo(" + other + ")" );
-		if ( other instanceof PrimitiveStackMapping)
+		if ( other instanceof PrimitiveStackMapping
+                && null != rdfEquivalent
+                && null != ( (PrimitiveStackMapping) other ).rdfEquivalent )
 		{
-			if ( other == this )
-			{
-				return 0;
-			}
-
-			else if ( this.hashCode() < other.hashCode() )
-			{
-				return -1;
-			}
-
-			else
-			{
-				return 1;
-			}
+            return rdfEquivalent.compareTo( ( (PrimitiveStackMapping) other ).rdfEquivalent );
 		}
 
-		else
+        else if ( other instanceof RdfValue && null != rdfEquivalent )
+        {
+            return rdfEquivalent.compareTo( other );
+        }
+
+        else
 		{
 			return this.getClass().getName().compareTo( other.getClass().getName() );
 		}

@@ -16,13 +16,14 @@ public abstract class ListNode<T>
 {
 	public abstract T getFirst();
 	public abstract ListNode<T> getRest();
-	
+    public abstract boolean isNil();
+
 	public boolean equals( final ListNode<T> other )
 	{
 		ListNode<T> thisCur = this;
 		ListNode<T> otherCur = other;
 	
-		while ( null != thisCur )
+		while ( !thisCur.isNil() )
 		{
 /*System.out.println("RippleList.NIL = " + RippleList.NIL);
 System.out.println("RippleList.NIL.getFirst() = " + RippleList.NIL.getFirst());
@@ -30,7 +31,7 @@ System.out.println("thisCur = " + thisCur + " " + (thisCur instanceof SesameList
 System.out.println("thisCur.getFirst() = " + thisCur.getFirst());
 System.out.println("otherCur = " + otherCur + " " + (otherCur instanceof SesameList));
 System.out.println("otherCur.getFirst() = " + otherCur.getFirst());*/
-			if ( null == otherCur )
+			if ( otherCur.isNil() )
 			{
 				return false;
 			}
@@ -44,7 +45,7 @@ System.out.println("otherCur.getFirst() = " + otherCur.getFirst());*/
 			otherCur = otherCur.getRest();
 		}
 	
-		if ( null != otherCur )
+		if ( !otherCur.isNil() )
 		{
 			return false;
 		}

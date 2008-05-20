@@ -12,6 +12,7 @@ package net.fortytwo.ripple.libs.string;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.libs.stack.StackLibrary;
+import net.fortytwo.ripple.libs.logic.LogicLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
@@ -54,8 +55,8 @@ public class EndsWith extends PrimitiveStackMapping
 		stack = stack.getRest();
 
 		result = ( s.endsWith( affix ) )
-			? StackLibrary.getTrueValue()
-			: StackLibrary.getFalseValue();
+			? LogicLibrary.getTrueValue()
+			: LogicLibrary.getFalseValue();
 		sink.put( arg.with(
 				stack.push( result ) ) );
 	}

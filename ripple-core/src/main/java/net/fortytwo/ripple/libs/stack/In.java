@@ -10,6 +10,7 @@
 package net.fortytwo.ripple.libs.stack;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.logic.LogicLibrary;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
@@ -72,7 +73,7 @@ public class In extends PrimitiveStackMapping
 			public void put( final RippleList list ) throws RippleException
 			{
 				sink.put( arg.with(
-						rest.push( has( list, x ) ? StackLibrary.getTrueValue() : StackLibrary.getFalseValue() ) ) );
+						rest.push( has( list, x ) ? LogicLibrary.getTrueValue() : LogicLibrary.getFalseValue() ) ) );
 			}
 		};
 

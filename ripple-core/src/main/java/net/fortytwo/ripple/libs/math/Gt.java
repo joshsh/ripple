@@ -11,6 +11,7 @@ package net.fortytwo.ripple.libs.math;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.stack.StackLibrary;
+import net.fortytwo.ripple.libs.logic.LogicLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
@@ -54,8 +55,8 @@ public class Gt extends PrimitiveStackMapping
 		stack = stack.getRest();
 
 		result = ( a.compareTo( b ) > 0 )
-			? StackLibrary.getTrueValue()
-			: StackLibrary.getFalseValue();
+			? LogicLibrary.getTrueValue()
+			: LogicLibrary.getFalseValue();
 
 		sink.put( arg.with(
 				stack.push( result ) ) );

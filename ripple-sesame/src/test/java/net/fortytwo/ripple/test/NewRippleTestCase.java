@@ -20,7 +20,11 @@ import java.util.Iterator;
 import java.util.Arrays;
 
 import org.openrdf.sail.Sail;
+import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.memory.MemoryStore;
+import org.openrdf.model.vocabulary.RDF;
+import org.openrdf.model.vocabulary.RDFS;
+import org.openrdf.model.vocabulary.XMLSchema;
 
 /**
  * Author: josh
@@ -41,7 +45,21 @@ public abstract class NewRippleTestCase extends TestCase
 			// TODO: add a shutdown hook for this Sail
             sail = new MemoryStore();
             sail.initialize();
-		}
+
+            SailConnection sc = sail.getConnection();
+            try
+            {
+                // Define some common namespaces
+                sc.setNamespace("rdf", RDF.NAMESPACE);
+                sc.setNamespace("rdfs", RDFS.NAMESPACE);
+                sc.setNamespace("xsd", XMLSchema.NAMESPACE);
+            }
+
+            finally
+            {
+                sc.close();
+            }
+        }
 
 		return sail;
 	}
@@ -114,7 +132,8 @@ public abstract class NewRippleTestCase extends TestCase
 			return;
 		}
 
-		RippleList[] expArray = new RippleList[size];
+        // Sort the results.
+        RippleList[] expArray = new RippleList[size];
 		RippleList[] actArray = new RippleList[size];
 		Iterator<RippleList> expIter = expected.iterator();
 		Iterator<RippleList> actIter = actual.iterator();
@@ -123,13 +142,29 @@ public abstract class NewRippleTestCase extends TestCase
 			expArray[i] = expIter.next();
 			actArray[i] = actIter.next();
 		}
-
 		Arrays.sort( expArray );
 		Arrays.sort( actArray );
-		for ( int i = 0; i < size; i++ )
+
+        // Compare the results by pairs.
+        for ( int i = 0; i < size; i++ )
 		{
-//System.out.println("expected: " + expArray[i] + ", actual = " + actArray[i]);
-			assertEquals( expArray[i], actArray[i] );
+//System.out.println("expected (" + expArray[i].getClass() + "): " + expArray[i] + ", actual (" + actArray[i].getClass() + "): " + actArray[i]);
+/*RippleList l;
+l = expArray[i];
+System.out.println("expected: (" + l.getClass() + ") -- " + l);
+while (!l.isNil()) {
+    RippleValue f = l.getFirst();
+    System.out.println("    (" + f.getClass() + ") -- " + f);
+    l = l.getRest();
+}
+l = actArray[i];
+System.out.println("actual: (" + l.getClass() + ") -- " + l);
+while (!l.isNil()) {
+    RippleValue f = l.getFirst();
+    System.out.println("    (" + f.getClass() + ") -- " + f);
+    l = l.getRest();
+}*/
+            assertEquals( expArray[i], actArray[i] );
 		}
 	}
     

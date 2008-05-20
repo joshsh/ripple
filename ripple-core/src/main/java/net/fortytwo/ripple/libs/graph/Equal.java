@@ -16,6 +16,7 @@ import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.libs.stack.StackLibrary;
+import net.fortytwo.ripple.libs.logic.LogicLibrary;
 
 /**
  * A primitive which consumes two items and produces a Boolean value of true if
@@ -25,8 +26,7 @@ public class Equal extends PrimitiveStackMapping
 {
 	private static final int ARITY = 2;
 
-	public Equal()
-		throws RippleException
+	public Equal() throws RippleException
 	{
 		super();
 	}
@@ -54,8 +54,8 @@ public class Equal extends PrimitiveStackMapping
 		//       it may yield false for RdfValues containing identical
 		//       Literals).
 		result = ( 0 == a.compareTo( b ) )
-			? StackLibrary.getTrueValue()
-			: StackLibrary.getFalseValue();
+			? LogicLibrary.getTrueValue()
+			: LogicLibrary.getFalseValue();
 
 		sink.put( arg.with( stack.push( result ) ) );
 	}

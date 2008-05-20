@@ -73,7 +73,6 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
 	}
 	
 	public abstract RippleList push( RippleValue v ) throws RippleException;
-    public abstract boolean isNil();
     public abstract RippleList invert();
 
     private static void initialize() throws RippleException

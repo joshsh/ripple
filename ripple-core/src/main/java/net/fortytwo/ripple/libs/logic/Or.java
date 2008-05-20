@@ -7,23 +7,25 @@
  */
 
 
-package net.fortytwo.ripple.libs.stack;
+package net.fortytwo.ripple.libs.logic;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.stack.StackLibrary;
+import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.flow.Sink;
 
 /**
- * A primitive which consumes two items and produces the first item.
+ * A primitive which consumes two Boolean values and produces the result of
+ * their inclusive logical disjunction.
  */
-public class True extends PrimitiveStackMapping
+public class Or extends PrimitiveStackMapping
 {
 	private static final int ARITY = 2;
 
-	public True()
+	public Or()
 		throws RippleException
 	{
 		super();
@@ -40,14 +42,22 @@ public class True extends PrimitiveStackMapping
 		throws RippleException
 	{
 		RippleList stack = arg.getStack();
-		RippleValue x;
+		RippleValue x, y;
 
 		x = stack.getFirst();
 		stack = stack.getRest();
+		y = stack.getFirst();
 		stack = stack.getRest();
 
+		RippleValue trueValue = LogicLibrary.getTrueValue();
+
+		// Note: everything apart from joy:true is considered false.
+		RippleValue result = ( 0 == x.compareTo( trueValue ) || 0 == y.compareTo( trueValue ) )
+			? trueValue
+			: LogicLibrary.getFalseValue();
+
 		sink.put( arg.with(
-				stack.push( x ) ) );
+				stack.push( result ) ) );
 	}
 }
 

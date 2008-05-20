@@ -17,6 +17,7 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.libs.stack.StackLibrary;
+import net.fortytwo.ripple.libs.logic.LogicLibrary;
 
 /**
  * A primitive which consumes a string and a regular expression, producing a
@@ -57,8 +58,8 @@ public class Matches extends PrimitiveStackMapping
 		try
 		{
 			result = ( s.matches( regex ) )
-				? StackLibrary.getTrueValue()
-				: StackLibrary.getFalseValue();
+				? LogicLibrary.getTrueValue()
+				: LogicLibrary.getFalseValue();
 			sink.put( arg.with(
 					stack.push( result ) ) );
 		}

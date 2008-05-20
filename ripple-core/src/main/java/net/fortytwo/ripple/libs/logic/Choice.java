@@ -7,9 +7,10 @@
  */
 
 
-package net.fortytwo.ripple.libs.stack;
+package net.fortytwo.ripple.libs.logic;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.stack.StackLibrary;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
@@ -17,13 +18,14 @@ import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.flow.Sink;
 
 /**
- * A primitive which consumes a Boolean value and produces its inverse.
+ * A primitive which consumes a Boolean value b, an item t, and an item f, then
+ * produces t if b is true, otherwise f.
  */
-public class Not extends PrimitiveStackMapping
+public class Choice extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
+	private static final int ARITY = 3;
 
-	public Not()
+	public Choice()
 		throws RippleException
 	{
 		super();
@@ -39,16 +41,18 @@ public class Not extends PrimitiveStackMapping
 	)
 		throws RippleException
 	{
+		RippleValue f, t, b;
 		RippleList stack = arg.getStack();
-		RippleValue x;
 
-		x = stack.getFirst();
+		f = stack.getFirst();
+		stack = stack.getRest();
+		t = stack.getFirst();
+		stack = stack.getRest();
+		b = stack.getFirst();
 		stack = stack.getRest();
 
 		// Note: everything apart from joy:true is considered false.
-		RippleValue result = ( 0 == x.compareTo( StackLibrary.getTrueValue() ) )
-			? StackLibrary.getFalseValue()
-			: StackLibrary.getTrueValue();
+		RippleValue result = b.equals( LogicLibrary.getTrueValue() ) ? t : f;
 
 		sink.put( arg.with(
 				stack.push( result ) ) );

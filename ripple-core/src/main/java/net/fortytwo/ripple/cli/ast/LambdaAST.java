@@ -184,7 +184,7 @@ public class LambdaAST extends ListAST
     private static int countOccurrences( final String name, ListAST list )
     {
         int count = 0;
-        while ( !ListAST.isNil( list ) )
+        while ( !list.isNil() )
         {
             AST a = list.getFirst();
             if ( a instanceof KeywordAST)
@@ -213,7 +213,7 @@ public class LambdaAST extends ListAST
     private static int firstOccurrence( final String name, ListAST list )
     {
         int i = 0;
-        while ( !ListAST.isNil( list ) )
+        while ( !list.isNil() )
         {
             AST a = list.getFirst();
             if ( a instanceof KeywordAST)
