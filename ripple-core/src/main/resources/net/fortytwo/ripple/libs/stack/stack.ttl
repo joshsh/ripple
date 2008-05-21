@@ -253,6 +253,25 @@ stack:in
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#in> ;
 	.
 
+stack:map
+	a rpl:Function ;
+	rpl:arity 2 ;
+	rpl:parameters (
+		[
+			rdfs:label "l" ;
+			rdfs:comment "a List to map through m" ;
+			rpl:parameterType rdf:List ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "m" ;
+			rdfs:comment "a mapping which produces and consumes one argument" ;
+			rpl:parameterType rdf:List ;
+			rpl:isTransparent true ]
+		) ;
+	rdfs:label "map" ;
+	rdfs:comment "l m  =>  l mapped through m" ;
+	.
+
 stack:max
 	a rpl:Function ;
 	rpl:arity 1 ;

@@ -68,7 +68,8 @@ public class StackLibrary extends Library
 		registerPrimitive( Fold.class, NS + "fold", context );
 		registerPrimitive( Has.class, NS + "has", context );
 		registerPrimitive( In.class, NS + "in", context );
-		registerPrimitive( Max.class, NS + "max", context );
+        registerPrimitive( Map.class, NS + "map", context );
+        registerPrimitive( Max.class, NS + "max", context );
 		registerPrimitive( Min.class, NS + "min", context );
 		registerPrimitive( Of.class, NS + "of", context );
 		registerPrimitive( Size.class, NS + "size", context );
