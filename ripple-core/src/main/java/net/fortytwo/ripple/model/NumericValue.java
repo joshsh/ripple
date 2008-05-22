@@ -103,15 +103,9 @@ public abstract class NumericValue implements RippleValue
 // TODO: implement hashCode()
 	public boolean equals( final Object other )
 	{
-		if ( other instanceof NumericValue )
-		{
-			return ( 0 == compareTo( (NumericValue) other ) );
-		}
-		
-		else
-		{
-			return false;
-		}
+		return ( other instanceof RippleValue )
+		        ? ( 0 == compareTo( (RippleValue) other ) )
+		        : false;
 	}
 	
 	public int compareTo( final RippleValue other )

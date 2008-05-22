@@ -10,6 +10,7 @@
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.URIMap;
 import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
 
 import java.util.Set;
@@ -22,6 +23,8 @@ public interface Model
 	ModelConnection getConnection( String name, RDFDiffSink listener ) throws RippleException;
 
     Set<Value> getSpecialValues();
+
+    URIMap getURIMap();
 
     void shutDown() throws RippleException;
 }

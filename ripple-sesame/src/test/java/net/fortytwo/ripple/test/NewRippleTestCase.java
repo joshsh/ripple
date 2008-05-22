@@ -64,7 +64,7 @@ public abstract class NewRippleTestCase extends TestCase
 		return sail;
 	}
 
-    private static URIMap getTestUriMap() throws Exception
+    protected static URIMap getTestUriMap() throws Exception
     {
         if ( null == uriMap )
         {

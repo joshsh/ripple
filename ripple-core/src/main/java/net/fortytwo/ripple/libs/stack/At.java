@@ -80,7 +80,7 @@ public class At extends PrimitiveStackMapping
 				}
 		
 				sink.put( arg.with(
-						rest.push( mc.list( list.getFirst() ) ) ) );
+						rest.push( list.getFirst() ) ) );
 			}
 		};
 

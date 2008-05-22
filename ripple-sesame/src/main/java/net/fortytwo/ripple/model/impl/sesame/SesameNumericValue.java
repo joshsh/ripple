@@ -137,7 +137,9 @@ public class SesameNumericValue extends NumericValue {
 			switch ( type )
 			{
 				case INTEGER:
-					rdfEquivalent = new RdfValue( smc.getValueFactory().createLiteral( number.intValue() ) );
+                    // Don't use ValueFactory.creatLiteral(int), which (at
+                    // least in this case) produces xsd:int instead of xsd:integer
+                    rdfEquivalent = new RdfValue( smc.getValueFactory().createLiteral( "" + number.intValue(), XMLSchema.INTEGER ) );
 					break;
 				case LONG:
 					rdfEquivalent = new RdfValue( smc.getValueFactory().createLiteral( number.longValue() ) );

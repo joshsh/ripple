@@ -62,15 +62,15 @@ public class WebClosure  // TODO: the name is a little misleading...
 	// Maps URI schemes to Dereferencers
 	private Map<String, Dereferencer> dereferencers = new HashMap<String, Dereferencer>();
 
-    private URIMap URIMap;
+    private URIMap uriMap;
 	private ValueFactory valueFactory;
     private boolean useBlankNodes;
 
     private String acceptHeader = null;
 
-	public WebClosure( final URIMap URIMap, final ValueFactory vf ) throws RippleException
+	public WebClosure( final URIMap uriMap, final ValueFactory vf ) throws RippleException
 	{
-        this.URIMap = URIMap;
+        this.uriMap = uriMap;
 		valueFactory = vf;
         useBlankNodes = Ripple.getProperties().getBoolean(Ripple.USE_BLANK_NODES);
     }
@@ -204,7 +204,7 @@ public class WebClosure  // TODO: the name is a little misleading...
 
 			try
 			{
-				mapped = URIMap.get( memoUri );
+				mapped = uriMap.get( memoUri );
 			}
 
 			catch ( RippleException e )

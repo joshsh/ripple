@@ -25,12 +25,10 @@ public abstract class ListNode<T>
 	
 		while ( !thisCur.isNil() )
 		{
-/*System.out.println("RippleList.NIL = " + RippleList.NIL);
-System.out.println("RippleList.NIL.getFirst() = " + RippleList.NIL.getFirst());
-System.out.println("thisCur = " + thisCur + " " + (thisCur instanceof SesameList));
-System.out.println("thisCur.getFirst() = " + thisCur.getFirst());
-System.out.println("otherCur = " + otherCur + " " + (otherCur instanceof SesameList));
-System.out.println("otherCur.getFirst() = " + otherCur.getFirst());*/
+/*System.out.println("thisCur = " + thisCur);
+System.out.println("    thisCur.getFirst() = " + thisCur.getFirst());
+System.out.println("    otherCur = " + otherCur);
+System.out.println("    otherCur.getFirst() = " + otherCur.getFirst());*/
 			if ( otherCur.isNil() )
 			{
 				return false;

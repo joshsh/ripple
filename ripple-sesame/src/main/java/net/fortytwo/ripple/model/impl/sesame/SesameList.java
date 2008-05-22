@@ -346,25 +346,11 @@ RDFImporter importer = new RDFImporter( mc );
 
     ////////////////////////////////////////////////////////////////////////////
 
-	public boolean equals( final Object o )
+	public boolean equals( final Object other )
 	{
-		if ( o instanceof ListNode )
-		{
-			if ( o == NIL && this == NIL )
-			{
-				return true;
-			}
-			
-			else
-			{
-				return equals( (ListNode<RippleValue>) o );
-			}
-		}
-
-		else
-		{
-			return false;
-		}
+		return ( other instanceof RippleValue )
+		        ? ( 0 == compareTo( (RippleValue) other ) )
+		        : false;
 	}
 
 	public int compareTo( final RippleValue other )

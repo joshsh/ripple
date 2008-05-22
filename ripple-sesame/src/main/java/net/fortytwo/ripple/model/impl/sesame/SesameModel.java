@@ -33,15 +33,17 @@ public class SesameModel implements Model
 	final Sail sail;
     SpecialValueMap specialValues;
 	final Set<ModelConnection> openConnections = new LinkedHashSet<ModelConnection>();
+    final URIMap uriMap;
 
-	public SesameModel( final Sail baseSail, final URIMap uriMap )
+    public SesameModel( final Sail baseSail, final URIMap uriMap )
 		throws RippleException
 	{
 		LOGGER.debug( "Creating new Model" );
 
 		sail = baseSail;
+        this.uriMap = uriMap;
 
-		ModelConnection mc = getConnection( null );
+        ModelConnection mc = getConnection( null );
 
         try
         {
@@ -63,6 +65,11 @@ public class SesameModel implements Model
     public Set<Value> getSpecialValues()
     {
         return specialValues.keySet();
+    }
+
+    public URIMap getURIMap()
+    {
+        return uriMap;
     }
 
     public ModelConnection getConnection( final String name )

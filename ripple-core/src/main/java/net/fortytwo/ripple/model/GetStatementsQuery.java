@@ -115,7 +115,6 @@ public class GetStatementsQuery
                 && object instanceof Literal)
         {
             URI datatype = ( (Literal) object ).getDatatype();
-
             if ( null == datatype )
             {
                 Literal newObj = VALUE_FACTORY.createLiteral( ( (Literal) object ).getLabel(), XMLSchema.STRING );
