@@ -23,6 +23,15 @@ public class Length extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
+    private static final String[] IDENTIFIERS = {
+            StringLibrary.NS_2008_06 + "length",
+            StringLibrary.NS_2007_08 + "length"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Length()
 		throws RippleException
 	{

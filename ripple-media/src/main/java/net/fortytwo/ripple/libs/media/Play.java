@@ -31,7 +31,15 @@ public class Play extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
-	public Play()
+    private static final String[] IDENTIFIERS = {
+            MediaLibrary.NS_2007_08 + "play"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
+    public Play()
 		throws RippleException
 	{
 		super();

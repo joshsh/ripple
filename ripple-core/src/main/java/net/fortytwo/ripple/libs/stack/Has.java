@@ -26,6 +26,16 @@ public class Has extends PrimitiveStackMapping
 {
 	private static final int ARITY = 2;
 
+    private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2008_06 + "has",
+            StackLibrary.NS_2007_08 + "has",
+            StackLibrary.NS_2007_05 + "has"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Has()
 		throws RippleException
 	{

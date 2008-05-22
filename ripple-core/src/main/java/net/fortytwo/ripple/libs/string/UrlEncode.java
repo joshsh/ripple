@@ -25,6 +25,15 @@ public class UrlEncode extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
+    private static final String[] IDENTIFIERS = {
+            StringLibrary.NS_2008_06 + "urlEncode",
+            StringLibrary.NS_2007_08 + "urlEncode"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+    
 	public UrlEncode()
 		throws RippleException
 	{

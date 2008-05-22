@@ -10,7 +10,6 @@
 package net.fortytwo.ripple.libs.etc;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.LibraryLoader;
@@ -21,7 +20,10 @@ import net.fortytwo.ripple.URIMap;
  */
 public class EtcLibrary extends Library
 {
-	private static final String NS = "http://fortytwo.net/2007/08/ripple/etc#";
+    public static final String
+            NS_2008_06 = "http://fortytwo.net/2008/06/ripple/etc#",
+            NS_2007_08 = "http://fortytwo.net/2007/08/ripple/etc#",
+            NS_2007_05 = "http://fortytwo.net/2007/05/ripple/etc#";
 
     private static PrimitiveStackMapping invertVal;
 
@@ -30,12 +32,12 @@ public class EtcLibrary extends Library
 		throws RippleException
 	{
 		uf.put(
-			NS, getClass().getResource( "etc.ttl" ) + "#" );
+			NS_2008_06, getClass().getResource( "etc.ttl" ) + "#" );
 
-        registerPrimitive( DateTimeToMillis.class, NS + "dateTimeToMillis", context );
-        registerPrimitive( Get.class, NS + "get", context );
-        invertVal = registerPrimitive( Invert.class, NS + "invert", context );
-		registerPrimitive( Time.class, NS + "time", context );
+        registerPrimitive( DateTimeToMillis.class, context );
+        registerPrimitive( Get.class, context );
+        invertVal = registerPrimitive( Invert.class, context );
+		registerPrimitive( Time.class, context );
 	}
 
     public static PrimitiveStackMapping getInvertValue()

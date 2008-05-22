@@ -26,6 +26,17 @@ import net.fortytwo.ripple.flow.Sink;
  */
 public class Invert extends PrimitiveStackMapping
 {
+    private static final String[] IDENTIFIERS = {
+            // FIXME: this is a kludge for programs created by Ripple 0.5-dev.  Remove this alias when it is no longer needed
+            EtcLibrary.NS_2007_08 + "invert",
+
+            EtcLibrary.NS_2008_06 + "invert"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
     public int arity()
     {
         return 1;

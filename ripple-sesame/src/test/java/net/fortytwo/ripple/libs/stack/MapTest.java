@@ -26,7 +26,7 @@ public class MapTest extends NewRippleTestCase
         assertReducesTo( "() neg map >>", "()" );
         assertReducesTo( "(1 2 3) () map >>", "(1 2 3)" );
 
-        // Branching values
+        // Branching values are distributed
         assertReducesTo( "(0 1) sqrt map >>", "(0.0 1.0)", "(0.0 -1.0)" );
     }
 }

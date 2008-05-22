@@ -10,6 +10,7 @@
 package net.fortytwo.ripple.libs.stack;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.stream.StreamLibrary;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.regex.OptionalQuantifier;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
@@ -27,6 +28,17 @@ public class OptApply extends PrimitiveStackMapping
 {
 // Arguably 0...
 	private static final int ARITY = 1;
+
+    private static final String[] IDENTIFIERS = {
+            // FIXME: this is a kludge for programs created by Ripple 0.5-dev.  Remove this alias when it is no longer needed
+            StackLibrary.NS_2007_08 + "optApply",
+
+            StackLibrary.NS_2008_06 + "optApply"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
 
 	public OptApply() throws RippleException
 	{

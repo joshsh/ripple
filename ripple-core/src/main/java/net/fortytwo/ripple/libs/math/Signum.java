@@ -26,6 +26,16 @@ public class Signum extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
+    private static final String[] IDENTIFIERS = {
+            MathLibrary.NS_2008_06 + "signum",
+            MathLibrary.NS_2007_08 + "signum",
+            MathLibrary.NS_2007_05 + "sign"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Signum()
 		throws RippleException
 	{

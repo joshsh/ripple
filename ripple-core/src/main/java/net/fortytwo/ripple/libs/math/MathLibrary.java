@@ -11,7 +11,6 @@ package net.fortytwo.ripple.libs.math;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.URIMap;
-import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.LibraryLoader;
@@ -21,7 +20,10 @@ import net.fortytwo.ripple.model.LibraryLoader;
  */
 public class MathLibrary extends Library
 {
-	private static final String NS = "http://fortytwo.net/2007/08/ripple/math#";
+    public static final String
+            NS_2008_06 = "http://fortytwo.net/2008/06/ripple/math#",
+            NS_2007_08 = "http://fortytwo.net/2007/08/ripple/math#",
+            NS_2007_05 = "http://fortytwo.net/2007/05/ripple/math#";
 
     private static PrimitiveStackMapping
             addVal, subVal,
@@ -36,45 +38,45 @@ public class MathLibrary extends Library
 		throws RippleException
 	{
 		uf.put(
-			NS, getClass().getResource( "math.ttl" ) + "#" );
+			NS_2008_06, getClass().getResource( "math.ttl" ) + "#" );
 
 		// Comparison
-		registerPrimitive( Gt.class, NS + "gt", context );
-		registerPrimitive( Lt.class, NS + "lt", context );
+		registerPrimitive( Gt.class, context );
+		registerPrimitive( Lt.class, context );
 
 		// Arithmetic
-		registerPrimitive( Abs.class, NS + "abs", context );
-		addVal = registerPrimitive( Add.class, NS + "add", context );
-		divVal = registerPrimitive( Div.class, NS + "div", context );
-		registerPrimitive( Mod.class, NS + "mod", context );
-		mulVal = registerPrimitive( Mul.class, NS + "mul", context );
-		registerPrimitive( Neg.class, NS + "neg", context );
-		registerPrimitive( Signum.class, NS + "signum", context );
-		subVal = registerPrimitive( Sub.class, NS + "sub", context );
+		registerPrimitive( Abs.class, context );
+		addVal = registerPrimitive( Add.class, context );
+		divVal = registerPrimitive( Div.class, context );
+		registerPrimitive( Mod.class, context );
+		mulVal = registerPrimitive( Mul.class, context );
+		registerPrimitive( Neg.class, context );
+		registerPrimitive( Signum.class, context );
+		subVal = registerPrimitive( Sub.class, context );
 
 		// Exponents
-		registerPrimitive( Cbrt.class, NS + "cbrt", context );
-		expVal = registerPrimitive( Exp.class, NS + "exp", context );
-		logVal = registerPrimitive( Log.class, NS + "log", context );
-		registerPrimitive( Log10.class, NS + "log10", context );
-		registerPrimitive( Pow.class, NS + "pow", context );
-		registerPrimitive( Sqrt.class, NS + "sqrt", context );
+		registerPrimitive( Cbrt.class, context );
+		expVal = registerPrimitive( Exp.class, context );
+		logVal = registerPrimitive( Log.class, context );
+		registerPrimitive( Log10.class, context );
+		registerPrimitive( Pow.class, context );
+		registerPrimitive( Sqrt.class, context );
 
 		// Trigonometry
-		acosVal = registerPrimitive( Acos.class, NS + "acos", context );
-		asinVal = registerPrimitive( Asin.class, NS + "asin", context );
-		atanVal = registerPrimitive( Atan.class, NS + "atan", context );
-		cosVal = registerPrimitive( Cos.class, NS + "cos", context );
-		registerPrimitive( Cosh.class, NS + "cosh", context );
-		sinVal = registerPrimitive( Sin.class, NS + "sin", context );
-		registerPrimitive( Sinh.class, NS + "sinh", context );
-		tanVal = registerPrimitive( Tan.class, NS + "tan", context );
-		registerPrimitive( Tanh.class, NS + "tanh", context );
+		acosVal = registerPrimitive( Acos.class, context );
+		asinVal = registerPrimitive( Asin.class, context );
+		atanVal = registerPrimitive( Atan.class, context );
+		cosVal = registerPrimitive( Cos.class, context );
+		registerPrimitive( Cosh.class, context );
+		sinVal = registerPrimitive( Sin.class, context );
+		registerPrimitive( Sinh.class, context );
+		tanVal = registerPrimitive( Tan.class, context );
+		registerPrimitive( Tanh.class, context );
 
 		// Misc
-		registerPrimitive( Ceil.class, NS + "ceil", context );
-		registerPrimitive( Floor.class, NS + "floor", context );
-		registerPrimitive( Random.class, NS + "random", context );
+		registerPrimitive( Ceil.class, context );
+		registerPrimitive( Floor.class, context );
+		registerPrimitive( Random.class, context );
 	}
 
     public static PrimitiveStackMapping getAddValue()

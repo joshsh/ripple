@@ -24,6 +24,15 @@ public class Trim extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
+    private static final String[] IDENTIFIERS = {
+            StringLibrary.NS_2008_06 + "trim",
+            StringLibrary.NS_2007_08 + "trim"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Trim()
 		throws RippleException
 	{

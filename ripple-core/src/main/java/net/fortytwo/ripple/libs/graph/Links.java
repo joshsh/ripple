@@ -29,6 +29,14 @@ public class Links extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
+    private static final String[] IDENTIFIERS = {
+            GraphLibrary.NS_2008_06 + "links"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Links()
 		throws RippleException
 	{

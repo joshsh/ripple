@@ -28,6 +28,14 @@ public class StarApply extends PrimitiveStackMapping
 	// TODO: arity should really be 1, but this is a nice temporary solution
 	private static final int ARITY = 2;
 
+    private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2008_06 + "starApply"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public StarApply() throws RippleException
 	{
 		super();

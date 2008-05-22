@@ -24,8 +24,21 @@ public class TimesApply extends PrimitiveStackMapping
 	// TODO: arity should really be 1
 	private static final int ARITY = 2;
 
-	public TimesApply()
-		throws RippleException
+    private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2008_06 + "timesApply",
+
+            // FIXME: this is a kludge for programs created by Ripple 0.5-dev.  Remove this alias when it is no longer needed
+            StackLibrary.NS_2007_08 + "timesApply",
+
+            StackLibrary.NS_2007_08 + "times",
+            StackLibrary.NS_2007_05 + "times"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
+	public TimesApply() throws RippleException
 	{
 		super();
 	}

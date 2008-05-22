@@ -26,6 +26,16 @@ public class Time extends PrimitiveStackMapping
 {
 	private static final int ARITY = 0;
 
+    private static final String[] IDENTIFIERS = {
+            EtcLibrary.NS_2008_06 + "time",
+            EtcLibrary.NS_2007_08 + "time",
+            EtcLibrary.NS_2007_05 + "time"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Time() throws RippleException
 	{
 		super();

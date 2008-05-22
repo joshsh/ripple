@@ -12,6 +12,8 @@ package net.fortytwo.ripple.query;
 import java.io.PrintStream;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Set;
+import java.util.HashSet;
 
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
@@ -136,20 +138,30 @@ public class QueryEngine
 	{
 		Collection<URI> options = lexicon.uriForKeyword( localName );
 
-		if ( 0 == options.size() )
+        // Creating a set of values eliminates the possibility of a keyword
+        // resolving to the same runtime value more than once (as is the case,
+        // for instance, when two or more URIs mapping to a special value have
+        // the same local name).
+        Set<RippleValue> uniqueValues = new HashSet<RippleValue>();
+        for ( URI u : options )
+        {
+            uniqueValues.add( mc.value( u ) );
+        }
+
+		if ( 0 == uniqueValues.size() )
 		{
 			errorPrintStream.println( "Warning: keyword '" + localName + "' is undefined\n" );
 		}
 
-		else if ( 1 < options.size() )
+        else if ( 1 < uniqueValues.size() )
 		{
 			errorPrintStream.println( "Warning: keyword '" + localName + "' is ambiguous\n" );
 		}
 
-		for ( Iterator<URI> optIter = options.iterator(); optIter.hasNext(); )
-		{
-			sink.put( mc.value( optIter.next() ) );
-		}
+        for ( RippleValue v : uniqueValues )
+        {
+            sink.put( v );
+        }
 	}
 
 	public void uriForQName( final String nsPrefix,

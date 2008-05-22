@@ -24,6 +24,16 @@ public class Rolldownd extends PrimitiveStackMapping
 {
 	private static final int ARITY = 4;
 
+    private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2008_06 + "rolldownd",
+            StackLibrary.NS_2007_08 + "rolldownd",
+            StackLibrary.NS_2007_05 + "rolldownd"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Rolldownd()
 		throws RippleException
 	{

@@ -27,6 +27,14 @@ public class Lang extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
+    private static final String[] IDENTIFIERS = {
+            GraphLibrary.NS_XML + "lang"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Lang()
 		throws RippleException
 	{

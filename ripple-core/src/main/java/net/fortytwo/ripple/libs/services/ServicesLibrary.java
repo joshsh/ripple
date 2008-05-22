@@ -11,7 +11,6 @@ package net.fortytwo.ripple.libs.services;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.URIMap;
-import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
 
@@ -20,18 +19,19 @@ import net.fortytwo.ripple.model.LibraryLoader;
  */
 public class ServicesLibrary extends Library
 {
-	private static final String NS = "http://fortytwo.net/2007/08/ripple/services#";
+    public static final String
+            NS_2008_06 = "http://fortytwo.net/2008/06/ripple/services#",
+            NS_2007_08 = "http://fortytwo.net/2007/08/ripple/services#";
 
     public void load( final URIMap uf,
                       final LibraryLoader.LibraryLoaderContext context )
 		throws RippleException
 	{
-		uf.put(
-			NS, getClass().getResource( "services.ttl" ) + "#" );
+		uf.put( NS_2008_06, getClass().getResource( "services.ttl" ) + "#" );
 
-		registerPrimitive( PingTheSemanticWeb.class, NS + "pingTheSemanticWeb", context );
-		registerPrimitive( SwoogleIt.class, NS + "swoogleIt", context );
-		registerPrimitive( Uriqr.class, NS + "uriqr", context );
+		registerPrimitive( PingTheSemanticWeb.class, context );
+		registerPrimitive( SwoogleIt.class, context );
+		registerPrimitive( Uriqr.class, context );
 	}
 }
 

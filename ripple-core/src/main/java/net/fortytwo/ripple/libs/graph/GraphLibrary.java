@@ -11,7 +11,6 @@ package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.URIMap;
-import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
 
@@ -20,51 +19,57 @@ import net.fortytwo.ripple.model.LibraryLoader;
  */
 public class GraphLibrary extends Library
 {
-	private static final String NS = "http://fortytwo.net/2007/08/ripple/graph#";
+    public static final String
+            NS_2008_06 = "http://fortytwo.net/2008/06/ripple/graph#",
+            NS_2007_08 = "http://fortytwo.net/2007/08/ripple/graph#",
+            NS_2007_05 = "http://fortytwo.net/2007/05/ripple/graph#";
+    public static final String
+            NS_XML = "http://www.w3.org/XML/1998/namespace#",
+            NS_XSD = "http://www.w3.org/2001/XMLSchema#";
 
     public void load( final URIMap uf,
                       final LibraryLoader.LibraryLoaderContext context )
 		throws RippleException
 	{
 		uf.put(
-			NS, getClass().getResource( "graph.ttl" ) + "#" );
+			NS_2008_06, getClass().getResource( "graph.ttl" ) + "#" );
 
-        registerPrimitive( Assert.class, NS + "assert", context );
-        registerPrimitive( AssertIn.class, NS + "assertIn", context );
-		registerPrimitive( Contains.class, NS + "contains", context );
-//		registerPrimitive( Count.class, NS + "count", context );
-		registerPrimitive( Compare.class, NS + "compare", context );
-        registerPrimitive( Deny.class, NS + "deny", context );
-        registerPrimitive( DenyIn.class, NS + "denyIn", context );
-		registerPrimitive( Equal.class, NS + "equal", context );
-		registerPrimitive( Forget.class, NS + "forget", context );
-		registerPrimitive( New.class, NS + "new", context );
+        registerPrimitive( Assert.class, context );
+        registerPrimitive( AssertIn.class, context );
+		registerPrimitive( Contains.class, context );
+//		registerPrimitive( Count.class, NS_2008_06 + "count", context );
+		registerPrimitive( Compare.class, context );
+        registerPrimitive( Deny.class, context );
+        registerPrimitive( DenyIn.class, context );
+		registerPrimitive( Equal.class, context );
+		registerPrimitive( Forget.class, context );
+		registerPrimitive( New.class, context );
 
 		// Type conversion / literal reification.
-		registerPrimitive( ToDouble.class, NS + "toDouble", context );
-		registerPrimitive( ToInteger.class, NS + "toInteger", context );
-		registerPrimitive( ToString.class, NS + "toString", context );
-		registerPrimitive( ToUri.class, NS + "toUri", context );
+		registerPrimitive( ToDouble.class, context );
+		registerPrimitive( ToInteger.class, context );
+		registerPrimitive( ToString.class, context );
+		registerPrimitive( ToUri.class, context );
 
 		// Resource-centric primitives.
-        registerPrimitive( InContext.class, NS + "inContext", context );
-        registerPrimitive( Infer.class, NS + "infer", context );
-        registerPrimitive( Inlinks.class, NS + "inlinks", context );
-        registerPrimitive( Links.class, NS + "links", context );
+        registerPrimitive( InContext.class, context );
+        registerPrimitive( Infer.class, context );
+        registerPrimitive( Inlinks.class, context );
+        registerPrimitive( Links.class, context );
 
 		// Document-centric primitives.
-		registerPrimitive( Comments.class, NS + "comments", context );
-		registerPrimitive( Namespaces.class, NS + "namespaces", context );
-        registerPrimitive( Triples.class, NS + "triples", context );
-        registerPrimitive( Quads.class, NS + "quads", context );
+		registerPrimitive( Comments.class, context );
+		registerPrimitive( Namespaces.class, context );
+        registerPrimitive( Triples.class, context );
+        registerPrimitive( Quads.class, context );
 
 		// Note: the xml: namespace is actually said to be
 		//       http://www.w3.org/XML/1998/namespace
 		//       (i.e. without the hash character).
-		registerPrimitive( Lang.class, "http://www.w3.org/XML/1998/namespace#lang", context );
+		registerPrimitive( Lang.class, context );
 
 		// Note: this URI is bogus.
-		registerPrimitive( Type.class, "http://www.w3.org/2001/XMLSchema#type", context );
+		registerPrimitive( Type.class, context );
 	}
 }
 

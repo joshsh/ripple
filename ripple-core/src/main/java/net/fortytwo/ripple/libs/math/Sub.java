@@ -25,6 +25,16 @@ public class Sub extends PrimitiveStackMapping
 {
 	private static final int ARITY = 2;
 
+    private static final String[] IDENTIFIERS = {
+            MathLibrary.NS_2008_06 + "sub",
+            MathLibrary.NS_2007_08 + "sub",
+            MathLibrary.NS_2007_05 + "sub"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Sub()
 		throws RippleException
 	{

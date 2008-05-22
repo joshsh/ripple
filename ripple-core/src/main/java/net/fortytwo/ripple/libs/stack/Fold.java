@@ -28,6 +28,16 @@ public class Fold extends PrimitiveStackMapping
 {
 	private static final int ARITY = 3;
 
+    private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2008_06 + "fold",
+            StackLibrary.NS_2007_08 + "fold",
+            StackLibrary.NS_2007_05 + "fold"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Fold()
 		throws RippleException
 	{

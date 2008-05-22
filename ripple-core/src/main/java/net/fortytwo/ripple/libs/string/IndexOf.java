@@ -24,6 +24,15 @@ public class IndexOf extends PrimitiveStackMapping
 {
 	private static final int ARITY = 2;
 
+    private static final String[] IDENTIFIERS = {
+            StringLibrary.NS_2008_06 + "indexOf",
+            StringLibrary.NS_2007_08 + "indexOf"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public IndexOf()
 		throws RippleException
 	{

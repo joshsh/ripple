@@ -26,6 +26,16 @@ public class In extends PrimitiveStackMapping
 {
 	private static final int ARITY = 2;
 
+    private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2008_06 + "in",
+            StackLibrary.NS_2007_08 + "in",
+            StackLibrary.NS_2007_05 + "in"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public In()
 		throws RippleException
 	{

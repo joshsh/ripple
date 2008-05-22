@@ -27,6 +27,16 @@ public class Forget extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
+    private static final String[] IDENTIFIERS = {
+            GraphLibrary.NS_2008_06 + "forget",
+            GraphLibrary.NS_2007_08 + "forget",
+            GraphLibrary.NS_2007_05 + "forget"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Forget()
 		throws RippleException
 	{

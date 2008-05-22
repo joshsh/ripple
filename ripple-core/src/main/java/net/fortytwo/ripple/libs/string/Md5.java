@@ -25,6 +25,14 @@ public class Md5 extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
+    private static final String[] IDENTIFIERS = {
+            StringLibrary.NS_2008_06 + "md5"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Md5()
 		throws RippleException
 	{

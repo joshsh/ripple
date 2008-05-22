@@ -34,6 +34,15 @@ public class Triples extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
+    private static final String[] IDENTIFIERS = {
+            GraphLibrary.NS_2008_06 + "triples",
+            GraphLibrary.NS_2007_08 + "triples"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Triples()
 		throws RippleException
 	{

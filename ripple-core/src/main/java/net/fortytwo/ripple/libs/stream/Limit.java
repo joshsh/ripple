@@ -27,6 +27,16 @@ public class Limit extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
+    private static final String[] IDENTIFIERS = {
+            StreamLibrary.NS_2008_06 + "limit",
+            StreamLibrary.NS_2007_08 + "limit",
+            StreamLibrary.NS_2007_05 + "limit"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Limit()
 		throws RippleException
 	{

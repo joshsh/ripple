@@ -10,6 +10,8 @@
 package net.fortytwo.ripple.libs.services;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.math.MathLibrary;
+import net.fortytwo.ripple.libs.etc.EtcLibrary;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
@@ -40,6 +42,16 @@ public class PingTheSemanticWeb extends PrimitiveStackMapping
 		saxBuilder.setProperty( "http://apache.org/xml/properties/schema/"
 			+ "external-noNamespaceSchemaLocation", schemaLocation );
 	}
+
+    private static final String[] IDENTIFIERS = {
+            ServicesLibrary.NS_2008_06 + "pingTheSemanticWeb",
+            ServicesLibrary.NS_2007_08 + "pingTheSemanticWeb",
+            EtcLibrary.NS_2007_05 + "pingTheSemanticWeb"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
 
 	public PingTheSemanticWeb()
 		throws RippleException

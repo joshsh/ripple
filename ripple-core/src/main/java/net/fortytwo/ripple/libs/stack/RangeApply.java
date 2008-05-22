@@ -24,6 +24,17 @@ public class RangeApply extends PrimitiveStackMapping
 	// TODO: arity should really be 2
 	private static final int ARITY = 3;
 
+    private static final String[] IDENTIFIERS = {
+            // FIXME: this is a kludge for programs created by Ripple 0.5-dev.  Remove this alias when it is no longer needed
+            StackLibrary.NS_2007_08 + "rangeApply",
+
+            StackLibrary.NS_2008_06 + "rangeApply"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public RangeApply() throws RippleException
 	{
 		super();

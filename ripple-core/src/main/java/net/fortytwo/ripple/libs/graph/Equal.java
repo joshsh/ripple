@@ -26,6 +26,16 @@ public class Equal extends PrimitiveStackMapping
 {
 	private static final int ARITY = 2;
 
+    private static final String[] IDENTIFIERS = {
+            GraphLibrary.NS_2008_06 + "equal",
+            GraphLibrary.NS_2007_08 + "equal",
+            GraphLibrary.NS_2007_05 + "equal"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Equal() throws RippleException
 	{
 		super();

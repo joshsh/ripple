@@ -26,6 +26,15 @@ public class Tan extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
+    private static final String[] IDENTIFIERS = {
+            MathLibrary.NS_2008_06 + "tan",
+            MathLibrary.NS_2007_08 + "tan"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Tan()
 		throws RippleException
 	{

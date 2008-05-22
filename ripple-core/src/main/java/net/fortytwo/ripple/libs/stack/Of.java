@@ -25,6 +25,16 @@ public class Of extends PrimitiveStackMapping
 {
 	private static final int ARITY = 2;
 
+    private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2008_06 + "of",
+            StackLibrary.NS_2007_08 + "of",
+            StackLibrary.NS_2007_05 + "of"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Of()
 		throws RippleException
 	{

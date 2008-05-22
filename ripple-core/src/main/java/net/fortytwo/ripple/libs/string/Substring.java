@@ -25,6 +25,15 @@ public class Substring extends PrimitiveStackMapping
 {
 	private static final int ARITY = 3;
 
+    private static final String[] IDENTIFIERS = {
+            StringLibrary.NS_2008_06 + "substring",
+            StringLibrary.NS_2007_08 + "substring"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Substring()
 		throws RippleException
 	{

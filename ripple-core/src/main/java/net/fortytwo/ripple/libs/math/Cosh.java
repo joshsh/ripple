@@ -24,6 +24,15 @@ public class Cosh extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
+    private static final String[] IDENTIFIERS = {
+            MathLibrary.NS_2008_06 + "cosh",
+            MathLibrary.NS_2007_08 + "cosh"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Cosh()
 		throws RippleException
 	{

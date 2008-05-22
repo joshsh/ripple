@@ -25,6 +25,16 @@ public class Mod extends PrimitiveStackMapping
 {
 	private static final int ARITY = 2;
 
+    private static final String[] IDENTIFIERS = {
+            MathLibrary.NS_2008_06 + "mod",
+            MathLibrary.NS_2007_08 + "mod",
+            MathLibrary.NS_2007_05 + "mod"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Mod()
 		throws RippleException
 	{

@@ -21,22 +21,18 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
 	private boolean transparent;
 
 	public PrimitiveStackMapping( final boolean transparent )
-	{
+    {
 		this.transparent = transparent;
-	}
+    }
 	
 	public PrimitiveStackMapping()
-	{
-		transparent = true;
+    {
+		this( true );
 	}
 
-	public PrimitiveStackMapping( final RdfValue v, final ModelConnection mc )
-		throws RippleException
-	{
-		setRdfEquivalent( v, mc );
-	}
+    public abstract String[] getIdentifiers();
 
-	public void setRdfEquivalent( final RdfValue v, final ModelConnection mc )
+    public void setRdfEquivalent( final RdfValue v, final ModelConnection mc )
 		throws RippleException
 	{
 		rdfEquivalent = v;

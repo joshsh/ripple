@@ -18,6 +18,7 @@ import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.util.HTTPUtils;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.StringUtils;
+import net.fortytwo.ripple.libs.etc.EtcLibrary;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.jdom.Document;
@@ -66,6 +67,15 @@ public class Uriqr extends PrimitiveStackMapping
 		}
 */
 	}
+
+    private static final String[] IDENTIFIERS = {
+            ServicesLibrary.NS_2008_06 + "uriqr",
+            ServicesLibrary.NS_2007_08 + "uriqr"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
 
 	public Uriqr()
 		throws RippleException

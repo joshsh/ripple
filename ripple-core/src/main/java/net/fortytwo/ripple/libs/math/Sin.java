@@ -26,6 +26,15 @@ public class Sin extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
+    private static final String[] IDENTIFIERS = {
+            MathLibrary.NS_2008_06 + "sin",
+            MathLibrary.NS_2007_08 + "sin"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Sin()
 		throws RippleException
 	{

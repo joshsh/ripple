@@ -21,6 +21,7 @@ import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.StringUtils;
+import net.fortytwo.ripple.libs.etc.EtcLibrary;
 import net.fortytwo.ripple.util.RDFHTTPUtils;
 
 import org.openrdf.model.URI;
@@ -45,7 +46,17 @@ public class SwoogleIt extends PrimitiveStackMapping
 		= "http://daml.umbc.edu/ontologies/webofbelief/1.4/swoogle.owl#";
 
 	private URI swoogleQueryResponseUri = null;
-	
+
+    private static final String[] IDENTIFIERS = {
+            ServicesLibrary.NS_2008_06 + "swoogleIt",
+            ServicesLibrary.NS_2007_08 + "swoogleIt",
+            EtcLibrary.NS_2007_05 + "swoogleIt"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public SwoogleIt()
 		throws RippleException
 	{

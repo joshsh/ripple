@@ -16,6 +16,7 @@ import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.StringUtils;
+import net.fortytwo.ripple.libs.etc.EtcLibrary;
 
 /**
  * A primitive which consumes a string and produces its SHA-1 sum.
@@ -23,6 +24,16 @@ import net.fortytwo.ripple.StringUtils;
 public class Sha1 extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
+
+    private static final String[] IDENTIFIERS = {
+            StringLibrary.NS_2008_06 + "sha1",
+            StringLibrary.NS_2007_08 + "sha1",
+            EtcLibrary.NS_2007_05 + "sha1"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
 
 	public Sha1()
 		throws RippleException

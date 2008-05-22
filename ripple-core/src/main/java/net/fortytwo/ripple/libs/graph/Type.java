@@ -29,6 +29,14 @@ public class Type extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
+    private static final String[] IDENTIFIERS = {
+            GraphLibrary.NS_XSD + "type"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Type()
 		throws RippleException
 	{

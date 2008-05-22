@@ -23,6 +23,15 @@ public class Swapdd extends PrimitiveStackMapping
 {
 	private static final int ARITY = 4;
 
+    private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2008_06 + "swapdd",
+            StackLibrary.NS_2007_08 + "swapdd"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Swapdd()
 		throws RippleException
 	{

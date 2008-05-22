@@ -10,6 +10,7 @@
 package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.etc.EtcLibrary;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
@@ -24,6 +25,16 @@ import net.fortytwo.ripple.model.StackContext;
 public class Assert extends PrimitiveStackMapping
 {
 	private static final int ARITY = 3;
+
+    private static final String[] IDENTIFIERS = {
+            GraphLibrary.NS_2008_06 + "assert",
+            GraphLibrary.NS_2007_08 + "assert",
+            GraphLibrary.NS_2007_05 + "assert"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
 
 	public Assert()
 		throws RippleException

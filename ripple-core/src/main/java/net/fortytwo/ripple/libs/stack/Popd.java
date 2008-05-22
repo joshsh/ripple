@@ -23,6 +23,16 @@ public class Popd extends PrimitiveStackMapping
 {
 	private static final int ARITY = 2;
 
+    private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2008_06 + "popd",
+            StackLibrary.NS_2007_08 + "popd",
+            StackLibrary.NS_2007_05 + "popd"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Popd()
 		throws RippleException
 	{

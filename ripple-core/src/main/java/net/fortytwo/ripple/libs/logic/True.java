@@ -10,6 +10,7 @@
 package net.fortytwo.ripple.libs.logic;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.stack.StackLibrary;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
@@ -23,7 +24,17 @@ public class True extends PrimitiveStackMapping
 {
 	private static final int ARITY = 2;
 
-	public True() throws RippleException
+    private static final String[] IDENTIFIERS = {
+            LogicLibrary.NS_2008_06 + "true",
+            StackLibrary.NS_2007_08 + "true",
+            StackLibrary.NS_2007_05 + "true"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+    
+    public True() throws RippleException
 	{
 		super();
     }

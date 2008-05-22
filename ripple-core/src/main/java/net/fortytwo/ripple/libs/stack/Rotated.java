@@ -24,6 +24,16 @@ public class Rotated extends PrimitiveStackMapping
 {
 	private static final int ARITY = 4;
 
+    private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2008_06 + "rotated",
+            StackLibrary.NS_2007_08 + "rotated",
+            StackLibrary.NS_2007_05 + "rotated"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Rotated()
 		throws RippleException
 	{

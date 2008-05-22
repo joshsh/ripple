@@ -24,6 +24,16 @@ public class Dupd extends PrimitiveStackMapping
 {
 	private static final int ARITY = 2;
 
+    private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2008_06 + "dupd",
+            StackLibrary.NS_2007_08 + "dupd",
+            StackLibrary.NS_2007_05 + "dupd"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Dupd()
 		throws RippleException
 	{

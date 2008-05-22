@@ -24,6 +24,16 @@ public class Abs extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
+    private static final String[] IDENTIFIERS = {
+            MathLibrary.NS_2008_06 + "abs",
+            MathLibrary.NS_2007_08 + "abs",
+            MathLibrary.NS_2007_05 + "abs"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Abs()
 		throws RippleException
 	{

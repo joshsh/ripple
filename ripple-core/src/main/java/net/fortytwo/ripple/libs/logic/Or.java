@@ -25,7 +25,17 @@ public class Or extends PrimitiveStackMapping
 {
 	private static final int ARITY = 2;
 
-	public Or()
+    private static final String[] IDENTIFIERS = {
+            LogicLibrary.NS_2008_06 + "or",
+            StackLibrary.NS_2007_08 + "or",
+            StackLibrary.NS_2007_05 + "or"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+    
+    public Or()
 		throws RippleException
 	{
 		super();

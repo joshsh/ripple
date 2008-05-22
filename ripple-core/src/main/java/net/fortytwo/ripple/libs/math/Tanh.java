@@ -24,6 +24,15 @@ public class Tanh extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
+    private static final String[] IDENTIFIERS = {
+            MathLibrary.NS_2008_06 + "tanh",
+            MathLibrary.NS_2007_08 + "tanh"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Tanh()
 		throws RippleException
 	{

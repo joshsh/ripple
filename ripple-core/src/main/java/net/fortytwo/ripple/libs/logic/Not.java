@@ -24,7 +24,17 @@ public class Not extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
-	public Not()
+    private static final String[] IDENTIFIERS = {
+            LogicLibrary.NS_2008_06 + "not",
+            StackLibrary.NS_2007_08 + "not",
+            StackLibrary.NS_2007_05 + "not"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+    
+    public Not()
 		throws RippleException
 	{
 		super();

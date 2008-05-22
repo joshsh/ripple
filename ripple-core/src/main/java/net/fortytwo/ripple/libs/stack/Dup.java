@@ -24,6 +24,16 @@ public class Dup extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
+    private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2008_06 + "dup",
+            StackLibrary.NS_2007_08 + "dup",
+            StackLibrary.NS_2007_05 + "dup"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Dup()
 		throws RippleException
 	{

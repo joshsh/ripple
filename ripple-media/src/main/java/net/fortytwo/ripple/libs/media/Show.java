@@ -36,6 +36,14 @@ public class Show extends PrimitiveStackMapping
 
 	private static String[] mimeTypes = ImageIO.getReaderMIMETypes();
 
+    private static final String[] IDENTIFIERS = {
+            MediaLibrary.NS_2007_08 + "show"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Show()
 		throws RippleException
 	{

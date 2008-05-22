@@ -21,6 +21,13 @@ public class StackMappingWrapper extends PrimitiveStackMapping
 {
     private StackMapping innerMapping;
 
+    // FIXME: awkward
+    private static final String[] IDENTIFIERS = {};
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
     public StackMappingWrapper( final StackMapping wrapped, final ModelConnection mc ) throws RippleException
     {
         super( wrapped.isTransparent() );

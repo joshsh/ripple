@@ -10,7 +10,6 @@
 package net.fortytwo.ripple.libs.string;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
 import net.fortytwo.ripple.URIMap;
@@ -20,34 +19,36 @@ import net.fortytwo.ripple.URIMap;
  */
 public class StringLibrary extends Library
 {
-	private static final String NS = "http://fortytwo.net/2007/08/ripple/string#";
+    public static final String
+            NS_2008_06 = "http://fortytwo.net/2008/06/ripple/string#",
+            NS_2007_08 = "http://fortytwo.net/2007/08/ripple/string#";
 
     public void load( final URIMap uf,
                       final LibraryLoader.LibraryLoaderContext context )
 		throws RippleException
 	{
 		uf.put(
-			NS, getClass().getResource( "string.ttl" ) + "#" );
+			NS_2008_06, getClass().getResource( "string.ttl" ) + "#" );
 
-		registerPrimitive( EndsWith.class, NS + "endsWith", context );
-		registerPrimitive( IndexOf.class, NS + "indexOf", context );
-		registerPrimitive( LastIndexOf.class, NS + "lastIndexOf", context );
-		registerPrimitive( Length.class, NS + "length", context );
-        registerPrimitive( Matches.class, NS + "matches", context );
-        registerPrimitive( Md5.class, NS + "md5", context );
-		registerPrimitive( PercentDecode.class, NS + "percentDecode", context );
-		registerPrimitive( PercentEncode.class, NS + "percentEncode", context );
-		registerPrimitive( ReplaceAll.class, NS + "replaceAll", context );
-		registerPrimitive( Sha1.class, NS + "sha1", context );
-		registerPrimitive( Split.class, NS + "split", context );
-		registerPrimitive( StartsWith.class, NS + "startsWith", context );
-		registerPrimitive( StrCat.class, NS + "strCat", context );
-		registerPrimitive( Substring.class, NS + "substring", context );
-		registerPrimitive( ToLowerCase.class, NS + "toLowerCase", context );
-		registerPrimitive( ToUpperCase.class, NS + "toUpperCase", context );
-		registerPrimitive( Trim.class, NS + "trim", context );
-		registerPrimitive( UrlDecode.class, NS + "urlDecode", context );
-		registerPrimitive( UrlEncode.class, NS + "urlEncode", context );
+		registerPrimitive( EndsWith.class, context );
+		registerPrimitive( IndexOf.class, context );
+		registerPrimitive( LastIndexOf.class, context );
+		registerPrimitive( Length.class, context );
+        registerPrimitive( Matches.class, context );
+        registerPrimitive( Md5.class, context );
+		registerPrimitive( PercentDecode.class, context );
+		registerPrimitive( PercentEncode.class, context );
+		registerPrimitive( ReplaceAll.class, context );
+		registerPrimitive( Sha1.class, context );
+		registerPrimitive( Split.class, context );
+		registerPrimitive( StartsWith.class, context );
+		registerPrimitive( StrCat.class, context );
+		registerPrimitive( Substring.class, context );
+		registerPrimitive( ToLowerCase.class, context );
+		registerPrimitive( ToUpperCase.class, context );
+		registerPrimitive( Trim.class, context );
+		registerPrimitive( UrlDecode.class, context );
+		registerPrimitive( UrlEncode.class, context );
 	}
 }
 

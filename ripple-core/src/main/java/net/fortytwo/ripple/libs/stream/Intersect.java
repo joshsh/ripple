@@ -33,6 +33,14 @@ public class Intersect extends PrimitiveStackMapping
 	private static final int ARITY = 2;
 	private static final String MEMO = "memo";
 
+    private static final String[] IDENTIFIERS = {
+            StreamLibrary.NS_2008_06 + "intersect"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Intersect() throws RippleException
 	{
 		super();

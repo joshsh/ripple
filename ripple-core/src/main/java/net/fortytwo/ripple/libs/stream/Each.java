@@ -25,6 +25,16 @@ public class Each extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
+    private static final String[] IDENTIFIERS = {
+            StreamLibrary.NS_2008_06 + "each",
+            StreamLibrary.NS_2007_08 + "each",
+            StreamLibrary.NS_2007_05 + "each"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Each()
 		throws RippleException
 	{

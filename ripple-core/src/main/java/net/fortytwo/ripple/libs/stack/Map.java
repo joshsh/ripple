@@ -33,6 +33,14 @@ public class Map extends PrimitiveStackMapping
 {
 	private static final int ARITY = 2;
 
+    private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2008_06 + "map"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Map() throws RippleException
 	{
 		super();
@@ -55,6 +63,8 @@ public class Map extends PrimitiveStackMapping
 		RippleValue listVal = stack.getFirst();
 		final RippleList rest = stack.getRest();
 
+        // Note: it is simply assumed that these mappings have a production of
+        // exactly one item.
         final Collector<Operator, RippleException> operators = new Collector<Operator, RippleException>();
         Operator.createOperator( mappingVal, operators, mc );
 

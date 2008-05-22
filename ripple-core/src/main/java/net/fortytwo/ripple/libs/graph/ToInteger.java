@@ -29,6 +29,16 @@ public class ToInteger extends PrimitiveStackMapping
 	private static final Logger LOGGER
 		= Logger.getLogger( ToInteger.class );
 
+    private static final String[] IDENTIFIERS = {
+            GraphLibrary.NS_2008_06 + "toInteger",
+            GraphLibrary.NS_2007_08 + "toInteger",
+            GraphLibrary.NS_2007_05 + "toInteger"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public ToInteger()
 		throws RippleException
 	{

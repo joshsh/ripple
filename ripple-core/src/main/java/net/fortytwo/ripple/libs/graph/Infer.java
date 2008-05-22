@@ -27,6 +27,17 @@ public class Infer extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
+    private static final String[] IDENTIFIERS = {
+            // FIXME: this is a kludge for programs created by Ripple 0.5-dev.  Remove this alias when it is no longer needed
+            GraphLibrary.NS_2007_08 + "infer",
+
+            GraphLibrary.NS_2008_06 + "infer"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Infer()
 		throws RippleException
 	{

@@ -21,7 +21,10 @@ import net.fortytwo.ripple.URIMap;
  */
 public class StackLibrary extends Library
 {
-	private static final String NS = "http://fortytwo.net/2007/08/ripple/stack#";
+    public static final String
+            NS_2008_06 = "http://fortytwo.net/2008/06/ripple/stack#",
+            NS_2007_08 = "http://fortytwo.net/2007/08/ripple/stack#",
+            NS_2007_05 = "http://fortytwo.net/2007/05/ripple/stack#";
 
 	// Special values.
 	private static PrimitiveStackMapping optApplyVal, starApplyVal, plusApplyVal, timesApplyVal, rangeApplyVal;
@@ -30,52 +33,52 @@ public class StackLibrary extends Library
                       final LibraryLoader.LibraryLoaderContext context )
 		throws RippleException
 	{
-		uf.put( NS, getClass().getResource( "stack.ttl" ) + "#" );
+		uf.put( NS_2008_06, getClass().getResource( "stack.ttl" ) + "#" );
 
 		// Stack shuffling primitives
-		registerPrimitive( Dup.class, NS + "dup", context );
-		registerPrimitive( Dupd.class, NS + "dupd", context );
-		registerPrimitive( Dupdd.class, NS + "dupdd", context );
-		registerPrimitive( Id.class, NS + "id", context );
-		registerPrimitive( Pop.class, NS + "pop", context );
-		registerPrimitive( Popd.class, NS + "popd", context );
-		registerPrimitive( Popdd.class, NS + "popdd", context );
-		registerPrimitive( Rolldown.class, NS + "rolldown", context );
-		registerPrimitive( Rolldownd.class, NS + "rolldownd", context );
-		registerPrimitive( Rollup.class, NS + "rollup", context );
-		registerPrimitive( Rollupd.class, NS + "rollupd", context );
-		registerPrimitive( Rotate.class, NS + "rotate", context );
-		registerPrimitive( Rotated.class, NS + "rotated", context );
-		registerPrimitive( Swap.class, NS + "swap", context );
-		registerPrimitive( Swapd.class, NS + "swapd", context );
-		registerPrimitive( Swapdd.class, NS + "swapdd", context );
+		registerPrimitive( Dup.class, context );
+		registerPrimitive( Dupd.class, context );
+		registerPrimitive( Dupdd.class, context );
+		registerPrimitive( Id.class, context );
+		registerPrimitive( Pop.class, context );
+		registerPrimitive( Popd.class, context );
+		registerPrimitive( Popdd.class, context );
+		registerPrimitive( Rolldown.class, context );
+		registerPrimitive( Rolldownd.class, context );
+		registerPrimitive( Rollup.class, context );
+		registerPrimitive( Rollupd.class, context );
+		registerPrimitive( Rotate.class, context );
+		registerPrimitive( Rotated.class, context );
+		registerPrimitive( Swap.class, context );
+		registerPrimitive( Swapd.class, context );
+		registerPrimitive( Swapdd.class, context );
 
 		// Application primitives
-		registerPrimitive( Apply.class, NS + "apply", context );
-		registerPrimitive( Ary.class, NS + "ary", context );
-		registerPrimitive( Dip.class, NS + "dip", context );
-		registerPrimitive( Dipd.class, NS + "dipd", context );
-		optApplyVal = registerPrimitive( OptApply.class, NS + "optApply", context );
-		plusApplyVal = registerPrimitive( PlusApply.class, NS + "plusApply", context );
-		starApplyVal = registerPrimitive( StarApply.class, NS + "starApply", context );
-		rangeApplyVal = registerPrimitive( RangeApply.class, NS + "rangeApply", context );
-		timesApplyVal = registerPrimitive( TimesApply.class, NS + "timesApply", context );
+		registerPrimitive( Apply.class, context );
+		registerPrimitive( Ary.class, context );
+		registerPrimitive( Dip.class, context );
+		registerPrimitive( Dipd.class, context );
+		optApplyVal = registerPrimitive( OptApply.class, context );
+		plusApplyVal = registerPrimitive( PlusApply.class, context );
+		starApplyVal = registerPrimitive( StarApply.class, context );
+		rangeApplyVal = registerPrimitive( RangeApply.class, context );
+		timesApplyVal = registerPrimitive( TimesApply.class, context );
 
 		// List primitives.
-		registerPrimitive( At.class, NS + "at", context );
-		registerPrimitive( Cat.class, NS + "cat", context );
-		registerPrimitive( Cons.class, NS + "cons", context );
-		registerPrimitive( Fold.class, NS + "fold", context );
-		registerPrimitive( Has.class, NS + "has", context );
-		registerPrimitive( In.class, NS + "in", context );
-        registerPrimitive( Map.class, NS + "map", context );
-        registerPrimitive( Max.class, NS + "max", context );
-		registerPrimitive( Min.class, NS + "min", context );
-		registerPrimitive( Of.class, NS + "of", context );
-		registerPrimitive( Size.class, NS + "size", context );
-		registerPrimitive( Swons.class, NS + "swons", context );
-		registerPrimitive( Uncons.class, NS + "uncons", context );
-		registerPrimitive( Unswons.class, NS + "unswons", context );
+		registerPrimitive( At.class, context );
+		registerPrimitive( Cat.class, context );
+		registerPrimitive( Cons.class, context );
+		registerPrimitive( Fold.class, context );
+		registerPrimitive( Has.class, context );
+		registerPrimitive( In.class, context );
+        registerPrimitive( Map.class, context );
+        registerPrimitive( Max.class, context );
+		registerPrimitive( Min.class, context );
+		registerPrimitive( Of.class, context );
+		registerPrimitive( Size.class, context );
+		registerPrimitive( Swons.class, context );
+		registerPrimitive( Uncons.class, context );
+		registerPrimitive( Unswons.class, context );
 	}
 
 	////////////////////////////////////////////////////////////////////////////

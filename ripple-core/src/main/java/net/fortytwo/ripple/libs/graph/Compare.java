@@ -25,6 +25,16 @@ public class Compare extends PrimitiveStackMapping
 {
 	private static final int ARITY = 2;
 
+    private static final String[] IDENTIFIERS = {
+            GraphLibrary.NS_2008_06 + "compare",
+            GraphLibrary.NS_2007_08 + "compare",
+            GraphLibrary.NS_2007_05 + "compare"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Compare()
 		throws RippleException
 	{

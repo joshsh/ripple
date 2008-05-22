@@ -25,6 +25,15 @@ public class Log10 extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
+    private static final String[] IDENTIFIERS = {
+            MathLibrary.NS_2008_06 + "log10",
+            MathLibrary.NS_2007_08 + "log10"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Log10()
 		throws RippleException
 	{

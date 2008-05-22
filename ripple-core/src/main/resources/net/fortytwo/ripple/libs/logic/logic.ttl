@@ -2,7 +2,7 @@
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix rpl:    <http://fortytwo.net/2007/03/ripple/schema#> .
-@prefix logic:  <http://fortytwo.net/2007/08/ripple/logic#> .
+@prefix logic:  <http://fortytwo.net/2008/06/ripple/logic#> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
 
 logic:and
@@ -24,6 +24,7 @@ logic:and
 	rdfs:label "and" ;
 	rdfs:comment "x y  =>  z  -- where z is true if x and y are true, otherwise false" ;
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#and> ;
+	owl:sameAs <http://fortytwo.net/2007/08/ripple/stack#and> ;
 	.
 
 logic:branch
@@ -48,6 +49,7 @@ logic:branch
 	rdfs:label "branch" ;
 	rdfs:comment "b t f  =>  p!  -- where p is t if b is true, f if b is false" ;
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#branch> ;
+	owl:sameAs <http://fortytwo.net/2007/08/ripple/stack#branch> ;
 	.
 
 logic:choice
@@ -72,6 +74,7 @@ logic:choice
 	rdfs:label "choice" ;
 	rdfs:comment "b t f  =>  x  -- where x is t if b is true, otherwise f" ;
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#choice> ;
+	owl:sameAs <http://fortytwo.net/2007/08/ripple/stack#choice> ;
 	.
 
 logic:false
@@ -88,6 +91,7 @@ logic:false
 	rdfs:label "false" ;
 	rdfs:comment "x y  =>  y   -- note: in Joy, false is a literal value, not a function" ;
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#false> ;
+	owl:sameAs <http://fortytwo.net/2007/08/ripple/stack#false> ;
 	.
 
 logic:ifte
@@ -112,6 +116,7 @@ logic:ifte
 	rdfs:label "ifte" ;
 	rdfs:comment "b t f =>  p!  -- where p is t if /b evaluates to true, and f if it evaluates to false" ;
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#ifte> ;
+	owl:sameAs <http://fortytwo.net/2007/08/ripple/stack#ifte> ;
 	.
 
 logic:not
@@ -128,6 +133,7 @@ logic:not
 	rdfs:label "not" ;
 	rdfs:comment "x  =>  y  -- where y is true if x is false, otherwise false" ;
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#not> ;
+	owl:sameAs <http://fortytwo.net/2007/08/ripple/stack#not> ;
 	.
 
 logic:or
@@ -149,6 +155,7 @@ logic:or
 	rdfs:label "or" ;
 	rdfs:comment "x y  =>  z  -- where z is true if x or y is true, otherwise false" ;
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#or> ;
+	owl:sameAs <http://fortytwo.net/2007/08/ripple/stack#or> ;
 	.
 
 logic:true
@@ -165,6 +172,7 @@ logic:true
 	rdfs:label "true" ;
 	rdfs:comment "x y  =>  y  -- note: in Joy, true is a literal value, not a function" ;
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#true> ;
+	owl:sameAs <http://fortytwo.net/2007/08/ripple/stack#true> ;
 	.
 
 logic:xor
@@ -186,4 +194,5 @@ logic:xor
 	rdfs:label "xor" ;
 	rdfs:comment "x y  =>  z  -- where z is the logical exclusive disjunction of truth values x and y" ;
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#xor> ;
+	owl:sameAs <http://fortytwo.net/2007/08/ripple/stack#xor> ;
 	.

@@ -20,7 +20,8 @@ import net.fortytwo.ripple.URIMap;
  */
 public class LogicLibrary extends Library
 {
-	private static final String NS = "http://fortytwo.net/2007/08/ripple/logic#";
+    public static final String
+            NS_2008_06 = "http://fortytwo.net/2007/08/ripple/logic#";
 
 	// Special values.
     // TODO: forcing these to be static values prohibits concurrent Ripple models, and makes sequential Ripple models (as in the unit tests) problematic
@@ -30,17 +31,17 @@ public class LogicLibrary extends Library
                       final LibraryLoader.LibraryLoaderContext context )
 		throws RippleException
 	{
-		uf.put( NS, getClass().getResource( "logic.ttl" ) + "#" );
+		uf.put( NS_2008_06, getClass().getResource( "logic.ttl" ) + "#" );
 
-		registerPrimitive( And.class, NS + "and", context );
-		branchVal = registerPrimitive( Branch.class, NS + "branch", context );
-		registerPrimitive( Choice.class, NS + "choice", context );
-		falseVal = registerPrimitive( False.class, NS + "false", context );
-		registerPrimitive( Ifte.class, NS + "ifte", context );
-		registerPrimitive( Not.class, NS + "not", context );
-		registerPrimitive( Or.class, NS + "or", context );
-		trueVal = registerPrimitive( True.class, NS + "true", context );
-		registerPrimitive( Xor.class, NS + "xor", context );
+		registerPrimitive( And.class, context );
+		branchVal = registerPrimitive( Branch.class, context );
+		registerPrimitive( Choice.class, context );
+		falseVal = registerPrimitive( False.class, context );
+		registerPrimitive( Ifte.class, context );
+		registerPrimitive( Not.class, context );
+		registerPrimitive( Or.class, context );
+		trueVal = registerPrimitive( True.class, context );
+		registerPrimitive( Xor.class, context );
 	}
 
 	////////////////////////////////////////////////////////////////////////////

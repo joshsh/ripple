@@ -22,6 +22,16 @@ public class Pop extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
+    private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2008_06 + "pop",
+            StackLibrary.NS_2007_08 + "pop",
+            StackLibrary.NS_2007_05 + "pop"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Pop()
 		throws RippleException
 	{

@@ -25,6 +25,16 @@ public class Swons extends PrimitiveStackMapping
 {
 	private static final int ARITY = 2;
 
+    private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2008_06 + "swons",
+            StackLibrary.NS_2007_08 + "swons",
+            StackLibrary.NS_2007_05 + "swons"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Swons()
 		throws RippleException
 	{

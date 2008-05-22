@@ -31,6 +31,16 @@ public class Unique extends PrimitiveStackMapping
 
 	private static final String MEMO = "memo";
 
+    private static final String[] IDENTIFIERS = {
+            StreamLibrary.NS_2008_06 + "unique",
+            StreamLibrary.NS_2007_08 + "unique",
+            StreamLibrary.NS_2007_05 + "unique"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Unique()
 		throws RippleException
 	{

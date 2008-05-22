@@ -29,6 +29,16 @@ public class ToDouble extends PrimitiveStackMapping
 	private static final Logger LOGGER
 		= Logger.getLogger( ToDouble.class );
 
+    private static final String[] IDENTIFIERS = {
+            GraphLibrary.NS_2008_06 + "toDouble",
+            GraphLibrary.NS_2007_08 + "toDouble",
+            GraphLibrary.NS_2007_05 + "toDouble"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public ToDouble()
 		throws RippleException
 	{

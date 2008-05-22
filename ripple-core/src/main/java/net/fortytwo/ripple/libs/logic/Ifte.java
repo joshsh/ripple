@@ -28,7 +28,17 @@ public class Ifte extends PrimitiveStackMapping
 {
 	private static final int ARITY = 3;
 
-	public Ifte()
+    private static final String[] IDENTIFIERS = {
+            LogicLibrary.NS_2008_06 + "ifte",
+            StackLibrary.NS_2007_08 + "ifte",
+            StackLibrary.NS_2007_05 + "ifte"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+    
+    public Ifte()
 		throws RippleException
 	{
 		super();

@@ -27,6 +27,16 @@ public class Lt extends PrimitiveStackMapping
 {
 	private static final int ARITY = 2;
 
+    private static final String[] IDENTIFIERS = {
+            MathLibrary.NS_2008_06 + "lt",
+            MathLibrary.NS_2007_08 + "lt",
+            MathLibrary.NS_2007_05 + "lt"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Lt()
 		throws RippleException
 	{

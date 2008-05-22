@@ -23,10 +23,14 @@ import net.fortytwo.ripple.model.StackContext;
  */
 public class And extends PrimitiveStackMapping
 {
-	private static final int ARITY = 2;
+    private static final int ARITY = 2;
+    
+    private static final String[] IDENTIFIERS = {
+            LogicLibrary.NS_2008_06 + "and",
+            StackLibrary.NS_2007_08 + "and",
+            StackLibrary.NS_2007_05 + "and"};
 
-	public And()
-		throws RippleException
+    public And() throws RippleException
 	{
 		super();
 	}
@@ -36,10 +40,13 @@ public class And extends PrimitiveStackMapping
 		return ARITY;
 	}
 
-	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
-		throws RippleException
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
+    public void applyTo( final StackContext arg,
+						 final Sink<StackContext, RippleException> sink ) throws RippleException
 	{
 		RippleList stack = arg.getStack();
 

@@ -27,6 +27,15 @@ public class StartsWith extends PrimitiveStackMapping
 {
 	private static final int ARITY = 2;
 
+    private static final String[] IDENTIFIERS = {
+            StringLibrary.NS_2008_06 + "startsWith",
+            StringLibrary.NS_2007_08 + "startsWith"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public StartsWith()
 		throws RippleException
 	{

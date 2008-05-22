@@ -28,6 +28,16 @@ public class Ary extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
+    private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2008_06 + "ary",
+            StackLibrary.NS_2007_08 + "ary",
+            StackLibrary.NS_2007_05 + "ary"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Ary()
 		throws RippleException
 	{

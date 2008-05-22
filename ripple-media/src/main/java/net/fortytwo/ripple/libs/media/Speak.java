@@ -25,6 +25,14 @@ public class Speak extends PrimitiveStackMapping
 
 	private Voice singleVoice = null;
 
+    private static final String[] IDENTIFIERS = {
+            MediaLibrary.NS_2007_08 + "speak"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public Speak()
 		throws RippleException
 	{

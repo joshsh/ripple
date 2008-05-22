@@ -26,6 +26,14 @@ public class AssertIn extends PrimitiveStackMapping
 {
 	private static final int ARITY = 4;
 
+    private static final String[] IDENTIFIERS = {
+            GraphLibrary.NS_2008_06 + "assertIn"};
+
+    public String[] getIdentifiers()
+    {
+        return IDENTIFIERS;
+    }
+
 	public AssertIn()
 		throws RippleException
 	{
