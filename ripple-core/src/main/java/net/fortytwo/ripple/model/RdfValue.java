@@ -51,11 +51,12 @@ public class RdfValue implements RippleValue
 		return false;
 	}
 
+// FIXME: not consistent with hashCode()
 	public boolean equals( final Object other )
 	{
-		return ( other instanceof RdfValue )
-			? value.equals( ( (RdfValue) other ).value )
-			: false;
+		return ( other instanceof RippleValue )
+		        ? ( 0 == compareTo( (RippleValue) other ) )
+		        : false;
 	}
 
 	public int hashCode()
@@ -130,7 +131,7 @@ public class RdfValue implements RippleValue
                         : ( null == secondDatatype )
                                 ? 1
                                 : ( firstDatatype.equals( secondDatatype ) )
-                                        ? 0
+                                        ? first.getLabel().compareTo( second.getLabel() )
                                         : firstDatatype.toString().compareTo( secondDatatype.toString() );
     }
 

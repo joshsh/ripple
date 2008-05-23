@@ -16,11 +16,13 @@ import java.security.MessageDigest;
 
 public final class StringUtils
 {
-	// See: http://www.koders.com/java/fid97184BECA1A7DCCD2EDA6D243477157EB453294C.aspx
-	private static final String SAFE_URL_CHARACTERS
-		= "@*-./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz";
+    private static final String UTF_8 = "UTF-8";
 
-	private static final int
+    private static final String
+            MD5 = "MD5",
+            SHA = "SHA";
+
+    private static final int
 		FOUR = 4,
 		EIGHT = 8,
 		SIXTEEN = 16;
@@ -195,78 +197,28 @@ public final class StringUtils
 	}
 
 	/**
-	 *  @param s  a string to encode
+	 *  @param s  a string to encode.  Uses the UTF-8 character set.
 	 *  @return  percent-encoded (per RFC 3986) version of the string
 	 */
-	public static String percentEncode( final String s )
-	{
-		StringBuffer enc = new StringBuffer( s.length() );
-		for ( int i = 0; i < s.length(); ++i )
-		{
-			char c = s.charAt( i );
-
-			if ( SAFE_URL_CHARACTERS.indexOf( c ) >= 0 )
-			{
-				enc.append( c );
-			}
-
-			else
-			{
-				// Just keep lsb like:
-				// http://java.sun.com/j2se/1.3/docs/api/java/net/URLEncoder.html
-				c = (char) ( c & '\u00ff' );
-				if ( c < SIXTEEN )
-				{
-					enc.append( "%0" );
-				}
-				else
-				{
-					enc.append( "%" );
-				}
-
-				enc.append( Integer.toHexString( c ) );
-			}
-		}
-		return enc.toString();
-	}
+    public static String percentEncode( final String s ) throws RippleException {
+        // TODO: there are said to be other differences between the historical
+        // application/x-www-form-urlencoded encoding and the modern URL encoding,
+        // apart from the treatment of space characters.
+        return urlEncode( s ).replaceAll( "\\+", "%20" );
+    }
 
 	/**
-	 *  @param s  percent-encoded (per RFC 3986) string to decode
+	 *  @param s  percent-encoded (per RFC 3986) string to decode.  Uses the UTF-8 character set.
 	 *  @return   the decoded string
 	 */
-// TODO: this is a quick hack which may be too simple
-	public static String percentDecode( final String s )
-	{
-		StringBuffer dec = new StringBuffer( s.length() );
-
-		int i = 0, len = s.length();
-		while ( i < len )
-		{
-			char c = s.charAt( i );
-
-			// Percent-encoded character.
-			if ( '%' == c )
-			{
-				try
-				{
-					c = (char) Integer.parseInt( s.substring( i + 1, i + 3 ), 16 );
-					i += 2;
-				}
-
-				catch ( Throwable t )
-				{
-				}
-			}
-
-			i++;
-			dec.append( c );
-		}
-
-		return dec.toString();
-	}
+    public static String percentDecode( final String s ) throws RippleException {
+        // TODO: is there any properly percent-encoded string which this would treat incorrectly?
+        return urlDecode( s );
+//        return urlDecode( s.replaceAll( "\\+", "%2B" ) );
+    }
 
 	/**
-	 *  @param s  a string to encode
+	 *  @param s  a string to encode.  Uses the UTF-8 character set.
 	 *  @return  application/x-www-form-urlencoded version of the string
 	 */
  	public static String urlEncode( final String s )
@@ -274,7 +226,7 @@ public final class StringUtils
 	{
 		try
 		{
-			return URLEncoder.encode( s, "UTF-8" );
+			return URLEncoder.encode( s, UTF_8 );
 		}
 
 		catch ( java.io.UnsupportedEncodingException e )
@@ -282,9 +234,9 @@ public final class StringUtils
 			throw new RippleException( e );
 		}
 	}
-
-	/**
-	 *  @param s  an application/x-www-form-urlencoded string to decode
+    
+    /**
+	 *  @param s  an application/x-www-form-urlencoded string to decode.  Uses the UTF-8 character set.
 	 *  @return  the decoded string
 	 */
  	public static String urlDecode( final String s )
@@ -292,7 +244,7 @@ public final class StringUtils
 	{
 		try
 		{
-			return URLDecoder.decode( s, "UTF-8" );
+			return URLDecoder.decode( s, UTF_8 );
 		}
 
 		catch ( java.io.UnsupportedEncodingException e )
@@ -309,7 +261,7 @@ public final class StringUtils
 		{
 			if ( null == sha1Digest )
 			{
-				sha1Digest = MessageDigest.getInstance( "SHA" );
+				sha1Digest = MessageDigest.getInstance( SHA );
 			}
 		}
 
@@ -322,7 +274,7 @@ public final class StringUtils
 		{
 			synchronized ( sha1Digest )
 			{
-				sha1Digest.update( plaintext.getBytes( "UTF-8" ) );
+				sha1Digest.update( plaintext.getBytes( UTF_8 ) );
 			}
 		}
 
@@ -358,7 +310,7 @@ public final class StringUtils
 		{
 			if ( null == md5Digest )
 			{
-				md5Digest = MessageDigest.getInstance( "MD5" );
+				md5Digest = MessageDigest.getInstance( MD5 );
 			}
 		}
 
@@ -371,7 +323,7 @@ public final class StringUtils
 		{
 			synchronized ( md5Digest )
 			{
-				md5Digest.update( plaintext.getBytes( "UTF-8" ) );
+				md5Digest.update( plaintext.getBytes( UTF_8 ) );
 			}
 		}
 
