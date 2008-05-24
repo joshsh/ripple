@@ -1,0 +1,36 @@
+package net.fortytwo.ripple.libs.stream;
+
+import net.fortytwo.ripple.test.NewRippleTestCase;
+
+/**
+ * Author: josh
+ * Date: May 3, 2008
+ * Time: 1:42:20 PM
+ */
+public class RequireTest extends NewRippleTestCase
+{
+    public void testSimple() throws Exception
+    {
+        assertReducesTo( "2 3 (add >> 5 equal >>) require >>", "2 3" );
+        assertReducesTo( "2 3 (add >> 6 equal >>) require >>" );
+        assertReducesTo( "(1 2 3 4) each >> (2 mod >> 0 equal >>) require >>", "2", "4" );
+
+        assertReducesTo( "true id require >>", "true" );
+        assertReducesTo( "false id require >>" );        
+        assertReducesTo( "false not require >>", "false" );
+    }
+
+    public void testArity() throws Exception
+    {
+        // Currently 'require' demands exactly two arguments, regardless of the
+        // arity of the criterion function.
+        assertReducesTo( "2 2 1 add >> (add >> 5 equal >>) require >>", "2 3" );
+        assertReducesTo( "1 1 add >> 3 (add >> 5 equal >>) require >>", "1 1 add >> 3" );
+    }
+
+    public void testNonBooleanValues() throws Exception
+    {
+        assertReducesTo( "42 id require >>" );
+        assertReducesTo( "42 not require >>", "42" );
+    }
+}
