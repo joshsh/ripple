@@ -49,38 +49,21 @@ public class Branch extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> sink )
 		throws RippleException
 	{
-		RippleValue b, trueProg, falseProg;
 		RippleList stack = arg.getStack();
 
-		falseProg = stack.getFirst();
+		RippleValue falseProg = stack.getFirst();
 		stack = stack.getRest();
-		trueProg = stack.getFirst();
+		RippleValue trueProg = stack.getFirst();
 		stack = stack.getRest();
-		b = stack.getFirst();
+		boolean b = LogicLibrary.toBoolean( stack.getFirst() );
 		stack = stack.getRest();
 
-		RippleValue result;
-		if ( b.equals( LogicLibrary.getTrueValue() ) )
-		{
-			result = trueProg;
-		}
-
-		else if ( b.equals( LogicLibrary.getFalseValue() ) )
-		{
-			result = falseProg;
-		}
-
-		else
-		{
-			throw new RippleException( "branch expects one of the values true, false as its third argument" );
-		}
+		RippleValue result = b ? trueProg : falseProg;
 
 		sink.put( arg.with(
 				stack.push( result ).push( Operator.OP ) ) );
 	}
 }
-

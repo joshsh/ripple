@@ -63,9 +63,7 @@ public class Equal extends PrimitiveStackMapping
 		// Note: equals() is not suitable for this operation (for instance,
 		//       it may yield false for RdfValues containing identical
 		//       Literals).
-		result = ( 0 == a.compareTo( b ) )
-			? LogicLibrary.getTrueValue()
-			: LogicLibrary.getFalseValue();
+		result = LogicLibrary.fromBoolean( 0 == a.compareTo( b ) );
 
 		sink.put( arg.with( stack.push( result ) ) );
 	}

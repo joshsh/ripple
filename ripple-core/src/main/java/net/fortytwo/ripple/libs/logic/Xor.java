@@ -51,21 +51,14 @@ public class Xor extends PrimitiveStackMapping
 		throws RippleException
 	{
 		RippleList stack = arg.getStack();
-		RippleValue x, y;
+		boolean x, y;
 
-		x = stack.getFirst();
+		x = LogicLibrary.toBoolean( stack.getFirst() );
 		stack = stack.getRest();
-		y = stack.getFirst();
+		y = LogicLibrary.toBoolean( stack.getFirst() );
 		stack = stack.getRest();
 
-		RippleValue trueValue = LogicLibrary.getTrueValue();
-
-		// Note: everything apart from joy:true is considered false.
-		boolean xb = ( 0 == x.compareTo( trueValue ) );
-		boolean yb = ( 0 == y.compareTo( trueValue ) );
-		RippleValue result = ( ( xb && !yb ) || ( !xb && yb ) )
-			? trueValue
-			: LogicLibrary.getFalseValue();
+		RippleValue result = LogicLibrary.fromBoolean( ( x && !y ) || ( !x && y ) );
 
 		sink.put( arg.with(
 				stack.push( result ) ) );

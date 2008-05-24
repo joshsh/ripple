@@ -66,10 +66,9 @@ public class Matches extends PrimitiveStackMapping
 
 		try
 		{
-			result = ( s.matches( regex ) )
-				? LogicLibrary.getTrueValue()
-				: LogicLibrary.getFalseValue();
-			sink.put( arg.with(
+			result = LogicLibrary.fromBoolean( s.matches( regex ) );
+            
+            sink.put( arg.with(
 					stack.push( result ) ) );
 		}
 

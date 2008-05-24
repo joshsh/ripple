@@ -61,9 +61,7 @@ public class Lt extends PrimitiveStackMapping
 		a = stack.getFirst();
 		stack = stack.getRest();
 
-		result = ( a.compareTo( b ) < 0 )
-			? LogicLibrary.getTrueValue()
-			: LogicLibrary.getFalseValue();
+		result = LogicLibrary.fromBoolean( a.compareTo( b ) < 0 );
 
 		sink.put( arg.with(
 				stack.push( result ) ) );

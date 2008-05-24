@@ -60,4 +60,19 @@ public class LogicLibrary extends Library
 	{
 		return falseVal;
 	}
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    // Note: everything apart from logic:true is considered false.
+    // Eventually, this method may throw a type mismatch exception if it is
+    // given a value other than 'true' or 'false'.
+    public static boolean toBoolean( final RippleValue b )
+    {
+        return b.equals( trueVal );
+    }
+    
+    public static RippleValue fromBoolean( final boolean b )
+    {
+        return b ? trueVal : falseVal;
+    }
 }

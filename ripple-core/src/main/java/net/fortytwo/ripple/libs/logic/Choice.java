@@ -61,8 +61,7 @@ public class Choice extends PrimitiveStackMapping
 		b = stack.getFirst();
 		stack = stack.getRest();
 
-		// Note: everything apart from joy:true is considered false.
-		RippleValue result = b.equals( LogicLibrary.getTrueValue() ) ? t : f;
+		RippleValue result = LogicLibrary.toBoolean( b ) ? t : f;
 
 		sink.put( arg.with(
 				stack.push( result ) ) );

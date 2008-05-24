@@ -92,12 +92,12 @@ public class Intersect extends PrimitiveStackMapping
 			RippleList stack = arg.getStack();
 			RippleValue marker = stack.getFirst();
 
-			if ( marker.equals( LogicLibrary.getTrueValue() ) )
+            if ( LogicLibrary.toBoolean( marker ) )
 			{
 				applyTrue( arg, sink );
 			}
 
-			if ( marker.equals( LogicLibrary.getFalseValue() ) )
+			else
 			{
 				applyFalse( arg, sink );
 			}

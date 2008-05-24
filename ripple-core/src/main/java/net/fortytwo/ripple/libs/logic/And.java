@@ -50,19 +50,14 @@ public class And extends PrimitiveStackMapping
 	{
 		RippleList stack = arg.getStack();
 
-		RippleValue x, y;
+		boolean x, y;
 
-		x = stack.getFirst();
+		x = LogicLibrary.toBoolean( stack.getFirst() );
 		stack = stack.getRest();
-		y = stack.getFirst();
+		y = LogicLibrary.toBoolean( stack.getFirst() );
 		stack = stack.getRest();
 
-		RippleValue trueValue = LogicLibrary.getTrueValue();
-
-		// Note: everything apart from joy:true is considered false.
-		RippleValue result = ( 0 == x.compareTo( trueValue ) && 0 == y.compareTo( trueValue ) )
-			? trueValue
-			: LogicLibrary.getFalseValue();
+		RippleValue result = LogicLibrary.fromBoolean( x && y );
 
 		sink.put( arg.with(
 				stack.push( result ) ) );

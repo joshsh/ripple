@@ -51,15 +51,12 @@ public class Not extends PrimitiveStackMapping
 		throws RippleException
 	{
 		RippleList stack = arg.getStack();
-		RippleValue x;
+		boolean x;
 
-		x = stack.getFirst();
+		x = LogicLibrary.toBoolean( stack.getFirst() );
 		stack = stack.getRest();
 
-		// Note: everything apart from joy:true is considered false.
-		RippleValue result = ( 0 == x.compareTo( LogicLibrary.getTrueValue() ) )
-			? LogicLibrary.getFalseValue()
-			: LogicLibrary.getTrueValue();
+		RippleValue result = LogicLibrary.fromBoolean( !x );
 
 		sink.put( arg.with(
 				stack.push( result ) ) );

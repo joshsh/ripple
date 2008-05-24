@@ -83,7 +83,7 @@ public class In extends PrimitiveStackMapping
 			public void put( final RippleList list ) throws RippleException
 			{
 				sink.put( arg.with(
-						rest.push( has( list, x ) ? LogicLibrary.getTrueValue() : LogicLibrary.getFalseValue() ) ) );
+						rest.push( LogicLibrary.fromBoolean( has( list, x ) ) ) ) );
 			}
 		};
 
