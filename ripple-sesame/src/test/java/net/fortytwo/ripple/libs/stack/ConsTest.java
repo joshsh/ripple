@@ -1,8 +1,6 @@
 package net.fortytwo.ripple.libs.stack;
 
 import net.fortytwo.ripple.test.NewRippleTestCase;
-import org.openrdf.model.vocabulary.XMLSchema;
-import org.openrdf.model.vocabulary.RDFS;
 
 /**
  * Author: josh
@@ -11,22 +9,28 @@ import org.openrdf.model.vocabulary.RDFS;
  */
 public class ConsTest extends NewRippleTestCase
 {
-    public void testAll() throws Exception
+    public void testSimpleNativeLists() throws Exception
     {
-        // Simple native lists
         assertReducesTo( "42 () cons >>", "(42)" );
         assertReducesTo( "1 (2 3) cons >>", "(1 2 3)" );
+    }
 
-        // RDF lists
+    public void testRDFLists() throws Exception
+    {
         assertReducesTo( "42 rdf:nil cons >>", "(42)" );
-        // TODO: test RDF lists other than rdf:nil
+        assertReducesTo( "@redefine myList: 1 2 3.\n"
+                + "0 :myList cons >>", "(0 1 2 3)" );
+    }
 
-        // Program/list equivalence
+    public void testProgramListEquivalence() throws Exception
+    {
         assertReducesTo( "42 42 cons >>", "(42 42 >>)" );
         assertReducesTo( "42 42 cons >> >>" );
         assertReducesTo( "42 dup cons >> >>", "42 42" );
+    }
 
-        // Misc. odd cases
+    public void testMisc() throws Exception
+    {
         assertReducesTo( "() () cons >>", "(())" );
     }
 }

@@ -54,28 +54,31 @@ public class At extends PrimitiveStackMapping
 		final ModelConnection mc = arg.getModelConnection();
 		RippleList stack = arg.getStack();
 
-		RippleValue l;
-
-		final int i = mc.toNumericValue( stack.getFirst() ).intValue();
+		final int index = mc.toNumericValue( stack.getFirst() ).intValue();
 		stack = stack.getRest();
-		l = stack.getFirst();
+		RippleValue l = stack.getFirst();
 		final RippleList rest = stack.getRest();
 
 		Sink<RippleList, RippleException> listSink = new Sink<RippleList, RippleException>()
 		{
 			public void put( RippleList list ) throws RippleException
 			{
-				if ( i < 1 )
+                if ( list.isNil() )
+                {
+                    throw new RippleException( "list index out of bounds: " + index );
+                }
+
+                if ( index < 1 )
 				{
-					throw new RippleException( "list index out of bounds (note: 'at' begins counting at 1): " + i );
+					throw new RippleException( "list index out of bounds (note: 'at' begins counting at 1): " + index );
 				}
 		
-				for ( int j = 1; j < i; j++ )
+				for ( int j = 1; j < index; j++ )
 				{
 					list = list.getRest();
 					if ( list.isNil() )
 					{
-						throw new RippleException( "list index out of bounds: " + i );
+						throw new RippleException( "list index out of bounds: " + index );
 					}
 				}
 		
