@@ -52,6 +52,7 @@ import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.model.vocabulary.XMLSchema;
+import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailConnectionListener;
 import org.openrdf.sail.SailException;
@@ -611,6 +612,13 @@ public class SesameModelConnection implements ModelConnection
                     ? null
                     : context.toRDF( this ).sesameValue();
 
+            // rdf:nil is a special case -- as a graph name in Ripple, it
+            // actually represents the null graph.
+            if (contextValue.equals(RDF.NIL))
+            {
+                contextValue = null;
+            }
+
             try
             {
                 if ( null == contextValue )
@@ -672,6 +680,13 @@ public class SesameModelConnection implements ModelConnection
             if ( !( contextValue instanceof Resource ) )
             {
                 return;
+            }
+
+            // rdf:nil is a special case -- as a graph name in Ripple, it
+            // actually represents the null graph.
+            if (contextValue.equals(RDF.NIL))
+            {
+                contextValue = null;
             }
 
             contextResources[i] = (Resource) contextValue;

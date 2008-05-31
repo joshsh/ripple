@@ -28,6 +28,6 @@ public class ApplyTest extends NewRippleTestCase
     public void testNonprograms() throws Exception
     {
         assertReducesTo( "2 apply >>" );
-        assertReducesTo( "1 1 both >>", "1", "1" );
+        assertReducesTo( "1 1 both >> apply >>" );
     }
 }
