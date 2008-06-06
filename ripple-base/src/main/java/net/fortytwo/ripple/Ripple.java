@@ -72,7 +72,12 @@ public final class Ripple
 	{
 	}
 
-	public static void initialize( final Properties... configuration )
+    /**
+     * Initializes the Ripple environment.  Note: it is safe to call this method
+     * more than once.  Subsequent calls simply have no effect.
+     * @param configuration optional configuration properties
+     */
+    public static void initialize( final Properties... configuration )
 		throws RippleException
 	{
 		if ( initialized )
@@ -110,9 +115,14 @@ public final class Ripple
 		initialized = true;
 	}
 	
-	public static RippleProperties getProperties()
-	{
-		return properties;
+	public static RippleProperties getProperties() throws RippleException
+    {
+        if ( !initialized )
+        {
+            throw new RippleException( "Environment is not ready.  Use Ripple.initialize()." );
+        }
+
+        return properties;
 	}
 
 	////////////////////////////////////////////////////////////////////////////

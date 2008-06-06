@@ -29,13 +29,13 @@ public class Interpreter
 	private Sink<Exception, RippleException> exceptionSink;
 	private boolean active = false;
 
-	public Interpreter( final RecognizerAdapter rc,
-						final InputStream in,
-						final Sink<Exception, RippleException> exceptions )
+	public Interpreter( final RecognizerAdapter adapter,
+						final InputStream input,
+						final Sink<Exception, RippleException> exceptionSink )
 	{
-		recognizerAdapter = rc;
-		input = in;
-		exceptionSink = exceptions;
+		recognizerAdapter = adapter;
+		this.input = input;
+		this.exceptionSink = exceptionSink;
 	}
 
 	public void quit()

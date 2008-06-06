@@ -16,6 +16,9 @@ import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.io.RipplePrintStream;
 import net.fortytwo.ripple.model.enums.ExpressionOrder;
 
+import java.util.List;
+import java.util.LinkedList;
+
 public abstract class RippleList extends ListNode<RippleValue> implements RippleValue
 {
     // Constants
@@ -182,4 +185,16 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
 
 		p.print( printPadded ? " )" : ")" );
 	}
+
+    public List<RippleValue> toJavaList() {
+        LinkedList javaList = new LinkedList();
+
+        RippleList cur = this;
+        while (!cur.isNil()) {
+            javaList.addLast(cur.getFirst());
+            cur = cur.getRest();
+        }
+
+        return javaList;
+    }
 }

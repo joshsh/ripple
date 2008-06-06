@@ -30,7 +30,7 @@ import java.io.InputStream;
 
 /**
  * A simple query pipeline.  Each submitted String must be a complete, valid
- * expression.
+ * expression or sequence of expressions.
  */
 public class QueryPipe implements Sink<String, RippleException>
 {
@@ -141,21 +141,34 @@ public class QueryPipe implements Sink<String, RippleException>
 	{
 	}
 	
-	public void put( final String expr ) throws RippleException
-	{
-//System.out.println("interpreting query: " + expr);
-        InputStream is = new ByteArrayInputStream( expr.getBytes() );
-
-        // TODO: creating a new Interpreter for each expression is not very efficient
-        Interpreter interpreter = new Interpreter( recognizerAdapter, is, parserExceptionSink );
+    public void put( final InputStream input ) throws RippleException
+    {
+        // TODO: creating a new Interpreter for each unit of input is not very efficient
+        Interpreter interpreter = new Interpreter( recognizerAdapter, input, parserExceptionSink );
         interpreter.parse();
 
         try {
-            is.close();
+            input.close();
         } catch ( IOException e ) {
             throw new RippleException( e );
         }
 
 		resultBuffer.flush();
+    }
+
+    public void put( final String expr ) throws RippleException
+	{
+//System.out.println("interpreting query: " + expr);
+        InputStream input = new ByteArrayInputStream( expr.getBytes() );
+
+        try {
+            put( input );
+        } finally {
+            try {
+                input.close();
+            } catch ( IOException e ) {
+                throw new RippleException( e );
+            }
+        }
 	}
 }

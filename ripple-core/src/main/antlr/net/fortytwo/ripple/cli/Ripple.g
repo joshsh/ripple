@@ -288,9 +288,16 @@ nt_Document
 	// additional input as it matches newlines).
 	adapter.putEvent( RecognizerEvent.NEWLINE );
 }
-	: ( (nt_Ws)? nt_Statement )*
+//	: ( (nt_Ws)? nt_Statement )* EOF
+    : nt_Statements
 	;
 
+
+nt_Statements
+    : (nt_Ws)?
+      ( (EOF) => EOF
+        | nt_Statement nt_Statements )
+    ;
 
 nt_Ws
 	// Note: consecutive WS tokens occur when the lexer matches a COMMENT

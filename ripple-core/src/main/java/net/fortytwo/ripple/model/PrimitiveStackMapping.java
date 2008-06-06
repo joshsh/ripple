@@ -56,7 +56,7 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
 	{
         // TODO: this guards against a null rdfEquivalent value, but this should't be allowed to happen
         return ( null == rdfEquivalent )
-                ? "unknown"
+                ? "[anonymous PrimitiveStackMapping]"
                 : "" + rdfEquivalent;
 	}
 	

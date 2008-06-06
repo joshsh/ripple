@@ -64,7 +64,7 @@ public class DenyIn extends PrimitiveStackMapping
 		subj = stack.getFirst();
 		stack = stack.getRest();
 
-		mc.remove( subj, pred, obj, ctx );
+        mc.remove( subj, pred, obj, ctx );
 
 		// TODO: store added and removed statements in a buffer until the
 		// ModelConnection commits.  You may not simply wait to commit,
