@@ -85,7 +85,7 @@ public final class Ripple
 			return;
 		}
 
-		PropertyConfigurator.configure(
+        PropertyConfigurator.configure(
 			    Ripple.class.getResource( LOG4J_PROPERTIES ) );
 
 		Properties props = new Properties();

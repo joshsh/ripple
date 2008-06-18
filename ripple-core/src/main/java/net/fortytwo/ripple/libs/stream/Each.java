@@ -47,8 +47,7 @@ public class Each extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> sink	)
 		throws RippleException
 	{
 		final ModelConnection mc = arg.getModelConnection();

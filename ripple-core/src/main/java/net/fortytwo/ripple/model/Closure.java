@@ -18,7 +18,12 @@ public class Closure implements StackMapping
 	private RippleValue argument;
 	private int cachedArity;
 
-	public Closure( final StackMapping innerRelation, final RippleValue argument )
+    /**
+     *
+     * @param innerRelation a mapping
+     * @param argument an inactive value
+     */
+    public Closure( final StackMapping innerRelation, final RippleValue argument )
 	{
 		this.innerRelation = innerRelation;
 		this.argument = argument;

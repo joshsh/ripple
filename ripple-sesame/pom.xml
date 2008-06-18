@@ -20,7 +20,7 @@
         <repository>
             <id>aduna-repo</id>
             <name>Aduna repository</name>
-            <url>http://repository.aduna-software.org/maven2</url>
+            <url>http://repo.aduna-software.org/maven2/releases</url>
         </repository>
         <repository>
             <id>fortytwo</id>
@@ -36,9 +36,9 @@
             <version>0.5</version>
         </dependency>
         <dependency>
-            <groupId>org.openrdf</groupId>
-            <artifactId>openrdf-sail-memory</artifactId>
-            <version>2.0</version>
+            <groupId>org.openrdf.sesame</groupId>
+            <artifactId>sesame-sail-memory</artifactId>
+            <version>2.1.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

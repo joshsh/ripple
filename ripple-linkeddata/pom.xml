@@ -22,6 +22,11 @@
             <name>fortytwo.net Maven repository</name>
             <url>http://fortytwo.net/maven2</url>
         </repository>
+        <repository>
+            <id>aduna-repo</id>
+            <name>Aduna repository</name>
+            <url>http://repo.aduna-software.org/maven2/releases</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -31,14 +36,14 @@
             <version>0.5</version>
         </dependency>
         <dependency>
-            <groupId>org.openrdf</groupId>
-            <artifactId>openrdf-queryalgebra-evaluation</artifactId>
-            <version>2.0</version>
+            <groupId>org.openrdf.sesame</groupId>
+            <artifactId>sesame-queryalgebra-evaluation</artifactId>
+            <version>2.1.1</version>
         </dependency>
         <dependency>
-            <groupId>org.openrdf</groupId>
-            <artifactId>openrdf-sail-memory</artifactId>
-            <version>2.0</version>
+            <groupId>org.openrdf.sesame</groupId>
+            <artifactId>sesame-sail-memory</artifactId>
+            <version>2.1.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
