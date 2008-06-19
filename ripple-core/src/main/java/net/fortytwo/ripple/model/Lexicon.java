@@ -21,10 +21,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.regex.Pattern;
 
 /**
  * Defines a mapping between keywords and URIs, and between namespace prefixes
@@ -32,7 +32,32 @@ import java.util.HashSet;
  */
 public class Lexicon
 {
-	private Map<String, Set<URI>> keywordToUriMap = null;
+    // Note: these definitions are to be kept in exact agreement with those in
+    // the Ripple parser grammar.
+    private static final String
+            NAME_START_CHAR_NOUSC = "[A-Z]|[a-z]" +
+                    "|[\u00C0-\u00D6]" +
+                    "|[\u00D8-\u00F6]" +
+                    "|[\u00F8-\u02FF]" +
+                    "|[\u0370-\u037D]" +
+                    "|[\u037F-\u1FFF]" +
+                    "|[\u200C-\u200D]" +
+                    "|[\u2070-\u218F]" +
+                    "|[\u2C00-\u2FEF]" +
+                    "|[\u3001-\uD7FF]" +
+                    "|[\uF900-\uFDCF]" +
+                    "|[\uFDF0-\uFFFD]",
+            NAME_CHAR = NAME_START_CHAR_NOUSC +
+                    "|_|-" +
+                    "|\\d" +
+                    "|'\u00B7'" +
+                    "|['\u0300'-'\u036F']" +
+                    "|['\u203F'-'\u2040']";
+    private static final Pattern
+            NAME_OR_PREFIX = Pattern.compile("(" + NAME_START_CHAR_NOUSC + ")(" + NAME_CHAR + ")*"),
+            NAME_NOT_PREFIX = Pattern.compile("_(" + NAME_CHAR + ")*");
+
+    private Map<String, Set<URI>> keywordToURIMap = null;
 	private Map<URI, String> uriToKeywordMap = null;
 	private Map<String, String> prefixToNamespaceMap = null;
 	private Map<String, String> namespaceToPrefixMap = null;
@@ -52,7 +77,7 @@ public class Lexicon
 		ModelConnection mc = model.getConnection( "for Lexicon constructor" );
 
         try {
-            keywordToUriMap = new HashMap<String, Set<URI>>();
+            keywordToURIMap = new HashMap<String, Set<URI>>();
             uriToKeywordMap = new HashMap<URI, String>();
 
             // Note: the order of the "set" of special values is significant.
@@ -67,12 +92,12 @@ public class Lexicon
 
                     String keyword = ( (URI) key ).getLocalName();
 
-                    Set<URI> siblings = keywordToUriMap.get( keyword );
+                    Set<URI> siblings = keywordToURIMap.get( keyword );
 
                     if ( null == siblings )
                     {
                         siblings = new HashSet<URI>();
-                        keywordToUriMap.put( keyword, siblings );
+                        keywordToURIMap.put( keyword, siblings );
 
                         uriToKeywordMap.put( (URI) key, keyword );
                     }
@@ -92,9 +117,22 @@ public class Lexicon
         }
     }
 
-	public Set<URI> uriForKeyword( final String localName )
+    public boolean isValidPrefix( final String prefix )
+    {
+        return ( 0 == prefix.length() )
+                || NAME_OR_PREFIX.matcher( prefix ).matches();
+    }
+    
+    public boolean isValidLocalName( final String localName )
+    {
+        return ( 0 == localName.length() )
+                || NAME_OR_PREFIX.matcher( localName ).matches()
+                || NAME_NOT_PREFIX.matcher( localName ).matches();
+    }
+
+    public Set<URI> uriForKeyword( final String localName )
 	{
-		Set<URI> result = keywordToUriMap.get( localName );
+		Set<URI> result = keywordToURIMap.get( localName );
 
 		// If there are no results, return an empty list instead of null.
 		return ( null == result )
@@ -107,7 +145,7 @@ public class Lexicon
 		return prefixToNamespaceMap.get( nsPrefix );
 	}
 
-	public String symbolForUri( final URI uri )
+	public String symbolForURI( final URI uri )
 	{
 		// Does it have a keyword?
 		String symbol = uriToKeywordMap.get( uri );
@@ -120,10 +158,14 @@ public class Lexicon
 			// Namespace prefix may be empty but non-null.
 			if ( null != nsPrefix )
 			{
-				// Note: assumes that the local name is never null (although it
+                String localName = uri.getLocalName();
+
+                // Note: assumes that the local name is never null (although it
 				//       may be empty).
-				symbol = nsPrefix + ":" + uri.getLocalName();
-			}
+                symbol = ( isValidPrefix( nsPrefix ) && isValidLocalName( localName ) )
+                        ? symbol = nsPrefix + ":" + uri.getLocalName()
+                        : null;
+            }
 		}
 
 		return symbol;
@@ -136,7 +178,7 @@ public class Lexicon
 
 	public Completor getCompletor() throws RippleException
 	{
-		Set<String> keywords = keywordToUriMap.keySet();
+		Set<String> keywords = keywordToURIMap.keySet();
 		Set<String> prefixes = prefixToNamespaceMap.keySet();
 
 		int size = keywords.size() + prefixes.size() + allQNames.size();

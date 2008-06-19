@@ -61,7 +61,7 @@ public class RipplePrintStream extends PrintStream
 		{
 			if ( v instanceof URI )
 			{
-				printUri( (URI) v );
+				printURI( (URI) v );
 			}
 
 			else if ( v instanceof Literal )
@@ -98,7 +98,7 @@ public class RipplePrintStream extends PrintStream
 					{
 						printEscapedString( label );
 						print( "^^" );
-						printUri( dataTypeUri );
+						printURI( dataTypeUri );
 					}
 				}
 
@@ -151,18 +151,18 @@ public class RipplePrintStream extends PrintStream
 
 	////////////////////////////////////////////////////////////////////////////
 
-	private void printUriRef( final URI uri )
+	private void printURIRef( final URI uri )
 	{
 		print( "<" + StringUtils.escapeUriString( uri.toString() ) + ">" );
 	}
 
-	private void printUri( final URI uri ) throws RippleException
+	private void printURI( final URI uri ) throws RippleException
 	{
-		String symbol = lexicon.symbolForUri( uri );
+		String symbol = lexicon.symbolForURI( uri );
 
 		if ( null == symbol )
 		{
-			printUriRef( uri );
+			printURIRef( uri );
 		}
 
 		else
