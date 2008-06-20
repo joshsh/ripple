@@ -12,11 +12,14 @@ package net.fortytwo.ripple.libs.logic;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.stack.StackLibrary;
 import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.ripple.flow.NullMapping;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.StackMapping;
+import net.fortytwo.ripple.model.NullStackMapping;
 
 /**
  * A primitive which consumes a Boolean filter b, a filter t, and a filter t,
@@ -29,9 +32,9 @@ public class Ifte extends PrimitiveStackMapping
 	private static final int ARITY = 3;
 
     private static final String[] IDENTIFIERS = {
-            LogicLibrary.NS_2008_06 + "ifte",
-            StackLibrary.NS_2007_08 + "ifte",
-            StackLibrary.NS_2007_05 + "ifte"};
+            // Note: the previous implementation of ifte had different semantics
+            // (rather than the current, Joy semantics).
+            LogicLibrary.NS_2008_06 + "ifte"};
 
     public String[] getIdentifiers()
     {
@@ -50,26 +53,65 @@ public class Ifte extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> sink	)
 		throws RippleException
 	{
-		RippleValue b, trueProg, falseProg;
 		RippleList stack = arg.getStack();
 
-		falseProg = stack.getFirst();
+		RippleValue falseProg = stack.getFirst();
 		stack = stack.getRest();
-		trueProg = stack.getFirst();
+		RippleValue trueProg = stack.getFirst();
 		stack = stack.getRest();
-		b = stack.getFirst();
+		RippleValue criterion = stack.getFirst();
 		stack = stack.getRest();
 
-		sink.put( arg.with(	stack.push( b )
-				.push( Operator.OP )
-				.push( trueProg )
-				.push( falseProg )
-				.push( LogicLibrary.getBranchValue() )
-				.push( Operator.OP ) ) );
+        StackMapping inner = new IfteInner( stack, trueProg, falseProg );
+        RippleList newStack = stack.push( criterion ).push( Operator.OP )
+                .push( new Operator( inner ) );
+               
+        sink.put( arg.with( newStack ) );
 	}
+
+    private class IfteInner implements StackMapping
+    {
+        private final RippleList originalStack;
+        private final RippleValue trueProgram, falseProgram;
+
+        public IfteInner( final RippleList originalStack,
+                          final RippleValue trueProgram,
+                          final RippleValue falseProgram )
+        {
+            this.originalStack = originalStack;
+            this.trueProgram = trueProgram;
+            this.falseProgram = falseProgram;
+        }
+        
+        public int arity()
+        {
+            return 1;
+        }
+
+        public StackMapping inverse() throws RippleException
+        {
+            return new NullStackMapping();
+        }
+
+        public boolean isTransparent()
+        {
+            return true;
+        }
+
+        public void applyTo( final StackContext arg,
+                             final Sink<StackContext, RippleException> sink ) throws RippleException
+        {
+            RippleValue b = arg.getStack().getFirst();
+
+            RippleList stack = LogicLibrary.toBoolean( b )
+                    ? originalStack.push( trueProgram ).push( Operator.OP )
+                    : originalStack.push( falseProgram ).push( Operator.OP );
+
+            sink.put( arg.with( stack ) );
+        }
+    }
 }
 
