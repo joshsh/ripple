@@ -11,7 +11,7 @@ public class AryTest extends NewRippleTestCase
 {
     public void testNormal() throws Exception
     {
-        assertReducesTo( "@redefine recfunc: rdf:first (rdf:rest >> :recfunc >>) both >> 2 ary >> apply >>."
+        assertReducesTo( "@redefine recfunc: rdf:first (rdf:rest >> :recfunc >>) both >> 2 ary >> apply >> .\n"
                 + "(1 2 3) :recfunc >>", "1", "2", "3" );
 
         assertReducesTo( "2 3 dup dip >>", "2 dup >> 3" );
@@ -27,7 +27,7 @@ public class AryTest extends NewRippleTestCase
 
     public void testExcessiveArity() throws Exception
     {
-        assertReducesTo( "@redefine weirdrecfunc: rdf:first (rdf:rest >> :weirdrecfunc >>) both >> 3 ary >> apply >>."
+        assertReducesTo( "@redefine weirdrecfunc: rdf:first (rdf:rest >> :weirdrecfunc >>) both >> 3 ary >> apply >> .\n"
                 + "(1 2 3) :weirdrecfunc >>" );
         assertReducesTo( "1 2 3 ary >>" );
     }

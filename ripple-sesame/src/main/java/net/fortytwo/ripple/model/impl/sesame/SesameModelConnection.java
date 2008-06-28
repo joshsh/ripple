@@ -614,7 +614,7 @@ public class SesameModelConnection implements ModelConnection
 
             // rdf:nil is a special case -- as a graph name in Ripple, it
             // actually represents the null graph.
-            if (contextValue.equals(RDF.NIL))
+            if (null != contextValue && contextValue.equals(RDF.NIL))
             {
                 contextValue = null;
             }
@@ -684,7 +684,7 @@ public class SesameModelConnection implements ModelConnection
 
             // rdf:nil is a special case -- as a graph name in Ripple, it
             // actually represents the null graph.
-            if (contextValue.equals(RDF.NIL))
+            if (null != contextValue && contextValue.equals(RDF.NIL))
             {
                 contextValue = null;
             }
@@ -1165,7 +1165,14 @@ public class SesameModelConnection implements ModelConnection
 
     public void query( final StatementPatternQuery query, final Sink<RippleValue, RippleException> sink) throws RippleException
     {
-        GetStatementsQuery sesameQuery = new GetStatementsQuery( query, this );
+        GetStatementsQuery sesameQuery;
+
+        try {
+            sesameQuery = new GetStatementsQuery( query, this );
+        } catch ( GetStatementsQuery.InvalidQueryException e ) {
+            LOGGER.debug( "invalid query: " + e.getMessage() );
+            return;
+        }
 
         Sink<Value, RippleException> valueSink = new Sink<Value, RippleException>()
 		{

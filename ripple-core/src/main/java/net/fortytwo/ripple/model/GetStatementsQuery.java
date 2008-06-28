@@ -32,6 +32,14 @@ import info.aduna.iteration.CloseableIteration;
  */
 public class GetStatementsQuery
 {
+    public class InvalidQueryException extends RippleException
+    {
+        public InvalidQueryException( final String message )
+        {
+            super( message );
+        }
+    }
+
     // TODO: make this into a configuration property, or find another solution
     private static final boolean STRING_LITERALS_EQUIVALENT_TO_PLAIN_LITERALS = true;
 
@@ -48,31 +56,31 @@ public class GetStatementsQuery
 
     public boolean includeInferred = false;
 
-    public GetStatementsQuery( final StatementPatternQuery other, final ModelConnection mc ) throws RippleException
+    public GetStatementsQuery( final StatementPatternQuery patternQuery, final ModelConnection mc ) throws RippleException
     {
         try {
-            switch ( other.getPattern() )
+            switch ( patternQuery.getPattern() )
             {
                 case SP_O:
                     this.type = Type.SP_O;
-                    subject = getResource( other.getSubject(), mc );
-                    predicate = getURI( other.getPredicate(), mc );
+                    subject = getResource( patternQuery.getSubject(), mc );
+                    predicate = getURI( patternQuery.getPredicate(), mc );
                     break;
                 case PO_S:
                     this.type = Type.PO_S;
-                    predicate = getURI( other.getPredicate(), mc );
-                    object = getValue( other.getObject(), mc );
+                    predicate = getURI( patternQuery.getPredicate(), mc );
+                    object = getValue( patternQuery.getObject(), mc );
                     break;
                 case SO_P:
                     this.type = Type.SO_P;
-                    subject = getResource( other.getSubject(), mc );
-                    object = getValue( other.getObject(), mc );
+                    subject = getResource( patternQuery.getSubject(), mc );
+                    object = getValue( patternQuery.getObject(), mc );
                     break;
                 default:
-                    throw new IllegalArgumentException( "unsupported query pattern: " + other.getPattern() );
+                    throw new InvalidQueryException( "unsupported query pattern: " + patternQuery.getPattern() );
             }
 
-            RippleValue[] otherContexts = other.getContexts();
+            RippleValue[] otherContexts = patternQuery.getContexts();
             if ( otherContexts.length > 0 )
             {
                 this.contexts = new Resource[otherContexts.length];
@@ -85,10 +93,10 @@ public class GetStatementsQuery
 
         catch ( ClassCastException e )
         {
-            throw new RippleException( "value could not be cast to the appropriate Sesame type" );
+            throw new InvalidQueryException( "value could not be cast to the appropriate Sesame type" );
         }
 
-        this.includeInferred = other.getIncludeInferred();
+        this.includeInferred = patternQuery.getIncludeInferred();
     }
 
     private URI getURI( final RippleValue rv, final ModelConnection mc ) throws RippleException, ClassCastException
