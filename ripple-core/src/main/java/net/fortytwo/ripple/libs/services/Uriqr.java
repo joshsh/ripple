@@ -89,8 +89,7 @@ public class Uriqr extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		final ModelConnection mc = arg.getModelConnection();
@@ -172,7 +171,7 @@ public class Uriqr extends PrimitiveStackMapping
 				String text = ( (Element) r ).getText();
 				URI resultUri = mc.createUri( text );
 
-				sink.put( arg.with(
+				solutions .put( arg.with(
 						stack.push(	new RdfValue( resultUri ) ) ) );
 			}
 

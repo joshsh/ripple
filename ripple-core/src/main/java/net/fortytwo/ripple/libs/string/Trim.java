@@ -45,8 +45,7 @@ public class Trim extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		RippleList stack = arg.getStack();
@@ -59,7 +58,7 @@ public class Trim extends PrimitiveStackMapping
 
 		result = s.trim();
 
-		sink.put( arg.with(
+		solutions.put( arg.with(
 				stack.push( mc.value( result ) ) ) );
 	}
 }

@@ -45,7 +45,7 @@ public class Speak extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink )
+						 final Sink<StackContext, RippleException> solutions )
 		    throws RippleException
 	{
         ModelConnection mc = arg.getModelConnection();
@@ -66,7 +66,7 @@ System.out.println( "error: " + e );
 		}
 
 		// Pass the stack along, unaltered.
-		sink.put( arg.with( stack ) );
+		solutions.put( arg.with( stack ) );
 	}
 
 	// Note: we won't try to speak more than one expression at a time.

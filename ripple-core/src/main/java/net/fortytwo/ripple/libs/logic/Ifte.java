@@ -53,7 +53,7 @@ public class Ifte extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink	)
+						 final Sink<StackContext, RippleException> solutions	)
 		throws RippleException
 	{
 		RippleList stack = arg.getStack();
@@ -69,7 +69,7 @@ public class Ifte extends PrimitiveStackMapping
         RippleList newStack = stack.push( criterion ).push( Operator.OP )
                 .push( new Operator( inner ) );
                
-        sink.put( arg.with( newStack ) );
+        solutions.put( arg.with( newStack ) );
 	}
 
     private class IfteInner implements StackMapping

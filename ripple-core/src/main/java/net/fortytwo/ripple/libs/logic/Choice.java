@@ -47,8 +47,7 @@ public class Choice extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		RippleValue f, t, b;
@@ -63,7 +62,7 @@ public class Choice extends PrimitiveStackMapping
 
 		RippleValue result = LogicLibrary.toBoolean( b ) ? t : f;
 
-		sink.put( arg.with(
+		solutions.put( arg.with(
 				stack.push( result ) ) );
 	}
 }

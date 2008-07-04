@@ -21,7 +21,7 @@ public class NullMapping<D, R, E extends Exception> implements Mapping<D, R, E>
         return true;
     }
 
-    public void applyTo(final D arg, final Sink<R, E> sink) throws E
+    public void applyTo( final D arg, final Sink<R, E> solutions ) throws E
     {
         // Do nothing
     }

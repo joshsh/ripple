@@ -47,8 +47,7 @@ public class Unswons extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		RippleList stack = arg.getStack();
@@ -63,7 +62,7 @@ public class Unswons extends PrimitiveStackMapping
 		{
 			public void put( final RippleList list ) throws RippleException
 			{
-				sink.put( arg.with(
+				solutions.put( arg.with(
 						rest.push( list.getRest() ).push( list.getFirst() ) ) );
 			}
 		};

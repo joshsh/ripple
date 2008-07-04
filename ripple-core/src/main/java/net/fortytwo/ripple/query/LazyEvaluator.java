@@ -10,7 +10,6 @@
 package net.fortytwo.ripple.query;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.io.RipplePrintStream;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.model.Closure;
 import net.fortytwo.ripple.model.StackMapping;
@@ -108,7 +107,7 @@ public class LazyEvaluator extends StackEvaluator
 	////////////////////////////////////////////////////////////////////////////
 
 	public void applyTo( final StackContext arg,
-						final Sink<StackContext, RippleException> sink )
+						final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 if ( arg.getStack().isNil() )
@@ -123,7 +122,7 @@ if ( arg.getStack().isNil() )
     }
 };*/
 
-        EvaluatorSink evalSink = new EvaluatorSink( sink );
+        EvaluatorSink evalSink = new EvaluatorSink(solutions);
 //        EvaluatorSink evalSink = new EvaluatorSink( debugSink );
 		stopped = false;
 

@@ -49,7 +49,7 @@ public class Branch extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink )
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		RippleList stack = arg.getStack();
@@ -63,7 +63,7 @@ public class Branch extends PrimitiveStackMapping
 
 		RippleValue result = b ? trueProg : falseProg;
 
-		sink.put( arg.with(
+		solutions.put( arg.with(
 				stack.push( result ).push( Operator.OP ) ) );
 	}
 }

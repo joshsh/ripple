@@ -45,8 +45,7 @@ public class Sqrt extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		final ModelConnection mc = arg.getModelConnection();
@@ -63,11 +62,11 @@ public class Sqrt extends PrimitiveStackMapping
 			double d = Math.sqrt( a );
 
 			// Yield both square roots.
-			sink.put( arg.with(
+			solutions.put( arg.with(
 					stack.push( mc.value( d ) ) ) );
 			if ( d > 0 )
 			{
-				sink.put( arg.with(
+				solutions.put( arg.with(
 						stack.push( mc.value( 0.0 - d ) ) ) );
 			}
 		}

@@ -10,7 +10,6 @@
 package net.fortytwo.ripple.libs.services;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.libs.math.MathLibrary;
 import net.fortytwo.ripple.libs.etc.EtcLibrary;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.model.ModelConnection;
@@ -65,8 +64,7 @@ public class PingTheSemanticWeb extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		final ModelConnection mc = arg.getModelConnection();
@@ -86,7 +84,7 @@ public class PingTheSemanticWeb extends PrimitiveStackMapping
 //		maxResults = mc.intValue( stack.getFirst() );
 		stack = stack.getRest();
 
-sink.put( arg.with(
+solutions.put( arg.with(
 		stack.push( mc.value( MSG ) ) ) );
 /*
 		URLConnection urlConn = HttpUtils.openConnection(

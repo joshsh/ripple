@@ -56,7 +56,7 @@ public class Show extends PrimitiveStackMapping
 	}
 
     public void applyTo( final StackContext arg,
-                         final Sink<StackContext, RippleException> sink )
+                         final Sink<StackContext, RippleException> solutions )
             throws RippleException
 	{
         ModelConnection mc = arg.getModelConnection();
@@ -89,7 +89,7 @@ public class Show extends PrimitiveStackMapping
 		}
 
 		// Pass the stack along, unaltered.
-		sink.put( arg.with( stack ) );
+		solutions.put( arg.with( stack ) );
 	}
 
 	//panel used to draw image on

@@ -23,7 +23,7 @@ public interface Mapping<D, R, E extends Exception>
 	boolean isTransparent();
 
     // Open-world, push-based
-    void applyTo( D arg, Sink<R, E> sink ) throws E;
+    void applyTo( D arg, Sink<R, E> solutions ) throws E;
 
     /*
     // Open-world, pull-based

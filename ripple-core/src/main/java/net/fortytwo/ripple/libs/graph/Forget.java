@@ -49,8 +49,7 @@ public class Forget extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		final ModelConnection mc = arg.getModelConnection();
@@ -64,7 +63,7 @@ public class Forget extends PrimitiveStackMapping
 		mc.forget( v );
 		
 		// Note: the stack itself has not been altered.
-		sink.put( arg );
+		solutions.put( arg );
 	}
 }
 

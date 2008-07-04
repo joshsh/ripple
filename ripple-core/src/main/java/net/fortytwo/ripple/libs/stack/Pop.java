@@ -44,8 +44,7 @@ public class Pop extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		RippleList stack = arg.getStack();
@@ -53,7 +52,7 @@ public class Pop extends PrimitiveStackMapping
 
 		if ( !stack.isNil() )
 		{
-			sink.put( arg.with(	stack ) );
+			solutions.put( arg.with(	stack ) );
 		}
 	}
 }

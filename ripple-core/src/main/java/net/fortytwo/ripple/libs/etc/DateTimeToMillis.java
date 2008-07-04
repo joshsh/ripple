@@ -51,7 +51,7 @@ public class DateTimeToMillis extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink	)
+						 final Sink<StackContext, RippleException> solutions	)
 		    throws RippleException
 	{
 		final ModelConnection mc = arg.getModelConnection();
@@ -59,7 +59,7 @@ public class DateTimeToMillis extends PrimitiveStackMapping
         Date d = mc.toDateValue( stack.getFirst() );
         stack = stack.getRest();
         
-        sink.put( arg.with( stack.push(
+        solutions.put( arg.with( stack.push(
 			mc.value( d.getTime() ) ) ) );
 	}
 }

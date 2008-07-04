@@ -50,8 +50,7 @@ public class Fold extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		final ModelConnection mc = arg.getModelConnection();
@@ -81,7 +80,7 @@ public class Fold extends PrimitiveStackMapping
 					lList = lList.getRest();
 				}
 		
-				sink.put( arg.with( result ) );
+				solutions.put( arg.with( result ) );
 			}
 		};
 

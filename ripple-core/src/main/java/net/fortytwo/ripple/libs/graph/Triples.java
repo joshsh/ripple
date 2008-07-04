@@ -55,8 +55,7 @@ public class Triples extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		final ModelConnection mc = arg.getModelConnection();
@@ -64,7 +63,7 @@ public class Triples extends PrimitiveStackMapping
 
 		String uri = mc.toUri( stack.getFirst() ).toString();
 
-		SesameInputAdapter sc = createAdapter( arg, sink );
+		SesameInputAdapter sc = createAdapter( arg, solutions );
 
 		HttpMethod method = HTTPUtils.createGetMethod( uri );
 		HTTPUtils.setRdfAcceptHeader( method );

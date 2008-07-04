@@ -38,7 +38,7 @@ public class GetProperty extends PrimitiveStackMapping {
     }
 
     public void applyTo(final StackContext arg,
-                        final Sink<StackContext, RippleException> sink) throws RippleException {
+                        final Sink<StackContext, RippleException> solutions) throws RippleException {
         ModelConnection mc = arg.getModelConnection();
 
         RippleList stack = arg.getStack();
@@ -53,7 +53,7 @@ public class GetProperty extends PrimitiveStackMapping {
             // FIXME: this is a hack
             String result = val.toString();
 
-            sink.put(arg.with(stack.push(mc.value(result))));
+            solutions.put(arg.with(stack.push(mc.value(result))));
         } else {
             throw new RippleException("argument " + node + " should be a Neo4jNode");
         }

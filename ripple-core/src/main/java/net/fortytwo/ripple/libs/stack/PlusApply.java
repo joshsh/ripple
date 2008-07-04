@@ -49,8 +49,7 @@ public class PlusApply extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		RippleList stack = arg.getStack();
@@ -61,7 +60,7 @@ public class PlusApply extends PrimitiveStackMapping
 		{
 			public void put( final Operator op ) throws RippleException
 			{
-				sink.put( arg.with( rest.push(
+				solutions.put( arg.with( rest.push(
 						new Operator( new PlusQuantifier( op ) ) ) ) );
 			}
 		};

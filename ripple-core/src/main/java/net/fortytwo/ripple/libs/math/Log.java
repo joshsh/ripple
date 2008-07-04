@@ -47,8 +47,7 @@ public class Log extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		final ModelConnection mc = arg.getModelConnection();
@@ -65,7 +64,7 @@ public class Log extends PrimitiveStackMapping
 		{
 			result = mc.value( Math.log( a ) );
 
-			sink.put( arg.with(
+			solutions.put( arg.with(
 					stack.push( result ) ) );
 		}
 	}

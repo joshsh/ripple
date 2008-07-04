@@ -45,8 +45,7 @@ public class PercentDecode extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		RippleList stack = arg.getStack();
@@ -58,7 +57,7 @@ public class PercentDecode extends PrimitiveStackMapping
 		stack = stack.getRest();
 
 		result = StringUtils.percentDecode( a );
-		sink.put( arg.with(
+		solutions.put( arg.with(
 				stack.push( mc.value( result ) ) ) );
 	}
 }

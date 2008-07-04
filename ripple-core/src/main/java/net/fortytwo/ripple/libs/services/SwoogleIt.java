@@ -69,7 +69,7 @@ public class SwoogleIt extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink )
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		final ModelConnection mc = arg.getModelConnection();
@@ -113,7 +113,7 @@ URI ctx = mc.createUri( url.toString() );
 
 		// Output is buffered so that the entire document is imported into the
 		// model before results are processed.
-		final Buffer<StackContext, RippleException> buffer = new Buffer<StackContext, RippleException>( sink );
+		final Buffer<StackContext, RippleException> buffer = new Buffer<StackContext, RippleException>( solutions );
 
 		RDFSink responseWatcher = new RDFSink()
 		{

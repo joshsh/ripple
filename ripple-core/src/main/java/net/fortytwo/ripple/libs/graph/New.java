@@ -46,8 +46,7 @@ public class New extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		final ModelConnection mc = arg.getModelConnection();
@@ -58,7 +57,7 @@ public class New extends PrimitiveStackMapping
 			new RdfValue( mc.createBNode() ) );
 //System.out.println( "Creating a new node" );
 
-		sink.put( arg.with( result ) );
+		solutions.put( arg.with( result ) );
 	}
 }
 

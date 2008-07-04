@@ -47,8 +47,7 @@ public class Equal extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		RippleList stack = arg.getStack();
@@ -65,6 +64,6 @@ public class Equal extends PrimitiveStackMapping
 		//       Literals).
 		result = LogicLibrary.fromBoolean( 0 == a.compareTo( b ) );
 
-		sink.put( arg.with( stack.push( result ) ) );
+		solutions.put( arg.with( stack.push( result ) ) );
 	}
 }

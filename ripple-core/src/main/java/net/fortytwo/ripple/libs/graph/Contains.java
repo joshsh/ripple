@@ -47,8 +47,7 @@ public class Contains extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		final ModelConnection mc = arg.getModelConnection();
@@ -61,7 +60,7 @@ public class Contains extends PrimitiveStackMapping
 		{
 			public void put( final RippleValue v ) throws RippleException
 			{
-				sink.put( arg.with( rest.push( v ) ) );
+				solutions.put( arg.with( rest.push( v ) ) );
 			}
 		};		
 		

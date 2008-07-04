@@ -52,8 +52,7 @@ public class Intersect extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		RippleList stack = arg.getStack();
@@ -64,9 +63,9 @@ public class Intersect extends PrimitiveStackMapping
 		stack = stack.getRest();
 
 		Operator inner = new Operator( new IntersectInner() );
-		sink.put( arg.with(
+		solutions.put( arg.with(
 				stack.push( rtrue ).push( Operator.OP ).push( LogicLibrary.getTrueValue() ).push( inner ) ) );
-		sink.put( arg.with(
+		solutions.put( arg.with(
 				stack.push( rfalse ).push( Operator.OP ).push( LogicLibrary.getFalseValue() ).push( inner ) ) );
 	}
 

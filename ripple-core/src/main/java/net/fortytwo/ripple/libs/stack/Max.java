@@ -45,8 +45,7 @@ public class Max extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		RippleList stack = arg.getStack();
@@ -76,7 +75,7 @@ public class Max extends PrimitiveStackMapping
 		
 				if ( null != result )
 				{
-					sink.put( arg.with(
+					solutions.put( arg.with(
 							rest.push( result ) ) );
 				}
 			}

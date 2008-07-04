@@ -45,8 +45,7 @@ public class Sinh extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		final ModelConnection mc = arg.getModelConnection();
@@ -59,7 +58,7 @@ public class Sinh extends PrimitiveStackMapping
 
 		result = mc.value( Math.sinh( a.doubleValue() ) );
 
-		sink.put( arg.with(
+		solutions.put( arg.with(
 				stack.push( result ) ) );	}
 }
 

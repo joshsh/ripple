@@ -50,8 +50,7 @@ public class Infer extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		final ModelConnection mc = arg.getModelConnection();
@@ -66,7 +65,7 @@ public class Infer extends PrimitiveStackMapping
             return;
         }
 
-        sink.put( arg.with(
+        solutions.put( arg.with(
 				stack.push( new Operator( new RdfPredicateMapping( pred, true ) ) ) ) );
 	}
 }

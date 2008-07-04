@@ -52,7 +52,7 @@ public class Map extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		final ModelConnection mc = arg.getModelConnection();
@@ -74,7 +74,7 @@ public class Map extends PrimitiveStackMapping
 			{
                 if ( list.isNil() )
                 {
-                    sink.put( arg.with( rest.push( list ) ) );
+                    solutions.put( arg.with( rest.push( list ) ) );
                 }
 
                 // TODO: this is probably a little more complicated than it needs to be
@@ -86,7 +86,7 @@ public class Map extends PrimitiveStackMapping
                     for (Iterator<Operator> iter = operators.iterator(); iter.hasNext(); )
                     {
                         StackMapping inner = new InnerMapping( mc.list(), inverted.getRest(), iter.next() );
-                        sink.put( arg.with( rest.push( f ).push( mappingVal ).push( Operator.OP ).push( new Operator( inner ) ) ) );
+                        solutions.put( arg.with( rest.push( f ).push( mappingVal ).push( Operator.OP ).push( new Operator( inner ) ) ) );
                     }
                 }
             }
@@ -122,7 +122,7 @@ public class Map extends PrimitiveStackMapping
             return true;
         }
 
-        public void applyTo( final StackContext arg, final Sink<StackContext, RippleException> sink ) throws RippleException
+        public void applyTo( final StackContext arg, final Sink<StackContext, RippleException> solutions ) throws RippleException
         {
             RippleList stack = arg.getStack();
             RippleValue first = stack.getFirst();
@@ -132,7 +132,7 @@ public class Map extends PrimitiveStackMapping
 
             if ( invertedListHead.isNil() )
             {
-                sink.put( arg.with( stack.push( newListRest ) ) );
+                solutions.put( arg.with( stack.push( newListRest ) ) );
             }
 
             else
@@ -141,7 +141,7 @@ public class Map extends PrimitiveStackMapping
                 RippleList restStack = stack.push( invertedListHead.getFirst() ).push( operator );
 
                 StackMapping restMapping = new InnerMapping( newListRest, invertedListHead.getRest(), operator );
-                sink.put( arg.with( restStack.push( new Operator( restMapping ) ) ) );
+                solutions.put( arg.with( restStack.push( new Operator( restMapping ) ) ) );
             }
         }
     }

@@ -43,11 +43,10 @@ public class Id extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
-		sink.put( arg );
+		solutions.put( arg );
 	}
 }
 

@@ -42,7 +42,8 @@ public class Invert extends PrimitiveStackMapping
         return 1;
     }
 
-    public void applyTo( final StackContext arg, final Sink<StackContext, RippleException> sink) throws RippleException
+    public void applyTo( final StackContext arg,
+                         final Sink<StackContext, RippleException> solutions ) throws RippleException
     {
         RippleList stack = arg.getStack();
         final ModelConnection mc = arg.getModelConnection();
@@ -59,7 +60,7 @@ public class Invert extends PrimitiveStackMapping
 //System.out.println("mapping to invert: " + op.getMapping());
                 // Note: this operation both inverts and applies the mapping
                 RippleValue inverse = new StackMappingWrapper( op.getMapping().inverse(), mc );
-                sink.put( arg.with( rest.push( inverse ) ) );
+                solutions.put( arg.with( rest.push( inverse ) ) );
             }
         };
 

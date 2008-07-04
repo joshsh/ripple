@@ -45,8 +45,7 @@ public class Cosh extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		final ModelConnection mc = arg.getModelConnection();
@@ -59,7 +58,7 @@ public class Cosh extends PrimitiveStackMapping
 
 		result = mc.value( Math.cosh( a.doubleValue() ) );
 
-		sink.put( arg.with(
+		solutions.put( arg.with(
 				stack.push( result ) ) );
 	}
 }

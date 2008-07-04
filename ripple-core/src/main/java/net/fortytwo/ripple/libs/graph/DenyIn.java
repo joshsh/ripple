@@ -46,8 +46,7 @@ public class DenyIn extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		final ModelConnection mc = arg.getModelConnection();
@@ -74,6 +73,6 @@ public class DenyIn extends PrimitiveStackMapping
 		// Sail.
 		mc.commit();
 
-		sink.put( arg.with( stack.push( subj ) ) );
+		solutions.put( arg.with( stack.push( subj ) ) );
 	}
 }

@@ -47,13 +47,13 @@ public class Time extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink	)
+						 final Sink<StackContext, RippleException> solutions	)
 		    throws RippleException
 	{
 		final ModelConnection mc = arg.getModelConnection();
 		RippleList stack = arg.getStack();
 
-		sink.put( arg.with( stack.push(
+		solutions.put( arg.with( stack.push(
 			mc.value( System.currentTimeMillis() ) ) ) );
 	}
 }

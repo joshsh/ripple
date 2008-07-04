@@ -47,8 +47,7 @@ public class ToUri extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		final ModelConnection mc = arg.getModelConnection();
@@ -61,7 +60,7 @@ public class ToUri extends PrimitiveStackMapping
 
 		URI uri = mc.createUri( s );
 
-		sink.put( arg.with(
+		solutions.put( arg.with(
 				stack.push( mc.value( uri ) ) ) );
 	}
 }

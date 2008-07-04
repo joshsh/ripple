@@ -46,8 +46,7 @@ public class Dipd extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink
-	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		RippleValue z, y, x;
@@ -61,7 +60,7 @@ public class Dipd extends PrimitiveStackMapping
 		x = stack.getFirst();
 		stack = stack.getRest();
 
-		sink.put( arg.with(
+		solutions.put( arg.with(
 				stack.push( z ).push( Operator.OP ).push( x ).push( y ) ) );
 	}
 }

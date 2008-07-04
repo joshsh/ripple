@@ -36,10 +36,10 @@ public class Closure implements StackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						final Sink<StackContext, RippleException> sink )
+						final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
-        innerRelation.applyTo( arg.with( arg.getStack().push( argument ) ), sink );
+        innerRelation.applyTo( arg.with( arg.getStack().push( argument ) ), solutions );
 	}
 	
 	public boolean isTransparent()

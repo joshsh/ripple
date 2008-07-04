@@ -52,7 +52,7 @@ public class Require extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink )
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
         ModelConnection mc = arg.getModelConnection();
@@ -65,7 +65,7 @@ public class Require extends PrimitiveStackMapping
             public void put( final Operator op ) throws RippleException
             {
                 CriterionApplicator applicator = new CriterionApplicator( op );
-                sink.put( arg.with( rest.push( new Operator( applicator ) ) ) );
+                solutions.put( arg.with( rest.push( new Operator( applicator ) ) ) );
             }
         };
         
@@ -95,13 +95,13 @@ public class Require extends PrimitiveStackMapping
         }
 
         public void applyTo( final StackContext arg,
-                             final Sink<StackContext, RippleException> sink ) throws RippleException
+                             final Sink<StackContext, RippleException> solutions ) throws RippleException
         {
             RippleList stack = arg.getStack();
             Decider decider = new Decider( stack );
 
             // Apply the criterion, sending the result into the Decider.
-            sink.put( arg.with( stack.push( criterion ).push( new Operator( decider ) ) ) );
+            solutions.put( arg.with( stack.push( criterion ).push( new Operator( decider ) ) ) );
         }
     }
 
@@ -127,7 +127,7 @@ public class Require extends PrimitiveStackMapping
         }
 
         public void applyTo( final StackContext arg,
-                             final Sink<StackContext, RippleException> sink ) throws RippleException
+                             final Sink<StackContext, RippleException> solutions ) throws RippleException
         {
             RippleValue b;
             RippleList stack = arg.getStack();
@@ -137,7 +137,7 @@ public class Require extends PrimitiveStackMapping
 
             if ( b.equals( LogicLibrary.getTrueValue() ) )
             {
-                sink.put( arg.with( rest ) );
+                solutions.put( arg.with( rest ) );
             }
         }
     }

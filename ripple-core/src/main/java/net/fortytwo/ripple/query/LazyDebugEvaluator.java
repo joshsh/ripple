@@ -164,7 +164,7 @@ public class LazyDebugEvaluator extends StackEvaluator
 	////////////////////////////////////////////////////////////////////////////
 
 	public void applyTo( final StackContext arg,
-						final Sink<StackContext, RippleException> sink )
+						final Sink<StackContext, RippleException> solutions)
 		throws RippleException
 	{
 if ( arg.getStack().isNil() )
@@ -183,7 +183,7 @@ if ( arg.getStack().isNil() )
         {
             public void put( final DebugStack d ) throws RippleException
             {
-                sink.put( d.stackContext );
+                solutions.put( d.stackContext );
             }
         };
 
