@@ -17,6 +17,7 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.ModelConnection;
 
 /**
  * A primitive which consumes a Boolean value b, a filter t, and a filter f,
@@ -52,13 +53,14 @@ public class Branch extends PrimitiveStackMapping
 						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
+        ModelConnection mc = arg.getModelConnection();
 		RippleList stack = arg.getStack();
 
 		RippleValue falseProg = stack.getFirst();
 		stack = stack.getRest();
 		RippleValue trueProg = stack.getFirst();
 		stack = stack.getRest();
-		boolean b = LogicLibrary.toBoolean( stack.getFirst() );
+		boolean b = mc.toBoolean( stack.getFirst() );
 		stack = stack.getRest();
 
 		RippleValue result = b ? trueProg : falseProg;

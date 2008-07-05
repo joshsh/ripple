@@ -82,7 +82,7 @@ public class Has extends PrimitiveStackMapping
 			public void put( final RippleList list ) throws RippleException
 			{
 				solutions.put( arg.with(
-						rest.push( LogicLibrary.fromBoolean( has( list, x ) ) ) ) );
+						rest.push( mc.value( has( list, x ) ) ) ) );
 			}
 		};
 

@@ -20,6 +20,7 @@ import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackMapping;
 import net.fortytwo.ripple.model.NullStackMapping;
+import net.fortytwo.ripple.model.ModelConnection;
 
 /**
  * A primitive which consumes a Boolean filter b, a filter t, and a filter t,
@@ -104,9 +105,10 @@ public class Ifte extends PrimitiveStackMapping
         public void applyTo( final StackContext arg,
                              final Sink<StackContext, RippleException> sink ) throws RippleException
         {
+            ModelConnection mc = arg.getModelConnection();
             RippleValue b = arg.getStack().getFirst();
 
-            RippleList stack = LogicLibrary.toBoolean( b )
+            RippleList stack = mc.toBoolean( b )
                     ? originalStack.push( trueProgram ).push( Operator.OP )
                     : originalStack.push( falseProgram ).push( Operator.OP );
 

@@ -65,7 +65,7 @@ public class Matches extends PrimitiveStackMapping
 
 		try
 		{
-			result = LogicLibrary.fromBoolean( s.matches( regex ) );
+			result = mc.value( s.matches( regex ) );
             
             solutions.put( arg.with(
 					stack.push( result ) ) );

@@ -15,6 +15,7 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.flow.Sink;
 
 /**
@@ -51,6 +52,7 @@ public class Choice extends PrimitiveStackMapping
 		throws RippleException
 	{
 		RippleValue f, t, b;
+        ModelConnection mc = arg.getModelConnection();
 		RippleList stack = arg.getStack();
 
 		f = stack.getFirst();
@@ -60,7 +62,7 @@ public class Choice extends PrimitiveStackMapping
 		b = stack.getFirst();
 		stack = stack.getRest();
 
-		RippleValue result = LogicLibrary.toBoolean( b ) ? t : f;
+		RippleValue result = mc.toBoolean( b ) ? t : f;
 
 		solutions.put( arg.with(
 				stack.push( result ) ) );

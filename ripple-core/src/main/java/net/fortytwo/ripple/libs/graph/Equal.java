@@ -14,6 +14,7 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.libs.stack.StackLibrary;
 import net.fortytwo.ripple.libs.logic.LogicLibrary;
@@ -50,7 +51,8 @@ public class Equal extends PrimitiveStackMapping
 						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
-		RippleList stack = arg.getStack();
+        ModelConnection mc = arg.getModelConnection();
+        RippleList stack = arg.getStack();
 
 		RippleValue a, b, result;
 
@@ -62,7 +64,7 @@ public class Equal extends PrimitiveStackMapping
 		// Note: equals() is not suitable for this operation (for instance,
 		//       it may yield false for RdfValues containing identical
 		//       Literals).
-		result = LogicLibrary.fromBoolean( 0 == a.compareTo( b ) );
+		result = mc.value( 0 == a.compareTo( b ) );
 
 		solutions.put( arg.with( stack.push( result ) ) );
 	}

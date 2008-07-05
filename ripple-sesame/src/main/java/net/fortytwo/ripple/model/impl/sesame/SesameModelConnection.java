@@ -282,17 +282,18 @@ public class SesameModelConnection implements ModelConnection
 	
 	////////////////////////////////////////////////////////////////////////////
 	
-	public boolean toBoolean( final RippleValue rv ) throws RippleException
+    // Note: everything apart from xsd:true is considered false.
+    // Eventually, this method may throw a type mismatch exception if it is
+    // given a value other than "true"^^xsd:boolean or "false"^^xsd:boolean.
+    public boolean toBoolean( final RippleValue rv ) throws RippleException
 	{
 		Literal l = castToLiteral( rv.toRDF( this ).sesameValue() );
-	
-	//    URI type = lit.getDatatype();
-	//    if ( !type.equals( XMLSchema.BOOLEAN ) )
-	//        throw new RippleException( "type mismatch: expected " + XMLSchema.BOOLEAN.toString() + ", found " + type.toString() );
-	
-		String label = l.getLabel();
-	//TODO: is capitalization relevant? Can 'true' also be represented as '1'?
-		return label.equals( "true" );
+
+	    //TODO: is capitalization relevant? Can 'true' also be represented as '1'?
+        URI datatype = l.getDatatype();
+        return null != datatype
+                && XMLSchema.BOOLEAN.equals( datatype )
+                && l.getLabel().equals( "true" );
 	}
 	
 	public NumericValue toNumericValue( final RippleValue rv )

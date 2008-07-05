@@ -17,6 +17,7 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
+import net.fortytwo.ripple.model.ModelConnection;
 
 /**
  * A primitive which consumes two items x and y and produces a Boolean value of
@@ -53,6 +54,7 @@ public class Lt extends PrimitiveStackMapping
 		throws RippleException
 	{
 		RippleValue a, b, result;
+        ModelConnection mc = arg.getModelConnection();
 		RippleList stack = arg.getStack();
 
 		b = stack.getFirst();
@@ -60,7 +62,7 @@ public class Lt extends PrimitiveStackMapping
 		a = stack.getFirst();
 		stack = stack.getRest();
 
-		result = LogicLibrary.fromBoolean( a.compareTo( b ) < 0 );
+		result = mc.value( a.compareTo( b ) < 0 );
 
 		solutions.put( arg.with(
 				stack.push( result ) ) );

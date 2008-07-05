@@ -16,6 +16,7 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.ModelConnection;
 
 /**
  * A primitive which consumes two Boolean values and produces the result of
@@ -50,15 +51,16 @@ public class Or extends PrimitiveStackMapping
 						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
+        ModelConnection mc = arg.getModelConnection();
 		RippleList stack = arg.getStack();
 		boolean x, y;
 
-		x = LogicLibrary.toBoolean( stack.getFirst() );
+		x = mc.toBoolean( stack.getFirst() );
 		stack = stack.getRest();
-		y = LogicLibrary.toBoolean( stack.getFirst() );
+		y = mc.toBoolean( stack.getFirst() );
 		stack = stack.getRest();
 
-		RippleValue result = LogicLibrary.fromBoolean( x || y );
+		RippleValue result = mc.value( x || y );
 
 		solutions.put( arg.with(
 				stack.push( result ) ) );

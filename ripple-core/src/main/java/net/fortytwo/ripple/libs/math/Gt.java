@@ -63,7 +63,7 @@ public class Gt extends PrimitiveStackMapping
 		a = stack.getFirst();
 		stack = stack.getRest();
 
-		result = LogicLibrary.fromBoolean( a.compareTo( b ) > 0 );
+		result = mc.value( a.compareTo( b ) > 0 );
 
 		solutions.put( arg.with(
 				stack.push( result ) ) );

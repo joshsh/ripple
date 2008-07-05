@@ -19,6 +19,7 @@ import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.NullStackMapping;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.ListMemoizer;
 import net.fortytwo.ripple.flow.Sink;
 
@@ -55,6 +56,7 @@ public class Intersect extends PrimitiveStackMapping
 						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
+        ModelConnection mc = arg.getModelConnection();
 		RippleList stack = arg.getStack();
 
 		RippleValue rtrue = stack.getFirst();
@@ -64,9 +66,9 @@ public class Intersect extends PrimitiveStackMapping
 
 		Operator inner = new Operator( new IntersectInner() );
 		solutions.put( arg.with(
-				stack.push( rtrue ).push( Operator.OP ).push( LogicLibrary.getTrueValue() ).push( inner ) ) );
+				stack.push( rtrue ).push( Operator.OP ).push( mc.value( true ) ).push( inner ) ) );
 		solutions.put( arg.with(
-				stack.push( rfalse ).push( Operator.OP ).push( LogicLibrary.getFalseValue() ).push( inner ) ) );
+				stack.push( rfalse ).push( Operator.OP ).push( mc.value( false ) ).push( inner ) ) );
 	}
 
 	////////////////////////////////////////////////////////////////////////////
@@ -88,10 +90,11 @@ public class Intersect extends PrimitiveStackMapping
 		)
 			throws RippleException
 		{
+            ModelConnection mc = arg.getModelConnection();
 			RippleList stack = arg.getStack();
 			RippleValue marker = stack.getFirst();
 
-            if ( LogicLibrary.toBoolean( marker ) )
+            if ( mc.toBoolean( marker ) )
 			{
 				applyTrue( arg, sink );
 			}

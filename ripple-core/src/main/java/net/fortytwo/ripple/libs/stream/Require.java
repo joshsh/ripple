@@ -130,12 +130,13 @@ public class Require extends PrimitiveStackMapping
                              final Sink<StackContext, RippleException> solutions ) throws RippleException
         {
             RippleValue b;
+            ModelConnection mc = arg.getModelConnection();
             RippleList stack = arg.getStack();
 
             b = stack.getFirst();
             stack = stack.getRest();
 
-            if ( b.equals( LogicLibrary.getTrueValue() ) )
+            if ( b.equals( mc.value( true ) ) )
             {
                 solutions.put( arg.with( rest ) );
             }

@@ -11,12 +11,12 @@ logic:and
 	rpl:parameters (
 		[
 			rdfs:label "x" ;
-			rdfs:comment "a boolean value (logic:true or logic:false)" ;
+			rdfs:comment "a boolean value (xsd:true or xsd:false)" ;
 			rpl:parameterType rpl:Function ;
 			rpl:isTransparent true ]
 		[
 			rdfs:label "y" ;
-			rdfs:comment "a boolean value (logic:true or logic:false)" ;
+			rdfs:comment "a boolean value (xsd:true or xsd:false)" ;
 			rpl:parameterType rpl:Function ;
 			rpl:isTransparent true ]
 		) ;
@@ -58,7 +58,7 @@ logic:choice
 	rpl:parameters (
 		[
 			rdfs:label "b" ;
-			rdfs:comment "a boolean value (logic:true or logic:false)" ;
+			rdfs:comment "a boolean value (xsd:true or xsd:false)" ;
 			rpl:parameterType rpl:Function ;
 			rpl:isTransparent true ]
 		[
@@ -75,23 +75,6 @@ logic:choice
 	rdfs:comment "b t f  =>  x  -- where x is t if b is true, otherwise f" ;
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#choice> ;
 	owl:sameAs <http://fortytwo.net/2007/08/ripple/stack#choice> ;
-	.
-
-logic:false
-	a rpl:Function ;
-	rpl:arity 2 ;
-	rpl:parameters (
-		[
-			rdfs:label "x" ;
-			rpl:isTransparent true ]
-		[
-			rdfs:label "y" ;
-			rpl:isTransparent true ]
-		) ;
-	rdfs:label "false" ;
-	rdfs:comment "x y  =>  y   -- note: in Joy, false is a literal value, not a function" ;
-	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#false> ;
-	owl:sameAs <http://fortytwo.net/2007/08/ripple/stack#false> ;
 	.
 
 logic:ifte
@@ -125,7 +108,7 @@ logic:not
 	rpl:parameters (
 		[
 			rdfs:label "x" ;
-			rdfs:comment "a boolean value (logic:true or logic:false)" ;
+			rdfs:comment "a boolean value (xsd:true or xsd:false)" ;
 			rpl:parameterType rpl:Function ;
 			rpl:isTransparent true ]
 		) ;
@@ -142,12 +125,12 @@ logic:or
 	rpl:parameters (
 		[
 			rdfs:label "x" ;
-			rdfs:comment "a boolean value (logic:true or logic:false)" ;
+			rdfs:comment "a boolean value (xsd:true or xsd:false)" ;
 			rpl:parameterType rpl:Function ;
 			rpl:isTransparent true ]
 		[
 			rdfs:label "y" ;
-			rdfs:comment "a boolean value (logic:true or logic:false)" ;
+			rdfs:comment "a boolean value (xsd:true or xsd:false)" ;
 			rpl:parameterType rpl:Function ;
 			rpl:isTransparent true ]
 		) ;
@@ -158,35 +141,18 @@ logic:or
 	owl:sameAs <http://fortytwo.net/2007/08/ripple/stack#or> ;
 	.
 
-logic:true
-	a rpl:Function ;
-	rpl:arity 2 ;
-	rpl:parameters (
-		[
-			rdfs:label "x" ;
-			rpl:isTransparent true ]
-		[
-			rdfs:label "y" ;
-			rpl:isTransparent true ]
-		) ;
-	rdfs:label "true" ;
-	rdfs:comment "x y  =>  y  -- note: in Joy, true is a literal value, not a function" ;
-	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#true> ;
-	owl:sameAs <http://fortytwo.net/2007/08/ripple/stack#true> ;
-	.
-
 logic:xor
 	a rpl:Function ;
 	rpl:arity 2 ;
 	rpl:parameters (
 		[
 			rdfs:label "x" ;
-			rdfs:comment "a boolean value (logic:true or logic:false)" ;
+			rdfs:comment "a boolean value (xsd:true or xsd:false)" ;
 			rpl:parameterType rpl:Function ;
 			rpl:isTransparent true ]
 		[
 			rdfs:label "y" ;
-			rdfs:comment "a boolean value (logic:true or logic:false)" ;
+			rdfs:comment "a boolean value (xsd:true or xsd:false)" ;
 			rpl:parameterType rpl:Function ;
 			rpl:isTransparent true ]
 		) ;

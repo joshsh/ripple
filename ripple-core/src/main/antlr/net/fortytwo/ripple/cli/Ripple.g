@@ -504,7 +504,7 @@ nt_Resource returns [ AST r ]
 }
 	: r=nt_URIRef
 	| ( (NAME_OR_PREFIX)? COLON ) => r=nt_QName
-	| r=nt_Keyword
+	| r=nt_KeywordOrBoolean
 	| r=nt_BNodeRef
 	;
 
@@ -534,6 +534,20 @@ nt_Keyword returns [ AST r ]
 	r = null;
 }
 	: keyword=nt_Name { r = new KeywordAST( keyword ); }
+	;
+
+
+nt_KeywordOrBoolean returns [ AST r ]
+{
+	String keyword;
+	r = null;
+}
+	: keyword=nt_Name {
+	    r = keyword.equals( "true" )
+	            ? new BooleanAST( true )
+	            : keyword.equals( "false" )
+	                    ? new BooleanAST( false )
+	                    : new KeywordAST( keyword ); }
 	;
 
 

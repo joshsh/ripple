@@ -61,7 +61,7 @@ public class EndsWith extends PrimitiveStackMapping
 		s = mc.toString( stack.getFirst() );
 		stack = stack.getRest();
 
-		result = LogicLibrary.fromBoolean( s.endsWith( affix ) );
+		result = mc.value( s.endsWith( affix ) );
         
         solutions.put( arg.with(
 				stack.push( result ) ) );
