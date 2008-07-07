@@ -19,38 +19,46 @@ import net.fortytwo.ripple.StringUtils;
 
 public class StringAST implements AST<RippleList>
 {
-	private String value, language;
+	private final String value, language;
 
 	public StringAST( final String escapedValue )
 	{
-		try
+        String s;
+
+        try
 		{
-			value = StringUtils.unescapeString( escapedValue );
+			s = StringUtils.unescapeString( escapedValue );
 		}
 
 		catch ( RippleException e )
 		{
 			e.logError();
-			System.exit( 1 );
+            s = null;
+            System.exit( 1 );
 		}
 
-		language = null;
+        value = s;
+        language = null;
 	}
 
 	public StringAST( final String escapedValue, final String language )
 	{
-		try
+        String s;
+
+        try
 		{
-			value = StringUtils.unescapeString( escapedValue );
+			s = StringUtils.unescapeString( escapedValue );
 		}
 
 		catch ( RippleException e )
 		{
 			e.logError();
-			System.exit( 1 );
+            s = null;
+            System.exit( 1 );
 		}
 
-		this.language = language;
+        value = s;
+        this.language = language;
 	}
 
 	public void evaluate( final Sink<RippleList, RippleException> sink,

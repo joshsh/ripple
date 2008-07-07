@@ -182,7 +182,7 @@ NODEID_PREFIX : "_:" ;
 // Note: the '+' prefix (e.g. in +42) is excluded, as it interferes with the '+'
 // operator.
 NUMBER
-	: ('-' /*| '+'*/)? ( DIGIT )+
+	: ('-' | '+')? ( DIGIT )+
 		(('.' DIGIT ) => ( '.' ( DIGIT )+ )
 		| ())
 	;
@@ -219,11 +219,13 @@ COLON : ':' ;
 EQUAL : '=';
 
 OP_APPLY_PRE : '/' ;
-OP_APPLY_POST : ">>";
-OP_INVERSE_APPLY : "<<";
-OP_SUFFIX_OPTIONAL : "?" ;
-OP_SUFFIX_STAR : "*";
-OP_SUFFIX_PLUS : "+";
+OP_APPLY_FORWARD : ">>";
+OP_APPLY_BACKWARD : "<<";
+OP_MOD_OPTION : "?" ;
+OP_MOD_STAR : "*";
+//OP_MOD_PLUS : "+";
+// Special-case to avoid lexical conflict with "+" prefix for numbers.
+OP_PLUS_FORWARD : "+>>";
 
 protected
 DRCTV : '@' ;
@@ -487,12 +489,12 @@ nt_Literal returns [ AST r ]
 
 			if ( s.contains( "." ) )
 			{
-				r = new DoubleAST( ( new Double( s ) ).doubleValue() );
+				r = new DoubleAST( s );
 			}
 
 			else
 			{
-				r = new IntegerAST( ( new Integer( s ) ).intValue() );
+				r = new IntegerAST( s );
 			}
 		}
 	;
@@ -593,32 +595,77 @@ nt_Operator returns [ OperatorAST AST ]
 {
 	AST = null;
 	boolean inverse = false;
+	OperatorAST.Type type = OperatorAST.Type.Apply;
+	int minTimes = 0, maxTimes = 0;
 }
-	: (OP_APPLY_POST { AST = new OperatorAST(); }
-	    | OP_INVERSE_APPLY {inverse = true; AST = new OperatorAST( OperatorAST.Type.InverseApply ); }
-	    )
-	  (OP_SUFFIX_OPTIONAL { AST = new OperatorAST( inverse ? OperatorAST.Type.InverseOption : OperatorAST.Type.Option ); }
-	    | OP_SUFFIX_STAR { AST = new OperatorAST( inverse ? OperatorAST.Type.InverseStar : OperatorAST.Type.Star ); }
-	    | OP_SUFFIX_PLUS { AST = new OperatorAST( inverse ? OperatorAST.Type.InversePlus : OperatorAST.Type.Plus ); }
+	: (OP_MOD_OPTION { type = OperatorAST.Type.Option; }
+	    | OP_MOD_STAR { type = OperatorAST.Type.Star; }
+//	    | OP_MOD_PLUS { type = OperatorAST.Type.Plus; }
 	    | L_CURLY (nt_Ws)? min:NUMBER (nt_Ws)? ( COMMA (nt_Ws)? max:NUMBER (nt_Ws)? )? R_CURLY
 		  {
 			// Note: floating-point values are syntactically valid, but will be
 			// truncated to integer values.
-			int minVal = new Double( min.getText() ).intValue();
+			minTimes = new Double( min.getText() ).intValue();
 
 			if ( null == max )
 			{
-				AST = new OperatorAST( minVal, inverse );
+				type = OperatorAST.Type.Times;
 			}
 
 			else
 			{
-				int maxVal = new Double( max.getText() ).intValue();
-				AST = new OperatorAST( minVal, maxVal, inverse );
+				maxTimes = new Double( max.getText() ).intValue();
+				type = OperatorAST.Type.Range;
 			}
 	      }
 	    )?
+
+	  (OP_APPLY_FORWARD
+	    | OP_APPLY_BACKWARD { inverse = true; }
+
+	    // Special-case to avoid lexical conflict with "+" prefix for numbers.
+	    | OP_PLUS_FORWARD { type = OperatorAST.Type.Plus; }
+	    )
+        {
+            switch (type)
+            {
+                case Apply:
+                    AST = new OperatorAST( type, inverse );
+                    break;
+                case Option:
+                    AST = new OperatorAST( type, inverse );
+                    break;
+                case Star:
+                    AST = new OperatorAST( type, inverse );
+                    break;
+                case Plus:
+                    AST = new OperatorAST( type, inverse );
+                    break;
+                case Times:
+                    AST = new OperatorAST( minTimes, inverse );
+                    break;
+                case Range:
+                    AST = new OperatorAST( minTimes, maxTimes, inverse );
+                    break;
+            }
+        }
 	;
+
+/*
+     (1 2 3) rdf:rest >>* rdf:first >> .
+
+     (1 2 3) rdf:rest *>> rdf:first >> .
+
+     (1 2 3) rdf:rest {2}>> rdf:first >> .
+
+     (1 2 3) rdf:rest >>{2} rdf:first >> .
+
+     (1 2 3) rdf:rest >>{+} rdf:first >> .
+
+     (1 2 3) rdf:rest >>+ rdf:first >> .
+
+     (1 2 3) rdf:rest >>+ +23
+*/
 
 nt_Directive
 {

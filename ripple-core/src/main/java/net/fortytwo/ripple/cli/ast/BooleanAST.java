@@ -17,7 +17,7 @@ import net.fortytwo.ripple.flow.Sink;
 
 public class BooleanAST implements AST<RippleList>
 {
-	private boolean value;
+	private final boolean value;
 
 	public BooleanAST( final boolean value )
 	{

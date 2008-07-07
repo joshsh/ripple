@@ -19,8 +19,8 @@ import net.fortytwo.ripple.flow.Sink;
 
 public class AnnotatedAST implements AST<RippleList>
 {
-	private AST innerAst;
-	private Properties props;
+	private final AST innerAst;
+	private final Properties props;
 	
 	public AnnotatedAST( final AST inner, final Properties props )
 	{

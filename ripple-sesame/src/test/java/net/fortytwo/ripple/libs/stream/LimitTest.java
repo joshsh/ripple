@@ -12,8 +12,8 @@ public class LimitTest extends NewRippleTestCase
     public void testLimitLessThanSizeOfInput() throws Exception
     {
         assertReducesTo( "42 0 limit >>" );
-        assertReducesTo( "42 (dup >> both >>) >>{1} 1 limit >>", "42" );
-        assertReducesTo( "42 (dup >> both >>) >>{2} 3 limit >>", "42", "42", "42" );
+        assertReducesTo( "42 (dup >> both >>) {1}>> 1 limit >>", "42" );
+        assertReducesTo( "42 (dup >> both >>) {2}>> 3 limit >>", "42", "42", "42" );
 
         // risky... order of evaluation is undefined
         assertReducesTo( "(1 2 3) each >> 2 limit >>", "1", "2" );
@@ -30,6 +30,6 @@ public class LimitTest extends NewRippleTestCase
     {
         assertReducesTo( "() each >> 1 limit >>" );
         assertReducesTo( "42 2 limit >>", "42" );
-        assertReducesTo( "42 (dup >> both >>) >>{2} 1000 limit >>", "42", "42", "42", "42" );
+        assertReducesTo( "42 (dup >> both >>) {2}>> 1000 limit >>", "42", "42", "42", "42" );
     }
 }

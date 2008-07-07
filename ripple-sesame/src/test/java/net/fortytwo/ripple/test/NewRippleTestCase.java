@@ -18,9 +18,12 @@ import net.fortytwo.linkeddata.sail.LinkedDataSail;
 
 import java.util.Iterator;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedList;
 
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailConnection;
+import org.openrdf.sail.SailException;
 import org.openrdf.sail.memory.MemoryStore;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.model.vocabulary.RDFS;
@@ -38,33 +41,40 @@ public abstract class NewRippleTestCase extends TestCase
     private static Model model = null;
     private static QueryEngine queryEngine = null;
 
-    private static Sail getTestSail() throws Exception
-	{
+    private static Sail getTestSail() throws RippleException
+    {
 		if ( null == sail )
 		{
 			// TODO: add a shutdown hook for this Sail
             sail = new MemoryStore();
-            sail.initialize();
 
-            SailConnection sc = sail.getConnection();
-            try
-            {
-                // Define some common namespaces
-                sc.setNamespace("rdf", RDF.NAMESPACE);
-                sc.setNamespace("rdfs", RDFS.NAMESPACE);
-                sc.setNamespace("xsd", XMLSchema.NAMESPACE);
+            try {
+                sail.initialize();
+
+                SailConnection sc = sail.getConnection();
+                try
+                {
+                    // Define some common namespaces
+                    sc.setNamespace("rdf", RDF.NAMESPACE);
+                    sc.setNamespace("rdfs", RDFS.NAMESPACE);
+                    sc.setNamespace("xsd", XMLSchema.NAMESPACE);
+                }
+
+                finally
+                {
+                    sc.close();
+                }
             }
 
-            finally
-            {
-                sc.close();
+            catch ( SailException e ) {
+                throw new RippleException( e );
             }
         }
 
 		return sail;
 	}
 
-    protected static URIMap getTestUriMap() throws Exception
+    protected static URIMap getTestUriMap()
     {
         if ( null == uriMap )
         {
@@ -74,8 +84,8 @@ public abstract class NewRippleTestCase extends TestCase
         return uriMap;
     }
 
-	protected static Model getTestModel() throws Exception
-	{
+	protected static Model getTestModel() throws RippleException
+    {
 		if ( null == model )
 		{
             Ripple.initialize();
@@ -87,7 +97,7 @@ public abstract class NewRippleTestCase extends TestCase
 		return model;
 	}
 
-    protected static QueryEngine getTestQueryEngine() throws Exception
+    protected static QueryEngine getTestQueryEngine() throws RippleException
     {
         if ( null == queryEngine )
         {
@@ -167,7 +177,27 @@ while (!l.isNil()) {
             assertEquals( expArray[i], actArray[i] );
 		}
 	}
-    
+
+    protected Collection<RippleList> reduce( final String from ) throws RippleException
+    {
+        Collector<RippleList, RippleException>
+                results = new Collector<RippleList, RippleException>();
+
+        QueryEngine qe = getTestQueryEngine();
+
+        QueryPipe actualPipe = new QueryPipe( qe, results );
+        actualPipe.put( from + "." );
+        actualPipe.close();
+
+        Collection<RippleList> c = new LinkedList<RippleList>();
+        for ( Iterator<RippleList> iter = results.iterator(); iter.hasNext(); )
+        {
+            c.add( iter.next() );
+        }
+        
+        return c;
+    }
+
     protected void assertReducesTo( final String from, final String... to ) throws Exception
     {
         Collector<RippleList, RippleException>

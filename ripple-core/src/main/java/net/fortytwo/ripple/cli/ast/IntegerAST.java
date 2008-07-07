@@ -17,14 +17,23 @@ import net.fortytwo.ripple.model.RippleList;
 
 public class IntegerAST implements AST<RippleList>
 {
-	private int value;
+	private final int value;
 
 	public IntegerAST( final int value )
 	{
 		this.value = value;
 	}
 
-	public void evaluate( final Sink<RippleList, RippleException> sink,
+    public IntegerAST( final String rep )
+    {
+        String s = rep.startsWith("+")
+                ? rep.substring(1)
+                : rep;
+
+        value = ( new Integer( s ) ).intValue();
+    }
+
+    public void evaluate( final Sink<RippleList, RippleException> sink,
 						final QueryEngine qe,
 						final ModelConnection mc )
 		throws RippleException

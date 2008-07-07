@@ -17,14 +17,23 @@ import net.fortytwo.ripple.flow.Sink;
 
 public class DoubleAST implements AST<RippleList>
 {
-	private double value;
+	private final double value;
 
 	public DoubleAST( final double value )
 	{
 		this.value = value;
 	}
 
-	public void evaluate( final Sink<RippleList, RippleException> sink,
+    public DoubleAST( final String rep )
+    {
+        String s = rep.startsWith("+")
+                ? rep.substring(1)
+                : rep;
+
+        value = ( new Double( s ) ).doubleValue();
+    }
+    
+    public void evaluate( final Sink<RippleList, RippleException> sink,
 						final QueryEngine qe,
 						final ModelConnection mc )
 		throws RippleException

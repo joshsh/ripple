@@ -19,7 +19,7 @@ import net.fortytwo.ripple.query.QueryEngine;
 
 public class BlankNodeAST implements AST<RippleList>
 {
-	private String id;
+	private final String id;
 
 	public BlankNodeAST( final String id )
 	{

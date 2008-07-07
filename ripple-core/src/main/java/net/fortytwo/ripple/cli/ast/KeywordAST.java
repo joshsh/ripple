@@ -18,7 +18,7 @@ import net.fortytwo.ripple.model.RippleList;
 
 public class KeywordAST implements AST<RippleList>
 {
-	private String name;
+	private final String name;
 
 	public KeywordAST( final String name )
 	{

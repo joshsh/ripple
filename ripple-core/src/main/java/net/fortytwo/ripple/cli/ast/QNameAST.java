@@ -18,7 +18,7 @@ import net.fortytwo.ripple.model.RippleList;
 
 public class QNameAST implements AST<RippleList>
 {
-	private String nsPrefix, localName;
+	private final String nsPrefix, localName;
 
 	public QNameAST( final String nsPrefix, final String localName )
 	{

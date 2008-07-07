@@ -18,21 +18,26 @@ import net.fortytwo.ripple.StringUtils;
 
 public class URIAST implements AST<RippleList>
 {
-	private String value;
+	private final String value;
 
 	public URIAST( final String escapedValue )
 	{
-		try
+        String s;
+
+        try
 		{
-			this.value = StringUtils.unescapeUriString( escapedValue );
+			s = StringUtils.unescapeUriString( escapedValue );
 		}
 
 		catch ( RippleException e )
 		{
 			e.logError();
-			System.exit( 1 );
+            s = null;
+            System.exit( 1 );
 		}
-	}
+
+        this.value = s;
+    }
 
 	public void evaluate( final Sink<RippleList, RippleException> sink,
 						final QueryEngine qe,

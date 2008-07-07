@@ -18,8 +18,8 @@ import net.fortytwo.ripple.model.RippleList;
 
 public class TypedLiteralAST implements AST<RippleList>
 {
-	private String value;
-	private AST type;
+	private final String value;
+	private final AST type;
 
 	public TypedLiteralAST( final String value, final AST type )
 	{
