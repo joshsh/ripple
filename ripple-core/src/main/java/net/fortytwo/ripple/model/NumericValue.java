@@ -13,6 +13,7 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RipplePrintStream;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Value;
+import org.openrdf.model.vocabulary.XMLSchema;
 
 import java.math.BigDecimal;
 
@@ -92,8 +93,27 @@ public abstract class NumericValue implements RippleValue
 	public void printTo( final RipplePrintStream p )
 		throws RippleException
 	{
-		p.print( number.toString() );
-	}
+        switch ( getType() )
+        {
+            case INTEGER:
+                p.printInteger( intValue() );
+                break;
+            case LONG:
+                p.printTypedLiteral( toString(), XMLSchema.LONG );
+                break;
+            case DOUBLE:
+                p.printDouble( doubleValue() );
+                break;
+            case FLOAT:
+                p.printTypedLiteral( toString(), XMLSchema.FLOAT );
+                break;
+            case DECIMAL:
+                p.printDecimal( decimalValue() );
+                break;
+            default:
+                // Shouldn't happen.
+        }
+    }
 
 // TODO: implement hashCode()
 	public boolean equals( final Object other )

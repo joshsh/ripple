@@ -10,6 +10,7 @@
 package net.fortytwo.ripple.cli.ast;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.io.RipplePrintStream;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.NumericValue;
 
@@ -115,17 +116,29 @@ public class DoubleAST extends NumberAST
 
 	public String toString()
 	{
-        String s = "" + value;
-
-        // Add an exponent, if necessary, to make this an unambiguous
-        // xsd:double value in Ripple syntax.
-        if ( !s.contains( "E" ) )
+        // Note: these special values are not recognized by the Ripple
+        // interpreter.  They must be checked for elsewhere.
+        if ( Double.NaN == value
+                || Double.NEGATIVE_INFINITY  == value
+                || Double.POSITIVE_INFINITY == value )
         {
-            s += "E0";
+            return "" + value;
         }
+        
+        else
+        {
+            String s = "" + value;
 
-        // Note: this is not necessarily the canonical form.
-        return s;
+            // Add an exponent, if necessary, to make this an unambiguous
+            // xsd:double value in Ripple syntax.
+            if ( !s.contains( "E" ) )
+            {
+                s += "E0";
+            }
+
+            // Note: this is not necessarily the canonical form.
+            return s;
+        }
     }
 }
 

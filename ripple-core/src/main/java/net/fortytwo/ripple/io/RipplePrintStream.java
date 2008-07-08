@@ -12,6 +12,7 @@ package net.fortytwo.ripple.io;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.Lexicon;
 import net.fortytwo.ripple.model.RippleValue;
+import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.StringUtils;
 
 import org.openrdf.model.BNode;
@@ -25,6 +26,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 
 import java.util.Iterator;
+import java.math.BigDecimal;
 
 public class RipplePrintStream extends PrintStream
 {
@@ -41,84 +43,39 @@ public class RipplePrintStream extends PrintStream
 	{
 		if ( null == v )
 		{
-			print( "()" );
+			throw new NullPointerException();
 		}
 
-		else
-		{
-			v.printTo( this );
-		}
+    	v.printTo( this );
 	}
 
 	public void print( final Value v ) throws RippleException
 	{
 		if ( null == v )
 		{
-			print( "()" );
+			throw new NullPointerException();
 		}
 
-		else
-		{
-			if ( v instanceof URI )
-			{
-				printURI( (URI) v );
-			}
+        if ( v instanceof URI )
+        {
+            printURI( (URI) v );
+        }
 
-			else if ( v instanceof Literal )
-			{
-				URI dataTypeUri = ( (Literal) v ).getDatatype();
-				String label = ( (Literal) v ).getLabel().toString();
+        else if ( v instanceof Literal )
+        {
+            printLiteral( (Literal) v );
+        }
 
-				// Note: URI's equals() returns "true if the other object is an
-				//       instance of URI  and their String-representations are
-				//       equal, false  otherwise"
-				if ( null != dataTypeUri )
-				{
-					if ( dataTypeUri.equals( XMLSchema.BOOLEAN )
-                            || dataTypeUri.equals( XMLSchema.DECIMAL )
-                            || dataTypeUri.equals( XMLSchema.DOUBLE )
-                            || dataTypeUri.equals( XMLSchema.INTEGER ) )
-					{
-						print( label );
-					}
+        else if ( v instanceof BNode )
+        {
+            print( "_:" );
+            print( ( (BNode) v ).getID() );
+        }
 
-					else if ( dataTypeUri.equals( XMLSchema.STRING ) )
-					{
-						printEscapedString( label );
-					}
-
-					else
-					{
-						printEscapedString( label );
-						print( "^^" );
-						printURI( dataTypeUri );
-					}
-				}
-
-				else
-				{
-					// For now, plain literals are printed as string-typed literals.
-					printEscapedString( label );
-				}
-
-				String language = ( (Literal) v ).getLanguage();
-				if ( null != language )
-				{
-					print( "@" + language );
-				}
-			}
-
-			else if ( v instanceof BNode )
-			{
-				print( "_:" );
-				print( ( (BNode) v ).getID() );
-			}
-
-			else
-			{
-				print( v.toString() );
-			}
-		}
+        else
+        {
+            print( v.toString() );
+        }
 	}
 
 	public void print( final Statement st ) throws RippleException
@@ -164,7 +121,134 @@ public class RipplePrintStream extends PrintStream
 		}
 	}
 
-	private void printEscapedString( final String s )
+    // TODO: handle literals with special types but whose labels are badly formatted.
+    private void printLiteral( final Literal l ) throws RippleException
+    {
+        URI datatype = l.getDatatype();
+        String label = l.getLabel();
+
+        if ( null != datatype )
+        {
+            // Note: URI's equals() returns "true if the other object is an
+            //       instance of URI  and their String-representations are
+            //       equal, false otherwise"
+            if ( datatype.equals( XMLSchema.BOOLEAN ) )
+            {
+                printBoolean( l.booleanValue() );
+            }
+
+            else if ( datatype.equals( XMLSchema.DECIMAL ) )
+            {
+                if ( label.startsWith( "+ ") )
+                {
+                    label = label.substring( 1 );
+                }
+
+                printDecimal( new BigDecimal( label ) );
+            }
+
+            else if ( datatype.equals( XMLSchema.DOUBLE ) )
+            {
+                printDouble( l.doubleValue() );
+            }
+
+            else if ( datatype.equals( XMLSchema.INTEGER ) )
+            {
+                // TODO: use l.integerValue, BigInteger
+                printInteger( l.intValue() );
+            }
+
+            else if ( datatype.equals( XMLSchema.STRING ) )
+            {
+                printEscapedString( label );
+            }
+
+            else
+            {
+                printTypedLiteral( label, datatype );
+            }
+        }
+
+        else
+        {
+            // For now, plain literals are printed as string-typed literals.
+            printEscapedString( label );
+        }
+
+        String language = l.getLanguage();
+        if ( null != language )
+        {
+            print( "@" + language );
+        }
+    }
+
+    public void printTypedLiteral( final String label, final URI datatype ) throws RippleException
+    {
+        printEscapedString( label );
+        print( "^^" );
+        printURI( datatype );
+    }
+
+    public void printBoolean( final boolean v )
+    {
+        print( v ? "true" : "false" );
+    }
+
+    public void printInteger( final int v )
+    {
+        // This will naturally be the canonical form.
+        print( "" + v );
+    }
+
+    public void printDouble( final double v ) throws RippleException
+    {
+        if ( Double.NaN == v )
+        {
+            printTypedLiteral( "NaN", XMLSchema.DOUBLE );
+        }
+
+        else if ( Double.NEGATIVE_INFINITY == v )
+        {
+            printTypedLiteral( "-INF", XMLSchema.DOUBLE );
+        }
+
+        else if ( Double.POSITIVE_INFINITY == v )
+        {
+            printTypedLiteral( "INF", XMLSchema.DOUBLE );
+        }
+
+        else
+        {
+            String s = "" + v;
+
+            // Add an exponent, if necessary, to make this an unambiguous
+            // xsd:double value in Ripple syntax.
+            if ( !s.contains( "E" ) )
+            {
+                s += "E0";
+            }
+
+            // Note: this is not necessarily the canonical form.
+            print( s );
+        }
+    }
+
+    public void printDecimal( final BigDecimal v )
+    {
+		String s = v.toString();
+
+        // Add a decimal point, if necessary, to make this an unambiguous
+        // xsd:decimal value in Ripple syntax.
+        if ( !s.contains( "." ) )
+        {
+            s += ".0";
+        }
+
+        // Note: this is not necessarily the canonical form.
+        print( s );
+    }
+
+    private void printEscapedString( final String s )
 	{
 		print( '\"' );
 		print( StringUtils.escapeString( s ) );

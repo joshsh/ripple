@@ -43,13 +43,13 @@ public class RipplePrintStreamTest extends RippleTestCase
 			bos.reset();
 			
 			ps.print( mc.value( 42.0 ) );
-			assertEquals( "42.0", bos.toString() );
+			assertEquals( "42.0E0", bos.toString() );
 			bos.reset();
 			ps.print( mc.value( 0.0 ) );
-			assertEquals( "0.0", bos.toString() );
+			assertEquals( "0.0E0", bos.toString() );
 			bos.reset();
 			ps.print( mc.value( -42.0 ) );
-			assertEquals( "-42.0", bos.toString() );
+			assertEquals( "-42.0E0", bos.toString() );
 			bos.reset();
 			
 			ps.print( mc.value( true ) );
