@@ -15,6 +15,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
@@ -1048,25 +1050,27 @@ public class SesameModelConnection implements ModelConnection
 		}
 	}
 	
-	public NumericValue value( final int i )
-		throws RippleException
+	public NumericValue value( final int i ) throws RippleException
 	{
 		return new SesameNumericValue( i );
 	}
-	
-	public NumericValue value( final long l )
-		throws RippleException
+
+    public NumericValue value( final long l ) throws RippleException
 	{
 		return new SesameNumericValue( l );
 	}
 	
-	public NumericValue value( final double d )
-		throws RippleException
+	public NumericValue value( final double d ) throws RippleException
 	{
 		return new SesameNumericValue( d );
 	}
-	
-	////////////////////////////////////////////////////////////////////////////
+
+    public NumericValue value( final BigDecimal b ) throws RippleException
+    {
+        return new SesameNumericValue( b );
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
 	
 	public void setNamespace( final String prefix, final String ns, final boolean override )
 		throws RippleException

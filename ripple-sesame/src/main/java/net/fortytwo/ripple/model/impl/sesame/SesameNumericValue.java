@@ -19,6 +19,9 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.RdfValue;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 public class SesameNumericValue extends NumericValue {
 
 	private RdfValue rdfEquivalent = null;
@@ -28,8 +31,8 @@ public class SesameNumericValue extends NumericValue {
 		type = NumericLiteralType.INTEGER;
 		number = new Integer( i );
 	}
-	
-	public SesameNumericValue( final long l )
+    
+    public SesameNumericValue( final long l )
 	{
 		type = NumericLiteralType.LONG;
 		number = new Long( l );
@@ -40,13 +43,19 @@ public class SesameNumericValue extends NumericValue {
 		type = NumericLiteralType.DOUBLE;
 		number = new Double( d );
 	}
-	
-	public SesameNumericValue( final float f )
+
+    public SesameNumericValue( final float f )
 	{
 		type = NumericLiteralType.FLOAT;
 		number = new Float( f );
 	}
-	
+
+    public SesameNumericValue( final BigDecimal b )
+	{
+		type = NumericLiteralType.DECIMAL;
+		number = b;
+	}
+
 	public SesameNumericValue( final RdfValue rdf )
 		throws RippleException
 	{
@@ -121,8 +130,22 @@ public class SesameNumericValue extends NumericValue {
 				throw new RippleException( t );
 			}
 		}
-		
-		else
+
+        else if ( dataType.equals( XMLSchema.DECIMAL ) )
+		{
+			try
+			{
+				type = NumericLiteralType.DECIMAL;
+				number = ( (Literal) v ).decimalValue();
+			}
+
+			catch ( Throwable t )
+			{
+				throw new RippleException( t );
+			}
+		}
+
+        else
 		{
 			throw new RippleException( "not a recognized numeric data type: " + dataType );
 		}
@@ -150,7 +173,10 @@ public class SesameNumericValue extends NumericValue {
 				case FLOAT:
 					rdfEquivalent = new RdfValue( smc.getValueFactory().createLiteral( number.floatValue() ) );
 					break;
-			}
+                case DECIMAL:
+                    rdfEquivalent = new RdfValue( smc.getValueFactory().createLiteral( number.toString(), XMLSchema.DECIMAL ) );
+                    break;
+            }
 		}
 	
 		return rdfEquivalent;
@@ -159,127 +185,142 @@ public class SesameNumericValue extends NumericValue {
 	public NumericValue abs()
 	{
 		NumericValue a = this;
-		
-		if ( NumericLiteralType.INTEGER == a.getType() )
-		{
-			return new SesameNumericValue( Math.abs( a.intValue() ) );
-		}
 
-		else if ( NumericLiteralType.LONG == a.getType() )
-		{
-			return new SesameNumericValue( Math.abs( a.longValue() ) );
-		}
-	
-		else if ( NumericLiteralType.FLOAT == a.getType() )
-		{
-			return new SesameNumericValue( Math.abs( a.floatValue() ) );
-		}
-		
-		else
-		{
-			return new SesameNumericValue( Math.abs( a.doubleValue() ) );
-		}
+        switch ( a.getType() )
+        {
+            case INTEGER:
+                return new SesameNumericValue( Math.abs( a.intValue() ) );
+            case LONG:
+                return new SesameNumericValue( Math.abs( a.longValue() ) );
+            case FLOAT:
+                return new SesameNumericValue( Math.abs( a.floatValue() ) );
+            case DOUBLE:
+                return new SesameNumericValue( Math.abs( a.doubleValue() ) );
+            case DECIMAL:
+                return new SesameNumericValue( a.decimalValue().abs() );
+            default:
+                // Shouldn't happen.
+                return null;
+        }
 	}
 
 	public NumericValue neg()
 	{
 		NumericValue a = this;
 
-		if ( NumericLiteralType.INTEGER == a.getType() )
-		{
-			return new SesameNumericValue( -a.intValue() );
-		}
-
-		else if ( NumericLiteralType.LONG == a.getType() )
-		{
-			return new SesameNumericValue( -a.longValue() );
-		}
-
-		else if ( NumericLiteralType.FLOAT == a.getType() )
-		{
-			return new SesameNumericValue( -a.floatValue() );
-		}
-		
-		else
-		{
-			// Note: avoids negative zero.
-			return new SesameNumericValue( 0.0 - a.doubleValue() );
-		}
+        switch ( a.getType() )
+        {
+            case INTEGER:
+                return new SesameNumericValue( -a.intValue() );
+            case LONG:
+                return new SesameNumericValue( -a.longValue() );
+            case FLOAT:
+                return new SesameNumericValue( -a.floatValue() );
+            case DOUBLE:
+                // Note: avoids negative zero.
+                return new SesameNumericValue( 0.0 - a.doubleValue() );
+            case DECIMAL:
+                return new SesameNumericValue( a.decimalValue().negate() );
+            default:
+                // Shouldn't happen.
+                return null;
+        }
 	}
 
-	public NumericValue add( final NumericValue b )
+    private NumericLiteralType maxPrecision( final NumericValue a, final NumericValue b )
+    {
+        NumericLiteralType max = NumericLiteralType.INTEGER;
+
+        if ( a.getType() == NumericLiteralType.LONG || b.getType() == NumericLiteralType.LONG )
+        {
+            max = NumericLiteralType.LONG;
+        }
+
+        if ( a.getType() == NumericLiteralType.FLOAT || b.getType() == NumericLiteralType.FLOAT )
+        {
+            max = NumericLiteralType.FLOAT;
+        }
+
+        if ( a.getType() == NumericLiteralType.DOUBLE || b.getType() == NumericLiteralType.DOUBLE )
+        {
+            max = NumericLiteralType.DOUBLE;
+        }
+
+        if ( a.getType() == NumericLiteralType.DECIMAL || b.getType() == NumericLiteralType.DECIMAL )
+        {
+            max = NumericLiteralType.DECIMAL;
+        }
+
+        return max;
+    }
+
+    public NumericValue add( final NumericValue b )
 	{
 		NumericValue a = this;
 
-		if ( NumericLiteralType.INTEGER == a.getType() && NumericLiteralType.INTEGER == b.getType() )
-		{
-			return new SesameNumericValue( a.intValue() + b.intValue() );
-		}
-
-		else if ( NumericLiteralType.LONG == a.getType() && NumericLiteralType.LONG == b.getType() )
-		{
-			return new SesameNumericValue( a.longValue() + b.longValue() );
-		}
-
-		else if ( NumericLiteralType.FLOAT == a.getType() && NumericLiteralType.FLOAT == b.getType() )
-		{
-			return new SesameNumericValue( a.floatValue() + b.floatValue() );
-		}
-		
-		else
-		{
-			return new SesameNumericValue( a.doubleValue() + b.doubleValue() );
-		}
+        NumericLiteralType precision = maxPrecision( a, b );
+        switch ( precision )
+        {
+            case INTEGER:
+                return new SesameNumericValue( a.intValue() + b.intValue() );
+            case LONG:
+                return new SesameNumericValue( a.longValue() + b.longValue() );
+            case FLOAT:
+                return new SesameNumericValue( a.floatValue() + b.floatValue() );
+            case DOUBLE:
+                return new SesameNumericValue( a.doubleValue() + b.doubleValue() );
+            case DECIMAL:
+                return new SesameNumericValue( a.decimalValue().add( b.decimalValue() ) );
+            default:
+                // Shouldn't happen.
+                return null;
+        }
 	}
 
 	public NumericValue sub( final NumericValue b )
 	{
 		NumericValue a = this;
 
-		if ( NumericLiteralType.INTEGER == a.getType() && NumericLiteralType.INTEGER == b.getType() )
-		{
-			return new SesameNumericValue( a.intValue() - b.intValue() );
-		}
-
-		else if ( NumericLiteralType.LONG == a.getType() && NumericLiteralType.LONG == b.getType() )
-		{
-			return new SesameNumericValue( a.longValue() - b.longValue() );
-		}
-	
-		else if ( NumericLiteralType.FLOAT == a.getType() && NumericLiteralType.FLOAT == b.getType() )
-		{
-			return new SesameNumericValue( a.floatValue() - b.floatValue() );
-		}
-		
-		else
-		{
-			return new SesameNumericValue( a.doubleValue() - b.doubleValue() );
-		}
+        NumericLiteralType precision = maxPrecision( a, b );
+        switch ( precision )
+        {
+            case INTEGER:
+                return new SesameNumericValue( a.intValue() - b.intValue() );
+            case LONG:
+                return new SesameNumericValue( a.longValue() - b.longValue() );
+            case FLOAT:
+                return new SesameNumericValue( a.floatValue() - b.floatValue() );
+            case DOUBLE:
+                return new SesameNumericValue( a.doubleValue() - b.doubleValue() );
+            case DECIMAL:
+                return new SesameNumericValue( a.decimalValue().subtract( b.decimalValue() ) );
+            default:
+                // Shouldn't happen.
+                return null;
+        }
 	}
 
 	public NumericValue mul( final NumericValue b )
 	{
 		NumericValue a = this;
 
-		if ( NumericLiteralType.INTEGER == a.getType() && NumericLiteralType.INTEGER == b.getType() )
-		{
-			return new SesameNumericValue( a.intValue() * b.intValue() );
-		}
-
-		else if ( NumericLiteralType.LONG == a.getType() && NumericLiteralType.LONG == b.getType() )
-		{
-			return new SesameNumericValue( a.longValue() * b.longValue() );
-		}
-	
-		else if ( NumericLiteralType.FLOAT == a.getType() && NumericLiteralType.FLOAT == b.getType() )
-		{
-			return new SesameNumericValue( a.floatValue() * b.floatValue() );
-		}
-		
-		else
-		{
-			return new SesameNumericValue( a.doubleValue() * b.doubleValue() );
-		}
+        NumericLiteralType precision = maxPrecision( a, b );
+        switch ( precision )
+        {
+            case INTEGER:
+                return new SesameNumericValue( a.intValue() * b.intValue() );
+            case LONG:
+                return new SesameNumericValue( a.longValue() * b.longValue() );
+            case FLOAT:
+                return new SesameNumericValue( a.floatValue() * b.floatValue() );
+            case DOUBLE:
+                return new SesameNumericValue( a.doubleValue() * b.doubleValue() );
+            case DECIMAL:
+                return new SesameNumericValue( a.decimalValue().multiply( b.decimalValue() ) );
+            default:
+                // Shouldn't happen.
+                return null;
+        }
 	}
 
 	// Note: does not check for divide-by-zero.
@@ -287,25 +328,23 @@ public class SesameNumericValue extends NumericValue {
 	{
 		NumericValue a = this;
 
-		if ( NumericLiteralType.INTEGER == a.getType() && NumericLiteralType.INTEGER == b.getType() )
-		{
-			return new SesameNumericValue( a.intValue() / b.intValue() );
-		}
-
-		else if ( NumericLiteralType.LONG == a.getType() && NumericLiteralType.LONG == b.getType() )
-		{
-			return new SesameNumericValue( a.longValue() / b.longValue() );
-		}
-
-		else if ( NumericLiteralType.FLOAT == a.getType() && NumericLiteralType.FLOAT == b.getType() )
-		{
-			return new SesameNumericValue( a.floatValue() / b.floatValue() );
-		}
-		
-		else
-		{
-			return new SesameNumericValue( a.doubleValue() / b.doubleValue() );
-		}
+        NumericLiteralType precision = maxPrecision( a, b );
+        switch ( precision )
+        {
+            case INTEGER:
+                return new SesameNumericValue( a.intValue() / b.intValue() );
+            case LONG:
+                return new SesameNumericValue( a.longValue() / b.longValue() );
+            case FLOAT:
+                return new SesameNumericValue( a.floatValue() / b.floatValue() );
+            case DOUBLE:
+                return new SesameNumericValue( a.doubleValue() / b.doubleValue() );
+            case DECIMAL:
+                return new SesameNumericValue( a.decimalValue().divide( b.decimalValue() ) );
+            default:
+                // Shouldn't happen.
+                return null;
+        }
 	}
 
 	// Note: does not check for divide-by-zero.
@@ -313,51 +352,55 @@ public class SesameNumericValue extends NumericValue {
 	{
 		NumericValue a = this;
 
-		if ( NumericLiteralType.INTEGER == a.getType() && NumericLiteralType.INTEGER == b.getType() )
-		{
-			return new SesameNumericValue( a.intValue() % b.intValue() );
-		}
-
-		else if ( NumericLiteralType.LONG == a.getType() && NumericLiteralType.LONG == b.getType() )
-		{
-			return new SesameNumericValue( a.longValue() % b.longValue() );
-		}
-
-		else if ( NumericLiteralType.FLOAT == a.getType() && NumericLiteralType.FLOAT == b.getType() )
-		{
-			return new SesameNumericValue( a.floatValue() % b.floatValue() );
-		}
-		
-		else
-		{
-			return new SesameNumericValue( a.doubleValue() % b.doubleValue() );
-		}
+        NumericLiteralType precision = maxPrecision( a, b );
+        switch ( precision )
+        {
+            case INTEGER:
+                return new SesameNumericValue( a.intValue() % b.intValue() );
+            case LONG:
+                return new SesameNumericValue( a.longValue() % b.longValue() );
+            case FLOAT:
+                return new SesameNumericValue( a.floatValue() % b.floatValue() );
+            case DOUBLE:
+                return new SesameNumericValue( a.doubleValue() % b.doubleValue() );
+            case DECIMAL:
+                return new SesameNumericValue( a.decimalValue().remainder( b.decimalValue() ).abs() );
+            default:
+                // Shouldn't happen.
+                return null;
+        }
 	}
 
 	public NumericValue pow( final NumericValue pow )
 	{
 		NumericValue a = this;
 
-		double r = Math.pow( a.doubleValue(), pow.doubleValue() );
+        if ( NumericLiteralType.DECIMAL == a.getType() && NumericLiteralType.INTEGER == pow.getType() )
+        {
+            return new SesameNumericValue( a.decimalValue().pow( a.intValue() ) );
+        }
 
-		if ( NumericLiteralType.INTEGER == a.getType() && NumericLiteralType.INTEGER == pow.getType() )
-		{
-			return new SesameNumericValue( (int) r );
-		}
+        else
+        {
+            double r = Math.pow( a.doubleValue(), pow.doubleValue() );
 
-		else if ( NumericLiteralType.LONG == a.getType() && NumericLiteralType.LONG == pow.getType() )
-		{
-			return new SesameNumericValue( (long) r );
-		}
-		
-		else if ( NumericLiteralType.FLOAT == a.getType() && NumericLiteralType.FLOAT == pow.getType() )
-		{
-			return new SesameNumericValue( (float) r );
-		}
-		
-		else
-		{
-			return new SesameNumericValue( r );
-		}
+            NumericLiteralType precision = maxPrecision( a, pow );
+            switch ( precision )
+            {
+                case INTEGER:
+                    return new SesameNumericValue( (int) r );
+                case LONG:
+                    return new SesameNumericValue( (long) r );
+                case FLOAT:
+                    return new SesameNumericValue( (float) r );
+                case DOUBLE:
+                    return new SesameNumericValue( r );
+                case DECIMAL:
+                    return new SesameNumericValue( r );
+                default:
+                    // Shouldn't happen.
+                    return null;
+            }
+        }
 	}
 }

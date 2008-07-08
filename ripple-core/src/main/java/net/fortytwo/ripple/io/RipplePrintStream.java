@@ -74,17 +74,10 @@ public class RipplePrintStream extends PrintStream
 				//       equal, false  otherwise"
 				if ( null != dataTypeUri )
 				{
-					if ( dataTypeUri.equals( XMLSchema.BOOLEAN ) )
-					{
-						print( label );
-					}
-
-					else if ( dataTypeUri.equals( XMLSchema.DOUBLE ) )
-					{
-						print( label );
-					}
-
-					else if ( dataTypeUri.equals( XMLSchema.INTEGER ) )
+					if ( dataTypeUri.equals( XMLSchema.BOOLEAN )
+                            || dataTypeUri.equals( XMLSchema.DECIMAL )
+                            || dataTypeUri.equals( XMLSchema.DOUBLE )
+                            || dataTypeUri.equals( XMLSchema.INTEGER ) )
 					{
 						print( label );
 					}

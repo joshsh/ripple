@@ -1,4 +1,4 @@
-# Test xsd:float
+# TODO: test xsd:float, xsd:decimal
 
 # Note: range and precision issues, floating-point edge cases, and operations
 # with mixed types (e.g. the addition of an int and a double) are not yet tested.

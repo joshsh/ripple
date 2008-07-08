@@ -30,7 +30,7 @@ public class OperatorAST implements AST<RippleList>
 
 	private final Type type;
     private final boolean inverse;
-    private int min, max;
+    private NumberAST min, max;
 
 	public OperatorAST( final Type type, boolean inverse )
 	{
@@ -43,14 +43,14 @@ public class OperatorAST implements AST<RippleList>
         this( Type.Apply, false );
     }
 
-    public OperatorAST( final int times, boolean inverse )
+    public OperatorAST( final NumberAST times, boolean inverse )
 	{
 		type = Type.Times;
         this.inverse = inverse;
         min = times;
 	}
 
-	public OperatorAST( final int min, final int max, boolean inverse )
+	public OperatorAST( final NumberAST min, final NumberAST max, boolean inverse )
 	{
 		type = Type.Range;
         this.inverse = inverse;
@@ -96,12 +96,12 @@ public class OperatorAST implements AST<RippleList>
                 l = inverse
                         ? mc.list( Operator.OP )
                                 .push( StackLibrary.getRangeApplyValue() )
-                                .push( mc.value( max ) )
-                                .push( mc.value( min ) ).push( EtcLibrary.getInvertValue() )
+                                .push( max.getValue( mc ) )
+                                .push( min.getValue( mc ) ).push( EtcLibrary.getInvertValue() )
                         : mc.list( Operator.OP )
                                 .push( StackLibrary.getRangeApplyValue() )
-                                .push( mc.value( max ) )
-                                .push( mc.value( min ) );
+                                .push( max.getValue( mc ) )
+                                .push( min.getValue( mc ) );
                 break;
 			case Star:
 				l = inverse
@@ -116,11 +116,11 @@ public class OperatorAST implements AST<RippleList>
                 l = inverse
                         ? mc.list( Operator.OP )
                                 .push( StackLibrary.getRangeApplyValue() )
-                                .push( mc.value( max ) )
-                                .push( mc.value( min ) ).push( EtcLibrary.getInvertValue() )
+                                .push( max.getValue( mc ) )
+                                .push( min.getValue( mc ) ).push( EtcLibrary.getInvertValue() )
                         : mc.list( Operator.OP )
                                 .push( StackLibrary.getTimesApplyValue() )
-                                .push( mc.value( min ) );
+                                .push( min.getValue( mc ) );
                 break;
 			default:
 				throw new RippleException( "unhandled operator type: " + type );	

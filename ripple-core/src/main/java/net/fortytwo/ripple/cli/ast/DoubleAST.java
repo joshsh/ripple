@@ -9,41 +9,123 @@
 
 package net.fortytwo.ripple.cli.ast;
 
-import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.ripple.model.NumericValue;
 
-public class DoubleAST implements AST<RippleList>
+import java.util.regex.Pattern;
+import java.math.BigDecimal;
+
+public class DoubleAST extends NumberAST
 {
-	private final double value;
+    /*
+    [Definition:]  The double datatype is patterned after the IEEE
+    double-precision 64-bit floating point type [IEEE 754-1985]. The basic
+    ávalue spaceá of double consists of the values m ? 2^e, where m is an
+    integer whose absolute value is less than 2^53, and e is an integer
+    between -1075 and 970, inclusive. In addition to the basic ávalue spaceá
+    described above, the ávalue spaceá of double also contains the following
+    three special values: positive and negative infinity and not-a-number (NaN).
+    */
+    private static final Pattern
+            // TODO: apparently, digits after the decimal point are not required, but are digits before the decimal point required?
+            XSD_DOUBLE = Pattern.compile("NaN|INF|-INF|([-+]?\\d+([.]\\d*)?([eE][-+]?\\d+)?)");
+
+    private static final BigDecimal
+            SUP_MANTISSA = new BigDecimal( 0x20000000000000l ),  // 2^53
+            MIN_EXPONENT = new BigDecimal( -1075l ),
+            MAX_EXPONENT = new BigDecimal( 970l );
+
+    private final double value;
 
 	public DoubleAST( final double value )
 	{
 		this.value = value;
 	}
 
+    /**
+     *
+     * @param rep the string representation of an xsd:double value
+     */
     public DoubleAST( final String rep )
     {
-        String s = rep.startsWith("+")
-                ? rep.substring(1)
-                : rep;
+        if ( !XSD_DOUBLE.matcher( rep ).matches() )
+        {
+            throw new IllegalArgumentException( "invalid xsd:double value: " + rep );    
+        }
 
-        value = ( new Double( s ) ).doubleValue();
+        if ( rep.equals( "NaN" ) )
+        {
+            value = Double.NaN;
+        }
+
+        else if ( rep.equals( "INF" ) )
+        {
+            value = Double.POSITIVE_INFINITY;
+        }
+
+        else if ( rep.equals( "-INF" ) )
+        {
+            value = Double.NEGATIVE_INFINITY;
+        }
+
+        else
+        {
+            String s = canonicalize( rep );
+
+            // TODO: what happens when the number represented by the mantissa
+            // or exponent portion of the number is larger than Long.MAX_VALUE?
+            BigDecimal mantissa, exponent;
+            int i = s.indexOf( "e" );
+
+            // Exponent is omitted, assumed to be 0.
+            if ( -1 == i )
+            {
+                mantissa = new BigDecimal( s );
+                exponent = BigDecimal.ZERO;
+            }
+
+            // Exponent is given.
+            else
+            {
+                mantissa = new BigDecimal( s.substring( 0, i ) );
+                exponent = new BigDecimal( s.substring( 1 + i ) );
+            }
+
+            if ( 0 <= mantissa.abs().compareTo( SUP_MANTISSA ) )
+            {
+                throw new IllegalArgumentException( "mantissa of xsd:double number is out of range: " + rep );
+            }
+
+            if ( 0 > exponent.compareTo( MIN_EXPONENT)
+                    || 0 < exponent.compareTo( MAX_EXPONENT ) )
+            {
+                throw new IllegalArgumentException( "exponent of xsd:double number is out of range: " + rep );
+            }
+
+//System.out.println("mantissa = " + mantissa + ", exponent = " + exponent);
+            value = mantissa.doubleValue() * Math.pow( 10, exponent.doubleValue() );
+        }
     }
     
-    public void evaluate( final Sink<RippleList, RippleException> sink,
-						final QueryEngine qe,
-						final ModelConnection mc )
-		throws RippleException
-	{
-		sink.put( mc.list( mc.value( value ) ) );
-	}
+    public NumericValue getValue( final ModelConnection mc ) throws RippleException
+    {
+        return mc.value( value );
+    }
 
 	public String toString()
 	{
-		return "" + value;
-	}
+        String s = "" + value;
+
+        // Add an exponent, if necessary, to make this an unambiguous
+        // xsd:double value in Ripple syntax.
+        if ( !s.contains( "E" ) )
+        {
+            s += "E0";
+        }
+
+        // Note: this is not necessarily the canonical form.
+        return s;
+    }
 }
 

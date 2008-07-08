@@ -11,6 +11,8 @@ package net.fortytwo.ripple.model;
 
 import java.io.OutputStream;
 import java.util.Date;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Sink;
@@ -98,9 +100,10 @@ public interface ModelConnection
 // FIXME: this should use an implementation-independent URI class
 	RdfValue value( String s, URI dataType ) throws RippleException;
 	RdfValue value( boolean b ) throws RippleException;
-	NumericValue value( int i ) throws RippleException;
+    NumericValue value( int i ) throws RippleException;
 	NumericValue value( long l ) throws RippleException;
-	NumericValue value( double d ) throws RippleException;
+    NumericValue value( double d ) throws RippleException;
+    NumericValue value( BigDecimal bd ) throws RippleException;
 // FIXME: this should use an implementation-independent URI class
 	RippleValue value( Value v );
 	

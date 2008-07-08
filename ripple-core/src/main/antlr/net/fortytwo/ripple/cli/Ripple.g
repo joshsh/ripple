@@ -9,7 +9,9 @@ import java.util.LinkedList;
 import net.fortytwo.ripple.cli.ast.AST;
 import net.fortytwo.ripple.cli.ast.BooleanAST;
 import net.fortytwo.ripple.cli.ast.BlankNodeAST;
+import net.fortytwo.ripple.cli.ast.NumberAST;
 import net.fortytwo.ripple.cli.ast.DoubleAST;
+import net.fortytwo.ripple.cli.ast.DecimalAST;
 import net.fortytwo.ripple.cli.ast.IntegerAST;
 import net.fortytwo.ripple.cli.ast.KeywordAST;
 import net.fortytwo.ripple.cli.ast.LambdaAST;
@@ -179,12 +181,11 @@ NAME_NOT_PREFIX
 
 NODEID_PREFIX : "_:" ;
 
-// Note: the '+' prefix (e.g. in +42) is excluded, as it interferes with the '+'
-// operator.
 NUMBER
 	: ('-' | '+')? ( DIGIT )+
 		(('.' DIGIT ) => ( '.' ( DIGIT )+ )
 		| ())
+		(('e' | 'E') ('-' | '+')? ( DIGIT )+ )?
 	;
 
 // Ignore comments.
@@ -482,16 +483,36 @@ nt_Literal returns [ AST r ]
 				? new StringAST( t.getText(), adapter.getLanguageTag() )
 				: new TypedLiteralAST( t.getText(), dataType );
 		}
-	| u:NUMBER
+	| r=nt_Number
+	;
+
+
+nt_Number returns [ NumberAST r ]
+{
+    r = null;
+}
+    : u:NUMBER
 		{
 			// Note: number format exceptions are handled at a higher level.
 			String s = u.getText();
 
-			if ( s.contains( "." ) )
+            // Numbers with an exponent portion are considered to be xsd:double
+            // values.  A decimal point is optional, but must be followed by at
+            // least one digit if present.
+            if ( s.contains( "e" ) || s.contains( "E" ) )
+            {
+                r = new DoubleAST( s );
+            }
+
+            // Numbers with no exponent portion but with a decimal point are
+            // considered to be xsd:decimal values.
+			else if ( s.contains( "." ) )
 			{
-				r = new DoubleAST( s );
+    		    r = new DecimalAST( s );
 			}
 
+            // All other numbers (with neither an exponent portion nor a decimal
+            // point) are considered to be xsd:integer values.
 			else
 			{
 				r = new IntegerAST( s );
@@ -596,27 +617,16 @@ nt_Operator returns [ OperatorAST AST ]
 	AST = null;
 	boolean inverse = false;
 	OperatorAST.Type type = OperatorAST.Type.Apply;
-	int minTimes = 0, maxTimes = 0;
+	NumberAST minTimes = null, maxTimes = null;
 }
 	: (OP_MOD_OPTION { type = OperatorAST.Type.Option; }
 	    | OP_MOD_STAR { type = OperatorAST.Type.Star; }
 //	    | OP_MOD_PLUS { type = OperatorAST.Type.Plus; }
-	    | L_CURLY (nt_Ws)? min:NUMBER (nt_Ws)? ( COMMA (nt_Ws)? max:NUMBER (nt_Ws)? )? R_CURLY
+	    | L_CURLY (nt_Ws)? minTimes=nt_Number (nt_Ws)? ( COMMA (nt_Ws)? maxTimes=nt_Number (nt_Ws)? )? R_CURLY
 		  {
-			// Note: floating-point values are syntactically valid, but will be
-			// truncated to integer values.
-			minTimes = new Double( min.getText() ).intValue();
-
-			if ( null == max )
-			{
-				type = OperatorAST.Type.Times;
-			}
-
-			else
-			{
-				maxTimes = new Double( max.getText() ).intValue();
-				type = OperatorAST.Type.Range;
-			}
+		    type = ( null == maxTimes )
+			        ? OperatorAST.Type.Times
+			        : OperatorAST.Type.Range;
 	      }
 	    )?
 
@@ -651,21 +661,6 @@ nt_Operator returns [ OperatorAST AST ]
         }
 	;
 
-/*
-     (1 2 3) rdf:rest >>* rdf:first >> .
-
-     (1 2 3) rdf:rest *>> rdf:first >> .
-
-     (1 2 3) rdf:rest {2}>> rdf:first >> .
-
-     (1 2 3) rdf:rest >>{2} rdf:first >> .
-
-     (1 2 3) rdf:rest >>{+} rdf:first >> .
-
-     (1 2 3) rdf:rest >>+ rdf:first >> .
-
-     (1 2 3) rdf:rest >>+ +23
-*/
 
 nt_Directive
 {

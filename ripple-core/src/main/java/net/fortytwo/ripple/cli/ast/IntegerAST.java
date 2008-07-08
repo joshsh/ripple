@@ -9,41 +9,54 @@
 
 package net.fortytwo.ripple.cli.ast;
 
-import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.NumericValue;
 
-public class IntegerAST implements AST<RippleList>
+import java.util.regex.Pattern;
+import java.math.BigInteger;
+
+public class IntegerAST extends NumberAST
 {
-	private final int value;
+    /*
+    [Definition:]   integer is áderivedá from decimal by fixing the value of
+    áfractionDigitsá to be 0and disallowing the trailing decimal point. This
+    results in the standard mathematical concept of the integer numbers. The
+    ávalue spaceá of integer is the infinite set {...,-2,-1,0,1,2,...}. The
+    ábase typeá of integer is decimal.
+    */
+    private static final Pattern
+            // Note: NaN, positive and negative infinity are apparently not allowed.
+            XSD_INTEGER = Pattern.compile("[-+]?\\d+");
 
-	public IntegerAST( final int value )
+	private final BigInteger value;
+
+	public IntegerAST( final BigInteger value )
 	{
 		this.value = value;
-	}
+    }
 
     public IntegerAST( final String rep )
     {
-        String s = rep.startsWith("+")
-                ? rep.substring(1)
-                : rep;
+        if ( !XSD_INTEGER.matcher( rep ).matches() )
+        {
+            throw new IllegalArgumentException( "invalid xsd:integer value: " + rep );    
+        }
 
-        value = ( new Integer( s ) ).intValue();
+        value = new BigInteger( canonicalize( rep ) );
     }
 
-    public void evaluate( final Sink<RippleList, RippleException> sink,
-						final QueryEngine qe,
-						final ModelConnection mc )
-		throws RippleException
-	{
-		sink.put( mc.list( mc.value( value ) ) );
-	}
+    public NumericValue getValue( final ModelConnection mc ) throws RippleException
+    {
+        // FIXME: xsd:integer values are constrained to the precision of Java
+        // int's, whereas they are supposed to have arbitrary precision.
+        return mc.value( value.intValue() );
+    }
 
 	public String toString()
 	{
-		return "" + value;
+        // This will naturally be the canonical form.
+        return "" + value;
 	}
 }
 

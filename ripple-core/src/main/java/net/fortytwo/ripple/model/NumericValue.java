@@ -14,6 +14,8 @@ import net.fortytwo.ripple.io.RipplePrintStream;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Value;
 
+import java.math.BigDecimal;
+
 /**
  * A numeric (xsd:integer or xsd:double) literal value.
  */
@@ -22,7 +24,7 @@ public abstract class NumericValue implements RippleValue
 	/**
 	 * Distinguishes between numeric literals of type xsd:integer and xsd:double.
 	 */
-	public enum NumericLiteralType { INTEGER, LONG, DOUBLE, FLOAT };
+	public enum NumericLiteralType { INTEGER, LONG, DOUBLE, FLOAT, DECIMAL };
 
 	protected NumericLiteralType type;
 	protected Number number;
@@ -62,7 +64,14 @@ public abstract class NumericValue implements RippleValue
 		return number.floatValue();
 	}
 
-	public boolean isZero()
+	public BigDecimal decimalValue()
+	{
+        return ( number instanceof BigDecimal )
+                ? (BigDecimal) number
+                : new BigDecimal( number.doubleValue() );
+	}
+
+    public boolean isZero()
 	{
 		return ( 0.0 == number.doubleValue() );
 	}
@@ -83,21 +92,7 @@ public abstract class NumericValue implements RippleValue
 	public void printTo( final RipplePrintStream p )
 		throws RippleException
 	{
-		switch ( type )
-		{
-			case INTEGER:
-				p.print( number.intValue() );
-				break;
-			case LONG:
-				p.print( number.longValue() );
-				break;
-			case DOUBLE:
-				p.print( number.doubleValue() );
-				break;
-			case FLOAT:
-				p.print( number.floatValue() );
-				break;
-		}
+		p.print( number.toString() );
 	}
 
 // TODO: implement hashCode()
