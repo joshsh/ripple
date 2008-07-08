@@ -53,18 +53,18 @@ public class WebClosure  // TODO: the name is a little misleading...
 
 	private static final Logger LOGGER = Logger.getLogger( WebClosure.class );
 
-	private Map<String, ContextMemo> memos = new HashMap<String, ContextMemo>();
+	private final Map<String, ContextMemo> memos = new HashMap<String, ContextMemo>();
 
 	// Maps media types to Rdfizers
-	private Map<MediaType, MediaTypeInfo> rdfizers
+	private final Map<MediaType, MediaTypeInfo> rdfizers
 			= new HashMap<MediaType, MediaTypeInfo>();
 
 	// Maps URI schemes to Dereferencers
-	private Map<String, Dereferencer> dereferencers = new HashMap<String, Dereferencer>();
+	private final Map<String, Dereferencer> dereferencers = new HashMap<String, Dereferencer>();
 
-    private URIMap uriMap;
-	private ValueFactory valueFactory;
-    private boolean useBlankNodes;
+    private final URIMap uriMap;
+	private final ValueFactory valueFactory;
+    private final boolean useBlankNodes;
 
     private String acceptHeader = null;
 

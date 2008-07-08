@@ -7,19 +7,19 @@ import java.util.List;
 import java.util.LinkedList;
 
 import net.fortytwo.ripple.cli.ast.AST;
-import net.fortytwo.ripple.cli.ast.BooleanAST;
+import net.fortytwo.ripple.cli.ast.AnnotatedAST;
 import net.fortytwo.ripple.cli.ast.BlankNodeAST;
-import net.fortytwo.ripple.cli.ast.NumberAST;
-import net.fortytwo.ripple.cli.ast.DoubleAST;
+import net.fortytwo.ripple.cli.ast.BooleanAST;
 import net.fortytwo.ripple.cli.ast.DecimalAST;
+import net.fortytwo.ripple.cli.ast.DoubleAST;
 import net.fortytwo.ripple.cli.ast.IntegerAST;
 import net.fortytwo.ripple.cli.ast.KeywordAST;
 import net.fortytwo.ripple.cli.ast.LambdaAST;
 import net.fortytwo.ripple.cli.ast.ListAST;
+import net.fortytwo.ripple.cli.ast.NumberAST;
 import net.fortytwo.ripple.cli.ast.OperatorAST;
-import net.fortytwo.ripple.cli.ast.AnnotatedAST;
+import net.fortytwo.ripple.cli.ast.PlainLiteralAST;
 import net.fortytwo.ripple.cli.ast.QNameAST;
-import net.fortytwo.ripple.cli.ast.StringAST;
 import net.fortytwo.ripple.cli.ast.TemplateAST;
 import net.fortytwo.ripple.cli.ast.TypedLiteralAST;
 import net.fortytwo.ripple.cli.ast.URIAST;
@@ -480,7 +480,7 @@ nt_Literal returns [ AST r ]
 	)
 		{
 			r = ( null == dataType )
-				? new StringAST( t.getText(), adapter.getLanguageTag() )
+				? new PlainLiteralAST( t.getText(), adapter.getLanguageTag() )
 				: new TypedLiteralAST( t.getText(), dataType );
 		}
 	| r=nt_Number

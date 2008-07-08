@@ -23,7 +23,7 @@ import org.openrdf.model.vocabulary.XMLSchema;
  */
 public class RdfValue implements RippleValue
 {
-	private Value value;
+	private final Value value;
 	
 	public RdfValue( final Value value )
 	{

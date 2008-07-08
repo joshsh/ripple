@@ -71,31 +71,27 @@ public class LinkedDataSail implements StackableSail
 		"ttf", "uue", "vb", "vcd", "wav", "wks", "wma", "wmv", "wpd", "wps",
 		"ws", "xhtml", "xll", "xls", "yps", "zip"};
 
-	private RippleProperties properties;
 	private static boolean logFailedUris;
-	
-	private URI
-		cacheContext,
-		cacheMemo;
-	
-	private Sail baseSail;
-	private WebClosure webClosure;
-	private URIMap URIMap;
-	
-	private boolean initialized = false;
-	
-	/**
+
+	private final WebClosure webClosure;
+	private final URIMap URIMap;
+
+    private Sail baseSail;
+    private boolean initialized = false;
+    
+    private URI
+        cacheContext,
+        cacheMemo;
+
+    /**
 	 * @param baseSail  (should be initialized before this object is used)
 	 */
 	public LinkedDataSail( final Sail baseSail, final URIMap URIMap )
 		throws RippleException
 	{
-		if (null == properties)
-		{
-			properties = Ripple.getProperties();
-			logFailedUris = properties.getBoolean( LOG_FAILED_URIS );
-		}
-		
+        RippleProperties properties = Ripple.getProperties();
+        logFailedUris = properties.getBoolean( LOG_FAILED_URIS );
+
 		this.baseSail = baseSail;
 		this.URIMap = URIMap;
 

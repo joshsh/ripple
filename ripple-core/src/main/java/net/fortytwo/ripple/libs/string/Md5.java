@@ -15,6 +15,7 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.StringUtils;
 
 
@@ -51,13 +52,12 @@ public class Md5 extends PrimitiveStackMapping
 		RippleList stack = arg.getStack();
 		final ModelConnection mc = arg.getModelConnection();
 
-		String a;
-
-		a = mc.toString( stack.getFirst() );
+		RippleValue a = stack.getFirst();
 		stack = stack.getRest();
 
-		solutions.put( arg.with(
+        String result = StringUtils.md5SumOf( mc.toString( a ) );
+        solutions.put( arg.with(
 				stack.push(
-			mc.value( StringUtils.md5SumOf( a ) ) ) ) );
+			StringLibrary.value( result, mc, a ) ) ) );
 	}
 }

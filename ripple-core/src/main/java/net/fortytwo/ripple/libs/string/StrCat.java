@@ -15,6 +15,7 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.flow.Sink;
 
 /**
@@ -53,17 +54,18 @@ public class StrCat extends PrimitiveStackMapping
 		RippleList stack = arg.getStack();
 		final ModelConnection mc = arg.getModelConnection();
 
-		String strA, strB, result;
+		RippleValue strA, strB;
+        String result;
 
-		strA = mc.toString( stack.getFirst() );
+		strA = stack.getFirst();
 		stack = stack.getRest();
-		strB = mc.toString( stack.getFirst() );
+		strB = stack.getFirst();
 		stack = stack.getRest();
 
-		result = strB + strA;
+		result = mc.toString( strB ) + mc.toString( strA );
 
 		solutions.put( arg.with(
-				stack.push( mc.value( result ) ) ) );
+				stack.push( StringLibrary.value( result, mc, strA, strB ) ) ) );
 	}
 }
 

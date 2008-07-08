@@ -14,7 +14,7 @@ import net.fortytwo.ripple.rdf.SynchronizedRDFSink;
 
 public class SynchronizedRDFDiffSink implements RDFDiffSink
 {
-	private RDFSink addSink, subSink;
+	private final RDFSink addSink, subSink;
 
 	public SynchronizedRDFDiffSink( final RDFDiffSink sink, final Object synch )
 	{

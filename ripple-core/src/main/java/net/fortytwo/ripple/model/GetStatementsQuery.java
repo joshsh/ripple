@@ -40,21 +40,21 @@ public class GetStatementsQuery
         }
     }
 
+    public enum Type { SP_O, PO_S, SO_P };
+
     // TODO: make this into a configuration property, or find another solution
     private static final boolean STRING_LITERALS_EQUIVALENT_TO_PLAIN_LITERALS = true;
 
     // FIXME: this is temporary
     private static final ValueFactory VALUE_FACTORY = new ValueFactoryImpl();
 
-    public enum Type { SP_O, PO_S, SO_P };
+    public final boolean includeInferred;
 
-	public Resource subject;
+    public Resource subject;
 	public URI predicate;
 	public Value object;
 	public Resource[] contexts;
     public Type type = Type.SP_O;
-
-    public boolean includeInferred = false;
 
     public GetStatementsQuery( final StatementPatternQuery patternQuery, final ModelConnection mc ) throws RippleException
     {

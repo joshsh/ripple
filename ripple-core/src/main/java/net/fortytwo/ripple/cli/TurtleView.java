@@ -31,13 +31,14 @@ public class TurtleView implements Sink<RippleList, RippleException>
 
 	private final RipplePrintStream printStream;
 	private final ModelConnection modelConnection;
-	private int index = 0;
 
-    private boolean printEntireStack;
-    private boolean showEdges;
-    private int maxPredicates;
-    private int maxObjects;
+    private final boolean printEntireStack;
+    private final boolean showEdges;
+    private final int maxPredicates;
+    private final int maxObjects;
 
+    private int index = 0;
+    
     public TurtleView( final RipplePrintStream printStream,
 						final ModelConnection modelConnection)
 		throws RippleException

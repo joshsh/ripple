@@ -18,9 +18,9 @@ import org.openrdf.model.Statement;
 
 public class SynchronizedRDFSink implements RDFSink
 {
-	private Sink<Statement, RippleException> stSink;
-	private Sink<Namespace, RippleException> nsSink;
-	private Sink<String, RippleException> comSink;
+	private final Sink<Statement, RippleException> stSink;
+	private final Sink<Namespace, RippleException> nsSink;
+	private final Sink<String, RippleException> comSink;
 
 	public SynchronizedRDFSink( final RDFSink sink, final Object synch )
 	{

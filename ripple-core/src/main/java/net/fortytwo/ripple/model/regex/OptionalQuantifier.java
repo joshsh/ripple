@@ -23,7 +23,7 @@ import net.fortytwo.ripple.model.NullStackMapping;
  */
 public class OptionalQuantifier implements StackMapping
 {
-	private Operator innerOperator;
+	private final Operator innerOperator;
 
 	public OptionalQuantifier( final Operator oper )
 	{

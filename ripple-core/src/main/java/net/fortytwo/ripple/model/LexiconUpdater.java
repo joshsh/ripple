@@ -32,7 +32,7 @@ public class LexiconUpdater implements RDFDiffSink
 	private static final Pattern PREFIX_PATTERN
 		= Pattern.compile( "[A-Za-z][-0-9A-Z_a-z]*" );
 
-	private RDFSink addSink, subSink;
+	private final RDFSink addSink, subSink;
 
 	public LexiconUpdater( final Lexicon lexicon ) throws RippleException
     {

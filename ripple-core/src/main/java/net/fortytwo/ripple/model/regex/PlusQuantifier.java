@@ -24,7 +24,7 @@ import net.fortytwo.ripple.model.regex.StarQuantifier;
  */
 public class PlusQuantifier implements StackMapping
 {
-	private Operator innerOperator;
+	private final Operator innerOperator;
 
 	public PlusQuantifier( final Operator oper )
 	{

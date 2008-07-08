@@ -22,8 +22,8 @@ import org.openrdf.model.URI;
 
 public class DefineTermCmd extends Command
 {
-	private ListAST list;
-	private String name;
+	private final ListAST list;
+	private final String name;
 
 	public DefineTermCmd( final String name, final ListAST list)
 	{

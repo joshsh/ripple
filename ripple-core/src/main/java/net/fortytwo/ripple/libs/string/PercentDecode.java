@@ -15,6 +15,7 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.StringUtils;
 
 /**
@@ -51,14 +52,12 @@ public class PercentDecode extends PrimitiveStackMapping
 		RippleList stack = arg.getStack();
 		final ModelConnection mc = arg.getModelConnection();
 
-		String a, result;
-
-		a = mc.toString( stack.getFirst() );
+		RippleValue a = stack.getFirst();
 		stack = stack.getRest();
 
-		result = StringUtils.percentDecode( a );
+		String result = StringUtils.percentDecode( mc.toString( a ) );
 		solutions.put( arg.with(
-				stack.push( mc.value( result ) ) ) );
+				stack.push( StringLibrary.value( result, mc, a ) ) ) );
 	}
 }
 

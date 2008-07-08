@@ -15,13 +15,13 @@ public class InputStreamEventFilter extends InputStream
 {
 	private static final int ESC = 27;
 
-	private InputStream source;
-	private RecognizerAdapter recognizerAdapter;
+	private final InputStream source;
+	private final RecognizerAdapter recognizerAdapter;
 
 	private int buffered;
 
 	public InputStreamEventFilter( final InputStream is,
-									final RecognizerAdapter rc )
+								   final RecognizerAdapter rc )
 	{
 		source = is;
 		recognizerAdapter = rc;

@@ -15,6 +15,7 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.RippleValue;
 
 /**
  * A primitive which consumes a string and two integer indexes, then
@@ -53,20 +54,21 @@ public class Substring extends PrimitiveStackMapping
 		final ModelConnection mc = arg.getModelConnection();
 
 		int begin, end;
-		String s, result;
+		RippleValue s;
+        String result;
 
 		end = mc.toNumericValue( stack.getFirst() ).intValue();
 		stack = stack.getRest();
 		begin = mc.toNumericValue( stack.getFirst() ).intValue();
 		stack = stack.getRest();
-		s = mc.toString( stack.getFirst() );
+		s = stack.getFirst();
 		stack = stack.getRest();
 
 		try
 		{
-			result = s.substring( begin, end );
+			result = mc.toString( s ).substring( begin, end );
 			solutions.put( arg.with(
-					stack.push( mc.value( result ) ) ) );
+					stack.push( StringLibrary.value( result, mc, s ) ) ) );
 		}
 
 		catch ( IndexOutOfBoundsException e )

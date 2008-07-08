@@ -58,32 +58,28 @@ import java.util.Set;
 // TODO: cut down on excessive synchronization
 public class LinkedDataSailConnection implements SailConnection
 {
+    private static final boolean DEREFERENCE_SUBJECT = true;
+    private static final boolean DEREFERENCE_PREDICATE = false;
+    private static final boolean DEREFERENCE_OBJECT = false;
+
 	private static final Logger LOGGER
 		= Logger.getLogger( LinkedDataSailConnection.class );
 
-	private boolean open = false;
-
-	private Sail baseSail;
-	private SailConnection baseConnection;
-	private ValueFactory valueFactory;
-	private Set<SailConnectionListener> listeners = null;
-
-	private WebClosure webClosure;
-	
+    private final Sail baseSail;
+    private final ValueFactory valueFactory;
+    private final WebClosure webClosure;
 	// Note: SparqlUpdater is not thread-safe, so we must synchronize all
 	//       operations involving it.
-	private SparqlUpdater sparqlUpdater;
+	private final SparqlUpdater sparqlUpdater;
+    private final RDFDiffSink apiInputSink;
+    // Buffering input to the wrapped SailConnection avoids deadlocks.
+    private final RDFDiffBuffer baseSailWriteBuffer;
+    private final RDFDiffSink baseSailWriteSink;
 
-	private RDFDiffSink apiInputSink;
+    private boolean open = false;
+	private SailConnection baseConnection;
+	private Set<SailConnectionListener> listeners = null;
 
-	// Buffering input to the wrapped SailConnection avoids deadlocks.
-	private RDFDiffBuffer baseSailWriteBuffer;
-	private RDFDiffSink baseSailWriteSink;
-
-	private boolean dereferenceSubject = true;
-	private boolean dereferencePredicate = false;
-	private boolean dereferenceObject = false;
-	
 	////////////////////////////////////////////////////////////////////////////
 
 	// Connection listener methods are synchronized w.r.t. this SailConnection.
@@ -683,19 +679,19 @@ public class LinkedDataSailConnection implements SailConnection
 	{
 		boolean changed = false;
 		
-		if ( dereferenceSubject && null != subj && subj instanceof URI )
+		if ( DEREFERENCE_SUBJECT && null != subj && subj instanceof URI )
 		{
 			dereference( (URI) subj );
 			changed = true;
 		}
 
-		if ( dereferencePredicate && null != subj )
+		if ( DEREFERENCE_PREDICATE && null != subj )
 		{
 			dereference( pred );
 			changed = true;
 		}
 		
-		if ( dereferenceObject && null != obj && obj instanceof URI )
+		if ( DEREFERENCE_OBJECT && null != obj && obj instanceof URI )
 		{
 			dereference( (URI) obj );
 			changed = true;

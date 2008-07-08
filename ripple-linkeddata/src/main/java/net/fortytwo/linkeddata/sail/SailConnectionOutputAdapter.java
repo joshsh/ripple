@@ -22,8 +22,8 @@ import org.openrdf.model.Statement;
 //       "LinkedDataSailConnectionOutputAdapter"
 public class SailConnectionOutputAdapter implements RDFDiffSink
 {
-	private LinkedDataSailConnection sailConnection;
-	private RDFSink addSink, subtractSink;
+	private final LinkedDataSailConnection sailConnection;
+	private final RDFSink addSink, subtractSink;
 
 	public SailConnectionOutputAdapter( final LinkedDataSailConnection sc )
 	{

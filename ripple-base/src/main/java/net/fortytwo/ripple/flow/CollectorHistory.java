@@ -13,8 +13,10 @@ import java.util.LinkedList;
 
 public class CollectorHistory<T, E extends Exception> implements Sink<T, E>
 {
-	private int len, maxlen;
-	private LinkedList<Collector<T, E>> history;
+    private final int maxlen;
+    private final LinkedList<Collector<T, E>> history;
+
+    private int len;
 	private Sink<T, E> currentSink;
 
 	public CollectorHistory( final int maxlen )

@@ -21,7 +21,7 @@ public class URIMap
 {
 	private static final Logger LOGGER = Logger.getLogger( URIMap.class );
 
-	private Map<String, String> map;
+	private final Map<String, String> map;
 
 	private String [] fromUris;
 	private String [] toUris;

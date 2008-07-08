@@ -24,8 +24,9 @@ public class Operator implements RippleValue
 	private static final RdfValue RDF_FIRST = new RdfValue( RDF.FIRST );
 	private static final RdfValue RDF_NIL = new RdfValue( RDF.NIL );
 
-	private StackMapping mapping;
-	private RdfValue rdfEquivalent = null;
+	private final StackMapping mapping;
+
+    private RdfValue rdfEquivalent = null;
 
 	private Operator( final RdfValue pred ) throws RippleException
 	{

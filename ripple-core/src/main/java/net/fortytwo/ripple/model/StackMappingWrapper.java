@@ -19,14 +19,14 @@ import net.fortytwo.ripple.flow.Sink;
  */
 public class StackMappingWrapper extends PrimitiveStackMapping
 {
-    private StackMapping innerMapping;
-
     // FIXME: awkward
     private static final String[] IDENTIFIERS = {};
     public String[] getIdentifiers()
     {
         return IDENTIFIERS;
     }
+
+    private final StackMapping innerMapping;
 
     public StackMappingWrapper( final StackMapping wrapped, final ModelConnection mc ) throws RippleException
     {

@@ -16,7 +16,7 @@ package net.fortytwo.ripple.flow;
  */
 public class DiffBuffer<T, E extends Exception> extends Diff<T, E>
 {
-    private DiffSink<T, E> sink;
+    private final DiffSink<T, E> sink;
 
     public DiffBuffer( final DiffSink<T, E> sink )
     {

@@ -28,7 +28,8 @@ public class NullStackMapping implements StackMapping
 						final Sink<StackContext, RippleException> sink )
 		throws RippleException
 	{
-	}
+        // Do nothing.
+    }
 	
 	public boolean isTransparent()
 	{

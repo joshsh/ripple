@@ -19,7 +19,7 @@ import net.fortytwo.ripple.query.QueryEngine;
 
 public class ExportCmd extends Command
 {
-	private String nsPrefix, fileName;
+	private final String nsPrefix, fileName;
 
 	public ExportCmd( final String nsPrefix, final String fileName )
 	{

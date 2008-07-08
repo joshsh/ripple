@@ -13,7 +13,7 @@ import net.fortytwo.ripple.RippleException;
 
 public class RDFBuffer extends RDFCollector
 {
-	private RDFSink sink;
+	private final RDFSink sink;
 
 	public RDFBuffer( final RDFSink sink )
 	{

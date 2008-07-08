@@ -14,8 +14,8 @@ import java.util.Set;
 
 public class UniqueFilter<T, E extends Exception> implements Sink<T, E>
 {
-	private Set<T> set = new HashSet<T>();
-	private Sink<T, E> sink;
+	private final Set<T> set = new HashSet<T>();
+	private final Sink<T, E> sink;
 
 	public UniqueFilter( final Sink<T, E> sink )
 	{

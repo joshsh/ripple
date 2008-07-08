@@ -16,25 +16,25 @@ import info.aduna.iteration.CloseableIteration;
 
 public class CloseableIterationSource<T, E extends Exception> implements Source<T, RippleException>
 {
-	private CloseableIteration<T, E> it;
+	private CloseableIteration<T, E> iteration;
 	
 	public CloseableIterationSource( final CloseableIteration<T, E> iter )
 	{
-		it = iter;
+		iteration = iter;
 	}
 	
 	public void writeTo( final Sink<T, RippleException> sink ) throws RippleException
 	{
-		if ( null == it )
+		if ( null == iteration)
 		{
 			throw new RippleException( "CloseableIterationSource may only be written once" );
 		}
 
         try
         {
-            while ( it.hasNext() )
+            while ( iteration.hasNext() )
             {
-                sink.put( it.next() );
+                sink.put( iteration.next() );
             }
         }
         
@@ -53,11 +53,11 @@ public class CloseableIterationSource<T, E extends Exception> implements Source<
 	
 	private void close() throws RippleException
 	{
-		if ( null != it )
+		if ( null != iteration)
         {
             try
             {
-                it.close();
+                iteration.close();
             }
 
             catch ( Exception e )
@@ -67,7 +67,7 @@ public class CloseableIterationSource<T, E extends Exception> implements Source<
 
             finally
             {
-                it = null;
+                iteration = null;
             }
         }
 	}

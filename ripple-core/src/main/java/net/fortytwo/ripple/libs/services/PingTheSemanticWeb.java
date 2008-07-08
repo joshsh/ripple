@@ -17,6 +17,7 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackContext;
 import org.jdom.input.SAXBuilder;
+import org.openrdf.model.vocabulary.XMLSchema;
 
 /**
  * A primitive which consumes a maximum number of ping results and a string
@@ -85,7 +86,7 @@ public class PingTheSemanticWeb extends PrimitiveStackMapping
 		stack = stack.getRest();
 
 solutions.put( arg.with(
-		stack.push( mc.value( MSG ) ) ) );
+		stack.push( mc.value( MSG, XMLSchema.STRING ) ) ) );
 /*
 		URLConnection urlConn = HttpUtils.openConnection(
 			"http://pingthesemanticweb.com/export/?serialization=xml&ns=&domain=&timeframe=any_time&type=" + type + "&nbresults=" + maxResults );

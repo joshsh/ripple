@@ -12,7 +12,14 @@ package net.fortytwo.ripple.libs.string;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
+import net.fortytwo.ripple.model.RippleValue;
+import net.fortytwo.ripple.model.RdfValue;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.URIMap;
+import org.openrdf.model.Value;
+import org.openrdf.model.Literal;
+import org.openrdf.model.URI;
+import org.openrdf.model.vocabulary.XMLSchema;
 
 /**
  * A collection of string manipulation primitives.
@@ -50,5 +57,31 @@ public class StringLibrary extends Library
 		registerPrimitive( UrlDecode.class, context );
 		registerPrimitive( UrlEncode.class, context );
 	}
+
+    public static RdfValue value( final String label,
+                                  final ModelConnection mc,
+                                  final RippleValue... operands ) throws RippleException
+    {
+        boolean stringTyped = false;
+
+        for ( RippleValue o : operands )
+        {
+            Value v = o.toRDF( mc ).sesameValue();
+            if ( v instanceof Literal )
+            {
+                URI datatype = ( (Literal) v ).getDatatype();
+
+                if ( null != datatype && datatype.equals( XMLSchema.STRING ) )
+                {
+                    stringTyped = true;
+                    break;
+                }
+            }
+        }
+
+        return stringTyped
+                ? mc.value( label, XMLSchema.STRING )
+                : mc.value( label );
+    }
 }
 

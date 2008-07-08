@@ -24,8 +24,8 @@ import net.fortytwo.ripple.model.NullStackMapping;
  */
 public class TimesQuantifier implements StackMapping
 {
-	private Operator innerOperator;
-	private int min, max;
+	private final Operator innerOperator;
+	private final int min, max;
 
 	public TimesQuantifier( final Operator oper, final int min, final int max )
 	{

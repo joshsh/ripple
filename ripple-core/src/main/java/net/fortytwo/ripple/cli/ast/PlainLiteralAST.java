@@ -17,11 +17,11 @@ import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.StringUtils;
 
-public class StringAST implements AST<RippleList>
+public class PlainLiteralAST implements AST<RippleList>
 {
 	private final String value, language;
 
-	public StringAST( final String escapedValue )
+	public PlainLiteralAST( final String escapedValue )
 	{
         String s;
 
@@ -41,7 +41,7 @@ public class StringAST implements AST<RippleList>
         language = null;
 	}
 
-	public StringAST( final String escapedValue, final String language )
+	public PlainLiteralAST( final String escapedValue, final String language )
 	{
         String s;
 

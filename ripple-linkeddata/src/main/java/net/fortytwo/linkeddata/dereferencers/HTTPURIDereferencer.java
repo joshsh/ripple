@@ -27,9 +27,9 @@ public class HTTPURIDereferencer implements Dereferencer
 	private static final Logger LOGGER = Logger.getLogger( HTTPURIDereferencer.class );
 
 	// FIXME: temporary
-	private WebClosure webClosure;
+	private final WebClosure webClosure;
 
-	private Set<String> badExtensions;
+	private final Set<String> badExtensions;
 
 	public HTTPURIDereferencer( final WebClosure webClosure )
 	{

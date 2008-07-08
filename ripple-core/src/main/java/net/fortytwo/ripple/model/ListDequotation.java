@@ -18,7 +18,7 @@ import net.fortytwo.ripple.flow.Sink;
 
 public class ListDequotation implements StackMapping
 {
-	private RippleList list;
+	private final RippleList list;
 
 	public ListDequotation( final RippleList list )
 	{

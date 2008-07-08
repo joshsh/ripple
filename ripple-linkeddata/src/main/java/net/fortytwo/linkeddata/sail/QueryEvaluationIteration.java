@@ -16,7 +16,7 @@ import org.openrdf.sail.SailException;
 
 public class QueryEvaluationIteration implements CloseableIteration<Statement, QueryEvaluationException>
 {
-    private CloseableIteration<? extends Statement, SailException> baseIteration;
+    private final CloseableIteration<? extends Statement, SailException> baseIteration;
     
     public QueryEvaluationIteration( final CloseableIteration<? extends Statement, SailException> baseIteration )
     {

@@ -24,9 +24,9 @@ import org.openrdf.sail.SailException;
 
 public class SailConnectionTripleSource implements TripleSource
 {
-    private SailConnection sailConnection;
-    private ValueFactory valueFactory;
-	private boolean includeInferred;
+    private final SailConnection sailConnection;
+    private final ValueFactory valueFactory;
+	private final boolean includeInferred;
 
 	public SailConnectionTripleSource( final SailConnection conn, final ValueFactory valueFactory, final boolean includeInferred )
 	{

@@ -11,7 +11,7 @@ package net.fortytwo.ripple.flow;
 
 public class Buffer<T, E extends Exception> extends Collector<T, E>
 {
-	private Sink<T, E> sink;
+	private final Sink<T, E> sink;
 
 	public Buffer( final Sink<T, E> sink )
 	{

@@ -16,6 +16,7 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.flow.Sink;
+import org.openrdf.model.vocabulary.XMLSchema;
 
 /**
  * A primitive which consumes a resource or literal value and produces its
@@ -62,7 +63,7 @@ public class ToString extends PrimitiveStackMapping
 		stack = stack.getRest();
 
 		solutions.put( arg.with(
-				stack.push( mc.value( mc.toString( v ) ) ) ) );
+				stack.push( mc.value( mc.toString( v ), XMLSchema.STRING ) ) ) );
 	}
 }
 

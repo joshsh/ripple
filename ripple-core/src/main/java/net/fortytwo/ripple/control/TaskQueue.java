@@ -18,7 +18,7 @@ import net.fortytwo.ripple.RippleException;
  */
 public class TaskQueue extends Task
 {
-	private LinkedList<Task> queue = new LinkedList<Task>();
+	private final LinkedList<Task> queue = new LinkedList<Task>();
 
 	public void add( final Task task )
 	{

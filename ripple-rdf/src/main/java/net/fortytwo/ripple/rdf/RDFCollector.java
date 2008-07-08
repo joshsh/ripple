@@ -19,9 +19,9 @@ import org.openrdf.model.Statement;
 
 public class RDFCollector extends RDFSource implements RDFSink
 {
-	private Collector<Statement, RippleException> statements;
-	private Collector<Namespace, RippleException> namespaces;
-	private Collector<String, RippleException> comments;
+	private final Collector<Statement, RippleException> statements;
+	private final Collector<Namespace, RippleException> namespaces;
+	private final Collector<String, RippleException> comments;
 
 	public RDFCollector()
 	{

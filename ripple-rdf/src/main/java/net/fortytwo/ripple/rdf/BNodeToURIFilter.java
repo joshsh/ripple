@@ -27,9 +27,9 @@ import org.openrdf.model.ValueFactory;
  */
 public class BNodeToURIFilter implements RDFSink
 {
-	private Sink<Statement, RippleException> stSink;
-	private Sink<Namespace, RippleException> nsSink;
-	private Sink<String, RippleException> cmtSink;
+	private final Sink<Statement, RippleException> stSink;
+	private final Sink<Namespace, RippleException> nsSink;
+	private final Sink<String, RippleException> cmtSink;
 
 	private ValueFactory valueFactory;
 

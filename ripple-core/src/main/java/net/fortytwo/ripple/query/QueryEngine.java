@@ -32,12 +32,11 @@ public class QueryEngine
 {
 	private static final Logger LOGGER = Logger.getLogger( QueryEngine.class );
 
-	private Model model;
-	private Lexicon lexicon;
-	private StackEvaluator evaluator;
-
-	private RipplePrintStream printStream;
-	private PrintStream errorPrintStream;
+	private final Model model;
+	private final Lexicon lexicon;
+	private final StackEvaluator evaluator;
+	private final RipplePrintStream printStream;
+	private final PrintStream errorPrintStream;
 
 	////////////////////////////////////////////////////////////////////////////
 

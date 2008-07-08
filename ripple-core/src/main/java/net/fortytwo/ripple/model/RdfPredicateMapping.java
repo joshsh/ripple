@@ -22,9 +22,10 @@ public class RdfPredicateMapping implements StackMapping
 {
     private static final int ARITY = 1;
 
-    private RdfValue predicate;
+    private final RdfValue predicate;
+    private final boolean includeInferred;
+
     private RdfValue context;
-	private boolean includeInferred;
 
     // Note: only the types SP_O and OP_S are supported for now
     private StatementPatternQuery.Pattern type = StatementPatternQuery.Pattern.SP_O;

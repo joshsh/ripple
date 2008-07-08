@@ -19,7 +19,7 @@ import jline.Completor;
 
 public abstract class RippleCompletor implements Completor
 {
-	private SortedSet<String> alts;
+	private final SortedSet<String> alts;
 
 	public RippleCompletor( final Collection<String> alternatives )
 	{

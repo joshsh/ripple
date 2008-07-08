@@ -34,7 +34,7 @@ public class Show extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
-	private static String[] mimeTypes = ImageIO.getReaderMIMETypes();
+	private static final String[] MIME_TYPES = ImageIO.getReaderMIMETypes();
 
     private static final String[] IDENTIFIERS = {
             MediaLibrary.NS_2007_08 + "show"};
@@ -103,7 +103,7 @@ public class Show extends PrimitiveStackMapping
 		public ImagePanel( final URI uri ) throws RippleException
 		{
             HttpMethod method = HTTPUtils.createRdfGetMethod( uri.toString() );
-            HTTPUtils.setAcceptHeader( method, mimeTypes );
+            HTTPUtils.setAcceptHeader( method, MIME_TYPES);
             HTTPUtils.registerMethod( method );
             HttpClient client = HTTPUtils.createClient();
 

@@ -14,6 +14,7 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
+import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.flow.Sink;
 
 /**
@@ -53,20 +54,20 @@ public class Split extends PrimitiveStackMapping
 		RippleList stack = arg.getStack();
 		final ModelConnection mc = arg.getModelConnection();
 
-		String s, regex;
+		RippleValue s, regex;
 
-		regex = mc.toString( stack.getFirst() );
+		regex = stack.getFirst();
 		stack = stack.getRest();
-		s = mc.toString( stack.getFirst() );
+		s = stack.getFirst();
 		stack = stack.getRest();
 
 		try
 		{
-			String [] array = s.split( regex );
+			String [] array = mc.toString( s ).split( mc.toString( regex ) );
 			RippleList result = mc.list();
 			for ( int i = array.length - 1; i >= 0; i-- )
 			{
-				result = result.push( mc.value( array[i] ) );
+				result = result.push( StringLibrary.value( array[i], mc, s, regex ) );
 			}
 
 			solutions.put( arg.with(

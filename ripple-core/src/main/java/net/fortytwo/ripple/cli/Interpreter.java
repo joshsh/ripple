@@ -24,10 +24,11 @@ public class Interpreter
 	private static final Logger LOGGER
 		= Logger.getLogger( Interpreter.class );
 
-	private RecognizerAdapter recognizerAdapter;
-	private InputStream input;
-	private Sink<Exception, RippleException> exceptionSink;
-	private boolean active = false;
+	private final RecognizerAdapter recognizerAdapter;
+	private final InputStream input;
+	private final Sink<Exception, RippleException> exceptionSink;
+    
+    private boolean active = false;
 
 	public Interpreter( final RecognizerAdapter adapter,
 						final InputStream input,

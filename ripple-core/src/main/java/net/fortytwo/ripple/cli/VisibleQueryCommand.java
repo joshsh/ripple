@@ -39,9 +39,10 @@ public class VisibleQueryCommand extends Command
 {
 	private static RdfValue RDF_FIRST = new RdfValue( RDF.FIRST );
 	
-	private ListAST ast;
-	private CollectorHistory<RippleList, RippleException> resultHistory;
-	private boolean continued;
+	private final ListAST ast;
+	private final CollectorHistory<RippleList, RippleException> resultHistory;
+
+    private boolean continued;
 	private TaskSet taskSet;
 
 	private Switch<RippleList, RippleException> results;

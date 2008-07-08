@@ -25,6 +25,7 @@ import net.fortytwo.ripple.flow.Collector;
 import net.fortytwo.ripple.flow.Sink;
 
 import org.openrdf.rio.RDFFormat;
+import org.openrdf.model.vocabulary.XMLSchema;
 
 public class RippleListTest extends RippleTestCase
 {
@@ -65,12 +66,12 @@ public class RippleListTest extends RippleTestCase
 				}
 			};
 			
-			RippleValue l1 = mc.value( "1" );
-			RippleValue l2 = mc.value( "2" );
-			RippleValue l1a = mc.value( "1a" );
-			RippleValue l1b = mc.value( "1b" );		
-			RippleValue l2a = mc.value( "2a" );
-			RippleValue l2b = mc.value( "2b" );
+			RippleValue l1 = mc.value( "1", XMLSchema.STRING );
+			RippleValue l2 = mc.value( "2", XMLSchema.STRING );
+			RippleValue l1a = mc.value( "1a", XMLSchema.STRING );
+			RippleValue l1b = mc.value( "1b", XMLSchema.STRING );
+			RippleValue l2a = mc.value( "2a", XMLSchema.STRING );
+			RippleValue l2b = mc.value( "2b", XMLSchema.STRING );
 
 			head = new RdfValue( mc.createUri( "urn:test.RippleListTest.FromRdfTest#simpleList" ) );
 			created.clear();

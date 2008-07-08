@@ -34,14 +34,13 @@ import java.io.InputStream;
  */
 public class QueryPipe implements Sink<String, RippleException>
 {
-	private RecognizerAdapter recognizerAdapter;
-    private Sink<Exception, RippleException> parserExceptionSink;
-
-    private Buffer<RippleList, RippleException> resultBuffer;
-	
-	private CollectorHistory<RippleList, RippleException> queryResultHistory
+	private final RecognizerAdapter recognizerAdapter;
+    private final Sink<Exception, RippleException> parserExceptionSink;
+    private final Buffer<RippleList, RippleException> resultBuffer;
+	private final CollectorHistory<RippleList, RippleException> queryResultHistory
 		= new CollectorHistory<RippleList, RippleException>( 2 );
-	private boolean lastQueryContinued = false;
+
+    private boolean lastQueryContinued = false;
 
 	public QueryPipe( final QueryEngine queryEngine, final Sink<RippleList, RippleException> resultSink ) throws RippleException
 	{

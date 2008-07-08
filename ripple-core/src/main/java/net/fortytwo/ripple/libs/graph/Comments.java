@@ -24,6 +24,7 @@ import net.fortytwo.ripple.util.RDFHTTPUtils;
 import org.apache.commons.httpclient.HttpMethod;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;
+import org.openrdf.model.vocabulary.XMLSchema;
 
 /**
  * A primitive which consumes an information resource and produces each of
@@ -93,7 +94,7 @@ public class Comments extends PrimitiveStackMapping
 					throws RippleException
 				{
 					resultSink.put( arg.with(
-						rest.push( mc.value( comment ) ) ) );
+						rest.push( mc.value( comment, XMLSchema.STRING ) ) ) );
 				}
 			};
 

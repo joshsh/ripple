@@ -23,7 +23,7 @@ import net.fortytwo.ripple.model.NullStackMapping;
  */
 public class StarQuantifier implements StackMapping
 {
-	private Operator innerOperator;
+	private final Operator innerOperator;
 
 	public StarQuantifier( final Operator oper )
 	{

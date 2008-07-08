@@ -22,8 +22,8 @@ import org.openrdf.model.impl.NamespaceImpl;
 
 public class DefinePrefixCmd extends Command
 {
-	private String prefix;
-	private URIAST uri;
+	private final String prefix;
+	private final URIAST uri;
 
 	public DefinePrefixCmd( final String prefix, final URIAST uri )
 	{

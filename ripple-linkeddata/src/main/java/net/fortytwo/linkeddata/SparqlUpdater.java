@@ -34,9 +34,9 @@ import org.openrdf.rio.RDFFormat;
  */
 public class SparqlUpdater
 {
-	private RDFDiffContextFilter contextFilter;
-	private RDFDiffSink sink;
-	private URIMap URIMap;
+	private final RDFDiffContextFilter contextFilter;
+	private final RDFDiffSink sink;
+	private final URIMap URIMap;
 
 	public SparqlUpdater( final URIMap URIMap, final RDFDiffSink sink )
 	{

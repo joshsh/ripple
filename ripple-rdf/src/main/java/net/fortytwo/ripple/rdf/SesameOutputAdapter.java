@@ -23,9 +23,9 @@ public class SesameOutputAdapter implements RDFSink
 {
 	private RDFHandler handler;
 
-	private Sink<Statement, RippleException> stSink;
-	private Sink<Namespace, RippleException> nsSink;
-	private Sink<String, RippleException> cmtSink;
+	private final Sink<Statement, RippleException> stSink;
+	private final Sink<Namespace, RippleException> nsSink;
+	private final Sink<String, RippleException> cmtSink;
 
 	public SesameOutputAdapter( final RDFHandler handler )
 	{

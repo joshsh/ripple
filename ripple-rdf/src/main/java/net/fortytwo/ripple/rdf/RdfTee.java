@@ -18,9 +18,9 @@ import org.openrdf.model.Statement;
 
 public class RdfTee implements RDFSink
 {
-	private Sink<Statement, RippleException> statementTee;
-	private Sink<Namespace, RippleException> namespaceTee;
-	private Sink<String, RippleException> commentTee;
+	private final Sink<Statement, RippleException> statementTee;
+	private final Sink<Namespace, RippleException> namespaceTee;
+	private final Sink<String, RippleException> commentTee;
 
 	public RdfTee( final RDFSink sinkA, final RDFSink sinkB )
 	{

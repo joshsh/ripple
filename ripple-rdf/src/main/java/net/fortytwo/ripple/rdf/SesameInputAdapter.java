@@ -22,9 +22,9 @@ import org.openrdf.rio.RDFHandler;
  */
 public class SesameInputAdapter implements RDFHandler
 {
-	private Sink<Statement, RippleException> stSink;
-	private Sink<Namespace, RippleException> nsSink;
-	private Sink<String, RippleException> cmtSink;
+	private final Sink<Statement, RippleException> stSink;
+	private final Sink<Namespace, RippleException> nsSink;
+	private final Sink<String, RippleException> cmtSink;
 
 	public SesameInputAdapter( final RDFSink sink )
 	{

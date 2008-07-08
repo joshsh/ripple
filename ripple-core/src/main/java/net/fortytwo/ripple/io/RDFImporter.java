@@ -22,9 +22,9 @@ import org.openrdf.model.Statement;
 // TODO: change this class to use a SailConnection instead of a ModelConnection
 public class RDFImporter implements RDFSink
 {
-	private Sink<Statement, RippleException> stSink;
-	private Sink<Namespace, RippleException> nsSink;
-	private Sink<String, RippleException> cmtSink;
+	private final Sink<Statement, RippleException> stSink;
+	private final Sink<Namespace, RippleException> nsSink;
+	private final Sink<String, RippleException> cmtSink;
 
 	public RDFImporter( final ModelConnection mc,
 						final Resource... contexts ) throws RippleException

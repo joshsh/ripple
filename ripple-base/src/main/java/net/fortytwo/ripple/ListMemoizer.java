@@ -16,9 +16,9 @@ package net.fortytwo.ripple;
  */
 public class ListMemoizer<T extends Comparable<T>, M>
 {
-	private T first;
-	private M memo;
+	private final T first;
 
+    private M memo;
 	private ListMemoizer<T, M> left, right;
 	private ListMemoizer<T, M> rest;
 

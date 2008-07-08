@@ -16,7 +16,7 @@ import net.fortytwo.ripple.flow.Sink;
 
 public class ParserExceptionSink implements Sink<Exception, RippleException>
 {
-	private PrintStream errorPrintStream;
+	private final PrintStream errorPrintStream;
 	
 	public ParserExceptionSink( final PrintStream ps )
 	{

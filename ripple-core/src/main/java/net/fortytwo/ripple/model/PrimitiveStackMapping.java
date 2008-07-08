@@ -16,9 +16,10 @@ import net.fortytwo.ripple.io.RipplePrintStream;
 
 public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
 {
+    private final boolean transparent;
+
 	private RdfValue rdfEquivalent;
 //	private FunctionTypeAnnotation typeAnnotation = null;
-	private boolean transparent;
 
 	public PrimitiveStackMapping( final boolean transparent )
     {

@@ -14,6 +14,7 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.flow.Sink;
 
 /**
@@ -51,14 +52,13 @@ public class ToLowerCase extends PrimitiveStackMapping
 		RippleList stack = arg.getStack();
 		final ModelConnection mc = arg.getModelConnection();
 
-		String s, result;
-
-		s = mc.toString( stack.getFirst() );
+		RippleValue s = stack.getFirst();
 		stack = stack.getRest();
-		result = s.toLowerCase();
+
+        String result = mc.toString( s ).toLowerCase();
 
 		solutions.put( arg.with(
-				stack.push( mc.value( result ) ) ) );
+				stack.push( StringLibrary.value( result, mc, s ) ) ) );
 	}
 }
 

@@ -23,11 +23,13 @@ import net.fortytwo.ripple.RippleException;
  */
 public class ThreadedInputStream extends InputStream
 {
-	private InputStream source;
-	private PipedInputStream writeIn;
-	private PipedOutputStream readOut;
-	private boolean eager;
-	private Task readerTask;
+	private final InputStream source;
+	private final PipedInputStream writeIn;
+	private final PipedOutputStream readOut;
+    
+    private boolean eager;
+
+    private Task readerTask;
 
 	public ThreadedInputStream( final InputStream is )
 		throws RippleException

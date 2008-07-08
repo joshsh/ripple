@@ -25,10 +25,10 @@ public final class Scheduler
 
 	private static Scheduler singleInstance = null;
 
-	private LinkedList<TaskItem> taskQueue;
-	private LinkedList<WorkerRunnable> allRunnables;
-	private LinkedList<WorkerRunnable> waitingRunnables;
-	private int maxThreads;
+	private final LinkedList<TaskItem> taskQueue;
+	private final LinkedList<WorkerRunnable> allRunnables;
+	private final LinkedList<WorkerRunnable> waitingRunnables;
+	private final int maxThreads;
 
 	////////////////////////////////////////////////////////////////////////////
 

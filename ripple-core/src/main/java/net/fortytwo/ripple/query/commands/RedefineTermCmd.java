@@ -17,8 +17,8 @@ import net.fortytwo.ripple.model.ModelConnection;
 
 public class RedefineTermCmd extends Command
 {
-	private UndefineTermCmd undefineCmd;
-    private DefineTermCmd defineCmd;
+	private final UndefineTermCmd undefineCmd;
+    private final DefineTermCmd defineCmd;
 
 	public RedefineTermCmd( final String term, final ListAST ast )
 	{

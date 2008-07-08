@@ -14,6 +14,7 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.StringUtils;
 import net.fortytwo.ripple.libs.etc.EtcLibrary;
@@ -53,14 +54,12 @@ public class Sha1 extends PrimitiveStackMapping
 		RippleList stack = arg.getStack();
 		final ModelConnection mc = arg.getModelConnection();
 
-		String a;
-
-		a = mc.toString( stack.getFirst() );
+		RippleValue a = stack.getFirst();
 		stack = stack.getRest();
 
-		solutions.put( arg.with(
-				stack.push(
-			mc.value( StringUtils.sha1SumOf( a ) ) ) ) );
+        String result = StringUtils.sha1SumOf( mc.toString( a ) );
+        solutions.put( arg.with(
+				stack.push( StringLibrary.value( result, mc, a ) ) ) );
 	}
 }
 

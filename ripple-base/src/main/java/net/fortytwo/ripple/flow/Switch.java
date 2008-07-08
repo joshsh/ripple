@@ -11,7 +11,7 @@ package net.fortytwo.ripple.flow;
 
 public class Switch<T, E extends Exception> implements Sink<T, E>
 {
-	private Sink<T, E> left, right;
+	private final Sink<T, E> left, right;
 	private boolean state;
 
 	public Switch( final Sink<T, E> left, final Sink<T, E> right )

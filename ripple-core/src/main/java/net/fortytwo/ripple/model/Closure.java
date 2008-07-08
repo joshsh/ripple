@@ -14,9 +14,9 @@ import net.fortytwo.ripple.RippleException;
 
 public class Closure implements StackMapping
 {
-	private StackMapping innerRelation;
-	private RippleValue argument;
-	private int cachedArity;
+	private final StackMapping innerRelation;
+	private final RippleValue argument;
+	private final int cachedArity;
 
     /**
      *

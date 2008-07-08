@@ -11,8 +11,8 @@ package net.fortytwo.ripple.flow;
 
 public class SynchronizedSink<T, E extends Exception> implements Sink<T, E>
 {
-	private Object synch;
-	private Sink<T, E> sink;
+	private final Object synch;
+	private final Sink<T, E> sink;
 
 	public SynchronizedSink( final Sink<T, E> other, final Object synch )
 	{

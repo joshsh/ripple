@@ -25,7 +25,7 @@ import java.io.InputStream;
  */
 public class VerbatimRdfizer implements Rdfizer
 {
-	private RDFParser parser;
+	private final RDFParser parser;
 
 	public VerbatimRdfizer( final RDFFormat format )
 	{

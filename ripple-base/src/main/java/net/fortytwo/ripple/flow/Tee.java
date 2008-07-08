@@ -11,7 +11,7 @@ package net.fortytwo.ripple.flow;
 
 public class Tee<T, E extends Exception> implements Sink<T, E>
 {
-	private Sink<T, E> sinkA, sinkB;
+	private final Sink<T, E> sinkA, sinkB;
 
 	public Tee( final Sink<T, E> sinkA, final Sink<T, E> sinkB )
 	{

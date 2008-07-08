@@ -16,7 +16,7 @@ import net.fortytwo.ripple.rdf.RDFSource;
 
 public class RDFDiffCollector implements RDFDiffSource, RDFDiffSink
 {
-	private RDFCollector adderCollector, subtractorCollector;
+	private final RDFCollector adderCollector, subtractorCollector;
 
 	public RDFDiffCollector()
 	{

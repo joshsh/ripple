@@ -14,6 +14,7 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.flow.Sink;
 
 /**
@@ -52,20 +53,19 @@ public class ReplaceAll extends PrimitiveStackMapping
 		RippleList stack = arg.getStack();
 		final ModelConnection mc = arg.getModelConnection();
 
-		String regex, replacement, s, result;
+		RippleValue regex, replacement, s;
+        String result;
 
-		replacement = mc.toString( stack.getFirst() );
+		replacement = stack.getFirst();
 		stack = stack.getRest();
-		regex = mc.toString( stack.getFirst() );
+		regex = stack.getFirst();
 		stack = stack.getRest();
-		s = mc.toString( stack.getFirst() );
+		s = stack.getFirst();
 		stack = stack.getRest();
 
 		try
 		{
-			result = s.replaceAll( regex, replacement );
-			solutions.put( arg.with(
-					stack.push( mc.value( result ) ) ) );
+			result = mc.toString( s ).replaceAll( mc.toString( regex ), mc.toString( replacement ) );
 		}
 
 		catch ( java.util.regex.PatternSyntaxException e )
@@ -73,6 +73,10 @@ public class ReplaceAll extends PrimitiveStackMapping
 			// Hard fail (for now).
 			throw new RippleException( e );
 		}
+
+        solutions.put( arg.with(
+                stack.push( StringLibrary.value( result, mc, replacement, regex, s ) ) ) );
+
 	}
 }
 

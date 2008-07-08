@@ -28,10 +28,10 @@ import org.openrdf.sail.SailException;
 
 public class BNodeClosureFilter implements Sink<Resource, RippleException>
 {
-	private Set<Resource> visited;
-	private Sink<Statement, RippleException> sink;
-	private SailConnection sailConnection;
-	private Buffer<Resource, RippleException> buffer;
+	private final Set<Resource> visited;
+	private final Sink<Statement, RippleException> sink;
+	private final SailConnection sailConnection;
+	private final Buffer<Resource, RippleException> buffer;
 
 	public BNodeClosureFilter( final Sink<Statement, RippleException> sink, final SailConnection sc )
 	{

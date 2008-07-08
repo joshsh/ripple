@@ -14,7 +14,7 @@ import net.fortytwo.ripple.rdf.RdfTee;
 
 public class RDFDiffTee implements RDFDiffSink
 {
-	private RdfTee adderTee, subtractorTee;
+	private final RdfTee adderTee, subtractorTee;
 
 	public RDFDiffTee( final RDFDiffSink sinkA, final RDFDiffSink sinkB )
 	{

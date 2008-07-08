@@ -19,6 +19,7 @@ import net.fortytwo.ripple.util.HTTPUtils;
 import net.fortytwo.ripple.flow.Sink;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
+import org.openrdf.model.vocabulary.XMLSchema;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -125,7 +126,7 @@ public class Get extends PrimitiveStackMapping
 			throw new RippleException( t );
 		}
 		
-		solutions.put( arg.with( stack.push( mc.value( result ) ) ) );
+		solutions.put( arg.with( stack.push( mc.value( result, XMLSchema.STRING ) ) ) );
 	}
 }
 

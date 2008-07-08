@@ -23,7 +23,7 @@ import org.openrdf.model.Statement;
 
 public final class RDFDiffContextFilter implements RDFDiffSink
 {
-	private Map<Resource, RDFDiffCollector> contextToCollectorMap;
+	private final Map<Resource, RDFDiffCollector> contextToCollectorMap;
 
 	private RDFSink addSink = new RDFSink()
 	{

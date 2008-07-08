@@ -16,7 +16,7 @@ import net.fortytwo.ripple.model.ModelConnection;
 
 public class UndefineTermCmd extends Command
 {
-	private String term;
+	private final String term;
 
 	public UndefineTermCmd( final String term )
 	{

@@ -19,7 +19,7 @@ import org.openrdf.sail.Sail;
 
 public class SailInserter implements RDFHandler
 {
-	private SailConnection sailConnection;
+	private final SailConnection sailConnection;
 
 	public SailInserter( final SailConnection sailConnection )
 	{

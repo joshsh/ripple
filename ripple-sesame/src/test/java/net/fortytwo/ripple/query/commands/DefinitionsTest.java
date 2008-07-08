@@ -23,7 +23,7 @@ import org.openrdf.sail.SailException;
 import org.openrdf.sail.memory.MemoryStore;
 
 import net.fortytwo.ripple.cli.ast.ListAST;
-import net.fortytwo.ripple.cli.ast.StringAST;
+import net.fortytwo.ripple.cli.ast.PlainLiteralAST;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
 import net.fortytwo.ripple.query.Command;
@@ -47,12 +47,11 @@ public class DefinitionsTest extends RippleTestCase
 			Model model = new SesameModel( sail, uriMap );
 			QueryEngine qe = new QueryEngine( model, new LazyEvaluator(), System.out, System.err );
 
-			
-			ListAST foobar = new ListAST( new StringAST( "foo"), new ListAST( new StringAST( "bar" ), new ListAST() ) );
-			ListAST foobar2 = new ListAST( new StringAST( "foo2"), new ListAST( new StringAST( "bar2" ), new ListAST() ) );
+			ListAST foobar = new ListAST( new PlainLiteralAST( "foo" ), new ListAST( new PlainLiteralAST( "bar" ), new ListAST() ) );
+			ListAST foobar2 = new ListAST( new PlainLiteralAST( "foo2" ), new ListAST( new PlainLiteralAST( "bar2" ), new ListAST() ) );
 			URI foobarUri = sail.getValueFactory().createURI( qe.getDefaultNamespace() + "foobar" );
-			Literal foo = sail.getValueFactory().createLiteral( "foo", XMLSchema.STRING );
-			Literal foo2 = sail.getValueFactory().createLiteral( "foo2", XMLSchema.STRING );
+			Literal foo = sail.getValueFactory().createLiteral( "foo" );
+			Literal foo2 = sail.getValueFactory().createLiteral( "foo2" );
 				
 			Command defCmd = new DefineTermCmd( "foobar", foobar );
 			Command undefCmd = new UndefineTermCmd( "foobar" );
@@ -74,8 +73,8 @@ public class DefinitionsTest extends RippleTestCase
 			count = countStatements( sc.getStatements( foobarUri, null, null, false ) );
 			assertEquals( 3, count );
 			obj = getSingleStatement( sc.getStatements( foobarUri, RDF.FIRST, null, false) ).getObject();
-System.out.println("obj = " + obj);
-			assertTrue( obj.equals( foo ) );
+//System.out.println("obj = " + obj + " (datatype = " + ((Literal) obj).getDatatype());
+            assertTrue( obj.equals( foo ) );
 			assertFalse( obj.equals( foo2 ) );
 			
 			// Undefine a term which has been defined.

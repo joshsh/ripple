@@ -31,8 +31,8 @@ import java.nio.channels.WritableByteChannel;
  */
 public class HTTPRepresentation extends Representation
 {
-    private InputStream inputStream = null;
-    private HttpMethod method;
+    private final InputStream inputStream;
+    private final HttpMethod method;
 
     // Note: the URI is immediately dereferenced
     public HTTPRepresentation( final String uri, final String acceptHeader ) throws RippleException
@@ -58,7 +58,7 @@ public class HTTPRepresentation extends Representation
 			throw new RippleException( e );
 		}
 
-		InputStream is = null;
+		InputStream is;
 
 		try
 		{

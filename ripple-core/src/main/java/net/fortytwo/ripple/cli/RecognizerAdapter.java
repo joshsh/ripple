@@ -18,10 +18,10 @@ import net.fortytwo.ripple.query.Command;
 
 public class RecognizerAdapter
 {
-	private Sink<ListAST, RippleException> querySink, continuingQuerySink;
-	private Sink<Command, RippleException> commandSink;
-	private Sink<RecognizerEvent, RippleException> eventSink;
-	private PrintStream errorStream;
+	private final Sink<ListAST, RippleException> querySink, continuingQuerySink;
+	private final Sink<Command, RippleException> commandSink;
+	private final Sink<RecognizerEvent, RippleException> eventSink;
+	private final PrintStream errorStream;
 
 	// A helper variable for the lexer and parser.
 	private String languageTag;

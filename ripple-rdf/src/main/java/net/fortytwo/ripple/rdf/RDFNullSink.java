@@ -18,9 +18,9 @@ import org.openrdf.model.Statement;
 
 public class RDFNullSink implements RDFSink
 {
-	private Sink<Statement, RippleException> stSink = new NullSink<Statement, RippleException>();
-	private Sink<Namespace, RippleException> nsSink = new NullSink<Namespace, RippleException>();
-	private Sink<String, RippleException> cmtSink = new NullSink<String, RippleException>();
+	private final Sink<Statement, RippleException> stSink = new NullSink<Statement, RippleException>();
+	private final Sink<Namespace, RippleException> nsSink = new NullSink<Namespace, RippleException>();
+	private final Sink<String, RippleException> cmtSink = new NullSink<String, RippleException>();
 
 	public Sink<Statement, RippleException> statementSink()
 	{

@@ -49,23 +49,19 @@ public class CommandLineInterface
 
 	private static final byte[] EOL = { '\n' };
 
-    private PipedIOStream writeIn;
+    private final PipedIOStream writeIn;
     //private PipedInputStream  writeIn;
 	//private PipedOutputStream readOut;
-	private ThreadedInputStream consoleReaderInput;
+	private final ThreadedInputStream consoleReaderInput;
+	private final Interpreter interpreter;
+	private final ConsoleReader reader;
+    private final QueryEngine queryEngine;
+    private final CollectorHistory<RippleList, RippleException> queryResultHistory
+        = new CollectorHistory<RippleList, RippleException>( 2 );
+    private final TaskQueue taskQueue = new TaskQueue();
 
-	private Interpreter interpreter;
-
-	private ConsoleReader reader;
-	private int lineNumber;
-
-	private QueryEngine queryEngine;
-
-	private CollectorHistory<RippleList, RippleException> queryResultHistory
-		= new CollectorHistory<RippleList, RippleException>( 2 );
+    private int lineNumber;
 private boolean lastQueryContinued = false;
-
-	private TaskQueue taskQueue = new TaskQueue();
 
 	////////////////////////////////////////////////////////////////////////////
 

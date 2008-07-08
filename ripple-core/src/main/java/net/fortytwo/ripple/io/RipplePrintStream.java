@@ -30,7 +30,7 @@ import java.math.BigDecimal;
 
 public class RipplePrintStream extends PrintStream
 {
-	private Lexicon lexicon;
+	private final Lexicon lexicon;
 
 	public RipplePrintStream( final OutputStream out, final Lexicon lexicon )
 		throws RippleException
@@ -158,11 +158,6 @@ public class RipplePrintStream extends PrintStream
                 printInteger( l.intValue() );
             }
 
-            else if ( datatype.equals( XMLSchema.STRING ) )
-            {
-                printEscapedString( label );
-            }
-
             else
             {
                 printTypedLiteral( label, datatype );
@@ -171,7 +166,7 @@ public class RipplePrintStream extends PrintStream
 
         else
         {
-            // For now, plain literals are printed as string-typed literals.
+            // Plain literals are printed as escaped strings with no data type.
             printEscapedString( label );
         }
 

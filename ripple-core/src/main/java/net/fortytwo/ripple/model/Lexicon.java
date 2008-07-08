@@ -57,25 +57,19 @@ public class Lexicon
             NAME_OR_PREFIX = Pattern.compile("(" + NAME_START_CHAR_NOUSC + ")(" + NAME_CHAR + ")*"),
             NAME_NOT_PREFIX = Pattern.compile("_(" + NAME_CHAR + ")*");
 
-    private Map<String, Set<URI>> keywordToURIMap = null;
-	private Map<URI, String> uriToKeywordMap = null;
-	private Map<String, String> prefixToNamespaceMap = null;
-	private Map<String, String> namespaceToPrefixMap = null;
-	private Collection<String> allQNames = null;
+    private final Map<String, Set<URI>> keywordToURIMap;
+	private final Map<URI, String> uriToKeywordMap;
+	private final Map<String, String> prefixToNamespaceMap;
+	private final Map<String, String> namespaceToPrefixMap;
+	private final Collection<String> allQNames;
 
 	public Lexicon( final Model model ) throws RippleException
 	{
-		createKeywordMap( model );
-
 		prefixToNamespaceMap = new HashMap<String, String>();
 		namespaceToPrefixMap = new HashMap<String, String>();
 		allQNames = new ArrayList<String>();
-	}
 
-	private void createKeywordMap( final Model model ) throws RippleException
-	{
 		ModelConnection mc = model.getConnection( "for Lexicon constructor" );
-
         try {
             keywordToURIMap = new HashMap<String, Set<URI>>();
             uriToKeywordMap = new HashMap<URI, String>();

@@ -72,10 +72,9 @@ public class SesameModelConnection implements ModelConnection
 	protected final RDFDiffSink listenerSink;
 	protected final ValueFactory valueFactory;
 	protected final String name;
+    private final TaskSet taskSet = new TaskSet();
 
     private boolean useBlankNodes;
-
-    private TaskSet taskSet = new TaskSet();
 	
 	// TODO: For now, this is just a convenience which allows graph:assert and
 	//       graph:deny to manipulate the triple store without committing after
@@ -951,20 +950,6 @@ public class SesameModelConnection implements ModelConnection
 	
 	////////////////////////////////////////////////////////////////////////////
 
-    public Literal createPlainLiteral( final String value ) throws RippleException
-	{
-		try
-		{
-            return valueFactory.createLiteral( value );
-        }
-
-		catch ( Throwable t )
-		{
-			reset( true );
-			throw new RippleException( t );
-		}
-    }
-
     public RdfValue createTypedLiteral( final String value, final RippleValue type ) throws RippleException
 	{
 		Value v = type.toRDF( this ).sesameValue();
@@ -992,7 +977,8 @@ public class SesameModelConnection implements ModelConnection
 		try
 		{
 			return new RdfValue(
-				valueFactory.createLiteral( s, XMLSchema.STRING ) );
+                    valueFactory.createLiteral( s ) );
+//                    valueFactory.createLiteral( s, XMLSchema.STRING ) );
 		}
 	
 		catch ( Throwable t )

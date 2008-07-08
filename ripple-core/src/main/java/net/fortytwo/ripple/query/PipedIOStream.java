@@ -23,8 +23,9 @@ public class PipedIOStream extends InputStream //, OutputStream
 	private static final int BUFFER_EXPANSION = 2;
 	private static final int DEFAULT_INITIAL_SIZE = 200;
 	
-	private Object mutex = "";
-	private int pos, length, size;
+	private final Object mutex = "";
+
+    private int pos, length, size;
 	private int[] data;
 	
 	public PipedIOStream()

@@ -18,7 +18,7 @@ import java.util.Collection;
  */
 public class AddToCollectionSink<T, E extends Exception> implements Sink<T, E>
 {
-    private Collection<T> collection;
+    private final Collection<T> collection;
 
     public AddToCollectionSink(final Collection<T> coll)
     {

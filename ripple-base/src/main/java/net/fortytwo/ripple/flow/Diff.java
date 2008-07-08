@@ -32,10 +32,10 @@ public class Diff<T, E extends Exception> implements DiffSink<T, E>
     }
 
     // An order-preserving list of changes.
-    private LinkedList<Change> changes;
+    private final LinkedList<Change> changes;
 
-    private Sink<T, E> plusSink;
-    private Sink<T, E> minusSink;
+    private final Sink<T, E> plusSink;
+    private final Sink<T, E> minusSink;
 
     public Diff()
     {

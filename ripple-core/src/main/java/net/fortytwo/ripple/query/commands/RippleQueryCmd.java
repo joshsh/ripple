@@ -23,13 +23,13 @@ import net.fortytwo.ripple.flow.Source;
 
 public class RippleQueryCmd extends Command
 {
-	private ListAST listAst;
-	private Sink<RippleList, RippleException> sink;
-	private Source<RippleList, RippleException> composedWith;
-	private StackEvaluator evaluator;
-	private Collector<RippleList, RippleException> expressions;
+	private final ListAST listAst;
+	private final Sink<RippleList, RippleException> sink;
+	private final Source<RippleList, RippleException> composedWith;
 
-	public RippleQueryCmd( final ListAST listAst,
+    private StackEvaluator evaluator;
+
+    public RippleQueryCmd( final ListAST listAst,
 							final Sink<RippleList, RippleException> sink,
 							final Source<RippleList, RippleException> composedWith )
 	{
@@ -41,32 +41,29 @@ public class RippleQueryCmd extends Command
 	public void execute( final QueryEngine qe, final ModelConnection mc )
 		throws RippleException
 	{
-		if ( null == expressions )
-		{
-			expressions = new Collector<RippleList, RippleException>();
+        final Collector<RippleList, RippleException> expressions = new Collector<RippleList, RippleException>();
 
-			final Sink<RippleList, RippleException> exprSink = new Sink<RippleList, RippleException>()
-			{
-				public void put( final RippleList l ) throws RippleException
-				{
-					// Note: the first element of the list will also be a list
-					final RippleList stack = ( (RippleList) l.getFirst() ).invert();
+        final Sink<RippleList, RippleException> exprSink = new Sink<RippleList, RippleException>()
+        {
+            public void put( final RippleList l ) throws RippleException
+            {
+                // Note: the first element of the list will also be a list
+                final RippleList stack = ( (RippleList) l.getFirst() ).invert();
 
-					Sink<RippleList, RippleException> composedWithSink = new Sink<RippleList, RippleException>()
-					{
-						public void put( final RippleList base )
-							throws RippleException
-						{
-							expressions.put( mc.concat( stack, base ) );
-						}
-					};
+                Sink<RippleList, RippleException> composedWithSink = new Sink<RippleList, RippleException>()
+                {
+                    public void put( final RippleList base )
+                        throws RippleException
+                    {
+                        expressions.put( mc.concat( stack, base ) );
+                    }
+                };
 
-					composedWith.writeTo( composedWithSink );
-				}
-			};
+                composedWith.writeTo( composedWithSink );
+            }
+        };
 
-			listAst.evaluate( exprSink, qe, mc );
-		}
+        listAst.evaluate( exprSink, qe, mc );
 
 		evaluator = qe.getEvaluator();
 
@@ -94,7 +91,10 @@ public class RippleQueryCmd extends Command
 	protected void abort()
 	{
 //System.out.println( "aborting Ripple query command" );
-		evaluator.stop();
-	}
+        if ( null != evaluator )
+        {
+            evaluator.stop();
+        }
+    }
 }
 
