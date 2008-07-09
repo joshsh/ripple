@@ -98,22 +98,16 @@ public class RdfValue implements RippleValue
                 : n;
     }
 
-    private static int compare( final double first, final double second )
-    {
-//        System.out.println( "comparing double values: " + first + ", " + second );
-        return ( first > second ) ? 1 : ( first < second ) ? -1 : 0;
-    }
-
     public static int compare( final Literal first, final Literal second )
     {
 //        System.out.println( "comparing Literals: " + first + ", " + second );
         URI firstDatatype = first.getDatatype(), secondDatatype = second.getDatatype();
         String firstLanguage = first.getLanguage(), secondLanguage = second.getLanguage();
 
-        return ( isNumericLiteral( first ) && isNumericLiteral( second ) )
+        return ( NumericValue.isNumericLiteral( first ) && NumericValue.isNumericLiteral( second ) )
                 // Numeric literals are a special case
-                // FIXME: this logic should really be in SesameNumericLiteral
-                ? compare( first.doubleValue(), second.doubleValue() )
+                // FIXME: this logic should really be in NumericValue
+                ? NumericValue.compareNumericLiterals( first, second )
                 // All other literals are compared firstly by comparing their
                 // data types, then their languages, then their labels.
                 : ( null == firstDatatype )
@@ -138,48 +132,28 @@ public class RdfValue implements RippleValue
     // Note: first is assumed to be a numeric value
     public static int compare( final Literal first, final NumericValue second )
     {
-        return compare( first.doubleValue(), second.doubleValue() );
+        return NumericValue.compare( first, second );
     }
 
     public static int compare( final RdfValue first, final NumericValue second )
     {
-        return ( first.value instanceof Literal && isNumericLiteral( (Literal) first.value ) )
-                ? compare( (Literal) first.value, second )
+        return ( first.value instanceof Literal && NumericValue.isNumericLiteral( (Literal) first.value ) )
+                ? NumericValue.compare( (Literal) first.value, second )
                 : defaultCompare( first, second );
-    }
-
-    public static int compare( final NumericValue first, final NumericValue second )
-    {
-// Note: doesn't take special floating-point number entities into account:
-//       floating-point infinities, negative infinities, negative zero, and NaN
-        return compare( first.doubleValue(), second.doubleValue() );
-    }
-
-    private static boolean isNumericLiteral( final Literal l )
-    {
-        URI datatype = l.getDatatype();
-
-        return ( null != datatype && isNumericDatatype( datatype ) );
-    }
-
-    private static boolean isNumericDatatype( final URI datatype )
-    {
-        return ( datatype.equals( XMLSchema.INT )
-                || datatype.equals( XMLSchema.INTEGER )
-                || datatype.equals( XMLSchema.LONG )
-                || datatype.equals( XMLSchema.FLOAT )
-                || datatype.equals( XMLSchema.DOUBLE ) );
     }
 
     public int compareTo( final RippleValue other )
 	{
+//System.out.println("this = " + this + ", other = " + other);
         return ( value instanceof Literal )
                 ? ( other instanceof RdfValue )
                         ? ( ( (RdfValue) other ).value instanceof Literal )
                                 ? compare( (Literal) value, (Literal) ( (RdfValue) other ).value )
                                 : defaultCompare( this, other )
                         : ( other instanceof NumericValue )
-                                ? compare( (Literal) value, (NumericValue) other )
+                                ? NumericValue.isNumericLiteral( (Literal) value )
+                                        ? NumericValue.compare( (Literal) value, (NumericValue) other )
+                                        : defaultCompare( this, other )
                                 : defaultCompare( this, other )
                 : ( value instanceof BNode )
                         ? ( other instanceof RdfValue )

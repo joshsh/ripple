@@ -16,6 +16,7 @@ import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackContext;
+import net.fortytwo.ripple.model.StackMapping;
 
 /**
  * A primitive which consumes a number and produces the base-10 logarithm of the
@@ -29,6 +30,8 @@ public class Log10 extends PrimitiveStackMapping
             MathLibrary.NS_2008_06 + "log10",
             MathLibrary.NS_2007_08 + "log10"};
 
+    private final StackMapping self;
+
     public String[] getIdentifiers()
     {
         return IDENTIFIERS;
@@ -38,6 +41,8 @@ public class Log10 extends PrimitiveStackMapping
 		throws RippleException
 	{
 		super();
+
+        this.self = this;
 	}
 
 	public int arity()
@@ -45,7 +50,7 @@ public class Log10 extends PrimitiveStackMapping
 		return ARITY;
 	}
 
-	public void applyTo( final StackContext arg,
+    public void applyTo( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
@@ -67,5 +72,47 @@ public class Log10 extends PrimitiveStackMapping
 					stack.push( result ) ) );
 		}
 	}
+
+    @Override
+    public StackMapping inverse()
+    {
+        return new Pow10();
+    }
+
+    public class Pow10 implements StackMapping
+    {
+        public int arity()
+        {
+            return 1;
+        }
+
+        public StackMapping inverse() throws RippleException
+        {
+            return self;
+        }
+
+        public boolean isTransparent()
+        {
+            return true;
+        }
+
+        public void applyTo( final StackContext arg,
+                             final Sink<StackContext, RippleException> solutions )
+            throws RippleException
+        {
+            final ModelConnection mc = arg.getModelConnection();
+            RippleList stack = arg.getStack();
+
+            NumericValue x, result;
+
+            x = mc.toNumericValue( stack.getFirst() );
+            stack = stack.getRest();
+
+            result = mc.value( 10 ).pow( x );
+
+            solutions.put( arg.with(
+                    stack.push( result ) ) );
+        }
+    }
 }
 

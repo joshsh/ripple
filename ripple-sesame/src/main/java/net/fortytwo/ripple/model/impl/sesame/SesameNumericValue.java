@@ -108,8 +108,8 @@ public class SesameNumericValue extends NumericValue {
 			try
 			{
 				type = NumericLiteralType.DOUBLE;
-				number = new Double( ( (Literal) v ).doubleValue() );
-			}
+                number = doubleValue( (Literal) v );
+            }
 
 			catch ( Throwable t )
 			{
@@ -226,33 +226,6 @@ public class SesameNumericValue extends NumericValue {
                 return null;
         }
 	}
-
-    private NumericLiteralType maxPrecision( final NumericValue a, final NumericValue b )
-    {
-        NumericLiteralType max = NumericLiteralType.INTEGER;
-
-        if ( a.getType() == NumericLiteralType.LONG || b.getType() == NumericLiteralType.LONG )
-        {
-            max = NumericLiteralType.LONG;
-        }
-
-        if ( a.getType() == NumericLiteralType.FLOAT || b.getType() == NumericLiteralType.FLOAT )
-        {
-            max = NumericLiteralType.FLOAT;
-        }
-
-        if ( a.getType() == NumericLiteralType.DOUBLE || b.getType() == NumericLiteralType.DOUBLE )
-        {
-            max = NumericLiteralType.DOUBLE;
-        }
-
-        if ( a.getType() == NumericLiteralType.DECIMAL || b.getType() == NumericLiteralType.DECIMAL )
-        {
-            max = NumericLiteralType.DECIMAL;
-        }
-
-        return max;
-    }
 
     public NumericValue add( final NumericValue b )
 	{
@@ -373,18 +346,20 @@ public class SesameNumericValue extends NumericValue {
 
 	public NumericValue pow( final NumericValue pow )
 	{
-		NumericValue a = this;
+//System.out.println("this = " + this + " (type = " + this.getType() + "), pow = " + pow + " (type = " + pow.getType() + ")");
+        NumericValue a = this;
 
         if ( NumericLiteralType.DECIMAL == a.getType() && NumericLiteralType.INTEGER == pow.getType() )
         {
-            return new SesameNumericValue( a.decimalValue().pow( a.intValue() ) );
+            return new SesameNumericValue( a.decimalValue().pow( pow.intValue() ) );
         }
 
         else
         {
             double r = Math.pow( a.doubleValue(), pow.doubleValue() );
-
+//System.out.println("    r = " + r);
             NumericLiteralType precision = maxPrecision( a, pow );
+//System.out.println("    precision = " + precision);
             switch ( precision )
             {
                 case INTEGER:

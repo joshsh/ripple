@@ -16,7 +16,7 @@ public class EqualTest extends NewRippleTestCase
 
         // Two numeric literals
         assertReducesTo( "\"42\"^^xsd:double \"42\"^^xsd:integer equal >>", "true" );
-        assertReducesTo( "\"42\"^^xsd:int \"42\"^^xsd:integer equal >>", "true" );
+        assertReducesTo( "\"42\"^^xsd:int \"42\"^^xsd:integer equal >>", "false" );
 
         // One native number and one numeric literal
         assertReducesTo( "42 \"42\"^^xsd:integer equal >>", "true" );

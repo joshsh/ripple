@@ -16,6 +16,7 @@ import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackContext;
+import net.fortytwo.ripple.model.StackMapping;
 
 /**
  * A primitive which consumes a number and produces its real cube root.
@@ -28,6 +29,8 @@ public class Cbrt extends PrimitiveStackMapping
             MathLibrary.NS_2008_06 + "cbrt",
             MathLibrary.NS_2007_08 + "cbrt"};
 
+    private final StackMapping self;
+
     public String[] getIdentifiers()
     {
         return IDENTIFIERS;
@@ -37,7 +40,9 @@ public class Cbrt extends PrimitiveStackMapping
 		throws RippleException
 	{
 		super();
-	}
+
+        this.self = this;
+    }
 
 	public int arity()
 	{
@@ -60,6 +65,46 @@ public class Cbrt extends PrimitiveStackMapping
 
 		solutions.put( arg.with(
 				stack.push( result ) ) );
-	}
+    }
+
+    @Override
+    public StackMapping inverse()
+    {
+        return new Cube();
+    }
+
+    private class Cube implements StackMapping
+    {
+        public int arity()
+        {
+            return 1;
+        }
+
+        public StackMapping inverse() throws RippleException
+        {
+            return self;
+        }
+
+        public boolean isTransparent()
+        {
+            return true;
+        }
+
+        public void applyTo(StackContext arg, Sink<StackContext, RippleException> solutions) throws RippleException
+        {
+            final ModelConnection mc = arg.getModelConnection();
+            RippleList stack = arg.getStack();
+
+            NumericValue a, result;
+
+            a = mc.toNumericValue( stack.getFirst() );
+            stack = stack.getRest();
+
+            result = a.mul( a ).mul( a );
+
+            solutions.put( arg.with(
+                    stack.push( result ) ) );
+        }
+    }
 }
 
