@@ -36,7 +36,7 @@ public class GraphLibrary extends Library
 
         registerPrimitive( Assert.class, context );
         registerPrimitive( AssertIn.class, context );
-		registerPrimitive( Contains.class, context );
+		registerPrimitive( Members.class, context );
 //		registerPrimitive( Count.class, NS_2008_06 + "count", context );
 		registerPrimitive( Compare.class, context );
         registerPrimitive( Deny.class, context );

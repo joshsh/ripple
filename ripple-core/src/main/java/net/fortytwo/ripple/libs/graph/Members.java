@@ -21,12 +21,12 @@ import net.fortytwo.ripple.model.StackContext;
  * A primitive which consumes an RDF container and produces all items in the
  * container.
  */
-public class Contains extends PrimitiveStackMapping
+public class Members extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
     private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_2008_06 + "contains",
+            GraphLibrary.NS_2008_06 + "members",
             GraphLibrary.NS_2007_08 + "contains",
             GraphLibrary.NS_2007_05 + "contains"};
 
@@ -35,7 +35,7 @@ public class Contains extends PrimitiveStackMapping
         return IDENTIFIERS;
     }
 
-	public Contains()
+	public Members()
 		throws RippleException
 	{
 		super();

@@ -84,7 +84,7 @@ graph:compare
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/graph#compare> ;
 	.
 
-graph:contains
+graph:members
 	a rpl:Function ;
 	rpl:arity 1 ;
 	rpl:returnType rdf:Resource ;
@@ -95,7 +95,7 @@ graph:contains
 			rpl:parameterType rdfs:Container ;
 			rpl:isTransparent true ]
 		) ;
-	rdfs:label "contains" ;
+	rdfs:label "members" ;
 	rdfs:comment "c  =>  x  -- for each member x of Container c" ;
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/graph#contains> ;
 	.

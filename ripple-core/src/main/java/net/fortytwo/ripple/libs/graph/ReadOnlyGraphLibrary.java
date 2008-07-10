@@ -30,7 +30,7 @@ public class ReadOnlyGraphLibrary extends Library
 		uf.put(
 			NS, getClass().getResource( "graph.ttl" ) + "#" );
 
-		registerPrimitive( Contains.class, context );
+		registerPrimitive( Members.class, context );
 //		registerPrimitive( Count.class, NS + "count", context );
 		registerPrimitive( Compare.class, context );
 		registerPrimitive( Equal.class, context );
