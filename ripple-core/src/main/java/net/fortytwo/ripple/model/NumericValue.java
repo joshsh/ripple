@@ -149,7 +149,7 @@ public abstract class NumericValue implements RippleValue
                         : RdfValue.defaultCompare( this, other );
 	}
 
-    private static int compare( final NumericValue a, final NumericValue b )
+    public static int compare( final NumericValue a, final NumericValue b )
     {
         NumericLiteralType precision = maxPrecision( a, b );
 //System.out.println("comparing " + a + " with " + b + " (precision = " + precision + ", a.getType() = " + a.getType() + ", b.getType() = " + b.getType() + ")");

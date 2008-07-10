@@ -9,7 +9,7 @@ import net.fortytwo.ripple.test.NewRippleTestCase;
  */
 public class EqualTest extends NewRippleTestCase
 {
-    public void testEqual() throws Exception
+    public void testSimple() throws Exception
     {
         assertReducesTo( "42 42 equal >>", "true" );
         assertReducesTo( "42 6 9 mul >> equal >>", "false" );
@@ -39,5 +39,22 @@ public class EqualTest extends NewRippleTestCase
         assertReducesTo( "() (1) equal >>", "false" );
 //        assertReducesTo( "() rdf:nil equal >>", "true" );
 //        assertReducesTo( "rdf:nil () equal >>", "true" );
+    }
+
+    public void testPlainLiterals() throws Exception
+    {
+        assertReducesTo( "\"foo\" \"foo\" equal >>", "true" );
+        assertReducesTo( "\"foo\" \"bar\" equal >>", "false" );
+
+        // Language tags must match.
+        assertReducesTo( "\"foo\"@en \"foo\"@en equal >>", "true" );
+        assertReducesTo( "\"foo\"@en \"foo\"@de equal >>", "false" );
+        assertReducesTo( "\"foo\"@de \"foo\"@en equal >>", "false" );
+        assertReducesTo( "\"foo\" \"foo\"@en equal >>", "false" );
+        assertReducesTo( "\"foo\"@en \"foo\" equal >>", "false" );
+
+        // Plain literals cannot be equal to string-typed or other typed literals.
+        assertReducesTo( "\"foo\" \"foo\"^^xsd:string equal >>", "false" );
+        assertReducesTo( "\"http://example.org\" \"http://example.org\"^^xsd:anyURI equal >>", "false" );
     }
 }

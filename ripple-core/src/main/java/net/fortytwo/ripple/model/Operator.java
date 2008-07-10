@@ -150,7 +150,7 @@ return rdfEquivalent;
 	}
 
 // TODO: replace this with something a little more clever
-	private static boolean isRdfList( final RdfValue v, final ModelConnection mc )
+	public static boolean isRdfList( final RdfValue v, final ModelConnection mc )
 		throws RippleException
 	{
 		return ( v.equals( RDF_NIL )

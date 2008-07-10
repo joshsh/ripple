@@ -46,7 +46,7 @@ public class AssertIn extends PrimitiveStackMapping
 	}
 
 	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> solutions	)
+						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 		final ModelConnection mc = arg.getModelConnection();

@@ -13,6 +13,8 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Mapping;
 import net.fortytwo.ripple.flow.NullMapping;
 import net.fortytwo.ripple.io.RipplePrintStream;
+import org.openrdf.model.URI;
+import org.openrdf.model.Resource;
 
 public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
 {
@@ -36,7 +38,12 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
     public void setRdfEquivalent( final RdfValue v, final ModelConnection mc )
 		throws RippleException
 	{
-		rdfEquivalent = v;
+        if ( !( v.sesameValue() instanceof Resource) )
+        {
+            throw new IllegalArgumentException( "for comparison purposes, the identifier of a PrimitiveStackMapping must be a Resource" );
+        }
+
+        rdfEquivalent = v;
 
 //		typeAnnotation = new FunctionTypeAnnotation( v, mc );
 	}

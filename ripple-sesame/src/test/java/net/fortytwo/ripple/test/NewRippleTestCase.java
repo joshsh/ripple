@@ -154,6 +154,16 @@ public abstract class NewRippleTestCase extends TestCase
 		}
 		Arrays.sort( expArray );
 		Arrays.sort( actArray );
+/*System.out.println("expected:");
+for ( RippleList l : expArray )
+{
+    System.out.println("    " + l );
+}
+System.out.println("actual:");
+for ( RippleList l : actArray )
+{
+    System.out.println("    " + l );
+}*/
 
         // Compare the results by pairs.
         for ( int i = 0; i < size; i++ )
