@@ -39,20 +39,6 @@ public class Op implements StackMapping, RippleValue
 		Operator.createOperator( v, opSink, arg.getModelConnection() );
 	}
 
-	public int compareTo( final RippleValue other )
-	{
-		// There is only one Op.
-		if ( other == this )
-		{
-			return 0;
-		}
-
-		else
-		{
-			return this.getClass().getName().compareTo( other.getClass().getName() );
-		}
-	}
-
 	public int arity()
 	{
 		return ARITY;

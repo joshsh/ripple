@@ -9,201 +9,236 @@
 
 package net.fortytwo.ripple;
 
+import java.util.Comparator;
+
 // TODO: balancing operations
 
 /**
  * A space-efficient map using where the key values are linked lists.
  */
-public class ListMemoizer<T extends Comparable<T>, M>
+public class ListMemoizer<T, M>
 {
-	private final T first;
+    private final Comparator<T> comparator;
+    private ListMemoizerInner inner;
 
-    private M memo;
-	private ListMemoizer<T, M> left, right;
-	private ListMemoizer<T, M> rest;
+    public ListMemoizer( final Comparator<T> comparator )
+    {
+        this.comparator = comparator;
+        this.inner = null;
+    }
 
-	public ListMemoizer( final ListNode<T> list, final M memo )
-	{
-		if ( null == list )
-		{
-			throw new IllegalArgumentException( "the empty list cannot be memoized" );
-		}
+    public M get( final ListNode<T> list )
+    {
+        return ( null == inner )
+                ? null
+                : inner.get( list );
+    }
 
-		first = list.getFirst();
-		left = null;
-		right = null;
+    public boolean put( final ListNode<T> list, final M memo )
+    {
+        if ( null == inner )
+        {
+            inner = new ListMemoizerInner( list, memo );
+            return true;
+        }
 
-		ListNode<T> r = list.getRest();
-		if ( null == r )
-		{
-			rest = null;
-			this.memo = memo;
-		}
+        else
+        {
+            return inner.put( list, memo );
+        }
+    }
 
-		else
-		{
-			rest = new ListMemoizer<T, M>( r, memo );
-			this.memo = null;
-		}
-	}
+    private class ListMemoizerInner
+    {
+        private final T first;
 
-	public boolean put( final ListNode<T> list, final M memo )
-	{
-		if ( null == list )
-		{
-			throw new IllegalArgumentException( "the empty list cannot be memoized" );
-		}
+        private M memo;
+        private ListMemoizerInner left, right;
+        private ListMemoizerInner rest;
 
-		int cmp = this.first.compareTo( list.getFirst() );
+        public ListMemoizerInner( final ListNode<T> list, final M memo )
+        {
+            if ( null == list )
+            {
+                throw new IllegalArgumentException( "the empty list cannot be memoized" );
+            }
 
-		if ( 0 == cmp )
-		{
-			ListNode<T> r = list.getRest();
+            first = list.getFirst();
+            left = null;
+            right = null;
 
-			if ( null == r )
-			{
-				if ( null == this.memo )
-				{
-					this.memo = memo;
-					return true;
-				}
+            ListNode<T> r = list.getRest();
+            if ( null == r )
+            {
+                rest = null;
+                this.memo = memo;
+            }
 
-				else
-				{
-					return false;
-				}
-			}
+            else
+            {
+                rest = new ListMemoizerInner( r, memo );
+                this.memo = null;
+            }
+        }
 
-			else
-			{
-				if ( null == this.rest )
-				{
-					this.rest = new ListMemoizer<T, M>( r, memo );
-					return true;
-				}
+        public boolean put( final ListNode<T> list, final M memo )
+        {
+            if ( null == list )
+            {
+                throw new IllegalArgumentException( "the empty list cannot be memoized" );
+            }
 
-				else
-				{
-					return this.rest.put( r, memo );
-				}
-			}
-		}
+            int cmp = comparator.compare( this.first, list.getFirst() );
 
-		else if ( cmp < 0 )
-		{
-			if ( null == this.left )
-			{
-				this.left = new ListMemoizer<T, M>( list, memo );
-				return true;
-			}
+            if ( 0 == cmp )
+            {
+                ListNode<T> r = list.getRest();
 
-			else
-			{
-				return this.left.put( list, memo );
-			}
-		}
+                if ( null == r )
+                {
+                    if ( null == this.memo )
+                    {
+                        this.memo = memo;
+                        return true;
+                    }
 
-		else
-		{
-			if ( null == this.right )
-			{
-				this.right = new ListMemoizer<T, M>( list, memo );
-				return true;
-			}
+                    else
+                    {
+                        return false;
+                    }
+                }
 
-			else
-			{
-				return this.right.put( list, memo );
-			}
-		}
-	}
+                else
+                {
+                    if ( null == this.rest )
+                    {
+                        this.rest = new ListMemoizerInner( r, memo );
+                        return true;
+                    }
 
-	public M get( final ListNode<T> list )
-	{
-		if ( null == list )
-		{
-			return null;
-		}
+                    else
+                    {
+                        return this.rest.put( r, memo );
+                    }
+                }
+            }
 
-		int cmp = this.first.compareTo( list.getFirst() );
+            else if ( cmp < 0 )
+            {
+                if ( null == this.left )
+                {
+                    this.left = new ListMemoizerInner( list, memo );
+                    return true;
+                }
 
-		if ( 0 == cmp )
-		{
-			ListNode<T> r = list.getRest();
+                else
+                {
+                    return this.left.put( list, memo );
+                }
+            }
 
-			if ( null == r )
-			{
-				return this.memo;
-			}
+            else
+            {
+                if ( null == this.right )
+                {
+                    this.right = new ListMemoizerInner( list, memo );
+                    return true;
+                }
 
-			else
-			{
-				return ( null == this.rest )
-						? null
-						: this.rest.get( r );
-			}
-		}
+                else
+                {
+                    return this.right.put( list, memo );
+                }
+            }
+        }
 
-		else if ( cmp < 0 )
-		{
-			return ( null == this.left )
-					? null
-					: this.left.get( list );
-		}
+        public M get( final ListNode<T> list )
+        {
+            if ( null == list )
+            {
+                return null;
+            }
 
-		else
-		{
-			return ( null == this.right )
-					? null
-					: this.right.get( list );
-		}
-	}
+            int cmp = comparator.compare( this.first, list.getFirst() );
 
-	////////////////////////////////////////////////////////////////////////////
+            if ( 0 == cmp )
+            {
+                ListNode<T> r = list.getRest();
 
-	private int compare( final ListMemoizer<T, M> first,
-						final ListMemoizer<T, M> second )
-	{
-		if ( null == first )
-		{
-			return ( null == second )
-				? 0 : -1;
-		}
+                if ( null == r )
+                {
+                    return this.memo;
+                }
 
-		else if ( null == second )
-		{
-			return 1;
-		}
+                else
+                {
+                    return ( null == this.rest )
+                            ? null
+                            : this.rest.get( r );
+                }
+            }
 
-		else
-		{
-			return first.compareTo( second );
-		}
-	}
+            else if ( cmp < 0 )
+            {
+                return ( null == this.left )
+                        ? null
+                        : this.left.get( list );
+            }
 
-	private int compareTo( final ListMemoizer<T, M> other )
-	{
-		int cmp = this.first.compareTo( other.first );
+            else
+            {
+                return ( null == this.right )
+                        ? null
+                        : this.right.get( list );
+            }
+        }
 
-		if ( 0 != cmp )
-		{
-			return cmp;
-		}
+        ////////////////////////////////////////////////////////////////////////////
 
-		cmp = compare( this.left, other.left );
-		if ( 0 != cmp )
-		{
-			return cmp;
-		}
+        private int compare( final ListMemoizerInner first,
+                            final ListMemoizerInner second )
+        {
+            if ( null == first )
+            {
+                return ( null == second )
+                    ? 0 : -1;
+            }
 
-		cmp = compare( this.rest, other.rest );
-		if ( 0 != cmp )
-		{
-			return cmp;
-		}
+            else if ( null == second )
+            {
+                return 1;
+            }
 
-		cmp = compare( this.right, other.right );
-		return cmp;
-	}
+            else
+            {
+                return first.compareTo( second );
+            }
+        }
+
+        private int compareTo( final ListMemoizerInner other )
+        {
+            int cmp = comparator.compare( this.first, other.first );
+
+            if ( 0 != cmp )
+            {
+                return cmp;
+            }
+
+            cmp = compare( this.left, other.left );
+            if ( 0 != cmp )
+            {
+                return cmp;
+            }
+
+            cmp = compare( this.rest, other.rest );
+            if ( 0 != cmp )
+            {
+                return cmp;
+            }
+
+            cmp = compare( this.right, other.right );
+            return cmp;
+        }
+    }
 }
 

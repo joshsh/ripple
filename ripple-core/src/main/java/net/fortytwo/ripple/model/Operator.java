@@ -77,30 +77,15 @@ if ( null == rdfEquivalent )
 return rdfEquivalent;
 }
 
-	public int compareTo( final RippleValue other )
-	{
-		if ( other instanceof Operator )
-		{
-			// For now, all Operators are considered equal, as the only Operator
-			// which should ever be subjected to a compareTo is rpl:op.
-			return 0;
-		}
-
-		else
-		{
-			return this.getClass().getName().compareTo( other.getClass().getName() );
-		}
-	}
-
 	/**
 	 *  Finds the type of a value and creates an appropriate "active" wrapper.
 	 */
 	public static void createOperator( final RippleValue v,
-										final Sink<Operator, RippleException> opSink,
-										final ModelConnection mc )
+                                       final Sink<Operator, RippleException> opSink,
+                                       final ModelConnection mc )
 		throws RippleException
 	{
-		// A function becomes active.
+        // A function becomes active.
 		if ( v instanceof StackMapping)
 		{
 			opSink.put( new Operator( (StackMapping) v ) );
@@ -118,9 +103,9 @@ return rdfEquivalent;
 		// the available RDF statements, and create the appropriate object.
 		if ( v instanceof RdfValue )
 		{
-			if ( isRdfList( (RdfValue) v, mc ) )
+            if ( isRDFList( (RdfValue) v, mc ) )
 			{
-				Sink<RippleList, RippleException> listSink = new Sink<RippleList, RippleException>()
+                Sink<RippleList, RippleException> listSink = new Sink<RippleList, RippleException>()
 				{
 					public void put( final RippleList list )
 						throws RippleException
@@ -134,12 +119,12 @@ return rdfEquivalent;
 			}
 
 			// An RDF value not otherwise recognizable becomes a predicate filter.
-			else if ( ( (RdfValue) v ).sesameValue() instanceof Resource)
+			else if ( ( (RdfValue) v ).sesameValue() instanceof Resource )
 			{
 				opSink.put( new Operator( (RdfValue) v ) );
 				return;
 			}
-		}
+        }
 
 		// Anything else becomes an active nullary filter with no output.
 		else
@@ -150,10 +135,10 @@ return rdfEquivalent;
 	}
 
 // TODO: replace this with something a little more clever
-	public static boolean isRdfList( final RdfValue v, final ModelConnection mc )
+	public static boolean isRDFList( final RdfValue v, final ModelConnection mc )
 		throws RippleException
 	{
-		return ( v.equals( RDF_NIL )
+		return ( v.sesameValue().equals( RDF.NIL )
 			|| null != mc.findSingleObject( v, RDF_FIRST ) );
 	}
 }

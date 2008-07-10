@@ -15,6 +15,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Comparator;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
@@ -32,6 +33,7 @@ import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.GetStatementsQuery;
 import net.fortytwo.ripple.model.StatementPatternQuery;
+import net.fortytwo.ripple.model.RippleValueComparator;
 import net.fortytwo.ripple.rdf.BNodeClosureFilter;
 import net.fortytwo.ripple.rdf.RDFSource;
 import net.fortytwo.ripple.rdf.RDFUtils;
@@ -73,6 +75,7 @@ public class SesameModelConnection implements ModelConnection
 	protected final ValueFactory valueFactory;
 	protected final String name;
     private final TaskSet taskSet = new TaskSet();
+    private final Comparator<RippleValue> comparator;
 
     private boolean useBlankNodes;
 	
@@ -108,6 +111,8 @@ public class SesameModelConnection implements ModelConnection
 		}
 
         this.useBlankNodes = Ripple.getProperties().getBoolean(Ripple.USE_BLANK_NODES);
+        
+        comparator = new RippleValueComparator( this );
     }
 	
 	public String getName()
@@ -125,7 +130,8 @@ public class SesameModelConnection implements ModelConnection
 		return valueFactory;
 	}
 	
-	public void toList( RippleValue v, Sink<RippleList, RippleException> sink ) throws RippleException
+	public void toList( final RippleValue v,
+                        final Sink<RippleList, RippleException> sink ) throws RippleException
 	{
 		SesameList.from( v, sink, this );
 	}
@@ -966,8 +972,15 @@ public class SesameModelConnection implements ModelConnection
 	}
 	
 	////////////////////////////////////////////////////////////////////////////
-	
-	public RippleValue value( final Value v )
+
+    public Comparator<RippleValue> getComparator()
+    {
+        return comparator;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    public RippleValue value( final Value v )
 	{
 		return model.specialValues.get( v );
 	}

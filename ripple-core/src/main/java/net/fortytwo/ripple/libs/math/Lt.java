@@ -62,7 +62,7 @@ public class Lt extends PrimitiveStackMapping
 		a = stack.getFirst();
 		stack = stack.getRest();
 
-		result = mc.value( a.compareTo( b ) < 0 );
+		result = mc.value( mc.getComparator().compare( a, b ) < 0 );
 
 		solutions.put( arg.with(
 				stack.push( result ) ) );

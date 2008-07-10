@@ -136,7 +136,7 @@ public class Require extends PrimitiveStackMapping
             b = stack.getFirst();
             stack = stack.getRest();
 
-            if ( b.equals( mc.value( true ) ) )
+            if ( mc.toBoolean( b ) )
             {
                 solutions.put( arg.with( rest ) );
             }

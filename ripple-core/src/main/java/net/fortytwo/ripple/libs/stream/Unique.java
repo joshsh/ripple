@@ -18,6 +18,7 @@ import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.NullStackMapping;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.ListMemoizer;
 
 /**
@@ -75,18 +76,17 @@ public class Unique extends PrimitiveStackMapping
 			return 1;
 		}
 	
+        // Note: consecutive calls to applyTo should reference the same Model.
 		public void applyTo( final StackContext arg,
-							 final Sink<StackContext, RippleException> sink
-		)
+							 final Sink<StackContext, RippleException> sink )
 			throws RippleException
 		{
-			if ( null == memoizer )
-			{
-				memoizer = new ListMemoizer<RippleValue, String>( arg.getStack(), MEMO );
-				sink.put( arg );
-			}
-	
-			else if ( memoizer.put( arg.getStack(), MEMO ) )
+            if ( null == memoizer )
+            {
+                memoizer = new ListMemoizer<RippleValue, String>( arg.getModelConnection().getComparator() );
+            }
+
+			if ( memoizer.put( arg.getStack(), MEMO ) )
 			{
 				sink.put( arg );
 			}

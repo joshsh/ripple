@@ -35,7 +35,6 @@ public class SesameList extends RippleList
 {
 	private static final RdfValue RDF_FIRST = new RdfValue( RDF.FIRST );
 	private static final RdfValue RDF_REST = new RdfValue( RDF.REST );
-	private static final RdfValue RDF_NIL = new RdfValue( RDF.NIL );
 
     private static final RippleList NIL = new SesameList();
 
@@ -71,7 +70,6 @@ public class SesameList extends RippleList
 		// This should never be dereferenced.
 		rest = null;
 
-		// FIXME: depends on RDF_NIL being defined before this constructor is called.
 		rdfEquivalent = RDF.NIL;
 	}
 
@@ -203,7 +201,7 @@ RDFImporter importer = new RDFImporter( mc );
 		// If the argument is an RDF value, try to convert it to a native list.
 		else if ( v instanceof RdfValue )
 		{
-			if ( memoize )
+            if ( memoize )
 			{
 //System.out.println("looking for source for list: " + v);
 				Value rdfVal = ( (RdfValue) v ).toRDF( mc ).sesameValue();
@@ -212,7 +210,7 @@ RDFImporter importer = new RDFImporter( mc );
 				{
 					Collector<RippleList, RippleException> coll = new Collector<RippleList, RippleException>();
 					
-					createList( (RdfValue) v, coll, mc );
+					createList( v, coll, mc );
 					
 					source = coll;
 					nativeLists.put( rdfVal, source );
@@ -270,7 +268,7 @@ RDFImporter importer = new RDFImporter( mc );
 									final ModelConnection mc )
 		throws RippleException
 	{	
-		if ( head.equals( RDF_NIL ) )
+		if ( head.toRDF( mc ).sesameValue().equals( RDF.NIL ) )
 		{
 			sink.put( NIL );
 		}
@@ -346,54 +344,6 @@ RDFImporter importer = new RDFImporter( mc );
 
     ////////////////////////////////////////////////////////////////////////////
 
-	public boolean equals( final Object other )
-	{
-		return ( other instanceof RippleValue )
-		        ? ( 0 == compareTo( (RippleValue) other ) )
-		        : false;
-	}
-
-	public int compareTo( final RippleValue other )
-	{
-//System.out.println( "[" + this + "].compareTo(" + other + ")" );
-		if ( other instanceof SesameList )
-		{
-			SesameList curThis = this, curOther = (SesameList) other;
-
-			while ( NIL != curThis )
-			{
-				if ( NIL == curOther )
-				{
-					return 1;
-				}
-
-				int cmp = curThis.first.compareTo( curOther.first );
-				if ( 0 != cmp )
-				{
-					return cmp;
-				}
-
-				curThis = (SesameList) curThis.getRest();
-				curOther = (SesameList) curOther.getRest();
-			}
-
-			if ( NIL == curOther )
-			{
-				return 0;
-			}
-
-			else
-			{
-				return -1;
-			}
-		}
-
-		else
-		{
-			return RippleList.class.getName().compareTo( other.getClass().getName() );
-		}
-	}
-
 /*
 	public void writeStatementsTo( final Sink<Statement> sink,
 									final ModelConnection mc )
@@ -423,7 +373,7 @@ RDFImporter importer = new RDFImporter( mc );
 											final ModelConnection mc )
 		throws RippleException
 	{
-		if ( 0 == head.compareTo( RDF_NIL ) )
+		if ( head.toRDF( mc ).sesameValue().equals( RDF.NIL ) )
 		{
 			return;
 		}

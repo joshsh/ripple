@@ -57,7 +57,12 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
 	public RdfValue toRDF( final ModelConnection mc )
 		throws RippleException
 	{
-		return rdfEquivalent;
+        if ( null == rdfEquivalent )
+        {
+            rdfEquivalent = new RdfValue( mc.createBNode() );
+        }
+
+        return rdfEquivalent;
 	}
 
 	public String toString()
@@ -67,41 +72,12 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
                 ? "[anonymous PrimitiveStackMapping]"
                 : "" + rdfEquivalent;
 	}
-	
-	public boolean equals( final Object o )
-	{
-        return ( o instanceof RippleValue )
-                ? 0 == compareTo( (RippleValue) o )
-                : false;
-	}
 
 	public boolean isActive()
 	{
 		return false;
 	}
 
-    // TODO: this logic is incomplete
-    public int compareTo( final RippleValue other )
-	{
-//System.out.println( "[" + this + "].compareTo(" + other + ")" );
-		if ( other instanceof PrimitiveStackMapping
-                && null != rdfEquivalent
-                && null != ( (PrimitiveStackMapping) other ).rdfEquivalent )
-		{
-            return rdfEquivalent.compareTo( ( (PrimitiveStackMapping) other ).rdfEquivalent );
-		}
-
-        else if ( other instanceof RdfValue && null != rdfEquivalent )
-        {
-            return rdfEquivalent.compareTo( other );
-        }
-
-        else
-		{
-			return this.getClass().getName().compareTo( other.getClass().getName() );
-		}
-	}
-	
 	public boolean isTransparent()
 	{
 		return transparent;

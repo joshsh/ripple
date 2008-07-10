@@ -11,6 +11,7 @@ package net.fortytwo.ripple.model;
 
 import java.io.OutputStream;
 import java.util.Date;
+import java.util.Comparator;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
@@ -92,6 +93,8 @@ public interface ModelConnection
 	Statement createStatement( Resource subj, URI pred, Value obj ) throws RippleException;
 
     RdfValue createTypedLiteral( String label, RippleValue datatype ) throws RippleException;
+
+    Comparator<RippleValue> getComparator();
 
     RdfValue value( String s ) throws RippleException;
 	RdfValue value( String s, String language ) throws RippleException;

@@ -47,12 +47,12 @@ public class Has extends PrimitiveStackMapping
 		return ARITY;
 	}
 
-	private boolean has( RippleList l, final RippleValue v )
+	private boolean has( RippleList l, final RippleValue v, final ModelConnection mc )
 		throws RippleException
 	{
 		while ( !l.isNil() )
 		{
-			if ( 0 == l.getFirst().compareTo( v ) )
+			if ( 0 == mc.getComparator().compare( l.getFirst(), v ) )
 			{
 				return true;
 			}
@@ -82,7 +82,7 @@ public class Has extends PrimitiveStackMapping
 			public void put( final RippleList list ) throws RippleException
 			{
 				solutions.put( arg.with(
-						rest.push( mc.value( has( list, x ) ) ) ) );
+						rest.push( mc.value( has( list, x, mc ) ) ) ) );
 			}
 		};
 

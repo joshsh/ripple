@@ -20,8 +20,12 @@ public class UniqueTest extends NewRippleTestCase
 
     public void testListEquivalence() throws Exception
     {
-        // FIXME: this is an incorrect result
-        assertReducesTo( "(() rdf:nil) each >> unique >>", "()", "rdf:nil" );
+        assertReducesTo( "(() rdf:nil) each >> unique >>", "()" );
+
+        reduce( "@prefix : <http://example.org/uniqueTest/> .\n"
+                + "@define foo: 1 2 3 ." );
+        assertReducesTo( ":foo", "(1 2 3)" );
+        assertReducesTo( ":foo rdf:rest >>", "(2 3)" );
     }
 
     public void testArity() throws Exception

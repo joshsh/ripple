@@ -60,7 +60,7 @@ public class Compare extends PrimitiveStackMapping
 		x = stack.getFirst();
 		stack = stack.getRest();
 
-		int result = x.compareTo( y );
+		int result = mc.getComparator().compare( x, y );
 
 		solutions.put( arg.with( stack.push( mc.value( result ) ) ) );
 	}

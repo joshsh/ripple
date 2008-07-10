@@ -108,17 +108,15 @@ public class Intersect extends PrimitiveStackMapping
 		private void applyTrue( final StackContext arg,
 								final Sink<StackContext, RippleException> sink ) throws RippleException
 		{
-			RippleList stack = arg.getStack().getRest();
+            final ModelConnection mc = arg.getModelConnection();
+            RippleList stack = arg.getStack().getRest();
 
 			if ( null == trueMemoizer )
 			{
-				trueMemoizer = new ListMemoizer<RippleValue, String>( stack, MEMO );
+				trueMemoizer = new ListMemoizer<RippleValue, String>( mc.getComparator() );
 			}
 
-			else
-			{
-				trueMemoizer.put( stack, MEMO );
-			}
+			trueMemoizer.put( stack, MEMO );
 
 			if ( null != falseMemoizer && null != falseMemoizer.get( stack ) )
 			{
@@ -129,17 +127,15 @@ public class Intersect extends PrimitiveStackMapping
 		private void applyFalse( final StackContext arg,
 								final Sink<StackContext, RippleException> sink ) throws RippleException
 		{
+            final ModelConnection mc = arg.getModelConnection();
 			RippleList stack = arg.getStack().getRest();
 
 			if ( null == falseMemoizer )
 			{
-				falseMemoizer = new ListMemoizer<RippleValue, String>( stack, MEMO );
+				falseMemoizer = new ListMemoizer<RippleValue, String>( mc.getComparator() );
 			}
 
-			else
-			{
-				falseMemoizer.put( stack, MEMO );
-			}
+			falseMemoizer.put( stack, MEMO );
 
 			if ( null != trueMemoizer && null != trueMemoizer.get( stack ) )
 			{

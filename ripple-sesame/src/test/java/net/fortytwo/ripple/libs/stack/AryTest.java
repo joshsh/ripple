@@ -11,11 +11,11 @@ public class AryTest extends NewRippleTestCase
 {
     public void testNormal() throws Exception
     {
+        assertReducesTo( "2 3 dup dip >>", "2 dup >> 3" );
+        assertReducesTo( "2 3 dup dip >> 2 ary >>", "2 2 3" );        
+
         assertReducesTo( "@redefine recfunc: rdf:first (rdf:rest >> :recfunc >>) both >> 2 ary >> apply >> .\n"
                 + "(1 2 3) :recfunc >>", "1", "2", "3" );
-
-        assertReducesTo( "2 3 dup dip >>", "2 dup >> 3" );
-        assertReducesTo( "2 3 dup dip >> 2 ary >>", "2 2 3" );
     }
 
     public void testInsufficientArity() throws Exception

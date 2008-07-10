@@ -64,7 +64,7 @@ public class Min extends PrimitiveStackMapping
 				while ( !list.isNil() )
 				{
 					RippleValue v = list.getFirst();
-					if ( null == result || v.compareTo( result ) < 0 )
+					if ( null == result || mc.getComparator().compare( v, result ) < 0 )
 					{
 						result = v;
 					}

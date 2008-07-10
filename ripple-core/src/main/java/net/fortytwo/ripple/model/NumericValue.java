@@ -12,7 +12,6 @@ package net.fortytwo.ripple.model;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RipplePrintStream;
 import org.openrdf.model.Literal;
-import org.openrdf.model.Value;
 import org.openrdf.model.URI;
 import org.openrdf.model.vocabulary.XMLSchema;
 
@@ -23,7 +22,7 @@ import java.util.HashMap;
 /**
  * A numeric (xsd:integer or xsd:double) literal value.
  */
-public abstract class NumericValue implements RippleValue
+public abstract class NumericValue implements RippleValue, Comparable<NumericValue>
 {
 	/**
 	 * Distinguishes between numeric literals of type xsd:integer and xsd:double.
@@ -130,44 +129,25 @@ public abstract class NumericValue implements RippleValue
         }
     }
 
-// TODO: implement hashCode()
-	public boolean equals( final Object other )
-	{
-		return ( other instanceof RippleValue )
-		        ? ( 0 == compareTo( (RippleValue) other ) )
-		        : false;
-	}
-	
-	public int compareTo( final RippleValue other )
-	{
-        // NumericValues are comparable with other NumericValues and with
-        // numeric Literals.
-        return ( other instanceof NumericValue )
-		        ? compare( this, (NumericValue) other )
-                : ( other instanceof RdfValue )
-                        ? - RdfValue.compare( (RdfValue) other, this )
-                        : RdfValue.defaultCompare( this, other );
-	}
-
-    public static int compare( final NumericValue a, final NumericValue b )
+    public int compareTo( final NumericValue other)
     {
-        NumericLiteralType precision = maxPrecision( a, b );
+        NumericLiteralType precision = maxPrecision( this, other);
 //System.out.println("comparing " + a + " with " + b + " (precision = " + precision + ", a.getType() = " + a.getType() + ", b.getType() = " + b.getType() + ")");
 
         switch ( precision )
         {
             case INTEGER:
-                return compare( a.intValue(), b.intValue() );
+                return compare( this.intValue(), other.intValue() );
             case LONG:
-                return compare( a.longValue(), b.longValue() );
+                return compare( this.longValue(), other.longValue() );
             case FLOAT:
-                return compare( a.floatValue(), b.floatValue() );
+                return compare( this.floatValue(), other.floatValue() );
             case DOUBLE:
-                return compare( a.doubleValue(), b.doubleValue() );
+                return compare( this.doubleValue(), other.doubleValue() );
             case DECIMAL:
 //System.out.println("    a.decimalValue().compareTo( b.decimalValue() ) = " + a.decimalValue().compareTo( b.decimalValue() ));
 //System.out.println("    a.number.getClass() = " + a.number.getClass() + ", b.number.getClass() = " + b.number.getClass());
-                return a.decimalValue().compareTo( b.decimalValue() );
+                return this.decimalValue().compareTo( other.decimalValue() );
             default:
                 // Shouldn't happen.
                 return 0;

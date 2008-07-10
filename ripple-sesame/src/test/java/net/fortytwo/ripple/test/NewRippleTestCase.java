@@ -1,6 +1,7 @@
 package net.fortytwo.ripple.test;
 
 import junit.framework.TestCase;
+import junit.framework.AssertionFailedError;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleValue;
@@ -14,12 +15,12 @@ import net.fortytwo.ripple.query.StackEvaluator;
 import net.fortytwo.ripple.query.LazyEvaluator;
 import net.fortytwo.ripple.query.QueryPipe;
 import net.fortytwo.ripple.flow.Collector;
-import net.fortytwo.linkeddata.sail.LinkedDataSail;
 
 import java.util.Iterator;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Comparator;
 
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailConnection;
@@ -36,16 +37,34 @@ import org.openrdf.model.vocabulary.XMLSchema;
  */
 public abstract class NewRippleTestCase extends TestCase
 {
-	private static Sail sail = null;
+    // TODO: add a shutdown hook to clean up these objects
+    private static Sail sail = null;
 	private static URIMap uriMap = null;
     private static Model model = null;
     private static QueryEngine queryEngine = null;
 
-    private static Sail getTestSail() throws RippleException
+    private ModelConnection modelConnection = null;
+    private Comparator<RippleValue> comparator = null;
+
+    public void setUp() throws Exception
+    {
+        modelConnection = getTestModel().getConnection( "1331" );
+        comparator = modelConnection.getComparator();
+    }
+
+    public void tearDown() throws Exception
+    {
+        if ( null != modelConnection )
+        {
+            modelConnection.close();
+            modelConnection = null;
+        }
+    }
+
+    private Sail getTestSail() throws RippleException
     {
 		if ( null == sail )
 		{
-			// TODO: add a shutdown hook for this Sail
             sail = new MemoryStore();
 
             try {
@@ -74,7 +93,7 @@ public abstract class NewRippleTestCase extends TestCase
 		return sail;
 	}
 
-    protected static URIMap getTestUriMap()
+    protected URIMap getTestUriMap()
     {
         if ( null == uriMap )
         {
@@ -84,20 +103,19 @@ public abstract class NewRippleTestCase extends TestCase
         return uriMap;
     }
 
-	protected static Model getTestModel() throws RippleException
+	protected Model getTestModel() throws RippleException
     {
 		if ( null == model )
 		{
             Ripple.initialize();
 
-            // TODO: add a shutdown hook for this Model
             model = new SesameModel( getTestSail(), getTestUriMap() );
-		}
+        }
 
 		return model;
 	}
 
-    protected static QueryEngine getTestQueryEngine() throws RippleException
+    protected QueryEngine getTestQueryEngine() throws RippleException
     {
         if ( null == queryEngine )
         {
@@ -109,7 +127,7 @@ public abstract class NewRippleTestCase extends TestCase
     }
 
     protected RippleList createStack( final ModelConnection mc,
-                                          final RippleValue... values ) throws RippleException
+                                      final RippleValue... values ) throws RippleException
 	{
 		if ( 0 == values.length )
 		{
@@ -132,7 +150,7 @@ public abstract class NewRippleTestCase extends TestCase
 	}
 
 	protected void assertCollectorsEqual( final Collector<RippleList, RippleException> expected,
-                                              final Collector<RippleList, RippleException> actual ) throws Exception
+                                          final Collector<RippleList, RippleException> actual ) throws Exception
 	{
 //System.out.println("expected: " + expected + ", actual = " + actual);
         int size = expected.size();
@@ -152,8 +170,8 @@ public abstract class NewRippleTestCase extends TestCase
 			expArray[i] = expIter.next();
 			actArray[i] = actIter.next();
 		}
-		Arrays.sort( expArray );
-		Arrays.sort( actArray );
+		Arrays.sort( expArray, comparator );
+		Arrays.sort( actArray, comparator );
 /*System.out.println("expected:");
 for ( RippleList l : expArray )
 {
@@ -187,6 +205,15 @@ while (!l.isNil()) {
             assertEquals( expArray[i], actArray[i] );
 		}
 	}
+
+    protected void assertEquals( final RippleValue first, final RippleValue second ) throws Exception
+    {
+        int cmp = comparator.compare( first, second );
+        if ( 0 != cmp )
+        {
+            throw new AssertionFailedError( "expected <" + first + "> but was <" + second + ">" );
+        }
+    }
 
     protected Collection<RippleList> reduce( final String from ) throws RippleException
     {

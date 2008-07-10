@@ -57,4 +57,11 @@ public class EqualTest extends NewRippleTestCase
         assertReducesTo( "\"foo\" \"foo\"^^xsd:string equal >>", "false" );
         assertReducesTo( "\"http://example.org\" \"http://example.org\"^^xsd:anyURI equal >>", "false" );
     }
+
+    public void testNumericLiterals() throws Exception
+    {
+        // ...
+
+        assertReducesTo( "2 3 add >>", "5" );
+    }
 }
