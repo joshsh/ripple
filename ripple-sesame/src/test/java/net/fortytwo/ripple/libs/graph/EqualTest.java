@@ -64,4 +64,21 @@ public class EqualTest extends NewRippleTestCase
 
         assertReducesTo( "2 3 add >>", "5" );
     }
+
+    public void testLists() throws Exception
+    {
+        assertReducesTo( "() () equal >>", "true" );
+        assertReducesTo( "rdf:nil () equal >>", "true" );
+        assertReducesTo( "() rdf:nil equal >>", "true" );
+
+        assertReducesTo( "(()) (()) equal >>", "true" );
+        assertReducesTo( "(2 () (\"four\" (3))) (2.0 rdf:nil (\"four\" (0.3e1)) ) equal >>", "true" );
+        assertReducesTo( "() (1) equal >>", "false" );
+        assertReducesTo( "(42) () equal >>", "false" );
+    }
+
+    public void testListTransparency() throws Exception
+    {
+        assertReducesTo( "(2 dup >>) (2 2) equal >>", "false" );
+    }
 }

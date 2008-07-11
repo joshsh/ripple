@@ -91,16 +91,32 @@ public class CompareTest extends NewRippleTestCase
         assertTrue( 0.0 < compare( "(1 (4) 3)", "(1 (2) 3)" ) );
         assertTrue( 0.0 > compare( "(1 (2) 3)", "(1 (37) 3)" ) );
 
-        /* TODO: restore these cases
         assertTrue( 0.0 == compare( "()", "rdf:nil" ) );
         assertTrue( 0.0 < compare( "(42)", "rdf:nil" ) );
         assertTrue( 0.0 > compare( "rdf:nil", "(1 2 3)" ) );
         reduce( "@prefix : <http://example.org/compareTest/> .\n"
                 + "@define prog: 1 2 3 ." );
-        assertTrue( 0.0 == compare( ":foo", "(1 2 3)" ) );
-        assertTrue( 0.0 > compare( "rdf:nil", ":foo" ) );
-        assertTrue( 0.0 < compare( ":foo", "rdf:nil" ) );
-        */
+        assertTrue( 0.0 == compare( ":prog", "(1 2 3)" ) );
+        assertTrue( 0.0 > compare( "rdf:nil", ":prog" ) );
+        assertTrue( 0.0 < compare( ":prog", "rdf:nil" ) );
+        assertTrue( 0.0 > compare( ":prog", "(1 2 4)" ) );
+        assertTrue( 0.0 < compare( ":prog", "(1 2)" ) );
+    }
+
+    // Note: for now, boolean values are simply Literals
+    public void testBooleans() throws Exception
+    {
+        assertTrue( 0.0 == compare( "true", "true" ) );
+        assertTrue( 0.0 < compare( "true", "false" ) );
+        assertTrue( 0.0 > compare( "false", "true" ) );    
+        assertTrue( 0.0 == compare( "false", "false" ) );
+    }
+
+    public void testPrimitives() throws Exception
+    {
+        assertTrue( 0.0 == compare( "dup", "dup" ) );
+        assertTrue( 0.0 > compare( "dup", "swap" ) );
+        assertTrue( 0.0 < compare( "swap", "dup" ) );
     }
 
     public void testHeterogeneousValues() throws Exception

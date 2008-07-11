@@ -14,9 +14,16 @@ import java.util.Date;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.MalformedURLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 
 public class RippleProperties extends Properties
 {
+    private final DateFormat dateFormat = new SimpleDateFormat();
+
     public RippleProperties( final Properties defaults )
     {
         super( defaults );
@@ -29,8 +36,7 @@ public class RippleProperties extends Properties
     
     public String getString( final String name ) throws RippleException
 	{
-		String value = getProperty( name, true );
-		return value;
+		return getProperty( name, true );
 	}
 
     public String getString( final String name, final String defaultValue ) throws RippleException
@@ -42,6 +48,19 @@ public class RippleProperties extends Properties
                 : value;
 	}
 
+    public void setString( final String name, final String value )
+    {
+        if ( null == value )
+        {
+            remove( name );
+        }
+
+        else
+        {
+            setProperty( name, value );
+        }
+    }
+
     public boolean getBoolean( final String name ) throws RippleException
 	{
 		String value = getProperty( name, true );
@@ -49,7 +68,7 @@ public class RippleProperties extends Properties
 		return value.equals( "true" );
 	}
 
-    public void setBoolean( final String name, final boolean value ) throws RippleException
+    public void setBoolean( final String name, final boolean value )
     {
         setProperty( name, "" + value );
     }
@@ -69,7 +88,7 @@ public class RippleProperties extends Properties
 		}
 	}
 
-    public void setDouble( final String name, final double value ) throws RippleException
+    public void setDouble( final String name, final double value )
     {
         setProperty( name, "" + value );
     }
@@ -89,7 +108,7 @@ public class RippleProperties extends Properties
 		}
 	}
 
-    public void setFloat( final String name, final float value ) throws RippleException
+    public void setFloat( final String name, final float value )
     {
         setProperty( name, "" + value );
     }
@@ -109,7 +128,7 @@ public class RippleProperties extends Properties
 		}
 	}
 
-    public void setInt( final String name, final int value ) throws RippleException
+    public void setInt( final String name, final int value )
     {
         setProperty( name, "" + value );
     }
@@ -129,7 +148,7 @@ public class RippleProperties extends Properties
 		}
 	}
 
-    public void setLong( final String name, final long value ) throws RippleException
+    public void setLong( final String name, final long value )
     {
         setProperty( name, "" + value );
     }
@@ -149,9 +168,45 @@ public class RippleProperties extends Properties
         }
     }
 
-    public void setURI( final String name, final URI value ) throws RippleException
+    public void setURL( final String name, final URL value )
     {
-        setProperty( name, "" + value );
+        if ( null == value )
+        {
+            remove( name );
+        }
+
+        else
+        {
+            setProperty( name, "" + value );
+        }
+    }
+
+    public URL getURL( final String name ) throws RippleException
+    {
+        String value = getProperty( name, true );
+
+        try
+        {
+            return new URL( value );
+        }
+
+        catch ( MalformedURLException e )
+        {
+            throw new RippleException( e );
+        }
+    }
+
+    public void setURI( final String name, final URI value )
+    {
+        if ( null == value )
+        {
+            remove( name );
+        }
+
+        else
+        {
+            setProperty( name, "" + value );
+        }
     }
 
     public File getFile( final String name ) throws RippleException
@@ -159,11 +214,6 @@ public class RippleProperties extends Properties
         String value = getProperty( name, true );
         
         return new File( value );
-    }
-
-    public void setFile( final String name, final File value ) throws RippleException
-    {
-        setProperty( name, "" + value.getAbsolutePath() );
     }
 
     public File getFile( final String name, final File defaultValue ) throws RippleException
@@ -175,15 +225,62 @@ public class RippleProperties extends Properties
                 : new File( value );
     }
 
-    public Date getDate( final String name ) throws RippleException
+    public void setFile( final String name, final File value )
     {
-        long millis = getLong( name );
-        return new Date( millis );
+        if ( null == value )
+        {
+            remove( name );
+        }
+
+        else
+        {
+            setProperty( name, "" + value.getAbsolutePath() );
+        }
     }
 
-    public void setDate( final String name, final Date value ) throws RippleException
+    public Date getDate( final String name ) throws RippleException
     {
-        setProperty( name, "" + value.getTime() );
+        String value = getProperty( name, true );
+
+        try
+        {
+            return dateFormat.parse(value);
+        }
+
+        catch ( ParseException e )
+        {
+            throw new RippleException( e );
+        }
+    }
+
+    public Date getDate( final String name, final Date defaultValue ) throws RippleException
+    {
+        String value = getProperty( name, false );
+
+        try
+        {
+            return null == value
+                    ? defaultValue
+                    : dateFormat.parse(value);
+        }
+
+        catch ( ParseException e )
+        {
+            throw new RippleException( e );
+        }
+    }
+
+    public void setDate( final String name, final Date value )
+    {
+        if ( null == value )
+        {
+            remove( name );
+        }
+
+        else
+        {
+            setProperty( name, "" + dateFormat.format( value ) );
+        }
     }
 
     private String getProperty( final String name, final boolean required ) throws RippleException
