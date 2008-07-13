@@ -23,10 +23,7 @@ public class InContext extends RDFPredicateStackMapping
 	private static final int ARITY = 3;
 
     private static final String[] IDENTIFIERS = {
-            // FIXME: this is a kludge for programs created by Ripple 0.5-dev.  Remove this alias when it is no longer needed
-            GraphLibrary.NS_2007_08 + "inContext",
-
-            GraphLibrary.NS_2008_06 + "inContext"};
+            GraphLibrary.NS_2007_08 + "inContext"};
 
     public String[] getIdentifiers()
     {
