@@ -154,7 +154,7 @@ public final class Scheduler
 
 		public WorkerThread( final WorkerRunnable r )
 		{
-			super( r );
+			super( r, "Ripple worker thread" );
 
 			runnable = r;
 		}

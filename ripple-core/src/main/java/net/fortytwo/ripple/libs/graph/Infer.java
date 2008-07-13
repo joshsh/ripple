@@ -13,19 +13,21 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RdfPredicateMapping;
+import net.fortytwo.ripple.model.RDFPredicateMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.model.RdfValue;
+import net.fortytwo.ripple.model.RDFValue;
+import net.fortytwo.ripple.model.StatementPatternQuery;
+import net.fortytwo.ripple.model.StackMapping;
 import net.fortytwo.ripple.flow.Sink;
 import org.openrdf.model.Resource;
 
 /**
  * A primitive which follows inferred forward triples from a resource.
  */
-public class Infer extends PrimitiveStackMapping
+public class Infer extends RDFPredicateStackMapping
 {
-	private static final int ARITY = 1;
+	private static final int ARITY = 2;
 
     private static final String[] IDENTIFIERS = {
             // FIXME: this is a kludge for programs created by Ripple 0.5-dev.  Remove this alias when it is no longer needed
@@ -38,13 +40,21 @@ public class Infer extends PrimitiveStackMapping
         return IDENTIFIERS;
     }
 
-	public Infer()
-		throws RippleException
+	public Infer() throws RippleException
 	{
-		super();
+		super( false );
+
+        this.inverse = new Infer( this );
 	}
 
-	public int arity()
+    private Infer( final StackMapping original ) throws RippleException
+    {
+        super( true );
+
+        this.inverse = original;
+    }
+
+    public int arity()
 	{
 		return ARITY;
 	}
@@ -56,17 +66,13 @@ public class Infer extends PrimitiveStackMapping
 		final ModelConnection mc = arg.getModelConnection();
 		RippleList stack = arg.getStack();
 
-		RdfValue pred = stack.getFirst().toRDF( mc );
+		RDFValue pred = stack.getFirst().toRDF( mc );
 		stack = stack.getRest();
 
-        // FIXME: bit of a hack
-        if ( !( pred.sesameValue() instanceof Resource ) )
-        {
-            return;
-        }
+        StackMapping mapping = getMapping( pred, null, true );
 
         solutions.put( arg.with(
-				stack.push( new Operator( new RdfPredicateMapping( pred, true ) ) ) ) );
+				stack.push( new Operator( mapping ) ) ) );
 	}
 }
 

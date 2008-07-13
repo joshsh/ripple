@@ -17,7 +17,7 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RDFImporter;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
-import net.fortytwo.ripple.model.RdfValue;
+import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StatementPatternQuery;
@@ -33,8 +33,8 @@ import org.openrdf.model.vocabulary.RDF;
 
 public class SesameList extends RippleList
 {
-	private static final RdfValue RDF_FIRST = new RdfValue( RDF.FIRST );
-	private static final RdfValue RDF_REST = new RdfValue( RDF.REST );
+	private static final RDFValue RDF_FIRST = new RDFValue( RDF.FIRST );
+	private static final RDFValue RDF_REST = new RDFValue( RDF.REST );
 
     private static final RippleList NIL = new SesameList();
 
@@ -102,7 +102,7 @@ public class SesameList extends RippleList
 		return false;
 	}
 
-	public RdfValue toRDF( final ModelConnection mc )
+	public RDFValue toRDF( final ModelConnection mc )
 		throws RippleException
 	{
 		if ( null == rdfEquivalent )
@@ -115,7 +115,7 @@ RDFImporter importer = new RDFImporter( mc );
 			mc.commit();
 		}
 
-		return new RdfValue( rdfEquivalent );
+		return new RDFValue( rdfEquivalent );
 	}
 
 	private void putRdfStatements( final Sink<Statement, RippleException> sink, final ModelConnection mc )
@@ -199,12 +199,12 @@ RDFImporter importer = new RDFImporter( mc );
 		}
 
 		// If the argument is an RDF value, try to convert it to a native list.
-		else if ( v instanceof RdfValue )
+		else if ( v instanceof RDFValue)
 		{
             if ( memoize )
 			{
 //System.out.println("looking for source for list: " + v);
-				Value rdfVal = ( (RdfValue) v ).toRDF( mc ).sesameValue();
+				Value rdfVal = ( (RDFValue) v ).toRDF( mc ).sesameValue();
 				Source<RippleList, RippleException> source = nativeLists.get( rdfVal );
 				if ( null == source )
 				{

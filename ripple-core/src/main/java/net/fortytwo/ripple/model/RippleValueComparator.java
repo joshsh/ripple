@@ -113,9 +113,9 @@ public class RippleValueComparator implements Comparator<RippleValue>
             return Type.OPERATOR;
         }
 
-        else if ( value instanceof RdfValue )
+        else if ( value instanceof RDFValue)
         {
-            Value sesameValue = ( (RdfValue) value ).sesameValue();
+            Value sesameValue = ( (RDFValue) value ).sesameValue();
 
             if ( sesameValue instanceof Literal )
             {
@@ -152,7 +152,7 @@ public class RippleValueComparator implements Comparator<RippleValue>
 
             else if ( sesameValue instanceof Resource )
             {
-                if ( Operator.isRDFList( (RdfValue) value, modelConnection ) )
+                if ( Operator.isRDFList( (RDFValue) value, modelConnection ) )
                 {
                     return Type.LIST;
                 }
@@ -219,7 +219,7 @@ public class RippleValueComparator implements Comparator<RippleValue>
 
             else
             {
-                return -NumericValue.compare( (Literal) ( (RdfValue) second ).sesameValue(), (NumericValue) first );
+                return -NumericValue.compare( (Literal) ( (RDFValue) second ).sesameValue(), (NumericValue) first );
             }
         }
 
@@ -227,14 +227,14 @@ public class RippleValueComparator implements Comparator<RippleValue>
         {
             if ( second instanceof NumericValue )
             {
-                return NumericValue.compare( (Literal) ( (RdfValue) first ).sesameValue(), (NumericValue) second );
+                return NumericValue.compare( (Literal) ( (RDFValue) first ).sesameValue(), (NumericValue) second );
             }
 
             else
             {
                 return NumericValue.compareNumericLiterals(
-                        (Literal) ( (RdfValue) first ).sesameValue(),
-                        (Literal) ( (RdfValue) second ).sesameValue() );
+                        (Literal) ( (RDFValue) first ).sesameValue(),
+                        (Literal) ( (RDFValue) second ).sesameValue() );
             }
         }
     }

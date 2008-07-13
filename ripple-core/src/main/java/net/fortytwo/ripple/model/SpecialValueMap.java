@@ -33,7 +33,7 @@ public class SpecialValueMap
 	 *  value.  If there is no such data structure, the value itself.  This
 	 *  method will never return <code>null</code>.
 	 */
-	public RippleValue get( final RdfValue rdf )
+	public RippleValue get( final RDFValue rdf )
 	{
 		RippleValue rpl =  rdfToNativeMap.get( rdf.sesameValue() );
 
@@ -51,7 +51,7 @@ public class SpecialValueMap
 
 		if ( null == rpl )
 		{
-			return new RdfValue( v );
+			return new RDFValue( v );
 		}
 
 		else

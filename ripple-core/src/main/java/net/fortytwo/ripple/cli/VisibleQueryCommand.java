@@ -14,10 +14,9 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.cli.ast.ListAST;
 import net.fortytwo.ripple.control.TaskSet;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RdfValue;
+import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.GetStatementsQuery;
 import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
@@ -32,12 +31,10 @@ import net.fortytwo.ripple.flow.SynchronizedSink;
 import net.fortytwo.ripple.flow.Tee;
 
 import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
 
 public class VisibleQueryCommand extends Command
 {
-	private static RdfValue RDF_FIRST = new RdfValue( RDF.FIRST );
+	private static RDFValue RDF_FIRST = new RDFValue( RDF.FIRST );
 	
 	private final ListAST ast;
 	private final CollectorHistory<RippleList, RippleException> resultHistory;

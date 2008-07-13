@@ -30,7 +30,7 @@ public abstract class Library
 		try
 		{
 			prim = (PrimitiveStackMapping) c.newInstance();
-            prim.setRdfEquivalent( new RdfValue( mc.createUri( prim.getIdentifiers()[0] ) ), mc );
+            prim.setRdfEquivalent( new RDFValue( mc.createUri( prim.getIdentifiers()[0] ) ), mc );
         }
 
 		catch ( InstantiationException e )

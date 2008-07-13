@@ -25,6 +25,7 @@ import java.util.Comparator;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
+import org.openrdf.sail.inferencer.fc.ForwardChainingRDFSInferencer;
 import org.openrdf.sail.memory.MemoryStore;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.model.vocabulary.RDFS;
@@ -37,13 +38,15 @@ import org.openrdf.model.vocabulary.XMLSchema;
  */
 public abstract class NewRippleTestCase extends TestCase
 {
+    private static final boolean SUPPORT_INFERENCE = true;
+
     // TODO: add a shutdown hook to clean up these objects
     private static Sail sail = null;
 	private static URIMap uriMap = null;
     private static Model model = null;
     private static QueryEngine queryEngine = null;
 
-    private ModelConnection modelConnection = null;
+    protected ModelConnection modelConnection = null;
     private Comparator<RippleValue> comparator = null;
 
     public void setUp() throws Exception
@@ -66,6 +69,11 @@ public abstract class NewRippleTestCase extends TestCase
 		if ( null == sail )
 		{
             sail = new MemoryStore();
+
+            if ( SUPPORT_INFERENCE )
+            {
+                sail = new ForwardChainingRDFSInferencer( sail );
+            }
 
             try {
                 sail.initialize();

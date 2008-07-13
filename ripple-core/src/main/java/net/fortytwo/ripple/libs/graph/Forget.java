@@ -59,7 +59,6 @@ public class Forget extends PrimitiveStackMapping
 
 		v = stack.getFirst();
 
-// FIXME: this should not subvert the ModelConnection
 		mc.forget( v );
 		
 		// Note: the stack itself has not been altered.

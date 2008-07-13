@@ -19,6 +19,7 @@ import org.openrdf.model.Literal;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.model.vocabulary.XMLSchema;
+import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
 import net.fortytwo.ripple.flow.Buffer;
@@ -50,44 +51,57 @@ public class GetStatementsQuery
 
     public final boolean includeInferred;
 
-    public Resource subject;
-	public URI predicate;
-	public Value object;
-	public Resource[] contexts;
+    public final Resource subject;
+	public final URI predicate;
+	public final Value object;
+	public final Resource[] contexts;
     public Type type = Type.SP_O;
 
-    public GetStatementsQuery( final StatementPatternQuery patternQuery, final ModelConnection mc ) throws RippleException
+    public GetStatementsQuery( final StatementPatternQuery patternQuery,
+                               final ModelConnection mc ) throws RippleException
     {
         try {
             switch ( patternQuery.getPattern() )
             {
                 case SP_O:
-                    this.type = Type.SP_O;
+                    type = Type.SP_O;
                     subject = getResource( patternQuery.getSubject(), mc );
                     predicate = getURI( patternQuery.getPredicate(), mc );
+                    object = null;
                     break;
                 case PO_S:
-                    this.type = Type.PO_S;
+                    type = Type.PO_S;
+                    subject = null;
                     predicate = getURI( patternQuery.getPredicate(), mc );
                     object = getValue( patternQuery.getObject(), mc );
                     break;
                 case SO_P:
-                    this.type = Type.SO_P;
+                    type = Type.SO_P;
                     subject = getResource( patternQuery.getSubject(), mc );
+                    predicate = null;
                     object = getValue( patternQuery.getObject(), mc );
                     break;
                 default:
                     throw new InvalidQueryException( "unsupported query pattern: " + patternQuery.getPattern() );
             }
 
-            RippleValue[] otherContexts = patternQuery.getContexts();
-            if ( otherContexts.length > 0 )
+            RippleValue[] rippleContexts = patternQuery.getContexts();
+            this.contexts = new Resource[rippleContexts.length];
+
+            for ( int i = 0; i < rippleContexts.length; i++ )
             {
-                this.contexts = new Resource[otherContexts.length];
-                for ( int i = 0; i < otherContexts.length; i++ )
+                Resource context = getResource( rippleContexts[i], mc );
+//System.out.println("context is: " + context);
+                
+                // rdf:nil is a special case -- as a graph name in Ripple, it
+                // actually represents the null graph.
+                if ( null != context && context.equals( RDF.NIL ) )
                 {
-                    this.contexts[i] = getResource( otherContexts[i], mc );
+//                    System.out.println("    context is null");
+                    context = null;
                 }
+
+                this.contexts[i] = context;
             }
         }
 
@@ -116,7 +130,7 @@ public class GetStatementsQuery
 
     public void getStatements( final SailConnection sc, final Sink<Statement, RippleException> results ) throws RippleException
 	{
-        getStatementsPrivate( results, sc, subject, predicate, object, includeInferred, contexts );
+        getStatementsPrivate( results, sc, subject, predicate, object );
 
         if ( STRING_LITERALS_EQUIVALENT_TO_PLAIN_LITERALS
                 && null != object
@@ -126,24 +140,22 @@ public class GetStatementsQuery
             if ( null == datatype )
             {
                 Literal newObj = VALUE_FACTORY.createLiteral( ( (Literal) object ).getLabel(), XMLSchema.STRING );
-                getStatementsPrivate( results, sc, subject, predicate, newObj, includeInferred, contexts );
+                getStatementsPrivate( results, sc, subject, predicate, newObj );
             }
 
             else if ( XMLSchema.STRING == datatype )
             {
                 Literal newObj = VALUE_FACTORY.createLiteral( ( (Literal) object ).getLabel() );
-                getStatementsPrivate( results, sc, subject, predicate, newObj, includeInferred, contexts );
+                getStatementsPrivate( results, sc, subject, predicate, newObj );
             }
         }
     }
 
-    private static void getStatementsPrivate( final Sink<Statement, RippleException> results,
+    private void getStatementsPrivate( final Sink<Statement, RippleException> results,
                                               final SailConnection sc,
                                               final Resource subject,
                                               final URI predicate,
-                                              final Value object,
-                                              final boolean includeInferred,
-                                              final Resource... contexts ) throws RippleException
+                                              final Value object ) throws RippleException
     {
 		// Note: we must collect results in a buffer before putting anything
 		//       into the sink, as inefficient as that is, because otherwise
@@ -159,9 +171,7 @@ public class GetStatementsQuery
 		// Perform the query and collect results.
 		try
 		{
-			stmtIter = ( null == contexts )
-					? sc.getStatements( subject, predicate, object, includeInferred )
-					: sc.getStatements( subject, predicate, object, includeInferred, contexts );
+			stmtIter = sc.getStatements( subject, predicate, object, includeInferred, contexts );
 //stmtIter.enableDuplicateFilter();
             try
             {

@@ -11,7 +11,7 @@ package net.fortytwo.ripple.model.impl.neo4j;
 
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.RdfValue;
+import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RipplePrintStream;
@@ -30,7 +30,7 @@ public class Neo4jList extends RippleList {
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public RdfValue toRDF(ModelConnection mc) throws RippleException {
+    public RDFValue toRDF(ModelConnection mc) throws RippleException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

@@ -10,17 +10,14 @@
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.flow.Mapping;
-import net.fortytwo.ripple.flow.NullMapping;
 import net.fortytwo.ripple.io.RipplePrintStream;
-import org.openrdf.model.URI;
 import org.openrdf.model.Resource;
 
 public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
 {
     private final boolean transparent;
 
-	private RdfValue rdfEquivalent;
+	private RDFValue rdfEquivalent;
 //	private FunctionTypeAnnotation typeAnnotation = null;
 
 	public PrimitiveStackMapping( final boolean transparent )
@@ -35,7 +32,7 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
 
     public abstract String[] getIdentifiers();
 
-    public void setRdfEquivalent( final RdfValue v, final ModelConnection mc )
+    public void setRdfEquivalent( final RDFValue v, final ModelConnection mc )
 		throws RippleException
 	{
         if ( !( v.sesameValue() instanceof Resource) )
@@ -54,12 +51,12 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
 		p.print( rdfEquivalent );
 	}
 
-	public RdfValue toRDF( final ModelConnection mc )
+	public RDFValue toRDF( final ModelConnection mc )
 		throws RippleException
 	{
         if ( null == rdfEquivalent )
         {
-            rdfEquivalent = new RdfValue( mc.createBNode() );
+            rdfEquivalent = new RDFValue( mc.createBNode() );
         }
 
         return rdfEquivalent;

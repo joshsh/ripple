@@ -14,6 +14,7 @@ import net.fortytwo.ripple.RippleException;
 import org.apache.log4j.Logger;
 import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
+import org.openrdf.model.Resource;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFParser;
 import org.openrdf.rio.RDFWriter;
@@ -402,22 +403,30 @@ System.out.println( RDFFormat.TURTLE.getName() + ": " + RDFFormat.TURTLE.getMIME
 		return uri.toString().startsWith( "http://" );
 	}
 
-	public static URI inferContextUri( final URI uri,
-					final ValueFactory valueFactory )
+	public static URI inferContextURI( final Resource subject,
+                                       final ValueFactory valueFactory )
 		throws RippleException
 	{
-		String s = inferContext( uri );
+        if ( !( subject instanceof URI ) )
+        {
+            return null;
+        }
 
-		try
-		{
-			return valueFactory.createURI( s );
-		}
+        else
+        {
+            String s = inferContext( (URI) subject );
 
-		catch ( Throwable t )
-		{
-			throw new RippleException( t );
-		}
-	}
+            try
+            {
+                return valueFactory.createURI( s );
+            }
+
+            catch ( Throwable t )
+            {
+                throw new RippleException( t );
+            }
+        }
+    }
 
 	/**
 	 *  @return  a String representation of the URL to be resolved

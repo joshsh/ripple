@@ -51,7 +51,7 @@ public class Op implements StackMapping, RippleValue
 		System.exit( 1 );
 	}
 
-	public RdfValue toRDF( final ModelConnection mc )
+	public RDFValue toRDF( final ModelConnection mc )
 		throws RippleException
 	{
 		System.err.println( "You should not need to convert op explicitly." );

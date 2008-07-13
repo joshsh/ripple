@@ -64,7 +64,7 @@ public class InterpreterTest extends TestCase
 						e.printStackTrace();
 					}
 				}
-			 } );
+			 }, "InterpreterTest thread" );
 
 		interpreterThread.start();
 

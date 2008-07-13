@@ -11,7 +11,7 @@ package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RdfValue;
+import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
@@ -67,7 +67,7 @@ public class Type extends PrimitiveStackMapping
 			if ( null != type )
 			{
 				solutions.put( arg.with(
-						stack.push( new RdfValue( type ) ) ) );
+						stack.push( new RDFValue( type ) ) ) );
 			}
 		}
 	}

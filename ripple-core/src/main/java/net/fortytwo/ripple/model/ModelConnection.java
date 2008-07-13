@@ -13,7 +13,6 @@ import java.io.OutputStream;
 import java.util.Date;
 import java.util.Comparator;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Sink;
@@ -25,7 +24,6 @@ import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
-import org.openrdf.model.Literal;
 
 public interface ModelConnection
 {
@@ -58,10 +56,10 @@ public interface ModelConnection
 	URI toUri( RippleValue v ) throws RippleException;
 	void toList( RippleValue v, Sink<RippleList, RippleException> sink ) throws RippleException;
 
-	RdfValue findSingleObject( RippleValue subj, RippleValue pred )	throws RippleException;
-	RdfValue findAtLeastOneObject( RippleValue subj, RippleValue pred )	throws RippleException;
-	RdfValue findAtMostOneObject( RippleValue subj, RippleValue pred ) throws RippleException;
-	RdfValue findUniqueProduct( RippleValue subj, RippleValue pred ) throws RippleException;
+	RDFValue findSingleObject( RippleValue subj, RippleValue pred )	throws RippleException;
+	RDFValue findAtLeastOneObject( RippleValue subj, RippleValue pred )	throws RippleException;
+	RDFValue findAtMostOneObject( RippleValue subj, RippleValue pred ) throws RippleException;
+	RDFValue findUniqueProduct( RippleValue subj, RippleValue pred ) throws RippleException;
 
 	void copyStatements( RippleValue src, RippleValue dest ) throws RippleException;
 	void removeStatementsAbout( URI subj ) throws RippleException;
@@ -77,7 +75,7 @@ public interface ModelConnection
 	void remove( RippleValue subj, RippleValue pred, RippleValue obj, RippleValue... contexts ) throws RippleException;
 
 // FIXME: URIs should not be part of the ModelConnection API
-	void removeStatementsAbout( RdfValue subj, URI context ) throws RippleException;
+	void removeStatementsAbout( RDFValue subj, URI context ) throws RippleException;
 
 // FIXME: Resources should not be part of the ModelConnection API
 	public long countStatements( Resource... contexts ) throws RippleException;
@@ -92,15 +90,15 @@ public interface ModelConnection
 // FIXME: Statements should not be part of the ModelConnection API
 	Statement createStatement( Resource subj, URI pred, Value obj ) throws RippleException;
 
-    RdfValue createTypedLiteral( String label, RippleValue datatype ) throws RippleException;
+    RDFValue createTypedLiteral( String label, RippleValue datatype ) throws RippleException;
 
     Comparator<RippleValue> getComparator();
 
-    RdfValue value( String s ) throws RippleException;
-	RdfValue value( String s, String language ) throws RippleException;
+    RDFValue value( String s ) throws RippleException;
+	RDFValue value( String s, String language ) throws RippleException;
 // FIXME: this should use an implementation-independent URI class
-	RdfValue value( String s, URI datatype ) throws RippleException;
-	RdfValue value( boolean b ) throws RippleException;
+	RDFValue value( String s, URI datatype ) throws RippleException;
+	RDFValue value( boolean b ) throws RippleException;
     NumericValue value( int i ) throws RippleException;
 	NumericValue value( long l ) throws RippleException;
     NumericValue value( double d ) throws RippleException;
@@ -121,7 +119,7 @@ public interface ModelConnection
 // FIXME: Namespaces should not be part of the ModelConnection API
 	Source<Namespace, RippleException> getNamespaces() throws RippleException;
 // FIXME: Statements should not be part of the ModelConnection API
-	void getStatements( RdfValue subj, RdfValue pred, RdfValue obj, Sink<Statement, RippleException> sink, boolean includeInferred ) throws RippleException;
+	void getStatements( RDFValue subj, RDFValue pred, RDFValue obj, Sink<Statement, RippleException> sink, boolean includeInferred ) throws RippleException;
 
 	RDFSource getSource();
 

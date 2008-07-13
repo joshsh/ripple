@@ -19,7 +19,6 @@ import net.fortytwo.ripple.io.RDFImporter;
 import net.fortytwo.ripple.libs.stack.Dup;
 import net.fortytwo.ripple.rdf.RDFUtils;
 import net.fortytwo.ripple.rdf.SesameInputAdapter;
-import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.test.NewRippleTestCase;
 import net.fortytwo.ripple.flow.Collector;
 import net.fortytwo.ripple.RippleException;
@@ -28,8 +27,8 @@ import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.ListDequotation;
-import net.fortytwo.ripple.model.RdfValue;
-import net.fortytwo.ripple.model.RdfPredicateMapping;
+import net.fortytwo.ripple.model.RDFValue;
+import net.fortytwo.ripple.model.RDFPredicateMapping;
 import net.fortytwo.ripple.model.NullStackMapping;
 
 public class OperatorTest extends NewRippleTestCase
@@ -84,21 +83,21 @@ public class OperatorTest extends NewRippleTestCase
         assertTrue( ops.iterator().next().getMapping() instanceof ListDequotation );
 
         // rdf:nil --> ListDequotation
-        arg = new RdfValue( RDF.NIL );
+        arg = new RDFValue( RDF.NIL );
         ops.clear();
         Operator.createOperator( arg, ops, mc );
         assertEquals( 1, ops.size() );
         assertTrue( ops.iterator().next().getMapping() instanceof ListDequotation );
 
         // an rdf:List --> ListDequotation
-        arg = new RdfValue( mc.createUri( "urn:test.CreateOperatorTest#simpleList" ) );
+        arg = new RDFValue( mc.createUri( "urn:test.CreateOperatorTest#simpleList" ) );
         ops.clear();
         Operator.createOperator( arg, ops, mc );
         assertEquals( 1, ops.size() );
         assertTrue( ops.iterator().next().getMapping() instanceof ListDequotation );
 
         // a branching rdf:List --> multiple ListDequotations
-        arg = new RdfValue( mc.createUri( "urn:test.CreateOperatorTest#firstBranchingList" ) );
+        arg = new RDFValue( mc.createUri( "urn:test.CreateOperatorTest#firstBranchingList" ) );
         ops.clear();
         Operator.createOperator( arg, ops, mc );
         assertEquals( 2, ops.size() );
@@ -112,18 +111,18 @@ public class OperatorTest extends NewRippleTestCase
         assertTrue( ops.iterator().next().getMapping() instanceof Dup );
 
         // an rdf:Property --> RdfPredicateRelation
-        arg = new RdfValue( RDF.TYPE );
+        arg = new RDFValue( RDF.TYPE );
         ops.clear();
         Operator.createOperator( arg, ops, mc );
         assertEquals( 1, ops.size() );
-        assertTrue( ops.iterator().next().getMapping() instanceof RdfPredicateMapping);
+        assertTrue( ops.iterator().next().getMapping() instanceof RDFPredicateMapping);
 
         // a non-property RdfValue which is not anything else --> RdfPredicateRelation
-        arg = new RdfValue( RDF.BAG );
+        arg = new RDFValue( RDF.BAG );
         ops.clear();
         Operator.createOperator( arg, ops, mc );
         assertEquals( 1, ops.size() );
-        assertTrue( ops.iterator().next().getMapping() instanceof RdfPredicateMapping);
+        assertTrue( ops.iterator().next().getMapping() instanceof RDFPredicateMapping);
 
         // anything else --> NullFilter
         arg = mc.value( 42 );

@@ -17,7 +17,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Comparator;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
@@ -28,7 +27,7 @@ import net.fortytwo.ripple.control.TaskSet;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.NumericValue;
-import net.fortytwo.ripple.model.RdfValue;
+import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.GetStatementsQuery;
@@ -328,9 +327,9 @@ public class SesameModelConnection implements ModelConnection
     // TODO: this method is incomplete
 	public String toString( final RippleValue v ) throws RippleException
 	{
-		if ( v instanceof RdfValue )
+		if ( v instanceof RDFValue)
 		{
-			Value r = ( (RdfValue) v ).sesameValue();
+			Value r = ( (RDFValue) v ).sesameValue();
 
 			if ( r instanceof Literal )
 			{
@@ -369,18 +368,18 @@ public class SesameModelConnection implements ModelConnection
 	*  A <code>Sink</code> which remembers how many times it has received a
 	*  value, as well as the last value received.
 	*/
-	private class SingleValueSink implements Sink<RdfValue, RippleException>
+	private class SingleValueSink implements Sink<RDFValue, RippleException>
 	{
-		private RdfValue value = null;
+		private RDFValue value = null;
 		private int valuesReceived = 0;
 	
-		public void put( final RdfValue v ) throws RippleException
+		public void put( final RDFValue v ) throws RippleException
 		{
 			value = v;
 			valuesReceived++;
 		}
 	
-		public RdfValue getValue()
+		public RDFValue getValue()
 		{
 			return value;
 		}
@@ -391,11 +390,11 @@ public class SesameModelConnection implements ModelConnection
 		}
 	}
 	
-	public RdfValue findSingleObject( final RippleValue subj, final RippleValue pred )
+	public RDFValue findSingleObject( final RippleValue subj, final RippleValue pred )
 		throws RippleException
 	{
-		RdfValue subjRdf = subj.toRDF( this );
-		RdfValue predRdf = pred.toRDF( this );
+		RDFValue subjRdf = subj.toRDF( this );
+		RDFValue predRdf = pred.toRDF( this );
 		
 		SingleValueSink sink = new SingleValueSink();
 	
@@ -404,11 +403,11 @@ public class SesameModelConnection implements ModelConnection
 		return sink.getValue();
 	}
 	
-	public RdfValue findAtLeastOneObject( final RippleValue subj, final RippleValue pred )
+	public RDFValue findAtLeastOneObject( final RippleValue subj, final RippleValue pred )
 		throws RippleException
 	{
-		RdfValue subjRdf = subj.toRDF( this );
-		RdfValue predRdf = pred.toRDF( this );
+		RDFValue subjRdf = subj.toRDF( this );
+		RDFValue predRdf = pred.toRDF( this );
 		
 		SingleValueSink sink = new SingleValueSink();
 	
@@ -425,11 +424,11 @@ public class SesameModelConnection implements ModelConnection
 		}
 	}
 	
-	public RdfValue findAtMostOneObject( final RippleValue subj, final RippleValue pred )
+	public RDFValue findAtMostOneObject( final RippleValue subj, final RippleValue pred )
 		throws RippleException
 	{
-		RdfValue subjRdf = subj.toRDF( this );
-		RdfValue predRdf = pred.toRDF( this );
+		RDFValue subjRdf = subj.toRDF( this );
+		RDFValue predRdf = pred.toRDF( this );
 		
 		SingleValueSink sink = new SingleValueSink();
 	
@@ -448,13 +447,13 @@ public class SesameModelConnection implements ModelConnection
 		}
 	}
 	
-	public RdfValue findUniqueProduct( final RippleValue subj, final RippleValue pred )
+	public RDFValue findUniqueProduct( final RippleValue subj, final RippleValue pred )
 		throws RippleException
 	{
-		RdfValue subjRdf = subj.toRDF( this );
-		RdfValue predRdf = pred.toRDF( this );
+		RDFValue subjRdf = subj.toRDF( this );
+		RDFValue predRdf = pred.toRDF( this );
 		
-		RdfValue v = findAtMostOneObject( subjRdf, predRdf );
+		RDFValue v = findAtMostOneObject( subjRdf, predRdf );
 	
 		if ( null == v )
 		{
@@ -529,7 +528,7 @@ public class SesameModelConnection implements ModelConnection
 			{
 				if ( '_' == st.getPredicate().getLocalName().charAt( 0 ) )
 				{
-					sink.put( new RdfValue( st.getObject() ) );
+					sink.put( new RDFValue( st.getObject() ) );
 				}
 			}
 		};
@@ -601,122 +600,160 @@ public class SesameModelConnection implements ModelConnection
 		Value predValue = pred.toRDF( this ).sesameValue();
 		Value objValue = obj.toRDF( this ).sesameValue();
 
-        // Trick to be able to iterate through contexts even if none are given
-        if ( 0 == contexts.length )
-        {
-            contexts = new RippleValue[1];
-            contexts[0] = null;
-        }
-
         if ( !( subjValue instanceof Resource )
 				|| !( predValue instanceof URI ) )
 		{
 			return;
 		}
 
-        for ( RippleValue context : contexts )
+        try
         {
-            Value contextValue = ( null == context )
-                    ? null
-                    : context.toRDF( this ).sesameValue();
-
-            // rdf:nil is a special case -- as a graph name in Ripple, it
-            // actually represents the null graph.
-            if (null != contextValue && contextValue.equals(RDF.NIL))
+            // Trick to be able to iterate through contexts even if none are given
+            if ( 0 == contexts.length )
             {
-                contextValue = null;
+                sailConnection.addStatement(
+                        (Resource) subjValue, (URI) predValue, objValue );
             }
 
-            try
+            else
             {
-                if ( null == contextValue )
+                for ( RippleValue context : contexts )
                 {
-                    // TODO: move this logic up to LinkedDataSail
-                    if ( subjValue instanceof URI )
+                    Value contextValue;
+
+                    if ( null == context )
                     {
-                        sailConnection.addStatement(
-                            (Resource) subjValue, (URI) predValue, objValue,
-                            RDFUtils.inferContextUri( (URI) subjValue, valueFactory ) );
+                        contextValue = null;
                     }
 
                     else
                     {
-                        sailConnection.addStatement(
-                            (Resource) subjValue, (URI) predValue, objValue );
-                    }
-                }
+                        contextValue = context.toRDF( this ).sesameValue();
 
-                else
-                {
-                    if ( !( contextValue instanceof Resource ) )
-                    {
-                        return;
+                        // rdf:nil is a special case -- as a graph name in Ripple, it
+                        // actually represents the null graph.
+                        if ( contextValue.equals( RDF.NIL ) )
+                        {
+                            contextValue = null;
+                        }
+
+                        else if ( !( contextValue instanceof Resource ) )
+                        {
+                            return;
+                        }
                     }
 
                     sailConnection.addStatement(
                             (Resource) subjValue, (URI) predValue, objValue, (Resource) contextValue );
                 }
-
-                uncommittedChanges = true;
-            }
-
-            catch ( SailException e )
-            {
-                reset( true );
-                throw new RippleException( e );
             }
         }
+
+        catch ( SailException e )
+        {
+            reset( true );
+            throw new RippleException( e );
+        }
+
+        uncommittedChanges = true;
     }
 	
 	public void remove( final RippleValue subj, final RippleValue pred, final RippleValue obj, final RippleValue... contexts )
 		throws RippleException
 	{
-		Value subjValue = subj.toRDF( this ).sesameValue();
-		Value predValue = pred.toRDF( this ).sesameValue();
-		Value objValue = obj.toRDF( this ).sesameValue();
-	
-		if ( !( subjValue instanceof Resource )
-				|| !( predValue instanceof URI ) )
-		{
-			return;
-		}
+        Value subjValue, predValue, objValue;
 
-        Resource[] contextResources = new Resource[contexts.length];
-        for ( int i = 0; i < contexts.length ; i++ )
+        if ( null == subj )
         {
-            Value contextValue = contexts[i].toRDF( this ).sesameValue();
-            if ( !( contextValue instanceof Resource ) )
+            subjValue = null;
+        }
+
+        else
+        {
+            subjValue = subj.toRDF( this ).sesameValue();
+            if ( !( subjValue instanceof Resource ) )
             {
                 return;
             }
+        }
 
-            // rdf:nil is a special case -- as a graph name in Ripple, it
-            // actually represents the null graph.
-            if (null != contextValue && contextValue.equals(RDF.NIL))
+        if ( null == pred )
+        {
+            predValue = null;
+        }
+
+        else
+        {
+            predValue = pred.toRDF( this ).sesameValue();
+            if ( !( predValue instanceof URI ) )
             {
-                contextValue = null;
+                return;
+            }
+        }
+
+        if ( null == obj )
+        {
+            objValue = null;
+        }
+
+        else
+        {
+            objValue = obj.toRDF( this ).sesameValue();
+        }
+
+        try
+        {
+            // Trick to be able to iterate through contexts even if none are given
+            if ( 0 == contexts.length )
+            {
+                sailConnection.removeStatements(
+				    (Resource) subjValue, (URI) predValue, objValue );
             }
 
-            contextResources[i] = (Resource) contextValue;
-        }
-        
-        try
-		{
-			sailConnection.removeStatements(
-				(Resource) subjValue, (URI) predValue, objValue, contextResources );
+            else
+            {
+                for ( RippleValue context : contexts )
+                {
+                    Value contextValue;
 
-			uncommittedChanges = true;
-		}
-	
-		catch ( SailException e )
-		{
-			reset( true );
-			throw new RippleException( e );
-		}
+                    if ( null == context )
+                    {
+                        contextValue = null;
+                    }
+
+                    else
+                    {
+                        contextValue = context.toRDF( this ).sesameValue();
+
+                        // rdf:nil is a special case -- as a graph name in Ripple, it
+                        // actually represents the null graph.
+                        if ( contextValue.equals( RDF.NIL ) )
+                        {
+                            contextValue = null;
+                        }
+
+                        else if ( !( contextValue instanceof Resource ) )
+                        {
+                            return;
+                        }
+                    }
+
+                    sailConnection.removeStatements(
+                            (Resource) subjValue, (URI) predValue, objValue, (Resource) contextValue );
+                }
+            }
+        }
+
+        catch ( SailException e )
+        {
+            reset( true );
+            throw new RippleException( e );
+        }
+
+        uncommittedChanges = true;
 	}
 	
-	//FIXME: URIs should be absent from the ModelConnection API
-	public void removeStatementsAbout( final RdfValue subj, final URI context )
+	public void removeStatementsAbout( final RDFValue subj, final URI context )
 		throws RippleException
 	{
 		Value subjValue = subj.toRDF( this ).sesameValue();
@@ -956,7 +993,7 @@ public class SesameModelConnection implements ModelConnection
 	
 	////////////////////////////////////////////////////////////////////////////
 
-    public RdfValue createTypedLiteral( final String value, final RippleValue type ) throws RippleException
+    public RDFValue createTypedLiteral( final String value, final RippleValue type ) throws RippleException
 	{
 		Value v = type.toRDF( this ).sesameValue();
 	
@@ -985,11 +1022,11 @@ public class SesameModelConnection implements ModelConnection
 		return model.specialValues.get( v );
 	}
 	
-	public RdfValue value( final String s ) throws RippleException
+	public RDFValue value( final String s ) throws RippleException
 	{
 		try
 		{
-			return new RdfValue(
+			return new RDFValue(
                     valueFactory.createLiteral( s ) );
 //                    valueFactory.createLiteral( s, XMLSchema.STRING ) );
 		}
@@ -1001,12 +1038,12 @@ public class SesameModelConnection implements ModelConnection
 		}
 	}
 	
-	public RdfValue value( final String s, final String language )
+	public RDFValue value( final String s, final String language )
 		throws RippleException
 	{
 		try
 		{
-			return new RdfValue(
+			return new RDFValue(
 				valueFactory.createLiteral( s, language ) );
 		}
 	
@@ -1017,12 +1054,12 @@ public class SesameModelConnection implements ModelConnection
 		}
 	}
 	
-	public RdfValue value( final String s, final URI dataType )
+	public RDFValue value( final String s, final URI dataType )
 		throws RippleException
 	{
 		try
 		{
-			return new RdfValue(
+			return new RDFValue(
 				valueFactory.createLiteral( s, dataType ) );
 		}
 	
@@ -1033,12 +1070,12 @@ public class SesameModelConnection implements ModelConnection
 		}
 	}
 	
-	public RdfValue value( final boolean b )
+	public RDFValue value( final boolean b )
 		throws RippleException
 	{
 		try
 		{
-			return new RdfValue(
+			return new RDFValue(
 				valueFactory.createLiteral( "" + b, XMLSchema.BOOLEAN ) );
 		}
 	
@@ -1222,9 +1259,9 @@ public class SesameModelConnection implements ModelConnection
 	}
 	
 	//FIXME: Statements should be absent from the ModelConnection API
-	public void getStatements( final RdfValue subj,
-								final RdfValue pred,
-								final RdfValue obj,
+	public void getStatements( final RDFValue subj,
+								final RDFValue pred,
+								final RDFValue obj,
 								final Sink<Statement, RippleException> sink,
 								final boolean includeInferred)
 		throws RippleException
@@ -1321,14 +1358,14 @@ public class SesameModelConnection implements ModelConnection
 		};
 	}
 
-	private void multiplyRdfValues( final RdfValue subj, final RdfValue pred, final Sink<RdfValue, RippleException> sink )
+	private void multiplyRdfValues( final RDFValue subj, final RDFValue pred, final Sink<RDFValue, RippleException> sink )
 		throws RippleException
 	{
 		Sink<Statement, RippleException> stSink = new Sink<Statement, RippleException>()
 		{
 			public void put( final Statement st ) throws RippleException
 			{
-				sink.put( new RdfValue( st.getObject() ) );
+				sink.put( new RDFValue( st.getObject() ) );
 			}
 		};
 	
@@ -1368,7 +1405,7 @@ public class SesameModelConnection implements ModelConnection
 	
 			while ( iter.hasNext() )
 			{
-				sink.put( new RdfValue( iter.next() ) );
+				sink.put( new RDFValue( iter.next() ) );
 			}
 			
 			iter.close();

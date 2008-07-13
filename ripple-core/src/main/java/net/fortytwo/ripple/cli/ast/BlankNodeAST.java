@@ -12,7 +12,7 @@ package net.fortytwo.ripple.cli.ast;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RdfValue;
+import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.query.QueryEngine;
@@ -36,7 +36,7 @@ public class BlankNodeAST implements AST<RippleList>
 						final ModelConnection mc )
 		throws RippleException
 	{
-		RippleValue v = new RdfValue( mc.createBNode( id ) );
+		RippleValue v = new RDFValue( mc.createBNode( id ) );
 
 		if ( null == v )
 		{

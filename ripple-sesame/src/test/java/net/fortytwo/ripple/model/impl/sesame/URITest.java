@@ -16,7 +16,7 @@ import java.io.InputStreamReader;
 import java.util.Iterator;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.model.RdfValue;
+import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StatementPatternQuery;
@@ -69,7 +69,7 @@ public class URITest extends RippleTestCase
 		}
 	}
 
-	static RdfValue
+	static RDFValue
 		BASE,
 		COMMENT,
 		FRAG,
@@ -90,20 +90,20 @@ public class URITest extends RippleTestCase
 		String uriNs = "http://id.ninebynine.org/wip/2004/uritest/";
 		ModelConnection mc = getTestModel().getConnection( "for GrahamKlyneCasesTest" );
 
-		COMMENT = new RdfValue( RDFS.COMMENT );
-		LABEL = new RdfValue( RDFS.LABEL );
-		TYPE = new RdfValue( RDF.TYPE );
+		COMMENT = new RDFValue( RDFS.COMMENT );
+		LABEL = new RDFValue( RDFS.LABEL );
+		TYPE = new RDFValue( RDF.TYPE );
 
-		BASE = new RdfValue( mc.createUri( uriNs + "base" ) );
-		FRAG = new RdfValue( mc.createUri( uriNs + "frag" ) );
-		PATH = new RdfValue( mc.createUri( uriNs + "path" ) );
-		PORT = new RdfValue( mc.createUri( uriNs + "port" ) );
-		QUERY = new RdfValue( mc.createUri( uriNs + "query" ) );
-		REG = new RdfValue( mc.createUri( uriNs + "reg" ) );
-		SCHEME = new RdfValue( mc.createUri( uriNs + "scheme" ) );
-		TEST = new RdfValue( mc.createUri( uriNs + "test" ) );
-		URITEST = new RdfValue( mc.createUri( uriNs + "UriTest" ) );
-		USER = new RdfValue( mc.createUri( uriNs + "user" ) );
+		BASE = new RDFValue( mc.createUri( uriNs + "base" ) );
+		FRAG = new RDFValue( mc.createUri( uriNs + "frag" ) );
+		PATH = new RDFValue( mc.createUri( uriNs + "path" ) );
+		PORT = new RDFValue( mc.createUri( uriNs + "port" ) );
+		QUERY = new RDFValue( mc.createUri( uriNs + "query" ) );
+		REG = new RDFValue( mc.createUri( uriNs + "reg" ) );
+		SCHEME = new RDFValue( mc.createUri( uriNs + "scheme" ) );
+		TEST = new RDFValue( mc.createUri( uriNs + "test" ) );
+		URITEST = new RDFValue( mc.createUri( uriNs + "UriTest" ) );
+		USER = new RDFValue( mc.createUri( uriNs + "user" ) );
 
 		mc.close();
 	}
@@ -111,7 +111,7 @@ public class URITest extends RippleTestCase
 	static String strVal( RippleValue subj, RippleValue pred, ModelConnection mc )
 		throws Exception
 	{
-		RdfValue obj = mc.findSingleObject( subj, pred );
+		RDFValue obj = mc.findSingleObject( subj, pred );
 		
 		if ( null == obj )
 		{

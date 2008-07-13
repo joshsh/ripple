@@ -13,7 +13,7 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.RdfValue;
+import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.URIMap;
 import org.openrdf.model.Value;
@@ -58,7 +58,7 @@ public class StringLibrary extends Library
 		registerPrimitive( UrlEncode.class, context );
 	}
 
-    public static RdfValue value( final String label,
+    public static RDFValue value( final String label,
                                   final ModelConnection mc,
                                   final RippleValue... operands ) throws RippleException
     {

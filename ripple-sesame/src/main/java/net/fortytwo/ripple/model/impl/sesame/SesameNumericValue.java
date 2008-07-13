@@ -17,14 +17,13 @@ import org.openrdf.model.vocabulary.XMLSchema;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.NumericValue;
-import net.fortytwo.ripple.model.RdfValue;
+import net.fortytwo.ripple.model.RDFValue;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
 public class SesameNumericValue extends NumericValue {
 
-	private RdfValue rdfEquivalent = null;
+	private RDFValue rdfEquivalent = null;
 
 	public SesameNumericValue( final int i )
 	{
@@ -56,7 +55,7 @@ public class SesameNumericValue extends NumericValue {
 		number = b;
 	}
 
-	public SesameNumericValue( final RdfValue rdf )
+	public SesameNumericValue( final RDFValue rdf )
 		throws RippleException
 	{
 		rdfEquivalent = rdf;
@@ -151,7 +150,7 @@ public class SesameNumericValue extends NumericValue {
 		}
 	}
 	
-	public RdfValue toRDF( final ModelConnection mc )
+	public RDFValue toRDF( final ModelConnection mc )
 		throws RippleException
 	{
 		SesameModelConnection smc = (SesameModelConnection) mc;
@@ -162,19 +161,19 @@ public class SesameNumericValue extends NumericValue {
 				case INTEGER:
                     // Don't use ValueFactory.creatLiteral(int), which (at
                     // least in this case) produces xsd:int instead of xsd:integer
-                    rdfEquivalent = new RdfValue( smc.getValueFactory().createLiteral( "" + number.intValue(), XMLSchema.INTEGER ) );
+                    rdfEquivalent = new RDFValue( smc.getValueFactory().createLiteral( "" + number.intValue(), XMLSchema.INTEGER ) );
 					break;
 				case LONG:
-					rdfEquivalent = new RdfValue( smc.getValueFactory().createLiteral( number.longValue() ) );
+					rdfEquivalent = new RDFValue( smc.getValueFactory().createLiteral( number.longValue() ) );
 					break;
 				case DOUBLE:
-					rdfEquivalent = new RdfValue( smc.getValueFactory().createLiteral( number.doubleValue() ) );
+					rdfEquivalent = new RDFValue( smc.getValueFactory().createLiteral( number.doubleValue() ) );
 					break;
 				case FLOAT:
-					rdfEquivalent = new RdfValue( smc.getValueFactory().createLiteral( number.floatValue() ) );
+					rdfEquivalent = new RDFValue( smc.getValueFactory().createLiteral( number.floatValue() ) );
 					break;
                 case DECIMAL:
-                    rdfEquivalent = new RdfValue( smc.getValueFactory().createLiteral( number.toString(), XMLSchema.DECIMAL ) );
+                    rdfEquivalent = new RDFValue( smc.getValueFactory().createLiteral( number.toString(), XMLSchema.DECIMAL ) );
                     break;
             }
 		}

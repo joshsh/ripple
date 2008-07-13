@@ -16,7 +16,7 @@ import net.fortytwo.ripple.rdf.SesameInputAdapter;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.io.RDFImporter;
 import net.fortytwo.ripple.rdf.RDFSink;
-import net.fortytwo.ripple.model.RdfValue;
+import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
@@ -128,7 +128,7 @@ URI ctx = mc.createUri( url.toString() );
 							&& st.getObject().equals( swoogleQueryResponseUri ) )
 					{
 						buffer.put( arg.with(
-								stackFinal.push( new RdfValue( st.getSubject() ) ) ) );
+								stackFinal.push( new RDFValue( st.getSubject() ) ) ) );
 					}
 				}
 			};

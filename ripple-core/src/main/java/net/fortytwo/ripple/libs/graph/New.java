@@ -11,7 +11,7 @@ package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RdfValue;
+import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
@@ -54,7 +54,7 @@ public class New extends PrimitiveStackMapping
 
 		// Note: stack may be null (and this should not be a problem).
 		RippleList result = stack.push(
-			new RdfValue( mc.createBNode() ) );
+			new RDFValue( mc.createBNode() ) );
 //System.out.println( "Creating a new node" );
 
 		solutions.put( arg.with( result ) );

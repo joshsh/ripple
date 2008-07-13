@@ -11,36 +11,37 @@ package net.fortytwo.linkeddata.sail;
 
 import info.aduna.iteration.CloseableIteration;
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.URIMap;
 import net.fortytwo.ripple.rdf.diff.RDFDiffBuffer;
 import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
-import net.fortytwo.ripple.rdf.diff.RDFDiffTee;
 import net.fortytwo.ripple.rdf.diff.SynchronizedRDFDiffSink;
+import net.fortytwo.ripple.rdf.diff.RDFDiffTee;
+import net.fortytwo.ripple.rdf.RDFUtils;
 import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.ripple.URIMap;
 import net.fortytwo.linkeddata.WebClosure;
 import net.fortytwo.linkeddata.SparqlUpdater;
 import org.apache.log4j.Logger;
-import org.openrdf.model.Namespace;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.ValueFactory;
+import org.openrdf.model.Namespace;
 import org.openrdf.model.impl.NamespaceImpl;
-import org.openrdf.query.BindingSet;
-import org.openrdf.query.Dataset;
-import org.openrdf.query.QueryEvaluationException;
-import org.openrdf.query.algebra.TupleExpr;
-import org.openrdf.query.algebra.evaluation.TripleSource;
-import org.openrdf.query.algebra.evaluation.impl.EvaluationStrategyImpl;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailConnectionListener;
 import org.openrdf.sail.SailException;
+import org.openrdf.query.algebra.evaluation.TripleSource;
+import org.openrdf.query.algebra.evaluation.impl.EvaluationStrategyImpl;
+import org.openrdf.query.algebra.TupleExpr;
+import org.openrdf.query.BindingSet;
+import org.openrdf.query.QueryEvaluationException;
+import org.openrdf.query.Dataset;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
+import java.util.Iterator;
 
 /**
  * A thread-safe SailConnection for LinkedDataSail.
@@ -94,37 +95,41 @@ public class LinkedDataSailConnection implements SailConnection
 	}
 
 	public void addStatement( final Resource subj,
-							final URI pred,
-							final Value obj,
-							final Resource... contexts )
+                              final URI pred,
+                              final Value obj,
+                              final Resource... contexts )
 		throws SailException
 	{
-		Sink<Statement, RippleException> sink = apiInputSink.adderSink().statementSink();
+		Sink<Statement, RippleException> adderSink = apiInputSink.adderSink().statementSink();
 
 		try
 		{
-// FIXME: both of these conditions are probably not necessary
-			if ( null == contexts || 0 == contexts.length )
-			{
-				synchronized ( sparqlUpdater )
-				{
-					sink.put( valueFactory.createStatement(
+            synchronized ( sparqlUpdater )
+            {
+                if ( 0 == contexts.length )
+			    {
+					adderSink.put( valueFactory.createStatement(
 						subj, pred, obj ) );
 				}
-			}
 
-			else
-			{
-				synchronized ( sparqlUpdater )
-				{				
+                else
+                {
 					for ( int i = 0; i < contexts.length; i++ )
 					{
-						sink.put( valueFactory.createStatement(
-							subj, pred, obj, contexts[i] ) );
+                        Resource context = contexts[i];
+
+                        // TODO: move this logic... elsewhere.
+                        if ( null == context )
+                        {
+                            context = RDFUtils.inferContextURI( subj, valueFactory );
+                        }
+
+                        adderSink.put( valueFactory.createStatement(
+							subj, pred, obj, context ) );
 					}
 				}
 			}
-		}
+        }
 
 		catch ( RippleException e )
 		{

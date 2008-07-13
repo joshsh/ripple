@@ -34,7 +34,7 @@ public class StackMappingWrapper extends PrimitiveStackMapping
         this.innerMapping = wrapped;
         
         // Uses a random identifier... not for actual use
-        setRdfEquivalent( new RdfValue( mc.createBNode() ), mc );
+        setRdfEquivalent( new RDFValue( mc.createBNode() ), mc );
 //System.out.println("created a StackMappingWrapper: " + this + " for mapping " + innerMapping);
     }
 

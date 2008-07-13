@@ -12,13 +12,12 @@ package net.fortytwo.ripple.libs.services;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RdfValue;
+import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.util.HTTPUtils;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.StringUtils;
-import net.fortytwo.ripple.libs.etc.EtcLibrary;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.jdom.Document;
@@ -172,7 +171,7 @@ public class Uriqr extends PrimitiveStackMapping
 				URI resultUri = mc.createUri( text );
 
 				solutions .put( arg.with(
-						stack.push(	new RdfValue( resultUri ) ) ) );
+						stack.push(	new RDFValue( resultUri ) ) ) );
 			}
 
 			throw new RippleException( "unexpected result format" );

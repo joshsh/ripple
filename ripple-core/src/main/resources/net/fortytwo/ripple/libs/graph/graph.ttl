@@ -179,7 +179,7 @@ graph:forget
 
 graph:inContext
 	a rpl:Function ;
-	rpl:arity 2 ;
+	rpl:arity 3 ;
 	rpl:parameters (
 		[
 			rdfs:label "pred" ;
@@ -189,12 +189,12 @@ graph:inContext
 			rpl:isTransparent true ]
 		) ;
 	rdfs:label "inContext" ;
-	rdfs:comment "pred ctx  =>  pred' (where pred' is the RDF predicate mapping for predicate pred, but constrained to named graph ctx)" ;
+	rdfs:comment "subj pred ctx  =>  obj" ;
 	.
 	
 graph:infer
 	a rpl:Function ;
-	rpl:arity 1 ;
+	rpl:arity 2 ;
 	rpl:parameters (
 		[
 			rdfs:label "pred" ;
@@ -202,6 +202,21 @@ graph:infer
 		) ;
 	rdfs:label "infer" ;
 	rdfs:comment "subj pred  =>  obj (where obj may be an inferred object)" ;
+	.
+
+graph:inferInContext
+	a rpl:Function ;
+	rpl:arity 3 ;
+	rpl:parameters (
+		[
+			rdfs:label "pred" ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "ctx" ;
+			rpl:isTransparent true ]
+		) ;
+	rdfs:label "inferInContext" ;
+	rdfs:comment "subj pred ctx  =>  obj (where obj may be an inferred object)" ;
 	.
 
 graph:inlinks

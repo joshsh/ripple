@@ -50,6 +50,7 @@ public class ReadOnlyGraphLibrary extends Library
 		// Resource-centric primitives.
         registerPrimitive( InContext.class, context );
 		registerPrimitive( Infer.class, context );
+        registerPrimitive( InferInContext.class, context );
 		registerPrimitive( Links.class, context );
 
 		// Document-centric primitives.

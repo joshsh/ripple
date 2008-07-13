@@ -14,7 +14,7 @@ import net.fortytwo.ripple.io.RipplePrintStream;
 
 public interface RippleValue
 {
-	RdfValue toRDF( ModelConnection mc )
+	RDFValue toRDF( ModelConnection mc )
 		throws RippleException;
 
 	boolean isActive();

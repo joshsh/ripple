@@ -21,16 +21,16 @@ public class Operator implements RippleValue
 {
 	public static final Operator OP = new Operator( new Op() );
 
-	private static final RdfValue RDF_FIRST = new RdfValue( RDF.FIRST );
-	private static final RdfValue RDF_NIL = new RdfValue( RDF.NIL );
+	private static final RDFValue RDF_FIRST = new RDFValue( RDF.FIRST );
+	private static final RDFValue RDF_NIL = new RDFValue( RDF.NIL );
 
 	private final StackMapping mapping;
 
-    private RdfValue rdfEquivalent = null;
+    private RDFValue rdfEquivalent = null;
 
-	private Operator( final RdfValue pred ) throws RippleException
+	private Operator( final RDFValue pred ) throws RippleException
 	{
-		mapping = new RdfPredicateMapping( pred, Ripple.useInference() );
+		mapping = new RDFPredicateMapping( StatementPatternQuery.Pattern.SP_O, pred, null, Ripple.useInference() );
 	}
 
 	public Operator( final StackMapping mapping )
@@ -66,13 +66,13 @@ public class Operator implements RippleValue
 		return true;
 	}
 
-public RdfValue toRDF( final ModelConnection mc )
+public RDFValue toRDF( final ModelConnection mc )
 	throws RippleException
 {
 // Note: only correct for OP, but I expect this method only to be used with OP anyway
 if ( null == rdfEquivalent )
 {
-	rdfEquivalent = new RdfValue( mc.createUri( "http://fortytwo.net/2007/03/ripple/schema#op" ) );
+	rdfEquivalent = new RDFValue( mc.createUri( "http://fortytwo.net/2007/03/ripple/schema#op" ) );
 }
 return rdfEquivalent;
 }
@@ -101,9 +101,9 @@ return rdfEquivalent;
 
 		// This is the messy part.  Attempt to guess the type of the object from
 		// the available RDF statements, and create the appropriate object.
-		if ( v instanceof RdfValue )
+		if ( v instanceof RDFValue)
 		{
-            if ( isRDFList( (RdfValue) v, mc ) )
+            if ( isRDFList( (RDFValue) v, mc ) )
 			{
                 Sink<RippleList, RippleException> listSink = new Sink<RippleList, RippleException>()
 				{
@@ -119,9 +119,9 @@ return rdfEquivalent;
 			}
 
 			// An RDF value not otherwise recognizable becomes a predicate filter.
-			else if ( ( (RdfValue) v ).sesameValue() instanceof Resource )
+			else if ( ( (RDFValue) v ).sesameValue() instanceof Resource )
 			{
-				opSink.put( new Operator( (RdfValue) v ) );
+				opSink.put( new Operator( (RDFValue) v ) );
 				return;
 			}
         }
@@ -135,7 +135,7 @@ return rdfEquivalent;
 	}
 
 // TODO: replace this with something a little more clever
-	public static boolean isRDFList( final RdfValue v, final ModelConnection mc )
+	public static boolean isRDFList( final RDFValue v, final ModelConnection mc )
 		throws RippleException
 	{
 		return ( v.sesameValue().equals( RDF.NIL )

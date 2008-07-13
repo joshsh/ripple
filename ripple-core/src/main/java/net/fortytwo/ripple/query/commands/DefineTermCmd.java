@@ -13,7 +13,7 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Collector;
 import net.fortytwo.ripple.cli.ast.ListAST;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RdfValue;
+import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
@@ -68,7 +68,7 @@ public class DefineTermCmd extends Command
 
 // TODO: check for collision with an existing URI
 			URI uri = mc.createUri( qe.getDefaultNamespace() + name);
-			mc.copyStatements( expr, new RdfValue( uri ) );
+			mc.copyStatements( expr, new RDFValue( uri ) );
 			mc.commit();
 
 			qe.getLexicon().add( uri );

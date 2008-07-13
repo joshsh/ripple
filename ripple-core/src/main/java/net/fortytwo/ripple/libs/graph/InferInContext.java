@@ -18,36 +18,33 @@ import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.StackMapping;
 
-public class InContext extends RDFPredicateStackMapping
+public class InferInContext extends RDFPredicateStackMapping
 {
 	private static final int ARITY = 3;
 
     private static final String[] IDENTIFIERS = {
-            // FIXME: this is a kludge for programs created by Ripple 0.5-dev.  Remove this alias when it is no longer needed
-            GraphLibrary.NS_2007_08 + "inContext",
-
-            GraphLibrary.NS_2008_06 + "inContext"};
+            GraphLibrary.NS_2007_08 + "inferInContext"};
 
     public String[] getIdentifiers()
     {
         return IDENTIFIERS;
     }
 
-	public InContext() throws RippleException
+	public InferInContext() throws RippleException
 	{
 		super( false );
 
-        this.inverse = new InContext( this );
+        this.inverse = new InferInContext( this );
 	}
 
-    private InContext( final StackMapping original ) throws RippleException
+    private InferInContext( final StackMapping original ) throws RippleException
     {
         super( true );
 
         this.inverse = original;
     }
 
-    public int arity()
+	public int arity()
 	{
 		return ARITY;
 	}
@@ -64,7 +61,7 @@ public class InContext extends RDFPredicateStackMapping
         RDFValue pred = stack.getFirst().toRDF( mc );
         stack = stack.getRest();
 
-        RDFPredicateMapping mapping = getMapping( pred, context, false );
+        RDFPredicateMapping mapping = getMapping( pred, context, true );
 
         solutions.put( arg.with(
 				stack.push( new Operator( mapping ) ) ) );
