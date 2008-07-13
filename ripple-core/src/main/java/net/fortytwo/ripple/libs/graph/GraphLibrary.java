@@ -35,12 +35,12 @@ public class GraphLibrary extends Library
 			NS_2008_06, getClass().getResource( "graph.ttl" ) + "#" );
 
         registerPrimitive( Assert.class, context );
-        registerPrimitive( AssertIn.class, context );
+        registerPrimitive( AssertInContext.class, context );
 		registerPrimitive( Members.class, context );
 //		registerPrimitive( Count.class, NS_2008_06 + "count", context );
 		registerPrimitive( Compare.class, context );
         registerPrimitive( Deny.class, context );
-        registerPrimitive( DenyIn.class, context );
+        registerPrimitive( DenyInContext.class, context );
 		registerPrimitive( Equal.class, context );
 		registerPrimitive( Forget.class, context );
 		registerPrimitive( New.class, context );

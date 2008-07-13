@@ -14,11 +14,11 @@ public class InferInContextTest extends NewRippleTestCase
     public void testSimple() throws Exception
     {
         reduce( "@prefix ex: <http://example.org/inferInContextTest/> ." );
-        reduce( "ex:ClassA rdf:type rdfs:Class ex:ctx1 assertIn >> .\n"
-                + "ex:ClassB rdf:type rdfs:Class ex:ctx1 assertIn >>\n"
-                + "    rdfs:subClassOf ex:ClassA ex:ctx1 assertIn >> .\n"
-                + "ex:a rdf:type ex:ClassB ex:ctx1 assertIn >> .\n"
-                + "ex:b rdf:type ex:ClassB ex:ctx2 assertIn >> ." );
+        reduce( "ex:ClassA rdf:type rdfs:Class ex:ctx1 assertInContext >> .\n"
+                + "ex:ClassB rdf:type rdfs:Class ex:ctx1 assertInContext >>\n"
+                + "    rdfs:subClassOf ex:ClassA ex:ctx1 assertInContext >> .\n"
+                + "ex:a rdf:type ex:ClassB ex:ctx1 assertInContext >> .\n"
+                + "ex:b rdf:type ex:ClassB ex:ctx2 assertInContext >> ." );
 
         // TODO: restore the two commented-out test cases below, which are the
         // only ones which distinguish graph:inferInContext from

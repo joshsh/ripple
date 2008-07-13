@@ -28,7 +28,7 @@ graph:assert
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/graph#assert> ;
 	.
 
-graph:assertIn
+graph:assertInContext
 	a rpl:Function ;
 	rpl:arity 4 ;
 	rpl:parameters (
@@ -49,7 +49,7 @@ graph:assertIn
 			rdfs:comment "the named graph context of the assertion" ;
 			rpl:isTransparent false ]
 		) ;
-	rdfs:label "assertIn" ;
+	rdfs:label "assertInContext" ;
 	rdfs:comment "s p o g  =>  s  -- has the side-effect of asserting the statement (s, p, o, g)" ;
 	.
 
@@ -122,7 +122,7 @@ graph:deny
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/graph#deny> ;
 	.
 
-graph:denyIn
+graph:denyInContext
 	a rpl:Function ;
 	rpl:arity 4 ;
 	rpl:parameters (
@@ -143,7 +143,7 @@ graph:denyIn
 			rdfs:comment "the named graph context of the assertion" ;
 			rpl:isTransparent false ]
 		) ;
-	rdfs:label "denyIn" ;
+	rdfs:label "denyInContext" ;
 	rdfs:comment "s p o g =>  s  -- has the side-effect of revoking the statement (s, p, o, g)" ;
 	.
 

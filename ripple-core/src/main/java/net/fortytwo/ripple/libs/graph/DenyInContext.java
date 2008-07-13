@@ -22,19 +22,19 @@ import net.fortytwo.ripple.model.RippleList;
  * A primitive which consumes a subject, predicate and object, then produces the
  * subject after removing the corresponding RDF statement from the triple store.
  */
-public class DenyIn extends PrimitiveStackMapping
+public class DenyInContext extends PrimitiveStackMapping
 {
 	private static final int ARITY = 4;
 
     private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_2008_06 + "denyIn"};
+            GraphLibrary.NS_2008_06 + "denyInContext"};
 
     public String[] getIdentifiers()
     {
         return IDENTIFIERS;
     }
 
-	public DenyIn()
+	public DenyInContext()
 		throws RippleException
 	{
 		super();

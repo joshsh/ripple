@@ -22,19 +22,19 @@ import net.fortytwo.ripple.model.StackContext;
  * A primitive which consumes a subject, predicate and object, then produces the
  * subject after adding the corresponding RDF statement to the triple store.
  */
-public class AssertIn extends PrimitiveStackMapping
+public class AssertInContext extends PrimitiveStackMapping
 {
 	private static final int ARITY = 4;
 
     private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_2008_06 + "assertIn"};
+            GraphLibrary.NS_2008_06 + "assertInContext"};
 
     public String[] getIdentifiers()
     {
         return IDENTIFIERS;
     }
 
-	public AssertIn()
+	public AssertInContext()
 		throws RippleException
 	{
 		super();
