@@ -85,5 +85,27 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
         return new NullStackMapping();
     }
 
+    public boolean equals( final Object other )
+    {
+        return ( other instanceof PrimitiveStackMapping )
+                ? ( null == rdfEquivalent )
+                        ? ( null == ( (PrimitiveStackMapping) other ).rdfEquivalent )
+                        : false
+                : ( null == ( (PrimitiveStackMapping) other ).rdfEquivalent )
+                        ? false
+                        : rdfEquivalent.equals( ( (PrimitiveStackMapping) other ).rdfEquivalent );
+    }
+
+    public int hashCode()
+    {
+        int code = 298357625;
+
+        if ( null != rdfEquivalent )
+        {
+            code += rdfEquivalent.hashCode();
+        }
+
+        return code;
+    }
 }
 

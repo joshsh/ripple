@@ -197,4 +197,52 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
 
         return javaList;
     }
+
+    public boolean equals( final Object other )
+    {
+        if ( other instanceof RippleList )
+        {
+            RippleList cur = this;
+            RippleList cur2 = (RippleList) other;
+
+            while ( !cur.isNil() )
+            {
+                if ( cur2.isNil() )
+                {
+                    return false;
+                }
+
+                if ( !cur.getFirst().equals( cur2.getFirst() ) )
+                {
+                    return false;
+                }
+
+                cur = cur.getRest();
+                cur2 = cur2.getRest();
+            }
+
+            return cur2.isNil();
+        }
+
+        else
+        {
+            return false;
+        }
+    }
+
+    public int hashCode()
+    {
+        int code = 1320672831;
+        int pow = 2;
+
+        RippleList cur = this;
+        while ( !cur.isNil() )
+        {
+            code += pow * cur.getFirst().hashCode();
+            pow *= 2;
+            cur = cur.getRest();
+        }
+
+        return code;
+    }
 }

@@ -22,7 +22,6 @@ public class Operator implements RippleValue
 	public static final Operator OP = new Operator( new Op() );
 
 	private static final RDFValue RDF_FIRST = new RDFValue( RDF.FIRST );
-	private static final RDFValue RDF_NIL = new RDFValue( RDF.NIL );
 
 	private final StackMapping mapping;
 
@@ -50,7 +49,20 @@ public class Operator implements RippleValue
 		return mapping;
 	}
 
-	public String toString()
+    // TODO: implement equals() and hashCode() for all StackMappings
+    public boolean equals( final Object other )
+    {
+        return ( other instanceof Operator )
+                ? ( (Operator) other ).mapping.equals( mapping )
+                : false;
+    }
+
+    public int hashCode()
+    {
+        return 630572943 + mapping.hashCode();
+    }
+
+    public String toString()
 	{
 		return "Operator(" + mapping + ")";
 	}

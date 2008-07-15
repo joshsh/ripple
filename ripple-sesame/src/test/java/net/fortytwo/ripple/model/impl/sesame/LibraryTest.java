@@ -13,37 +13,24 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.test.RippleTestCase;
+import net.fortytwo.ripple.test.NewRippleTestCase;
 import org.openrdf.model.Value;
 
-public class LibraryTest extends RippleTestCase
+public class LibraryTest extends NewRippleTestCase
 {
-	private class PrimitiveAliasTest extends TestRunnable
-	{
-		public void test()
-			throws Exception
-		{
-			ModelConnection mc = getTestModel().getConnection( "for PrimitiveAliasTest" );
+    public void testPrimitiveAlias() throws Exception
+    {
+        Value dup05 = modelConnection.createUri( "http://fortytwo.net/2007/05/ripple/stack#dup" );
+        Value dup08 = modelConnection.createUri( "http://fortytwo.net/2007/08/ripple/stack#dup" );
 
-			Value dup05 = mc.createUri( "http://fortytwo.net/2007/05/ripple/stack#dup" );
-		    Value dup08 = mc.createUri( "http://fortytwo.net/2007/08/ripple/stack#dup" );
+        RippleValue dup05Val = modelConnection.value( dup05 );
+        RippleValue dup08Val = modelConnection.value( dup08 );
 
-			RippleValue dup05Val = mc.value( dup05 );
-			RippleValue dup08Val = mc.value( dup08 );
+        assertNotNull( dup05Val );
+        assertNotNull( dup08Val );
+        assertTrue( dup05Val instanceof PrimitiveStackMapping );
+        assertTrue( dup08Val instanceof PrimitiveStackMapping );
 
-			assertNotNull( dup05Val );
-			assertNotNull( dup08Val );
-			assertTrue( dup05Val instanceof PrimitiveStackMapping);
-			assertTrue( dup08Val instanceof PrimitiveStackMapping);
-
-			assertEquals( dup05Val, dup08Val );
-
-			mc.close();
-		}
-	}
-
-	public void runTests()
-		throws Exception
-	{
-		testSynchronous( new PrimitiveAliasTest() );
-	}
+        assertEquals( dup05Val, dup08Val );
+    }
 }

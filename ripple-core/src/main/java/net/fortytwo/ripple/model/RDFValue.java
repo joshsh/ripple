@@ -51,7 +51,21 @@ public class RDFValue implements RippleValue
 		return false;
 	}
 
-	public String toString()
+    public boolean equals( final Object other )
+    {
+        // Note: Sesame's Value classes don't appear to have reasonable
+        // implementations of equals() and hashCode().
+        return ( other instanceof RDFValue )
+                ? ( (RDFValue) other ).value.toString().equals( value.toString() )
+                : false;
+    }
+
+    public int hashCode()
+    {
+        return 957832376 + value.toString().hashCode();
+    }
+
+    public String toString()
 	{
 		if ( value instanceof URI )
 		{

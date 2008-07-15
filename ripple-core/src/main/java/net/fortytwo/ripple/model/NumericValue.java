@@ -27,21 +27,21 @@ public abstract class NumericValue implements RippleValue, Comparable<NumericVal
 	/**
 	 * Distinguishes between numeric literals of type xsd:integer and xsd:double.
 	 */
-	public enum NumericLiteralType { INTEGER, LONG, DOUBLE, FLOAT, DECIMAL };
+	public enum Type { INTEGER, LONG, DOUBLE, FLOAT, DECIMAL };
 
-    protected static final Map<URI, NumericLiteralType> uriToTypeMap;
+    protected static final Map<URI, Type> uriToTypeMap;
 
     static
     {
-        uriToTypeMap = new HashMap<URI, NumericLiteralType>();
-        uriToTypeMap.put( XMLSchema.INTEGER, NumericLiteralType.INTEGER );
-        uriToTypeMap.put( XMLSchema.LONG, NumericLiteralType.LONG );
-        uriToTypeMap.put( XMLSchema.DOUBLE, NumericLiteralType.DOUBLE );
-        uriToTypeMap.put( XMLSchema.FLOAT, NumericLiteralType.FLOAT );
-        uriToTypeMap.put( XMLSchema.DECIMAL, NumericLiteralType.DECIMAL );
+        uriToTypeMap = new HashMap<URI, Type>();
+        uriToTypeMap.put( XMLSchema.INTEGER, Type.INTEGER );
+        uriToTypeMap.put( XMLSchema.LONG, Type.LONG );
+        uriToTypeMap.put( XMLSchema.DOUBLE, Type.DOUBLE );
+        uriToTypeMap.put( XMLSchema.FLOAT, Type.FLOAT );
+        uriToTypeMap.put( XMLSchema.DECIMAL, Type.DECIMAL );
     }
 
-    protected NumericLiteralType type;
+    protected Type type;
 	protected Number number;
 
 // TODO: move into implementation
@@ -49,7 +49,7 @@ public abstract class NumericValue implements RippleValue, Comparable<NumericVal
 
 	public abstract RDFValue toRDF( final ModelConnection mc ) throws RippleException;
 	
-	public NumericLiteralType getType()
+	public Type getType()
 	{
 		return type;
 	}
@@ -131,7 +131,7 @@ public abstract class NumericValue implements RippleValue, Comparable<NumericVal
 
     public int compareTo( final NumericValue other)
     {
-        NumericLiteralType precision = maxPrecision( this, other);
+        Type precision = maxPrecision( this, other);
 //System.out.println("comparing " + a + " with " + b + " (precision = " + precision + ", a.getType() = " + a.getType() + ", b.getType() = " + b.getType() + ")");
 
         switch ( precision )
@@ -156,15 +156,15 @@ public abstract class NumericValue implements RippleValue, Comparable<NumericVal
 
     public static int compareNumericLiterals( final Literal a, final Literal b )
     {
-        NumericLiteralType aType = inferPrecision( a );
-        NumericLiteralType bType = inferPrecision( b );
+        Type aType = inferPrecision( a );
+        Type bType = inferPrecision( b );
 
         if ( null == aType || null == bType )
         {
             throw new IllegalArgumentException( "literal has non-numeric type" );
         }
 
-        NumericLiteralType precision = maxPrecision( aType, bType );
+        Type precision = maxPrecision( aType, bType );
 
         switch ( precision )
         {
@@ -186,7 +186,7 @@ public abstract class NumericValue implements RippleValue, Comparable<NumericVal
 
     public static int compare( final Literal a, final NumericValue b )
     {
-        NumericLiteralType aType = inferPrecision( a );
+        Type aType = inferPrecision( a );
 
         if ( null == aType )
         {
@@ -195,7 +195,7 @@ public abstract class NumericValue implements RippleValue, Comparable<NumericVal
 
         else
         {
-            NumericLiteralType precision = maxPrecision( aType, b.getType() );
+            Type precision = maxPrecision( aType, b.getType() );
 
             switch ( precision )
             {
@@ -275,7 +275,7 @@ public abstract class NumericValue implements RippleValue, Comparable<NumericVal
         return null != inferPrecision( l );
     }
 
-    private static NumericLiteralType inferPrecision( final Literal l )
+    private static Type inferPrecision( final Literal l )
     {
         URI datatype = l.getDatatype();
 
@@ -284,36 +284,51 @@ public abstract class NumericValue implements RippleValue, Comparable<NumericVal
                 : uriToTypeMap.get( datatype );
     }
 
-    protected static NumericLiteralType maxPrecision( final NumericValue a, final NumericValue b )
+    protected static Type maxPrecision( final NumericValue a, final NumericValue b )
     {
         return maxPrecision( a.getType(), b.getType() );
     }
 
-    protected static NumericLiteralType maxPrecision( final NumericLiteralType a, final NumericLiteralType b )
+    protected static Type maxPrecision( final Type a, final Type b )
     {
-        NumericLiteralType max = NumericLiteralType.INTEGER;
+        Type max = Type.INTEGER;
 
-        if ( a == NumericLiteralType.LONG || b == NumericLiteralType.LONG )
+        if ( a == Type.LONG || b == Type.LONG )
         {
-            max = NumericLiteralType.LONG;
+            max = Type.LONG;
         }
 
-        if ( a == NumericLiteralType.FLOAT || b == NumericLiteralType.FLOAT )
+        if ( a == Type.FLOAT || b == Type.FLOAT )
         {
-            max = NumericLiteralType.FLOAT;
+            max = Type.FLOAT;
         }
 
-        if ( a == NumericLiteralType.DOUBLE || b == NumericLiteralType.DOUBLE )
+        if ( a == Type.DOUBLE || b == Type.DOUBLE )
         {
-            max = NumericLiteralType.DOUBLE;
+            max = Type.DOUBLE;
         }
 
-        if ( a == NumericLiteralType.DECIMAL || b == NumericLiteralType.DECIMAL )
+        if ( a == Type.DECIMAL || b == Type.DECIMAL )
         {
-            max = NumericLiteralType.DECIMAL;
+            max = Type.DECIMAL;
         }
 
         return max;
+    }
+
+    public boolean equals( final Object other )
+    {
+        return ( other instanceof NumericValue )
+                ? ( (NumericValue) other ).getType().equals( type )
+                        && ( (NumericValue) other ).number.equals( number )
+                : false;
+    }
+
+    public int hashCode()
+    {
+        // TODO: is it possible for two NumericValues with the same type and
+        // equivalent values to have 'number's with different hash codes?
+        return 1983561912 + ( type.hashCode() * number.hashCode() );
     }
 
     public abstract NumericValue abs();
@@ -324,5 +339,14 @@ public abstract class NumericValue implements RippleValue, Comparable<NumericVal
 	public abstract NumericValue div( final NumericValue b );
 	public abstract NumericValue mod( final NumericValue b );
 	public abstract NumericValue pow( final NumericValue pow );
+
+    /*
+    public static void main(final String[] args)
+    {
+        for ( Type type : Type.values() )
+        {
+            System.out.println("" + type + ": " + type.hashCode());
+        }
+    }*/
 }
 

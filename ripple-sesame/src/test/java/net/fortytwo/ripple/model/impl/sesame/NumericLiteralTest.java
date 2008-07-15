@@ -33,43 +33,43 @@ public class NumericLiteralTest extends NewRippleTestCase
         // Create an integer literal.
         l = mc.value( 42 );
         assertTrue( l instanceof NumericValue );
-        assertEquals( NumericValue.NumericLiteralType.INTEGER, l.getType() );
+        assertEquals( NumericValue.Type.INTEGER, l.getType() );
         assertEquals( 42, l.intValue() );
         l = mc.value( 0 );
         assertTrue( l instanceof NumericValue );
-        assertEquals( NumericValue.NumericLiteralType.INTEGER, l.getType() );
+        assertEquals( NumericValue.Type.INTEGER, l.getType() );
         assertEquals( 0, l.intValue() );
         l = mc.value( -42 );
         assertTrue( l instanceof NumericValue );
-        assertEquals( NumericValue.NumericLiteralType.INTEGER, l.getType() );
+        assertEquals( NumericValue.Type.INTEGER, l.getType() );
         assertEquals( -42, l.intValue() );
 
         // Create a long literal.
         l = mc.value( 42l );
         assertTrue( l instanceof NumericValue );
-        assertEquals( NumericValue.NumericLiteralType.LONG, l.getType() );
+        assertEquals( NumericValue.Type.LONG, l.getType() );
         assertEquals( 42l, l.longValue() );
         l = mc.value( 0l );
         assertTrue( l instanceof NumericValue );
-        assertEquals( NumericValue.NumericLiteralType.LONG, l.getType() );
+        assertEquals( NumericValue.Type.LONG, l.getType() );
         assertEquals( 0l, l.longValue() );
         l = mc.value( -42l );
         assertTrue( l instanceof NumericValue );
-        assertEquals( NumericValue.NumericLiteralType.LONG, l.getType() );
+        assertEquals( NumericValue.Type.LONG, l.getType() );
         assertEquals( -42l, l.longValue() );
 
         // Create a double literal
         l = mc.value( 42.0 );
         assertTrue( l instanceof NumericValue );
-        assertEquals( NumericValue.NumericLiteralType.DOUBLE, l.getType() );
+        assertEquals( NumericValue.Type.DOUBLE, l.getType() );
         assertEquals( 42.0, l.doubleValue() );
         l = mc.value( 0.0 );
         assertTrue( l instanceof NumericValue );
-        assertEquals( NumericValue.NumericLiteralType.DOUBLE, l.getType() );
+        assertEquals( NumericValue.Type.DOUBLE, l.getType() );
         assertEquals( 0.0, l.doubleValue() );
         l = mc.value( -42.0 );
         assertTrue( l instanceof NumericValue );
-        assertEquals( NumericValue.NumericLiteralType.DOUBLE, l.getType() );
+        assertEquals( NumericValue.Type.DOUBLE, l.getType() );
         assertEquals( -42.0, l.doubleValue() );
 
         InputStream is = ModelTest.class.getResourceAsStream( "numericLiteralTest.txt" );
@@ -174,15 +174,15 @@ public class NumericLiteralTest extends NewRippleTestCase
                 switch ( correctResult.getType() )
                 {
                 case INTEGER:
-                    assertEquals( "for case " + signature, NumericValue.NumericLiteralType.INTEGER, actualResult.getType() );
+                    assertEquals( "for case " + signature, NumericValue.Type.INTEGER, actualResult.getType() );
                     assertEquals( "for case " + signature, correctResult.intValue(), actualResult.intValue() );
                     break;
                 case LONG:
-                    assertEquals( "for case " + signature, NumericValue.NumericLiteralType.LONG, actualResult.getType() );
+                    assertEquals( "for case " + signature, NumericValue.Type.LONG, actualResult.getType() );
                     assertEquals( "for case " + signature, correctResult.longValue(), actualResult.longValue() );
                     break;
                 case DOUBLE:
-                    assertEquals( "for case " + signature, NumericValue.NumericLiteralType.DOUBLE, actualResult.getType() );
+                    assertEquals( "for case " + signature, NumericValue.Type.DOUBLE, actualResult.getType() );
                     assertEquals( "for case " + signature, correctResult.longValue(), actualResult.longValue() );
                     break;
                 }
@@ -241,15 +241,15 @@ public class NumericLiteralTest extends NewRippleTestCase
             intLit = new SesameNumericValue( 5 ),
             doubleLit = new SesameNumericValue( 3.1415926 );
 
-        assertEquals( intLit.getType(), NumericValue.NumericLiteralType.INTEGER );
-        assertEquals( doubleLit.getType(), NumericValue.NumericLiteralType.DOUBLE );
+        assertEquals( intLit.getType(), NumericValue.Type.INTEGER );
+        assertEquals( doubleLit.getType(), NumericValue.Type.DOUBLE );
 
         assertEquals(
             intLit.abs().getType(),
-            NumericValue.NumericLiteralType.INTEGER );
+            NumericValue.Type.INTEGER );
         assertEquals(
             doubleLit.abs().getType(),
-            NumericValue.NumericLiteralType.DOUBLE );
+            NumericValue.Type.DOUBLE );
 
         /*
         assertEquals(

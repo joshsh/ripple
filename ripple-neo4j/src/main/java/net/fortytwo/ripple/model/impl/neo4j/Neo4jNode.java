@@ -50,4 +50,16 @@ public class Neo4jNode implements RippleValue {
             return Neo4jNode.class.getName().compareTo(other.getClass().getName());
         }
     }
+    
+    public boolean equals( final Object other )
+    {
+        return ( other instanceof Neo4jNode )
+                ? ( (Neo4jNode) other ).node.equals( node )
+                : false;
+    }
+
+    public int hashCode()
+    {
+        return 298232837 + node.hashCode();
+    }
 }

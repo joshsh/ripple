@@ -76,7 +76,18 @@ public class Op implements StackMapping, RippleValue
     {
         return new NullStackMapping();
     }
-    
+
+    public boolean equals( final Object other )
+    {
+        return other instanceof Op;
+    }
+
+    public int hashCode()
+    {
+        // Arbitrary.
+        return 1056205736;
+    }
+
     public String toString()
     {
         return "op";

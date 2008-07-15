@@ -27,31 +27,31 @@ public class SesameNumericValue extends NumericValue {
 
 	public SesameNumericValue( final int i )
 	{
-		type = NumericLiteralType.INTEGER;
+		type = Type.INTEGER;
 		number = new Integer( i );
 	}
     
     public SesameNumericValue( final long l )
 	{
-		type = NumericLiteralType.LONG;
+		type = Type.LONG;
 		number = new Long( l );
 	}
 	
 	public SesameNumericValue( final double d )
 	{
-		type = NumericLiteralType.DOUBLE;
+		type = Type.DOUBLE;
 		number = new Double( d );
 	}
 
     public SesameNumericValue( final float f )
 	{
-		type = NumericLiteralType.FLOAT;
+		type = Type.FLOAT;
 		number = new Float( f );
 	}
 
     public SesameNumericValue( final BigDecimal b )
 	{
-		type = NumericLiteralType.DECIMAL;
+		type = Type.DECIMAL;
 		number = b;
 	}
 
@@ -78,7 +78,7 @@ public class SesameNumericValue extends NumericValue {
 		{
 			try
 			{
-				type = NumericLiteralType.INTEGER;
+				type = Type.INTEGER;
 				number = new Integer( ( (Literal) v ).intValue() );
 			}
 
@@ -92,7 +92,7 @@ public class SesameNumericValue extends NumericValue {
 		{
 			try
 			{
-				type = NumericLiteralType.LONG;
+				type = Type.LONG;
 				number = new Long( ( (Literal) v ).intValue() );
 			}
 
@@ -106,7 +106,7 @@ public class SesameNumericValue extends NumericValue {
 		{
 			try
 			{
-				type = NumericLiteralType.DOUBLE;
+				type = Type.DOUBLE;
                 number = doubleValue( (Literal) v );
             }
 
@@ -120,7 +120,7 @@ public class SesameNumericValue extends NumericValue {
 		{
 			try
 			{
-				type = NumericLiteralType.FLOAT;
+				type = Type.FLOAT;
 				number = new Float( ( (Literal) v ).floatValue() );
 			}
 
@@ -134,7 +134,7 @@ public class SesameNumericValue extends NumericValue {
 		{
 			try
 			{
-				type = NumericLiteralType.DECIMAL;
+				type = Type.DECIMAL;
 				number = ( (Literal) v ).decimalValue();
 			}
 
@@ -230,7 +230,7 @@ public class SesameNumericValue extends NumericValue {
 	{
 		NumericValue a = this;
 
-        NumericLiteralType precision = maxPrecision( a, b );
+        Type precision = maxPrecision( a, b );
         switch ( precision )
         {
             case INTEGER:
@@ -253,7 +253,7 @@ public class SesameNumericValue extends NumericValue {
 	{
 		NumericValue a = this;
 
-        NumericLiteralType precision = maxPrecision( a, b );
+        Type precision = maxPrecision( a, b );
         switch ( precision )
         {
             case INTEGER:
@@ -276,7 +276,7 @@ public class SesameNumericValue extends NumericValue {
 	{
 		NumericValue a = this;
 
-        NumericLiteralType precision = maxPrecision( a, b );
+        Type precision = maxPrecision( a, b );
         switch ( precision )
         {
             case INTEGER:
@@ -300,7 +300,7 @@ public class SesameNumericValue extends NumericValue {
 	{
 		NumericValue a = this;
 
-        NumericLiteralType precision = maxPrecision( a, b );
+        Type precision = maxPrecision( a, b );
         switch ( precision )
         {
             case INTEGER:
@@ -324,7 +324,7 @@ public class SesameNumericValue extends NumericValue {
 	{
 		NumericValue a = this;
 
-        NumericLiteralType precision = maxPrecision( a, b );
+        Type precision = maxPrecision( a, b );
         switch ( precision )
         {
             case INTEGER:
@@ -348,7 +348,7 @@ public class SesameNumericValue extends NumericValue {
 //System.out.println("this = " + this + " (type = " + this.getType() + "), pow = " + pow + " (type = " + pow.getType() + ")");
         NumericValue a = this;
 
-        if ( NumericLiteralType.DECIMAL == a.getType() && NumericLiteralType.INTEGER == pow.getType() )
+        if ( Type.DECIMAL == a.getType() && Type.INTEGER == pow.getType() )
         {
             return new SesameNumericValue( a.decimalValue().pow( pow.intValue() ) );
         }
@@ -357,7 +357,7 @@ public class SesameNumericValue extends NumericValue {
         {
             double r = Math.pow( a.doubleValue(), pow.doubleValue() );
 //System.out.println("    r = " + r);
-            NumericLiteralType precision = maxPrecision( a, pow );
+            Type precision = maxPrecision( a, pow );
 //System.out.println("    precision = " + precision);
             switch ( precision )
             {
