@@ -11,7 +11,6 @@ package net.fortytwo.ripple.query;
 
 import java.io.PrintStream;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -178,7 +177,7 @@ public class QueryEngine
 
 		else
 		{
-			sink.put( mc.value( mc.createUri( ns + localName ) ) );
+			sink.put( mc.value( mc.createURI( ns + localName ) ) );
 		}
 	}
 

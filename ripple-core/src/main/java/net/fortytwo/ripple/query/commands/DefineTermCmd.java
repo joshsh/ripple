@@ -67,7 +67,7 @@ public class DefineTermCmd extends Command
 //System.out.println( "exprList = " + exprList );
 
 // TODO: check for collision with an existing URI
-			URI uri = mc.createUri( qe.getDefaultNamespace() + name);
+			URI uri = mc.createURI( qe.getDefaultNamespace() + name);
 			mc.copyStatements( expr, new RDFValue( uri ) );
 			mc.commit();
 

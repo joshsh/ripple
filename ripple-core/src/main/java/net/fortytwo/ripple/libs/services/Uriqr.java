@@ -168,7 +168,7 @@ public class Uriqr extends PrimitiveStackMapping
 			if ( r instanceof Element )
 			{
 				String text = ( (Element) r ).getText();
-				URI resultUri = mc.createUri( text );
+				URI resultUri = mc.createURI( text );
 
 				solutions .put( arg.with(
 						stack.push(	new RDFValue( resultUri ) ) ) );

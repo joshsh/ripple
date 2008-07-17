@@ -15,7 +15,7 @@ import net.fortytwo.ripple.rdf.SailInserter;
 import net.fortytwo.ripple.rdf.SesameInputAdapter;
 import net.fortytwo.ripple.rdf.SesameOutputAdapter;
 import net.fortytwo.ripple.rdf.SingleContextPipe;
-import net.fortytwo.ripple.test.RippleTestCase;
+import net.fortytwo.ripple.test.NewRippleTestCase;
 import org.apache.log4j.Logger;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
@@ -30,7 +30,7 @@ import org.openrdf.sail.memory.MemoryStore;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
-public class SesameTest extends RippleTestCase
+public class SesameTest extends NewRippleTestCase
 {
 	private static final Logger LOGGER = Logger.getLogger( SesameTest.class );
 
@@ -55,70 +55,59 @@ public class SesameTest extends RippleTestCase
 		return count;
 	}
 
-	private class RecoverFromParseErrorTest extends TestRunnable
-	{
-		public void test()
-			throws Exception
-		{
-			Sail sail = new MemoryStore();
-			sail.initialize();
+    public void testRecoverFromParseError() throws Exception
+    {
+        Sail sail = new MemoryStore();
+        sail.initialize();
 
-			String bad = "bad" ;
-			String good = "@prefix foo:  <http://example.org/foo#>.\n"
-				+ "foo:a foo:b foo:c." ;
+        String bad = "bad" ;
+        String good = "@prefix foo:  <http://example.org/foo#>.\n"
+            + "foo:a foo:b foo:c." ;
 
-			InputStream is = null;
+        InputStream is = null;
 
-//System.out.println( "### start" );
-			try {
-				is = new ByteArrayInputStream( bad.getBytes() );
-				add( sail, is, "", RDFFormat.TURTLE );
-			} catch ( Exception e ) {}
-			is.close();
+        try {
+            is = new ByteArrayInputStream( bad.getBytes() );
+            add( sail, is, "", RDFFormat.TURTLE );
+        } catch ( Exception e ) {}
+        is.close();
 
-//System.out.println( "### mid" );
-			try {
-				is = new ByteArrayInputStream( good.getBytes() );
-				add( sail, is, "", RDFFormat.TURTLE );
-			} catch ( Exception e ) {}
-			is.close();
-//System.out.println( "### stop" );
-			
-			SailConnection sc = sail.getConnection();
-			int count = countStatements( sc, null );
-			sc.close();
+        try {
+            is = new ByteArrayInputStream( good.getBytes() );
+            add( sail, is, "", RDFFormat.TURTLE );
+        } catch ( Exception e ) {}
+        is.close();
 
-			sail.shutDown();
+        SailConnection sc = sail.getConnection();
+        int count = countStatements( sc, null );
+        sc.close();
 
-			assertEquals( 1, count );
-		}
-	}
+        sail.shutDown();
 
-	private class AddFromInputStreamTest extends TestRunnable
-	{
-		public void test()
-			throws Exception
-		{
-			Sail sail = new MemoryStore();
-			sail.initialize();
-			SailConnection sc = sail.getConnection();
+        assertEquals( 1, count );
+    }
 
-			URI ctxA = sail.getValueFactory().createURI( "urn:test.AddFromInputStreamTest.ctxA#" );
+    public void testAddFromInputStream() throws Exception
+    {
+        Sail sail = new MemoryStore();
+        sail.initialize();
+        SailConnection sc = sail.getConnection();
 
-			String s = "@prefix foo:  <http://example.org/foo#>.\n"
-				+ "foo:a foo:b foo:c." ;
-			InputStream is = new ByteArrayInputStream( s.getBytes() );
+        URI ctxA = sail.getValueFactory().createURI( "urn:test.AddFromInputStreamTest.ctxA#" );
 
-			add( sail, is, ctxA.toString(), RDFFormat.TURTLE, ctxA );
-			is.close();
+        String s = "@prefix foo:  <http://example.org/foo#>.\n"
+            + "foo:a foo:b foo:c." ;
+        InputStream is = new ByteArrayInputStream( s.getBytes() );
 
-			assertEquals( 1, countStatements( sc, null ) );
+        add( sail, is, ctxA.toString(), RDFFormat.TURTLE, ctxA );
+        is.close();
+
+        assertEquals( 1, countStatements( sc, null ) );
 /* 60 */    assertEquals( 1, countStatements( sc, ctxA ) );
 
-			sc.close();
-			sail.shutDown();
-		}
-	}
+        sc.close();
+        sail.shutDown();
+    }
 
 	private void add( final Sail sail, final InputStream is, final String baseUri, final RDFFormat format ) throws Exception
 	{
@@ -173,18 +162,6 @@ public class SesameTest extends RippleTestCase
 		inserter.endRDF();
 		sc.commit();
 		sc.close();
-	}
-
-	public void runTests()
-		throws Exception
-	{
-		// Note: bug fixed in Sesame2-beta3:
-		//    http://www.openrdf.org/issues/browse/SES-358?watch=true
-		testSynchronous( new AddFromInputStreamTest() );
-
-		// Note: bug fixed in Sesame2-beta3:
-		//    http://www.openrdf.org/forum/mvnforum/viewthread?thread=1229
-		testSynchronous( new RecoverFromParseErrorTest() );
 	}
 }
 

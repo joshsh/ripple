@@ -81,9 +81,9 @@ public interface ModelConnection
 	public long countStatements( Resource... contexts ) throws RippleException;
 
 // FIXME: Sesame URIs should not be part of the ModelConnection API
-	URI createUri( String s ) throws RippleException;
-	URI createUri( String ns, String s ) throws RippleException;
-	URI createUri( URI ns, String s ) throws RippleException;
+	URI createURI( String s ) throws RippleException;
+	URI createURI( String ns, String s ) throws RippleException;
+	URI createURI( URI ns, String s ) throws RippleException;
 // FIXME: BNodes should not be part of the ModelConnection API
 	Resource createBNode() throws RippleException;
 	Resource createBNode( String id ) throws RippleException;

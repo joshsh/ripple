@@ -58,7 +58,7 @@ public class ToUri extends PrimitiveStackMapping
 		s = mc.toString( stack.getFirst() );
 		stack = stack.getRest();
 
-		URI uri = mc.createUri( s );
+		URI uri = mc.createURI( s );
 
 		solutions.put( arg.with(
 				stack.push( mc.value( uri ) ) ) );

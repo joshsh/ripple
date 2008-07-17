@@ -9,22 +9,17 @@
 
 package net.fortytwo.ripple.query;
 
-import net.fortytwo.ripple.model.Lexicon;
-import net.fortytwo.ripple.model.Model;
-import net.fortytwo.ripple.model.impl.sesame.SesameModel;
-import net.fortytwo.ripple.test.RippleTestCase;
-import net.fortytwo.ripple.URIMap;
 
-import org.openrdf.sail.Sail;
-import org.openrdf.sail.SailConnection;
-import org.openrdf.sail.memory.MemoryStore;
+import net.fortytwo.ripple.test.NewRippleTestCase;
 
-public class QueryEngineTest extends RippleTestCase
+public class QueryEngineTest extends NewRippleTestCase
 {
-	private class InitializeLexiconTest extends TestRunnable
-	{
-		public void test()
-			throws Exception
+    public void testNothing() throws Exception {
+
+    }
+    
+    /*
+        public void testInitializeLexicon() throws Exception
 		{
 System.out.println("--- a");
 			Sail sail = new MemoryStore();
@@ -54,12 +49,6 @@ System.out.println("--- k");
 			sail.shutDown();
 System.out.println("--- l");
 		}
-	}
-	
-	public void runTests()
-		throws Exception
-	{
-		//testAsynchronous( new InitializeLexiconTest() );
-	}
+*/
 }
 

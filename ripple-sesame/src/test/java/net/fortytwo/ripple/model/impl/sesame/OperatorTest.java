@@ -90,14 +90,14 @@ public class OperatorTest extends NewRippleTestCase
         assertTrue( ops.iterator().next().getMapping() instanceof ListDequotation );
 
         // an rdf:List --> ListDequotation
-        arg = new RDFValue( mc.createUri( "urn:test.CreateOperatorTest#simpleList" ) );
+        arg = new RDFValue( mc.createURI( "urn:test.CreateOperatorTest#simpleList" ) );
         ops.clear();
         Operator.createOperator( arg, ops, mc );
         assertEquals( 1, ops.size() );
         assertTrue( ops.iterator().next().getMapping() instanceof ListDequotation );
 
         // a branching rdf:List --> multiple ListDequotations
-        arg = new RDFValue( mc.createUri( "urn:test.CreateOperatorTest#firstBranchingList" ) );
+        arg = new RDFValue( mc.createURI( "urn:test.CreateOperatorTest#firstBranchingList" ) );
         ops.clear();
         Operator.createOperator( arg, ops, mc );
         assertEquals( 2, ops.size() );

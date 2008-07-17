@@ -23,16 +23,34 @@ import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.flow.Collector;
 import net.fortytwo.ripple.io.RDFImporter;
 import net.fortytwo.ripple.rdf.SesameInputAdapter;
-import net.fortytwo.ripple.test.RippleTestCase;
+import net.fortytwo.ripple.test.NewRippleTestCase;
 import net.fortytwo.ripple.rdf.RDFUtils;
 
 import org.openrdf.model.URI;
+import org.openrdf.model.impl.URIImpl;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.model.vocabulary.RDFS;
 import org.openrdf.rio.RDFFormat;
 
-public class URITest extends RippleTestCase
+public class URITest extends NewRippleTestCase
 {
+    private static final String URI_NS = "http://id.ninebynine.org/wip/2004/uritest/";
+
+    private static final RDFValue
+		COMMENT = new RDFValue( RDFS.COMMENT ),
+		LABEL = new RDFValue( RDFS.LABEL ),
+		TYPE = new RDFValue( RDF.TYPE ),
+		BASE = new RDFValue( new URIImpl( URI_NS + "base" ) ),
+		FRAG = new RDFValue( new URIImpl( URI_NS + "frag" ) ),
+		PATH = new RDFValue( new URIImpl( URI_NS + "path" ) ),
+		PORT = new RDFValue( new URIImpl( URI_NS + "port" ) ),
+		QUERY = new RDFValue( new URIImpl( URI_NS + "query" ) ),
+		REG = new RDFValue( new URIImpl( URI_NS + "reg" ) ),
+		SCHEME = new RDFValue( new URIImpl( URI_NS + "scheme" ) ),
+		TEST = new RDFValue( new URIImpl( URI_NS + "test" ) ),
+		URITEST = new RDFValue( new URIImpl( URI_NS + "UriTest" ) ),
+		USER = new RDFValue( new URIImpl( URI_NS + "user" ) );
+
 	private enum TestType
 	{
 		ABSID( "AbsId" ),
@@ -69,46 +87,7 @@ public class URITest extends RippleTestCase
 		}
 	}
 
-	static RDFValue
-		BASE,
-		COMMENT,
-		FRAG,
-		LABEL,
-		PATH,
-		PORT,
-		QUERY,
-		REG,
-		SCHEME,
-		TEST,
-		TYPE,
-		URITEST,
-		USER;
-
-	static void initialize()
-		throws Exception
-	{
-		String uriNs = "http://id.ninebynine.org/wip/2004/uritest/";
-		ModelConnection mc = getTestModel().getConnection( "for GrahamKlyneCasesTest" );
-
-		COMMENT = new RDFValue( RDFS.COMMENT );
-		LABEL = new RDFValue( RDFS.LABEL );
-		TYPE = new RDFValue( RDF.TYPE );
-
-		BASE = new RDFValue( mc.createUri( uriNs + "base" ) );
-		FRAG = new RDFValue( mc.createUri( uriNs + "frag" ) );
-		PATH = new RDFValue( mc.createUri( uriNs + "path" ) );
-		PORT = new RDFValue( mc.createUri( uriNs + "port" ) );
-		QUERY = new RDFValue( mc.createUri( uriNs + "query" ) );
-		REG = new RDFValue( mc.createUri( uriNs + "reg" ) );
-		SCHEME = new RDFValue( mc.createUri( uriNs + "scheme" ) );
-		TEST = new RDFValue( mc.createUri( uriNs + "test" ) );
-		URITEST = new RDFValue( mc.createUri( uriNs + "UriTest" ) );
-		USER = new RDFValue( mc.createUri( uriNs + "user" ) );
-
-		mc.close();
-	}
-
-	static String strVal( RippleValue subj, RippleValue pred, ModelConnection mc )
+	private static String strVal( RippleValue subj, RippleValue pred, ModelConnection mc )
 		throws Exception
 	{
 		RDFValue obj = mc.findSingleObject( subj, pred );
@@ -173,7 +152,7 @@ System.out.println( "    type = " + type );
 //				case ABSID:
 				case ABSRF:
 					assertFalse( null == base );
-					uri = mc.createUri( base );
+					uri = mc.createURI( base );
 					break;
 // 				case ABS2REL:
 // 				case DECOMP:
@@ -184,7 +163,7 @@ System.out.println( "    type = " + type );
 // 				case RELATIVE:
 				case RELRF:
 					assertFalse( null == base );
-					uri = mc.createUri( fakeBase + base );
+					uri = mc.createURI( fakeBase + base );
 					break;
 //				case REL2ABS:
 				default:
@@ -193,99 +172,80 @@ System.out.println( "unhandled test case!" );
 		}
 	}
 
-	private class GrahamKlyneCasesTest extends TestRunnable
-	{
-		public void test()
-			throws Exception
-		{
-			ModelConnection mc = getTestModel().getConnection( "for GrahamKlyneCasesTest" );
+    public void testGrahamKlyneCases() throws Exception
+    {
+        ModelConnection mc = getTestModel().getConnection( "for GrahamKlyneCasesTest" );
 
-			// See: http://lists.w3.org/Archives/Public/uri/2006Feb/0003.html
-			InputStream is = URITest.class.getResourceAsStream( "UriTest.n3" );
+        // See: http://lists.w3.org/Archives/Public/uri/2006Feb/0003.html
+        InputStream is = URITest.class.getResourceAsStream( "UriTest.n3" );
 
-			RDFImporter importer = new RDFImporter( mc );
-			SesameInputAdapter sc = new SesameInputAdapter( importer );
-			RDFUtils.read( is, sc, "", RDFFormat.N3 );
-			mc.commit();
-			
-			Collector<RippleValue, RippleException> cases = new Collector<RippleValue, RippleException>();
-            StatementPatternQuery query = new StatementPatternQuery( null, TYPE, URITEST, false );
-            mc.query( query, cases );
-            
-            Iterator<RippleValue> iter = cases.iterator();
-			while ( iter.hasNext() )
-			{
-				RippleValue caseValue = iter.next();
-System.out.println( "test case: " + caseValue );
-				( new UriTestCase( caseValue, mc ) ).test( mc );
-System.out.println( "    done.");
-			}
+        RDFImporter importer = new RDFImporter( mc );
+        SesameInputAdapter sc = new SesameInputAdapter( importer );
+        RDFUtils.read( is, sc, "", RDFFormat.N3 );
+        mc.commit();
 
-			is.close();
-			mc.close();
-		}
-	}
+        Collector<RippleValue, RippleException> cases = new Collector<RippleValue, RippleException>();
+        StatementPatternQuery query = new StatementPatternQuery( null, TYPE, URITEST, false );
+        mc.query( query, cases );
 
-	private class UriNamespaceTest extends TestRunnable
-	{
-		void nsTest( final String uri,
-					final String ns,
-					final String localName,
-					final ModelConnection mc )
-			throws Exception
-		{
-			URI uriCreated = mc.createUri( uri );
-			String nsCreated = uriCreated.getNamespace();
-			String localNameCreated = uriCreated.getLocalName();
+        Iterator<RippleValue> iter = cases.iterator();
+        while ( iter.hasNext() )
+        {
+            RippleValue caseValue = iter.next();
+            ( new UriTestCase( caseValue, mc ) ).test( mc );
+        }
 
-			assertEquals( uriCreated.toString(), uri );
-			assertEquals( nsCreated, ns );
-			assertEquals( localNameCreated, localName );
-		}
+        is.close();
+        mc.close();
+    }
 
-		public void test()
-			throws Exception
-		{
-			ModelConnection mc = getTestModel().getConnection( "for UriNamespaceTest" );
+    void nsTest( final String uri,
+                final String ns,
+                final String localName,
+                final ModelConnection mc )
+        throws Exception
+    {
+        URI uriCreated = mc.createURI( uri );
+        String nsCreated = uriCreated.getNamespace();
+        String localNameCreated = uriCreated.getLocalName();
 
-			InputStream is = URITest.class.getResourceAsStream( "UriNamespaceTest.txt" );
+        assertEquals( uriCreated.toString(), uri );
+        assertEquals( nsCreated, ns );
+        assertEquals( localNameCreated, localName );
+    }
 
-			BufferedReader reader = new BufferedReader(
-				new InputStreamReader( is ) );
-			int lineno = 0;
+    public void testURINamespace() throws Exception
+    {
+        ModelConnection mc = getTestModel().getConnection( "for UriNamespaceTest" );
 
-			// Break out when end of stream is reached.
-			while ( true )
-			{
-				String line = reader.readLine();
-				lineno++;
+        InputStream is = URITest.class.getResourceAsStream( "UriNamespaceTest.txt" );
 
-				if ( null == line )
-					break;
-	
-				line = line.trim();
-	
-				if ( !line.startsWith( "#" ) && !line.equals( "" ) )
-				{
-					String[] args = line.split( "\t" );
-					if ( args.length != 3 )
-						throw new RippleException( "wrong number of aguments on line " + lineno );
-					nsTest( args[0], args[1], args[2], mc );
-				}
-			}
-	
-			is.close();
-			mc.close();
-		}
-	}
+        BufferedReader reader = new BufferedReader(
+            new InputStreamReader( is ) );
+        int lineno = 0;
 
-	public void runTests()
-		throws Exception
-	{
-		initialize();
+        // Break out when end of stream is reached.
+        while ( true )
+        {
+            String line = reader.readLine();
+            lineno++;
 
-		testSynchronous( new UriNamespaceTest() );
-		testSynchronous( new GrahamKlyneCasesTest() );
-	}
+            if ( null == line )
+                break;
+
+            line = line.trim();
+
+            if ( !line.startsWith( "#" ) && !line.equals( "" ) )
+            {
+                String[] args = line.split( "\t" );
+                if ( args.length != 3 )
+                    throw new RippleException( "wrong number of aguments on line " + lineno );
+                nsTest( args[0], args[1], args[2], mc );
+            }
+        }
+
+        is.close();
+        mc.close();
+    }
 }
 

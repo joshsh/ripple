@@ -77,7 +77,7 @@ public class SwoogleIt extends PrimitiveStackMapping
 
 		if ( null == swoogleQueryResponseUri )
 		{
-			swoogleQueryResponseUri = mc.createUri( SWOOGLE_NS + "QueryResponse" );
+			swoogleQueryResponseUri = mc.createURI( SWOOGLE_NS + "QueryResponse" );
 		}
 
 		String key, searchString;
@@ -108,7 +108,7 @@ public class SwoogleIt extends PrimitiveStackMapping
 		}
 
 		final RippleList stackFinal = stack;
-URI ctx = mc.createUri( url.toString() );
+URI ctx = mc.createURI( url.toString() );
 		final RDFImporter importer = new RDFImporter( mc, ctx );
 
 		// Output is buffered so that the entire document is imported into the

@@ -867,7 +867,7 @@ public class SesameModelConnection implements ModelConnection
 	
 	////////////////////////////////////////////////////////////////////////////
 
-	public URI createUri( final String s ) throws RippleException
+	public URI createURI( final String s ) throws RippleException
 	{
 		try
 		{
@@ -881,7 +881,7 @@ public class SesameModelConnection implements ModelConnection
 		}
 	}
 	
-	public URI createUri( final String ns, final String s )
+	public URI createURI( final String ns, final String s )
 		throws RippleException
 	{
 		try
@@ -896,7 +896,7 @@ public class SesameModelConnection implements ModelConnection
 		}
 	}
 	
-	public URI createUri( final URI ns, final String s )
+	public URI createURI( final URI ns, final String s )
 		throws RippleException
 	{
 		try

@@ -44,7 +44,7 @@ public class URIAST implements AST<RippleList>
 						final ModelConnection mc )
 		throws RippleException
 	{
-		sink.put( mc.list( mc.value( mc.createUri( value ) ) ) );
+		sink.put( mc.list( mc.value( mc.createURI( value ) ) ) );
 	}
 
 	public String toString()

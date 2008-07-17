@@ -57,7 +57,7 @@ public class Play extends PrimitiveStackMapping
         ModelConnection mc = arg.getModelConnection();
         RippleList stack = arg.getStack();
 
-        URI uri = mc.createUri( mc.toString( stack.getFirst() ) );
+        URI uri = mc.createURI( mc.toString( stack.getFirst() ) );
 		//stack = stack.getRest();
 
 		try
