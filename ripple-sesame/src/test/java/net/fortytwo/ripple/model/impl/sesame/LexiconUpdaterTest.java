@@ -13,7 +13,7 @@ import java.io.InputStream;
 import java.util.Collection;
 import java.util.Iterator;
 
-import net.fortytwo.ripple.test.NewRippleTestCase;
+import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.util.FileUtils;
 import net.fortytwo.ripple.model.LexiconUpdater;
 import net.fortytwo.ripple.model.Lexicon;
@@ -21,7 +21,7 @@ import net.fortytwo.ripple.model.Lexicon;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.impl.NamespaceImpl;
 
-public class LexiconUpdaterTest extends NewRippleTestCase
+public class LexiconUpdaterTest extends RippleTestCase
 {
     public void testRejectBadNamespaces() throws Exception
     {

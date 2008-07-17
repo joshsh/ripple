@@ -23,7 +23,7 @@ import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.flow.Collector;
 import net.fortytwo.ripple.io.RDFImporter;
 import net.fortytwo.ripple.rdf.SesameInputAdapter;
-import net.fortytwo.ripple.test.NewRippleTestCase;
+import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.rdf.RDFUtils;
 
 import org.openrdf.model.URI;
@@ -32,7 +32,7 @@ import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.model.vocabulary.RDFS;
 import org.openrdf.rio.RDFFormat;
 
-public class URITest extends NewRippleTestCase
+public class URITest extends RippleTestCase
 {
     private static final String URI_NS = "http://id.ninebynine.org/wip/2004/uritest/";
 

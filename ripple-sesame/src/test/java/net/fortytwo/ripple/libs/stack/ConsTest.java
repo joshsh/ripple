@@ -1,13 +1,13 @@
 package net.fortytwo.ripple.libs.stack;
 
-import net.fortytwo.ripple.test.NewRippleTestCase;
+import net.fortytwo.ripple.test.RippleTestCase;
 
 /**
  * Author: josh
  * Date: May 3, 2008
  * Time: 1:42:20 PM
  */
-public class ConsTest extends NewRippleTestCase
+public class ConsTest extends RippleTestCase
 {
     public void testSimpleNativeLists() throws Exception
     {

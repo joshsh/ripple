@@ -1,6 +1,6 @@
 package net.fortytwo.ripple.model.impl.sesame;
 
-import net.fortytwo.ripple.test.NewRippleTestCase;
+import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.model.Lexicon;
 
 /**
@@ -8,7 +8,7 @@ import net.fortytwo.ripple.model.Lexicon;
  * Date: May 21, 2008
  * Time: 4:51:49 PM
  */
-public class LexiconTest extends NewRippleTestCase
+public class LexiconTest extends RippleTestCase
 {
     public void testIsValidPrefix() throws Exception
     {

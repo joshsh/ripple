@@ -1,13 +1,13 @@
 package net.fortytwo.ripple.libs.stack;
 
-import net.fortytwo.ripple.test.NewRippleTestCase;
+import net.fortytwo.ripple.test.RippleTestCase;
 
 /**
  * Author: josh
  * Date: May 3, 2008
  * Time: 1:42:20 PM
  */
-public class AryTest extends NewRippleTestCase
+public class AryTest extends RippleTestCase
 {
     public void testNormal() throws Exception
     {

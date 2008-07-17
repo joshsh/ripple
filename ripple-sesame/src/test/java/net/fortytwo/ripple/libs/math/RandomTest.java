@@ -1,6 +1,6 @@
 package net.fortytwo.ripple.libs.math;
 
-import net.fortytwo.ripple.test.NewRippleTestCase;
+import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.NumericValue;
@@ -14,7 +14,7 @@ import java.util.HashSet;
  * Date: May 3, 2008
  * Time: 1:42:20 PM
  */
-public class RandomTest extends NewRippleTestCase
+public class RandomTest extends RippleTestCase
 {
     public void testSingleSolution() throws Exception
     {

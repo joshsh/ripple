@@ -11,10 +11,10 @@ package net.fortytwo.ripple.model.impl.sesame;
 
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.test.NewRippleTestCase;
+import net.fortytwo.ripple.test.RippleTestCase;
 import org.openrdf.model.Value;
 
-public class LibraryTest extends NewRippleTestCase
+public class LibraryTest extends RippleTestCase
 {
     public void testPrimitiveAlias() throws Exception
     {

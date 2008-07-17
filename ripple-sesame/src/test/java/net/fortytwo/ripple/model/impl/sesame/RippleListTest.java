@@ -20,14 +20,14 @@ import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.io.RDFImporter;
 import net.fortytwo.ripple.rdf.RDFUtils;
 import net.fortytwo.ripple.rdf.SesameInputAdapter;
-import net.fortytwo.ripple.test.NewRippleTestCase;
+import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.flow.Collector;
 import net.fortytwo.ripple.flow.Sink;
 
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.model.vocabulary.XMLSchema;
 
-public class RippleListTest extends NewRippleTestCase
+public class RippleListTest extends RippleTestCase
 {
     public void testListRDFEquivalence() throws Exception
     {

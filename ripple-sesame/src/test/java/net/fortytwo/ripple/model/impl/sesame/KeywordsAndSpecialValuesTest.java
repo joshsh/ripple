@@ -1,6 +1,6 @@
 package net.fortytwo.ripple.model.impl.sesame;
 
-import net.fortytwo.ripple.test.NewRippleTestCase;
+import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.libs.stack.StackLibrary;
 
 /**
@@ -8,7 +8,7 @@ import net.fortytwo.ripple.libs.stack.StackLibrary;
  * Date: May 21, 2008
  * Time: 4:51:49 PM
  */
-public class KeywordsAndSpecialValuesTest extends NewRippleTestCase
+public class KeywordsAndSpecialValuesTest extends RippleTestCase
 {
     public void testAliasMapsToPrimaryURI() throws Exception
     {

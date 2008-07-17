@@ -15,7 +15,7 @@ import net.fortytwo.ripple.rdf.SailInserter;
 import net.fortytwo.ripple.rdf.SesameInputAdapter;
 import net.fortytwo.ripple.rdf.SesameOutputAdapter;
 import net.fortytwo.ripple.rdf.SingleContextPipe;
-import net.fortytwo.ripple.test.NewRippleTestCase;
+import net.fortytwo.ripple.test.RippleTestCase;
 import org.apache.log4j.Logger;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
@@ -30,7 +30,7 @@ import org.openrdf.sail.memory.MemoryStore;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
-public class SesameTest extends NewRippleTestCase
+public class SesameTest extends RippleTestCase
 {
 	private static final Logger LOGGER = Logger.getLogger( SesameTest.class );
 

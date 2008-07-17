@@ -12,7 +12,7 @@ package net.fortytwo.ripple.model.impl.sesame;
 import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.test.NewRippleTestCase;
+import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.util.FileUtils;
 
 import java.math.BigDecimal;
@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
-public class NumericLiteralTest extends NewRippleTestCase
+public class NumericLiteralTest extends RippleTestCase
 {
     public void testValues() throws Exception
     {

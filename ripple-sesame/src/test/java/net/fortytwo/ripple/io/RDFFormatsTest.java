@@ -13,12 +13,12 @@ import java.net.URL;
 
 import net.fortytwo.ripple.rdf.RDFCollector;
 import net.fortytwo.ripple.rdf.SesameInputAdapter;
-import net.fortytwo.ripple.test.NewRippleTestCase;
+import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.util.RDFHTTPUtils;
 
 import org.openrdf.rio.RDFFormat;
 
-public class RDFFormatsTest extends NewRippleTestCase
+public class RDFFormatsTest extends RippleTestCase
 {
 	private final RDFCollector collector = new RDFCollector();
 	private final SesameInputAdapter sesameAdapter = new SesameInputAdapter( collector );

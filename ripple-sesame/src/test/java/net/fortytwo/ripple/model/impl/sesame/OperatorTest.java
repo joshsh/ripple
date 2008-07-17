@@ -19,7 +19,7 @@ import net.fortytwo.ripple.io.RDFImporter;
 import net.fortytwo.ripple.libs.stack.Dup;
 import net.fortytwo.ripple.rdf.RDFUtils;
 import net.fortytwo.ripple.rdf.SesameInputAdapter;
-import net.fortytwo.ripple.test.NewRippleTestCase;
+import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.flow.Collector;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.Model;
@@ -31,7 +31,7 @@ import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RDFPredicateMapping;
 import net.fortytwo.ripple.model.NullStackMapping;
 
-public class OperatorTest extends NewRippleTestCase
+public class OperatorTest extends RippleTestCase
 {
 	private static final String TEST_1 =
   "@prefix : <urn:test.CreateOperatorTest#>.\n"

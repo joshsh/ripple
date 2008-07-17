@@ -10,9 +10,9 @@
 package net.fortytwo.ripple.query;
 
 
-import net.fortytwo.ripple.test.NewRippleTestCase;
+import net.fortytwo.ripple.test.RippleTestCase;
 
-public class QueryEngineTest extends NewRippleTestCase
+public class QueryEngineTest extends RippleTestCase
 {
     public void testNothing() throws Exception {
 

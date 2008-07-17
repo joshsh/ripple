@@ -1,11 +1,8 @@
 package net.fortytwo.ripple.cli;
 
-import net.fortytwo.ripple.test.NewRippleTestCase;
+import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.io.RipplePrintStream;
-import net.fortytwo.ripple.flow.Collector;
 
 import java.util.Collection;
 
@@ -17,7 +14,7 @@ import org.openrdf.model.vocabulary.XMLSchema;
  * Date: May 3, 2008
  * Time: 1:42:20 PM
  */
-public class DatatypeSyntaxTest extends NewRippleTestCase
+public class DatatypeSyntaxTest extends RippleTestCase
 {
     public void testBoolean() throws Exception
     {

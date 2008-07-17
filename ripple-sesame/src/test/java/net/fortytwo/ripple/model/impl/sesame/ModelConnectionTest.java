@@ -9,12 +9,12 @@
 
 package net.fortytwo.ripple.model.impl.sesame;
 
-import net.fortytwo.ripple.test.NewRippleTestCase;
+import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.model.ModelConnection;
 
 import org.openrdf.model.URI;
 
-public class ModelConnectionTest extends NewRippleTestCase
+public class ModelConnectionTest extends RippleTestCase
 {
     public void testCreateURI() throws Exception
     {

@@ -17,12 +17,12 @@ import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.test.NewRippleTestCase;
+import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.flow.Collector;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 
-public class LazyEvaluatorTest extends NewRippleTestCase
+public class LazyEvaluatorTest extends RippleTestCase
 {
     public void testSimple() throws Exception
     {

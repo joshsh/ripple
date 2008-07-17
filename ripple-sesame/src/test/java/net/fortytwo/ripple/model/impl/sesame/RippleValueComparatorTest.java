@@ -1,9 +1,8 @@
 package net.fortytwo.ripple.model.impl.sesame;
 
-import net.fortytwo.ripple.test.NewRippleTestCase;
+import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.RippleList;
 
 import java.util.Comparator;
 
@@ -12,7 +11,7 @@ import java.util.Comparator;
  * Date: May 3, 2008
  * Time: 1:42:20 PM
  */
-public class RippleValueComparatorTest extends NewRippleTestCase
+public class RippleValueComparatorTest extends RippleTestCase
 {
     public void testLists() throws Exception
     {
