@@ -120,7 +120,7 @@ public class LazyDebugEvaluator extends StackEvaluator
                         }
                     };
 
-                    f.applyTo( arg.with( rest ), resultSink );
+                    f.apply( arg.with( rest ), resultSink );
 				}
 
 				// Functions with positive arity do require the stack to be
@@ -163,7 +163,7 @@ public class LazyDebugEvaluator extends StackEvaluator
 
 	////////////////////////////////////////////////////////////////////////////
 
-	public void applyTo( final StackContext arg,
+	public void apply( final StackContext arg,
 						final Sink<StackContext, RippleException> solutions)
 		throws RippleException
 	{

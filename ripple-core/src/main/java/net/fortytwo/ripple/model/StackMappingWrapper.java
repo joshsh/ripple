@@ -43,9 +43,9 @@ public class StackMappingWrapper extends PrimitiveStackMapping
         return innerMapping.arity();
     }
 
-    public void applyTo( final StackContext arg, final Sink<StackContext, RippleException> solutions ) throws RippleException
+    public void apply( final StackContext arg, final Sink<StackContext, RippleException> solutions ) throws RippleException
     {
-        innerMapping.applyTo( arg, solutions );
+        innerMapping.apply( arg, solutions );
     }
 
     public StackMapping inverse() throws RippleException

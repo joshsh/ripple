@@ -45,7 +45,7 @@ public class TimesQuantifier implements StackMapping
 		return innerOperator.getMapping().isTransparent();
 	}
 
-	public void applyTo( final StackContext arg,
+	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> sink ) throws RippleException
 	{
 		RippleList stack = arg.getStack();

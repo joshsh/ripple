@@ -17,7 +17,7 @@ public class Op implements StackMapping, RippleValue
 {
 	private final static int ARITY = 1;
 
-	public void applyTo( final StackContext arg,
+	public void apply( final StackContext arg,
 				final Sink<StackContext, RippleException> sink )
 		throws RippleException
 	{

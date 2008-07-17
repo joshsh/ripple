@@ -41,8 +41,8 @@ public class OptionalQuantifier implements StackMapping
 		return innerOperator.getMapping().isTransparent();
 	}
 
-	public void applyTo( final StackContext arg,
-						 final Sink<StackContext, RippleException> sink ) throws RippleException
+	public void apply( final StackContext arg,
+                       final Sink<StackContext, RippleException> sink ) throws RippleException
 	{
 		sink.put( arg );
 

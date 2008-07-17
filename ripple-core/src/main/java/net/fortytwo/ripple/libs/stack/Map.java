@@ -51,7 +51,7 @@ public class Map extends PrimitiveStackMapping
 		return ARITY;
 	}
 
-	public void applyTo( final StackContext arg,
+	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
@@ -122,7 +122,7 @@ public class Map extends PrimitiveStackMapping
             return true;
         }
 
-        public void applyTo( final StackContext arg, final Sink<StackContext, RippleException> solutions ) throws RippleException
+        public void apply( final StackContext arg, final Sink<StackContext, RippleException> solutions ) throws RippleException
         {
             RippleList stack = arg.getStack();
             RippleValue first = stack.getFirst();

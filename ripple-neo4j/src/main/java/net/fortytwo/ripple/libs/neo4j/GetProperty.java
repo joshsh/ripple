@@ -36,7 +36,7 @@ public class GetProperty extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public void applyTo(final StackContext arg,
+    public void apply(final StackContext arg,
                         final Sink<StackContext, RippleException> solutions) throws RippleException {
         ModelConnection mc = arg.getModelConnection();
 

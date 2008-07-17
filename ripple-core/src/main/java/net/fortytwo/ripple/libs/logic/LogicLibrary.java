@@ -23,7 +23,7 @@ public class LogicLibrary extends Library
             NS_2008_08 = "http://fortytwo.net/2008/08/ripple/logic#";
 
     public void load( final URIMap uf,
-                      final LibraryLoader.LibraryLoaderContext context )
+                      final LibraryLoader.Context context )
 		throws RippleException
 	{
 		uf.put( NS_2008_08, getClass().getResource( "logic.ttl" ) + "#" );

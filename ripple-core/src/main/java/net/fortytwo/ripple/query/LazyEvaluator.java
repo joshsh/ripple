@@ -65,7 +65,7 @@ public class LazyEvaluator extends StackEvaluator
 				// They shouldn't even care if the stack is empty.
 				if ( f.arity() == 0 )
 				{
-					f.applyTo( arg.with( rest ), this );
+					f.apply( arg.with( rest ), this );
 				}
 
 				// Functions with positive arity do require the stack to be
@@ -106,7 +106,7 @@ public class LazyEvaluator extends StackEvaluator
 
 	////////////////////////////////////////////////////////////////////////////
 
-	public void applyTo( final StackContext arg,
+	public void apply( final StackContext arg,
 						final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{

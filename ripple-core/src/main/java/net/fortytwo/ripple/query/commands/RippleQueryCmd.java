@@ -80,7 +80,7 @@ public class RippleQueryCmd extends Command
 			public void put( final RippleList l ) throws RippleException
 			{
 				StackContext arg = new StackContext( l, mc );
-				evaluator.applyTo( arg, resultSink );
+				evaluator.apply( arg, resultSink );
 			}
 		};
 

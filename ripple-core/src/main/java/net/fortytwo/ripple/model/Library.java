@@ -17,11 +17,11 @@ import net.fortytwo.ripple.URIMap;
  */
 public abstract class Library
 {
-	public abstract void load( URIMap uf, LibraryLoader.LibraryLoaderContext context )
+	public abstract void load( URIMap uf, LibraryLoader.Context context )
 		throws RippleException;
 
 	protected PrimitiveStackMapping registerPrimitive( final Class c,
-                                                       final LibraryLoader.LibraryLoaderContext context )
+                                                       final LibraryLoader.Context context )
 		throws RippleException
 	{
         final ModelConnection mc = context.getModelConnection();

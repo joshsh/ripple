@@ -63,7 +63,7 @@ public class Ary extends PrimitiveStackMapping
 			return n;
 		}
 
-		public void applyTo( final StackContext arg,
+		public void apply( final StackContext arg,
 							 final Sink<StackContext, RippleException> sink
 		)
 			throws RippleException
@@ -88,7 +88,7 @@ public class Ary extends PrimitiveStackMapping
         }
     }
 
-	public void applyTo( final StackContext arg,
+	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{

@@ -30,7 +30,7 @@ public class StackLibrary extends Library
 	private static PrimitiveStackMapping optApplyVal, starApplyVal, plusApplyVal, timesApplyVal, rangeApplyVal;
 
     public void load( final URIMap uf,
-                      final LibraryLoader.LibraryLoaderContext context )
+                      final LibraryLoader.Context context )
 		throws RippleException
 	{
 		uf.put( NS_2008_08, getClass().getResource( "stack.ttl" ) + "#" );

@@ -58,7 +58,7 @@ public class LazyEvaluatorTest extends NewRippleTestCase
         expected.clear();
         expected.put( createStack( mc, one, two ) );
         actual.clear();
-        eval.applyTo( arg.with( input ), actualSink );
+        eval.apply( arg.with( input ), actualSink );
         assertCollectorsEqual( expected, actual );
 
         // replacement rules are applied at the head of the stack
@@ -67,7 +67,7 @@ public class LazyEvaluatorTest extends NewRippleTestCase
         expected.clear();
         expected.put( createStack( mc, one, one ) );
         actual.clear();
-        eval.applyTo( arg.with( input ), actualSink );
+        eval.apply( arg.with( input ), actualSink );
         assertCollectorsEqual( expected, actual );
 
         // evaluation is recursive
@@ -76,7 +76,7 @@ public class LazyEvaluatorTest extends NewRippleTestCase
         expected.clear();
         expected.put( createStack( mc, one, one, one ) );
         actual.clear();
-        eval.applyTo( arg.with( input ), actualSink );
+        eval.apply( arg.with( input ), actualSink );
         assertCollectorsEqual( expected, actual );
 
         // evaluator drops anything which can't be reduced to head-normal form
@@ -84,7 +84,7 @@ public class LazyEvaluatorTest extends NewRippleTestCase
         input = createStack( mc, dup, op );
         expected.clear();
         actual.clear();
-        eval.applyTo( arg.with( input ), actualSink );
+        eval.apply( arg.with( input ), actualSink );
         assertCollectorsEqual( expected, actual );
 
         // evaluator drops the nil list
@@ -92,7 +92,7 @@ public class LazyEvaluatorTest extends NewRippleTestCase
         input = mc.list();
         expected.clear();
         actual.clear();
-        eval.applyTo( arg.with( input ), actualSink );
+        eval.apply( arg.with( input ), actualSink );
         assertCollectorsEqual( expected, actual );
 
         // distributive reduction
@@ -102,7 +102,7 @@ public class LazyEvaluatorTest extends NewRippleTestCase
         expected.put( createStack( mc, one, one ) );
         expected.put( createStack( mc, minusone, minusone ) );
         actual.clear();
-        eval.applyTo( arg.with( input ), actualSink );
+        eval.apply( arg.with( input ), actualSink );
         assertCollectorsEqual( expected, actual );
 
         // no eager reduction
@@ -111,7 +111,7 @@ public class LazyEvaluatorTest extends NewRippleTestCase
         expected.clear();
         expected.put( createStack( mc, two, dup, op, one ) );
         actual.clear();
-        eval.applyTo( arg.with( input ), actualSink );
+        eval.apply( arg.with( input ), actualSink );
         assertCollectorsEqual( expected, actual );
 
         // lists are opaque
@@ -120,7 +120,7 @@ public class LazyEvaluatorTest extends NewRippleTestCase
         expected.clear();
         expected.put( createStack( mc, createQueue( mc, two, dup, op ) ) );
         actual.clear();
-        eval.applyTo( arg.with( input ), actualSink );
+        eval.apply( arg.with( input ), actualSink );
         assertCollectorsEqual( expected, actual );
 
         // list dequotation
@@ -129,7 +129,7 @@ public class LazyEvaluatorTest extends NewRippleTestCase
         expected.clear();
         expected.put( createStack( mc, two, one, one ) );
         actual.clear();
-        eval.applyTo( arg.with( input ), actualSink );
+        eval.apply( arg.with( input ), actualSink );
         assertCollectorsEqual( expected, actual );
 
         // results are not necessarily a set
@@ -139,7 +139,7 @@ public class LazyEvaluatorTest extends NewRippleTestCase
         expected.put( createStack( mc, one ) );
         expected.put( createStack( mc, one ) );
         actual.clear();
-        eval.applyTo( arg.with( input ), actualSink );
+        eval.apply( arg.with( input ), actualSink );
         assertCollectorsEqual( expected, actual );
 
         mc.close();

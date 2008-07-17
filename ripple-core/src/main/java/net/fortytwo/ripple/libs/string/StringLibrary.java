@@ -31,7 +31,7 @@ public class StringLibrary extends Library
             NS_2007_08 = "http://fortytwo.net/2007/08/ripple/string#";
 
     public void load( final URIMap uf,
-                      final LibraryLoader.LibraryLoaderContext context )
+                      final LibraryLoader.Context context )
 		throws RippleException
 	{
 		uf.put( NS_2008_08, getClass().getResource( "string.ttl" ) + "#" );

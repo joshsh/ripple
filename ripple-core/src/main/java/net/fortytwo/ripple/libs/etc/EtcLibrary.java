@@ -28,7 +28,7 @@ public class EtcLibrary extends Library
     private static PrimitiveStackMapping invertVal;
 
     public void load( final URIMap uf,
-                      final LibraryLoader.LibraryLoaderContext context )
+                      final LibraryLoader.Context context )
 		throws RippleException
 	{
 		uf.put( NS_2008_08, getClass().getResource( "etc.ttl" ) + "#" );

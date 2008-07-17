@@ -45,7 +45,7 @@ public class Require extends PrimitiveStackMapping
 		return ARITY;
 	}
 
-	public void applyTo( final StackContext arg,
+	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
@@ -88,7 +88,7 @@ public class Require extends PrimitiveStackMapping
             return criterion.getMapping().arity();
         }
 
-        public void applyTo( final StackContext arg,
+        public void apply( final StackContext arg,
                              final Sink<StackContext, RippleException> solutions ) throws RippleException
         {
             RippleList stack = arg.getStack();
@@ -120,7 +120,7 @@ public class Require extends PrimitiveStackMapping
             return 1;
         }
 
-        public void applyTo( final StackContext arg,
+        public void apply( final StackContext arg,
                              final Sink<StackContext, RippleException> solutions ) throws RippleException
         {
             RippleValue b;

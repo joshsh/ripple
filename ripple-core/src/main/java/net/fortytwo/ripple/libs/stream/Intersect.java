@@ -50,7 +50,7 @@ public class Intersect extends PrimitiveStackMapping
 		return ARITY;
 	}
 
-	public void applyTo( final StackContext arg,
+	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
@@ -83,7 +83,7 @@ public class Intersect extends PrimitiveStackMapping
 			return 2;
 		}
 
-		public void applyTo( final StackContext arg,
+		public void apply( final StackContext arg,
 							 final Sink<StackContext, RippleException> sink
 		)
 			throws RippleException

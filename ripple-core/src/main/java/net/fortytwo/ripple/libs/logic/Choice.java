@@ -47,7 +47,7 @@ public class Choice extends PrimitiveStackMapping
 		return ARITY;
 	}
 
-	public void applyTo( final StackContext arg,
+	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{

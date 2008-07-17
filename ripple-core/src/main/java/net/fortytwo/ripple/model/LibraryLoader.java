@@ -32,7 +32,7 @@ public class LibraryLoader extends ClassLoader
 	public SpecialValueMap load( final URIMap uriMap, final ModelConnection mc )
 		throws RippleException
 	{
-        LibraryLoaderContext specialValues = new LibraryLoaderContext( mc );
+        Context specialValues = new Context( mc );
 
         for ( String className : getNames() )
 		{
@@ -97,7 +97,7 @@ public class LibraryLoader extends ClassLoader
 		}
 	}
 
-    public class LibraryLoaderContext
+    public class Context
     {
         // Note: LinkedHashMap is used because the order of added values is
         // significant.
@@ -107,7 +107,7 @@ public class LibraryLoader extends ClassLoader
 
         private final ModelConnection modelConnection;
 
-        public LibraryLoaderContext( final ModelConnection mc )
+        public Context( final ModelConnection mc )
         {
             this.modelConnection = mc;
             primaryMap = new LinkedHashMap<Value, RippleValue>();

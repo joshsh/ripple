@@ -30,7 +30,7 @@ public class ListDequotation implements StackMapping
 		return 0;
 	}
 
-	public void applyTo( final StackContext arg,
+	public void apply( final StackContext arg,
 						final Sink<StackContext, RippleException> sink )
 		throws RippleException
 	{

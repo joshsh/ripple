@@ -52,7 +52,7 @@ public class Unique extends PrimitiveStackMapping
 		return ARITY;
 	}
 
-	public void applyTo( final StackContext arg,
+	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
@@ -76,7 +76,7 @@ public class Unique extends PrimitiveStackMapping
 		}
 	
         // Note: consecutive calls to applyTo should reference the same Model.
-		public void applyTo( final StackContext arg,
+		public void apply( final StackContext arg,
 							 final Sink<StackContext, RippleException> sink )
 			throws RippleException
 		{

@@ -49,7 +49,7 @@ public class Cbrt extends PrimitiveStackMapping
 		return ARITY;
 	}
 
-	public void applyTo( final StackContext arg,
+	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
@@ -90,7 +90,7 @@ public class Cbrt extends PrimitiveStackMapping
             return true;
         }
 
-        public void applyTo(StackContext arg, Sink<StackContext, RippleException> solutions) throws RippleException
+        public void apply(StackContext arg, Sink<StackContext, RippleException> solutions) throws RippleException
         {
             final ModelConnection mc = arg.getModelConnection();
             RippleList stack = arg.getStack();

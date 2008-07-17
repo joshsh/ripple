@@ -39,7 +39,7 @@ public class Invert extends PrimitiveStackMapping
         return 1;
     }
 
-    public void applyTo( final StackContext arg,
+    public void apply( final StackContext arg,
                          final Sink<StackContext, RippleException> solutions ) throws RippleException
     {
         RippleList stack = arg.getStack();

@@ -23,7 +23,7 @@ public class Neo4jLibrary extends Library
             NS_2008_08 = "http://fortytwo.net/2008/08/ripple/neo4j#";
 
     public void load( final URIMap uf,
-                      final LibraryLoader.LibraryLoaderContext context )
+                      final LibraryLoader.Context context )
 		throws RippleException
 	{
         // FIXME: no such file

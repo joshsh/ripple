@@ -22,7 +22,7 @@ import net.fortytwo.ripple.model.LibraryLoader;
 public class ReadOnlyGraphLibrary extends Library
 {
     public void load( final URIMap uf,
-                      final LibraryLoader.LibraryLoaderContext context )
+                      final LibraryLoader.Context context )
 		throws RippleException
 	{
         // Note: contains descriptions of excluded primitives.

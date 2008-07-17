@@ -51,7 +51,7 @@ public class Ifte extends PrimitiveStackMapping
 		return ARITY;
 	}
 
-	public void applyTo( final StackContext arg,
+	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions	)
 		throws RippleException
 	{
@@ -100,7 +100,7 @@ public class Ifte extends PrimitiveStackMapping
             return true;
         }
 
-        public void applyTo( final StackContext arg,
+        public void apply( final StackContext arg,
                              final Sink<StackContext, RippleException> sink ) throws RippleException
         {
             ModelConnection mc = arg.getModelConnection();
