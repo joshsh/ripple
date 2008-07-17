@@ -18,7 +18,6 @@ import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.NullStackMapping;
-import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.ListMemoizer;
 
 /**
@@ -33,7 +32,7 @@ public class Unique extends PrimitiveStackMapping
 	private static final String MEMO = "memo";
 
     private static final String[] IDENTIFIERS = {
-            StreamLibrary.NS_2008_06 + "unique",
+            StreamLibrary.NS_2008_08 + "unique",
             StreamLibrary.NS_2007_08 + "unique",
             StreamLibrary.NS_2007_05 + "unique"};
 

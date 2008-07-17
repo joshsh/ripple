@@ -27,7 +27,7 @@ public class Asin extends PrimitiveStackMapping
 	private static final int ARITY = 1;
 
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2008_06 + "asin",
+            MathLibrary.NS_2008_08 + "asin",
             MathLibrary.NS_2007_08 + "asin"};
 
     public String[] getIdentifiers()

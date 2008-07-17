@@ -27,7 +27,7 @@ public class StrCat extends PrimitiveStackMapping
 	private static final int ARITY = 2;
 
     private static final String[] IDENTIFIERS = {
-            StringLibrary.NS_2008_06 + "strCat",
+            StringLibrary.NS_2008_08 + "strCat",
             StringLibrary.NS_2007_08 + "strCat",
             EtcLibrary.NS_2007_05 + "strCat"};
 

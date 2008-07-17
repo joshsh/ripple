@@ -27,7 +27,7 @@ public class Md5 extends PrimitiveStackMapping
 	private static final int ARITY = 1;
 
     private static final String[] IDENTIFIERS = {
-            StringLibrary.NS_2008_06 + "md5"};
+            StringLibrary.NS_2008_08 + "md5"};
 
     public String[] getIdentifiers()
     {
@@ -56,8 +56,7 @@ public class Md5 extends PrimitiveStackMapping
 		stack = stack.getRest();
 
         String result = StringUtils.md5SumOf( mc.toString( a ) );
-        solutions.put( arg.with(
-				stack.push(
-			StringLibrary.value( result, mc, a ) ) ) );
+        solutions.put( arg.with( stack.push(
+			    StringLibrary.value( result, mc, a ) ) ) );
 	}
 }

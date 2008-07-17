@@ -48,7 +48,7 @@ public class SwoogleIt extends PrimitiveStackMapping
 	private URI swoogleQueryResponseUri = null;
 
     private static final String[] IDENTIFIERS = {
-            ServicesLibrary.NS_2008_06 + "swoogleIt",
+            ServicesLibrary.NS_2008_08 + "swoogleIt",
             ServicesLibrary.NS_2007_08 + "swoogleIt",
             EtcLibrary.NS_2007_05 + "swoogleIt"};
 

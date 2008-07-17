@@ -25,7 +25,7 @@ public class New extends PrimitiveStackMapping
 	private static final int ARITY = 0;
 
     private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_2008_06 + "new",
+            GraphLibrary.NS_2008_08 + "new",
             GraphLibrary.NS_2007_08 + "new",
             GraphLibrary.NS_2007_05 + "new"};
 

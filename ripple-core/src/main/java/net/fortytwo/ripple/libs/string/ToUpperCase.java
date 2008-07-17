@@ -26,7 +26,7 @@ public class ToUpperCase extends PrimitiveStackMapping
 	private static final int ARITY = 1;
 
     private static final String[] IDENTIFIERS = {
-            StringLibrary.NS_2008_06 + "toUpperCase",
+            StringLibrary.NS_2008_08 + "toUpperCase",
             StringLibrary.NS_2007_08 + "toUpperCase"};
 
     public String[] getIdentifiers()

@@ -25,7 +25,7 @@ public class Dipd extends PrimitiveStackMapping
 	private static final int ARITY = 3;
 
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2008_06 + "dipd",
+            StackLibrary.NS_2008_08 + "dipd",
             StackLibrary.NS_2007_08 + "dipd",
             StackLibrary.NS_2007_05 + "dipd"};
 

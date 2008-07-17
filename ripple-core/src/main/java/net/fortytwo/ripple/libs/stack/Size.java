@@ -26,7 +26,7 @@ public class Size extends PrimitiveStackMapping
 	private static final int ARITY = 1;
 
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2008_06 + "size",
+            StackLibrary.NS_2008_08 + "size",
             StackLibrary.NS_2007_08 + "size",
             StackLibrary.NS_2007_05 + "size"};
 

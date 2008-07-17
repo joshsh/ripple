@@ -10,7 +10,6 @@
 package net.fortytwo.ripple.libs.stack;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.libs.logic.LogicLibrary;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
@@ -27,7 +26,7 @@ public class Has extends PrimitiveStackMapping
 	private static final int ARITY = 2;
 
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2008_06 + "has",
+            StackLibrary.NS_2008_08 + "has",
             StackLibrary.NS_2007_08 + "has",
             StackLibrary.NS_2007_05 + "has"};
 

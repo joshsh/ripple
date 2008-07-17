@@ -26,7 +26,7 @@ public class Cons extends PrimitiveStackMapping
 	private static final int ARITY = 2;
 
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2008_06 + "cons",
+            StackLibrary.NS_2008_08 + "cons",
             StackLibrary.NS_2007_08 + "cons",
             StackLibrary.NS_2007_05 + "cons"};
 

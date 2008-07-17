@@ -2,7 +2,7 @@
 @prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix rpl:     <http://fortytwo.net/2007/03/ripple/schema#> .
-@prefix string:  <http://fortytwo.net/2008/06/ripple/string#> .
+@prefix string:  <http://fortytwo.net/2008/08/ripple/string#> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 
 string:endsWith

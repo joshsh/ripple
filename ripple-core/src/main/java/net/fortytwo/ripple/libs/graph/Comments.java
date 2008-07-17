@@ -36,7 +36,7 @@ public class Comments extends PrimitiveStackMapping
 	private static final int ARITY = 1;
 
     private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_2008_06 + "comments",
+            GraphLibrary.NS_2008_08 + "comments",
             GraphLibrary.NS_2007_08 + "comments"};
 
     public String[] getIdentifiers()

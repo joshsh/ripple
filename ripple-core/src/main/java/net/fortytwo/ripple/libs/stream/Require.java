@@ -11,9 +11,6 @@ package net.fortytwo.ripple.libs.stream;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.ripple.libs.stack.StackLibrary;
-import net.fortytwo.ripple.libs.logic.LogicLibrary;
-import net.fortytwo.ripple.libs.graph.GraphLibrary;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleValue;
@@ -30,10 +27,7 @@ public class Require extends PrimitiveStackMapping
 	private static final int ARITY = 2;
 
     private static final String[] IDENTIFIERS = {
-            // FIXME: this is a kludge for programs created by Ripple 0.5-dev.  Remove this alias when it is no longer needed
-            StreamLibrary.NS_2007_08 + "require",
-
-            StreamLibrary.NS_2008_06 + "require"};
+            StreamLibrary.NS_2008_08 + "require"};
 
     public String[] getIdentifiers()
     {

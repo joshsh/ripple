@@ -26,7 +26,7 @@ public class Pow extends PrimitiveStackMapping
 	private static final int ARITY = 2;
 
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2008_06 + "pow",
+            MathLibrary.NS_2008_08 + "pow",
             MathLibrary.NS_2007_08 + "pow",
             MathLibrary.NS_2007_05 + "pow"};
 

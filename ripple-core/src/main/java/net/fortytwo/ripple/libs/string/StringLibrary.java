@@ -27,15 +27,14 @@ import org.openrdf.model.vocabulary.XMLSchema;
 public class StringLibrary extends Library
 {
     public static final String
-            NS_2008_06 = "http://fortytwo.net/2008/06/ripple/string#",
+            NS_2008_08 = "http://fortytwo.net/2008/08/ripple/string#",
             NS_2007_08 = "http://fortytwo.net/2007/08/ripple/string#";
 
     public void load( final URIMap uf,
                       final LibraryLoader.LibraryLoaderContext context )
 		throws RippleException
 	{
-		uf.put(
-			NS_2008_06, getClass().getResource( "string.ttl" ) + "#" );
+		uf.put( NS_2008_08, getClass().getResource( "string.ttl" ) + "#" );
 
 		registerPrimitive( EndsWith.class, context );
 		registerPrimitive( IndexOf.class, context );

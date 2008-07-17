@@ -21,27 +21,28 @@ import net.fortytwo.ripple.model.LibraryLoader;
  */
 public class ReadOnlyGraphLibrary extends Library
 {
-	private static final String NS = "http://fortytwo.net/2007/08/ripple/graph#";
-
     public void load( final URIMap uf,
                       final LibraryLoader.LibraryLoaderContext context )
 		throws RippleException
 	{
-		uf.put(
-			NS, getClass().getResource( "graph.ttl" ) + "#" );
+        // Note: contains descriptions of excluded primitives.
+        uf.put( GraphLibrary.NS_2008_08, getClass().getResource( "graph.ttl" ) + "#" );
 
-		registerPrimitive( Members.class, context );
-//		registerPrimitive( Count.class, NS + "count", context );
-		registerPrimitive( Compare.class, context );
-		registerPrimitive( Equal.class, context );
+		/* Excluded
+		// RDF primitives with side-effects.
+        registerPrimitive( Assert.class, context );
+        registerPrimitive( AssertInContext.class, context );
+        registerPrimitive( Deny.class, context );
+        registerPrimitive( DenyInContext.class, context );
+		registerPrimitive( Forget.class, context );
+		registerPrimitive( New.class, context );
+		 */
 
-		/* These primitives are excluded
-		registerPrimitive( Assert.class, NS + "assert", mc );
-		registerPrimitive( Deny.class, NS + "deny", mc );
-		registerPrimitive( Forget.class, NS + "forget", mc );
-		registerPrimitive( New.class, NS + "new", mc );*/
+        // Comparison primitives.
+        registerPrimitive( Compare.class, context );
+        registerPrimitive( Equal.class, context );
 
-		// Type conversion / literal reification.
+        // Type conversion / literal reification.
 		registerPrimitive( ToDouble.class, context );
 		registerPrimitive( ToInteger.class, context );
 		registerPrimitive( ToString.class, context );
@@ -49,14 +50,16 @@ public class ReadOnlyGraphLibrary extends Library
 
 		// Resource-centric primitives.
         registerPrimitive( InContext.class, context );
-		registerPrimitive( Infer.class, context );
+        registerPrimitive( Infer.class, context );
         registerPrimitive( InferInContext.class, context );
-		registerPrimitive( Links.class, context );
+        registerPrimitive( Inlinks.class, context );
+        registerPrimitive( Links.class, context );
+        registerPrimitive( Members.class, context );
 
 		// Document-centric primitives.
 		registerPrimitive( Comments.class, context );
 		registerPrimitive( Namespaces.class, context );
-		registerPrimitive( Triples.class, context );
+        registerPrimitive( Triples.class, context );
         registerPrimitive( Quads.class, context );
 
 		// Note: the xml: namespace is actually said to be

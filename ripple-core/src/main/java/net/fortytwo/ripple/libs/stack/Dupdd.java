@@ -25,7 +25,7 @@ public class Dupdd extends PrimitiveStackMapping
 	private static final int ARITY = 3;
 
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2008_06 + "dupdd",
+            StackLibrary.NS_2008_08 + "dupdd",
             StackLibrary.NS_2007_08 + "dupdd"};
 
     public String[] getIdentifiers()

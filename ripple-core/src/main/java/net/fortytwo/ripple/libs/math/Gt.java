@@ -10,8 +10,6 @@
 package net.fortytwo.ripple.libs.math;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.libs.stack.StackLibrary;
-import net.fortytwo.ripple.libs.logic.LogicLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
@@ -29,7 +27,7 @@ public class Gt extends PrimitiveStackMapping
 	private static final int ARITY = 2;
 
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2008_06 + "gt",
+            MathLibrary.NS_2008_08 + "gt",
             MathLibrary.NS_2007_08 + "gt",
             MathLibrary.NS_2007_05 + "gt"};
 

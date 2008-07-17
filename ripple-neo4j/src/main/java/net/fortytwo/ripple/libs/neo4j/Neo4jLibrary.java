@@ -20,14 +20,14 @@ import net.fortytwo.ripple.URIMap;
 public class Neo4jLibrary extends Library
 {
 	public static final String
-            NS_2008_06 = "http://fortytwo.net/2008/06/ripple/neo4j#";
+            NS_2008_08 = "http://fortytwo.net/2008/08/ripple/neo4j#";
 
     public void load( final URIMap uf,
                       final LibraryLoader.LibraryLoaderContext context )
 		throws RippleException
 	{
         // FIXME: no such file
-        uf.put( NS_2008_06, getClass().getResource( "neo4j.ttl" ) + "#" );
+        uf.put(NS_2008_08, getClass().getResource( "neo4j.ttl" ) + "#" );
 
         registerPrimitive( GetProperty.class, context );
 	}

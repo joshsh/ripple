@@ -25,7 +25,7 @@ public class Rolldown extends PrimitiveStackMapping
 	private static final int ARITY = 3;
 
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2008_06 + "rolldown",
+            StackLibrary.NS_2008_08 + "rolldown",
             StackLibrary.NS_2007_08 + "rolldown",
             StackLibrary.NS_2007_05 + "rolldown"};
 

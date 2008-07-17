@@ -44,7 +44,7 @@ public class PingTheSemanticWeb extends PrimitiveStackMapping
 	}
 
     private static final String[] IDENTIFIERS = {
-            ServicesLibrary.NS_2008_06 + "pingTheSemanticWeb",
+            ServicesLibrary.NS_2008_08 + "pingTheSemanticWeb",
             ServicesLibrary.NS_2007_08 + "pingTheSemanticWeb",
             EtcLibrary.NS_2007_05 + "pingTheSemanticWeb"};
 

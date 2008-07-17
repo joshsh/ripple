@@ -30,7 +30,7 @@ public class ToString extends PrimitiveStackMapping
 	private static final int ARITY = 1;
 
     private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_2008_06 + "toString",
+            GraphLibrary.NS_2008_08 + "toString",
             GraphLibrary.NS_2007_08 + "toString",
             GraphLibrary.NS_2007_05 + "toString"};
 

@@ -27,7 +27,7 @@ public class Xor extends PrimitiveStackMapping
 	private static final int ARITY = 2;
 
     private static final String[] IDENTIFIERS = {
-            LogicLibrary.NS_2008_06 + "xor",
+            LogicLibrary.NS_2008_08 + "xor",
             StackLibrary.NS_2007_08 + "xor",
             StackLibrary.NS_2007_05 + "xor"};
 

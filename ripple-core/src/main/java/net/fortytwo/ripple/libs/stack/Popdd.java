@@ -24,7 +24,7 @@ public class Popdd extends PrimitiveStackMapping
 	private static final int ARITY = 3;
 
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2008_06 + "popdd",
+            StackLibrary.NS_2008_08 + "popdd",
             StackLibrary.NS_2007_08 + "popdd"};
 
     public String[] getIdentifiers()

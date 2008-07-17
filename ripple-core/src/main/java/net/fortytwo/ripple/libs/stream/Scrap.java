@@ -22,7 +22,7 @@ public class Scrap extends PrimitiveStackMapping
 	private static final int ARITY = 0;
 
     private static final String[] IDENTIFIERS = {
-            StreamLibrary.NS_2008_06 + "scrap",
+            StreamLibrary.NS_2008_08 + "scrap",
             StreamLibrary.NS_2007_08 + "scrap",
             StreamLibrary.NS_2007_05 + "scrap"};
 

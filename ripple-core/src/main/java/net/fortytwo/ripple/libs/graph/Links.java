@@ -30,7 +30,7 @@ public class Links extends PrimitiveStackMapping
 	private static final int ARITY = 1;
 
     private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_2008_06 + "links"};
+            GraphLibrary.NS_2008_08 + "links"};
 
     public String[] getIdentifiers()
     {

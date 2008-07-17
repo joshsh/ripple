@@ -22,7 +22,7 @@ import net.fortytwo.ripple.URIMap;
 public class StackLibrary extends Library
 {
     public static final String
-            NS_2008_06 = "http://fortytwo.net/2008/06/ripple/stack#",
+            NS_2008_08 = "http://fortytwo.net/2008/08/ripple/stack#",
             NS_2007_08 = "http://fortytwo.net/2007/08/ripple/stack#",
             NS_2007_05 = "http://fortytwo.net/2007/05/ripple/stack#";
 
@@ -33,7 +33,7 @@ public class StackLibrary extends Library
                       final LibraryLoader.LibraryLoaderContext context )
 		throws RippleException
 	{
-		uf.put( NS_2008_06, getClass().getResource( "stack.ttl" ) + "#" );
+		uf.put( NS_2008_08, getClass().getResource( "stack.ttl" ) + "#" );
 
 		// Stack shuffling primitives
 		registerPrimitive( Dup.class, context );

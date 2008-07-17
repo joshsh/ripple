@@ -9,8 +9,6 @@
 
 package net.fortytwo.ripple.libs.etc;
 
-import java.util.Date;
-
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
@@ -27,7 +25,7 @@ public class Time extends PrimitiveStackMapping
 	private static final int ARITY = 0;
 
     private static final String[] IDENTIFIERS = {
-            EtcLibrary.NS_2008_06 + "time",
+            EtcLibrary.NS_2008_08 + "time",
             EtcLibrary.NS_2007_08 + "time",
             EtcLibrary.NS_2007_05 + "time"};
 

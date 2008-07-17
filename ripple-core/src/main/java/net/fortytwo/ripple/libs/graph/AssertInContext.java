@@ -27,7 +27,7 @@ public class AssertInContext extends PrimitiveStackMapping
 	private static final int ARITY = 4;
 
     private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_2008_06 + "assertInContext"};
+            GraphLibrary.NS_2008_08 + "assertInContext"};
 
     public String[] getIdentifiers()
     {

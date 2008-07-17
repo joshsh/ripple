@@ -20,7 +20,7 @@ import net.fortytwo.ripple.model.LibraryLoader;
 public class GraphLibrary extends Library
 {
     public static final String
-            NS_2008_06 = "http://fortytwo.net/2008/06/ripple/graph#",
+            NS_2008_08 = "http://fortytwo.net/2008/08/ripple/graph#",
             NS_2007_08 = "http://fortytwo.net/2007/08/ripple/graph#",
             NS_2007_05 = "http://fortytwo.net/2007/05/ripple/graph#";
     public static final String
@@ -31,21 +31,21 @@ public class GraphLibrary extends Library
                       final LibraryLoader.LibraryLoaderContext context )
 		throws RippleException
 	{
-		uf.put(
-			NS_2008_06, getClass().getResource( "graph.ttl" ) + "#" );
+		uf.put( NS_2008_08, getClass().getResource( "graph.ttl" ) + "#" );
 
+        // RDF primitives with side-effects.
         registerPrimitive( Assert.class, context );
         registerPrimitive( AssertInContext.class, context );
-		registerPrimitive( Members.class, context );
-//		registerPrimitive( Count.class, NS_2008_06 + "count", context );
-		registerPrimitive( Compare.class, context );
         registerPrimitive( Deny.class, context );
         registerPrimitive( DenyInContext.class, context );
-		registerPrimitive( Equal.class, context );
 		registerPrimitive( Forget.class, context );
 		registerPrimitive( New.class, context );
 
-		// Type conversion / literal reification.
+        // Comparison primitives.
+        registerPrimitive( Compare.class, context );
+        registerPrimitive( Equal.class, context );
+
+        // Type conversion / literal reification.
 		registerPrimitive( ToDouble.class, context );
 		registerPrimitive( ToInteger.class, context );
 		registerPrimitive( ToString.class, context );
@@ -57,6 +57,7 @@ public class GraphLibrary extends Library
         registerPrimitive( InferInContext.class, context );
         registerPrimitive( Inlinks.class, context );
         registerPrimitive( Links.class, context );
+        registerPrimitive( Members.class, context );
 
 		// Document-centric primitives.
 		registerPrimitive( Comments.class, context );

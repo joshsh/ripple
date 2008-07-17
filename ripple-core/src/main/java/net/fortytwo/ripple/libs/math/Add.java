@@ -26,7 +26,7 @@ public class Add extends PrimitiveStackMapping
 	private static final int ARITY = 2;
 
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2008_06 + "add",
+            MathLibrary.NS_2008_08 + "add",
             MathLibrary.NS_2007_08 + "add",
             MathLibrary.NS_2007_05 + "add"};
 

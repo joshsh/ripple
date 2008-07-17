@@ -20,13 +20,13 @@ import net.fortytwo.ripple.URIMap;
 public class LogicLibrary extends Library
 {
     public static final String
-            NS_2008_06 = "http://fortytwo.net/2008/06/ripple/logic#";
+            NS_2008_08 = "http://fortytwo.net/2008/08/ripple/logic#";
 
     public void load( final URIMap uf,
                       final LibraryLoader.LibraryLoaderContext context )
 		throws RippleException
 	{
-		uf.put( NS_2008_06, getClass().getResource( "logic.ttl" ) + "#" );
+		uf.put( NS_2008_08, getClass().getResource( "logic.ttl" ) + "#" );
 
 		registerPrimitive( And.class, context );
 		registerPrimitive( Branch.class, context );

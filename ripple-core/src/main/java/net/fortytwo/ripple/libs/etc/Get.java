@@ -10,7 +10,6 @@
 package net.fortytwo.ripple.libs.etc;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.libs.stack.StackLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
@@ -34,7 +33,7 @@ public class Get extends PrimitiveStackMapping
 	private static final int ARITY = 1;
 
     private static final String[] IDENTIFIERS = {
-            EtcLibrary.NS_2008_06 + "get",
+            EtcLibrary.NS_2008_08 + "get",
             EtcLibrary.NS_2007_08 + "get",
             EtcLibrary.NS_2007_05 + "get"};
 

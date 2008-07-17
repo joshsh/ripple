@@ -10,8 +10,6 @@
 package net.fortytwo.ripple.libs.stream;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.libs.stack.StackLibrary;
-import net.fortytwo.ripple.libs.logic.LogicLibrary;
 import net.fortytwo.ripple.model.StackMapping;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
@@ -35,7 +33,7 @@ public class Intersect extends PrimitiveStackMapping
 	private static final String MEMO = "memo";
 
     private static final String[] IDENTIFIERS = {
-            StreamLibrary.NS_2008_06 + "intersect"};
+            StreamLibrary.NS_2008_08 + "intersect"};
 
     public String[] getIdentifiers()
     {

@@ -17,7 +17,6 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.impl.neo4j.Neo4jNode;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.libs.etc.EtcLibrary;
 
 /**
  * Author: josh
@@ -30,7 +29,7 @@ public class GetProperty extends PrimitiveStackMapping {
     }
 
     private static final String[] IDENTIFIERS = {
-            Neo4jLibrary.NS_2008_06 + "getProperty"};
+            Neo4jLibrary.NS_2008_08 + "getProperty"};
 
     public String[] getIdentifiers()
     {

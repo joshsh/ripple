@@ -27,7 +27,7 @@ public class Div extends PrimitiveStackMapping
 	private static final int ARITY = 2;
 
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2008_06 + "div",
+            MathLibrary.NS_2008_08 + "div",
             MathLibrary.NS_2007_08 + "div",
             MathLibrary.NS_2007_05 + "div"};
 

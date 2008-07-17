@@ -16,8 +16,6 @@ import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.ripple.libs.stack.StackLibrary;
-import net.fortytwo.ripple.libs.logic.LogicLibrary;
 
 /**
  * A primitive which consumes two items and produces a Boolean value of true if
@@ -28,7 +26,7 @@ public class Equal extends PrimitiveStackMapping
 	private static final int ARITY = 2;
 
     private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_2008_06 + "equal",
+            GraphLibrary.NS_2008_08 + "equal",
             GraphLibrary.NS_2007_08 + "equal",
             GraphLibrary.NS_2007_05 + "equal"};
 

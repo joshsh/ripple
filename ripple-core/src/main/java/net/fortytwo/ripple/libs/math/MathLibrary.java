@@ -21,7 +21,7 @@ import net.fortytwo.ripple.model.LibraryLoader;
 public class MathLibrary extends Library
 {
     public static final String
-            NS_2008_06 = "http://fortytwo.net/2008/06/ripple/math#",
+            NS_2008_08 = "http://fortytwo.net/2008/08/ripple/math#",
             NS_2007_08 = "http://fortytwo.net/2007/08/ripple/math#",
             NS_2007_05 = "http://fortytwo.net/2007/05/ripple/math#";
 
@@ -37,8 +37,7 @@ public class MathLibrary extends Library
                       final LibraryLoader.LibraryLoaderContext context )
 		throws RippleException
 	{
-		uf.put(
-			NS_2008_06, getClass().getResource( "math.ttl" ) + "#" );
+		uf.put( NS_2008_08, getClass().getResource( "math.ttl" ) + "#" );
 
 		// Comparison
 		registerPrimitive( Gt.class, context );

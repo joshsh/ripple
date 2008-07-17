@@ -28,7 +28,7 @@ public class Split extends PrimitiveStackMapping
 	private static final int ARITY = 2;
 
     private static final String[] IDENTIFIERS = {
-            StringLibrary.NS_2008_06 + "split",
+            StringLibrary.NS_2008_08 + "split",
             StringLibrary.NS_2007_08 + "split"};
 
     public String[] getIdentifiers()

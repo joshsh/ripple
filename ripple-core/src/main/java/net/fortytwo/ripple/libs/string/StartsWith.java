@@ -16,8 +16,6 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.ripple.libs.stack.StackLibrary;
-import net.fortytwo.ripple.libs.logic.LogicLibrary;
 
 /**
  * A primitive which consumes a string and prefix, producing a Boolean value of
@@ -28,7 +26,7 @@ public class StartsWith extends PrimitiveStackMapping
 	private static final int ARITY = 2;
 
     private static final String[] IDENTIFIERS = {
-            StringLibrary.NS_2008_06 + "startsWith",
+            StringLibrary.NS_2008_08 + "startsWith",
             StringLibrary.NS_2007_08 + "startsWith"};
 
     public String[] getIdentifiers()

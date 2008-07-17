@@ -14,7 +14,7 @@ public class KeywordsAndSpecialValuesTest extends NewRippleTestCase
     {
         assertReducesTo( "<" + StackLibrary.NS_2007_05 + "dup>", "dup" );
         assertReducesTo( "<" + StackLibrary.NS_2007_08 + "dup>", "dup" );
-        assertReducesTo( "<" + StackLibrary.NS_2008_06 + "dup>", "dup" );
+        assertReducesTo( "<" + StackLibrary.NS_2008_08 + "dup>", "dup" );
     }
 
     public void testKeywordMappingToSimultaneousValues() throws Exception

@@ -11,7 +11,6 @@ package net.fortytwo.ripple.libs.string;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.ripple.libs.logic.LogicLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
@@ -27,7 +26,7 @@ public class EndsWith extends PrimitiveStackMapping
 	private static final int ARITY = 2;
 
     private static final String[] IDENTIFIERS = {
-            StringLibrary.NS_2008_06 + "endsWith",
+            StringLibrary.NS_2008_08 + "endsWith",
             StringLibrary.NS_2007_08 + "endsWith"};
 
     public String[] getIdentifiers()

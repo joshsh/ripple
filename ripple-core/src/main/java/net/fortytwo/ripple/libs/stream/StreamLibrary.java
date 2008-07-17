@@ -20,7 +20,7 @@ import net.fortytwo.ripple.URIMap;
 public class StreamLibrary extends Library
 {
     public static final String
-            NS_2008_06 = "http://fortytwo.net/2008/06/ripple/stream#",
+            NS_2008_08 = "http://fortytwo.net/2008/08/ripple/stream#",
             NS_2007_08 = "http://fortytwo.net/2007/08/ripple/stream#",
             NS_2007_05 = "http://fortytwo.net/2007/05/ripple/stream#";
 
@@ -28,7 +28,7 @@ public class StreamLibrary extends Library
                       final LibraryLoader.LibraryLoaderContext context )
 		throws RippleException
 	{
-		uf.put( NS_2008_06, getClass().getResource( "stream.ttl" ) + "#" );
+		uf.put( NS_2008_08, getClass().getResource( "stream.ttl" ) + "#" );
 
         registerPrimitive( Both.class, context );
 		registerPrimitive( Each.class, context );

@@ -68,7 +68,7 @@ public class Uriqr extends PrimitiveStackMapping
 	}
 
     private static final String[] IDENTIFIERS = {
-            ServicesLibrary.NS_2008_06 + "uriqr",
+            ServicesLibrary.NS_2008_08 + "uriqr",
             ServicesLibrary.NS_2007_08 + "uriqr"};
 
     public String[] getIdentifiers()

@@ -29,7 +29,7 @@ public class Branch extends PrimitiveStackMapping
 	private static final int ARITY = 3;
 
     private static final String[] IDENTIFIERS = {
-            LogicLibrary.NS_2008_06 + "branch",
+            LogicLibrary.NS_2008_08 + "branch",
             StackLibrary.NS_2007_08 + "branch",
             StackLibrary.NS_2007_05 + "branch"};
 

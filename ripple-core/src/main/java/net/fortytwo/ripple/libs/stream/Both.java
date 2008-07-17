@@ -24,7 +24,7 @@ public class Both extends PrimitiveStackMapping
 	private static final int ARITY = 2;
 
     private static final String[] IDENTIFIERS = {
-            StreamLibrary.NS_2008_06 + "both",
+            StreamLibrary.NS_2008_08 + "both",
             StreamLibrary.NS_2007_08 + "union",
             StreamLibrary.NS_2007_05 + "union"};
 

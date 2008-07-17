@@ -29,7 +29,7 @@ public class StarApply extends PrimitiveStackMapping
 	private static final int ARITY = 2;
 
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2008_06 + "starApply"};
+            StackLibrary.NS_2008_08 + "starApply"};
 
     public String[] getIdentifiers()
     {

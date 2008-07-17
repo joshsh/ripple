@@ -16,8 +16,6 @@ import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.libs.stack.StackLibrary;
-import net.fortytwo.ripple.libs.logic.LogicLibrary;
 
 /**
  * A primitive which consumes a string and a regular expression, producing a
@@ -29,7 +27,7 @@ public class Matches extends PrimitiveStackMapping
 	private static final int ARITY = 2;
 
     private static final String[] IDENTIFIERS = {
-            StringLibrary.NS_2008_06 + "matches",
+            StringLibrary.NS_2008_08 + "matches",
             StringLibrary.NS_2007_08 + "matches"};
 
     public String[] getIdentifiers()

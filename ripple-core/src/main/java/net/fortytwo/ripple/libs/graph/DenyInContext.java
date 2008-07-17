@@ -27,7 +27,7 @@ public class DenyInContext extends PrimitiveStackMapping
 	private static final int ARITY = 4;
 
     private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_2008_06 + "denyInContext"};
+            GraphLibrary.NS_2008_08 + "denyInContext"};
 
     public String[] getIdentifiers()
     {

@@ -12,15 +12,11 @@ package net.fortytwo.ripple.libs.graph;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
-import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RDFPredicateMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RDFValue;
-import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.model.StackMapping;
 import net.fortytwo.ripple.flow.Sink;
-import org.openrdf.model.Resource;
 
 /**
  * A primitive which follows inferred forward triples from a resource.
@@ -30,10 +26,7 @@ public class Infer extends RDFPredicateStackMapping
 	private static final int ARITY = 2;
 
     private static final String[] IDENTIFIERS = {
-            // FIXME: this is a kludge for programs created by Ripple 0.5-dev.  Remove this alias when it is no longer needed
-            GraphLibrary.NS_2007_08 + "infer",
-
-            GraphLibrary.NS_2008_06 + "infer"};
+            GraphLibrary.NS_2008_08 + "infer"};
 
     public String[] getIdentifiers()
     {

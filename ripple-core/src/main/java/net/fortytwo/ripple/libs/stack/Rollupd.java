@@ -25,7 +25,7 @@ public class Rollupd extends PrimitiveStackMapping
 	private static final int ARITY = 4;
 
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2008_06 + "rollupd",
+            StackLibrary.NS_2008_08 + "rollupd",
             StackLibrary.NS_2007_08 + "rollupd",
             StackLibrary.NS_2007_05 + "rollupd"};
 

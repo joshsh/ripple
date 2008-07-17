@@ -27,7 +27,7 @@ public class And extends PrimitiveStackMapping
     private static final int ARITY = 2;
     
     private static final String[] IDENTIFIERS = {
-            LogicLibrary.NS_2008_06 + "and",
+            LogicLibrary.NS_2008_08 + "and",
             StackLibrary.NS_2007_08 + "and",
             StackLibrary.NS_2007_05 + "and"};
 

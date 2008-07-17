@@ -25,11 +25,7 @@ public class Apply extends PrimitiveStackMapping
 	private static final int ARITY = 1;
 
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2008_06 + "apply",
-
-            // FIXME: this is a kludge for programs created by Ripple 0.5-dev.  Remove this alias when it is no longer needed
-            StackLibrary.NS_2007_08 + "apply",
-
+            StackLibrary.NS_2008_08 + "apply",
             StackLibrary.NS_2007_08 + "i",
             StackLibrary.NS_2007_05 + "i"};
 

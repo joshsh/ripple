@@ -20,14 +20,14 @@ import net.fortytwo.ripple.model.LibraryLoader;
 public class ServicesLibrary extends Library
 {
     public static final String
-            NS_2008_06 = "http://fortytwo.net/2008/06/ripple/services#",
+            NS_2008_08 = "http://fortytwo.net/2008/08/ripple/services#",
             NS_2007_08 = "http://fortytwo.net/2007/08/ripple/services#";
 
     public void load( final URIMap uf,
                       final LibraryLoader.LibraryLoaderContext context )
 		throws RippleException
 	{
-		uf.put( NS_2008_06, getClass().getResource( "services.ttl" ) + "#" );
+		uf.put(NS_2008_08, getClass().getResource( "services.ttl" ) + "#" );
 
 		registerPrimitive( PingTheSemanticWeb.class, context );
 		registerPrimitive( SwoogleIt.class, context );

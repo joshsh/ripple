@@ -27,7 +27,7 @@ public class ReplaceAll extends PrimitiveStackMapping
 	private static final int ARITY = 3;
 
     private static final String[] IDENTIFIERS = {
-            StringLibrary.NS_2008_06 + "replaceAll",
+            StringLibrary.NS_2008_08 + "replaceAll",
             StringLibrary.NS_2007_08 + "replaceAll"};
 
     public String[] getIdentifiers()

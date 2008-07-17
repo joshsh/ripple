@@ -28,10 +28,7 @@ public class PlusApply extends PrimitiveStackMapping
 	private static final int ARITY = 1;
 
     private static final String[] IDENTIFIERS = {
-            // FIXME: this is a kludge for programs created by Ripple 0.5-dev.  Remove this alias when it is no longer needed
-            StackLibrary.NS_2007_08 + "plusApply",
-
-            StackLibrary.NS_2008_06 + "plusApply"};
+            StackLibrary.NS_2008_08 + "plusApply"};
 
     public String[] getIdentifiers()
     {

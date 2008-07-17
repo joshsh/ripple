@@ -27,7 +27,7 @@ public class Exp extends PrimitiveStackMapping
 	private static final int ARITY = 1;
 
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2008_06 + "exp",
+            MathLibrary.NS_2008_08 + "exp",
             MathLibrary.NS_2007_08 + "exp"};
 
     public String[] getIdentifiers()

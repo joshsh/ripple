@@ -25,7 +25,7 @@ public class Min extends PrimitiveStackMapping
 	private static final int ARITY = 1;
 
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2008_06 + "min",
+            StackLibrary.NS_2008_08 + "min",
             StackLibrary.NS_2007_08 + "min"};
 
     public String[] getIdentifiers()

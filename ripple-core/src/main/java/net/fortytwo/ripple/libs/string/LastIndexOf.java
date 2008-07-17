@@ -25,7 +25,7 @@ public class LastIndexOf extends PrimitiveStackMapping
 	private static final int ARITY = 2;
 
     private static final String[] IDENTIFIERS = {
-            StringLibrary.NS_2008_06 + "lastIndexOf",
+            StringLibrary.NS_2008_08 + "lastIndexOf",
             StringLibrary.NS_2007_08 + "lastIndexOf"};
 
     public String[] getIdentifiers()

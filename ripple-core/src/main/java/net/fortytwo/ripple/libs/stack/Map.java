@@ -34,7 +34,7 @@ public class Map extends PrimitiveStackMapping
 	private static final int ARITY = 2;
 
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2008_06 + "map"};
+            StackLibrary.NS_2008_08 + "map"};
 
     public String[] getIdentifiers()
     {

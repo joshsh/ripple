@@ -25,11 +25,7 @@ public class TimesApply extends PrimitiveStackMapping
 	private static final int ARITY = 2;
 
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2008_06 + "timesApply",
-
-            // FIXME: this is a kludge for programs created by Ripple 0.5-dev.  Remove this alias when it is no longer needed
-            StackLibrary.NS_2007_08 + "timesApply",
-
+            StackLibrary.NS_2008_08 + "timesApply",
             StackLibrary.NS_2007_08 + "times",
             StackLibrary.NS_2007_05 + "times"};
 

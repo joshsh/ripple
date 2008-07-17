@@ -22,7 +22,7 @@ public class Id extends PrimitiveStackMapping
 	private static final int ARITY = 0;
 
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2008_06 + "id",
+            StackLibrary.NS_2008_08 + "id",
             StackLibrary.NS_2007_08 + "id",
             StackLibrary.NS_2007_05 + "id"};
 

@@ -28,7 +28,7 @@ public class PercentEncode extends PrimitiveStackMapping
 	private static final int ARITY = 1;
 
     private static final String[] IDENTIFIERS = {
-            StringLibrary.NS_2008_06 + "percentEncode",
+            StringLibrary.NS_2008_08 + "percentEncode",
             StringLibrary.NS_2007_08 + "percentEncode",
             EtcLibrary.NS_2007_05 + "urlEncoding"};
 

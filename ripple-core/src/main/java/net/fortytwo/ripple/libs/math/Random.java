@@ -25,7 +25,7 @@ public class Random extends PrimitiveStackMapping
 	private static final int ARITY = 0;
 
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2008_06 + "random",
+            MathLibrary.NS_2008_08 + "random",
             MathLibrary.NS_2007_08 + "random"};
 
     public String[] getIdentifiers()
