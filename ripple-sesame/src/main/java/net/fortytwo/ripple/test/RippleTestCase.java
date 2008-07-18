@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Comparator;
+import java.io.InputStream;
 
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailConnection;
@@ -47,11 +48,11 @@ public abstract class RippleTestCase extends TestCase
     private static QueryEngine queryEngine = null;
 
     protected ModelConnection modelConnection = null;
-    private Comparator<RippleValue> comparator = null;
+    protected Comparator<RippleValue> comparator = null;
 
     public void setUp() throws Exception
     {
-        modelConnection = getTestModel().getConnection( "1331" );
+        modelConnection = getTestModel().getConnection( null );
         comparator = modelConnection.getComparator();
     }
 
@@ -64,11 +65,12 @@ public abstract class RippleTestCase extends TestCase
         }
     }
 
-    private Sail getTestSail() throws RippleException
+    protected Sail getTestSail() throws RippleException
     {
 		if ( null == sail )
 		{
             sail = new MemoryStore();
+System.out.println("sail = " + sail);
 
             if ( SUPPORT_INFERENCE )
             {
@@ -82,9 +84,10 @@ public abstract class RippleTestCase extends TestCase
                 try
                 {
                     // Define some common namespaces
-                    sc.setNamespace("rdf", RDF.NAMESPACE);
-                    sc.setNamespace("rdfs", RDFS.NAMESPACE);
-                    sc.setNamespace("xsd", XMLSchema.NAMESPACE);
+                    sc.setNamespace( "rdf", RDF.NAMESPACE );
+                    sc.setNamespace( "rdfs", RDFS.NAMESPACE );
+                    sc.setNamespace( "xsd", XMLSchema.NAMESPACE );
+                    sc.commit();
                 }
 
                 finally
@@ -101,7 +104,7 @@ public abstract class RippleTestCase extends TestCase
 		return sail;
 	}
 
-    protected URIMap getTestUriMap()
+    protected URIMap getTestURIMap()
     {
         if ( null == uriMap )
         {
@@ -117,7 +120,7 @@ public abstract class RippleTestCase extends TestCase
 		{
             Ripple.initialize();
 
-            model = new SesameModel( getTestSail(), getTestUriMap() );
+            model = new SesameModel( getTestSail(), Ripple.class.getResource( "libraries.txt" ), getTestURIMap() );
         }
 
 		return model;
@@ -152,7 +155,7 @@ public abstract class RippleTestCase extends TestCase
 	}
 
 	protected RippleList createQueue( final ModelConnection mc,
-                                          final RippleValue... values ) throws RippleException
+                                      final RippleValue... values ) throws RippleException
 	{
 		return createStack( mc, values ).invert();
 	}
@@ -221,6 +224,26 @@ while (!l.isNil()) {
         {
             throw new AssertionFailedError( "expected <" + first + "> but was <" + second + ">" );
         }
+    }
+
+    protected Collection<RippleList> reduce( final InputStream from ) throws RippleException
+    {
+        Collector<RippleList, RippleException>
+                results = new Collector<RippleList, RippleException>();
+
+        QueryEngine qe = getTestQueryEngine();
+
+        QueryPipe actualPipe = new QueryPipe( qe, results );
+        actualPipe.put( from );
+        actualPipe.close();
+
+        Collection<RippleList> c = new LinkedList<RippleList>();
+        for ( Iterator<RippleList> iter = results.iterator(); iter.hasNext(); )
+        {
+            c.add( iter.next() );
+        }
+
+        return c;
     }
 
     protected Collection<RippleList> reduce( final String from ) throws RippleException

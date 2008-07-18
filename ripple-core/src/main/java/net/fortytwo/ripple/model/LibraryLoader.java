@@ -10,31 +10,33 @@
 package net.fortytwo.ripple.model;
 
 import java.io.InputStream;
+import java.io.File;
+import java.io.FileInputStream;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.net.URL;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.URIMap;
+import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.util.FileUtils;
 import org.openrdf.model.Value;
 
 public class LibraryLoader extends ClassLoader
 {
-    private static final String LIBRARIES_TXT = "libraries.txt";
-
     public LibraryLoader()
 	{
 		super( LibraryLoader.class.getClassLoader() );
 	}
 
-	public SpecialValueMap load( final URIMap uriMap, final ModelConnection mc )
+	public SpecialValueMap load( final URL libraries, final URIMap uriMap, final ModelConnection mc )
 		throws RippleException
 	{
         Context specialValues = new Context( mc );
 
-        for ( String className : getNames() )
+        for ( String className : getNames( libraries ) )
 		{
 			Class c;
 			Library library;
@@ -70,13 +72,13 @@ public class LibraryLoader extends ClassLoader
         return specialValues.createSpecialValueMap();
     }
 
-	private Collection<String> getNames() throws RippleException
+	private Collection<String> getNames( final URL libraries ) throws RippleException
 	{
 		try
 		{
             Collection<String> names;
-			InputStream is = net.fortytwo.ripple.Ripple.class.getResourceAsStream(
-					LIBRARIES_TXT );
+
+			InputStream is = libraries.openStream();
 
             try
             {

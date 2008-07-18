@@ -11,7 +11,7 @@ public class GetTest extends RippleTestCase
 {
     public void testAll() throws Exception
     {
-        getTestUriMap().put( "http://example.org/getTest.txt", getClass().getResource( "getTest.txt" ).toString() );
+        getTestURIMap().put( "http://example.org/getTest.txt", getClass().getResource( "getTest.txt" ).toString() );
 
         // FIXME: 'file' protocol is not supported by etc:get
 //        assertReducesTo( "<http://example.org/getTest.txt> get >>", "\"testing, one two three...\"" );

@@ -142,8 +142,8 @@ System.out.println( "    type = " + type );
 		public void test( final ModelConnection mc )
 			throws Exception
 		{
-			System.out.println( "URI test " + label
-				+ ( null == comment ? "" : " (" + comment + ")" ) );
+			//System.out.println( "URI test " + label
+			//	+ ( null == comment ? "" : " (" + comment + ")" ) );
 			String fakeBase = "http://example.org/";
 			URI uri;
 

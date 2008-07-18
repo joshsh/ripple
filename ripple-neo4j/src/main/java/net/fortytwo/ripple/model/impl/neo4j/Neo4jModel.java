@@ -16,6 +16,7 @@ import net.fortytwo.ripple.URIMap;
 import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
 
 import java.util.Collection;
+import java.net.URL;
 
 import org.neo4j.api.core.NeoService;
 
@@ -27,8 +28,8 @@ import org.neo4j.api.core.NeoService;
 public class Neo4jModel extends SesameModel {
     private final NeoService service;
 
-    public Neo4jModel(final NeoService service, final URIMap uriMap) throws RippleException {
-        super(null, uriMap);
+    public Neo4jModel(final NeoService service, final URL libraries, final URIMap uriMap) throws RippleException {
+        super(null, libraries, uriMap);
         this.service = service;
     }
 

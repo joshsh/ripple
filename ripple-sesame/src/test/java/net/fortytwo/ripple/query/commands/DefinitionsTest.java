@@ -35,13 +35,9 @@ public class DefinitionsTest extends RippleTestCase
 {
     public void testDefinitions() throws Exception
     {
-        Sail sail = new MemoryStore();
-        sail.initialize();
+        Sail sail = getTestSail();
         SailConnection sc = sail.getConnection();
-
-        URIMap uriMap = new URIMap();
-        Model model = new SesameModel( sail, uriMap );
-        QueryEngine qe = new QueryEngine( model, new LazyEvaluator(), System.out, System.err );
+        QueryEngine qe = getTestQueryEngine();
 
         ListAST foobar = new ListAST( new PlainLiteralAST( "foo" ), new ListAST( new PlainLiteralAST( "bar" ), new ListAST() ) );
         ListAST foobar2 = new ListAST( new PlainLiteralAST( "foo2" ), new ListAST( new PlainLiteralAST( "bar2" ), new ListAST() ) );
@@ -106,7 +102,6 @@ public class DefinitionsTest extends RippleTestCase
         assertFalse( obj.equals( foo ) );
 
         sc.close();
-        sail.shutDown();
     }
 
 	private int countStatements(final CloseableIteration<? extends Statement, SailException> iter) throws SailException {

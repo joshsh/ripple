@@ -12,23 +12,17 @@ package net.fortytwo.ripple;
 import gnu.getopt.Getopt;
 import gnu.getopt.LongOpt;
 import net.fortytwo.ripple.cli.CommandLineInterface;
-import net.fortytwo.ripple.cli.TurtleView;
 import net.fortytwo.ripple.model.Model;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
 import net.fortytwo.ripple.query.LazyEvaluator;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.StackEvaluator;
-import net.fortytwo.ripple.query.QueryPipe;
-import net.fortytwo.ripple.query.LazyDebugEvaluator;
 import net.fortytwo.ripple.rdf.CloseableIterationSource;
 import net.fortytwo.ripple.rdf.RDFUtils;
 import net.fortytwo.ripple.rdf.SailInserter;
 import net.fortytwo.ripple.rdf.SesameOutputAdapter;
 import net.fortytwo.linkeddata.sail.LinkedDataSail;
 import net.fortytwo.ripple.flow.Source;
-import net.fortytwo.ripple.flow.NullSink;
 import org.apache.log4j.Logger;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;
@@ -48,8 +42,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.Properties;
 
 
@@ -77,7 +69,7 @@ public final class Demo
         return sail;
     }
 
-    public static RDFFormat getRdfFormat( final String name ) throws RippleException
+    public static RDFFormat getRDFFormat( final String name ) throws RippleException
 	{
 		String value = Ripple.getProperties().getString( name );
 
@@ -100,7 +92,7 @@ public final class Demo
 //net.fortytwo.ripple.tools.SitemapsUtils.test();
 		// Create a Sesame triple store.
 		Sail baseSail = createMemoryStoreSail();
-        RDFFormat cacheFormat = getRdfFormat( Ripple.CACHE_FORMAT );
+        RDFFormat cacheFormat = getRDFFormat( Ripple.CACHE_FORMAT );
 
         if ( null != store )
 		{
@@ -121,7 +113,7 @@ public final class Demo
 		}
 
 		// Attach a Ripple model to the repository.
-		Model model = new SesameModel( sail, uriMap );
+		Model model = new SesameModel( sail, Ripple.class.getResource("libraries.txt"), uriMap );
 
 		// Attach a query engine to the model.
         StackEvaluator evaluator = new LazyEvaluator();

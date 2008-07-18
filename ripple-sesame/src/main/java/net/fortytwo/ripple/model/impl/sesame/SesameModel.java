@@ -11,6 +11,7 @@ package net.fortytwo.ripple.model.impl.sesame;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.net.URL;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.LibraryLoader;
@@ -35,7 +36,7 @@ public class SesameModel implements Model
 	final Set<ModelConnection> openConnections = new LinkedHashSet<ModelConnection>();
     final URIMap uriMap;
 
-    public SesameModel( final Sail baseSail, final URIMap uriMap )
+    public SesameModel( final Sail baseSail, final URL libraries, final URIMap uriMap )
 		throws RippleException
 	{
 		LOGGER.debug( "Creating new Model" );
@@ -49,7 +50,7 @@ public class SesameModel implements Model
         {
             // TODO: eliminate this temporary value map
             specialValues = new SpecialValueMap();
-            specialValues = new LibraryLoader().load( uriMap, mc );
+            specialValues = new LibraryLoader().load( libraries, uriMap, mc );
 
             // At the moment, op needs to be a special value for the sake of the
             // evaluator.  This has the side-effect of making it a keyword.

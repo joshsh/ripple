@@ -26,7 +26,7 @@ public class NeoRippleDemo {
 
 		// Attach a Ripple model to the repository.
         NeoService service = new EmbeddedNeo( "var/neo" );
-        Model model = new Neo4jModel( service, uriMap );
+        Model model = new Neo4jModel( service, Ripple.class.getResource( "libraries.txt" ), uriMap );
 
 		// Attach a query engine to the model.
 		StackEvaluator evaluator = new LazyEvaluator();

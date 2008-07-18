@@ -82,8 +82,6 @@ public class SesameTest extends RippleTestCase
         int count = countStatements( sc, null );
         sc.close();
 
-        sail.shutDown();
-
         assertEquals( 1, count );
     }
 
