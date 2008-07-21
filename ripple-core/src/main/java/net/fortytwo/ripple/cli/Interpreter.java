@@ -18,6 +18,8 @@ import net.fortytwo.ripple.flow.Sink;
 import org.apache.log4j.Logger;
 
 import antlr.TokenStreamIOException;
+import antlr.RecognitionException;
+import antlr.TokenStreamException;
 
 public class Interpreter
 {
@@ -49,7 +51,8 @@ public class Interpreter
 		active = true;
 
 //System.out.println( "-- parse" );
-		// Break out when a @quit directive is encountered
+		// Break out when a @quit directive is encountered or a fatal error is
+        // thrown.
 		while ( active )
 		{
 //System.out.println( "-- construct" );
@@ -58,7 +61,7 @@ public class Interpreter
 			RippleParser parser = new RippleParser( lexer );
 			parser.initialize( recognizerAdapter );
 
-			try
+            try
 			{
 //System.out.println( "-- antlr" );
 				parser.nt_Document();
@@ -83,10 +86,12 @@ public class Interpreter
             catch ( TokenStreamIOException e )
 			{
 				LOGGER.debug( e );
+                active = false;
 				break;
 			}
 			
-			catch ( Exception e )
+            // All other errors are assumed to be non-fatal.
+            catch ( Exception e )
 			{
                 // Handle non-fatal errors in an application-specific way.
                 exceptionSink.put( e );

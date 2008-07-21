@@ -13,6 +13,8 @@ import java.io.PrintStream;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Sink;
+import antlr.RecognitionException;
+import antlr.TokenStreamException;
 
 public class ParserExceptionSink implements Sink<Exception, RippleException>
 {
@@ -32,21 +34,20 @@ public class ParserExceptionSink implements Sink<Exception, RippleException>
 			alert( e.toString() );
 		}
 
-		// Non-fatal.
-		/*else if ( e instanceof antlr.RecognitionException )
+        // Report lexer errors to user, but don't log them.
+		else if ( e instanceof TokenStreamException)
+		{
+			alert( "Lexer error: " + e.toString() );
+		}
+
+        // Report parser errors to user, but don't log them.
+		else if ( e instanceof RecognitionException)
 		{
 			alert( "Parser error: " + e.toString() );
 		}
 
-		// Non-fatal.
-		else if ( e instanceof antlr.TokenStreamException )
+        else
 		{
-			alert( "Lexer error: " + e.toString() );
-		}*/
-
-		else
-		{
-//System.out.println("GOT AN ERROR!!!!!!!!!");
 			alert( "Error: " + e.toString() );
 			( new RippleException( e ) ).logError();
 		}
