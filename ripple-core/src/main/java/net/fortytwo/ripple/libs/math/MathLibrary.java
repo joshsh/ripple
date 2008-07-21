@@ -50,7 +50,7 @@ public class MathLibrary extends Library
 		registerPrimitive( Mod.class, context );
 		mulVal = registerPrimitive( Mul.class, context );
 		registerPrimitive( Neg.class, context );
-		registerPrimitive( Signum.class, context );
+		registerPrimitive( Sign.class, context );
 		subVal = registerPrimitive( Sub.class, context );
 
 		// Exponents

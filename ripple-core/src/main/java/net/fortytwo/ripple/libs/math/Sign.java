@@ -22,12 +22,12 @@ import net.fortytwo.ripple.flow.Sink;
  * possible values: -1 if the number is less than 0, 0 if the number is equal to
  * 0, and 1 if the number is greater than 0.
  */
-public class Signum extends PrimitiveStackMapping
+public class Sign extends PrimitiveStackMapping
 {
 	private static final int ARITY = 1;
 
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2008_08 + "signum",
+            MathLibrary.NS_2008_08 + "sign",
             MathLibrary.NS_2007_08 + "signum",
             MathLibrary.NS_2007_05 + "sign"};
 
@@ -36,7 +36,7 @@ public class Signum extends PrimitiveStackMapping
         return IDENTIFIERS;
     }
 
-	public Signum()
+	public Sign()
 		throws RippleException
 	{
 		super();

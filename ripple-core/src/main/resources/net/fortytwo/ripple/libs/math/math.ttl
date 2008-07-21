@@ -332,7 +332,7 @@ math:random
 	rdfs:comment "=> x, where x is a pseudorandom number in the interval [0.0, 1.0)" ;
 	.
 
-math:signum
+math:sign
 	a rpl:Function ;
 	rpl:arity 1 ;
 	rpl:parameters (
@@ -342,7 +342,7 @@ math:signum
 			rpl:isTransparent true ]
 		) ;
 	rpl:returnType xsd:integer ;
-	rdfs:label "signum" ;
+	rdfs:label "sign" ;
 	rdfs:comment "x  =>  sign of x (-1, 0, or +1)" ;
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/math#sign> ;
 	.

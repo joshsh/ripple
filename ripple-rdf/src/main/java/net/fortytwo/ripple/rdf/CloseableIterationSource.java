@@ -37,7 +37,7 @@ public class CloseableIterationSource<T, E extends Exception> implements Source<
                 sink.put( iteration.next() );
             }
         }
-        
+
         catch ( Exception e )
         {
             throw ( e instanceof RippleException )
