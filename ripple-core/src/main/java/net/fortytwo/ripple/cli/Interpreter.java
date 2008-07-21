@@ -85,7 +85,7 @@ public class Interpreter
             // interrupted, and when the lexer has reached the end of input.
             catch ( TokenStreamIOException e )
 			{
-				LOGGER.debug( e );
+				new RippleException( e ).logError();
                 active = false;
 				break;
 			}
@@ -100,7 +100,7 @@ public class Interpreter
             // If there's anything in the input buffer, it's because the parser
             // ran across a syntax error.  Clear the buffer, create a new lexer
             // and parser instance, and start afresh.
-            // Note: this is a command-line usage scenario, and rules out
+            // Note: this is a command-line usage scenario, and precludes
             // recovery from errors when the Interpreter is reading from a
             // pre-populated buffer.
             clear( input );            

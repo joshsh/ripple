@@ -182,6 +182,22 @@ stack:dupdd
 	rdfs:comment "x y z  =>  x x y z" ;
 	.
 
+stack:empty
+	a rpl:Function ;
+	rpl:arity 1 ;
+	rpl:returnType xsd:integer ;
+	rpl:parameters (
+		[
+			rdfs:label "l" ;
+			rdfs:comment "a List" ;
+			rpl:parameterType rdf:List ;
+			rpl:isTransparent true ]
+		) ;
+	rpl:returnType xsd:integer ;
+	rdfs:label "empty" ;
+	rdfs:comment "l  =>  true if l is an empty list, otherwise false" ;
+	.
+
 stack:fold
 	a rpl:Function ;
 	rpl:arity 3 ;

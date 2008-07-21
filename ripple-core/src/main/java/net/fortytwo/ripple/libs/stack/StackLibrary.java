@@ -67,7 +67,8 @@ public class StackLibrary extends Library
 		// List primitives.
 		registerPrimitive( At.class, context );
 		registerPrimitive( Cat.class, context );
-		registerPrimitive( Cons.class, context );
+        registerPrimitive( Cons.class, context );
+        registerPrimitive( Empty.class, context );
 		registerPrimitive( Fold.class, context );
 		registerPrimitive( Has.class, context );
 		registerPrimitive( In.class, context );
