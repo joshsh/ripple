@@ -61,8 +61,11 @@ public class Compare extends PrimitiveStackMapping
 		stack = stack.getRest();
 
 		int result = mc.getComparator().compare( x, y );
+        
+        // Constrain the result to three possible values.
+        result = ( result < 0 ) ? -1 : ( result > 0 ) ? 1 : 0;
 
-		solutions.put( arg.with( stack.push( mc.value( result ) ) ) );
+        solutions.put( arg.with( stack.push( mc.value( result ) ) ) );
 	}
 }
 
