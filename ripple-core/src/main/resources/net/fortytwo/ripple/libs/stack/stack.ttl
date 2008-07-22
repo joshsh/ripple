@@ -135,6 +135,25 @@ stack:dipd
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#dipd> ;
 	.
 
+stack:drop
+	a rpl:Function ;
+	rpl:arity 2 ;
+	rpl:parameters (
+		[
+			rdfs:label "l" ;
+			rdfs:comment "a List" ;
+			rpl:parameterType rdf:List ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "n" ;
+			rpl:parameterType xsd:integer ;
+			rpl:isTransparent true ]
+		) ;
+	rpl:returnType rdf:List ;
+	rdfs:label "drop" ;
+	rdfs:comment "l n  =>  l2, the result of deleting the first n elements of l" ;
+	.
+
 stack:dup
 	a rpl:Function ;
 	rpl:arity 1 ;
@@ -657,6 +676,25 @@ stack:swons
 	rdfs:label "swons" ;
 	rdfs:comment "l x  =>  l2  -- where the first member of l2 is x and the rest of l2 is l" ;
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#swons> ;
+	.
+
+stack:take
+	a rpl:Function ;
+	rpl:arity 2 ;
+	rpl:parameters (
+		[
+			rdfs:label "l" ;
+			rdfs:comment "a List" ;
+			rpl:parameterType rdf:List ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "n" ;
+			rpl:parameterType xsd:integer ;
+			rpl:isTransparent true ]
+		) ;
+	rpl:returnType rdf:List ;
+	rdfs:label "take" ;
+	rdfs:comment "l n  =>  l2, the result of retaining just the first n elements of l" ;
 	.
 
 stack:timesApply

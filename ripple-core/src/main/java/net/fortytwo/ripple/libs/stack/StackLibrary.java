@@ -68,6 +68,7 @@ public class StackLibrary extends Library
 		registerPrimitive( At.class, context );
 		registerPrimitive( Cat.class, context );
         registerPrimitive( Cons.class, context );
+        registerPrimitive( Drop.class, context );
         registerPrimitive( Empty.class, context );
 		registerPrimitive( Fold.class, context );
 		registerPrimitive( Has.class, context );
@@ -78,7 +79,8 @@ public class StackLibrary extends Library
 		registerPrimitive( Of.class, context );
 		registerPrimitive( Size.class, context );
 		registerPrimitive( Swons.class, context );
-		registerPrimitive( Uncons.class, context );
+        registerPrimitive( Take.class, context );
+        registerPrimitive( Uncons.class, context );
 		registerPrimitive( Unswons.class, context );
 	}
 

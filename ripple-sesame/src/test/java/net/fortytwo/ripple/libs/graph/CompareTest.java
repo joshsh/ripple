@@ -14,6 +14,7 @@ import java.util.Collection;
  */
 public class CompareTest extends RippleTestCase
 {
+    // The only three possible values of graph:compare.
     private static final double
             LT = -1.0,
             GT = 1.0,
