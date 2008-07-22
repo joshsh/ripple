@@ -141,6 +141,25 @@ logic:or
 	owl:sameAs <http://fortytwo.net/2007/08/ripple/stack#or> ;
 	.
 
+logic:while
+	a rpl:Function ;
+	rpl:arity 2 ;
+	rpl:parameters (
+		[
+			rdfs:label "p" ;
+			rdfs:comment "loop body, executed as long as condition is satisfied" ;
+			rpl:parameterType rpl:Function ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "b" ;
+			rdfs:comment "loop condition" ;
+			rpl:parameterType rdf:List ;
+			rpl:isTransparent true ]
+		) ;
+	rdfs:label "while" ;
+	rdfs:comment "b p =>  p! p! p! ...  -- where p is executed as long as executing b yields true" ;
+	.
+
 logic:xor
 	a rpl:Function ;
 	rpl:arity 2 ;

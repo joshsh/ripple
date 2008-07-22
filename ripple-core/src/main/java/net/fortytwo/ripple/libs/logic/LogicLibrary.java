@@ -33,7 +33,8 @@ public class LogicLibrary extends Library
 		registerPrimitive( Choice.class, context );
 		registerPrimitive( Ifte.class, context );
 		registerPrimitive( Not.class, context );
-		registerPrimitive( Or.class, context );
+        registerPrimitive( Or.class, context );
+        registerPrimitive( While.class, context );
 		registerPrimitive( Xor.class, context );
     }
 }

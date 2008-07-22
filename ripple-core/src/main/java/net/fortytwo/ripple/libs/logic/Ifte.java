@@ -101,7 +101,7 @@ public class Ifte extends PrimitiveStackMapping
         }
 
         public void apply( final StackContext arg,
-                             final Sink<StackContext, RippleException> sink ) throws RippleException
+                             final Sink<StackContext, RippleException> solutions ) throws RippleException
         {
             ModelConnection mc = arg.getModelConnection();
             RippleValue b = arg.getStack().getFirst();
@@ -110,7 +110,7 @@ public class Ifte extends PrimitiveStackMapping
                     ? originalStack.push( trueProgram ).push( Operator.OP )
                     : originalStack.push( falseProgram ).push( Operator.OP );
 
-            sink.put( arg.with( stack ) );
+            solutions.put( arg.with( stack ) );
         }
     }
 }
