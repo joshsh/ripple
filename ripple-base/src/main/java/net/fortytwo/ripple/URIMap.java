@@ -94,7 +94,7 @@ public class URIMap
 		}
 
 		int fromIndex = 0, toIndex = fromUris.length - 1;
-		int mid = 0, cmp = 0;
+		int mid, cmp;
 		int i = -1;
 
 		while ( fromIndex <= toIndex )

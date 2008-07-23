@@ -11,35 +11,34 @@ package net.fortytwo.ripple.rdf;
 
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.flow.Tee;
-import net.fortytwo.ripple.RippleException;
 
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;
 
-public class RdfTee implements RDFSink
+public class RdfTee<E extends Exception> implements RDFSink<E>
 {
-	private final Sink<Statement, RippleException> statementTee;
-	private final Sink<Namespace, RippleException> namespaceTee;
-	private final Sink<String, RippleException> commentTee;
+	private final Sink<Statement, E> statementTee;
+	private final Sink<Namespace, E> namespaceTee;
+	private final Sink<String, E> commentTee;
 
-	public RdfTee( final RDFSink sinkA, final RDFSink sinkB )
+	public RdfTee( final RDFSink<E> sinkA, final RDFSink<E> sinkB )
 	{
-		statementTee = new Tee<Statement, RippleException>( sinkA.statementSink(), sinkB.statementSink() );
-		namespaceTee = new Tee<Namespace, RippleException>( sinkA.namespaceSink(), sinkB.namespaceSink() );
-		commentTee = new Tee<String, RippleException>( sinkA.commentSink(), sinkB.commentSink() );
+		statementTee = new Tee<Statement, E>( sinkA.statementSink(), sinkB.statementSink() );
+		namespaceTee = new Tee<Namespace, E>( sinkA.namespaceSink(), sinkB.namespaceSink() );
+		commentTee = new Tee<String, E>( sinkA.commentSink(), sinkB.commentSink() );
 	}
 
-	public Sink<Statement, RippleException> statementSink()
+	public Sink<Statement, E> statementSink()
 	{
 		return statementTee;
 	}
 
-	public Sink<Namespace, RippleException> namespaceSink()
+	public Sink<Namespace, E> namespaceSink()
 	{
 		return namespaceTee;
 	}
 
-	public Sink<String, RippleException> commentSink()
+	public Sink<String, E> commentSink()
 	{
 		return commentTee;
 	}

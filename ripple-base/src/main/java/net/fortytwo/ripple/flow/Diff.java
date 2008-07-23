@@ -12,7 +12,6 @@ package net.fortytwo.ripple.flow;
 import java.util.LinkedList;
 
 import org.apache.log4j.Logger;
-import net.fortytwo.ripple.RippleException;
 
 /**
  * Author: josh
@@ -20,11 +19,11 @@ import net.fortytwo.ripple.RippleException;
  * Time: 1:39:10 PM
  */
 // TODO: add a concept of Source
-public class Diff<T, E extends Exception> implements DiffSink<T, E>
+public class Diff<T, E extends Exception> implements DiffSink<T, E>, DiffSource<T, E>
 {
     private static final Logger LOGGER = Logger.getLogger(Diff.class);
 
-    private enum Action { Add, Remove };
+    private enum Action { Add, Remove }
     private class Change
     {
         public T value;
@@ -79,8 +78,8 @@ public class Diff<T, E extends Exception> implements DiffSink<T, E>
     {
         changes.clear();
     }
-                                                   // throws E
-    public void writeTo(final DiffSink<T, E> sink) throws Exception
+
+    public void writeTo(final DiffSink<T, E> sink) throws E
     {
         Sink<T, E> otherPlusSink = sink.getPlus();
         Sink<T, E> otherMinusSink = sink.getMinus();

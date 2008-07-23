@@ -11,37 +11,41 @@ package net.fortytwo.ripple.rdf;
 
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.flow.SynchronizedSink;
-import net.fortytwo.ripple.RippleException;
 
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;
 
-public class SynchronizedRDFSink implements RDFSink
+public class SynchronizedRDFSink<E extends Exception> implements RDFSink<E>
 {
-	private final Sink<Statement, RippleException> stSink;
-	private final Sink<Namespace, RippleException> nsSink;
-	private final Sink<String, RippleException> comSink;
+	private final SynchronizedSink<Statement, E> stSink;
+	private final SynchronizedSink<Namespace, E> nsSink;
+	private final SynchronizedSink<String, E> comSink;
 
-	public SynchronizedRDFSink( final RDFSink sink, final Object synch )
+	public SynchronizedRDFSink( final RDFSink<E> sink, final Object mutex )
 	{
-		stSink = new SynchronizedSink<Statement, RippleException>( sink.statementSink(), synch );
-		nsSink = new SynchronizedSink<Namespace, RippleException>( sink.namespaceSink(), synch );
-		comSink = new SynchronizedSink<String, RippleException>( sink.commentSink(), synch );
+		stSink = new SynchronizedSink<Statement, E>( sink.statementSink(), mutex );
+		nsSink = new SynchronizedSink<Namespace, E>( sink.namespaceSink(), mutex );
+		comSink = new SynchronizedSink<String, E>( sink.commentSink(), mutex );
 	}
 
-	public Sink<Statement, RippleException> statementSink()
+	public Sink<Statement, E> statementSink()
 	{
 		return stSink;
 	}
 
-	public Sink<Namespace, RippleException> namespaceSink()
+	public Sink<Namespace, E> namespaceSink()
 	{
 		return nsSink;
 	}
 
-	public Sink<String, RippleException> commentSink()
+	public Sink<String, E> commentSink()
 	{
 		return comSink;
 	}
+
+    public Object getMutex()
+    {
+        return stSink.getMutex();
+    }
 }
 

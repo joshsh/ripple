@@ -9,10 +9,6 @@
 
 package net.fortytwo.ripple.flow;
 
-import net.fortytwo.ripple.RippleException;
-
-import java.util.Iterator;
-import java.util.Collection;
 
 public interface Mapping<D, R, E extends Exception>
 {

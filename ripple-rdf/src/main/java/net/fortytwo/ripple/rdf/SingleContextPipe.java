@@ -24,9 +24,9 @@ public class SingleContextPipe implements RDFSink
 	private final Sink<Namespace, RippleException> nsSink;
 	private final Sink<String, RippleException> cmtSink;
 
-	public SingleContextPipe( final RDFSink sink,
-							final Resource context,
-							final ValueFactory valueFactory )
+	public SingleContextPipe( final RDFSink<RippleException> sink,
+                              final Resource context,
+                              final ValueFactory valueFactory )
 	{
 		final Sink<Statement, RippleException> otherStSink = sink.statementSink();
 

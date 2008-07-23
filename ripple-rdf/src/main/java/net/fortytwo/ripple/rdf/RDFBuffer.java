@@ -9,19 +9,18 @@
 
 package net.fortytwo.ripple.rdf;
 
-import net.fortytwo.ripple.RippleException;
 
-public class RDFBuffer extends RDFCollector
+public class RDFBuffer<E extends Exception> extends RDFCollector<E>
 {
-	private final RDFSink sink;
+	private final RDFSink<E> sink;
 
-	public RDFBuffer( final RDFSink sink )
+	public RDFBuffer( final RDFSink<E> sink )
 	{
 		super();
 		this.sink = sink;
 	}
 
-	public void flush() throws RippleException
+	public void flush() throws E
 	{
 		writeTo( sink );
 		clear();

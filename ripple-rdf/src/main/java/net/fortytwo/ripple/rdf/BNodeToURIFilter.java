@@ -33,7 +33,7 @@ public class BNodeToURIFilter implements RDFSink
 
 	private ValueFactory valueFactory;
 
-	public BNodeToURIFilter( final RDFSink sink, final ValueFactory vf )
+	public BNodeToURIFilter( final RDFSink<RippleException> sink, final ValueFactory vf )
 	{
 		valueFactory = vf;
 
@@ -45,7 +45,8 @@ public class BNodeToURIFilter implements RDFSink
 			{
 				boolean s = st.getSubject() instanceof BNode;
 				boolean o = st.getObject() instanceof BNode;
-				boolean c = ( null == st.getContext() ) ? false : st.getContext() instanceof BNode;
+				boolean c = ( null != st.getContext() )
+                        && st.getContext() instanceof BNode;
 
 				if ( s || o || c )
 				{

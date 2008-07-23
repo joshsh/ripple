@@ -10,10 +10,17 @@
 package net.fortytwo.ripple.rdf.diff;
 
 import net.fortytwo.ripple.rdf.RDFSink;
+import net.fortytwo.ripple.flow.DiffSink;
+import org.openrdf.model.Statement;
+import org.openrdf.model.Namespace;
 
-public interface RDFDiffSink
+public interface RDFDiffSink<E extends Exception>
 {
-	RDFSink adderSink();
-	RDFSink subtractorSink();
+	RDFSink<E> adderSink();
+	RDFSink<E> subtractorSink();
+
+    DiffSink<Statement, E> statementSink();
+    DiffSink<Namespace, E> namespaceSink();
+    DiffSink<String, E> commentSink();
 }
 

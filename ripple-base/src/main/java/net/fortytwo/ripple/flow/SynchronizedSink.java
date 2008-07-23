@@ -11,13 +11,13 @@ package net.fortytwo.ripple.flow;
 
 public class SynchronizedSink<T, E extends Exception> implements Sink<T, E>
 {
-	private final Object synch;
+	private final Object mutex;
 	private final Sink<T, E> sink;
 
-	public SynchronizedSink( final Sink<T, E> other, final Object synch )
+	public SynchronizedSink( final Sink<T, E> other, final Object mutex )
 	{
 		sink = other;
-		this.synch = synch;
+		this.mutex = mutex;
 	}
 	
 	public SynchronizedSink( final Sink<T, E> other )
@@ -27,9 +27,14 @@ public class SynchronizedSink<T, E extends Exception> implements Sink<T, E>
 
 	public void put( final T t ) throws E
 	{
-		synchronized ( synch )
+		synchronized (mutex)
 		{
 			sink.put( t );
 		}
 	}
+
+    public Object getMutex()
+    {
+        return mutex;
+    }
 }

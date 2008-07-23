@@ -9,7 +9,6 @@
 
 package net.fortytwo.ripple.rdf;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Collector;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.flow.Source;
@@ -17,54 +16,47 @@ import net.fortytwo.ripple.flow.Source;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;
 
-public class RDFCollector extends RDFSource implements RDFSink
+public class RDFCollector<E extends Exception> extends RDFSource<E> implements RDFSink<E>
 {
-	private final Collector<Statement, RippleException> statements;
-	private final Collector<Namespace, RippleException> namespaces;
-	private final Collector<String, RippleException> comments;
+	private final Collector<Statement, E> statements;
+	private final Collector<Namespace, E> namespaces;
+	private final Collector<String, E> comments;
 
 	public RDFCollector()
 	{
-		statements = new Collector<Statement, RippleException>();
-		namespaces = new Collector<Namespace, RippleException>();
-		comments = new Collector<String, RippleException>();
+		statements = new Collector<Statement, E>();
+		namespaces = new Collector<Namespace, E>();
+		comments = new Collector<String, E>();
 	}
 
-	public Sink<Statement, RippleException> statementSink()
+	public Sink<Statement, E> statementSink()
 	{
 		return statements;
 	}
 
-	public Sink<Namespace, RippleException> namespaceSink()
+	public Sink<Namespace, E> namespaceSink()
 	{
 		return namespaces;
 	}
 
-	public Sink<String, RippleException> commentSink()
+	public Sink<String, E> commentSink()
 	{
 		return comments;
 	}
 
-	public Source<Statement, RippleException> statementSource()
+	public Source<Statement, E> statementSource()
 	{
 		return statements;
 	}
 
-	public Source<Namespace, RippleException> namespaceSource()
+	public Source<Namespace, E> namespaceSource()
 	{
 		return namespaces;
 	}
 
-	public Source<String, RippleException> commentSource()
+	public Source<String, E> commentSource()
 	{
 		return comments;
-	}
-
-	public void writeTo( final RDFSink sink ) throws RippleException
-	{
-		statements.writeTo( sink.statementSink() );
-		namespaces.writeTo( sink.namespaceSink() );
-		comments.writeTo( sink.commentSink() );
 	}
 
 	public void clear()

@@ -9,19 +9,18 @@
 
 package net.fortytwo.ripple.rdf;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Source;
 
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;
 
-public abstract class RDFSource
+public abstract class RDFSource<E extends Exception>
 {
-	public abstract Source<Statement, RippleException> statementSource() throws RippleException;
-	public abstract Source<Namespace, RippleException> namespaceSource() throws RippleException;
-	public abstract Source<String, RippleException> commentSource() throws RippleException;
+	public abstract Source<Statement, E> statementSource() throws E;
+	public abstract Source<Namespace, E> namespaceSource() throws E;
+	public abstract Source<String, E> commentSource() throws E;
 
-	public void writeTo( final RDFSink sink ) throws RippleException
+	public void writeTo( final RDFSink<E> sink ) throws E
 	{
 		commentSource().writeTo( sink.commentSink() );
 
@@ -32,4 +31,3 @@ public abstract class RDFSource
 		statementSource().writeTo( sink.statementSink() );
 	}
 }
-

@@ -13,24 +13,35 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public final class StringUtils
 {
     private static final String UTF_8 = "UTF-8";
-
-    private static final String
-            MD5 = "MD5",
-            SHA = "SHA";
 
     private static final int
 		FOUR = 4,
 		EIGHT = 8,
 		SIXTEEN = 16;
 
-    private static MessageDigest sha1Digest = null;
-    private static MessageDigest md5Digest = null;
+    private static final MessageDigest SHA1_DIGEST;
+    private static final MessageDigest MD5_DIGEST;
 
-	private StringUtils()
+    static
+    {
+        try
+        {
+            SHA1_DIGEST = MessageDigest.getInstance( "SHA" );
+            MD5_DIGEST = MessageDigest.getInstance( "MD5" );
+        }
+
+        catch ( NoSuchAlgorithmException e )
+        {
+            throw new ExceptionInInitializerError( e );
+        }
+    }
+
+    private StringUtils()
 	{
 	}
 
@@ -199,6 +210,7 @@ public final class StringUtils
 	/**
 	 *  @param s  a string to encode.  Uses the UTF-8 character set.
 	 *  @return  percent-encoded (per RFC 3986) version of the string
+     * @throws RippleException  if encoding fails
 	 */
     public static String percentEncode( final String s ) throws RippleException {
         // TODO: there are said to be other differences between the historical
@@ -210,6 +222,7 @@ public final class StringUtils
 	/**
 	 *  @param s  percent-encoded (per RFC 3986) string to decode.  Uses the UTF-8 character set.
 	 *  @return   the decoded string
+     * @throws RippleException  if decoding fails
 	 */
     public static String percentDecode( final String s ) throws RippleException {
         // TODO: is there any properly percent-encoded string which this would treat incorrectly?
@@ -220,6 +233,7 @@ public final class StringUtils
 	/**
 	 *  @param s  a string to encode.  Uses the UTF-8 character set.
 	 *  @return  application/x-www-form-urlencoded version of the string
+     * @throws RippleException  if encoding fails
 	 */
  	public static String urlEncode( final String s )
 		throws RippleException
@@ -238,6 +252,7 @@ public final class StringUtils
     /**
 	 *  @param s  an application/x-www-form-urlencoded string to decode.  Uses the UTF-8 character set.
 	 *  @return  the decoded string
+     * @throws RippleException  if decoding fails
 	 */
  	public static String urlDecode( final String s )
 		throws RippleException
@@ -259,22 +274,9 @@ public final class StringUtils
 	{
 		try
 		{
-			if ( null == sha1Digest )
+			synchronized (SHA1_DIGEST)
 			{
-				sha1Digest = MessageDigest.getInstance( SHA );
-			}
-		}
-
-		catch ( java.security.NoSuchAlgorithmException e )
-		{
-			throw new RippleException( e );
-		}
-
-		try
-		{
-			synchronized ( sha1Digest )
-			{
-				sha1Digest.update( plaintext.getBytes( UTF_8 ) );
+				SHA1_DIGEST.update( plaintext.getBytes( UTF_8 ) );
 			}
 		}
 
@@ -283,7 +285,7 @@ public final class StringUtils
 			throw new RippleException( e );
 		}
 
-		byte[] digest = sha1Digest.digest();
+		byte[] digest = SHA1_DIGEST.digest();
 
 		String coded = "";
 
@@ -308,22 +310,9 @@ public final class StringUtils
 	{
 		try
 		{
-			if ( null == md5Digest )
+			synchronized (MD5_DIGEST)
 			{
-				md5Digest = MessageDigest.getInstance( MD5 );
-			}
-		}
-
-		catch ( java.security.NoSuchAlgorithmException e )
-		{
-			throw new RippleException( e );
-		}
-
-		try
-		{
-			synchronized ( md5Digest )
-			{
-				md5Digest.update( plaintext.getBytes( UTF_8 ) );
+				MD5_DIGEST.update( plaintext.getBytes( UTF_8 ) );
 			}
 		}
 
@@ -332,7 +321,7 @@ public final class StringUtils
 			throw new RippleException( e );
 		}
 
-		byte[] digest = md5Digest.digest();
+		byte[] digest = MD5_DIGEST.digest();
 
 		String coded = "";
 
@@ -359,7 +348,7 @@ public final class StringUtils
 	{
 		try
 		{
-			return (char) Integer.parseInt( unicode.toString(), SIXTEEN );
+			return (char) Integer.parseInt( unicode, SIXTEEN );
 		}
 
 		catch ( NumberFormatException e )

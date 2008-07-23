@@ -79,7 +79,7 @@ public class RippleProperties extends Properties
 
 		try
 		{
-			return ( new Double( value ) ).doubleValue();
+			return new Double( value );
 		}
 
 		catch ( java.lang.NumberFormatException e )
@@ -99,7 +99,7 @@ public class RippleProperties extends Properties
 
 		try
 		{
-			return ( new Float( value ) ).floatValue();
+			return new Float( value );
 		}
 
 		catch ( java.lang.NumberFormatException e )
@@ -119,7 +119,7 @@ public class RippleProperties extends Properties
 	
 		try
 		{
-			return ( new Integer( value ) ).intValue();
+			return new Integer( value );
 		}
 		
 		catch ( java.lang.NumberFormatException e )
@@ -139,7 +139,7 @@ public class RippleProperties extends Properties
 		
 		try
 		{
-			return ( new Long( value ) ).longValue();
+			return new Long( value );
 		}
 		
 		catch ( java.lang.NumberFormatException e )

@@ -9,13 +9,11 @@
 
 package net.fortytwo.ripple.rdf;
 
-import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.rio.RDFHandler;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
-import org.openrdf.sail.Sail;
 
 public class SailInserter implements RDFHandler
 {

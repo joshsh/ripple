@@ -8,9 +8,7 @@
 
 package net.fortytwo.ripple;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import java.util.Properties;
 
@@ -76,6 +74,7 @@ public final class Ripple
      * Initializes the Ripple environment.  Note: it is safe to call this method
      * more than once.  Subsequent calls simply have no effect.
      * @param configuration optional configuration properties
+     * @throws RippleException  if initialization fails
      */
     public static void initialize( final Properties... configuration )
 		throws RippleException

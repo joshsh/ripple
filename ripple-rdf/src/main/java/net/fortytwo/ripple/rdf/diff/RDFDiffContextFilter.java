@@ -15,123 +15,168 @@ import java.util.Map;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.ripple.flow.DiffSink;
 import net.fortytwo.ripple.rdf.RDFSink;
 
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 
-public final class RDFDiffContextFilter implements RDFDiffSink
+public final class RDFDiffContextFilter implements RDFDiffSink<RippleException>
 {
-	private final Map<Resource, RDFDiffCollector> contextToCollectorMap;
+	private final Map<Resource, RDFDiffCollector<RippleException>> contextToCollectorMap;
+    private final RDFSink<RippleException> addSink;
+    private final RDFSink<RippleException> subSink;
+    private final DiffSink<Statement, RippleException> stSink;
+    private final DiffSink<Namespace, RippleException> nsSink;
+    private final DiffSink<String, RippleException> cmtSink;
 
-	private RDFSink addSink = new RDFSink()
+    public RDFDiffContextFilter()
 	{
-		private Sink<Statement, RippleException> stSink = new Sink<Statement, RippleException>()
-		{
-			public void put( final Statement st ) throws RippleException
-			{
-				Resource context = st.getContext();
+		contextToCollectorMap = new HashMap<Resource, RDFDiffCollector<RippleException>>();
 
-				RDFDiffCollector sink = contextToCollectorMap.get( context );
-				if ( null == sink )
-				{
-					sink = new RDFDiffCollector();
-					contextToCollectorMap.put( context, sink );
-				}
+        final Sink<Statement, RippleException> stAddSink = new Sink<Statement, RippleException>()
+        {
+            public void put( final Statement st ) throws RippleException
+            {
+                Resource context = st.getContext();
 
-				sink.adderSink().statementSink().put( st );
-			}
-		};
+                RDFDiffCollector<RippleException> sink = contextToCollectorMap.get( context );
+                if ( null == sink )
+                {
+                    sink = new RDFDiffCollector<RippleException>();
+                    contextToCollectorMap.put( context, sink );
+                }
 
-		private Sink<Namespace, RippleException> nsSink = new Sink<Namespace, RippleException>()
-		{
-			public void put( final Namespace ns ) throws RippleException
-			{
-				contextToCollectorMap.get( null ).adderSink().namespaceSink().put( ns );
-			}
-		};
+                sink.adderSink().statementSink().put( st );
+            }
+        };
 
-		private Sink<String, RippleException> comSink = new Sink<String, RippleException>()
-		{
-			public void put( final String comment ) throws RippleException
-			{
-				contextToCollectorMap.get( null ).adderSink().commentSink().put( comment );
-			}
-		};
+        final Sink<Statement, RippleException> stSubSink = new Sink<Statement, RippleException>()
+        {
+            public void put( final Statement st ) throws RippleException
+            {
+                Resource context = st.getContext();
 
-		public Sink<Statement, RippleException> statementSink()
-		{
-			return stSink;
-		}
+                RDFDiffCollector<RippleException> sink = contextToCollectorMap.get( context );
+                if ( null == sink )
+                {
+                    sink = new RDFDiffCollector<RippleException>();
+                    contextToCollectorMap.put( context, sink );
+                }
 
-		public Sink<Namespace, RippleException> namespaceSink()
-		{
-			return nsSink;
-		}
+                sink.subtractorSink().statementSink().put( st );
+            }
+        };
 
-		public Sink<String, RippleException> commentSink()
-		{
-			return comSink;
-		}
-	};
+        final Sink<Namespace, RippleException> nsAddSink = new Sink<Namespace, RippleException>()
+        {
+            public void put( final Namespace ns ) throws RippleException
+            {
+                contextToCollectorMap.get( null ).adderSink().namespaceSink().put( ns );
+            }
+        };
 
-	private RDFSink subSink = new RDFSink()
-	{
-		private Sink<Statement, RippleException> stSink = new Sink<Statement, RippleException>()
-		{
-			public void put( final Statement st ) throws RippleException
-			{
-				Resource context = st.getContext();
+        final Sink<Namespace, RippleException> nsSubSink = new Sink<Namespace, RippleException>()
+        {
+            public void put( final Namespace ns ) throws RippleException
+            {
+                contextToCollectorMap.get( null ).subtractorSink().namespaceSink().put( ns );
+            }
+        };
 
-				RDFDiffCollector sink = contextToCollectorMap.get( context );
-				if ( null == sink )
-				{
-					sink = new RDFDiffCollector();
-					contextToCollectorMap.put( context, sink );
-				}
+        final Sink<String, RippleException> cmtAddSink = new Sink<String, RippleException>()
+        {
+            public void put( final String comment ) throws RippleException
+            {
+                contextToCollectorMap.get( null ).adderSink().commentSink().put( comment );
+            }
+        };
 
-				sink.subtractorSink().statementSink().put( st );
-			}
-		};
+        final Sink<String, RippleException> cmtSubSink = new Sink<String, RippleException>()
+        {
+            public void put( final String comment ) throws RippleException
+            {
+                contextToCollectorMap.get( null ).subtractorSink().commentSink().put( comment );
+            }
+        };
 
-		private Sink<Namespace, RippleException> nsSink = new Sink<Namespace, RippleException>()
-		{
-			public void put( final Namespace ns ) throws RippleException
-			{
-				contextToCollectorMap.get( null ).subtractorSink().namespaceSink().put( ns );
-			}
-		};
+        addSink = new RDFSink<RippleException>()
+        {
+            public Sink<Statement, RippleException> statementSink()
+            {
+                return stAddSink;
+            }
 
-		private Sink<String, RippleException> comSink = new Sink<String, RippleException>()
-		{
-			public void put( final String comment ) throws RippleException
-			{
-				contextToCollectorMap.get( null ).subtractorSink().commentSink().put( comment );
-			}
-		};
+            public Sink<Namespace, RippleException> namespaceSink()
+            {
+                return nsAddSink;
+            }
 
-		public Sink<Statement, RippleException> statementSink()
-		{
-			return stSink;
-		}
+            public Sink<String, RippleException> commentSink()
+            {
+                return cmtAddSink;
+            }
+        };
 
-		public Sink<Namespace, RippleException> namespaceSink()
-		{
-			return nsSink;
-		}
+        subSink = new RDFSink<RippleException>()
+        {
+            public Sink<Statement, RippleException> statementSink()
+            {
+                return stSubSink;
+            }
 
-		public Sink<String, RippleException> commentSink()
-		{
-			return comSink;
-		}
-	};
+            public Sink<Namespace, RippleException> namespaceSink()
+            {
+                return nsSubSink;
+            }
 
-	public RDFDiffContextFilter()
-	{
-		contextToCollectorMap = new HashMap<Resource, RDFDiffCollector>();
+            public Sink<String, RippleException> commentSink()
+            {
+                return cmtSubSink;
+            }
+        };
 
-		clear();
+        stSink = new DiffSink<Statement, RippleException>()
+        {
+            public Sink<Statement, RippleException> getPlus()
+            {
+                return stAddSink;
+            }
+
+            public Sink<Statement, RippleException> getMinus()
+            {
+                return stSubSink;
+            }
+        };
+
+        nsSink = new DiffSink<Namespace, RippleException>()
+        {
+            public Sink<Namespace, RippleException> getPlus()
+            {
+                return nsAddSink;
+            }
+
+            public Sink<Namespace, RippleException> getMinus()
+            {
+                return nsSubSink;
+            }
+        };
+
+        cmtSink = new DiffSink<String, RippleException>()
+        {
+            public Sink<String, RippleException> getPlus()
+            {
+                return cmtAddSink;
+            }
+
+            public Sink<String, RippleException> getMinus()
+            {
+                return cmtSubSink;
+            }
+        };
+
+        clear();
 	}
 
 	public Iterator<Resource> contextIterator()
@@ -139,7 +184,7 @@ public final class RDFDiffContextFilter implements RDFDiffSink
 		return contextToCollectorMap.keySet().iterator();
 	}
 
-	public RDFDiffSource sourceForContext( final Resource context )
+	public RDFDiffSource<RippleException> sourceForContext( final Resource context )
 	{
 		return contextToCollectorMap.get( context );
 	}
@@ -148,7 +193,7 @@ public final class RDFDiffContextFilter implements RDFDiffSink
 	{
 		contextToCollectorMap.clear();
 
-		RDFDiffCollector nullCollector = new RDFDiffCollector();
+		RDFDiffCollector<RippleException> nullCollector = new RDFDiffCollector<RippleException>();
 		contextToCollectorMap.put( null, nullCollector );
 	}
 
@@ -157,14 +202,26 @@ public final class RDFDiffContextFilter implements RDFDiffSink
 		contextToCollectorMap.remove( context );
 	}
 
-	public RDFSink adderSink()
+	public RDFSink<RippleException> adderSink()
 	{
 		return addSink;
 	}
 
-	public RDFSink subtractorSink()
+	public RDFSink<RippleException> subtractorSink()
 	{
 		return subSink;
 	}
+
+    public DiffSink<Statement, RippleException> statementSink() {
+        return stSink;
+    }
+
+    public DiffSink<Namespace, RippleException> namespaceSink() {
+        return nsSink;
+    }
+
+    public DiffSink<String, RippleException> commentSink() {
+        return cmtSink;
+    }
 }
 

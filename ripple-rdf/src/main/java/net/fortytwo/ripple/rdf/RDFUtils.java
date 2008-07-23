@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Random;
 
 
@@ -65,10 +64,9 @@ public final class RDFUtils
 		registerRdfFormat( RDFFormat.TRIX );
 
         rdfVariants = new LinkedList<Variant>();
-        Iterator<MediaType> types = mediaTypeToRdfFormatMap.keySet().iterator();
-        while ( types.hasNext() )
+        for ( MediaType mediaType : mediaTypeToRdfFormatMap.keySet() )
         {
-            rdfVariants.add( new Variant( types.next() ) );
+            rdfVariants.add( new Variant( mediaType ) );
         }
 
         dereferenceUrisByNamespace = Ripple.getProperties().getBoolean(
@@ -429,7 +427,8 @@ System.out.println( RDFFormat.TURTLE.getName() + ": " + RDFFormat.TURTLE.getMIME
     }
 
 	/**
-	 *  @return  a String representation of the URL to be resolved
+	 *  @param uri  the URI to be resolved
+     * @return  a String representation of the URL to be resolved
 	 */
 	public static String inferContext( final URI uri )
 	{

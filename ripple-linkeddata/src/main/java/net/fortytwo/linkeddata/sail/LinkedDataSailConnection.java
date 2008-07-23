@@ -441,8 +441,8 @@ public class LinkedDataSailConnection implements SailConnection
 
 		openLocalStoreConnection();
 
-		SailConnectionOutputAdapter adapter
-			= new SailConnectionOutputAdapter( this );
+		LinkedDataSailConnectionOutputAdapter adapter
+			= new LinkedDataSailConnectionOutputAdapter( this );
 		baseSailWriteBuffer = new RDFDiffBuffer(
 			( null == listenerSink )
 				? adapter

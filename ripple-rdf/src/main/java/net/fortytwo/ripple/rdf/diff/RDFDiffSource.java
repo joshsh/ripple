@@ -9,14 +9,12 @@
 
 package net.fortytwo.ripple.rdf.diff;
 
-import net.fortytwo.ripple.RippleException;
-
 import net.fortytwo.ripple.rdf.RDFSource;
 
-public interface RDFDiffSource
+public interface RDFDiffSource<E extends Exception>
 {
-	RDFSource adderSource();
-	RDFSource subtractorSource();
-	void writeTo( RDFDiffSink sink ) throws RippleException;
+	RDFSource<E> adderSource();
+	RDFSource<E> subtractorSource();
+	void writeTo( RDFDiffSink<E> sink ) throws E;
 }
 

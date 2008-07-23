@@ -43,12 +43,7 @@ System.out.println("    otherCur.getFirst() = " + otherCur.getFirst());*/
 			otherCur = otherCur.getRest();
 		}
 	
-		if ( !otherCur.isNil() )
-		{
-			return false;
-		}
-	
-		return true;
+		return otherCur.isNil();
 	}
 }
 

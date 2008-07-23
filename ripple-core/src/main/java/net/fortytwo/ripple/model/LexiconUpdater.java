@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.ripple.flow.DiffSink;
 import net.fortytwo.ripple.rdf.RDFSink;
 import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
 
@@ -26,22 +27,25 @@ import org.openrdf.model.Value;
 /**
  * Note: several LexiconUpdaters may safely be attached to a single Lexicon.
  */
-public class LexiconUpdater implements RDFDiffSink
+public class LexiconUpdater implements RDFDiffSink<RippleException>
 {
 // TODO: Unicode characters supported by the lexer / Turtle grammar
 	private static final Pattern PREFIX_PATTERN
 		= Pattern.compile( "[A-Za-z][-0-9A-Z_a-z]*" );
 
-	private final RDFSink addSink, subSink;
+	private final RDFSink<RippleException> addSink, subSink;
+    private final DiffSink<Statement, RippleException> stSink;
+    private final DiffSink<Namespace, RippleException> nsSink;
+    private final DiffSink<String, RippleException> cmtSink;
 
-	public LexiconUpdater( final Lexicon lexicon ) throws RippleException
+    public LexiconUpdater( final Lexicon lexicon ) throws RippleException
     {
 		final boolean override = Ripple.getProperties().getBoolean(
                 Ripple.PREFER_NEWEST_NAMESPACE_DEFINITIONS );
 		final boolean allowDuplicateNamespaces = Ripple.getProperties().getBoolean(
                 Ripple.ALLOW_DUPLICATE_NAMESPACES );
 
-		addSink = new RDFSink()
+		addSink = new RDFSink<RippleException>()
 		{
 			private Sink<Statement, RippleException> stSink = new Sink<Statement, RippleException>()
 			{
@@ -115,7 +119,7 @@ public class LexiconUpdater implements RDFDiffSink
 		};
 
 // TODO
-		subSink = new RDFSink()
+		subSink = new RDFSink<RippleException>()
 		{
 			private Sink<Statement, RippleException> stSink = new Sink<Statement, RippleException>()
 			{
@@ -153,6 +157,45 @@ public class LexiconUpdater implements RDFDiffSink
 				return cmtSink;
 			}
 		};
+
+        stSink = new DiffSink<Statement, RippleException>()
+        {
+            public Sink<Statement, RippleException> getPlus()
+            {
+                return addSink.statementSink();
+            }
+
+            public Sink<Statement, RippleException> getMinus()
+            {
+                return subSink.statementSink();
+            }
+        };
+
+        nsSink = new DiffSink<Namespace, RippleException>()
+        {
+            public Sink<Namespace, RippleException> getPlus()
+            {
+                return addSink.namespaceSink();
+            }
+
+            public Sink<Namespace, RippleException> getMinus()
+            {
+                return subSink.namespaceSink();
+            }
+        };
+
+        cmtSink = new DiffSink<String, RippleException>()
+        {
+            public Sink<String, RippleException> getPlus()
+            {
+                return addSink.commentSink();
+            }
+
+            public Sink<String, RippleException> getMinus()
+            {
+                return subSink.commentSink();
+            }
+        };
 	}
 
 	public RDFSink adderSink()
@@ -165,7 +208,22 @@ public class LexiconUpdater implements RDFDiffSink
 		return subSink;
 	}
 
-	private boolean allowedNsPrefix( final String nsPrefix )
+    public DiffSink<Statement, RippleException> statementSink()
+    {
+        return stSink;
+    }
+
+    public DiffSink<Namespace, RippleException> namespaceSink()
+    {
+        return nsSink;
+    }
+
+    public DiffSink<String, RippleException> commentSink()
+    {
+        return cmtSink;
+    }
+
+    private boolean allowedNsPrefix( final String nsPrefix )
 	{
 		return PREFIX_PATTERN.matcher( nsPrefix ).matches();
 	}

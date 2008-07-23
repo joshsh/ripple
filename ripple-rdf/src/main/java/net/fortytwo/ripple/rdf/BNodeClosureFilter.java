@@ -92,24 +92,9 @@ public class BNodeClosureFilter implements Sink<Resource, RippleException>
 	
 	private static boolean isBlankNode( final Value v )
 	{
-		if ( v instanceof Resource )
-		{
-			if ( v instanceof URI )
-			{
-				return ( (URI) v ).getNamespace().startsWith( Ripple.URN_BNODE_PREFIX );
-			}
-			
-			else
-			{
-				// Note: assuming that all non-URI resources are blank nodes
-				return true;
-			}
-		}
-		
-		else
-		{
-			return false;
-		}
+        // Note: assuming that all non-URI resources are blank nodes
+        return v instanceof Resource
+                && ( !( v instanceof URI ) || ( (URI) v ).getNamespace().startsWith( Ripple.URN_BNODE_PREFIX ) );
 	}
 }
 

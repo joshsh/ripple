@@ -11,28 +11,27 @@ package net.fortytwo.ripple.rdf;
 
 import net.fortytwo.ripple.flow.NullSink;
 import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.ripple.RippleException;
 
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;
 
-public class RDFNullSink implements RDFSink
+public class RDFNullSink<E extends Exception> implements RDFSink<E>
 {
-	private final Sink<Statement, RippleException> stSink = new NullSink<Statement, RippleException>();
-	private final Sink<Namespace, RippleException> nsSink = new NullSink<Namespace, RippleException>();
-	private final Sink<String, RippleException> cmtSink = new NullSink<String, RippleException>();
+	private final Sink<Statement, E> stSink = new NullSink<Statement, E>();
+	private final Sink<Namespace, E> nsSink = new NullSink<Namespace, E>();
+	private final Sink<String, E> cmtSink = new NullSink<String, E>();
 
-	public Sink<Statement, RippleException> statementSink()
+	public Sink<Statement, E> statementSink()
 	{
 		return stSink;
 	}
 
-	public Sink<Namespace, RippleException> namespaceSink()
+	public Sink<Namespace, E> namespaceSink()
 	{
 		return nsSink;
 	}
 
-	public Sink<String, RippleException> commentSink()
+	public Sink<String, E> commentSink()
 	{
 		return cmtSink;
 	}

@@ -34,7 +34,7 @@ public class HTTPUtils
 			SPARQL_QUERY = "application/sparql-query",
 			USER_AGENT = "User-Agent";
 
-	private static Map<String, Date> lastRequestByHost = new HashMap<String, Date>();
+	private static final Map<String, Date> LAST_REQUEST_BY_HOST = new HashMap<String, Date>();
 
     private static long courtesyInterval;
     private static long connectionTimeout;
@@ -245,9 +245,9 @@ public class HTTPUtils
 			Date lastRequest;
 			long w = 0;
 
-			synchronized ( lastRequestByHost )
+			synchronized (LAST_REQUEST_BY_HOST)
 			{
-				lastRequest = lastRequestByHost.get( host );
+				lastRequest = LAST_REQUEST_BY_HOST.get( host );
 
 				// We've already made a request of this host.
 				if ( null != lastRequest )
@@ -263,7 +263,7 @@ public class HTTPUtils
 				// Record the projected start time of the request beforehand, to
 				// avoid any other requests being scheduled without knowledge of
 				// this one.
-				lastRequestByHost.put( host, new Date( w + now.getTime() ) );
+				LAST_REQUEST_BY_HOST.put( host, new Date( w + now.getTime() ) );
 			}
 	
 			// Wait if necessary.
