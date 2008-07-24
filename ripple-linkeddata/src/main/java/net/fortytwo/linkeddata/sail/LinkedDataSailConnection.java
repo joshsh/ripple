@@ -41,7 +41,6 @@ import org.openrdf.query.Dataset;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Iterator;
 
 /**
  * A thread-safe SailConnection for LinkedDataSail.
@@ -72,10 +71,10 @@ public class LinkedDataSailConnection implements SailConnection
 	// Note: SparqlUpdater is not thread-safe, so we must synchronize all
 	//       operations involving it.
 	private final SparqlUpdater sparqlUpdater;
-    private final RDFDiffSink apiInputSink;
+    private final RDFDiffSink<RippleException> apiInputSink;
     // Buffering input to the wrapped SailConnection avoids deadlocks.
-    private final RDFDiffBuffer baseSailWriteBuffer;
-    private final RDFDiffSink baseSailWriteSink;
+    private final RDFDiffBuffer<RippleException> baseSailWriteBuffer;
+    private final RDFDiffSink<RippleException> baseSailWriteSink;
 
     private boolean open = false;
 	private SailConnection baseConnection;
@@ -114,10 +113,8 @@ public class LinkedDataSailConnection implements SailConnection
 
                 else
                 {
-					for ( int i = 0; i < contexts.length; i++ )
-					{
-                        Resource context = contexts[i];
-
+                    for ( Resource context : contexts )
+                    {
                         // TODO: move this logic... elsewhere.
                         if ( null == context )
                         {
@@ -125,8 +122,8 @@ public class LinkedDataSailConnection implements SailConnection
                         }
 
                         adderSink.put( valueFactory.createStatement(
-							subj, pred, obj, context ) );
-					}
+                                subj, pred, obj, context ) );
+                    }
 				}
 			}
         }
@@ -365,11 +362,11 @@ public class LinkedDataSailConnection implements SailConnection
 			{
 				synchronized ( sparqlUpdater )
 				{
-					for ( int i = 0; i < context.length; i++ )
-					{
-						sink.put( valueFactory.createStatement(
-							subj, pred, obj, context[i] ) );
-					}
+                    for ( Resource aContext : context )
+                    {
+                        sink.put( valueFactory.createStatement(
+                                subj, pred, obj, aContext ) );
+                    }
 				}
 			}
 		}
@@ -430,7 +427,7 @@ public class LinkedDataSailConnection implements SailConnection
 	LinkedDataSailConnection( final Sail baseSail,
 								final WebClosure webClosure,
 								final URIMap URIMap,
-								final RDFDiffSink listenerSink )
+								final RDFDiffSink<RippleException> listenerSink )
 		throws SailException
 	{
 		this.baseSail = baseSail;
@@ -443,11 +440,11 @@ public class LinkedDataSailConnection implements SailConnection
 
 		LinkedDataSailConnectionOutputAdapter adapter
 			= new LinkedDataSailConnectionOutputAdapter( this );
-		baseSailWriteBuffer = new RDFDiffBuffer(
+		baseSailWriteBuffer = new RDFDiffBuffer<RippleException>(
 			( null == listenerSink )
 				? adapter
-				: new RDFDiffTee( adapter, listenerSink ) );
-		baseSailWriteSink = new SynchronizedRDFDiffSink( baseSailWriteBuffer, baseSailWriteBuffer );
+				: new RDFDiffTee<RippleException>( adapter, listenerSink ) );
+		baseSailWriteSink = new SynchronizedRDFDiffSink<RippleException>( baseSailWriteBuffer, baseSailWriteBuffer );
 
 		sparqlUpdater = new SparqlUpdater( URIMap, baseSailWriteSink );
 		apiInputSink = sparqlUpdater.getSink();
@@ -512,11 +509,10 @@ public class LinkedDataSailConnection implements SailConnection
 
 			if ( null != listeners )
 			{
-				Iterator<SailConnectionListener> iter = listeners.iterator();
-				while ( iter.hasNext() )
-				{
-					iter.next().statementAdded( st );
-				}
+                for ( SailConnectionListener listener : listeners )
+                {
+                    listener.statementAdded( st );
+                }
 			}
 		}
 
@@ -583,11 +579,10 @@ public class LinkedDataSailConnection implements SailConnection
 
 		if ( null != listeners )
 		{
-			Iterator<SailConnectionListener> iter = listeners.iterator();
-			while ( iter.hasNext() )
-			{
-				iter.next().statementRemoved( st );
-			}
+            for ( SailConnectionListener listener : listeners )
+            {
+                listener.statementRemoved( st );
+            }
 		}
 	}
 
@@ -640,9 +635,8 @@ public class LinkedDataSailConnection implements SailConnection
 		baseConnection.commit();
 	}
 
-	/**
-	 * Attempts to return the connection to a normal state after an Exception
-	 * has been thrown.
+	/*
+	 Attempts to return the connection to a normal state after an Exception
 	 */
 	private void reset( final boolean rollback ) throws SailException
 	{

@@ -21,8 +21,12 @@ public class RDFDiffBuffer<E extends Exception> extends RDFDiffCollector<E>
 
 	public void flush() throws E
 	{
-		writeTo( sink );
+        try {
+            writeTo( sink );
 		clear();
-	}
+        } catch (Exception e) {
+            throw (E) e;
+        }
+    }
 }
 

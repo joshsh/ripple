@@ -94,8 +94,12 @@ public class RDFDiff<E extends Exception> implements RDFDiffSink<E>, RDFDiffSour
 
 	public void writeTo( final RDFDiffSink<E> sink ) throws E
 	{
-		added.writeTo( sink.adderSink() );
-		subtracted.writeTo( sink.subtractorSink() );
-	}
+        try {
+            added.writeTo( sink.adderSink() );
+            subtracted.writeTo( sink.subtractorSink() );
+        } catch (Exception e) {
+            throw (E) e;
+        }
+    }
 }
 

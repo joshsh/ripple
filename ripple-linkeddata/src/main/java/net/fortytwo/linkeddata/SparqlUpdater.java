@@ -35,10 +35,10 @@ import org.openrdf.rio.RDFFormat;
 public class SparqlUpdater
 {
 	private final RDFDiffContextFilter contextFilter;
-	private final RDFDiffSink sink;
+	private final RDFDiffSink<RippleException> sink;
 	private final URIMap URIMap;
 
-	public SparqlUpdater( final URIMap URIMap, final RDFDiffSink sink )
+	public SparqlUpdater( final URIMap URIMap, final RDFDiffSink<RippleException> sink )
 	{
 		this.URIMap = URIMap;
 		this.sink = sink;
@@ -46,7 +46,7 @@ public class SparqlUpdater
 		contextFilter = new RDFDiffContextFilter();
 	}
 
-	public RDFDiffSink getSink()
+	public RDFDiffSink<RippleException> getSink()
 	{
 		return contextFilter;
 	}
@@ -57,7 +57,7 @@ public class SparqlUpdater
 		while ( contexts.hasNext() )
 		{
 			Resource context = contexts.next();
-			RDFDiffSource source = contextFilter.sourceForContext( context );
+			RDFDiffSource<RippleException> source = contextFilter.sourceForContext( context );
 
 			// Some statements cannot be written to the Semantic Web.
 			if ( null != context
@@ -85,13 +85,13 @@ source.writeTo( sink );
 		contextFilter.clear();
 	}
 
-	private void postUpdate( final String url, final RDFDiffSource source )
+	private void postUpdate( final String url, final RDFDiffSource<RippleException> source )
 		throws RippleException
 	{
         String postData = createPostData( source );
 System.out.println( "posting update to url <" + url + ">: " + postData );
 
-		PostMethod method = HTTPUtils.createSparqlUpdateMethod( url.toString() );
+		PostMethod method = HTTPUtils.createSparqlUpdateMethod( url );
         NameValuePair[] data = {   // FIXME: is this correct?
                 new NameValuePair( HTTPUtils.BODY, postData )
               };
@@ -120,7 +120,7 @@ System.out.println( "posting update to url <" + url + ">: " + postData );
 System.out.println( "response code = " + responseCode );
 	}
 
-	private static String createPostData( final RDFDiffSource source ) throws RippleException
+	private static String createPostData( final RDFDiffSource<RippleException> source ) throws RippleException
 	{
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		PrintStream ps = new PrintStream( bos );

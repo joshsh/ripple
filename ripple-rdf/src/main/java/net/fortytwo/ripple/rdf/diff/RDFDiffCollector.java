@@ -94,8 +94,12 @@ public class RDFDiffCollector<E extends Exception> implements RDFDiffSource<E>, 
 
 	public void writeTo( final RDFDiffSink<E> sink ) throws E
 	{
-		adderCollector.writeTo( sink.adderSink() );
-		subtractorCollector.writeTo( sink.subtractorSink() );
+        try {
+            adderCollector.writeTo( sink.adderSink() );
+            subtractorCollector.writeTo( sink.subtractorSink() );
+        } catch (Exception e) {
+            throw (E) e;
+        }
 	}
 
 	public void clear()

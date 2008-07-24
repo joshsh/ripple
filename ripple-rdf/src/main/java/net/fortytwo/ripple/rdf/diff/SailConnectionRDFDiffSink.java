@@ -26,6 +26,7 @@ public class SailConnectionRDFDiffSink implements RDFDiffSink<SailException>
     {
         final Sink<Statement, SailException> addStatementSink = new Sink<Statement, SailException>() {
             public void put(final Statement statement) throws SailException {
+//System.out.println("    adding statement: " + statement);
                 sailConnection.addStatement(statement.getSubject(), statement.getPredicate(), statement.getObject(), statement.getContext());
             }
         };

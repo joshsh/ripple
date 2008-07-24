@@ -15,6 +15,7 @@ public interface RDFDiffSource<E extends Exception>
 {
 	RDFSource<E> adderSource();
 	RDFSource<E> subtractorSource();
+
 	void writeTo( RDFDiffSink<E> sink ) throws E;
 }
 

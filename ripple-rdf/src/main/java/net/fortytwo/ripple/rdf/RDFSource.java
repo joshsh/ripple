@@ -22,12 +22,16 @@ public abstract class RDFSource<E extends Exception>
 
 	public void writeTo( final RDFSink<E> sink ) throws E
 	{
-		commentSource().writeTo( sink.commentSink() );
+        try {
+            commentSource().writeTo( sink.commentSink() );
 
-		// Note: it's often important that namespaces are written before
-		// statements.
-		namespaceSource().writeTo( sink.namespaceSink() );
+            // Note: it's often important that namespaces are written before
+            // statements.
+            namespaceSource().writeTo( sink.namespaceSink() );
 
-		statementSource().writeTo( sink.statementSink() );
+            statementSource().writeTo( sink.statementSink() );
+        } catch (Exception e) {
+            throw (E) e;
+        }
 	}
 }

@@ -79,23 +79,32 @@ public class Diff<T, E extends Exception> implements DiffSink<T, E>, DiffSource<
         changes.clear();
     }
 
+    public int size()
+    {
+        return changes.size();
+    }
+    
     public void writeTo(final DiffSink<T, E> sink) throws E
     {
         Sink<T, E> otherPlusSink = sink.getPlus();
         Sink<T, E> otherMinusSink = sink.getMinus();
 
-        for (Change ch : changes) {
-            switch (ch.action) {
-                case Add:
-                    otherPlusSink.put(ch.value);
-                    break;
-                case Remove:
-                    otherMinusSink.put(ch.value);
-                    break;
-                default:
-                    //new RippleException("e").logError();
-                    LOGGER.error("unsupported Action: " + ch.action);
+        try {
+            for (Change ch : changes) {
+                switch (ch.action) {
+                    case Add:
+                        otherPlusSink.put(ch.value);
+                        break;
+                    case Remove:
+                        otherMinusSink.put(ch.value);
+                        break;
+                    default:
+                        //new RippleException("e").logError();
+                        LOGGER.error("unsupported Action: " + ch.action);
+                }
             }
+        } catch (Exception e) {
+            throw (E) e;
         }
     }
 }

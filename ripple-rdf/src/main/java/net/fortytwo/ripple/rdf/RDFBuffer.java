@@ -22,8 +22,13 @@ public class RDFBuffer<E extends Exception> extends RDFCollector<E>
 
 	public void flush() throws E
 	{
-		writeTo( sink );
-		clear();
+        try {
+            writeTo( sink );
+        } catch (Exception e) {
+            throw (E) e;
+        }
+
+        clear();
 	}
 }
 
