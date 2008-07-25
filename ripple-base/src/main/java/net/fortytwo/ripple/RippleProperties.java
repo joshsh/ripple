@@ -33,7 +33,21 @@ public class RippleProperties extends Properties
     {
         super();
     }
-    
+
+    private String getProperty( final String name, final boolean required ) throws RippleException
+	{
+		String s = getProperty( name );
+
+		if ( null == s && required )
+		{
+			throw new RippleException( "no value for property: " + name );
+		}
+
+		return s;
+	}
+
+    // String values ///////////////////////////////////////////////////////////
+
     public String getString( final String name ) throws RippleException
 	{
 		return getProperty( name, true );
@@ -61,6 +75,8 @@ public class RippleProperties extends Properties
         }
     }
 
+    // boolean values //////////////////////////////////////////////////////////
+
     public boolean getBoolean( final String name ) throws RippleException
 	{
 		String value = getProperty( name, true );
@@ -68,10 +84,21 @@ public class RippleProperties extends Properties
 		return value.equals( "true" );
 	}
 
+    public boolean getBoolean( final String name, final boolean defaultValue ) throws RippleException
+	{
+		String value = getProperty( name, false );
+
+        return ( null == value )
+                ? defaultValue
+                : value.equals( "true" );
+	}
+
     public void setBoolean( final String name, final boolean value )
     {
         setProperty( name, "" + value );
     }
+
+    // double values ///////////////////////////////////////////////////////////
 
     public double getDouble( final String name ) throws RippleException
 	{
@@ -82,7 +109,24 @@ public class RippleProperties extends Properties
 			return new Double( value );
 		}
 
-		catch ( java.lang.NumberFormatException e )
+		catch ( NumberFormatException e )
+		{
+			throw new RippleException( e );
+		}
+	}
+
+    public double getDouble( final String name, final double defaultValue ) throws RippleException
+	{
+		String value = getProperty( name, false );
+
+		try
+		{
+            return ( null == value )
+                ? defaultValue
+                : new Double( value );
+		}
+
+		catch ( NumberFormatException e )
 		{
 			throw new RippleException( e );
 		}
@@ -92,6 +136,7 @@ public class RippleProperties extends Properties
     {
         setProperty( name, "" + value );
     }
+    // float values ////////////////////////////////////////////////////////////
 
     public float getFloat( final String name ) throws RippleException
 	{
@@ -102,7 +147,24 @@ public class RippleProperties extends Properties
 			return new Float( value );
 		}
 
-		catch ( java.lang.NumberFormatException e )
+		catch ( NumberFormatException e )
+		{
+			throw new RippleException( e );
+		}
+	}
+
+    public float getFloat( final String name, final float defaultValue ) throws RippleException
+	{
+		String value = getProperty( name, false );
+
+		try
+		{
+            return ( null == value )
+                ? defaultValue
+                : new Float( value );
+		}
+
+		catch ( NumberFormatException e )
 		{
 			throw new RippleException( e );
 		}
@@ -113,6 +175,8 @@ public class RippleProperties extends Properties
         setProperty( name, "" + value );
     }
 
+    // int values //////////////////////////////////////////////////////////////
+
     public int getInt( final String name ) throws RippleException
 	{
 		String value = getProperty( name, true );
@@ -122,7 +186,24 @@ public class RippleProperties extends Properties
 			return new Integer( value );
 		}
 		
-		catch ( java.lang.NumberFormatException e )
+		catch ( NumberFormatException e )
+		{
+			throw new RippleException( e );
+		}
+	}
+
+    public int getInt( final String name, final int defaultValue ) throws RippleException
+	{
+		String value = getProperty( name, false );
+
+		try
+		{
+            return ( null == value )
+                ? defaultValue
+                : new Integer( value );
+		}
+
+		catch ( NumberFormatException e )
 		{
 			throw new RippleException( e );
 		}
@@ -133,6 +214,8 @@ public class RippleProperties extends Properties
         setProperty( name, "" + value );
     }
 
+    // long values /////////////////////////////////////////////////////////////
+
     public long getLong( final String name ) throws RippleException
 	{
 		String value = getProperty( name, true );
@@ -142,7 +225,24 @@ public class RippleProperties extends Properties
 			return new Long( value );
 		}
 		
-		catch ( java.lang.NumberFormatException e )
+		catch ( NumberFormatException e )
+		{
+			throw new RippleException( e );
+		}
+	}
+
+    public long getLong( final String name, final long defaultValue ) throws RippleException
+	{
+		String value = getProperty( name, false );
+
+		try
+		{
+            return ( null == value )
+                ? defaultValue
+                : new Long( value );
+		}
+
+		catch ( NumberFormatException e )
 		{
 			throw new RippleException( e );
 		}
@@ -152,6 +252,8 @@ public class RippleProperties extends Properties
     {
         setProperty( name, "" + value );
     }
+
+    // URI values //////////////////////////////////////////////////////////////
 
     public URI getURI( final String name ) throws RippleException
     {
@@ -168,7 +270,24 @@ public class RippleProperties extends Properties
         }
     }
 
-    public void setURL( final String name, final URL value )
+    public URI getURI( final String name, final URI defaultValue ) throws RippleException
+	{
+		String value = getProperty( name, false );
+
+		try
+		{
+            return ( null == value )
+                ? defaultValue
+                : new URI( value );
+		}
+
+		catch ( URISyntaxException e )
+		{
+			throw new RippleException( e );
+		}
+	}
+
+    public void setURI( final String name, final URI value )
     {
         if ( null == value )
         {
@@ -177,9 +296,11 @@ public class RippleProperties extends Properties
 
         else
         {
-            setProperty( name, "" + value );
+            setProperty( name, value.toString() );
         }
     }
+
+    // URL values //////////////////////////////////////////////////////////////
 
     public URL getURL( final String name ) throws RippleException
     {
@@ -196,7 +317,24 @@ public class RippleProperties extends Properties
         }
     }
 
-    public void setURI( final String name, final URI value )
+    public URL getURL( final String name, final URL defaultValue ) throws RippleException
+	{
+		String value = getProperty( name, false );
+
+		try
+		{
+            return ( null == value )
+                ? defaultValue
+                : new URL( value );
+		}
+
+		catch ( MalformedURLException e )
+		{
+			throw new RippleException( e );
+		}
+	}
+
+    public void setURL( final String name, final URL value )
     {
         if ( null == value )
         {
@@ -205,9 +343,11 @@ public class RippleProperties extends Properties
 
         else
         {
-            setProperty( name, "" + value );
+            setProperty( name, value.toString() );
         }
     }
+
+    // File values ///////////////////////////////////////////////////////////////
 
     public File getFile( final String name ) throws RippleException
     {
@@ -237,6 +377,8 @@ public class RippleProperties extends Properties
             setProperty( name, "" + value.getAbsolutePath() );
         }
     }
+
+    // Date values ///////////////////////////////////////////////////////////////
 
     public Date getDate( final String name ) throws RippleException
     {
@@ -282,16 +424,4 @@ public class RippleProperties extends Properties
             setProperty( name, "" + dateFormat.format( value ) );
         }
     }
-
-    private String getProperty( final String name, final boolean required ) throws RippleException
-	{
-		String s = getProperty( name );
-		
-		if ( null == s && required )
-		{
-			throw new RippleException( "no value for property: " + name );
-		}
-		
-		return s;
-	}
 }
