@@ -10,6 +10,10 @@
 package net.fortytwo.ripple.query.commands;
 
 import java.util.Iterator;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Comparator;
+import java.util.Arrays;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RipplePrintStream;
@@ -28,14 +32,19 @@ public class ShowNamespacesCmd extends Command
 	{
 		final RipplePrintStream ps = qe.getPrintStream();
 
-		final Collector<Namespace, RippleException> coll = new Collector<Namespace, RippleException>();
+        // Create a map of prefixes to names and find the longest prefix.
+        Map<String, String> prefixesToNames = new HashMap<String, String>();
+        Collector<Namespace, RippleException> coll = new Collector<Namespace, RippleException>();
 		mc.putNamespaces( coll );
 		int max = 0;
+        int j = 0;
 		Iterator<Namespace> iter = coll.iterator();
-		int j = 0;
 		while ( iter.hasNext() )
 		{
-			int len = ( iter.next().getPrefix() + j ).length();
+            Namespace ns = iter.next();
+            prefixesToNames.put(ns.getPrefix(), ns.getName());
+
+            int len = ( ns.getPrefix() + j ).length();
 			if ( len > max )
 			{
 				max = len;
@@ -44,28 +53,30 @@ public class ShowNamespacesCmd extends Command
 		}
 		final int maxlen = max + 4;
 
-		Sink<Namespace, RippleException> printSink = new Sink<Namespace, RippleException>()
-		{
-			private int i = 0;
+        // Alphabetize the prefixes.
+        String[] array = new String[prefixesToNames.size()];
+        prefixesToNames.keySet().toArray( array );
+        Arrays.sort(array);
 
-			public void put( final Namespace ns ) throws RippleException
-			{
-				String prefix = "[" + i++ + "] " + ns.getPrefix() + ":";
-				int len = prefix.length();
-				ps.print( prefix );
+        ps.println( "" );
 
-				for ( int i = 0; i < maxlen - len + 2; i++ )
-				{
-					ps.print( ' ' );
-				}
+        // Print the namespaces, aligning the name portions with one another.
+        int i = 0;
+        for ( String prefix : array )
+        {
+            String s = "[" + i++ + "] " + prefix + ":";
+            int len = s.length();
+            ps.print( s );
 
-				ps.print( ns.getName() );
-				ps.print( '\n' );
-			}
-		};
+            for ( int l = 0; l < maxlen - len + 2; l++ )
+            {
+                ps.print( ' ' );
+            }
 
-		ps.println( "" );
-		coll.writeTo( printSink );
+            ps.print( prefixesToNames.get( prefix ) );
+            ps.print( '\n' );
+        }
+
 		ps.println( "" );
 	}
 
