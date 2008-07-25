@@ -25,7 +25,7 @@ import org.openrdf.model.ValueFactory;
  * Date: Jan 18, 2008
  * Time: 12:52:56 PM
  */
-public class BNodeToURIFilter implements RDFSink
+public class BNodeToURIFilter implements RDFSink<RippleException>
 {
 	private final Sink<Statement, RippleException> stSink;
 	private final Sink<Namespace, RippleException> nsSink;

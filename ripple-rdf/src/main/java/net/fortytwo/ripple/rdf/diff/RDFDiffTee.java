@@ -10,23 +10,23 @@
 package net.fortytwo.ripple.rdf.diff;
 
 import net.fortytwo.ripple.rdf.RDFSink;
-import net.fortytwo.ripple.rdf.RdfTee;
-import net.fortytwo.ripple.flow.DiffSink;
+import net.fortytwo.ripple.rdf.RDFTee;
+import net.fortytwo.ripple.flow.diff.DiffSink;
 import net.fortytwo.ripple.flow.Sink;
 import org.openrdf.model.Statement;
 import org.openrdf.model.Namespace;
 
 public class RDFDiffTee<E extends Exception> implements RDFDiffSink<E>
 {
-	private final RdfTee<E> adderTee, subtractorTee;
+	private final RDFTee<E> adderTee, subtractorTee;
     private final DiffSink<Statement, E> stSink;
     private final DiffSink<Namespace, E> nsSink;
     private final DiffSink<String, E> cmtSink;
 
     public RDFDiffTee( final RDFDiffSink<E> sinkA, final RDFDiffSink<E> sinkB )
 	{
-		adderTee = new RdfTee<E>( sinkA.adderSink(), sinkB.adderSink() );
-		subtractorTee = new RdfTee<E>( sinkA.subtractorSink(), sinkB.subtractorSink() );
+		adderTee = new RDFTee<E>( sinkA.adderSink(), sinkB.adderSink() );
+		subtractorTee = new RDFTee<E>( sinkA.subtractorSink(), sinkB.subtractorSink() );
 
         stSink = new DiffSink<Statement, E>()
         {

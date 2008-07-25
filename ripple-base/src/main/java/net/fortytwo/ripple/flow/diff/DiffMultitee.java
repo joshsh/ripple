@@ -1,4 +1,6 @@
-package net.fortytwo.ripple.flow;
+package net.fortytwo.ripple.flow.diff;
+
+import net.fortytwo.ripple.flow.Sink;
 
 import java.util.Collection;
 import java.util.LinkedList;

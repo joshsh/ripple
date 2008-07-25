@@ -161,11 +161,9 @@ public class WebClosure  // TODO: the name is a little misleading...
 		return memos;
 	}
 
-	public ContextMemo.Status extend( final URI uri, final RDFSink resultSink ) throws RippleException
+	public ContextMemo.Status extend( final URI uri, final RDFSink<RippleException> resultSink ) throws RippleException
 	{
-		ContextMemo.Status status = extendPrivate( uri, resultSink );
-
-		return status;
+		return extendPrivate( uri, resultSink );
 	}
 
 	private ContextMemo.Status logStatus( final URI uri, final ContextMemo.Status status )
@@ -179,7 +177,7 @@ public class WebClosure  // TODO: the name is a little misleading...
 		return status;
 	}
 
-	private ContextMemo.Status extendPrivate( final URI uri, final RDFSink resultSink ) throws RippleException
+	private ContextMemo.Status extendPrivate( final URI uri, final RDFSink<RippleException> resultSink ) throws RippleException
 	{
 		// TODO: memos should be inferred in a scheme-specific way
 		String memoUri = RDFUtils.inferContext( uri );
@@ -304,9 +302,9 @@ public class WebClosure  // TODO: the name is a little misleading...
 		}
 
 		// Note: any pre-existing context information is discarded.
-		RDFSink scp = new SingleContextPipe( resultSink, context, valueFactory );
+		RDFSink<RippleException> scp = new SingleContextPipe( resultSink, context, valueFactory );
 		
-		RDFBuffer results = new RDFBuffer( scp );
+		RDFBuffer<RippleException> results = new RDFBuffer<RippleException>( scp );
 		RDFHandler hdlr = new SesameInputAdapter( useBlankNodes
 				? results
 				: new BNodeToURIFilter( results, valueFactory ) );

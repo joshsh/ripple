@@ -15,13 +15,13 @@ import net.fortytwo.ripple.flow.Tee;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;
 
-public class RdfTee<E extends Exception> implements RDFSink<E>
+public class RDFTee<E extends Exception> implements RDFSink<E>
 {
 	private final Sink<Statement, E> statementTee;
 	private final Sink<Namespace, E> namespaceTee;
 	private final Sink<String, E> commentTee;
 
-	public RdfTee( final RDFSink<E> sinkA, final RDFSink<E> sinkB )
+	public RDFTee( final RDFSink<E> sinkA, final RDFSink<E> sinkB )
 	{
 		statementTee = new Tee<Statement, E>( sinkA.statementSink(), sinkB.statementSink() );
 		namespaceTee = new Tee<Namespace, E>( sinkA.namespaceSink(), sinkB.namespaceSink() );

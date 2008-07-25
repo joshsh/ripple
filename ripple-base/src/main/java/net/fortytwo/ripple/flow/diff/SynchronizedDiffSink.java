@@ -1,4 +1,7 @@
-package net.fortytwo.ripple.flow;
+package net.fortytwo.ripple.flow.diff;
+
+import net.fortytwo.ripple.flow.SynchronizedSink;
+import net.fortytwo.ripple.flow.Sink;
 
 /**
  * Author: josh

@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.ripple.flow.DiffSink;
+import net.fortytwo.ripple.flow.diff.DiffSink;
 import net.fortytwo.ripple.rdf.RDFSink;
 import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
 
