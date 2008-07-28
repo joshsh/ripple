@@ -398,7 +398,7 @@ public class SesameModelConnection implements ModelConnection
 		
 		SingleValueSink sink = new SingleValueSink();
 	
-		multiplyRdfValues( subjRdf, predRdf, sink );
+		multiplyRDFValues( subjRdf, predRdf, sink );
 	
 		return sink.getValue();
 	}
@@ -411,7 +411,7 @@ public class SesameModelConnection implements ModelConnection
 		
 		SingleValueSink sink = new SingleValueSink();
 	
-		multiplyRdfValues( subjRdf, predRdf, sink );
+		multiplyRDFValues( subjRdf, predRdf, sink );
 	
 		if ( 0 == sink.countReceived() )
 		{
@@ -432,7 +432,7 @@ public class SesameModelConnection implements ModelConnection
 		
 		SingleValueSink sink = new SingleValueSink();
 	
-		multiplyRdfValues( subjRdf, predRdf, sink );
+		multiplyRDFValues( subjRdf, predRdf, sink );
 	
 		int count = sink.countReceived();
 	
@@ -1358,7 +1358,7 @@ public class SesameModelConnection implements ModelConnection
 		};
 	}
 
-	private void multiplyRdfValues( final RDFValue subj, final RDFValue pred, final Sink<RDFValue, RippleException> sink )
+	private void multiplyRDFValues( final RDFValue subj, final RDFValue pred, final Sink<RDFValue, RippleException> sink )
 		throws RippleException
 	{
 		Sink<Statement, RippleException> stSink = new Sink<Statement, RippleException>()

@@ -12,7 +12,6 @@ package net.fortytwo.ripple.io;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.Lexicon;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.StringUtils;
 
 import org.openrdf.model.BNode;
@@ -103,7 +102,7 @@ public class RipplePrintStream extends PrintStream
 
 	private void printURIRef( final URI uri )
 	{
-		print( "<" + StringUtils.escapeUriString( uri.toString() ) + ">" );
+		print( "<" + StringUtils.escapeURIString( uri.toString() ) + ">" );
 	}
 
 	private void printURI( final URI uri ) throws RippleException

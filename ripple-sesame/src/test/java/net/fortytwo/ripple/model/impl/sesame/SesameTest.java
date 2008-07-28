@@ -19,6 +19,9 @@ import net.fortytwo.ripple.test.RippleTestCase;
 import org.apache.log4j.Logger;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
+import org.openrdf.model.ValueFactory;
+import org.openrdf.model.Literal;
+import org.openrdf.model.vocabulary.XMLSchema;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFParser;
 import org.openrdf.rio.Rio;
@@ -107,7 +110,29 @@ public class SesameTest extends RippleTestCase
         sail.shutDown();
     }
 
-	private void add( final Sail sail, final InputStream is, final String baseUri, final RDFFormat format ) throws Exception
+    // Verifies that Sesame does not unescape literal labels (not that one would
+    // reasonably suspect it of doing so).
+    public void testEscapeCharactersInLiterals() throws Exception
+    {
+        Sail sail = new MemoryStore();
+        sail.initialize();
+        ValueFactory vf = sail.getValueFactory();
+        Literal l;
+
+        l = vf.createLiteral( "\"" );
+        assertEquals( 1, l.getLabel().length() );
+        l = vf.createLiteral( "\\\"" );
+        assertEquals( 2, l.getLabel().length() );
+
+        l = vf.createLiteral( "\"", XMLSchema.STRING );
+        assertEquals( 1, l.getLabel().length() );
+        l = vf.createLiteral( "\\\"", XMLSchema.STRING );
+        assertEquals( 2, l.getLabel().length() );
+
+        sail.shutDown();
+    }
+
+    private void add( final Sail sail, final InputStream is, final String baseUri, final RDFFormat format ) throws Exception
 	{
 		RDFParser parser = Rio.createParser( format );
 		SailConnection sc = sail.getConnection();

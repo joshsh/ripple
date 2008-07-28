@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
-public class NumericLiteralTest extends RippleTestCase
+public class NumericValueTest extends RippleTestCase
 {
     public void testValues() throws Exception
     {

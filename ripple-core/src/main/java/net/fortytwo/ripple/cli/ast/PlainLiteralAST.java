@@ -21,43 +21,15 @@ public class PlainLiteralAST implements AST<RippleList>
 {
 	private final String value, language;
 
-	public PlainLiteralAST( final String escapedValue )
+	public PlainLiteralAST( final String value )
 	{
-        String s;
-
-        try
-		{
-			s = StringUtils.unescapeString( escapedValue );
-		}
-
-		catch ( RippleException e )
-		{
-			e.logError();
-            s = null;
-            System.exit( 1 );
-		}
-
-        value = s;
+        this.value = value;
         language = null;
 	}
 
-	public PlainLiteralAST( final String escapedValue, final String language )
+	public PlainLiteralAST( final String value, final String language )
 	{
-        String s;
-
-        try
-		{
-			s = StringUtils.unescapeString( escapedValue );
-		}
-
-		catch ( RippleException e )
-		{
-			e.logError();
-            s = null;
-            System.exit( 1 );
-		}
-
-        value = s;
+        this.value = value;
         this.language = language;
 	}
 

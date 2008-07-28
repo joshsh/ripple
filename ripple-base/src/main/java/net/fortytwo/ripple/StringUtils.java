@@ -78,7 +78,7 @@ public final class StringUtils
 	}
 
 	// Note: extended characters are not escaped for printing.
-	public static String escapeUriString( final String s )
+	public static String escapeURIString( final String s )
 	{
 		StringBuilder sb = new StringBuilder();
 		for ( int i = 0; i < s.length(); i++ )
@@ -147,7 +147,9 @@ public final class StringUtils
 						i += EIGHT;
 						break;
 					default:
-						throw new RippleException( "bad escape sequence: \\" + s.charAt( i ) + " at character " +  ( i - 1 ) );
+                        throw new RippleException( "bad escape sequence: \\"
+                                + s.charAt( i ) + " at character "
+                                +  ( i - 1 ) + " in string: " + s );
 				}
 			}
 

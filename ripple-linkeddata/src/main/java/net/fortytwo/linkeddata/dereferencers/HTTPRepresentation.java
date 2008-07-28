@@ -76,7 +76,7 @@ public class HTTPRepresentation extends Representation
 		if ( null == mtStr || 0 == mtStr.length() )
 		{
 			throw new RippleException( "no media type found for resource <"
-					+ StringUtils.escapeUriString( uri ) + ">" );
+					+ StringUtils.escapeURIString( uri ) + ">" );
 		}
 		MediaType mt = new MediaType( mtStr );
 //System.out.println( "discovered media type is: " + mt );

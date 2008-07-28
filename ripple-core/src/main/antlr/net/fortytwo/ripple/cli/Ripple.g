@@ -6,6 +6,8 @@ import java.util.Properties;
 import java.util.List;
 import java.util.LinkedList;
 
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.StringUtils;
 import net.fortytwo.ripple.cli.ast.AST;
 import net.fortytwo.ripple.cli.ast.AnnotatedAST;
 import net.fortytwo.ripple.cli.ast.BlankNodeAST;
@@ -282,6 +284,20 @@ options
 	{
 		adapter.putEvent( RecognizerEvent.QUIT );
 	}
+
+	private String unescape( final String s )
+	{
+	    try
+	    {
+	        return StringUtils.unescapeString( s );
+        }
+
+        catch ( RippleException e )
+        {
+            e.logError();
+            return null;
+        }
+    }
 }
 
 
@@ -479,9 +495,11 @@ nt_Literal returns [ AST r ]
 		( DOUBLE_HAT dataType=nt_Resource )?
 	)
 		{
+		    String label = unescape( t.getText() );
+
 			r = ( null == dataType )
-				? new PlainLiteralAST( t.getText(), adapter.getLanguageTag() )
-				: new TypedLiteralAST( t.getText(), dataType );
+				? new PlainLiteralAST( label, adapter.getLanguageTag() )
+				: new TypedLiteralAST( label, dataType );
 		}
 	| r=nt_Number
 	;

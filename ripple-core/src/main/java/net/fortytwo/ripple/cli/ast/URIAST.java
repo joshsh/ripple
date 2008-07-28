@@ -49,7 +49,7 @@ public class URIAST implements AST<RippleList>
 
 	public String toString()
 	{
-		return "<" + StringUtils.escapeUriString( value ) + ">";
+		return "<" + StringUtils.escapeURIString( value ) + ">";
 	}
 }
 

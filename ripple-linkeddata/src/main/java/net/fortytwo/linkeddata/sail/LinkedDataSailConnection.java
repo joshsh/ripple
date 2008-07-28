@@ -63,7 +63,7 @@ public class LinkedDataSailConnection implements SailConnection
     private static final boolean DEREFERENCE_OBJECT = false;
 
 	private static final Logger LOGGER
-		= Logger.getLogger( LinkedDataSailConnection.class );
+		    = Logger.getLogger( LinkedDataSailConnection.class );
 
     private final Sail baseSail;
     private final ValueFactory valueFactory;
@@ -444,7 +444,8 @@ public class LinkedDataSailConnection implements SailConnection
 			( null == listenerSink )
 				? adapter
 				: new RDFDiffTee<RippleException>( adapter, listenerSink ) );
-		baseSailWriteSink = new SynchronizedRDFDiffSink<RippleException>( baseSailWriteBuffer, baseSailWriteBuffer );
+        Object mutex = baseSailWriteBuffer;
+        baseSailWriteSink = new SynchronizedRDFDiffSink<RippleException>( baseSailWriteBuffer, mutex );
 
 		sparqlUpdater = new SparqlUpdater( URIMap, baseSailWriteSink );
 		apiInputSink = sparqlUpdater.getSink();
@@ -453,8 +454,8 @@ public class LinkedDataSailConnection implements SailConnection
 	}
 
 	LinkedDataSailConnection( final Sail localStore,
-								final WebClosure webClosure,
-								final URIMap URIMap )
+                              final WebClosure webClosure,
+                              final URIMap URIMap )
 		throws SailException
 	{
 		this( localStore, webClosure, URIMap, null );

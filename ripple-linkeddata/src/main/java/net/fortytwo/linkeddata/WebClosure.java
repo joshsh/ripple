@@ -171,7 +171,7 @@ public class WebClosure  // TODO: the name is a little misleading...
 		if ( ContextMemo.Status.Success != status )
 		{
 			LOGGER.info( "Failed to dereference URI <"
-					+ StringUtils.escapeUriString( uri.toString() ) + ">: " + status );
+					+ StringUtils.escapeURIString( uri.toString() ) + ">: " + status );
 		}
 
 		return status;
@@ -231,7 +231,7 @@ public class WebClosure  // TODO: the name is a little misleading...
 			}
 
 			LOGGER.info( "Dereferencing URI <"
-					+ StringUtils.escapeUriString( uri.toString() ) + ">" );
+					+ StringUtils.escapeURIString( uri.toString() ) + ">" );
 					//+ " at location " + mapped );
 
 			memo = new ContextMemo( ContextMemo.Status.Success );
