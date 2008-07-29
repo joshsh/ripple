@@ -10,7 +10,8 @@
 package net.fortytwo.ripple.model;
 
 import java.util.Set;
-import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.HashMap;
 
 import net.fortytwo.ripple.RippleException;
 
@@ -18,14 +19,11 @@ import org.openrdf.model.Value;
 
 public class SpecialValueMap
 {
-    // This map is order-preserving such that the most recently-added keys
-    // appear first in the keySet.  This is important for Lexicon, in which
-    // a keyword maps to the most recently-added URI.
-    private final LinkedHashMap<Value, RippleValue> rdfToNativeMap;
+    private final Map<Value, RippleValue> rdfToNativeMap;
 
 	public SpecialValueMap()
 	{
-		rdfToNativeMap = new LinkedHashMap<Value, RippleValue>();
+		rdfToNativeMap = new HashMap<Value, RippleValue>();
 	}
 
 	/**

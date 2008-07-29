@@ -74,41 +74,74 @@ public class Lexicon
             keywordToURIMap = new HashMap<String, Set<URI>>();
             uriToKeywordMap = new HashMap<URI, String>();
 
-            // Note: the order of the "set" of special values is significant.
-            // Specifically, all primary values are expected to come before all
-            // aliases.
             for ( Value key : model.getSpecialValues() )
             {
                 if ( key instanceof URI )
                 {
                     Value mapsTo = mc.value( key ).toRDF( mc ).sesameValue();
-                    boolean isPrimary = key.equals( mapsTo );
+                    boolean isPrimary = isPrimaryValue( key, mc );
 
+                    // The keyword for a special URI is its local part.
                     String keyword = ( (URI) key ).getLocalName();
 
                     Set<URI> siblings = keywordToURIMap.get( keyword );
 
+                    // If there is no existing value for the key, simply add it.
                     if ( null == siblings )
                     {
                         siblings = new HashSet<URI>();
-                        keywordToURIMap.put( keyword, siblings );
-
-                        uriToKeywordMap.put( (URI) key, keyword );
-                    }
-
-                    // Add the value if it is a primary value (possibly
-                    // overriding a previously-added alias value) or if it is an
-                    // alias value which does not conflict with the
-                    // corresponding primary value.
-                    if ( isPrimary || !siblings.contains( mapsTo ) )
-                    {
                         siblings.add( (URI) key );
+                        keywordToURIMap.put( keyword, siblings );
                     }
+
+                    else
+                    {
+                        boolean thisIsPrimary = isPrimaryValue( key, mc );
+                        boolean othersArePrimary = isPrimaryValue( siblings.iterator().next(), mc );
+
+                        if ( thisIsPrimary )
+                        {
+                            // Primary values override any alias values.
+                            if ( !othersArePrimary )
+                            {
+                                siblings.clear();
+                            }
+
+                            siblings.add( (URI) key );
+                        }
+
+                        else
+                        {
+                            // Alias values may only be added if there are no
+                            // competing primary values.
+                            if ( !othersArePrimary )
+                            {
+                                siblings.add( (URI) key );
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Assign keywords to URIs only after the final configuration
+            // has been determined.
+            for ( String keyword : keywordToURIMap.keySet() )
+            {
+                for ( URI uri : keywordToURIMap.get( keyword ) )
+                {
+                    uriToKeywordMap.put( uri, keyword );
                 }
             }
         } finally {
             mc.close();
         }
+    }
+
+    private boolean isPrimaryValue( final Value key,
+                                    final ModelConnection mc ) throws RippleException
+    {
+        Value mapsTo = mc.value( key ).toRDF( mc ).sesameValue();
+        return key.equals( mapsTo );
     }
 
     public boolean isValidPrefix( final String prefix )
