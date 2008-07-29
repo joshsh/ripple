@@ -35,8 +35,7 @@ public class Members extends PrimitiveStackMapping
         return IDENTIFIERS;
     }
 
-	public Members()
-		throws RippleException
+	public Members() throws RippleException
 	{
 		super();
 	}

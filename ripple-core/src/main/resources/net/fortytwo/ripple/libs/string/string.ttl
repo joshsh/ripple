@@ -24,6 +24,24 @@ string:concat
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/etc#strCat> ;
 	.
 
+string:contains
+	a rpl:Function ;
+	rpl:arity 2 ;
+	rpl:parameters (
+		[
+			rdfs:label "s1" ;
+			rpl:parameterType xsd:string ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "s2" ;
+			rpl:parameterType xsd:string ;
+			rpl:isTransparent true ]
+		) ;
+	rpl:returnType xsd:boolean ;
+	rdfs:label "contains" ;
+	rdfs:comment "s1 s2  =>  b  -- where b is true/false if s1 contains s2 as a substring" ;
+	.
+
 string:endsWith
 	a rpl:Function ;
 	rpl:arity 2 ;

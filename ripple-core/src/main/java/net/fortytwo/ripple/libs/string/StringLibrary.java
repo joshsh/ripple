@@ -36,6 +36,8 @@ public class StringLibrary extends Library
 	{
 		uf.put( NS_2008_08, getClass().getResource( "string.ttl" ) + "#" );
 
+        registerPrimitive( Concat.class, context );
+        registerPrimitive( Contains.class, context );
 		registerPrimitive( EndsWith.class, context );
 		registerPrimitive( IndexOf.class, context );
 		registerPrimitive( LastIndexOf.class, context );
@@ -48,7 +50,6 @@ public class StringLibrary extends Library
 		registerPrimitive( Sha1.class, context );
 		registerPrimitive( Split.class, context );
 		registerPrimitive( StartsWith.class, context );
-		registerPrimitive( Concat.class, context );
 		registerPrimitive( Substring.class, context );
 		registerPrimitive( ToLowerCase.class, context );
 		registerPrimitive( ToUpperCase.class, context );
