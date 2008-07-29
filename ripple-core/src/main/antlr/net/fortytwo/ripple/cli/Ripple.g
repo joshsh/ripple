@@ -295,6 +295,7 @@ options
         catch ( RippleException e )
         {
             e.logError();
+            System.exit( 1 );
             return null;
         }
     }

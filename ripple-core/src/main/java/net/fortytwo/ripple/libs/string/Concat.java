@@ -22,12 +22,12 @@ import net.fortytwo.ripple.flow.Sink;
  * A primitive which consumes two strings and produces their
  * concatenation.
  */
-public class StrCat extends PrimitiveStackMapping
+public class Concat extends PrimitiveStackMapping
 {
 	private static final int ARITY = 2;
 
     private static final String[] IDENTIFIERS = {
-            StringLibrary.NS_2008_08 + "strCat",
+            StringLibrary.NS_2008_08 + "concat",
             StringLibrary.NS_2007_08 + "strCat",
             EtcLibrary.NS_2007_05 + "strCat"};
 
@@ -36,7 +36,7 @@ public class StrCat extends PrimitiveStackMapping
         return IDENTIFIERS;
     }
 
-	public StrCat()
+	public Concat()
 		throws RippleException
 	{
 		super();

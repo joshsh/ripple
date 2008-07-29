@@ -48,7 +48,7 @@ public class StringLibrary extends Library
 		registerPrimitive( Sha1.class, context );
 		registerPrimitive( Split.class, context );
 		registerPrimitive( StartsWith.class, context );
-		registerPrimitive( StrCat.class, context );
+		registerPrimitive( Concat.class, context );
 		registerPrimitive( Substring.class, context );
 		registerPrimitive( ToLowerCase.class, context );
 		registerPrimitive( ToUpperCase.class, context );

@@ -5,6 +5,25 @@
 @prefix string:  <http://fortytwo.net/2008/08/ripple/string#> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 
+string:concat
+	a rpl:Function ;
+	rpl:arity 2 ;
+	rpl:parameters (
+		[
+			rdfs:label "s1" ;
+			rpl:parameterType xsd:string ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "s2" ;
+			rpl:parameterType xsd:string ;
+			rpl:isTransparent true ]
+		) ;
+	rpl:returnType xsd:string ;
+	rdfs:label "concat" ;
+	rdfs:comment "s1 s2  =>  s3  -- where s3 is the concatenation of s1 and s2" ;
+	owl:sameAs <http://fortytwo.net/2007/05/ripple/etc#strCat> ;
+	.
+
 string:endsWith
 	a rpl:Function ;
 	rpl:arity 2 ;
@@ -202,25 +221,6 @@ string:startsWith
 		) ;
 	rdfs:label "startsWith" ;
 	rdfs:comment "s prefix  =>  b -- where b is true if the given string begins with the given prefix, otherwise false" ;
-	.
-
-string:strCat
-	a rpl:Function ;
-	rpl:arity 2 ;
-	rpl:parameters (
-		[
-			rdfs:label "s1" ;
-			rpl:parameterType xsd:string ;
-			rpl:isTransparent true ]
-		[
-			rdfs:label "s2" ;
-			rpl:parameterType xsd:string ;
-			rpl:isTransparent true ]
-		) ;
-	rpl:returnType xsd:string ;
-	rdfs:label "strCat" ;
-	rdfs:comment "s1 s2  =>  s3  -- where s3 is the concatenation of s1 and s2" ;
-	owl:sameAs <http://fortytwo.net/2007/05/ripple/etc#strCat> ;
 	.
 
 string:substring
