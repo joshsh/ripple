@@ -22,7 +22,7 @@ import java.text.ParseException;
 
 public class RippleProperties extends Properties
 {
-    private final DateFormat dateFormat = new SimpleDateFormat();
+    private final DateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ssZ" );
 
     public RippleProperties( final Properties defaults )
     {

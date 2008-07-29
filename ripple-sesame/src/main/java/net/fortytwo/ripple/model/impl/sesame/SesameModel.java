@@ -19,7 +19,6 @@ import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.SpecialValueMap;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.URIMap;
 import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
 
@@ -39,7 +38,7 @@ public class SesameModel implements Model
     public SesameModel( final Sail baseSail, final URL libraries, final URIMap uriMap )
 		throws RippleException
 	{
-		LOGGER.debug( "Creating new Model" );
+		LOGGER.debug( "Creating new SesameModel" );
 
 		sail = baseSail;
         this.uriMap = uriMap;
