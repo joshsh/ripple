@@ -9,11 +9,6 @@
 
 package net.fortytwo.ripple.query;
 
-import java.io.PrintStream;
-import java.util.Collection;
-import java.util.Set;
-import java.util.HashSet;
-
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Sink;
@@ -23,9 +18,13 @@ import net.fortytwo.ripple.model.LexiconUpdater;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleValue;
-
 import org.apache.log4j.Logger;
 import org.openrdf.model.URI;
+
+import java.io.PrintStream;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class QueryEngine
 {
@@ -148,7 +147,7 @@ public class QueryEngine
 
 		if ( 0 == uniqueValues.size() )
 		{
-			errorPrintStream.println( "Warning: keyword '" + localName + "' is undefined\n" );
+			errorPrintStream.println( "Warning: keyword '" + localName + "' is not defined\n" );
 		}
 
         else if ( 1 < uniqueValues.size() )

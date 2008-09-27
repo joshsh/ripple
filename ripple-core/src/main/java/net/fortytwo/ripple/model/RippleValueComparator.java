@@ -1,16 +1,15 @@
 package net.fortytwo.ripple.model;
 
-import org.openrdf.model.Literal;
-import org.openrdf.model.Value;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Arrays;
-
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Collector;
+import org.openrdf.model.Literal;
+import org.openrdf.model.Resource;
+import org.openrdf.model.URI;
+import org.openrdf.model.Value;
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Iterator;
 
 /**
  * Author: josh

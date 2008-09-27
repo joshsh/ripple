@@ -37,10 +37,6 @@
             <name>Public online Restlet repository</name>
             <url>http://maven.restlet.org</url>
         </repository>
-        <repository>
-            <id>neo4j-public-repository</id>
-            <url>http://m2.neo4j.org</url>
-        </repository>
     </repositories>
 
     <dependencies>
@@ -48,11 +44,6 @@
             <groupId>net.fortytwo.ripple</groupId>
             <artifactId>ripple-linkeddata</artifactId>
             <version>0.5</version>
-        </dependency>
-        <dependency>
-            <groupId>org.neo4j</groupId>
-            <artifactId>neo</artifactId>
-            <version>1.0-b6</version>
         </dependency>
         <dependency>
             <groupId>org.restlet</groupId>
