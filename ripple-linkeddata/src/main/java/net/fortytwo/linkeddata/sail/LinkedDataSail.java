@@ -224,9 +224,9 @@ public WebClosure getClosureManager()
 		wc.addRdfizer( RDFUtils.findMediaType( RDFFormat.NTRIPLES ), new VerbatimRdfizer( RDFFormat.NTRIPLES ), 0.5 );
         Rdfizer imageRdfizer = new ImageRdfizer();
         // Mainstream EXIF-compatible image types: JPEG, TIFF
-        wc.addRdfizer( MediaType.IMAGE_JPEG, imageRdfizer );
-        wc.addRdfizer( new MediaType( "image/tiff" ), imageRdfizer );
-        wc.addRdfizer( new MediaType( "image/tiff-fx" ), imageRdfizer );
+        wc.addRdfizer( MediaType.IMAGE_JPEG, imageRdfizer, 0.4 );
+        wc.addRdfizer( new MediaType( "image/tiff" ), imageRdfizer, 0.4 );
+        wc.addRdfizer( new MediaType( "image/tiff-fx" ), imageRdfizer, 0.4 );
         // TODO: add an EXIF-based Rdfizer for RIFF WAV audio files
 
         // Don't bother trying to dereference terms in these common namespaces.
