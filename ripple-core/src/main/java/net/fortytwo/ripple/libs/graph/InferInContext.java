@@ -3,7 +3,7 @@
  * $Revision$
  * $Author$
  *
- * Copyright (C) 2007-2008 Joshua Shinavier
+ * Copyright (C) 2007-2009 Joshua Shinavier
  */
 
 package net.fortytwo.ripple.libs.graph;

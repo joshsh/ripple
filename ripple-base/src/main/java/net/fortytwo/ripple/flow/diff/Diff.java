@@ -3,16 +3,16 @@
  * $Revision$
  * $Author$
  *
- * Copyright (C) 2007-2008 Joshua Shinavier
+ * Copyright (C) 2007-2009 Joshua Shinavier
  */
 
 
 package net.fortytwo.ripple.flow.diff;
 
-import java.util.LinkedList;
-
-import org.apache.log4j.Logger;
 import net.fortytwo.ripple.flow.Sink;
+import org.apache.log4j.Logger;
+
+import java.util.LinkedList;
 
 /**
  * Author: josh
