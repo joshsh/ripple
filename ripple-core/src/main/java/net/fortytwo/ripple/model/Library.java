@@ -20,7 +20,17 @@ public abstract class Library
 	public abstract void load( URIMap uf, LibraryLoader.Context context )
 		throws RippleException;
 
-	protected PrimitiveStackMapping registerPrimitive( final Class c,
+    protected void registerPrimitives( final LibraryLoader.Context context,
+                                       final Class ... classes )
+        throws RippleException
+    {
+        for ( Class c : classes )
+        {
+            registerPrimitive( c, context );    
+        }
+    }
+
+    protected PrimitiveStackMapping registerPrimitive( final Class c,
                                                        final LibraryLoader.Context context )
 		throws RippleException
 	{

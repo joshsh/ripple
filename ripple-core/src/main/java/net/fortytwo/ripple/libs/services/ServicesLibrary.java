@@ -29,9 +29,10 @@ public class ServicesLibrary extends Library
 	{
 		uf.put(NS_2008_08, getClass().getResource( "services.ttl" ) + "#" );
 
-		registerPrimitive( PingTheSemanticWeb.class, context );
-		registerPrimitive( SwoogleIt.class, context );
-		registerPrimitive( Uriqr.class, context );
+		registerPrimitives( context,
+                PingTheSemanticWeb.class,
+                SwoogleIt.class,
+                Uriqr.class );
 	}
 }
 

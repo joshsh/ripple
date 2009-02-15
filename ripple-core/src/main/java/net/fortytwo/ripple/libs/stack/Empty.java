@@ -18,8 +18,8 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
 
 /**
- * A primitive which consumes a list and produces the length of the list as
- * an integer.
+ * A primitive which consumes a list and yields true if the list is empty,
+ * otherwise false.
  */
 public class Empty extends PrimitiveStackMapping
 {

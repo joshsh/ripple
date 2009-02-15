@@ -36,26 +36,27 @@ public class StringLibrary extends Library
 	{
 		uf.put( NS_2008_08, getClass().getResource( "string.ttl" ) + "#" );
 
-        registerPrimitive( Concat.class, context );
-        registerPrimitive( Contains.class, context );
-		registerPrimitive( EndsWith.class, context );
-		registerPrimitive( IndexOf.class, context );
-		registerPrimitive( LastIndexOf.class, context );
-		registerPrimitive( Length.class, context );
-        registerPrimitive( Matches.class, context );
-        registerPrimitive( Md5.class, context );
-		registerPrimitive( PercentDecode.class, context );
-		registerPrimitive( PercentEncode.class, context );
-		registerPrimitive( ReplaceAll.class, context );
-		registerPrimitive( Sha1.class, context );
-		registerPrimitive( Split.class, context );
-		registerPrimitive( StartsWith.class, context );
-		registerPrimitive( Substring.class, context );
-		registerPrimitive( ToLowerCase.class, context );
-		registerPrimitive( ToUpperCase.class, context );
-		registerPrimitive( Trim.class, context );
-		registerPrimitive( UrlDecode.class, context );
-		registerPrimitive( UrlEncode.class, context );
+        registerPrimitives( context,
+                Concat.class,
+                Contains.class,
+                EndsWith.class,
+                IndexOf.class,
+                LastIndexOf.class,
+                Length.class,
+                Matches.class,
+                Md5.class,
+                PercentDecode.class,
+                PercentEncode.class,
+                ReplaceAll.class,
+                Sha1.class,
+                Split.class,
+                StartsWith.class,
+                Substring.class,
+                ToLowerCase.class,
+                ToUpperCase.class,
+                Trim.class,
+                UrlDecode.class,
+                UrlEncode.class );
 	}
 
     public static RDFValue value( final String label,

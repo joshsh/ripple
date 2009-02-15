@@ -36,28 +36,30 @@ public class StackLibrary extends Library
 		uf.put( NS_2008_08, getClass().getResource( "stack.ttl" ) + "#" );
 
 		// Stack shuffling primitives
-		registerPrimitive( Dup.class, context );
-		registerPrimitive( Dupd.class, context );
-		registerPrimitive( Dupdd.class, context );
-		registerPrimitive( Id.class, context );
-		registerPrimitive( Pop.class, context );
-		registerPrimitive( Popd.class, context );
-		registerPrimitive( Popdd.class, context );
-		registerPrimitive( Rolldown.class, context );
-		registerPrimitive( Rolldownd.class, context );
-		registerPrimitive( Rollup.class, context );
-		registerPrimitive( Rollupd.class, context );
-		registerPrimitive( Rotate.class, context );
-		registerPrimitive( Rotated.class, context );
-		registerPrimitive( Swap.class, context );
-		registerPrimitive( Swapd.class, context );
-		registerPrimitive( Swapdd.class, context );
+        registerPrimitives( context,
+                Dup.class,
+                Dupd.class,
+                Dupdd.class,
+                Id.class,
+                Pop.class,
+                Popd.class,
+                Popdd.class,
+                Rolldown.class,
+                Rolldownd.class,
+                Rollup.class,
+                Rollupd.class,
+                Rotate.class,
+                Rotated.class,
+                Swap.class,
+                Swapd.class,
+                Swapdd.class );
 
 		// Application primitives
-		registerPrimitive( Apply.class, context );
-		registerPrimitive( Ary.class, context );
-		registerPrimitive( Dip.class, context );
-		registerPrimitive( Dipd.class, context );
+		registerPrimitives( context,
+                Apply.class,
+                Ary.class,
+                Dip.class,
+                Dipd.class );
 		optApplyVal = registerPrimitive( OptApply.class, context );
 		plusApplyVal = registerPrimitive( PlusApply.class, context );
 		starApplyVal = registerPrimitive( StarApply.class, context );
@@ -65,23 +67,24 @@ public class StackLibrary extends Library
 		timesApplyVal = registerPrimitive( TimesApply.class, context );
 
 		// List primitives.
-		registerPrimitive( At.class, context );
-		registerPrimitive( Cat.class, context );
-        registerPrimitive( Cons.class, context );
-        registerPrimitive( Drop.class, context );
-        registerPrimitive( Empty.class, context );
-		registerPrimitive( Fold.class, context );
-		registerPrimitive( Has.class, context );
-		registerPrimitive( In.class, context );
-        registerPrimitive( Map.class, context );
-        registerPrimitive( Max.class, context );
-		registerPrimitive( Min.class, context );
-		registerPrimitive( Of.class, context );
-		registerPrimitive( Size.class, context );
-		registerPrimitive( Swons.class, context );
-        registerPrimitive( Take.class, context );
-        registerPrimitive( Uncons.class, context );
-		registerPrimitive( Unswons.class, context );
+		registerPrimitives( context,
+                At.class,
+                Cat.class,
+                Cons.class,
+                Drop.class,
+                Empty.class,
+                Fold.class,
+                Has.class,
+                In.class,
+                Map.class,
+                Max.class,
+                Min.class,
+                Of.class,
+                Size.class,
+                Swons.class,
+                Take.class,
+                Uncons.class,
+                Unswons.class );
 	}
 
 	////////////////////////////////////////////////////////////////////////////

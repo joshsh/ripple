@@ -28,13 +28,14 @@ public class LogicLibrary extends Library
 	{
 		uf.put( NS_2008_08, getClass().getResource( "logic.ttl" ) + "#" );
 
-		registerPrimitive( And.class, context );
-		registerPrimitive( Branch.class, context );
-		registerPrimitive( Choice.class, context );
-		registerPrimitive( Ifte.class, context );
-		registerPrimitive( Not.class, context );
-        registerPrimitive( Or.class, context );
-        registerPrimitive( While.class, context );
-		registerPrimitive( Xor.class, context );
+		registerPrimitives( context,
+                And.class,
+                Branch.class,
+                Choice.class,
+                Ifte.class,
+                Not.class,
+                Or.class,
+                While.class,
+                Xor.class );
     }
 }

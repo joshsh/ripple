@@ -29,49 +29,59 @@ public class GraphLibrary extends Library
 
     public void load( final URIMap uf,
                       final LibraryLoader.Context context )
+        throws RippleException
+    {
+        load( uf, context, true );
+    }
+
+    protected void load( final URIMap uf,
+                      final LibraryLoader.Context context,
+                      final boolean includePrimitivesWithSideEffects )
 		throws RippleException
 	{
 		uf.put( NS_2008_08, getClass().getResource( "graph.ttl" ) + "#" );
 
-        // RDF primitives with side-effects.
-        registerPrimitive( Assert.class, context );
-        registerPrimitive( AssertInContext.class, context );
-        registerPrimitive( Deny.class, context );
-        registerPrimitive( DenyInContext.class, context );
-		registerPrimitive( Forget.class, context );
-		registerPrimitive( New.class, context );
+        registerPrimitives( context,
 
-        // Comparison primitives.
-        registerPrimitive( Compare.class, context );
-        registerPrimitive( Equal.class, context );
+                // RDF primitives with side effects
+                Assert.class,
+                AssertInContext.class,
+                Deny.class,
+                DenyInContext.class,
+                Forget.class,
+                New.class,
 
-        // Type conversion / literal reification.
-		registerPrimitive( ToDouble.class, context );
-		registerPrimitive( ToInteger.class, context );
-		registerPrimitive( ToString.class, context );
-		registerPrimitive( ToUri.class, context );
+                // Comparison primitives
+                Compare.class,
+                Equal.class,
 
-		// Resource-centric primitives.
-        registerPrimitive( InContext.class, context );
-        registerPrimitive( Infer.class, context );
-        registerPrimitive( InferInContext.class, context );
-        registerPrimitive( Inlinks.class, context );
-        registerPrimitive( Links.class, context );
-        registerPrimitive( Members.class, context );
+                // Type conversion and literal reification primitives
+                ToDouble.class,
+                ToInteger.class,
+                ToString.class,
+                ToUri.class,
 
-		// Document-centric primitives.
-		registerPrimitive( Comments.class, context );
-		registerPrimitive( Namespaces.class, context );
-        registerPrimitive( Triples.class, context );
-        registerPrimitive( Quads.class, context );
+                // Resource-centric primitives
+                InContext.class,
+                Infer.class,
+                InferInContext.class,
+                Inlinks.class,
+                Links.class,
+                Members.class,
 
-		// Note: the xml: namespace is actually said to be
-		//       http://www.w3.org/XML/1998/namespace
-		//       (i.e. without the hash character).
-		registerPrimitive( Lang.class, context );
+                // Document-centric primitives
+                Comments.class,
+                Namespaces.class,
+                Triples.class,
+                Quads.class,
 
-		// Note: this URI is bogus.
-		registerPrimitive( Type.class, context );
+                // Note: the xml: namespace is actually said to be
+                //       http://www.w3.org/XML/1998/namespace
+                //       (i.e. without the hash character).
+		        Lang.class,
+
+		        // Note: this URI is bogus.
+		        Type.class );
 	}
 }
 

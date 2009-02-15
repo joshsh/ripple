@@ -30,13 +30,14 @@ public class StreamLibrary extends Library
 	{
 		uf.put( NS_2008_08, getClass().getResource( "stream.ttl" ) + "#" );
 
-        registerPrimitive( Both.class, context );
-		registerPrimitive( Each.class, context );
-		registerPrimitive( Intersect.class, context );
-		registerPrimitive( Limit.class, context );
-        registerPrimitive( Require.class, context );
-        registerPrimitive( Scrap.class, context );
-		registerPrimitive( Unique.class, context );
+        registerPrimitives( context,
+                Both.class,
+                Each.class,
+                Intersect.class,
+                Limit.class,
+                Require.class,
+                Scrap.class,
+                Unique.class );
 	}
 }
 

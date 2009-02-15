@@ -33,10 +33,11 @@ public class EtcLibrary extends Library
 	{
 		uf.put( NS_2008_08, getClass().getResource( "etc.ttl" ) + "#" );
 
-        registerPrimitive( DateTimeToMillis.class, context );
-        registerPrimitive( Get.class, context );
+        registerPrimitives( context,
+                DateTimeToMillis.class,
+                Get.class,
+                Time.class );
         invertVal = registerPrimitive( Invert.class, context );
-		registerPrimitive( Time.class, context );
 	}
 
     public static PrimitiveStackMapping getInvertValue()
