@@ -244,7 +244,8 @@ public WebClosure getClosureManager()
 	 * Writes cache metadata to the base Sail.
 	 * Note: for now, this metadata resides in the null context.
 	 */
-	public void persistCacheMetadata() throws SailException, RippleException {
+	public void persistCacheMetadata() throws SailException, RippleException
+    {
         LOGGER.debug( "writing context memos" );
 
         boolean compact, useBNodes;

@@ -8,11 +8,10 @@
 
 package net.fortytwo.ripple;
 
-import java.io.IOException;
-
-import java.util.Properties;
-
 import org.apache.log4j.PropertyConfigurator;
+
+import java.io.IOException;
+import java.util.Properties;
 
 
 /**
@@ -30,10 +29,18 @@ public final class Ripple
             JLINE_DEBUG_OUTPUT                  = "net.fortytwo.ripple.cli.jline.debugOutput",
             RESULT_VIEW_PRINT_ENTIRE_STACK      = "net.fortytwo.ripple.cli.resultViewPrintEntireStack",
             MAX_WORKER_THREADS                  = "net.fortytwo.ripple.control.maxWorkerThreads",
+            EXPORT_FORMAT                       = "net.fortytwo.ripple.demo.exportFormat",
+            LOAD_FILE                           = "net.fortytwo.ripple.demo.loadFile",
+            LOAD_FILE_FORMAT                    = "net.fortytwo.ripple.demo.loadFileFormat",
+            LOAD_FILE_BASE_URI                  = "net.fortytwo.ripple.demo.loadFileBaseURI",
+            LINKEDDATASAIL_BASE_SAIL            = "net.fortytwo.ripple.demo.linkedDataSailBaseSail",
+            MEMORYSTORE_PERSIST_FILE            = "net.fortytwo.ripple.demo.memoryStorePersistFile",
+            MEMORYSTORE_PERSIST_FILE_BASE_URI   = "net.fortytwo.ripple.demo.memoryStorePersistFileBaseURI",
+            MEMORYSTORE_PERSIST_FILE_FORMAT     = "net.fortytwo.ripple.demo.memoryStorePersistFileFormat",
+            NATIVESTORE_DIRECTORY               = "net.fortytwo.ripple.demo.nativeStoreDirectory",
+            SAIL_TYPE                           = "net.fortytwo.ripple.demo.sailType",
             ALLOW_DUPLICATE_NAMESPACES          = "net.fortytwo.ripple.io.allowDuplicateNamespaces",
-            CACHE_FORMAT                        = "net.fortytwo.ripple.io.cacheFormat",
             DEREFERENCE_URIS_BY_NAMESPACE       = "net.fortytwo.ripple.io.dereferenceUrisByNamespace",
-            EXPORT_FORMAT                       = "net.fortytwo.ripple.io.exportFormat",
             PREFER_NEWEST_NAMESPACE_DEFINITIONS = "net.fortytwo.ripple.io.preferNewestNamespaceDefinitions",
             REJECT_NONASSOCIATED_STATEMENTS     = "net.fortytwo.ripple.io.rejectNonAssociatedStatements",
             HTTPCONNECTION_COURTESY_INTERVAL    = "net.fortytwo.ripple.io.httpConnectionCourtesyInterval",
