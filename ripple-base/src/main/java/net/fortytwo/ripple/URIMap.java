@@ -31,7 +31,10 @@ public class URIMap
 	public URIMap()
 	{
 		map = new Hashtable<String, String>();
-	}
+
+        // Avoid NullPointerException of get() before update().
+        update();
+    }
 
 	private String getPrivate( String urlStr )
 		throws RippleException

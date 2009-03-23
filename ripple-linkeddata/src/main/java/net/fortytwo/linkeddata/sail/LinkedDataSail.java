@@ -184,10 +184,10 @@ return null;
 		return new LinkedDataSailConnection( baseSail, webClosure, URIMap, listenerSink );
 	}
 
-public WebClosure getClosureManager()
-{
-	return webClosure;
-}
+    public WebClosure getWebClosure()
+    {
+        return webClosure;
+    }
 
 	public Sail getBaseSail()
 	{

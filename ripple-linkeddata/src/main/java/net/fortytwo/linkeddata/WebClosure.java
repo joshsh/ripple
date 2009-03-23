@@ -46,10 +46,10 @@ public class WebClosure  // TODO: the name is a little misleading...
 {
 	// TODO: these should probably not be HTTP URIs
 	public static final String
-            CACHE_NS = "http://fortytwo.net/2008/01/webclosure#",
-            CACHE_CONTEXT = "http://fortytwo.net/2008/01/webclosure#context",
-            CACHE_MEMO = "http://fortytwo.net/2008/01/webclosure#memo",
-            FULL_MEMO = "http://fortytwo.net/2008/01/webclosure#fullMemo";
+            CACHE_NS      = "http://fortytwo.net/2008/01/webclosure#",
+            CACHE_CONTEXT = CACHE_NS + "context",
+            CACHE_MEMO    = CACHE_NS + "memo",
+            FULL_MEMO     = CACHE_NS + "fullMemo";
 
 	private static final Logger LOGGER = Logger.getLogger( WebClosure.class );
 
@@ -163,22 +163,6 @@ public class WebClosure  // TODO: the name is a little misleading...
 
 	public ContextMemo.Status extend( final URI uri, final RDFSink<RippleException> resultSink ) throws RippleException
 	{
-		return extendPrivate( uri, resultSink );
-	}
-
-	private ContextMemo.Status logStatus( final URI uri, final ContextMemo.Status status )
-	{
-		if ( ContextMemo.Status.Success != status )
-		{
-			LOGGER.info( "Failed to dereference URI <"
-					+ StringUtils.escapeURIString( uri.toString() ) + ">: " + status );
-		}
-
-		return status;
-	}
-
-	private ContextMemo.Status extendPrivate( final URI uri, final RDFSink<RippleException> resultSink ) throws RippleException
-	{
 		// TODO: memos should be inferred in a scheme-specific way
 		String memoUri = RDFUtils.inferContext( uri );
 
@@ -275,7 +259,7 @@ public class WebClosure  // TODO: the name is a little misleading...
 		{
 			throw new RippleException( t );
 		}
-		
+
 //System.out.println( "media type = " + mt );
 		memo.setMediaType( mt );
 
@@ -303,7 +287,7 @@ public class WebClosure  // TODO: the name is a little misleading...
 
 		// Note: any pre-existing context information is discarded.
 		RDFSink<RippleException> scp = new SingleContextPipe( resultSink, context, valueFactory );
-		
+
 		RDFBuffer<RippleException> results = new RDFBuffer<RippleException>( scp );
 		RDFHandler hdlr = new SesameInputAdapter( useBlankNodes
 				? results
@@ -342,6 +326,17 @@ public class WebClosure  // TODO: the name is a little misleading...
 		memo.setStatus( status );
 
 		return logStatus( uri, status );
+    }
+
+	private ContextMemo.Status logStatus( final URI uri, final ContextMemo.Status status )
+	{
+		if ( ContextMemo.Status.Success != status )
+		{
+			LOGGER.info( "Failed to dereference URI <"
+					+ StringUtils.escapeURIString( uri.toString() ) + ">: " + status );
+		}
+
+		return status;
 	}
 
 	private Dereferencer chooseDereferencer( final String uri ) throws RippleException
