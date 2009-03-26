@@ -9,8 +9,6 @@
 
 package net.fortytwo.ripple.cli;
 
-import java.util.Iterator;
-
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.RippleProperties;
@@ -21,6 +19,10 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StatementPatternQuery;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 
 public class TurtleView implements Sink<RippleList, RippleException>
 {
@@ -36,6 +38,7 @@ public class TurtleView implements Sink<RippleList, RippleException>
     private final boolean showEdges;
     private final int maxPredicates;
     private final int maxObjects;
+    private final boolean deduplicateObjects;
 
     private int index = 0;
     
@@ -55,6 +58,8 @@ public class TurtleView implements Sink<RippleList, RippleException>
                 Ripple.RESULT_VIEW_MAX_PREDICATES );
         this.maxObjects = props.getInt(
                 Ripple.RESULT_VIEW_MAX_OBJECTS );
+        this.deduplicateObjects = props.getBoolean(
+                Ripple.RESULT_VIEW_DEDUPLICATE_OBJECTS );
     }
 
 	public int size()
@@ -105,8 +110,20 @@ public class TurtleView implements Sink<RippleList, RippleException>
                 modelConnection.query( query, objects );
 
 				int objCount = 0;
-	
-				for ( Iterator<RippleValue> objIter = objects.iterator();
+
+                Collection<RippleValue> objColl;
+                if ( deduplicateObjects )
+                {
+                    objColl = new HashSet<RippleValue>();
+                    objColl.addAll( objects );
+                }
+
+                else
+                {
+                    objColl = objects;
+                }
+
+                for ( Iterator<RippleValue> objIter = objColl.iterator();
 					objIter.hasNext(); )
 				{
 					printStream.print( INDENT );

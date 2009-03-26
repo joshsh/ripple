@@ -24,6 +24,7 @@ public final class Ripple
     public static final String
             BUFFER_QUERY_RESULTS                = "net.fortytwo.ripple.cli.bufferQueryResults",
             RESOURCE_VIEW_SHOW_EDGES            = "net.fortytwo.ripple.cli.resourceViewShowEdges",
+            RESULT_VIEW_DEDUPLICATE_OBJECTS     = "net.fortytwo.ripple.cli.resultViewDeduplicateObjects",
             RESULT_VIEW_MAX_OBJECTS             = "net.fortytwo.ripple.cli.resultViewMaxObjects",
             RESULT_VIEW_MAX_PREDICATES          = "net.fortytwo.ripple.cli.resultViewMaxPredicates",
             JLINE_DEBUG_OUTPUT                  = "net.fortytwo.ripple.cli.jline.debugOutput",
