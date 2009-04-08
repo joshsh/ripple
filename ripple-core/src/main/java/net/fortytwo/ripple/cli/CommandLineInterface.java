@@ -9,35 +9,32 @@
 
 package net.fortytwo.ripple.cli;
 
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.FileWriter;
-import java.io.OutputStreamWriter;
-
-import java.util.List;
-import java.util.ArrayList;
-
 import jline.Completor;
-import jline.MultiCompletor;
 import jline.ConsoleReader;
-
+import jline.MultiCompletor;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.flow.CollectorHistory;
-import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.cli.ast.ListAST;
 import net.fortytwo.ripple.cli.jline.DirectiveCompletor;
 import net.fortytwo.ripple.control.Scheduler;
 import net.fortytwo.ripple.control.TaskQueue;
 import net.fortytwo.ripple.control.ThreadedInputStream;
-import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.flow.CollectorHistory;
+import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.model.Lexicon;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.query.Command;
-import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.PipedIOStream;
-
+import net.fortytwo.ripple.query.QueryEngine;
 import org.apache.log4j.Logger;
+
+import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A command-line interpreter/browser which coordinates user interaction with a Ripple query engine.
@@ -204,7 +201,8 @@ jline.Terminal term = reader.getTerminal();
 		try
 		{
 			++lineNumber;
-			String prefix = "" + lineNumber + " >>  ";
+            String prefix = "" + lineNumber + ")  ";
+            //String prefix = "" + lineNumber + " >>  ";
 //System.out.println( "reading a line" );
 //System.out.println( "    consoleReaderInput.available() = " + consoleReaderInput.available() );
 			String line = reader.readLine( prefix );

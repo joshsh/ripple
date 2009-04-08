@@ -139,9 +139,15 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
 		return sb.toString();
 	}
 
-
-	// Note: assumes diagrammatic order
 	public void printTo( final RipplePrintStream p )
+		throws RippleException
+	{
+        printTo( p, true );
+	}
+
+    // Note: assumes diagrammatic order
+	public void printTo( final RipplePrintStream p,
+                         final boolean includeParentheses )
 		throws RippleException
 	{
         if ( !initialized )
@@ -153,9 +159,12 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
 			( ExpressionOrder.DIAGRAMMATIC == expressionOrder )
 			? this : invert();
 
-		p.print( printPadded ? "( " : "(" );
+        if ( includeParentheses )
+        {
+            p.print( printPadded ? "( " : "(" );
+        }
 
-		boolean isFirst = true;
+        boolean isFirst = true;
 		while ( !cur.isNil() )
 		{
 			RippleValue val = cur.getFirst();
@@ -183,8 +192,11 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
 			cur = cur.getRest();
 		}
 
-		p.print( printPadded ? " )" : ")" );
-	}
+        if ( includeParentheses )
+        {
+            p.print( printPadded ? " )" : ")" );
+        }
+    }
 
     public List<RippleValue> toJavaList() {
         LinkedList javaList = new LinkedList();
