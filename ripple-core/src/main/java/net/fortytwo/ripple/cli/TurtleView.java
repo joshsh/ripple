@@ -76,7 +76,11 @@ public class TurtleView implements Sink<RippleList, RippleException>
 		// View the list in right-to-left order
 		RippleList list = stack.invert();
 
-        printStream.print( "" + ++index + " ->" + INDEX_SEPARATOR );
+        String prefix = "  [" + ++index + "]" + INDEX_SEPARATOR;
+        String prefixIndent = "                ".substring( prefix.length() );
+
+        printStream.print( prefix );
+        //printStream.print( "" + ++index + " ->" + INDEX_SEPARATOR );
         //printStream.print( "rdf:_" + ++index + INDEX_SEPARATOR );
 
         if ( printEntireStack )
@@ -101,7 +105,8 @@ public class TurtleView implements Sink<RippleList, RippleException>
 			for ( Iterator<RippleValue> predIter = predicates.iterator();
 				predIter.hasNext(); )
 			{
-				printStream.print( INDENT );
+                printStream.print( prefixIndent );
+                printStream.print( INDENT );
 	
 				// Stop after maxPredicates predicates have been displayed, unless
 				// maxPredicates < 0, which indicates an unlimited number of
@@ -137,7 +142,8 @@ public class TurtleView implements Sink<RippleList, RippleException>
                 for ( Iterator<RippleValue> objIter = objColl.iterator();
 					objIter.hasNext(); )
 				{
-					printStream.print( INDENT );
+                    printStream.print( prefixIndent );
+                    printStream.print( INDENT );
 					printStream.print( INDENT );
 	
 					// Stop after maxObjects objects have been displayed, unless
