@@ -9,12 +9,10 @@
 
 package net.fortytwo.ripple.control;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-
 import net.fortytwo.ripple.RippleException;
-
 import org.apache.log4j.Logger;
+
+import java.util.LinkedList;
 
 public abstract class Task
 {
@@ -60,13 +58,11 @@ public abstract class Task
 	
 			if ( null != children )
 			{
-				Iterator<Task> iter = children.iterator();
-				while ( iter.hasNext() )
-				{
-					Task child = iter.next();
+                for ( Task child : children )
+                {
 //System.out.println( "    stopping child: " + child );
-					child.stop();
-				}
+                    child.stop();
+                }
 			}
 		}
 	}
@@ -88,8 +84,10 @@ public abstract class Task
 	}
 
 	/**
+     * Adds a child task.
 	 * Note: should not be called outside of Scheduler.
-	 */
+     * @param child  the task to add
+     */
 	public synchronized void addChild( final Task child )
 	{
 //System.out.println( "[" + this + "].addChild(" + child + ")" );
@@ -109,7 +107,11 @@ public abstract class Task
 		}
 	}
 
-	public void waitUntilFinished() throws RippleException
+    /**
+     * Blocks until this task has finished.
+     * @throws RippleException  if things go astray
+     */
+    public void waitUntilFinished() throws RippleException
 	{
 //System.out.println( "[" + this + "].waitUntilFinished()" );
 		synchronized ( this )

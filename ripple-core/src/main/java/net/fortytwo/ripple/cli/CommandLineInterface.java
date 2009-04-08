@@ -259,7 +259,8 @@ jline.Terminal term = reader.getTerminal();
 			directives.add( "@prefix" );
 			directives.add( "@quit" );
 			directives.add( "@redefine" );
-			directives.add( "@undefine" );
+            directives.add( "@undefine" );
+            directives.add( "@unprefix" );
 
 			completors.add(
 				new DirectiveCompletor( directives ) );

@@ -9,21 +9,20 @@
 
 package net.fortytwo.ripple.model;
 
-import java.io.OutputStream;
-import java.util.Date;
-import java.util.Comparator;
-import java.math.BigDecimal;
-
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.flow.Source;
 import net.fortytwo.ripple.rdf.RDFSource;
-
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
+
+import java.io.OutputStream;
+import java.math.BigDecimal;
+import java.util.Comparator;
+import java.util.Date;
 
 public interface ModelConnection
 {
@@ -110,8 +109,15 @@ public interface ModelConnection
     RippleList list( RippleValue v );
 	RippleList list( RippleValue v, RippleList rest );
 	RippleList concat( RippleList head, RippleList tail );
-	
-	void setNamespace( String prefix, String ns, boolean override ) throws RippleException;
+
+    /**
+     * Define a namespace prefix.
+     * @param prefix  the namespace prefix
+     * @param ns  the namespace URI, or null to undefine a prefix
+     * @param override  whether to override an existing namespace with this prefix, if there is one
+     * @throws RippleException
+     */
+    void setNamespace( String prefix, String ns, boolean override ) throws RippleException;
 
     void query( StatementPatternQuery query, Sink<RippleValue, RippleException> sink ) throws RippleException;
     void queryAsynch( StatementPatternQuery query, Sink<RippleValue, RippleException> sink ) throws RippleException;

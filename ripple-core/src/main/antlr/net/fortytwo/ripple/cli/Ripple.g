@@ -34,6 +34,7 @@ import net.fortytwo.ripple.query.commands.QuitCmd;
 import net.fortytwo.ripple.query.commands.RedefineTermCmd;
 import net.fortytwo.ripple.query.commands.ShowContextsCmd;
 import net.fortytwo.ripple.query.commands.ShowNamespacesCmd;
+import net.fortytwo.ripple.query.commands.UndefinePrefixCmd;
 import net.fortytwo.ripple.query.commands.UndefineTermCmd;
 }
 
@@ -239,9 +240,10 @@ DRCTV_EXPORT    : DRCTV ( "export"        | "e" ) ;
 DRCTV_HELP      : DRCTV ( "help"          | "h" ) ;
 DRCTV_LIST      : DRCTV ( "list"          | "l" ) ;
 DRCTV_PREFIX    : DRCTV ( "prefix"        | "p" ) ;
-DRCTV_QUIT      : DRCTV ( "quit"          | "q" ) ;
+DRCTV_QUIT      : DRCTV ( "quit"          | "q" | "exit" ) ;
 DRCTV_REDEFINE  : DRCTV ( "redefine"      | "r" ) ;
 DRCTV_UNDEFINE  : DRCTV ( "undefine"      | "u" ) ;
+DRCTV_UNPREFIX  : DRCTV ( "unprefix"            ) ;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -756,6 +758,11 @@ nt_Directive
 	| DRCTV_UNDEFINE nt_Ws keyword=nt_Name (nt_Ws)? PERIOD
 		{
 			matchCommand( new UndefineTermCmd( keyword ) );
+		}
+
+	| DRCTV_UNPREFIX nt_Ws nsPrefix=nt_PrefixName (nt_Ws)? PERIOD
+		{
+			matchCommand( new UndefinePrefixCmd( nsPrefix ) );
 		}
 	;
 

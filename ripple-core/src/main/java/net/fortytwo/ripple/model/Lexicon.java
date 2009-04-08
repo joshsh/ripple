@@ -242,15 +242,26 @@ public class Lexicon
 
 	////////////////////////////////////////////////////////////////////////////
 
-	public void add( final Namespace ns )
+	public void addNamespace( final Namespace ns )
 	{
 //System.out.println( "(" + ns.getPrefix() + "=" + ns.getName() + ")" );
 		prefixToNamespaceMap.put( ns.getPrefix(), ns.getName() );
 		namespaceToPrefixMap.put( ns.getName(), ns.getPrefix() );
 	}
 
-	// Note: assumes that the same URI will not be added twice.
-	public void add( final URI uri ) throws RippleException
+    // TODO: untested
+    public void removeNamespace( final String prefix )
+    {
+        String ns = prefixToNamespaceMap.get( prefix );
+        if ( null != ns )
+        {
+            prefixToNamespaceMap.remove( prefix );
+            namespaceToPrefixMap.remove( ns );
+        }
+    }
+
+    // Note: assumes that the same URI will not be added twice.
+	public void addURI( final URI uri ) throws RippleException
 	{
 //System.out.println( "adding URI: " + uri );
 		// If possible, add a qualified name as well.

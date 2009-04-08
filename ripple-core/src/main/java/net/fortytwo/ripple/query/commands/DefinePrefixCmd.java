@@ -65,7 +65,7 @@ public class DefinePrefixCmd extends Command
 		// Note: when a namespace is manually defined, it may both override an
 		// existing prefix with the same name, or duplicate another namespace
 		// with the same URI.
-		qe.getLexicon().add( new NamespaceImpl( prefix, ns.toString() ) );
+		qe.getLexicon().addNamespace( new NamespaceImpl( prefix, ns.toString() ) );
 	}
 
 	protected void abort()

@@ -60,14 +60,14 @@ public class LexiconUpdater implements RDFDiffSink<RippleException>
 					{
 						if ( subj instanceof URI )
 						{
-							lexicon.add( (URI) subj );
+							lexicon.addURI( (URI) subj );
 						}
 				
-						lexicon.add( pred );
+						lexicon.addURI( pred );
 				
 						if ( obj instanceof URI )
 						{
-							lexicon.add( (URI) obj );
+							lexicon.addURI( (URI) obj );
 						}
 					}
 				}
@@ -88,7 +88,7 @@ public class LexiconUpdater implements RDFDiffSink<RippleException>
 						{
 							if ( allowDuplicateNamespaces || null == lexicon.nsPrefixOf( ns.getName() ) )
 							{
-								lexicon.add( ns );
+								lexicon.addNamespace( ns );
 							}
 						}
 					}

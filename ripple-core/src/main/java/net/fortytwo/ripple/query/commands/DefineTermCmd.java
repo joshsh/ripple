@@ -71,7 +71,7 @@ public class DefineTermCmd extends Command
 			mc.copyStatements( expr, new RDFValue( uri ) );
 			mc.commit();
 
-			qe.getLexicon().add( uri );
+			qe.getLexicon().addURI( uri );
 		}
 	}
 

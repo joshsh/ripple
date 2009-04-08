@@ -72,7 +72,7 @@ public class QueryEngine
         }
 //System.out.println("--- e");
 		
-		getLexicon().add( new org.openrdf.model.impl.NamespaceImpl( "", defaultNamespace ) );
+		getLexicon().addNamespace( new org.openrdf.model.impl.NamespaceImpl( "", defaultNamespace ) );
 //System.out.println("--- r");
 	}
 
