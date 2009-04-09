@@ -24,9 +24,14 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 
+/**
+ * A <code>Sink</code> which accepts Ripple stacks and prints them to a
+ * specified stream in LIFO order, including a Turtle-styled tree view for the
+ * topmost item in the stack.
+ */
 public class TurtleView implements Sink<RippleList, RippleException>
 {
-	// A three-space-INDENTed tree seems to be the most readable.
+	// A three-space-indented tree seems to be the most readable.
 	private static final String INDENT = "   ";
 
 	private static final String INDEX_SEPARATOR = "  ";
@@ -67,18 +72,21 @@ public class TurtleView implements Sink<RippleList, RippleException>
 		return index;
 	}
 
-	// Note: don't give this method a nil list.
-	public void put( final RippleList stack ) throws RippleException
+    /**
+     * Accepts a stack, printing it to the specified stream.
+     * @param stack  the stack to print.  May not be a nil list.
+     * @throws RippleException  if something goes awry
+     */
+    public void put( final RippleList stack ) throws RippleException
 	{
 		// Grab the topmost item on the stack.
-		RippleValue first = stack.getFirst();
+		RippleValue subject = stack.getFirst();
 
 		// View the list in right-to-left order
 		RippleList list = stack.invert();
 
         String prefix = "  [" + ++index + "]" + INDEX_SEPARATOR;
-        String prefixIndent = "                ".substring( prefix.length() );
-
+        String prefixIndent = "                ".substring( 0, prefix.length() );
         printStream.print( prefix );
         //printStream.print( "" + ++index + " ->" + INDEX_SEPARATOR );
         //printStream.print( "rdf:_" + ++index + INDEX_SEPARATOR );
@@ -90,7 +98,7 @@ public class TurtleView implements Sink<RippleList, RippleException>
 
         else
         {
-            first.printTo( printStream );
+            subject.printTo( printStream );
         }
 
 		printStream.print( "\n" );
@@ -98,7 +106,7 @@ public class TurtleView implements Sink<RippleList, RippleException>
 		if ( showEdges )
 		{
 			Collector<RippleValue, RippleException> predicates = new Collector<RippleValue, RippleException>();
-			modelConnection.findPredicates( first, predicates );
+			modelConnection.findPredicates( subject, predicates );
 	
 			int predCount = 0;
 
@@ -122,7 +130,7 @@ public class TurtleView implements Sink<RippleList, RippleException>
 				printStream.print( "\n" );
 	
 				Collector<RippleValue, RippleException> objects = new Collector<RippleValue, RippleException>();
-                StatementPatternQuery query = new StatementPatternQuery( first, predicate, null, Ripple.useInference() );
+                StatementPatternQuery query = new StatementPatternQuery( subject, predicate, null, Ripple.useInference() );
                 modelConnection.query( query, objects );
 
 				int objCount = 0;
