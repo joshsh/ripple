@@ -14,7 +14,7 @@ public class CosTest extends RippleTestCase
         assertReducesTo( "0 cos >>", "1" );
         assertReducesTo( "1.5707963267948966 cos >> 1 add >>", "1" );
         assertReducesTo( "3.141592653589793 cos >>", "-1" );
-//        assertReducesTo( "3.141592653589793 4 div >> cos >>", "1 2 sqrt >> abs >> unique >> div >>" );
+//        assertReducesTo( "3.141592653589793 4 div >> cos >>", "1 2 sqrt >> abs >> distinct >> div >>" );
         assertReducesTo( "3.141592653589793 4 div >> cos >>", "0.7071067811865476" );
     }
 

@@ -10,42 +10,33 @@
 package net.fortytwo.ripple.model.impl.sesame;
 
 import info.aduna.iteration.CloseableIteration;
-
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Comparator;
-import java.math.BigDecimal;
-
+import net.fortytwo.linkeddata.sail.SailConnectionListenerAdapter;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.flow.Buffer;
-import net.fortytwo.ripple.flow.NullSink;
 import net.fortytwo.ripple.control.Task;
 import net.fortytwo.ripple.control.TaskSet;
+import net.fortytwo.ripple.flow.Buffer;
+import net.fortytwo.ripple.flow.Collector;
+import net.fortytwo.ripple.flow.DistinctFilter;
+import net.fortytwo.ripple.flow.NullSink;
+import net.fortytwo.ripple.flow.NullSource;
+import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.ripple.flow.Source;
+import net.fortytwo.ripple.model.GetStatementsQuery;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.GetStatementsQuery;
-import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.model.RippleValueComparator;
+import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.rdf.BNodeClosureFilter;
+import net.fortytwo.ripple.rdf.CloseableIterationSource;
 import net.fortytwo.ripple.rdf.RDFSource;
 import net.fortytwo.ripple.rdf.RDFUtils;
 import net.fortytwo.ripple.rdf.SesameOutputAdapter;
-import net.fortytwo.ripple.rdf.CloseableIterationSource;
 import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
-import net.fortytwo.linkeddata.sail.SailConnectionListenerAdapter;
-import net.fortytwo.ripple.flow.NullSource;
-import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.ripple.flow.Source;
-import net.fortytwo.ripple.flow.UniqueFilter;
-import net.fortytwo.ripple.flow.Collector;
-
 import org.apache.log4j.Logger;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Namespace;
@@ -54,14 +45,20 @@ import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.ValueFactory;
-import org.openrdf.model.vocabulary.XMLSchema;
 import org.openrdf.model.vocabulary.RDF;
+import org.openrdf.model.vocabulary.XMLSchema;
+import org.openrdf.rio.RDFFormat;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailConnectionListener;
 import org.openrdf.sail.SailException;
-import org.openrdf.rio.RDFFormat;
 
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.io.OutputStream;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Date;
 
 public class SesameModelConnection implements ModelConnection
 {
@@ -562,7 +559,7 @@ public class SesameModelConnection implements ModelConnection
 		
 		Sink<Statement, RippleException> predSelector = new Sink<Statement, RippleException>()
 		{
-			Sink<Value, RippleException> predSink = new UniqueFilter<Value, RippleException>( valueSink );
+			Sink<Value, RippleException> predSink = new DistinctFilter<Value, RippleException>( valueSink );
 	
 			public void put( final Statement st ) throws RippleException
 			{

@@ -8,6 +8,14 @@ stream:both
 
 
 ========================================
+stream:distinct
+========================================
+
+"foo" distinct >> .
+2 dup >> union >> distinct >> .
+
+
+========================================
 stream:each
 ========================================
 
@@ -44,12 +52,3 @@ stream:scrap
 2 scrap >> .
 rdf:Property dup >> rdf:type >> "this won't work" equal >> id scrap ifte >> apply >> .
 rdf:Property dup >> rdf:type >> rdfs:Class equal >> id scrap ifte >> apply >> .
-
-
-========================================
-stream:unique
-========================================
-
-"foo" unique >> .
-2 dup >> union >> unique >> .
-

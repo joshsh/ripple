@@ -25,13 +25,14 @@ import net.fortytwo.ripple.ListMemoizer;
  * like the identity filter otherwise, making a stream of stacks into a set of
  * stacks.
  */
-public class Unique extends PrimitiveStackMapping
+public class Distinct extends PrimitiveStackMapping
 {
 	private static final int ARITY = 0;
 
 	private static final String MEMO = "memo";
 
     private static final String[] IDENTIFIERS = {
+            StreamLibrary.NS_2008_08 + "distinct",
             StreamLibrary.NS_2008_08 + "unique",
             StreamLibrary.NS_2007_08 + "unique",
             StreamLibrary.NS_2007_05 + "unique"};
@@ -41,7 +42,7 @@ public class Unique extends PrimitiveStackMapping
         return IDENTIFIERS;
     }
 
-	public Unique()
+	public Distinct()
 		throws RippleException
 	{
 		super();
@@ -61,12 +62,12 @@ public class Unique extends PrimitiveStackMapping
 		solutions.put( arg.with(
 			stack.push(
 				new Operator(
-					new UniqueInner() ) ) ) );
+					new DistinctInner() ) ) ) );
 	}
 
 	////////////////////////////////////////////////////////////////////////////
 
-	protected class UniqueInner implements StackMapping
+	protected class DistinctInner implements StackMapping
 	{
 		private ListMemoizer<RippleValue, String> memoizer = null;
 	

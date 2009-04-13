@@ -37,7 +37,7 @@ public class StreamLibrary extends Library
                 Limit.class,
                 Require.class,
                 Scrap.class,
-                Unique.class );
+                Distinct.class );
 	}
 }
 

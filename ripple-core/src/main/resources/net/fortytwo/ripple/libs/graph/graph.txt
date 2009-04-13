@@ -145,15 +145,15 @@ graph:quads
 ========================================
 
 @define subjects:
-    quads >> pop >> pop >> pop >> unique >> .
+    quads >> pop >> pop >> pop >> distinct >> .
 @define predicates:
-    quads >> pop >> pop >> popd >> unique >> .
+    quads >> pop >> pop >> popd >> distinct >> .
 @define objects:
-    quads >> pop >> popd >> popd >> unique >> .
+    quads >> pop >> popd >> popd >> distinct >> .
 @define contexts:  # Note: this name conflicts with the @contexts directive
-    quads >> popd >> popd >> popd >> unique >> .
+    quads >> popd >> popd >> popd >> distinct >> .
 @define nodes:
-    quads >> union >>{3} unique >> .
+    quads >> union >>{3} distinct >> .
 
 @define timbl: <http://www.w3.org/People/Berners-Lee/card#i>.
 
@@ -205,13 +205,13 @@ graph:triples
 ========================================
 
 @define subjects:
-    triples >> pop >> pop >> unique >> .
+    triples >> pop >> pop >> distinct >> .
 @define predicates:
-    triples >> pop >> popd >> unique >> .
+    triples >> pop >> popd >> distinct >> .
 @define objects:
-    triples >> popd >> popd >> unique >> .
+    triples >> popd >> popd >> distinct >> .
 @define nodes:
-    triples >> union >>{2} unique >> .
+    triples >> union >>{2} distinct >> .
 
 @define timbl: <http://www.w3.org/People/Berners-Lee/card#i>.
 

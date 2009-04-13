@@ -21,7 +21,16 @@ stream:both
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/stream#union> ,
 	           <http://fortytwo.net/2007/08/ripple/stream#union> ;
 	.
-	
+
+stream:distinct
+	a rpl:Function ;
+	rpl:arity 0 ;
+	rpl:parameters rdf:nil ;
+	rdfs:label "distinct" ;
+	rdfs:comment "transmits stacks at most once, as determined by list comparison" ;
+	owl:sameAs <http://fortytwo.net/2007/05/ripple/stream#unique> ;
+	.
+
 stream:each
 	a rpl:Function ;
 	rpl:arity 1;
@@ -85,13 +94,4 @@ stream:scrap
 	rdfs:label "scrap" ;
 	rdfs:comment "transmits no stacks" ;
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/stream#scrap> ;
-	.
-
-stream:unique
-	a rpl:Function ;
-	rpl:arity 0 ;
-	rpl:parameters rdf:nil ;
-	rdfs:label "unique" ;
-	rdfs:comment "transmits stacks at most once, as determined by list comparison" ;
-	owl:sameAs <http://fortytwo.net/2007/05/ripple/stream#unique> ;
 	.
