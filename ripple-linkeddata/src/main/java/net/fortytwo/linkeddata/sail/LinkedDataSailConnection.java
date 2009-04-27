@@ -685,7 +685,7 @@ public class LinkedDataSailConnection implements SailConnection
 			changed = true;
 		}
 
-		if ( DEREFERENCE_PREDICATE && null != subj )
+		if ( DEREFERENCE_PREDICATE && null != pred )
 		{
 			dereference( pred );
 			changed = true;

@@ -13,6 +13,7 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.StringUtils;
 import net.fortytwo.ripple.util.HTTPUtils;
 import org.apache.commons.httpclient.ConnectTimeoutException;
+import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.restlet.data.MediaType;
@@ -72,7 +73,14 @@ public class HTTPRepresentation extends Representation
 
 		inputStream = new HttpRepresentationInputStream( is );
 
-		String mtStr = method.getResponseHeader( HTTPUtils.CONTENT_TYPE ).getValue().split( ";" )[0];
+        Header h = method.getResponseHeader( HTTPUtils.CONTENT_TYPE );
+        if ( null == h )
+        {
+            throw new RippleException( "no content-type header served for resource <"
+                    + StringUtils.escapeURIString( uri ) + ">" );                    
+        }
+
+        String mtStr = h.getValue().split( ";" )[0];
 		if ( null == mtStr || 0 == mtStr.length() )
 		{
 			throw new RippleException( "no media type found for resource <"
