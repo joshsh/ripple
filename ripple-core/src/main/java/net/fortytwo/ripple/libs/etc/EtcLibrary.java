@@ -36,6 +36,7 @@ public class EtcLibrary extends Library
         registerPrimitives( context,
                 DateTimeToMillis.class,
                 Get.class,
+                System.class,
                 Time.class );
         invertVal = registerPrimitive( Invert.class, context );
 	}

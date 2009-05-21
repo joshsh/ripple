@@ -16,6 +16,8 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
 
+import java.lang.System;
+
 /**
  * A primitive which produces the current time, in seconds since midnight UTC of
  * January 1, 1970.

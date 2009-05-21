@@ -44,6 +44,20 @@ etc:invert
 	rdfs:comment "mapping -> inverse_mapping" ;
 	.
 
+etc:system
+	a rpl:Function ;
+	rpl:arity 1 ;
+	rpl:parameters (
+		[
+			rdfs:label "command" ;
+			rpl:parameterType xsd:string ;
+			rpl:isTransparent true ]
+		) ;
+	rpl:returnType xsd:integer ;
+	rdfs:label "system" ;
+	rdfs:comment "makes a system call to the underlying operating system" ;
+	.
+
 etc:time
 	a rpl:Function ;
 	rpl:arity 0 ;
