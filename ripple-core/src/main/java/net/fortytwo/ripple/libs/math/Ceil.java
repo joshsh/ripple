@@ -25,8 +25,6 @@ import net.fortytwo.ripple.flow.Sink;
  */
 public class Ceil extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             MathLibrary.NS_2008_08 + "ceil"};
 
@@ -41,10 +39,16 @@ public class Ceil extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "x", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "x  =>  c, where c is the smallest integer value that is greater than or equal to x";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

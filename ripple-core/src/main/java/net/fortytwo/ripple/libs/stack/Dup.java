@@ -22,8 +22,6 @@ import net.fortytwo.ripple.model.RippleList;
  */
 public class Dup extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             StackLibrary.NS_2008_08 + "dup",
             StackLibrary.NS_2007_08 + "dup",
@@ -40,10 +38,16 @@ public class Dup extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "x", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "x  =>  x x";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

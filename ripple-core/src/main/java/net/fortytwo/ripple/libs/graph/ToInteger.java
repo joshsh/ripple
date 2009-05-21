@@ -24,8 +24,6 @@ import org.apache.log4j.Logger;
  */
 public class ToInteger extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
 	private static final Logger LOGGER
 		= Logger.getLogger( ToInteger.class );
 
@@ -45,10 +43,16 @@ public class ToInteger extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "x", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "x  =>  x as integer literal";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

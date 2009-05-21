@@ -23,8 +23,6 @@ import net.fortytwo.ripple.flow.Sink;
  */
 public class Not extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             LogicLibrary.NS_2008_08 + "not",
             StackLibrary.NS_2007_08 + "not",
@@ -41,10 +39,16 @@ public class Not extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "x", "a boolean value (xsd:true or xsd:false)", true )};
+    }
+
+    public String getComment()
+    {
+        return "x  =>  y  -- where y is true if x is false, otherwise false";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

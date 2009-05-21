@@ -24,8 +24,6 @@ import net.fortytwo.ripple.model.RippleValue;
  */
 public class Substring extends PrimitiveStackMapping
 {
-	private static final int ARITY = 3;
-
     private static final String[] IDENTIFIERS = {
             StringLibrary.NS_2008_08 + "substring",
             StringLibrary.NS_2007_08 + "substring"};
@@ -41,10 +39,18 @@ public class Substring extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "s", null, true ),
+                new Parameter( "beginIndex", null, true ),
+                new Parameter( "endIndex", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "s beginIndex endIndex  =>  s2 -- where s2 is the substring of s which begins at the specified beginIndex and extends to the character at index endIndex - 1";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

@@ -45,10 +45,16 @@ public class Sqrt extends PrimitiveStackMapping
         this.self = this;
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "x", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "x  =>  real square root(s) of x";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

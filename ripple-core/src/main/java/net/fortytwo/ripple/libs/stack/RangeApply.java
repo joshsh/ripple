@@ -37,10 +37,18 @@ public class RangeApply extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "p", null, true ),
+                new Parameter( "min", null, true ),
+                new Parameter( "max", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "p min max  =>  ... p{min, max}!  -- pushes between min (inclusive) and max (inclusive) active copies of the program p, or 'executes p min times to max times'";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

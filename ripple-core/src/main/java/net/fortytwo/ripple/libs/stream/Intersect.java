@@ -29,7 +29,6 @@ import net.fortytwo.ripple.flow.Sink;
  */
 public class Intersect extends PrimitiveStackMapping
 {
-	private static final int ARITY = 2;
 	private static final String MEMO = "memo";
 
     private static final String[] IDENTIFIERS = {
@@ -45,10 +44,17 @@ public class Intersect extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "r1", null, true ),
+                new Parameter( "r2", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "r1 r2 => applied intersection of relations r1 and r2";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

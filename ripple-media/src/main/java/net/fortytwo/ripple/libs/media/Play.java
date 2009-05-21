@@ -9,28 +9,24 @@
 
 package net.fortytwo.ripple.libs.media;
 
-import java.io.InputStream;
-import java.io.IOException;
-
-import javax.sound.midi.MidiSystem;
-import javax.sound.midi.Sequencer;
-
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.util.HTTPUtils;
-
-import org.openrdf.model.URI;
-import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpMethod;
+import org.openrdf.model.URI;
+
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.Sequencer;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class Play extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             MediaLibrary.NS_2007_08 + "play"};
 
@@ -45,10 +41,16 @@ public class Play extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "midiUri", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "midiUri => midiUri  -- has the side-effect of playing the MIDI file";
+    }
 
     public void apply( final StackContext arg,
                          final Sink<StackContext, RippleException> solutions )

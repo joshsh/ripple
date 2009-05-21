@@ -23,8 +23,6 @@ import net.fortytwo.ripple.model.StackContext;
  */
 public class Of extends PrimitiveStackMapping
 {
-	private static final int ARITY = 2;
-
     private static final String[] IDENTIFIERS = {
             StackLibrary.NS_2008_08 + "of",
             StackLibrary.NS_2007_08 + "of",
@@ -41,10 +39,17 @@ public class Of extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "i", "a list index", true ),
+                new Parameter( "l", "a list", true )};
+    }
+
+    public String getComment()
+    {
+        return "i l  =>  l[i]  -- pushes the member of List l at index i.  Note: lists are 1-indexed";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

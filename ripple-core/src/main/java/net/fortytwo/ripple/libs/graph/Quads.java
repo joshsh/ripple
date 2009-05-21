@@ -34,8 +34,6 @@ import org.openrdf.model.Resource;
  */
 public class Quads extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             GraphLibrary.NS_2008_08 + "quads"};
 
@@ -50,10 +48,16 @@ public class Quads extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "doc", "a Semantic Web document", true )};
+    }
+
+    public String getComment()
+    {
+        return "doc  =>  s p o g  -- for each statement (s p o g) in document doc";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

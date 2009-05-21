@@ -42,10 +42,17 @@ public class Or extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "x", "a boolean value (xsd:true or xsd:false)", true ),
+                new Parameter( "y", "a boolean value (xsd:true or xsd:false)", true )};
+    }
+
+    public String getComment()
+    {
+        return "x y  =>  z  -- where z is true if x or y is true, otherwise false";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

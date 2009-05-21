@@ -25,8 +25,6 @@ import net.fortytwo.ripple.model.RippleList;
  */
 public class Forget extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             GraphLibrary.NS_2008_08 + "forget",
             GraphLibrary.NS_2007_08 + "forget",
@@ -43,10 +41,16 @@ public class Forget extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "x", null, false )};
+    }
+
+    public String getComment()
+    {
+        return "x  =>  x  -- has the side-effect of revoking all statements about x";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

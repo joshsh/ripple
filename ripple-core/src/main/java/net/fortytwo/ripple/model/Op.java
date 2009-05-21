@@ -15,9 +15,9 @@ import net.fortytwo.ripple.io.RipplePrintStream;
 
 public class Op implements StackMapping, RippleValue
 {
-	private final static int ARITY = 1;
+    private final static int ARITY = 1;
 
-	public void apply( final StackContext arg,
+    public void apply( final StackContext arg,
 				final Sink<StackContext, RippleException> sink )
 		throws RippleException
 	{
@@ -61,8 +61,6 @@ public class Op implements StackMapping, RippleValue
 
 	public boolean isActive()
 	{
-		System.err.println( "op is always active, but your algorithm should know that without calling isActive()." );
-		System.exit( 1 );
 		return true;
 	}
 	
@@ -71,10 +69,9 @@ public class Op implements StackMapping, RippleValue
 		return true;
 	}
 
-    // Op has no inverse
     public StackMapping inverse() throws RippleException
     {
-        return new NullStackMapping();
+        return new OpInverse();
     }
 
     public boolean equals( final Object other )
@@ -91,6 +88,45 @@ public class Op implements StackMapping, RippleValue
     public String toString()
     {
         return "op";
+    }
+
+    public class OpInverse extends Op
+    {
+        @Override
+        public void apply( final StackContext arg,
+                    final Sink<StackContext, RippleException> sink )
+            throws RippleException
+        {
+            RippleValue v;
+            RippleList stack = arg.getStack();
+
+            v = stack.getFirst();
+            final RippleList rest = stack.getRest();
+
+            Sink<Operator, RippleException> opSink = new Sink<Operator, RippleException>()
+            {
+                public void put( final Operator oper )
+                    throws RippleException
+                {
+                    Operator inv = new Operator( oper.getMapping().inverse() );
+                    sink.put( arg.with( rest.push( inv ) ) );
+                }
+            };
+
+            Operator.createOperator( v, opSink, arg.getModelConnection() );
+        }
+
+        @Override
+        public StackMapping inverse() throws RippleException
+        {
+            return Operator.OP.getMapping();
+        }
+
+        @Override
+        public String toString()
+        {
+            return "opInverse";
+        }
     }
 }
 

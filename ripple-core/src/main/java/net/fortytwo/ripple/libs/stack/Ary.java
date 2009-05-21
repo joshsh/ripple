@@ -26,8 +26,6 @@ import net.fortytwo.ripple.model.NullStackMapping;
  */
 public class Ary extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             StackLibrary.NS_2008_08 + "ary",
             StackLibrary.NS_2007_08 + "ary",
@@ -44,10 +42,16 @@ public class Ary extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "n", "the (minimum) arity of the resulting function", true )};
+    }
+
+    public String getComment()
+    {
+        return "n  =>  f -- where f is an n-ary version of the id function";
+    }
 
 	private class NaryId implements StackMapping
 	{

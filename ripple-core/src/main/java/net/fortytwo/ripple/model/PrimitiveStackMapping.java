@@ -20,7 +20,38 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
 	private RDFValue rdfEquivalent;
 //	private FunctionTypeAnnotation typeAnnotation = null;
 
-	public PrimitiveStackMapping( final boolean transparent )
+    protected class Parameter
+    {
+        private String name;
+        private String comment;
+        private boolean isTransparent;
+
+        public Parameter( final String name,
+                          final String comment,
+                          final boolean isTransparent )
+        {
+            this.name = name;
+            this.comment = comment;
+            this.isTransparent = isTransparent;
+        }
+
+        public String getName()
+        {
+            return name;
+        }
+
+        public String getComment()
+        {
+            return comment;
+        }
+
+        public boolean getIsTransparent()
+        {
+            return isTransparent;
+        }
+    }
+
+    public PrimitiveStackMapping( final boolean transparent )
     {
 		this.transparent = transparent;
     }
@@ -31,6 +62,18 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
 	}
 
     public abstract String[] getIdentifiers();
+
+    public abstract Parameter[] getParameters();
+
+    /**
+     * @return a comment about the primitive.  May be null.
+     */
+    public abstract String getComment();
+
+    public int arity()
+    {
+        return getParameters().length;
+    }
 
     public void setRdfEquivalent( final RDFValue v, final ModelConnection mc )
 		throws RippleException

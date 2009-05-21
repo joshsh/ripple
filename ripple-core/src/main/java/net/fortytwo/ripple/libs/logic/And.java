@@ -23,9 +23,7 @@ import net.fortytwo.ripple.model.ModelConnection;
  * their logical conjunction.
  */
 public class And extends PrimitiveStackMapping
-{
-    private static final int ARITY = 2;
-    
+{    
     private static final String[] IDENTIFIERS = {
             LogicLibrary.NS_2008_08 + "and",
             StackLibrary.NS_2007_08 + "and",
@@ -36,10 +34,17 @@ public class And extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "x", "a boolean value (xsd:true or xsd:false)", true ),
+                new Parameter( "y", "a boolean value (xsd:true or xsd:false)", true )};
+    }
+
+    public String getComment()
+    {
+        return "x y  =>  z  -- where z is true if x and y are true, otherwise false";
+    }
 
     public String[] getIdentifiers()
     {

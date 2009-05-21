@@ -23,8 +23,6 @@ import net.fortytwo.ripple.model.StackContext;
  */
 public class Empty extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             StackLibrary.NS_2008_08 + "empty"};
 
@@ -39,10 +37,16 @@ public class Empty extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "l", "a list", true )};
+    }
+
+    public String getComment()
+    {
+        return "l  =>  true if l is an empty list, otherwise false";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

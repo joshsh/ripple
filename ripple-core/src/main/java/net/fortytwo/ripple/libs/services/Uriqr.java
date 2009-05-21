@@ -36,8 +36,6 @@ import java.util.List;
  */
 public class Uriqr extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
 	private static SAXBuilder saxBuilder = null;
 
 	private static void initialize() throws RippleException
@@ -82,10 +80,16 @@ public class Uriqr extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "s", "a search string", true )};
+    }
+
+    public String getComment()
+    {
+        return "finds resources associated with the given string";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

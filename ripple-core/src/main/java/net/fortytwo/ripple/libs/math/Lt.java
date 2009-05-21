@@ -24,8 +24,6 @@ import net.fortytwo.ripple.model.ModelConnection;
  */
 public class Lt extends PrimitiveStackMapping
 {
-	private static final int ARITY = 2;
-
     private static final String[] IDENTIFIERS = {
             MathLibrary.NS_2008_08 + "lt",
             MathLibrary.NS_2007_08 + "lt",
@@ -42,10 +40,17 @@ public class Lt extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "x", null, true ),
+                new Parameter( "y", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "x y  =>  b  -- where b is true if x < y, otherwise false";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

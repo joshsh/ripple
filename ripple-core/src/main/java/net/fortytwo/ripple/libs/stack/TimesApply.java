@@ -21,9 +21,6 @@ import net.fortytwo.ripple.flow.Sink;
  */
 public class TimesApply extends PrimitiveStackMapping
 {
-	// TODO: arity should really be 1
-	private static final int ARITY = 2;
-
     private static final String[] IDENTIFIERS = {
             StackLibrary.NS_2008_08 + "timesApply",
             StackLibrary.NS_2007_08 + "times",
@@ -39,10 +36,17 @@ public class TimesApply extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "p", "the program the be executed", true ),
+                new Parameter( "n", "the number of times to execute p", true )};
+    }
+
+    public String getComment()
+    {
+        return "p n  =>  p{n}  -- pushes n active copies of the program p, or 'executes p n times'";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )
@@ -69,7 +73,5 @@ public class TimesApply extends PrimitiveStackMapping
 
 		Operator.createOperator( p, opSink, mc );
 	}
-
-
 }
 

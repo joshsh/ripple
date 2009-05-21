@@ -24,8 +24,6 @@ import net.fortytwo.ripple.flow.Sink;
  */
 public class Cos extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             MathLibrary.NS_2008_08 + "cos",
             MathLibrary.NS_2007_08 + "cos"};
@@ -41,10 +39,16 @@ public class Cos extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "x", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "x  =>  cos(x)";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

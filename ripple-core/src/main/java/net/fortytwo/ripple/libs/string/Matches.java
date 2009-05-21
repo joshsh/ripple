@@ -24,8 +24,6 @@ import net.fortytwo.ripple.model.RippleList;
  */
 public class Matches extends PrimitiveStackMapping
 {
-	private static final int ARITY = 2;
-
     private static final String[] IDENTIFIERS = {
             StringLibrary.NS_2008_08 + "matches",
             StringLibrary.NS_2007_08 + "matches"};
@@ -41,10 +39,17 @@ public class Matches extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "s", null, true ),
+                new Parameter( "regex", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "s regex  =>  b -- where b is true if the given string matches the given regular expression, otherwise false";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

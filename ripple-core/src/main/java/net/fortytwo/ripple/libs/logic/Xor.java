@@ -24,8 +24,6 @@ import net.fortytwo.ripple.model.ModelConnection;
  */
 public class Xor extends PrimitiveStackMapping
 {
-	private static final int ARITY = 2;
-
     private static final String[] IDENTIFIERS = {
             LogicLibrary.NS_2008_08 + "xor",
             StackLibrary.NS_2007_08 + "xor",
@@ -42,10 +40,17 @@ public class Xor extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "x", "a boolean value (xsd:true or xsd:false)", true ),
+                new Parameter( "y", "a boolean value (xsd:true or xsd:false)", true )};
+    }
+
+    public String getComment()
+    {
+        return "x y  =>  z  -- where z is the logical exclusive disjunction of truth values x and y";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

@@ -32,4 +32,16 @@ public class AbsTest extends RippleTestCase
         assertReducesTo( "\"INF\"^^xsd:double abs >>", "\"INF\"^^xsd:double" );
         assertReducesTo( "\"-INF\"^^xsd:double abs >>", "\"INF\"^^xsd:double" );
     }
+
+    public void testInverseMapping() throws Exception
+    {
+        assertReducesTo( "0 abs <<", "0" );    
+        assertReducesTo( "42.0 abs <<", "-42.0", "42.0" );
+        assertReducesTo( "-42 abs <<" );
+
+        assertReducesTo( "\"NaN\"^^xsd:double abs <<" );
+        assertReducesTo( "\"NaN\"^^xsd:double abs <<" );
+        assertReducesTo( "\"INF\"^^xsd:double abs <<", "\"INF\"^^xsd:double", "\"-INF\"^^xsd:double" );
+        assertReducesTo( "\"-INF\"^^xsd:double abs <<" );
+    }
 }

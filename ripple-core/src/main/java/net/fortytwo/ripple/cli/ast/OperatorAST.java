@@ -97,7 +97,9 @@ public class OperatorAST implements AST<RippleList>
                         ? mc.list( Operator.OP )
                                 .push( StackLibrary.getRangeApplyValue() )
                                 .push( max.getValue( mc ) )
-                                .push( min.getValue( mc ) ).push( EtcLibrary.getInvertValue() )
+                                .push( min.getValue( mc ) )
+                                .push( Operator.OP )
+                                .push( EtcLibrary.getInvertValue() )
                         : mc.list( Operator.OP )
                                 .push( StackLibrary.getRangeApplyValue() )
                                 .push( max.getValue( mc ) )
@@ -115,9 +117,10 @@ public class OperatorAST implements AST<RippleList>
             case Times:
                 l = inverse
                         ? mc.list( Operator.OP )
-                                .push( StackLibrary.getRangeApplyValue() )
-                                .push( max.getValue( mc ) )
-                                .push( min.getValue( mc ) ).push( EtcLibrary.getInvertValue() )
+                                .push( StackLibrary.getTimesApplyValue() )
+                                .push( min.getValue( mc ) )
+                                .push( Operator.OP )
+                                .push( EtcLibrary.getInvertValue() )
                         : mc.list( Operator.OP )
                                 .push( StackLibrary.getTimesApplyValue() )
                                 .push( min.getValue( mc ) );

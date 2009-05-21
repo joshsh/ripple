@@ -23,8 +23,6 @@ import net.fortytwo.ripple.model.StackContext;
  */
 public class Swons extends PrimitiveStackMapping
 {
-	private static final int ARITY = 2;
-
     private static final String[] IDENTIFIERS = {
             StackLibrary.NS_2008_08 + "swons",
             StackLibrary.NS_2007_08 + "swons",
@@ -41,10 +39,17 @@ public class Swons extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "l", "a list", true ),
+                new Parameter( "x", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "l x  =>  l2  -- where the first member of l2 is x and the rest of l2 is l";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

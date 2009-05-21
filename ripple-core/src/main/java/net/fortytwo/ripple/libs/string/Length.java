@@ -21,8 +21,6 @@ import net.fortytwo.ripple.flow.Sink;
  */
 public class Length extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             StringLibrary.NS_2008_08 + "length",
             StringLibrary.NS_2007_08 + "length"};
@@ -38,10 +36,16 @@ public class Length extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "s", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "s  =>  l -- where l is the length of string s";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

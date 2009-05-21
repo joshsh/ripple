@@ -14,48 +14,47 @@ import net.fortytwo.ripple.RippleException;
 
 public class Closure implements StackMapping
 {
-	private final StackMapping innerRelation;
+	private final StackMapping innerMapping;
 	private final RippleValue argument;
-	private final int cachedArity;
+	private final int calculatedArity;
 
     /**
      *
-     * @param innerRelation a mapping
+     * @param innerMapping a mapping
      * @param argument an inactive value
      */
-    public Closure( final StackMapping innerRelation, final RippleValue argument )
+    public Closure( final StackMapping innerMapping, final RippleValue argument )
 	{
-		this.innerRelation = innerRelation;
+		this.innerMapping = innerMapping;
 		this.argument = argument;
-		cachedArity = innerRelation.arity() - 1;
+		calculatedArity = innerMapping.arity() - 1;
 	}
 
 	public int arity()
 	{
-		return cachedArity;
+		return calculatedArity;
 	}
 
 	public void apply( final StackContext arg,
 						final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
-        innerRelation.apply( arg.with( arg.getStack().push( argument ) ), solutions );
+        innerMapping.apply( arg.with( arg.getStack().push( argument ) ), solutions );
 	}
 	
 	public boolean isTransparent()
 	{
-		return innerRelation.isTransparent();
+		return innerMapping.isTransparent();
 	}
 	
 	public String toString()
 	{
-		return "Closure(" + innerRelation + ", " + argument + ")";
+		return "Closure(" + innerMapping + ", " + argument + ")";
 	}
 
-    // TODO: calculate the actual inverse mapping
     public StackMapping inverse() throws RippleException
     {
-        return new NullStackMapping();
+        return new Closure( innerMapping.inverse(), argument );
     }
 }
 

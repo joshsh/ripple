@@ -23,8 +23,6 @@ import net.fortytwo.ripple.flow.Sink;
  */
 public class At extends PrimitiveStackMapping
 {
-	private static final int ARITY = 2;
-
     private static final String[] IDENTIFIERS = {
             StackLibrary.NS_2008_08 + "at",
             StackLibrary.NS_2007_08 + "at",
@@ -41,10 +39,17 @@ public class At extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "l", "a list", true ),
+                new Parameter( "i", "a list index", true )};
+    }
+
+    public String getComment()
+    {
+        return "l i  =>  l[i], the member of List l at index i.  Note: lists are 1-indexed";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

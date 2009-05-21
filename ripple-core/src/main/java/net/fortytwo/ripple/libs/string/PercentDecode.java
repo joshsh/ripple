@@ -24,8 +24,6 @@ import net.fortytwo.ripple.StringUtils;
  */
 public class PercentDecode extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             StringLibrary.NS_2008_08 + "percentDecode"};
 
@@ -40,10 +38,16 @@ public class PercentDecode extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "encoded", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "decodes a (RFC 3986) percent-encoded string";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

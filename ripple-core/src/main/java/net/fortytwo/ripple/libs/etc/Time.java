@@ -22,8 +22,6 @@ import net.fortytwo.ripple.model.RippleList;
  */
 public class Time extends PrimitiveStackMapping
 {
-	private static final int ARITY = 0;
-
     private static final String[] IDENTIFIERS = {
             EtcLibrary.NS_2008_08 + "time",
             EtcLibrary.NS_2007_08 + "time",
@@ -34,14 +32,19 @@ public class Time extends PrimitiveStackMapping
         return IDENTIFIERS;
     }
 
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {};
+    }
+
+    public String getComment()
+    {
+        return "=>  t  -- pushes the current time, in milliseconds since the Unix epoch";
+    }
+
 	public Time() throws RippleException
 	{
 		super();
-	}
-
-	public int arity()
-	{
-		return ARITY;
 	}
 
 	public void apply( final StackContext arg,

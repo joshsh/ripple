@@ -24,8 +24,6 @@ import net.fortytwo.ripple.libs.etc.EtcLibrary;
  */
 public class Sha1 extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             StringLibrary.NS_2008_08 + "sha1",
             StringLibrary.NS_2007_08 + "sha1",
@@ -42,10 +40,16 @@ public class Sha1 extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "plaintext", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "finds the sha1 hash of a string";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

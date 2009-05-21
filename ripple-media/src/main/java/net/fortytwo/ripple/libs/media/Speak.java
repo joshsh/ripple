@@ -21,8 +21,6 @@ import com.sun.speech.freetts.VoiceManager;
 
 public class Speak extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
 	private Voice singleVoice = null;
 
     private static final String[] IDENTIFIERS = {
@@ -39,10 +37,16 @@ public class Speak extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "text", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "text => text  -- has the side-effect of speaking the text";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

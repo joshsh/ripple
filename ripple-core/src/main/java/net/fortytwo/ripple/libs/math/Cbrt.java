@@ -23,8 +23,6 @@ import net.fortytwo.ripple.model.StackMapping;
  */
 public class Cbrt extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             MathLibrary.NS_2008_08 + "cbrt",
             MathLibrary.NS_2007_08 + "cbrt"};
@@ -44,10 +42,16 @@ public class Cbrt extends PrimitiveStackMapping
         this.self = this;
     }
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "x", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "x  =>  real cube root of x";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

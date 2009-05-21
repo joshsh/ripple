@@ -10,14 +10,12 @@
 package net.fortytwo.ripple.libs.string;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.libs.etc.EtcLibrary;
-import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.model.RDFValue;
+import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.StackContext;
 
 /**
  * A primitive which tells whether a string contains another string as a
@@ -25,8 +23,6 @@ import net.fortytwo.ripple.flow.Sink;
  */
 public class Contains extends PrimitiveStackMapping
 {
-	private static final int ARITY = 2;
-
     private static final String[] IDENTIFIERS = {
             StringLibrary.NS_2008_08 + "contains"};
 
@@ -40,10 +36,17 @@ public class Contains extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "s1", null, true ),
+                new Parameter( "s2", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "s1 s2  =>  b  -- where b is true/false if s1 contains s2 as a substring";
+    }
 
 	public void apply( final StackContext arg,
                        final Sink<StackContext, RippleException> solutions )

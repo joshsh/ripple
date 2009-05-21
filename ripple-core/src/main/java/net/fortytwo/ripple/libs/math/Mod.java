@@ -23,8 +23,6 @@ import net.fortytwo.ripple.flow.Sink;
  */
 public class Mod extends PrimitiveStackMapping
 {
-	private static final int ARITY = 2;
-
     private static final String[] IDENTIFIERS = {
             MathLibrary.NS_2008_08 + "mod",
             MathLibrary.NS_2007_08 + "mod",
@@ -41,10 +39,17 @@ public class Mod extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "x", null, true ),
+                new Parameter( "y", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "x y  =>  x % y";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

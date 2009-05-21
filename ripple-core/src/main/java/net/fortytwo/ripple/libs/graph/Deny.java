@@ -23,8 +23,6 @@ import net.fortytwo.ripple.model.RippleList;
  */
 public class Deny extends PrimitiveStackMapping
 {
-	private static final int ARITY = 3;
-
     private static final String[] IDENTIFIERS = {
             GraphLibrary.NS_2008_08 + "deny",
             GraphLibrary.NS_2007_08 + "deny",
@@ -41,10 +39,18 @@ public class Deny extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "s", "the subject of the assertion", false ),
+                new Parameter( "p", "the predicate of the assertion", true ),
+                new Parameter( "o", "the object of the assertion", true )};
+    }
+
+    public String getComment()
+    {
+        return "s p o =>  s  -- has the side-effect of revoking the statement (s, p, o)";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

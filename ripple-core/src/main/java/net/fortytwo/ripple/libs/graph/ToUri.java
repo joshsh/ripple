@@ -24,8 +24,6 @@ import org.openrdf.model.URI;
  */
 public class ToUri extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             GraphLibrary.NS_2008_08 + "toUri",
             GraphLibrary.NS_2007_08 + "toUri"};
@@ -41,10 +39,16 @@ public class ToUri extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "s", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "s  =>  uri -- where uri is the URI whose string representation is s";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

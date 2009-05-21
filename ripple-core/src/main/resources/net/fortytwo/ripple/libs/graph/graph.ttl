@@ -182,14 +182,17 @@ graph:inContext
 	rpl:arity 3 ;
 	rpl:parameters (
 		[
-			rdfs:label "pred" ;
+			rdfs:label "s" ;
 			rpl:isTransparent true ]
 		[
-			rdfs:label "ctx" ;
+			rdfs:label "p" ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "g" ;
 			rpl:isTransparent true ]
 		) ;
 	rdfs:label "inContext" ;
-	rdfs:comment "subj pred ctx  =>  obj" ;
+	rdfs:comment "s p g  =>  o" ;
 	.
 	
 graph:infer
@@ -197,11 +200,14 @@ graph:infer
 	rpl:arity 2 ;
 	rpl:parameters (
 		[
-			rdfs:label "pred" ;
+			rdfs:label "s" ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "p" ;
 			rpl:isTransparent true ]
 		) ;
 	rdfs:label "infer" ;
-	rdfs:comment "subj pred  =>  obj (where obj may be an inferred object)" ;
+	rdfs:comment "s p  =>  o (where o may be an inferred object)" ;
 	.
 
 graph:inferInContext
@@ -209,14 +215,17 @@ graph:inferInContext
 	rpl:arity 3 ;
 	rpl:parameters (
 		[
-			rdfs:label "pred" ;
+			rdfs:label "s" ;
 			rpl:isTransparent true ]
 		[
-			rdfs:label "ctx" ;
+			rdfs:label "p" ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "g" ;
 			rpl:isTransparent true ]
 		) ;
 	rdfs:label "inferInContext" ;
-	rdfs:comment "subj pred ctx  =>  obj (where obj may be an inferred object)" ;
+	rdfs:comment "s p g  =>  o (where o may be an inferred object)" ;
 	.
 
 graph:inlinks

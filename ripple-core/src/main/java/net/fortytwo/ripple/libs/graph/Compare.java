@@ -23,8 +23,6 @@ import net.fortytwo.ripple.model.RippleList;
  */
 public class Compare extends PrimitiveStackMapping
 {
-	private static final int ARITY = 2;
-
     private static final String[] IDENTIFIERS = {
             GraphLibrary.NS_2008_08 + "compare",
             GraphLibrary.NS_2007_08 + "compare",
@@ -41,10 +39,17 @@ public class Compare extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "x", null, true ),
+                new Parameter( "x", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "x y  =>  i  -- where i is -1 if x < y, 0 if x = y, and 1 if x > y";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

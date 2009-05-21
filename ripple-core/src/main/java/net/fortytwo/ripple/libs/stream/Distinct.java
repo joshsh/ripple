@@ -27,8 +27,6 @@ import net.fortytwo.ripple.ListMemoizer;
  */
 public class Distinct extends PrimitiveStackMapping
 {
-	private static final int ARITY = 0;
-
 	private static final String MEMO = "memo";
 
     private static final String[] IDENTIFIERS = {
@@ -48,10 +46,15 @@ public class Distinct extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {};
+    }
+
+    public String getComment()
+    {
+        return "transmits stacks at most once, as determined by list comparison";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

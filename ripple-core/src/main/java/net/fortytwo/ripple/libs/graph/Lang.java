@@ -25,8 +25,6 @@ import org.openrdf.model.Literal;
  */
 public class Lang extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             GraphLibrary.NS_XML + "lang"};
 
@@ -41,10 +39,16 @@ public class Lang extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "l", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "l  =>  language tag of literal l";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

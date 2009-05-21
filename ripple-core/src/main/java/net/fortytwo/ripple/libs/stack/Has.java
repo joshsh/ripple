@@ -23,8 +23,6 @@ import net.fortytwo.ripple.model.StackContext;
  */
 public class Has extends PrimitiveStackMapping
 {
-	private static final int ARITY = 2;
-
     private static final String[] IDENTIFIERS = {
             StackLibrary.NS_2008_08 + "has",
             StackLibrary.NS_2007_08 + "has",
@@ -41,10 +39,17 @@ public class Has extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "l", "a list", true ),
+                new Parameter( "x", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "l x  =>  b  -- where b is true if List l contains a member which is equal to x, otherwise false";
+    }
 
 	private boolean has( RippleList l, final RippleValue v, final ModelConnection mc )
 		throws RippleException

@@ -28,8 +28,6 @@ import net.fortytwo.ripple.model.ModelConnection;
  */
 public class Ifte extends PrimitiveStackMapping
 {
-	private static final int ARITY = 3;
-
     private static final String[] IDENTIFIERS = {
             // Note: the previous implementation of ifte had different semantics
             // (rather than the current, Joy semantics).
@@ -46,10 +44,18 @@ public class Ifte extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "b", "a boolean mapping", true ),
+                new Parameter( "ifPart", "this program is executed if the condition is true", true ),
+                new Parameter( "elsePart", "this program is executed if the condition is false", true )};
+    }
+
+    public String getComment()
+    {
+        return "b t f =>  p!  -- where p is t if the application of b evaluates to true, and f if it evaluates to false";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions	)

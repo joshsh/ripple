@@ -24,8 +24,6 @@ import net.fortytwo.ripple.StringUtils;
  */
 public class Md5 extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             StringLibrary.NS_2008_08 + "md5"};
 
@@ -40,10 +38,16 @@ public class Md5 extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "plaintext", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "finds the md5 hash of a string";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

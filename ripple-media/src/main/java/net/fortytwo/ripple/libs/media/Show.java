@@ -9,31 +9,27 @@
 
 package net.fortytwo.ripple.libs.media;
 
-import java.awt.Graphics;
-import java.awt.Image;
-import java.io.InputStream;
-import java.io.IOException;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.StackContext;
+import net.fortytwo.ripple.util.HTTPUtils;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpMethod;
+import org.openrdf.model.URI;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.util.HTTPUtils;
-
-import org.openrdf.model.URI;
-import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.HttpClient;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class Show extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
 	private static final String[] MIME_TYPES = ImageIO.getReaderMIMETypes();
 
     private static final String[] IDENTIFIERS = {
@@ -50,10 +46,16 @@ public class Show extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "imgUri", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "imgUri => imgUri  -- has the side-effect of displaying the image at URI imgUri";
+    }
 
     public void apply( final StackContext arg,
                          final Sink<StackContext, RippleException> solutions )

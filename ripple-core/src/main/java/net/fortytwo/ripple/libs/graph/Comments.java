@@ -33,8 +33,6 @@ import org.openrdf.model.vocabulary.XMLSchema;
  */
 public class Comments extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             GraphLibrary.NS_2008_08 + "comments",
             GraphLibrary.NS_2007_08 + "comments"};
@@ -49,11 +47,17 @@ public class Comments extends PrimitiveStackMapping
 	{
 		super();
 	}
+    
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "doc", "a Semantic Web document", true )};
+    }
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public String getComment()
+    {
+        return "doc  =>  comment  -- for each comment in doc";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

@@ -25,8 +25,6 @@ import net.fortytwo.ripple.model.NullStackMapping;
  */
 public class Limit extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             StreamLibrary.NS_2008_08 + "limit",
             StreamLibrary.NS_2007_08 + "limit",
@@ -43,10 +41,16 @@ public class Limit extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "lim", "a non-negative integer", true )};
+    }
+
+    public String getComment()
+    {
+        return "transmits at most lim stacks";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

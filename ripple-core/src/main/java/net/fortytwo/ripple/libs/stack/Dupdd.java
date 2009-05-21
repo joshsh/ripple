@@ -22,8 +22,6 @@ import net.fortytwo.ripple.model.RippleList;
  */
 public class Dupdd extends PrimitiveStackMapping
 {
-	private static final int ARITY = 3;
-
     private static final String[] IDENTIFIERS = {
             StackLibrary.NS_2008_08 + "dupdd",
             StackLibrary.NS_2007_08 + "dupdd"};
@@ -39,10 +37,18 @@ public class Dupdd extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "x", null, true ),
+                new Parameter( "y", null, true ),
+                new Parameter( "z", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "x y z  =>  x x y z";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

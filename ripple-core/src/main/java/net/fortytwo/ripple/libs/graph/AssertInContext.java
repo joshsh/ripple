@@ -24,8 +24,6 @@ import net.fortytwo.ripple.model.StackContext;
  */
 public class AssertInContext extends PrimitiveStackMapping
 {
-	private static final int ARITY = 4;
-
     private static final String[] IDENTIFIERS = {
             GraphLibrary.NS_2008_08 + "assertInContext"};
 
@@ -40,10 +38,19 @@ public class AssertInContext extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "s", "the subject of the assertion", false ),
+                new Parameter( "p", "the predicate of the assertion", true ),
+                new Parameter( "o", "the object of the assertion", true ),
+                new Parameter( "g", "the named graph context of the assertion", true )};
+    }
+
+    public String getComment()
+    {
+        return "s p o g  =>  s  -- has the side-effect of asserting the statement (s, p, o, g)";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

@@ -25,8 +25,6 @@ import net.fortytwo.ripple.model.StackContext;
  */
 public class PlusApply extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             StackLibrary.NS_2008_08 + "plusApply"};
 
@@ -40,10 +38,16 @@ public class PlusApply extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "p", "the program to be executed", true )};
+    }
+
+    public String getComment()
+    {
+        return "p  =>  p+  -- execute the program p at least one time, and up to any number of times";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

@@ -24,8 +24,6 @@ import org.apache.log4j.Logger;
  */
 public class ToDouble extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
 	private static final Logger LOGGER
 		= Logger.getLogger( ToDouble.class );
 
@@ -45,10 +43,16 @@ public class ToDouble extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "x", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "x  =>  x as double literal";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

@@ -27,8 +27,6 @@ import org.openrdf.model.URI;
  */
 public class Type extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             GraphLibrary.NS_XSD + "type"};
 
@@ -43,10 +41,16 @@ public class Type extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "l", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "l  =>  data type of literal l";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

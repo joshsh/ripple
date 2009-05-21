@@ -31,8 +31,6 @@ import java.util.Iterator;
  */
 public class While extends PrimitiveStackMapping
 {
-	private static final int ARITY = 2;
-
     private static final String[] IDENTIFIERS = {
             LogicLibrary.NS_2008_08 + "while"};
 
@@ -46,10 +44,17 @@ public class While extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "b", "loop condition", true ),
+                new Parameter( "p", "loop body, executed as long as condition is satisfied", true )};
+    }
+
+    public String getComment()
+    {
+        return "b p =>  p! p! p! ...  -- where p is executed as long as executing b yields true";
+    }
 
 	public void apply( final StackContext arg,
                        final Sink<StackContext, RippleException> solutions	)

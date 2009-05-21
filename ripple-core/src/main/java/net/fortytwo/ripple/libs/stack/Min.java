@@ -22,8 +22,6 @@ import net.fortytwo.ripple.model.StackContext;
  */
 public class Min extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             StackLibrary.NS_2008_08 + "min",
             StackLibrary.NS_2007_08 + "min"};
@@ -39,10 +37,16 @@ public class Min extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "l", "a list", true )};
+    }
+
+    public String getComment()
+    {
+        return "l  =>  x   -- where x is the least member of l";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

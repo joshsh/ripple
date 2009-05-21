@@ -10,17 +10,15 @@
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.model.StackMapping;
 import net.fortytwo.ripple.flow.Sink;
 
 
 public class ListDequotation implements StackMapping
 {
-	private final RippleList list;
-
-	public ListDequotation( final RippleList list )
+    private final RippleList list;
+    private boolean invert = false;
+    
+    public ListDequotation( final RippleList list )
 	{
 		this.list = list;
 	}
@@ -48,8 +46,22 @@ public class ListDequotation implements StackMapping
 		// Never emit an empty stack.
 		if ( !out.isNil() )
 		{
-			sink.put( arg.with( out ) );
-		}
+            if ( invert )
+            {
+                RippleValue v = out.getFirst();
+                if ( v.isActive() )
+                {
+                    StackMapping inverted = ( (Operator) v ).getMapping().inverse();
+                    out = out.getRest().push( new Operator( inverted ) );
+                    sink.put( arg.with( out ) );
+                }
+            }
+
+            else
+            {
+                sink.put( arg.with( out ) );
+            }
+        }
 	}
 
 	public boolean isTransparent()
@@ -57,10 +69,11 @@ public class ListDequotation implements StackMapping
 		return true;
 	}
 
-    // TODO: list dequotation mapping has a calculable inverse mapping
     public StackMapping inverse() throws RippleException
     {
-        return new NullStackMapping();
+        ListDequotation m = new ListDequotation( list );
+        m.invert = true;
+        return m;
     }
 
     public String toString()

@@ -22,8 +22,6 @@ import net.fortytwo.ripple.flow.Sink;
  */
 public class IndexOf extends PrimitiveStackMapping
 {
-	private static final int ARITY = 2;
-
     private static final String[] IDENTIFIERS = {
             StringLibrary.NS_2008_08 + "indexOf",
             StringLibrary.NS_2007_08 + "indexOf"};
@@ -39,10 +37,17 @@ public class IndexOf extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "str", null, true ),
+                new Parameter( "substr", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "str substr  =>  i -- where i is the index of the first occurrence of substr in str, or -1 if it does not occur";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

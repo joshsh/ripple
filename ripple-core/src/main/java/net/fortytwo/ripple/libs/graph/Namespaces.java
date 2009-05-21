@@ -32,8 +32,6 @@ import org.openrdf.model.Statement;
  */
 public class Namespaces extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             GraphLibrary.NS_2008_08 + "namespaces",
             GraphLibrary.NS_2007_08 + "namespaces"};
@@ -49,10 +47,16 @@ public class Namespaces extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "doc", "a Semantic Web document", true )};
+    }
+
+    public String getComment()
+    {
+        return "doc  =>  (prefix name)  -- for each namespace defined in document doc";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

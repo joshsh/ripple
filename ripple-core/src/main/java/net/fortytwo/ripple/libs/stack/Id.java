@@ -19,8 +19,6 @@ import net.fortytwo.ripple.flow.Sink;
  */
 public class Id extends PrimitiveStackMapping
 {
-	private static final int ARITY = 0;
-
     private static final String[] IDENTIFIERS = {
             StackLibrary.NS_2008_08 + "id",
             StackLibrary.NS_2007_08 + "id",
@@ -37,10 +35,15 @@ public class Id extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {};
+    }
+
+    public String getComment()
+    {
+        return " =>  (identity function, does nothing)";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

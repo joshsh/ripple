@@ -640,7 +640,7 @@ nt_Operator returns [ OperatorAST AST ]
 	OperatorAST.Type type = OperatorAST.Type.Apply;
 	NumberAST minTimes = null, maxTimes = null;
 }
-	: (OP_MOD_OPTION { type = OperatorAST.Type.Option; }
+	: ((OP_MOD_OPTION { type = OperatorAST.Type.Option; }
 	    | OP_MOD_STAR { type = OperatorAST.Type.Star; }
 //	    | OP_MOD_PLUS { type = OperatorAST.Type.Plus; }
 	    | L_CURLY (nt_Ws)? minTimes=nt_Number (nt_Ws)? ( COMMA (nt_Ws)? maxTimes=nt_Number (nt_Ws)? )? R_CURLY
@@ -649,7 +649,7 @@ nt_Operator returns [ OperatorAST AST ]
 			        ? OperatorAST.Type.Times
 			        : OperatorAST.Type.Range;
 	      }
-	    )?
+	    ) (nt_Ws)? )?
 
 	  (OP_APPLY_FORWARD
 	    | OP_APPLY_BACKWARD { inverse = true; }

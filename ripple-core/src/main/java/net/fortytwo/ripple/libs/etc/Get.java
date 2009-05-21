@@ -30,8 +30,6 @@ import java.io.InputStreamReader;
  */
 public class Get extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             EtcLibrary.NS_2008_08 + "get",
             EtcLibrary.NS_2007_08 + "get",
@@ -42,15 +40,21 @@ public class Get extends PrimitiveStackMapping
         return IDENTIFIERS;
     }
 
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "uri", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "issues a GET request and produces the received data as a string";
+    }
+
     public Get()
 		throws RippleException
 	{
 		super();
-	}
-
-	public int arity()
-	{
-		return ARITY;
 	}
 
 	public void apply( final StackContext arg,
@@ -68,17 +72,17 @@ public class Get extends PrimitiveStackMapping
 
 		HttpMethod method = HTTPUtils.createGetMethod( uriStr );
 		HTTPUtils.registerMethod( method );
-		
+
 		HttpClient client = HTTPUtils.createClient();
-		
+
 		InputStream body;
-		
+
 		try
 		{
 			client.executeMethod( method );
 	        body = method.getResponseBodyAsStream();
 		}
-		
+
 		catch ( Throwable t )
 		{
 			throw new RippleException( t );
@@ -119,12 +123,12 @@ public class Get extends PrimitiveStackMapping
 		{
 			method.releaseConnection();
 		}
-		
+
 		catch ( Throwable t )
 		{
 			throw new RippleException( t );
 		}
-		
+
 		solutions.put( arg.with( stack.push( mc.value( result, XMLSchema.STRING ) ) ) );
 	}
 }

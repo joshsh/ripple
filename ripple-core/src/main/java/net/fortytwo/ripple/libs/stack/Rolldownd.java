@@ -22,8 +22,6 @@ import net.fortytwo.ripple.model.RippleList;
  */
 public class Rolldownd extends PrimitiveStackMapping
 {
-	private static final int ARITY = 4;
-
     private static final String[] IDENTIFIERS = {
             StackLibrary.NS_2008_08 + "rolldownd",
             StackLibrary.NS_2007_08 + "rolldownd",
@@ -40,10 +38,19 @@ public class Rolldownd extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "x", null, true ),
+                new Parameter( "y", null, true ),
+                new Parameter( "z", null, true ),
+                new Parameter( "a", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "x y z a  =>  y z x a";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

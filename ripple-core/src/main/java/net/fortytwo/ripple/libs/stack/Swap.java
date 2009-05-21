@@ -21,8 +21,6 @@ import net.fortytwo.ripple.flow.Sink;
  */
 public class Swap extends PrimitiveStackMapping
 {
-	private static final int ARITY = 2;
-
     private static final String[] IDENTIFIERS = {
             StackLibrary.NS_2008_08 + "swap",
             StackLibrary.NS_2007_08 + "swap",
@@ -39,10 +37,17 @@ public class Swap extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "x", null, true ),
+                new Parameter( "y", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "x y  =>  y x";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

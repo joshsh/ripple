@@ -23,8 +23,6 @@ import net.fortytwo.ripple.flow.Sink;
  */
 public class ToLowerCase extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             StringLibrary.NS_2008_08 + "toLowerCase",
             StringLibrary.NS_2007_08 + "toLowerCase"};
@@ -40,10 +38,16 @@ public class ToLowerCase extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "s", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "s  =>  s2 -- where s2 is equal to s with all characters converted to lower case";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

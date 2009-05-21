@@ -26,8 +26,6 @@ import net.fortytwo.ripple.model.ModelConnection;
  */
 public class Branch extends PrimitiveStackMapping
 {
-	private static final int ARITY = 3;
-
     private static final String[] IDENTIFIERS = {
             LogicLibrary.NS_2008_08 + "branch",
             StackLibrary.NS_2007_08 + "branch",
@@ -44,10 +42,18 @@ public class Branch extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "b", "a boolean condition", true ),
+                new Parameter( "t", "this program is executed if the condition is true", true ),
+                new Parameter( "f", "this program is executed if the condition is false", true )};
+    }
+
+    public String getComment()
+    {
+        return "b t f  =>  p!  -- where p is t if b is true, f if b is false";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

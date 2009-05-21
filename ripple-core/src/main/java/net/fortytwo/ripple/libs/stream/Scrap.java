@@ -19,8 +19,6 @@ import net.fortytwo.ripple.model.StackContext;
  */
 public class Scrap extends PrimitiveStackMapping
 {
-	private static final int ARITY = 0;
-
     private static final String[] IDENTIFIERS = {
             StreamLibrary.NS_2008_08 + "scrap",
             StreamLibrary.NS_2007_08 + "scrap",
@@ -37,10 +35,15 @@ public class Scrap extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {};
+    }
+
+    public String getComment()
+    {
+        return "transmits no stacks";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

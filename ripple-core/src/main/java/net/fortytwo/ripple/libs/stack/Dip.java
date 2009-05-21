@@ -22,8 +22,6 @@ import net.fortytwo.ripple.flow.Sink;
  */
 public class Dip extends PrimitiveStackMapping
 {
-	private static final int ARITY = 2;
-
     private static final String[] IDENTIFIERS = {
             StackLibrary.NS_2008_08 + "dip",
             StackLibrary.NS_2007_08 + "dip",
@@ -40,10 +38,17 @@ public class Dip extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "x", "placed above the executed program y on the stack", true ),
+                new Parameter( "y", "the program to be executed", true )};
+    }
+
+    public String getComment()
+    {
+        return "x y  =>  y! x";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

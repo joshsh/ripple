@@ -25,8 +25,6 @@ import net.fortytwo.ripple.flow.Sink;
  */
 public class Split extends PrimitiveStackMapping
 {
-	private static final int ARITY = 2;
-
     private static final String[] IDENTIFIERS = {
             StringLibrary.NS_2008_08 + "split",
             StringLibrary.NS_2007_08 + "split"};
@@ -42,10 +40,17 @@ public class Split extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "s", null, true ),
+                new Parameter( "regex", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "s regex  =>  (s1, s2, s3, ...) -- where s has been divided into substrings by occurrences of regular expression regex";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

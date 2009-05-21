@@ -31,8 +31,6 @@ import java.util.Iterator;
  */
 public class Map extends PrimitiveStackMapping
 {
-	private static final int ARITY = 2;
-
     private static final String[] IDENTIFIERS = {
             StackLibrary.NS_2008_08 + "map"};
 
@@ -46,10 +44,17 @@ public class Map extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "l", "a List to map through m", true ),
+                new Parameter( "m", "a mapping which produces and consumes one argument", true )};
+    }
+
+    public String getComment()
+    {
+        return "l m  =>  l mapped through m";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

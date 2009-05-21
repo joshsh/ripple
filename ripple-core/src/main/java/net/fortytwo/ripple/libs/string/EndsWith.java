@@ -23,8 +23,6 @@ import net.fortytwo.ripple.model.StackContext;
  */
 public class EndsWith extends PrimitiveStackMapping
 {
-	private static final int ARITY = 2;
-
     private static final String[] IDENTIFIERS = {
             StringLibrary.NS_2008_08 + "endsWith",
             StringLibrary.NS_2007_08 + "endsWith"};
@@ -40,10 +38,17 @@ public class EndsWith extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "s", null, true ),
+                new Parameter( "suffix", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "s suffix  =>  b -- where b is true if the given string ends with the given suffix, otherwise false";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

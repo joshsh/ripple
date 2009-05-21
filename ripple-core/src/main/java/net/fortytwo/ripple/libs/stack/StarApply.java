@@ -26,7 +26,11 @@ import net.fortytwo.ripple.model.regex.StarQuantifier;
 public class StarApply extends PrimitiveStackMapping
 {
 	// TODO: arity should really be 1, but this is a nice temporary solution
-	private static final int ARITY = 2;
+    @Override
+    public int arity()
+    {
+        return 2;
+    }
 
     private static final String[] IDENTIFIERS = {
             StackLibrary.NS_2008_08 + "starApply"};
@@ -41,10 +45,16 @@ public class StarApply extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "p", "the program to be executed", true )};
+    }
+
+    public String getComment()
+    {
+        return "p  => p*  -- optionally execute the program p any number of times";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

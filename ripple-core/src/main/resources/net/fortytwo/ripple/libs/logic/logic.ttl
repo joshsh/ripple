@@ -82,9 +82,8 @@ logic:ifte
 	rpl:arity 3 ;
 	rpl:parameters (
 		[
-			rdfs:label "elsePart" ;
-			rdfs:comment "this program is executed if the condition is false" ;
-			rpl:parameterType rpl:Function ;
+			rdfs:label "b" ;
+			rpl:parameterType rdf:List ;
 			rpl:isTransparent true ]
 		[
 			rdfs:label "ifPart" ;
@@ -92,12 +91,13 @@ logic:ifte
 			rpl:parameterType rdf:List ;
 			rpl:isTransparent true ]
 		[
-			rdfs:label "b" ;
-			rpl:parameterType rdf:List ;
+			rdfs:label "elsePart" ;
+			rdfs:comment "this program is executed if the condition is false" ;
+			rpl:parameterType rpl:Function ;
 			rpl:isTransparent true ]
 		) ;
 	rdfs:label "ifte" ;
-	rdfs:comment "b t f =>  p!  -- where p is t if /b evaluates to true, and f if it evaluates to false" ;
+	rdfs:comment "b t f =>  p!  -- where p is t if the application of b evaluates to true, and f if it evaluates to false" ;
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#ifte> ;
 	owl:sameAs <http://fortytwo.net/2007/08/ripple/stack#ifte> ;
 	.
@@ -146,12 +146,12 @@ logic:while
 	rpl:arity 2 ;
 	rpl:parameters (
 		[
-			rdfs:label "p" ;
+			rdfs:label "b" ;
 			rdfs:comment "loop body, executed as long as condition is satisfied" ;
 			rpl:parameterType rpl:Function ;
 			rpl:isTransparent true ]
 		[
-			rdfs:label "b" ;
+			rdfs:label "p" ;
 			rdfs:comment "loop condition" ;
 			rpl:parameterType rdf:List ;
 			rpl:isTransparent true ]

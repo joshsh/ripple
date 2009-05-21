@@ -23,8 +23,6 @@ import net.fortytwo.ripple.flow.Sink;
  */
 public class Infer extends RDFPredicateStackMapping
 {
-	private static final int ARITY = 2;
-
     private static final String[] IDENTIFIERS = {
             GraphLibrary.NS_2008_08 + "infer"};
 
@@ -47,10 +45,17 @@ public class Infer extends RDFPredicateStackMapping
         this.inverse = original;
     }
 
-    public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "s", null, true ),
+                new Parameter( "p", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "s p  =>  o (where o may be an inferred object)";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

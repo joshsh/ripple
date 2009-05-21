@@ -203,25 +203,6 @@ math:gt
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/math#gt> ;
 	.
 
-math:lt
-	a rpl:Function ;
-	rpl:arity 2 ;
-	rpl:parameters (
-		[
-			rdfs:label "x" ;
-			rpl:parameterType xsd:integer ;
-			rpl:isTransparent true ]
-		[
-			rdfs:label "y" ;
-			rpl:parameterType xsd:integer ;
-			rpl:isTransparent true ]
-		) ;
-	rpl:returnType rpl:Function ;
-	rdfs:label "lt" ;
-	rdfs:comment "x y  =>  b  -- where b is true if x < y, otherwise false" ;
-	owl:sameAs <http://fortytwo.net/2007/05/ripple/math#lt> ;
-	.
-
 math:log
 	a rpl:Function ;
 	rpl:arity 1 ;
@@ -248,6 +229,25 @@ math:log10
 	rpl:returnType xsd:double ;
 	rdfs:label "log10" ;
 	rdfs:comment "x  =>  base-10 logarithm of x" ;
+	.
+
+math:lt
+	a rpl:Function ;
+	rpl:arity 2 ;
+	rpl:parameters (
+		[
+			rdfs:label "x" ;
+			rpl:parameterType xsd:integer ;
+			rpl:isTransparent true ]
+		[
+			rdfs:label "y" ;
+			rpl:parameterType xsd:integer ;
+			rpl:isTransparent true ]
+		) ;
+	rpl:returnType rpl:Function ;
+	rdfs:label "lt" ;
+	rdfs:comment "x y  =>  b  -- where b is true if x < y, otherwise false" ;
+	owl:sameAs <http://fortytwo.net/2007/05/ripple/math#lt> ;
 	.
 
 math:mod

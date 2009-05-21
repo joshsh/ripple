@@ -23,8 +23,6 @@ import net.fortytwo.ripple.model.StackContext;
  */
 public class Uncons extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             StackLibrary.NS_2008_08 + "uncons",
             StackLibrary.NS_2007_08 + "uncons",
@@ -41,10 +39,16 @@ public class Uncons extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "l", "a list", true )};
+    }
+
+    public String getComment()
+    {
+        return "l  =>  f r  -- where f is the first member of l and r is the rest of l";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

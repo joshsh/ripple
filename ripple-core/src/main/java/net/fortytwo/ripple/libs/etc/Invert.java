@@ -34,9 +34,15 @@ public class Invert extends PrimitiveStackMapping
         return IDENTIFIERS;
     }
 
-    public int arity()
+    public Parameter[] getParameters()
     {
-        return 1;
+        return new Parameter[] {
+                new Parameter( "mapping", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "mapping -> inverse_mapping";
     }
 
     public void apply( final StackContext arg,

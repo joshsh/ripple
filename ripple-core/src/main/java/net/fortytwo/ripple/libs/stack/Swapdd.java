@@ -38,10 +38,19 @@ public class Swapdd extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "x", null, true ),
+                new Parameter( "y", null, true ),
+                new Parameter( "z", null, true ),
+                new Parameter( "a", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "x y z a  =>  y x z a";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

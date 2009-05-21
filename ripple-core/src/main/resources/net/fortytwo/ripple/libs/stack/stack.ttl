@@ -51,7 +51,7 @@ stack:at
 			rpl:isTransparent true ]
 		) ;
 	rdfs:label "at" ;
-	rdfs:comment "l i  =>  l[i]  -- pushes the member of List l at index i.  Note: lists are 1-indexed" ;
+	rdfs:comment "l i  =>  l[i], the member of List l at index i.  Note: lists are 1-indexed" ;
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#at> ;
 	.
 
@@ -265,7 +265,7 @@ stack:id
 	rpl:arity 0 ;
 	rpl:parameters rdf:nil ;
 	rdfs:label "id" ;
-	rdfs:comment "id  =>  (identity function, does nothing)" ;
+	rdfs:comment "  =>  (identity function, does nothing)" ;
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/stack#id> ;
 	.
 
@@ -438,16 +438,16 @@ stack:rangeApply
 			rdfs:label "p" ;
 			rpl:isTransparent true ]
 		[
-			rdfs:label "max" ;
+			rdfs:label "min" ;
 			rpl:parameterType xsd:integer ;
 			rpl:isTransparent true ]
 		[
-			rdfs:label "min" ;
+			rdfs:label "max" ;
 			rpl:parameterType xsd:integer ;
 			rpl:isTransparent true ]
 		) ;
 	rdfs:label "rangeApply" ;
-	rdfs:comment "p min max  =>  ... p{min, max}  -- pushes between min (inclusive) and max (inclusive) active copies of the program p, or 'executes p min times to max times'" ;
+	rdfs:comment "p min max  =>  ... p{min, max}!  -- pushes between min (inclusive) and max (inclusive) active copies of the program p, or 'executes p min times to max times'" ;
 	.
 
 stack:rolldown

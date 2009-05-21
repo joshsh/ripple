@@ -22,8 +22,6 @@ import net.fortytwo.ripple.flow.Sink;
  */
 public class New extends PrimitiveStackMapping
 {
-	private static final int ARITY = 0;
-
     private static final String[] IDENTIFIERS = {
             GraphLibrary.NS_2008_08 + "new",
             GraphLibrary.NS_2007_08 + "new",
@@ -40,10 +38,15 @@ public class New extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {};
+    }
+
+    public String getComment()
+    {
+        return "n  -- where n is a new blank node";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

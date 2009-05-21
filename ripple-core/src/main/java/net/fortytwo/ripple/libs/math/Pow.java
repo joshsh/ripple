@@ -23,8 +23,6 @@ import net.fortytwo.ripple.flow.Sink;
  */
 public class Pow extends PrimitiveStackMapping
 {
-	private static final int ARITY = 2;
-
     private static final String[] IDENTIFIERS = {
             MathLibrary.NS_2008_08 + "pow",
             MathLibrary.NS_2007_08 + "pow",
@@ -41,10 +39,17 @@ public class Pow extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "x", null, true ),
+                new Parameter( "p", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "x p  =>  x^p";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

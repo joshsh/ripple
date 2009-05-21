@@ -24,8 +24,6 @@ import net.fortytwo.ripple.model.StackMapping;
  */
 public class Div extends PrimitiveStackMapping
 {
-	private static final int ARITY = 2;
-
     private static final String[] IDENTIFIERS = {
             MathLibrary.NS_2008_08 + "div",
             MathLibrary.NS_2007_08 + "div",
@@ -42,10 +40,17 @@ public class Div extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "x", null, true ),
+                new Parameter( "y", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "x y  =>  y / x";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

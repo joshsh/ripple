@@ -24,8 +24,6 @@ import net.fortytwo.ripple.flow.Sink;
  */
 public class ReplaceAll extends PrimitiveStackMapping
 {
-	private static final int ARITY = 3;
-
     private static final String[] IDENTIFIERS = {
             StringLibrary.NS_2008_08 + "replaceAll",
             StringLibrary.NS_2007_08 + "replaceAll"};
@@ -41,10 +39,18 @@ public class ReplaceAll extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "s", null, true ),
+                new Parameter( "regex", null, true ),
+                new Parameter( "replacement", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "s regex replacement  =>  s2 -- in which each occurrence of the given regular expression in s has been substituted with the given replacement";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

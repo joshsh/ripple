@@ -22,8 +22,6 @@ import net.fortytwo.ripple.flow.Sink;
  */
 public class Random extends PrimitiveStackMapping
 {
-	private static final int ARITY = 0;
-
     private static final String[] IDENTIFIERS = {
             MathLibrary.NS_2008_08 + "random",
             MathLibrary.NS_2007_08 + "random"};
@@ -39,10 +37,15 @@ public class Random extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {};
+    }
+
+    public String getComment()
+    {
+        return "=> x, where x is a pseudorandom number in the interval [0.0, 1.0)";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

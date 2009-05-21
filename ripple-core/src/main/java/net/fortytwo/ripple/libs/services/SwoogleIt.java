@@ -40,8 +40,6 @@ import java.net.URL;
  */
 public class SwoogleIt extends PrimitiveStackMapping
 {
-	private static final int ARITY = 3;
-
 	private static final String SWOOGLE_NS
 		= "http://daml.umbc.edu/ontologies/webofbelief/1.4/swoogle.owl#";
 
@@ -63,10 +61,18 @@ public class SwoogleIt extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "key", null, true ),
+                new Parameter( "queryType", null, true ),
+                new Parameter( "searchString", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "grabs search results from the Swoogle web service";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

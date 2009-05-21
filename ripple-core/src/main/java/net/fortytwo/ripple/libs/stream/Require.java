@@ -11,12 +11,14 @@ package net.fortytwo.ripple.libs.stream;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.Operator;
+import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.RippleValue;
+import net.fortytwo.ripple.model.StackContext;
+import net.fortytwo.ripple.model.StackMapping;
+import net.fortytwo.ripple.model.NullStackMapping;
 
 /**
  * A filter which discards the stack unless the topmost item is the boolean
@@ -24,8 +26,12 @@ import net.fortytwo.ripple.model.ModelConnection;
  */
 public class Require extends PrimitiveStackMapping
 {
-	private static final int ARITY = 2;
-
+    @Override
+    public int arity()
+    {
+        return 2;
+    }
+    
     private static final String[] IDENTIFIERS = {
             StreamLibrary.NS_2008_08 + "require"};
 
@@ -40,10 +46,16 @@ public class Require extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "f", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "transmits the rest of a stack only if applying the topmost item to the rest of the stack yields stack:true";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )
@@ -66,15 +78,8 @@ public class Require extends PrimitiveStackMapping
         Operator.createOperator(mapping, opSink, mc);
     }
 
-    private class CriterionApplicator extends PrimitiveStackMapping
+    private class CriterionApplicator implements StackMapping
     {
-        // FIXME: awkward
-        private final String[] identifiers = {};
-        public String[] getIdentifiers()
-        {
-            return identifiers;
-        }
-
         private Operator criterion;
 
         public CriterionApplicator( final Operator criterion )
@@ -88,6 +93,16 @@ public class Require extends PrimitiveStackMapping
             return criterion.getMapping().arity();
         }
 
+        public StackMapping inverse() throws RippleException
+        {
+            return new NullStackMapping();
+        }
+
+        public boolean isTransparent()
+        {
+            return criterion.getMapping().isTransparent();
+        }
+
         public void apply( final StackContext arg,
                              final Sink<StackContext, RippleException> solutions ) throws RippleException
         {
@@ -99,15 +114,8 @@ public class Require extends PrimitiveStackMapping
         }
     }
 
-    private class Decider extends PrimitiveStackMapping
+    private class Decider implements StackMapping
     {
-        // FIXME: awkward
-        private final String[] identifiers = {};
-        public String[] getIdentifiers()
-        {
-            return identifiers;
-        }
-        
         private RippleList rest;
 
         public Decider( final RippleList rest )
@@ -118,6 +126,16 @@ public class Require extends PrimitiveStackMapping
         public int arity()
         {
             return 1;
+        }
+
+        public StackMapping inverse() throws RippleException
+        {
+            return new NullStackMapping();
+        }
+
+        public boolean isTransparent()
+        {
+            return true;
         }
 
         public void apply( final StackContext arg,

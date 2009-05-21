@@ -27,7 +27,6 @@ import org.openrdf.model.vocabulary.XMLSchema;
  */
 public class PingTheSemanticWeb extends PrimitiveStackMapping
 {
-	private static final int ARITY = 2;
 	private static final String MSG = "Note: the PingTheSemanticWeb API has just (as of Aug 27, 2007) undergone major changes.  Check the latest release of Ripple for an updated pingTheSemanticWeb primitive!";
 
 	private static SAXBuilder saxBuilder = null;
@@ -59,10 +58,17 @@ public class PingTheSemanticWeb extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "type", "one of the values 'all', 'foaf', 'sioc', 'doap', 'rdfs' or 'owl'", true ),
+                new Parameter( "maxResults", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "requests a list of URIs from the 'Ping the Semantic Web' service";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

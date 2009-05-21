@@ -26,8 +26,6 @@ import net.fortytwo.ripple.flow.Sink;
  */
 public class Fold extends PrimitiveStackMapping
 {
-	private static final int ARITY = 3;
-
     private static final String[] IDENTIFIERS = {
             StackLibrary.NS_2008_08 + "fold",
             StackLibrary.NS_2007_08 + "fold",
@@ -44,10 +42,18 @@ public class Fold extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "l", "a list through which to fold p", true ),
+                new Parameter( "v0", "initial value", true ),
+                new Parameter( "p", "a binary function", true )};
+    }
+
+    public String getComment()
+    {
+        return "l v0 p  =>  v  -- starting with value v0, sequentially push members of List l and combine with binary operator p";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

@@ -24,8 +24,6 @@ import net.fortytwo.ripple.flow.Sink;
  */
 public class Cat extends PrimitiveStackMapping
 {
-	private static final int ARITY = 2;
-
     private static final String[] IDENTIFIERS = {
             StackLibrary.NS_2008_08 + "cat",
             StackLibrary.NS_2007_08 + "cat",
@@ -42,10 +40,17 @@ public class Cat extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "l1", "a list", true ),
+                new Parameter( "l2", "a list", true )};
+    }
+
+    public String getComment()
+    {
+        return "l1 l2  =>  l3  -- where l3 is the concatenation of Lists l1 and l2";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )

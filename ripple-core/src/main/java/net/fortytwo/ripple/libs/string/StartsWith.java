@@ -23,8 +23,6 @@ import net.fortytwo.ripple.flow.Sink;
  */
 public class StartsWith extends PrimitiveStackMapping
 {
-	private static final int ARITY = 2;
-
     private static final String[] IDENTIFIERS = {
             StringLibrary.NS_2008_08 + "startsWith",
             StringLibrary.NS_2007_08 + "startsWith"};
@@ -40,10 +38,17 @@ public class StartsWith extends PrimitiveStackMapping
 		super();
 	}
 
-	public int arity()
-	{
-		return ARITY;
-	}
+    public Parameter[] getParameters()
+    {
+        return new Parameter[] {
+                new Parameter( "s", null, true ),
+                new Parameter( "prefix", null, true )};
+    }
+
+    public String getComment()
+    {
+        return "s prefix  =>  b -- where b is true if the given string begins with the given prefix, otherwise false";
+    }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )
