@@ -10,34 +10,35 @@
 package net.fortytwo.linkeddata.sail;
 
 import info.aduna.iteration.CloseableIteration;
+import net.fortytwo.linkeddata.SparqlUpdater;
+import net.fortytwo.linkeddata.WebClosure;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.URIMap;
+import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.ripple.rdf.RDFUtils;
 import net.fortytwo.ripple.rdf.diff.RDFDiffBuffer;
 import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
-import net.fortytwo.ripple.rdf.diff.SynchronizedRDFDiffSink;
 import net.fortytwo.ripple.rdf.diff.RDFDiffTee;
-import net.fortytwo.ripple.rdf.RDFUtils;
-import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.linkeddata.WebClosure;
-import net.fortytwo.linkeddata.SparqlUpdater;
+import net.fortytwo.ripple.rdf.diff.SynchronizedRDFDiffSink;
 import org.apache.log4j.Logger;
+import org.openrdf.model.Namespace;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.ValueFactory;
-import org.openrdf.model.Namespace;
 import org.openrdf.model.impl.NamespaceImpl;
+import org.openrdf.query.BindingSet;
+import org.openrdf.query.Dataset;
+import org.openrdf.query.QueryEvaluationException;
+import org.openrdf.query.algebra.TupleExpr;
+import org.openrdf.query.algebra.evaluation.TripleSource;
+import org.openrdf.query.algebra.evaluation.impl.EvaluationStrategyImpl;
+import org.openrdf.sail.NotifyingSailConnection;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailConnectionListener;
 import org.openrdf.sail.SailException;
-import org.openrdf.query.algebra.evaluation.TripleSource;
-import org.openrdf.query.algebra.evaluation.impl.EvaluationStrategyImpl;
-import org.openrdf.query.algebra.TupleExpr;
-import org.openrdf.query.BindingSet;
-import org.openrdf.query.QueryEvaluationException;
-import org.openrdf.query.Dataset;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -56,7 +57,7 @@ import java.util.Set;
 // TODO: data synchronization between the base Sail and the Web
 // TODO: non-blocking / multithreaded SPARUL
 // TODO: cut down on excessive synchronization
-public class LinkedDataSailConnection implements SailConnection
+public class LinkedDataSailConnection implements NotifyingSailConnection
 {
     private static final boolean DEREFERENCE_SUBJECT = true;
     private static final boolean DEREFERENCE_PREDICATE = false;

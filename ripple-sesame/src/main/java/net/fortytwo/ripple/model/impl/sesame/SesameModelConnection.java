@@ -10,6 +10,7 @@
 package net.fortytwo.ripple.model.impl.sesame;
 
 import info.aduna.iteration.CloseableIteration;
+import net.fortytwo.linkeddata.sail.SailConnectionListenerAdapter;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.control.Task;
@@ -47,7 +48,9 @@ import org.openrdf.model.ValueFactory;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.model.vocabulary.XMLSchema;
 import org.openrdf.rio.RDFFormat;
+import org.openrdf.sail.NotifyingSailConnection;
 import org.openrdf.sail.SailConnection;
+import org.openrdf.sail.SailConnectionListener;
 import org.openrdf.sail.SailException;
 
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -207,14 +210,13 @@ public class SesameModelConnection implements ModelConnection
 // FIXME: this doesn't give the LexiconUpdater any information about namespaces
 // FIXME: removed because SailConnectionListener is no longer supported by arbitrary Sails... you would need to wrap
 //        the Sail in a notifying Sail... but this still wouldn't give you namespace updates.
-/*			if ( null != listenerSink )
+			if ( null != listenerSink && sailConnection instanceof NotifyingSailConnection)
 			{
 				SailConnectionListener listener
 					= new SailConnectionListenerAdapter( listenerSink );
 
-                sailConnection.addConnectionListener(listener);
+                ( (NotifyingSailConnection) sailConnection ).addConnectionListener(listener);
 			}
-			*/
 		}
 	
 		catch ( Throwable t )

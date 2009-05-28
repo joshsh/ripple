@@ -10,28 +10,30 @@
 package net.fortytwo.linkeddata.sail;
 
 import info.aduna.iteration.CloseableIteration;
+import net.fortytwo.linkeddata.ContextMemo;
+import net.fortytwo.linkeddata.ContextProperty;
+import net.fortytwo.linkeddata.Rdfizer;
+import net.fortytwo.linkeddata.WebClosure;
+import net.fortytwo.linkeddata.dereferencers.FileURIDereferencer;
+import net.fortytwo.linkeddata.dereferencers.HTTPURIDereferencer;
+import net.fortytwo.linkeddata.dereferencers.JarURIDereferencer;
+import net.fortytwo.linkeddata.rdfizers.ImageRdfizer;
+import net.fortytwo.linkeddata.rdfizers.VerbatimRdfizer;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.RippleProperties;
+import net.fortytwo.ripple.URIMap;
 import net.fortytwo.ripple.rdf.RDFUtils;
 import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
-import net.fortytwo.ripple.URIMap;
-import net.fortytwo.linkeddata.Rdfizer;
-import net.fortytwo.linkeddata.ContextMemo;
-import net.fortytwo.linkeddata.WebClosure;
-import net.fortytwo.linkeddata.ContextProperty;
-import net.fortytwo.linkeddata.dereferencers.FileURIDereferencer;
-import net.fortytwo.linkeddata.dereferencers.JarURIDereferencer;
-import net.fortytwo.linkeddata.dereferencers.HTTPURIDereferencer;
-import net.fortytwo.linkeddata.rdfizers.ImageRdfizer;
-import net.fortytwo.linkeddata.rdfizers.VerbatimRdfizer;
 import org.apache.log4j.Logger;
 import org.openrdf.model.Literal;
+import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
-import org.openrdf.model.Resource;
 import org.openrdf.rio.RDFFormat;
+import org.openrdf.sail.NotifyingSail;
+import org.openrdf.sail.NotifyingSailConnection;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailChangedListener;
 import org.openrdf.sail.SailConnection;
@@ -40,15 +42,15 @@ import org.openrdf.sail.StackableSail;
 import org.restlet.data.MediaType;
 
 import java.io.File;
-import java.util.Map;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * A thread-safe Sail which treats the Semantic Web as a single global graph of
  * linked data.
  */
-public class LinkedDataSail implements StackableSail
+public class LinkedDataSail implements StackableSail, NotifyingSail
 {
 	private static final String
             LOG_FAILED_URIS = "net.fortytwo.linkeddata.logFailedUris",
@@ -102,7 +104,7 @@ public class LinkedDataSail implements StackableSail
 	{
 	}
 
-	public synchronized SailConnection getConnection()
+	public synchronized NotifyingSailConnection getConnection()
 		throws SailException
 	{
 		if ( !initialized )
