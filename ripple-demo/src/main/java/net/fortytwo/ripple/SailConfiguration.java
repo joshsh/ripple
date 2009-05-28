@@ -1,5 +1,6 @@
 package net.fortytwo.ripple;
 
+import com.knowledgereefsystems.agsail.AllegroSail;
 import net.fortytwo.linkeddata.sail.LinkedDataSail;
 import net.fortytwo.ripple.rdf.RDFUtils;
 import org.apache.log4j.Logger;
@@ -28,7 +29,7 @@ import java.io.OutputStream;
  * Time: 12:05:43 PM
  */
 public class SailConfiguration {
-    private static final Logger LOGGER = Logger.getLogger( SailConfiguration.class );
+    private static final Logger LOGGER = Logger.getLogger(SailConfiguration.class);
 
     private final String sailType;
     private File persistFile;
@@ -66,7 +67,7 @@ public class SailConfiguration {
                 saveToPersistFile();
                 linkedDataSailBaseSail.shutDown();
             }
-            
+
             // If there is a single Sail:
             else {
                 saveToPersistFile();
@@ -90,6 +91,8 @@ public class SailConfiguration {
             sail = createNativeStore();
         } else if (sailType.equals(LinkedDataSail.class.getName())) {
             sail = createLinkedDataSail(uriMap);
+        } else if (sailType.equals(AllegroSail.class.getName())) {
+            sail = createAllegroSail();
         } else {
             throw new RippleException("unhandled Sail type: " + sailType);
         }
@@ -109,7 +112,7 @@ public class SailConfiguration {
 
         return sail;
     }
-    
+
     private Sail createNativeStore() throws RippleException {
         RippleProperties props = Ripple.getProperties();
         File dir = props.getFile(Ripple.NATIVESTORE_DIRECTORY);
@@ -132,6 +135,31 @@ public class SailConfiguration {
         Sail sail = new LinkedDataSail(linkedDataSailBaseSail, uriMap);
         try {
             // Note: base Sail is already initialized.
+            sail.initialize();
+        } catch (SailException e) {
+            throw new RippleException(e);
+        }
+
+        return sail;
+    }
+
+    private static Sail createAllegroSail() throws RippleException {
+        RippleProperties props = Ripple.getProperties();
+
+        String host = props.getString(Ripple.ALLEGROSAIL_HOST);
+        int port = props.getInt(Ripple.ALLEGROSAIL_PORT);
+        boolean start = props.getBoolean(Ripple.ALLEGROSAIL_START);
+        String name = props.getString(Ripple.ALLEGROSAIL_NAME);
+        File directory = props.getFile(Ripple.ALLEGROSAIL_DIRECTORY);
+
+        Sail sail;
+        //try {
+            sail = new AllegroSail(host, port, start, name, directory, 0, 0, false, false);
+        //} catch (AllegroSailException e) {
+        //    throw new RippleException(e);
+        //}
+
+        try {
             sail.initialize();
         } catch (SailException e) {
             throw new RippleException(e);
@@ -178,19 +206,17 @@ public class SailConfiguration {
         }
     }
 
-    private RDFFormat getRDFFormat( final String propertyName ) throws RippleException
-	{
-		String value = Ripple.getProperties().getString( propertyName );
+    private RDFFormat getRDFFormat(final String propertyName) throws RippleException {
+        String value = Ripple.getProperties().getString(propertyName);
 
-		RDFFormat format = RDFUtils.findFormat( value );
+        RDFFormat format = RDFUtils.findFormat(value);
 
-		if ( null == format )
-		{
-			throw new RippleException( "unknown RDF format: " + value );
-		}
+        if (null == format) {
+            throw new RippleException("unknown RDF format: " + value);
+        }
 
-		return format;
-	}
+        return format;
+    }
 
     private void importRDFDumpFile(final Sail sail,
                                    final File file,

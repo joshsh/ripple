@@ -9,15 +9,15 @@
 
 package net.fortytwo.ripple.libs.etc;
 
-import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.Operator;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.StackMappingWrapper;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.Operator;
+import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.RippleValue;
+import net.fortytwo.ripple.model.StackContext;
+import net.fortytwo.ripple.model.StackMappingWrapper;
 
 /**
  * Author: josh
@@ -52,7 +52,6 @@ public class Invert extends PrimitiveStackMapping
         final ModelConnection mc = arg.getModelConnection();
 
         final RippleList rest = stack.getRest();
-
         RippleValue f = stack.getFirst();
 //System.out.println("value to invert: " + f);
         
@@ -67,6 +66,6 @@ public class Invert extends PrimitiveStackMapping
             }
         };
 
-        Operator.createOperator(f, opSink, mc);
+        Operator.createOperator( f, opSink, mc );
     }
 }

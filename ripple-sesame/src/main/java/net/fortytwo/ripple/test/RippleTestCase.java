@@ -1,36 +1,36 @@
 package net.fortytwo.ripple.test;
 
-import junit.framework.TestCase;
 import junit.framework.AssertionFailedError;
-import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.Model;
-import net.fortytwo.ripple.model.impl.sesame.SesameModel;
+import junit.framework.TestCase;
+import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.URIMap;
-import net.fortytwo.ripple.Ripple;
-import net.fortytwo.ripple.query.QueryEngine;
-import net.fortytwo.ripple.query.StackEvaluator;
-import net.fortytwo.ripple.query.LazyEvaluator;
-import net.fortytwo.ripple.query.QueryPipe;
 import net.fortytwo.ripple.flow.Collector;
-
-import java.util.Iterator;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.Comparator;
-import java.io.InputStream;
-
+import net.fortytwo.ripple.model.Model;
+import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.RippleValue;
+import net.fortytwo.ripple.model.impl.sesame.SesameModel;
+import net.fortytwo.ripple.query.LazyEvaluator;
+import net.fortytwo.ripple.query.QueryEngine;
+import net.fortytwo.ripple.query.QueryPipe;
+import net.fortytwo.ripple.query.StackEvaluator;
+import org.openrdf.model.vocabulary.RDF;
+import org.openrdf.model.vocabulary.RDFS;
+import org.openrdf.model.vocabulary.XMLSchema;
+import org.openrdf.sail.NotifyingSail;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
 import org.openrdf.sail.inferencer.fc.ForwardChainingRDFSInferencer;
 import org.openrdf.sail.memory.MemoryStore;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.model.vocabulary.RDFS;
-import org.openrdf.model.vocabulary.XMLSchema;
+
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  * Author: josh
@@ -70,14 +70,14 @@ public abstract class RippleTestCase extends TestCase
 		if ( null == sail )
 		{
             sail = new MemoryStore();
-System.out.println("sail = " + sail);
-
-            if ( SUPPORT_INFERENCE )
-            {
-                sail = new ForwardChainingRDFSInferencer( sail );
-            }
 
             try {
+                // Use inference if desired and if the underlying Sail supports it.
+                if ( SUPPORT_INFERENCE && sail instanceof NotifyingSail)
+                {
+                    sail = new ForwardChainingRDFSInferencer( (NotifyingSail) sail );
+                }
+
                 sail.initialize();
 
                 SailConnection sc = sail.getConnection();

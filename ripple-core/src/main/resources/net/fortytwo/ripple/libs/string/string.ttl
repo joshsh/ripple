@@ -289,7 +289,7 @@ string:toUpperCase
 	rpl:returnType xsd:string ;
 	rdfs:label "toUpperCase" ;
 	rdfs:comment "s  =>  s2 -- where s2 is equal to s with all characters converted to upper case" ;
-	.
+	.wwww
 
 string:trim
 	a rpl:Function ;

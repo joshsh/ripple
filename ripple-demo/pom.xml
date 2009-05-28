@@ -39,18 +39,23 @@
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-sail-memory</artifactId>
-            <version>2.1.1</version>
+            <version>2.2.4</version>
         </dependency>
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-sail-nativerdf</artifactId>
-            <version>2.1.1</version>
+            <version>2.2.4</version>
         </dependency>
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-repository-sail</artifactId>
-            <version>2.1.1</version>
+            <version>2.2.4</version>
         </dependency>
+        <dependency>
+            <groupId>com.franz.ag</groupId>
+            <artifactId>agsail</artifactId>
+            <version>3.2</version>
+        </dependency>        
         <dependency>
             <groupId>org.deri.sw</groupId>
             <artifactId>semanticsitemap</artifactId>

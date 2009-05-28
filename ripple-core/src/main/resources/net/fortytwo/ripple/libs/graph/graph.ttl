@@ -233,11 +233,11 @@ graph:inlinks
 	rpl:arity 1 ;
 	rpl:parameters (
 		[
-			rdfs:label "obj" ;
+			rdfs:label "o" ;
 			rpl:isTransparent true ]
 		) ;
 	rdfs:label "inlinks" ;
-	rdfs:comment "obj  =>  subj pred obj ctx" ;
+	rdfs:comment "o  =>  s p o g" ;
 	.
 
 graph:links
@@ -245,11 +245,11 @@ graph:links
 	rpl:arity 1 ;
 	rpl:parameters (
 		[
-			rdfs:label "subj" ;
+			rdfs:label "s" ;
 			rpl:isTransparent true ]
 		) ;
 	rdfs:label "links" ;
-	rdfs:comment "subj  =>  subj pred obj ctx" ;
+	rdfs:comment "s  =>  s p o g" ;
 	.
 
 graph:namespaces
@@ -286,7 +286,7 @@ graph:quads
 		) ;
 	rpl:returnType rdf:List ;
 	rdfs:label "quads" ;
-	rdfs:comment "doc  =>  subj pred obj ctx  -- for each statement (subj pred obj ctx) in document doc" ;
+	rdfs:comment "doc  =>  s p o g  -- for each statement (s p o g) in document doc" ;
 	.
 
 graph:toDouble
@@ -355,7 +355,7 @@ graph:triples
 		) ;
 	rpl:returnType rdf:List ;
 	rdfs:label "triples" ;
-	rdfs:comment "doc  =>  subj pred obj  -- for each triple (subj pred obj) in document doc" ;
+	rdfs:comment "doc  =>  s p o  -- for each triple (s p o) in document doc" ;
 	.
 
 xml:lang

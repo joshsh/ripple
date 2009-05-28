@@ -24,26 +24,33 @@ import net.fortytwo.ripple.RippleException;
  * Time: 1:15:23 PM
  */
 public class GetProperty extends PrimitiveStackMapping {
-    public int arity() {
-        return 2;
-    }
 
     private static final String[] IDENTIFIERS = {
             Neo4jLibrary.NS_2008_08 + "getProperty"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("node", null, true),
+                new Parameter("label", null, true)
+        };
+    }
+
+    public String getComment() {
+        return "gets the value for a property";
+    }
+
     public void apply(final StackContext arg,
-                        final Sink<StackContext, RippleException> solutions) throws RippleException {
+                      final Sink<StackContext, RippleException> solutions) throws RippleException {
         ModelConnection mc = arg.getModelConnection();
 
         RippleList stack = arg.getStack();
         String label = mc.toString(stack.getFirst());
-        RippleValue node = stack.getFirst();
         stack = stack.getRest();
+        RippleValue node = stack.getFirst();
         stack = stack.getRest();
 
         if (node instanceof Neo4jNode) {
