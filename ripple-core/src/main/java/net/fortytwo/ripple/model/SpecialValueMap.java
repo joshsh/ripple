@@ -9,13 +9,12 @@
 
 package net.fortytwo.ripple.model;
 
-import java.util.Set;
-import java.util.Map;
-import java.util.HashMap;
-
 import net.fortytwo.ripple.RippleException;
-
 import org.openrdf.model.Value;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class SpecialValueMap
 {
@@ -74,8 +73,13 @@ public class SpecialValueMap
 	{
 		rdfToNativeMap.put( v.toRDF( mc ).sesameValue(), v );
 	}
-	
-	public Set<Value> keySet()
+
+    public void remove( final Value key )
+    {
+        rdfToNativeMap.remove( key );
+    }
+
+    public Set<Value> keySet()
 	{
 		return rdfToNativeMap.keySet();
 	}

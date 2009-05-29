@@ -52,6 +52,7 @@ import org.openrdf.sail.NotifyingSailConnection;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailConnectionListener;
 import org.openrdf.sail.SailException;
+import org.openrdf.sail.SailReadOnlyException;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.OutputStream;
@@ -192,8 +193,13 @@ public class SesameModelConnection implements ModelConnection
 			sailConnection.commit();
 			uncommittedChanges = false;
 		}
-	
-		catch ( Throwable t )
+
+        catch ( SailReadOnlyException e )
+        {
+            handleSailReadOnlyException( e );
+        }
+
+        catch ( Throwable t )
 		{
 			throw new RippleException( t );
 		}
@@ -247,6 +253,11 @@ public class SesameModelConnection implements ModelConnection
 			}
 		}
 	
+        catch ( SailReadOnlyException e )
+        {
+            handleSailReadOnlyException( e );
+        }
+
 		catch ( Throwable t )
 		{
 			throw new RippleException( t );
@@ -255,7 +266,7 @@ public class SesameModelConnection implements ModelConnection
 	
 	public synchronized SailConnection getSailConnection()
 	{
-	return sailConnection;
+	    return sailConnection;
 	}
 	
 	////////////////////////////////////////////////////////////////////////////
@@ -492,8 +503,13 @@ public class SesameModelConnection implements ModelConnection
 							destResource, st.getPredicate(), st.getObject(), context );
 					}
 				}
-		
-				catch ( Throwable t )
+
+                catch ( SailReadOnlyException e )
+                {
+                    handleSailReadOnlyException( e );
+                }
+
+                catch ( Throwable t )
 				{
 					reset( true );
 					throw new RippleException( t );
@@ -511,8 +527,13 @@ public class SesameModelConnection implements ModelConnection
 		{
 			sailConnection.removeStatements( subj, null, null );
 		}
-	
-		catch ( Throwable t )
+
+        catch ( SailReadOnlyException e )
+        {
+            handleSailReadOnlyException( e );
+        }
+
+        catch ( Throwable t )
 		{
 			reset( true );
 			throw new RippleException( t );
@@ -585,7 +606,12 @@ public class SesameModelConnection implements ModelConnection
 			sailConnection.addStatement( st.getSubject(), st.getPredicate(), st.getObject(), contexts );
 			uncommittedChanges = true;
 		}
-	
+
+        catch ( SailReadOnlyException e )
+        {
+            handleSailReadOnlyException( e );
+        }
+
 		catch ( Throwable t )
 		{
 			reset( true );
@@ -647,6 +673,11 @@ public class SesameModelConnection implements ModelConnection
                             (Resource) subjValue, (URI) predValue, objValue, (Resource) contextValue );
                 }
             }
+        }
+
+        catch ( SailReadOnlyException e )
+        {
+            handleSailReadOnlyException( e );
         }
 
         catch ( SailException e )
@@ -744,6 +775,11 @@ public class SesameModelConnection implements ModelConnection
             }
         }
 
+        catch ( SailReadOnlyException e )
+        {
+            handleSailReadOnlyException( e );
+        }
+
         catch ( SailException e )
         {
             reset( true );
@@ -777,8 +813,13 @@ public class SesameModelConnection implements ModelConnection
 
 			uncommittedChanges = true;
 		}
-	
-		catch ( SailException e )
+
+        catch ( SailReadOnlyException e )
+        {
+            handleSailReadOnlyException( e );
+        }
+
+        catch ( SailException e )
 		{
 			reset( true );
 			throw new RippleException( e );
@@ -1136,8 +1177,13 @@ public class SesameModelConnection implements ModelConnection
 				}
 			}
 		}
-	
-		catch ( Throwable t )
+
+        catch ( SailReadOnlyException e )
+        {
+            handleSailReadOnlyException( e );
+        }
+
+        catch ( Throwable t )
 		{
 			reset( true );
 			throw new RippleException( t );
@@ -1416,4 +1462,9 @@ public class SesameModelConnection implements ModelConnection
 			throw new RippleException( e );
 		}
 	}
+
+    private void handleSailReadOnlyException( final SailReadOnlyException e )
+    {
+        // For now, ignore these exceptions.
+    }
 }

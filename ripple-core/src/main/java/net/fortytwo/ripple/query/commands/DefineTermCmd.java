@@ -72,7 +72,8 @@ public class DefineTermCmd extends Command
 			mc.commit();
 
 			qe.getLexicon().addURI( uri );
-		}
+            mc.getModel().getSpecialValues().put( uri, expr );
+        }
 	}
 
 	protected void abort()

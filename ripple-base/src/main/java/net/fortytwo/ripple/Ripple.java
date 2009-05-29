@@ -44,6 +44,7 @@ public final class Ripple
             MEMORYSTORE_PERSIST_FILE_BASE_URI   = "net.fortytwo.ripple.demo.memoryStorePersistFileBaseURI",
             MEMORYSTORE_PERSIST_FILE_FORMAT     = "net.fortytwo.ripple.demo.memoryStorePersistFileFormat",
             NATIVESTORE_DIRECTORY               = "net.fortytwo.ripple.demo.nativeStoreDirectory",
+            READ_ONLY                           = "net.fortytwo.ripple.demo.readOnly",
             SAIL_TYPE                           = "net.fortytwo.ripple.demo.sailType",
             ALLOW_DUPLICATE_NAMESPACES          = "net.fortytwo.ripple.io.allowDuplicateNamespaces",
             DEREFERENCE_URIS_BY_NAMESPACE       = "net.fortytwo.ripple.io.dereferenceUrisByNamespace",

@@ -74,7 +74,7 @@ public class Lexicon
             keywordToURIMap = new HashMap<String, Set<URI>>();
             uriToKeywordMap = new HashMap<URI, String>();
 
-            for ( Value key : model.getSpecialValues() )
+            for ( Value key : model.getSpecialValues().keySet() )
             {
                 if ( key instanceof URI )
                 {

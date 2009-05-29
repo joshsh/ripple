@@ -9,22 +9,20 @@
 
 package net.fortytwo.ripple.model.impl.sesame;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.net.URL;
-
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.URIMap;
 import net.fortytwo.ripple.model.LibraryLoader;
 import net.fortytwo.ripple.model.Model;
-import net.fortytwo.ripple.model.SpecialValueMap;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
-import net.fortytwo.ripple.URIMap;
+import net.fortytwo.ripple.model.SpecialValueMap;
 import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
-
 import org.apache.log4j.Logger;
 import org.openrdf.sail.Sail;
-import org.openrdf.model.Value;
+
+import java.net.URL;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class SesameModel implements Model
 {
@@ -62,9 +60,9 @@ public class SesameModel implements Model
         }
     }
 
-    public Set<Value> getSpecialValues()
+    public SpecialValueMap getSpecialValues()
     {
-        return specialValues.keySet();
+        return specialValues;
     }
 
     public URIMap getURIMap()

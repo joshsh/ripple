@@ -13,16 +13,12 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.URIMap;
 import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
 
-import java.util.Set;
-
-import org.openrdf.model.Value;
-
 public interface Model
 {
 	ModelConnection getConnection( String name ) throws RippleException;
 	ModelConnection getConnection( String name, RDFDiffSink listener ) throws RippleException;
 
-    Set<Value> getSpecialValues();
+    SpecialValueMap getSpecialValues();
 
     URIMap getURIMap();
 
