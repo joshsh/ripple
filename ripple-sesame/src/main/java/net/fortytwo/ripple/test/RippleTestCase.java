@@ -54,6 +54,15 @@ public abstract class RippleTestCase extends TestCase
     {
         modelConnection = getTestModel().getConnection( null );
         comparator = modelConnection.getComparator();
+
+        SailConnection sc = getTestSail().getConnection();
+        
+        try {
+            sc.clear();
+            sc.commit();
+        } finally {
+            sc.close();
+        }
     }
 
     public void tearDown() throws Exception
@@ -120,6 +129,10 @@ public abstract class RippleTestCase extends TestCase
 		{
             Ripple.initialize();
 
+            // Asynchronous queries can cause certain tests cases to fail, as
+            // they are not set up to wait on other threads.
+            Ripple.enableAsynchronousQueries( false );
+
             model = new SesameModel( getTestSail(), Ripple.class.getResource( "libraries.txt" ), getTestURIMap() );
         }
 
@@ -165,7 +178,19 @@ public abstract class RippleTestCase extends TestCase
 	{
 //System.out.println("expected: " + expected + ", actual = " + actual);
         int size = expected.size();
-		assertEquals( size, actual.size() );
+/*if (actual.size() != expected.size()) {
+    System.out.println("expected:");
+    for ( RippleList l : expected )
+    {
+        System.out.println("    " + l );
+    }
+    System.out.println("actual:");
+    for ( RippleList l : actual )
+    {
+        System.out.println("    " + l );
+    }
+}*/
+        assertEquals( "wrong number of results.", size, actual.size() );
 		if ( 0 == size )
 		{
 			return;
@@ -212,7 +237,7 @@ while (!l.isNil()) {
     RippleValue f = l.getFirst();
     System.out.println("    (" + f.getClass() + ") -- " + f);
     l = l.getRest();
-}*/
+} */
             assertEquals( expArray[i], actArray[i] );
 		}
 	}

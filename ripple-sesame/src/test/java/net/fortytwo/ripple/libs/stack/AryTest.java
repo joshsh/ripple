@@ -14,7 +14,9 @@ public class AryTest extends RippleTestCase
         assertReducesTo( "2 3 dup dip >>", "2 dup >> 3" );
         assertReducesTo( "2 3 dup dip >> 2 ary >>", "2 2 3" );        
 
-        assertReducesTo( "@redefine recfunc: rdf:first (rdf:rest >> :recfunc >>) both >> 2 ary >> apply >> .\n"
+        assertReducesTo( "@redefine recfunc:"
+                + "rdf:first (rdf:rest >> :recfunc >>) both >>"
+                + "2 ary >> apply >> .\n"
                 + "(100 200 300) :recfunc >>", "100", "200", "300" );
     }
 

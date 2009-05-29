@@ -10,17 +10,11 @@
 package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RDFPredicateMapping;
-import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RDFValue;
-import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.model.StackMapping;
-import net.fortytwo.ripple.flow.Sink;
-import org.openrdf.model.Resource;
+import net.fortytwo.ripple.model.StatementPatternQuery;
 
 public abstract class RDFPredicateStackMapping extends PrimitiveStackMapping
 {
