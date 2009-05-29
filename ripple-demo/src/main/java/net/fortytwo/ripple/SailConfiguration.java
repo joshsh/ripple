@@ -3,7 +3,7 @@ package net.fortytwo.ripple;
 import com.knowledgereefsystems.agsail.AllegroSail;
 import net.fortytwo.linkeddata.sail.LinkedDataSail;
 import net.fortytwo.ripple.rdf.RDFUtils;
-import net.fortytwo.ripple.readonly.ReadOnlySail;
+import net.fortytwo.ripple.sesametools.readonly.ReadOnlySail;
 import org.apache.log4j.Logger;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryConnection;
@@ -98,7 +98,7 @@ public class SailConfiguration {
             throw new RippleException("unhandled Sail type: " + sailType);
         }
 
-        boolean readOnly = Ripple.getProperties().getBoolean(Ripple.READ_ONLY);
+        boolean readOnly = Ripple.getProperties().getBoolean(Ripple.READ_ONLY, false);
         if (readOnly) {
             sail = new ReadOnlySail(sail);
         }
