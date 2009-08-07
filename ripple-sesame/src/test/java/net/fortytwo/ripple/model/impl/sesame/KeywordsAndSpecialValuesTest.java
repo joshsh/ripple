@@ -30,7 +30,7 @@ public class KeywordsAndSpecialValuesTest extends RippleTestCase
 
     public void testKeywordMapsToCompetingPrimaryAndAliasURIs() throws Exception
     {
-        // The keyword "contains" does NOT also map to graph:members, even
+        // The keyword "contains" does NOT also map to analysis:members, even
         // though that primitive has "contains" as an alias.
         assertReducesTo( "contains", "<" + StringLibrary.NS_2008_08 + "contains>" );
     }

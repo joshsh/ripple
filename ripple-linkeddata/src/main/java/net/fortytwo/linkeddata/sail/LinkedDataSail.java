@@ -265,7 +265,7 @@ return null;
                 // TODO: move this so that it's a default which can be overridden
                 sc.setNamespace( "cache", WebClosure.CACHE_NS );
 
-                // Clear any existing cache metadata (in any named graph).
+                // Clear any existing cache metadata (in any named analysis).
                 sc.removeStatements( null, null, null, cacheContext );
                 sc.commit();
 

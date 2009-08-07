@@ -1,14 +1,12 @@
 package net.fortytwo.ripple;
 
-import org.openrdf.sail.Sail;
 import org.neo4j.api.core.NeoService;
 import org.neo4j.api.core.EmbeddedNeo;
-import net.fortytwo.linkeddata.sail.LinkedDataSail;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.impl.neo4j.Neo4jModel;
 import net.fortytwo.ripple.query.StackEvaluator;
-import net.fortytwo.ripple.query.LazyEvaluator;
+import net.fortytwo.ripple.query.LazyStackEvaluator;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.QueryPipe;
 import net.fortytwo.ripple.cli.TurtleView;
@@ -29,7 +27,7 @@ public class NeoRippleDemo {
         Model model = new Neo4jModel( service, Ripple.class.getResource( "libraries.txt" ), uriMap );
 
 		// Attach a query engine to the model.
-		StackEvaluator evaluator = new LazyEvaluator();
+		StackEvaluator evaluator = new LazyStackEvaluator();
 		QueryEngine queryEngine
 			    = new QueryEngine( model, evaluator, System.out, System.err );
 

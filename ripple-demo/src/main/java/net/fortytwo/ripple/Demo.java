@@ -14,7 +14,7 @@ import gnu.getopt.LongOpt;
 import net.fortytwo.ripple.cli.CommandLineInterface;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
-import net.fortytwo.ripple.query.LazyEvaluator;
+import net.fortytwo.ripple.query.LazyStackEvaluator;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.StackEvaluator;
 import org.openrdf.sail.Sail;
@@ -43,21 +43,21 @@ public final class Demo
 	{
 //net.fortytwo.ripple.tools.SitemapsUtils.test();
 		// Create a Sesame triple store.
-        SailConfiguration sailConfig = new SailConfiguration();
-		URIMap uriMap = new URIMap();
-        sailConfig.init( uriMap );
+        URIMap uriMap = new URIMap();
+        SailConfiguration sailConfig = new SailConfiguration(uriMap);
+        sailConfig.initialize();
         Sail sail = sailConfig.getSail();
 
         // Attach a Ripple model to the repository.
 		Model model = new SesameModel( sail, Ripple.class.getResource("libraries.txt"), uriMap );
 
 		// Attach a query engine to the model.
-        StackEvaluator evaluator = new LazyEvaluator();
+        StackEvaluator evaluator = new LazyStackEvaluator();
 //        StackEvaluator evaluator = new LazyDebugEvaluator();
 		QueryEngine qe
 			= new QueryEngine( model, evaluator, out, err );
 
-		// Attach an interpreter to the query engine and let it read from
+		// Attach an interpreter to the query engine and let it query from
 		// standard input.
 		CommandLineInterface r = new CommandLineInterface( qe, in );
 		r.run();

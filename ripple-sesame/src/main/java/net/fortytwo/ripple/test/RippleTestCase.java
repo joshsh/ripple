@@ -11,7 +11,7 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
-import net.fortytwo.ripple.query.LazyEvaluator;
+import net.fortytwo.ripple.query.LazyStackEvaluator;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.QueryPipe;
 import net.fortytwo.ripple.query.StackEvaluator;
@@ -143,7 +143,7 @@ public abstract class RippleTestCase extends TestCase
     {
         if ( null == queryEngine )
         {
-			StackEvaluator eval = new LazyEvaluator();
+			StackEvaluator eval = new LazyStackEvaluator();
 			queryEngine = new QueryEngine( getTestModel(), eval, System.out, System.err );
         }
 

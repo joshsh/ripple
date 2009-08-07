@@ -20,9 +20,9 @@ import net.fortytwo.ripple.model.StackContext;
 import org.apache.log4j.Logger;
 
 // Note: not thread-safe, on account of stop()
-public class LazyEvaluator extends StackEvaluator
+public class LazyStackEvaluator extends StackEvaluator
 {
-	private static final Logger LOGGER = Logger.getLogger( LazyEvaluator.class );
+	private static final Logger LOGGER = Logger.getLogger( LazyStackEvaluator.class );
 
 	private boolean stopped = true;
 

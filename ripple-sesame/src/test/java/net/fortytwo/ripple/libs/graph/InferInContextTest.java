@@ -19,9 +19,9 @@ public class InferInContextTest extends RippleTestCase
                 + "ex:b rdf:type ex:ClassB ex:ctx2 assertInContext >> ." );
 
         // TODO: restore the two commented-out test cases below, which are the
-        // only ones which distinguish graph:inferInContext from
-        // graph:inContext.  Apparently, ForwardChainingRDFSInferencer does not
-        // support the query patterns which would make graph:inferInContext useful.
+        // only ones which distinguish analysis:inferInContext from
+        // analysis:inContext.  Apparently, ForwardChainingRDFSInferencer does not
+        // support the query patterns which would make analysis:inferInContext useful.
         
         assertReducesTo( "ex:a rdf:type ex:ctx1 inferInContext >>", "ex:ClassB" );
         assertReducesTo( "ex:b rdf:type ex:ctx1 inferInContext >>" );

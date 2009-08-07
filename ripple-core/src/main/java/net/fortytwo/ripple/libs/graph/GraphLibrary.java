@@ -20,9 +20,9 @@ import net.fortytwo.ripple.model.LibraryLoader;
 public class GraphLibrary extends Library
 {
     public static final String
-            NS_2008_08 = "http://fortytwo.net/2008/08/ripple/graph#",
-            NS_2007_08 = "http://fortytwo.net/2007/08/ripple/graph#",
-            NS_2007_05 = "http://fortytwo.net/2007/05/ripple/graph#";
+            NS_2008_08 = "http://fortytwo.net/2008/08/ripple/analysis#",
+            NS_2007_08 = "http://fortytwo.net/2007/08/ripple/analysis#",
+            NS_2007_05 = "http://fortytwo.net/2007/05/ripple/analysis#";
     public static final String
             NS_XML = "http://www.w3.org/XML/1998/namespace#",
             NS_XSD = "http://www.w3.org/2001/XMLSchema#";
@@ -39,17 +39,22 @@ public class GraphLibrary extends Library
                       final boolean includePrimitivesWithSideEffects )
 		throws RippleException
 	{
-		uf.put( NS_2008_08, getClass().getResource( "graph.ttl" ) + "#" );
+		uf.put( NS_2008_08, getClass().getResource( "analysis.ttl" ) + "#" );
+
+        if ( includePrimitivesWithSideEffects )
+        {
+            registerPrimitives( context,
+
+                    // RDF primitives with side effects
+                    Assert.class,
+                    AssertInContext.class,
+                    Deny.class,
+                    DenyInContext.class,
+                    Forget.class,
+                    New.class );
+        }
 
         registerPrimitives( context,
-
-                // RDF primitives with side effects
-                Assert.class,
-                AssertInContext.class,
-                Deny.class,
-                DenyInContext.class,
-                Forget.class,
-                New.class,
 
                 // Comparison primitives
                 Compare.class,
@@ -74,6 +79,9 @@ public class GraphLibrary extends Library
                 Namespaces.class,
                 Triples.class,
                 Quads.class,
+
+                // Tuple queries
+                Sparql.class,
 
                 // Note: the xml: namespace is actually said to be
                 //       http://www.w3.org/XML/1998/namespace

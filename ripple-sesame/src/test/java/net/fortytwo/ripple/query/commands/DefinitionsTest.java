@@ -19,17 +19,12 @@ import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
-import org.openrdf.sail.memory.MemoryStore;
 
 import net.fortytwo.ripple.cli.ast.ListAST;
 import net.fortytwo.ripple.cli.ast.PlainLiteralAST;
-import net.fortytwo.ripple.model.Model;
-import net.fortytwo.ripple.model.impl.sesame.SesameModel;
 import net.fortytwo.ripple.query.Command;
-import net.fortytwo.ripple.query.LazyEvaluator;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.test.RippleTestCase;
-import net.fortytwo.ripple.URIMap;
 
 public class DefinitionsTest extends RippleTestCase
 {

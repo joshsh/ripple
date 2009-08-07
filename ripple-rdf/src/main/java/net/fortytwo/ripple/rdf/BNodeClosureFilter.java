@@ -86,7 +86,7 @@ public class BNodeClosureFilter implements Sink<Resource, RippleException>
 			throw new RippleException( t );
 		}
 
-		// Note: the buffer may be written to before it has been completely read.
+		// Note: the buffer may be written to before it has been completely query.
 		buffer.flush();
 	}
 	

@@ -77,7 +77,7 @@ public class Namespaces extends PrimitiveStackMapping
 		/*
 		URLConnection uc = HttpUtils.openConnection( uri.toString() );
 		HttpUtils.prepareUrlConnectionForRdfRequest( uc );
-		RdfUtils.read( uc, sc, uri.toString() );*/
+		RdfUtils.query( uc, sc, uri.toString() );*/
 	}
 
 	static SesameInputAdapter createAdapter( final StackContext arg,

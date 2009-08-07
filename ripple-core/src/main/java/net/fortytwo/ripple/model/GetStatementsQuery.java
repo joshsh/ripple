@@ -93,8 +93,8 @@ public class GetStatementsQuery
                 Resource context = getResource( rippleContexts[i], mc );
 //System.out.println("context is: " + context);
                 
-                // rdf:nil is a special case -- as a graph name in Ripple, it
-                // actually represents the null graph.
+                // rdf:nil is a special case -- as a analysis name in Ripple, it
+                // actually represents the null analysis.
                 if ( null != context && context.equals( RDF.NIL ) )
                 {
 //                    System.out.println("    context is null");

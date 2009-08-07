@@ -7,7 +7,7 @@ import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
 import net.fortytwo.ripple.query.StackEvaluator;
-import net.fortytwo.ripple.query.LazyEvaluator;
+import net.fortytwo.ripple.query.LazyStackEvaluator;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.QueryPipe;
 import net.fortytwo.ripple.cli.TurtleView;
@@ -36,7 +36,7 @@ public class HenryDemo {
 		Model model = new SesameModel( sail, Ripple.class.getResource("libraries.txt"), uriMap );
 
 		// Attach a query engine to the model.
-		StackEvaluator evaluator = new LazyEvaluator();
+		StackEvaluator evaluator = new LazyStackEvaluator();
 		QueryEngine queryEngine
 			    = new QueryEngine( model, evaluator, System.out, System.err );
 

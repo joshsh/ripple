@@ -1,5 +1,5 @@
 /*
- * $URL: https://ripple.googlecode.com/svn/trunk/ripple-core/src/main/java/net/fortytwo/ripple/libs/graph/Infer.java $
+ * $URL: https://ripple.googlecode.com/svn/trunk/ripple-core/src/main/java/net/fortytwo/ripple/libs/analysis/Infer.java $
  * $Revision: 51 $
  * $Author: parcour $
  *

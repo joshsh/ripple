@@ -136,7 +136,7 @@ System.out.println( "response code = " + responseCode );
 		ps.println( "}" );
 
 		// Note: since some statements are rejected, we will sometimes end up
-		// with an empty DELETE graph.
+		// with an empty DELETE analysis.
 		ps.println( "DELETE {" );
 		adapter.startRDF();
 // TODO: ignore statements with blank nodes as subject or object... UNLESS they're found to serve some purpose

@@ -11,7 +11,6 @@ package net.fortytwo.ripple.query;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
 /**
  * A buffer to which bytes are written by any number of threads, and from which
@@ -76,13 +75,13 @@ public class PipedIOStream extends InputStream //, OutputStream
 		{
 			if ( null == data )
 			{
-				throw new IOException( "can't read: stream has been closed" );
+				throw new IOException( "can't query: stream has been closed" );
 			}
 			
 			int c = data[pos];
 			pos = ( 1 + pos ) % size;
 			length--;
-//System.out.println("    [" + this + "] read(" + c + " -- '" + (char) c + "') -- length = " + length + " -- thread = " + Thread.currentThread());
+//System.out.println("    [" + this + "] query(" + c + " -- '" + (char) c + "') -- length = " + length + " -- thread = " + Thread.currentThread());
 			return c;
 		}
 	}

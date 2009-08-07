@@ -27,7 +27,7 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.linkeddata.Rdfizer;
 import net.fortytwo.linkeddata.ContextMemo;
 
-// TODO: follow instructions at http://www.barregren.se/blog/how-read-exif-and-iptc-java-image-i-o-api
+// TODO: follow instructions at http://www.barregren.se/blog/how-query-exif-and-iptc-java-image-i-o-api
 // example images: http://www.exif.org/samples/
 // EXIF RDF vocabulary: http://www.w3.org/2003/12/exif/
 
@@ -61,7 +61,7 @@ public class ImageRdfizer implements Rdfizer
         {
             ImageInputStream iis = ImageIO.createImageInputStream( is );
 
-            // get an iterator over all readers that claim to be able to read the image
+            // get an iterator over all readers that claim to be able to query the image
             Iterator<ImageReader> readers = ImageIO.getImageReaders( iis );
 
             // check the iterator for having the ImageReader

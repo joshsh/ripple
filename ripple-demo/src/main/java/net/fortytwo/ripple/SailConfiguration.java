@@ -33,18 +33,20 @@ public class SailConfiguration {
     private static final Logger LOGGER = Logger.getLogger(SailConfiguration.class);
 
     private final String sailType;
+    private final URIMap uriMap;
     private File persistFile;
     private RDFFormat persistFileFormat;
     private Sail mainSail;
     private Sail persistSail;
     private Sail linkedDataSailBaseSail;
 
-    public SailConfiguration() throws RippleException {
+    public SailConfiguration(final URIMap uriMap) throws RippleException {
+        this.uriMap = uriMap;
         RippleProperties props = Ripple.getProperties();
         sailType = props.getString(Ripple.SAIL_TYPE);
     }
 
-    public void init(final URIMap uriMap) throws RippleException {
+    public void initialize() throws RippleException {
         mainSail = createSail(sailType, uriMap);
 
         // Load a dump file if so instructed.  Note: this is done only once,
@@ -83,7 +85,7 @@ public class SailConfiguration {
 
     private Sail createSail(final String sailType,
                             final URIMap uriMap) throws RippleException {
-//System.out.println("creating Sail of type: " + sailType);
+System.out.println("creating Sail of type: " + sailType);
         Sail sail;
 
         if (sailType.equals(MemoryStore.class.getName())) {

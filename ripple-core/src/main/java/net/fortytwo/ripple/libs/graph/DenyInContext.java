@@ -44,7 +44,7 @@ public class DenyInContext extends PrimitiveStackMapping
                 new Parameter( "s", "the subject of the assertion", false ),
                 new Parameter( "p", "the predicate of the assertion", true ),
                 new Parameter( "o", "the object of the assertion", true ),
-                new Parameter( "g", "the named graph context of the assertion", true )};
+                new Parameter( "g", "the named analysis context of the assertion", true )};
     }
 
     public String getComment()

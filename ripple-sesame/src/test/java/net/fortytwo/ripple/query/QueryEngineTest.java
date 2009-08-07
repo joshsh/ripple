@@ -36,7 +36,7 @@ System.out.println("--- f");
 			URIMap uriMap = new URIMap();
 			Model model = new SesameModel( sail, uriMap );
 System.out.println("--- g");
-			QueryEngine qe = new QueryEngine( model, new LazyEvaluator(), System.out, System.err );
+			QueryEngine qe = new QueryEngine( model, new LazyStackEvaluator(), System.out, System.err );
 System.out.println("--- g2");
 			Lexicon lex = qe.getLexicon();
 System.out.println("--- h");

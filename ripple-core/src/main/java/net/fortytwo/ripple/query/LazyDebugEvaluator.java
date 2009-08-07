@@ -1,5 +1,5 @@
 /*
- * $URL: https://ripple.googlecode.com/svn/trunk/ripple-core/src/main/java/net/fortytwo/ripple/query/LazyEvaluator.java $
+ * $URL: https://ripple.googlecode.com/svn/trunk/ripple-core/src/main/java/net/fortytwo/ripple/query/LazyStackEvaluator.java $
  * $Revision: 6 $
  * $Author: parcour $
  *
@@ -25,7 +25,7 @@ import java.util.LinkedList;
 // Note: not thread-safe, on account of stop()
 public class LazyDebugEvaluator extends StackEvaluator
 {
-	private static final Logger LOGGER = Logger.getLogger( LazyEvaluator.class );
+	private static final Logger LOGGER = Logger.getLogger( LazyStackEvaluator.class );
 
 	private boolean stopped = true;
 

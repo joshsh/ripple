@@ -47,6 +47,12 @@ import org.openrdf.model.Value;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.model.vocabulary.XMLSchema;
+import org.openrdf.query.BindingSet;
+import org.openrdf.query.MalformedQueryException;
+import org.openrdf.query.QueryEvaluationException;
+import org.openrdf.query.impl.MapBindingSet;
+import org.openrdf.query.parser.ParsedQuery;
+import org.openrdf.query.parser.sparql.SPARQLParser;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.sail.NotifyingSailConnection;
 import org.openrdf.sail.SailConnection;
@@ -77,8 +83,8 @@ public class SesameModelConnection implements ModelConnection
 
     private boolean useBlankNodes;
 	
-	// TODO: For now, this is just a convenience which allows graph:assert and
-	//       graph:deny to manipulate the triple store without committing after
+	// TODO: For now, this is just a convenience which allows analysis:assert and
+	//       analysis:deny to manipulate the triple store without committing after
 	//       every operation.
 	private boolean uncommittedChanges = false;
 	
@@ -656,8 +662,8 @@ public class SesameModelConnection implements ModelConnection
                     {
                         contextValue = context.toRDF( this ).sesameValue();
 
-                        // rdf:nil is a special case -- as a graph name in Ripple, it
-                        // actually represents the null graph.
+                        // rdf:nil is a special case -- as a analysis name in Ripple, it
+                        // actually represents the null analysis.
                         if ( contextValue.equals( RDF.NIL ) )
                         {
                             contextValue = null;
@@ -756,8 +762,8 @@ public class SesameModelConnection implements ModelConnection
                     {
                         contextValue = context.toRDF( this ).sesameValue();
 
-                        // rdf:nil is a special case -- as a graph name in Ripple, it
-                        // actually represents the null graph.
+                        // rdf:nil is a special case -- as a analysis name in Ripple, it
+                        // actually represents the null analysis.
                         if ( contextValue.equals( RDF.NIL ) )
                         {
                             contextValue = null;
@@ -1402,9 +1408,34 @@ public class SesameModelConnection implements ModelConnection
 				return comSource;
 			}
 		};
-	}
+	}// FIXME: this is a hack
 
-	private void multiplyRDFValues( final RDFValue subj, final RDFValue pred, final Sink<RDFValue, RippleException> sink )
+    public CloseableIteration<? extends BindingSet, QueryEvaluationException> evaluate( final String query )
+            throws RippleException
+    {
+        SPARQLParser parser = new SPARQLParser();
+
+        boolean useInference = false;
+        // FIXME
+        String baseURI = "http://example.org/bogusBaseURI/";
+
+        ParsedQuery pq;
+        try {
+            pq = parser.parseQuery( query, baseURI );
+        } catch ( MalformedQueryException e ) {
+            throw new RippleException( e );
+        }
+        
+        MapBindingSet bindings = new MapBindingSet();
+
+        try {
+            return sailConnection.evaluate( pq.getTupleExpr(), pq.getDataset(), bindings, useInference );
+        } catch ( SailException e ) {
+            throw new RippleException( e );
+        }
+    }
+
+    private void multiplyRDFValues( final RDFValue subj, final RDFValue pred, final Sink<RDFValue, RippleException> sink )
 		throws RippleException
 	{
 		Sink<Statement, RippleException> stSink = new Sink<Statement, RippleException>()

@@ -11,6 +11,6 @@ public class CommentsTest extends RippleTestCase
 {
     public void testNothing() throws Exception
     {
-        // graph:comments is not yet testable, because the primitive does nothing.
+        // analysis:comments is not yet testable, because the primitive does nothing.
     }
 }

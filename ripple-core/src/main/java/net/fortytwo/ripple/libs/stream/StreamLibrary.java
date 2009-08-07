@@ -10,9 +10,9 @@
 package net.fortytwo.ripple.libs.stream;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.URIMap;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
-import net.fortytwo.ripple.URIMap;
 
 /**
  * A collection of data flow primitives.
@@ -37,7 +37,10 @@ public class StreamLibrary extends Library
                 Limit.class,
                 Require.class,
                 Scrap.class,
-                Distinct.class );
+                Distinct.class,
+
+                // FIXME: hack
+                Count.class );
 	}
 }
 

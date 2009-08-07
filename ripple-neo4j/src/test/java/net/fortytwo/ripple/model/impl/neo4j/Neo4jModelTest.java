@@ -67,7 +67,7 @@ public class Neo4jModelTest extends TestCase {
 /*    public void testModel() throws Exception {
         UriMap uriMap = new UriMap();
         Model model = new Neo4jModel(uriMap);
-        StackEvaluator eval = new LazyEvaluator();
+        StackEvaluator eval = new LazyStackEvaluator();
         QueryEngine qe = new QueryEngine(model, eval, System.out, System.err);
 
         

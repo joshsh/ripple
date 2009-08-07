@@ -92,7 +92,7 @@ public class ThreadedInputStream extends InputStream
 
 	public int read() throws java.io.IOException
 	{
-//System.out.println( "read()" );
+//System.out.println( "query()" );
 		if ( 0 == available() )
 		{
 			requestByte( true );

@@ -111,7 +111,7 @@ RDFImporter importer = new RDFImporter( mc );
 			putRdfStatements( importer.statementSink(), mc );
 			
 			// This is important, because the caller of toRdf() may expect to
-			// read statements immediately.
+			// query statements immediately.
 			mc.commit();
 		}
 

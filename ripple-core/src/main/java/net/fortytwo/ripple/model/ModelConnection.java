@@ -9,6 +9,7 @@
 
 package net.fortytwo.ripple.model;
 
+import info.aduna.iteration.CloseableIteration;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.Sink;
 import net.fortytwo.ripple.flow.Source;
@@ -18,6 +19,8 @@ import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
+import org.openrdf.query.BindingSet;
+import org.openrdf.query.QueryEvaluationException;
 
 import java.io.OutputStream;
 import java.math.BigDecimal;
@@ -128,6 +131,9 @@ public interface ModelConnection
 	void getStatements( RDFValue subj, RDFValue pred, RDFValue obj, Sink<Statement, RippleException> sink, boolean includeInferred ) throws RippleException;
 
 	RDFSource getSource();
+
+// FIXME: this is a hack
+    CloseableIteration<? extends BindingSet, QueryEvaluationException> evaluate( String query ) throws RippleException ;
 
 // TODO: Namespaces should not be part of the ModelConnection API
 	void putNamespaces( Sink<Namespace, RippleException> sink ) throws RippleException;

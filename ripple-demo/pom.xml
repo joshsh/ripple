@@ -55,7 +55,7 @@
             <groupId>com.franz.ag</groupId>
             <artifactId>agsail</artifactId>
             <version>3.2</version>
-        </dependency>        
+        </dependency>
         <dependency>
             <groupId>org.deri.sw</groupId>
             <artifactId>semanticsitemap</artifactId>
