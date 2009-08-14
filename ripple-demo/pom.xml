@@ -101,7 +101,8 @@
                 </executions>
                 <configuration>
                     <descriptors>
-                        <descriptor>src/assembly/standalone.xml</descriptor>
+                        <!--<descriptor>src/assembly/standalone.xml</descriptor>-->
+                        <descriptor>src/assembly/distro.xml</descriptor>
                     </descriptors>
                     <finalName>ripple-${project.version}</finalName>
                     <outputDirectory>target</outputDirectory>

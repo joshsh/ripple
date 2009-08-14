@@ -42,8 +42,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>net.fortytwo.ripple</groupId>
-            <artifactId>ripple-linkeddata</artifactId>
+            <groupId>net.fortytwo</groupId>
+            <artifactId>linked-data-sail</artifactId>
             <version>0.5</version>
         </dependency>
         <dependency>

@@ -41,7 +41,7 @@
     <modules>
         <module>ripple-base</module>
         <module>ripple-rdf</module>
-        <module>ripple-linkeddata</module>
+        <module>linked-data-sail</module>
         <module>ripple-core</module>
         <module>ripple-sesame</module>
         <module>ripple-neo4j</module>

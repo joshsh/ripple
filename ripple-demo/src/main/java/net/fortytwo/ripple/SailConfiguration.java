@@ -43,7 +43,7 @@ public class SailConfiguration {
     public SailConfiguration(final URIMap uriMap) throws RippleException {
         this.uriMap = uriMap;
         RippleProperties props = Ripple.getProperties();
-        sailType = props.getString(Ripple.SAIL_TYPE);
+        sailType = props.getString(Ripple.SAIL_TYPE).trim();
     }
 
     public void initialize() throws RippleException {
