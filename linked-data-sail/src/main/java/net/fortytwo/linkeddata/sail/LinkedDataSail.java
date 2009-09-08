@@ -209,10 +209,9 @@ return null;
 
 		// Add URI dereferencers.
 		HTTPURIDereferencer hdref = new HTTPURIDereferencer( wc );
-		for ( int i = 0; i < BADEXT.length; i++ )
-		{
-			hdref.blackListExtension( BADEXT[i] );
-		}
+        for ( String aBADEXT : BADEXT ) {
+            hdref.blackListExtension(aBADEXT);
+        }
 		wc.addDereferencer( "http", hdref );
 		wc.addDereferencer( "jar", new JarURIDereferencer() );
 		wc.addDereferencer( "file", new FileURIDereferencer() );

@@ -71,6 +71,11 @@ public class HTTPRepresentation extends Representation
 			throw new RippleException( e );
 		}
 
+        if ( null == is )
+        {
+            throw new RippleException( "null input stream" );
+        }
+
 		inputStream = new HttpRepresentationInputStream( is );
 
         Header h = method.getResponseHeader( HTTPUtils.CONTENT_TYPE );
