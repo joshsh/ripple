@@ -63,4 +63,4 @@ Please submit bug reports to the issue tracker at:
 
     http://code.google.com/p/ripple/issues/list
 
-or send mail to josh@fortytwo.net.  Thanks, and happy scripting!
+or send mail to josh@fortytwo.net.  Happy scripting!
