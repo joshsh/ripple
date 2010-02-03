@@ -100,6 +100,15 @@ public class LinkedDataSail implements StackableSail, NotifyingSail
 		webClosure = createDefaultWebClosure();
 	}
 
+    /**
+	 * @param baseSail  (should be initialized before this object is used)
+	 */
+    public LinkedDataSail( final Sail baseSail )
+        throws RippleException
+    {
+        this( baseSail, new URIMap() );
+    }
+
 	public void addSailChangedListener( final SailChangedListener listener )
 	{
 	}

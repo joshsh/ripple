@@ -9,21 +9,21 @@
 
 package net.fortytwo.ripple.control;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.flow.NullSink;
 import net.fortytwo.ripple.flow.Sink;
-
 import org.apache.log4j.Logger;
+
+import java.util.Iterator;
+import java.util.LinkedList;
 
 public final class Scheduler
 {
 	private static final Logger LOGGER = Logger.getLogger( Scheduler.class );
 
 	private static Scheduler singleInstance = null;
+    private static long workerThreadCount = 0;
 
 	private final LinkedList<TaskItem> taskQueue;
 	private final LinkedList<WorkerRunnable> allRunnables;
@@ -46,6 +46,11 @@ public final class Scheduler
 	{
 		add( task, new NullSink<Task, RippleException>() );
 	}
+
+    private synchronized static long nextWorkerId()
+    {
+        return ++workerThreadCount;
+    }
 
 	////////////////////////////////////////////////////////////////////////////
 
@@ -151,10 +156,13 @@ public final class Scheduler
 	private class WorkerThread extends Thread
 	{
 		private WorkerRunnable runnable;
+        private final long id;
 
 		public WorkerThread( final WorkerRunnable r )
 		{
-			super( r, "Ripple worker thread" );
+			super( r );
+            id = nextWorkerId();
+            this.setName( "Ripple worker thread #" + id );
 
 			runnable = r;
 		}
@@ -197,7 +205,7 @@ public final class Scheduler
 //System.out.println( "    executing task: " + currentTaskItem.task );
 						currentTaskItem.task.execute();
 					}
-		
+
 					// This is the end of the line for exceptions.
 					catch ( Throwable t )
 					{
