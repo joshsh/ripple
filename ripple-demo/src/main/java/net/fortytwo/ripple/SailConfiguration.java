@@ -85,7 +85,7 @@ public class SailConfiguration {
 
     private Sail createSail(final String sailType,
                             final URIMap uriMap) throws RippleException {
-System.out.println("creating Sail of type: " + sailType);
+        System.out.println("creating Sail of type: " + sailType);
         Sail sail;
 
         if (sailType.equals(MemoryStore.class.getName())) {
@@ -162,7 +162,7 @@ System.out.println("creating Sail of type: " + sailType);
 
         Sail sail;
         //try {
-            sail = new AllegroSail(host, port, start, name, directory, 0, 0, false, false);
+        sail = new AllegroSail(host, port, start, name, directory, 0, 0, false, false);
         //} catch (AllegroSailException e) {
         //    throw new RippleException(e);
         //}
@@ -199,7 +199,14 @@ System.out.println("creating Sail of type: " + sailType);
 
     private void saveToPersistFile() throws RippleException {
         if (null != persistSail) {
-            exportRDFDumpFile(persistSail, persistFile, persistFileFormat);
+            boolean readOnly = Ripple.getProperties().getBoolean(Ripple.READ_ONLY, false);
+
+            // If the Sail is configured as read-only, we not only shouldn't
+            // write to the Sail during execution, but we also shouldn't write
+            // to the persist file it was read in from.
+            if (!readOnly) {
+                exportRDFDumpFile(persistSail, persistFile, persistFileFormat);
+            }
         }
     }
 

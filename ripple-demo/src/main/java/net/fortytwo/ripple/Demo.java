@@ -192,7 +192,7 @@ public final class Demo
 
 		catch ( RippleException e )
 		{
-			System.out.println( "Error: " + e );
+			System.out.println( "Exited with error: " + e );
 			e.logError();
 			System.exit( 1 );
 		}
