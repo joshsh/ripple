@@ -9,12 +9,12 @@
 
 package net.fortytwo.ripple.cli;
 
-import java.io.PrintStream;
-
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.flow.Sink;
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.flow.Sink;
+
+import java.io.PrintStream;
 
 public class ParserExceptionSink implements Sink<Exception, RippleException>
 {
@@ -48,7 +48,7 @@ public class ParserExceptionSink implements Sink<Exception, RippleException>
 
         else
 		{
-			alert( "Error: " + e.toString() );
+			alert( "Strange error (see log for details): " + e.toString() );
 			( new RippleException( e ) ).logError();
 		}
 	}
