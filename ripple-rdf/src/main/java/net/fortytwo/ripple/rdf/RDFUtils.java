@@ -412,7 +412,7 @@ System.out.println( RDFFormat.TURTLE.getName() + ": " + RDFFormat.TURTLE.getMIME
 
         else
         {
-            String s = inferContext( (URI) subject );
+            String s = removeFragmentIdentifier( ( (URI) subject ).toString() );
 
             try
             {
@@ -430,49 +430,10 @@ System.out.println( RDFFormat.TURTLE.getName() + ": " + RDFFormat.TURTLE.getMIME
 	 *  @param uri  the URI to be resolved
      * @return  a String representation of the URL to be resolved
 	 */
-	public static String inferContext( final URI uri )
+	public static String removeFragmentIdentifier( final String uri )
 	{
-		String ns = uri.getNamespace();
-		String memo;
-
-		// For hash namespaces, the "racine" of the URI, followed by the hash
-		// character (because it's a little quicker to leave it intact), is memoized.
-		if ( '#' == ns.charAt( ns.length() - 1 ) )
-		{
-			memo = ns;
-		}
-
-		// For slash namespaces, we're forced to choose between requesting
-		// the information resource at the full URI, or removing a local
-		// name and treating the remainder as the URI of the information
-		// resource.  Both kinds of documents are found on the Semantic Web.
-		else
-		{
-			// Pro: saves time if multiple URIs resolve to the same information
-			//      resource
-			// Con: very many hash namespaces are not set up this way, and we
-			//      may lose significant information
-			if ( dereferenceUrisByNamespace )
-			{
-				memo = ns;
-			}
-
-			// Pro: no information loss
-			// Con: frequent repeated requests for the same document, resulting
-			//      in wasted bandwidth and redundant statements
-			else
-			{
-				memo = uri.toString();
-			}
-		}
-
-		// Note: currently, many distinct memos may be equivalent as URLs, e.g.
-		//           http://example.com/#
-		//           http://example.com
-		//           http://example.com/
-		//           http://example.com///
-		//           etc.
-		return memo;
+        int i = uri.lastIndexOf('#');
+        return 0 <= i ? uri.substring(0, i) : uri;
 	}
 
     public static URI createBNodeUri( final String id, final ValueFactory vf ) throws RippleException

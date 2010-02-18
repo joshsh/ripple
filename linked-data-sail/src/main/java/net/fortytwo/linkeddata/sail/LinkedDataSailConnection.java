@@ -278,7 +278,7 @@ public class LinkedDataSailConnection implements NotifyingSailConnection
 			final boolean includeInferred,
 			final Resource... contexts ) throws SailException
 	{
-		extendClosure( subj, pred, obj );
+		extendClosureToStatement( subj, pred, obj );
 			
 		// Now that the new RDF data is in the local store, query it.
 //System.out.println( "getStatements(" + subj + ", " + pred + ", " + obj + ", " + includeInferred + ", " + contexts + ")" );
@@ -659,12 +659,12 @@ public class LinkedDataSailConnection implements NotifyingSailConnection
 		}
 	}
 
-	private void dereference( final URI uri )
+	private void extendClosureTo( final URI uri )
 	{
 //System.out.println( "dereferencing URI: " + uri );
 		try
 		{
-			webClosure.extend( uri, baseSailWriteSink.adderSink() );
+			webClosure.extendTo( uri, baseSailWriteSink.adderSink(), baseConnection );
 		}
 
 		catch ( RippleException e )
@@ -676,25 +676,25 @@ public class LinkedDataSailConnection implements NotifyingSailConnection
 		}
 	}
 
-	private void extendClosure( final Resource subj, final URI pred, final Value obj ) throws SailException
+	private void extendClosureToStatement( final Resource subj, final URI pred, final Value obj ) throws SailException
 	{
 		boolean changed = false;
 		
 		if ( DEREFERENCE_SUBJECT && null != subj && subj instanceof URI )
 		{
-			dereference( (URI) subj );
+			extendClosureTo( (URI) subj );
 			changed = true;
 		}
 
 		if ( DEREFERENCE_PREDICATE && null != pred )
 		{
-			dereference( pred );
+			extendClosureTo( pred );
 			changed = true;
 		}
 		
 		if ( DEREFERENCE_OBJECT && null != obj && obj instanceof URI )
 		{
-			dereference( (URI) obj );
+			extendClosureTo( (URI) obj );
 			changed = true;
 		}
 
@@ -703,8 +703,8 @@ public class LinkedDataSailConnection implements NotifyingSailConnection
 			commitInput();
 		}
 	}
-	
-	////////////////////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////////////////////
 	
 	/**
 	 * A CloseableIteration which is thread-safe with respect to the base Sail
