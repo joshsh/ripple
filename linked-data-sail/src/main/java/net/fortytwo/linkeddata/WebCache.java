@@ -14,7 +14,7 @@ import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -24,16 +24,19 @@ import java.util.Map;
  * Time: 7:04:08 PM
  */
 public class WebCache {
-    private final Map<String, ContextMemo> memos = new HashMap<String, ContextMemo>();
+    private final MemoMap memos;
+
     private final boolean compact, useBNodes;
     private final ValueFactory valueFactory;
     private final URI cacheContext, cacheMemo, fullMemo;
 
-    // A special context memo to indicate an already-tried persistence miss (to
-    // avoid expensive query operations for future lookups which are sure to miss).
+    // A special context memo to indicate an already-known persistence miss.
     private final ContextMemo miss;
 
-    public WebCache(final ValueFactory valueFactory) throws RippleException {
+    public WebCache(final int capacity,
+                    final ValueFactory valueFactory) throws RippleException {
+        memos = new MemoMap(capacity);
+
         this.valueFactory = valueFactory;
 
         compact = Ripple.getProperties().getBoolean(LinkedDataSail.USE_COMPACT_MEMO_FORMAT);
@@ -231,5 +234,24 @@ public class WebCache {
 
             return new ContextMemo(entries);
         }
+    }
+
+    // An LRU-caching HashMap
+    private class MemoMap extends LinkedHashMap<String, ContextMemo> {
+        private final int maxCapacity;
+
+        // Creates an access-order linked hashmap with the given maximum capacity.
+        // Default values are used for initial capacity and load factor.
+        public MemoMap(final int maxCapacity) {
+            super(16, 0.75f, true);
+            
+            this.maxCapacity = maxCapacity;
+        }
+
+        @Override
+        protected boolean removeEldestEntry(Map.Entry eldest) {
+           return size() > maxCapacity;
+        }
+
     }
 }

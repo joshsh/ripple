@@ -45,6 +45,7 @@ import java.io.File;
 public class LinkedDataSail implements StackableSail, NotifyingSail {
     public static final String
             LOG_FAILED_URIS = "net.fortytwo.linkeddata.logFailedUris",
+            MAX_CACHE_CAPACITY = "net.fortytwo.linkeddata.maxCacheCapacity",
             USE_COMPACT_MEMO_FORMAT = "net.fortytwo.linkeddata.useCompactMemoFormat";
 
     private static final Logger LOGGER = Logger.getLogger(LinkedDataSail.class);
@@ -66,6 +67,8 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
 
     private static boolean logFailedUris;
 
+    private final int maxCacheCapacity;
+
     private final WebClosure webClosure;
     private final URIMap URIMap;
 
@@ -80,6 +83,7 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
             throws RippleException {
         RippleProperties properties = Ripple.getProperties();
         logFailedUris = properties.getBoolean(LOG_FAILED_URIS);
+        maxCacheCapacity = properties.getInt(MAX_CACHE_CAPACITY);
 
         this.baseSail = baseSail;
         this.URIMap = URIMap;
@@ -159,7 +163,7 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
         try {
             SailConnection sc = baseSail.getConnection();
             try {
-                WebCache cache = new WebCache(getValueFactory());
+                WebCache cache = new WebCache(maxCacheCapacity, getValueFactory());
                 WebClosure wc = new WebClosure(cache, URIMap, getValueFactory());
 
                 // Add URI dereferencers.
