@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.fortytwo.ripple</groupId>
     <artifactId>ripple-demo</artifactId>
-    <version>0.5</version>
+    <version>0.5.1</version>
     <packaging>jar</packaging>
     <name>Ripple command-line demo</name>
     <description>demo of Ripple on LinkedDataSail</description>
@@ -14,7 +14,7 @@
     <parent>
         <groupId>net.fortytwo.ripple</groupId>
         <artifactId>ripple</artifactId>
-        <version>0.5</version>
+        <version>0.5.1</version>
     </parent>
 
     <repositories>
@@ -34,7 +34,7 @@
         <dependency>
             <groupId>net.fortytwo.ripple</groupId>
             <artifactId>ripple-sesame</artifactId>
-            <version>0.5</version>
+            <version>0.5.1</version>
         </dependency>
         <dependency>
             <groupId>org.openrdf.sesame</groupId>

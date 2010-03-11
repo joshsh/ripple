@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.fortytwo.ripple</groupId>
     <artifactId>ripple-neo4j</artifactId>
-    <version>0.5</version>
+    <version>0.5.1</version>
     <packaging>jar</packaging>
     <name>Ripple4Neo4j</name>
     <description>Ripple Neo4j bindings</description>
@@ -14,7 +14,7 @@
     <parent>
         <groupId>net.fortytwo.ripple</groupId>
         <artifactId>ripple</artifactId>
-        <version>0.5</version>
+        <version>0.5.1</version>
     </parent>
 
     <repositories>
@@ -33,7 +33,7 @@
         <dependency>
             <groupId>net.fortytwo.ripple</groupId>
             <artifactId>ripple-core</artifactId>
-            <version>0.5</version>
+            <version>0.5.1</version>
         </dependency>
         <dependency>
             <groupId>org.neo4j</groupId>
@@ -44,7 +44,7 @@
         <dependency>
             <groupId>net.fortytwo.ripple</groupId>
             <artifactId>ripple-sesame</artifactId>
-            <version>0.5</version>
+            <version>0.5.1</version>
         </dependency>
     </dependencies>
 
