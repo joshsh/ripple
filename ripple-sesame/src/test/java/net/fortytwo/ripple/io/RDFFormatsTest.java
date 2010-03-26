@@ -11,8 +11,8 @@ package net.fortytwo.ripple.io;
 
 import java.net.URL;
 
-import net.fortytwo.ripple.rdf.RDFCollector;
-import net.fortytwo.ripple.rdf.SesameInputAdapter;
+import net.fortytwo.flow.rdf.RDFCollector;
+import net.fortytwo.flow.rdf.SesameInputAdapter;
 import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.util.RDFHTTPUtils;
 

@@ -17,8 +17,8 @@ import org.openrdf.rio.RDFFormat;
 
 import net.fortytwo.ripple.io.RDFImporter;
 import net.fortytwo.ripple.libs.stack.Dup;
-import net.fortytwo.ripple.rdf.RDFUtils;
-import net.fortytwo.ripple.rdf.SesameInputAdapter;
+import net.fortytwo.flow.rdf.RDFUtils;
+import net.fortytwo.flow.rdf.SesameInputAdapter;
 import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.flow.Collector;
 import net.fortytwo.ripple.RippleException;

@@ -13,7 +13,7 @@ import info.aduna.iteration.CloseableIteration;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.Source;
-import net.fortytwo.ripple.rdf.RDFSource;
+import net.fortytwo.flow.rdf.RDFSource;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;

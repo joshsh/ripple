@@ -10,11 +10,11 @@
 package net.fortytwo.ripple.model.impl.sesame;
 
 import info.aduna.iteration.CloseableIteration;
-import net.fortytwo.ripple.rdf.RDFSink;
-import net.fortytwo.ripple.rdf.SailInserter;
-import net.fortytwo.ripple.rdf.SesameInputAdapter;
-import net.fortytwo.ripple.rdf.SesameOutputAdapter;
-import net.fortytwo.ripple.rdf.SingleContextPipe;
+import net.fortytwo.flow.rdf.RDFSink;
+import net.fortytwo.flow.rdf.SailInserter;
+import net.fortytwo.flow.rdf.SesameInputAdapter;
+import net.fortytwo.flow.rdf.SesameOutputAdapter;
+import net.fortytwo.flow.rdf.SingleContextPipe;
 import net.fortytwo.ripple.test.RippleTestCase;
 import org.apache.log4j.Logger;
 import org.openrdf.model.Statement;

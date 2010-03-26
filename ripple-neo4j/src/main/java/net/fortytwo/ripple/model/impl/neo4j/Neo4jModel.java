@@ -13,9 +13,8 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.URIMap;
-import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
+import net.fortytwo.flow.rdf.diff.RDFDiffSink;
 
-import java.util.Collection;
 import java.net.URL;
 
 import org.neo4j.api.core.NeoService;

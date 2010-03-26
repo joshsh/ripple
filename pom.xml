@@ -39,6 +39,7 @@
     </issueManagement>
 
     <modules>
+	<module>flow</module>
         <module>ripple-base</module>
         <module>ripple-rdf</module>
         <module>linked-data-sail</module>

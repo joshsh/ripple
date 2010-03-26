@@ -37,6 +37,11 @@
             <version>0.5.1</version>
         </dependency>
         <dependency>
+            <groupId>net.fortytwo</groupId>
+            <artifactId>flow</artifactId>
+            <version>0.5.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.restlet</groupId>
             <artifactId>org.restlet</artifactId>
             <version>1.0.5</version>
@@ -121,5 +126,5 @@
             </plugin>
         </plugins>
     </build>
-    
+
 </project>

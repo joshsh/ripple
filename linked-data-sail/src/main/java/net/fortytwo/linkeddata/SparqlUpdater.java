@@ -15,11 +15,11 @@ import java.util.Iterator;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.URIMap;
-import net.fortytwo.ripple.rdf.RDFUtils;
-import net.fortytwo.ripple.rdf.SesameOutputAdapter;
-import net.fortytwo.ripple.rdf.diff.RDFDiffContextFilter;
-import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
-import net.fortytwo.ripple.rdf.diff.RDFDiffSource;
+import net.fortytwo.flow.rdf.RDFUtils;
+import net.fortytwo.flow.rdf.SesameOutputAdapter;
+import net.fortytwo.flow.rdf.diff.RDFDiffContextFilter;
+import net.fortytwo.flow.rdf.diff.RDFDiffSink;
+import net.fortytwo.flow.rdf.diff.RDFDiffSource;
 import net.fortytwo.ripple.util.HTTPUtils;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.NameValuePair;

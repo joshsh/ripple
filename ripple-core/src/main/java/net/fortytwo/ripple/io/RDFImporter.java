@@ -13,7 +13,7 @@ import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.rdf.RDFSink;
+import net.fortytwo.flow.rdf.RDFSink;
 
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Resource;

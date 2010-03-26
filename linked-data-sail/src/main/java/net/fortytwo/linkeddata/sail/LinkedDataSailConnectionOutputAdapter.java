@@ -13,8 +13,8 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.NullSink;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.diff.DiffSink;
-import net.fortytwo.ripple.rdf.RDFSink;
-import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
+import net.fortytwo.flow.rdf.RDFSink;
+import net.fortytwo.flow.rdf.diff.RDFDiffSink;
 
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;

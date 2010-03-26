@@ -2,7 +2,7 @@ package net.fortytwo.ripple;
 
 import com.knowledgereefsystems.agsail.AllegroSail;
 import net.fortytwo.linkeddata.sail.LinkedDataSail;
-import net.fortytwo.ripple.rdf.RDFUtils;
+import net.fortytwo.flow.rdf.RDFUtils;
 import net.fortytwo.ripple.sesametools.readonly.ReadOnlySail;
 import org.apache.log4j.Logger;
 import org.openrdf.repository.Repository;

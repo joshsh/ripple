@@ -10,8 +10,8 @@
 package net.fortytwo.ripple.util;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.rdf.SesameInputAdapter;
-import net.fortytwo.ripple.rdf.RDFUtils;
+import net.fortytwo.flow.rdf.SesameInputAdapter;
+import net.fortytwo.flow.rdf.RDFUtils;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.openrdf.rio.RDFFormat;

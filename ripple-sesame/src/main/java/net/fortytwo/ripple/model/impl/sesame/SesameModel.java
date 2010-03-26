@@ -16,7 +16,7 @@ import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.SpecialValueMap;
-import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
+import net.fortytwo.flow.rdf.diff.RDFDiffSink;
 import org.apache.log4j.Logger;
 import org.openrdf.sail.Sail;
 

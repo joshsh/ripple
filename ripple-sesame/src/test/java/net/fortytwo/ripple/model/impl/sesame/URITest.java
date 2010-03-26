@@ -22,9 +22,9 @@ import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.flow.Collector;
 import net.fortytwo.ripple.io.RDFImporter;
-import net.fortytwo.ripple.rdf.SesameInputAdapter;
+import net.fortytwo.flow.rdf.SesameInputAdapter;
 import net.fortytwo.ripple.test.RippleTestCase;
-import net.fortytwo.ripple.rdf.RDFUtils;
+import net.fortytwo.flow.rdf.RDFUtils;
 
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.URIImpl;

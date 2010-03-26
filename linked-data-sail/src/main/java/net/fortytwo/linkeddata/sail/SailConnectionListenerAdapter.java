@@ -11,7 +11,7 @@ package net.fortytwo.linkeddata.sail;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
-import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
+import net.fortytwo.flow.rdf.diff.RDFDiffSink;
 
 import org.apache.log4j.Logger;
 import org.openrdf.model.Statement;

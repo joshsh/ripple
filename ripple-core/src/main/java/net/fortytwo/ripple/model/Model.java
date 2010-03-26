@@ -11,7 +11,7 @@ package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.URIMap;
-import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
+import net.fortytwo.flow.rdf.diff.RDFDiffSink;
 
 public interface Model
 {
