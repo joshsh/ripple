@@ -7,7 +7,7 @@
  */
 
 
-package net.fortytwo.ripple.util;
+package net.fortytwo.ripple.rdf;
 
 import java.io.InputStream;
 
