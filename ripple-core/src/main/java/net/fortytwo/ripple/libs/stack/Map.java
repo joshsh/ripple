@@ -18,8 +18,8 @@ import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.StackMapping;
 import net.fortytwo.ripple.model.NullStackMapping;
-import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.ripple.flow.Collector;
+import net.fortytwo.flow.Sink;
+import net.fortytwo.flow.Collector;
 
 import java.util.Iterator;
 

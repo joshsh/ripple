@@ -10,11 +10,11 @@
 package net.fortytwo.ripple.query;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.flow.Buffer;
-import net.fortytwo.ripple.flow.Collector;
-import net.fortytwo.ripple.flow.CollectorHistory;
-import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.ripple.flow.Source;
+import net.fortytwo.flow.Buffer;
+import net.fortytwo.flow.Collector;
+import net.fortytwo.flow.CollectorHistory;
+import net.fortytwo.flow.Sink;
+import net.fortytwo.flow.Source;
 import net.fortytwo.ripple.cli.Interpreter;
 import net.fortytwo.ripple.cli.ParserExceptionSink;
 import net.fortytwo.ripple.cli.RecognizerAdapter;

@@ -14,7 +14,7 @@ import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.model.impl.sesame.SesameModelConnection;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.flow.Sink;
 import org.openrdf.model.URI;
 import org.openrdf.model.Statement;
 import org.neo4j.api.core.NeoService;

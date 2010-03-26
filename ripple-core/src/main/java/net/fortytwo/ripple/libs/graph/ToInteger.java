@@ -14,7 +14,7 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.flow.Sink;
 
 import org.apache.log4j.Logger;
 

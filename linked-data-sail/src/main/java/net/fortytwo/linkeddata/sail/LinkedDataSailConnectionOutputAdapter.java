@@ -10,9 +10,9 @@
 package net.fortytwo.linkeddata.sail;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.flow.NullSink;
-import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.ripple.flow.diff.DiffSink;
+import net.fortytwo.flow.NullSink;
+import net.fortytwo.flow.Sink;
+import net.fortytwo.flow.diff.DiffSink;
 import net.fortytwo.ripple.rdf.RDFSink;
 import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
 

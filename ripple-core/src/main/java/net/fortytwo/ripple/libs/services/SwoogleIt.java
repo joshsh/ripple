@@ -10,8 +10,8 @@
 package net.fortytwo.ripple.libs.services;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.flow.Buffer;
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.flow.Buffer;
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.rdf.SesameInputAdapter;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.io.RDFImporter;

@@ -9,9 +9,9 @@
 
 package net.fortytwo.ripple.rdf.diff;
 
-import net.fortytwo.ripple.flow.diff.DiffSink;
-import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.ripple.flow.diff.NullDiffSink;
+import net.fortytwo.flow.diff.DiffSink;
+import net.fortytwo.flow.Sink;
+import net.fortytwo.flow.diff.NullDiffSink;
 import net.fortytwo.ripple.rdf.RDFCollector;
 import net.fortytwo.ripple.rdf.RDFSink;
 import net.fortytwo.ripple.rdf.RDFSource;

@@ -14,7 +14,7 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.flow.Sink;
 
 /**
  * A primitive which permutes the second, third and fourth items on the stack

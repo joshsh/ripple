@@ -16,8 +16,8 @@ import java.util.Set;
 
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.flow.Buffer;
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.flow.Buffer;
+import net.fortytwo.flow.Sink;
 
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;

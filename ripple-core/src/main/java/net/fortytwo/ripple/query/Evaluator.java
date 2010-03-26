@@ -9,7 +9,7 @@
 
 package net.fortytwo.ripple.query;
 
-import net.fortytwo.ripple.flow.Mapping;
+import net.fortytwo.flow.Mapping;
 
 /**
 *  A function which reduces arbitrary expressions to a particular normal form.

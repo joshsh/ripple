@@ -14,7 +14,7 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.test.RippleTestCase;
-import net.fortytwo.ripple.flow.Collector;
+import net.fortytwo.flow.Collector;
 import net.fortytwo.ripple.RippleException;
 
 import java.util.Random;

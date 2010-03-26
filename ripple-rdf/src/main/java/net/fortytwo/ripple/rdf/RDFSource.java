@@ -9,7 +9,7 @@
 
 package net.fortytwo.ripple.rdf;
 
-import net.fortytwo.ripple.flow.Source;
+import net.fortytwo.flow.Source;
 
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;

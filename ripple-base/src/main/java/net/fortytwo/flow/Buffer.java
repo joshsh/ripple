@@ -7,7 +7,7 @@
  */
 
 
-package net.fortytwo.ripple.flow;
+package net.fortytwo.flow;
 
 public class Buffer<T, E extends Exception> extends Collector<T, E>
 {

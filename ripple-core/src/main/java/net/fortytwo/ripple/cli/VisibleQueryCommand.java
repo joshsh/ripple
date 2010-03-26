@@ -21,14 +21,14 @@ import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.commands.RippleQueryCmd;
-import net.fortytwo.ripple.flow.Buffer;
-import net.fortytwo.ripple.flow.Collector;
-import net.fortytwo.ripple.flow.CollectorHistory;
-import net.fortytwo.ripple.flow.NullSink;
-import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.ripple.flow.Switch;
-import net.fortytwo.ripple.flow.SynchronizedSink;
-import net.fortytwo.ripple.flow.Tee;
+import net.fortytwo.flow.Buffer;
+import net.fortytwo.flow.Collector;
+import net.fortytwo.flow.CollectorHistory;
+import net.fortytwo.flow.NullSink;
+import net.fortytwo.flow.Sink;
+import net.fortytwo.flow.Switch;
+import net.fortytwo.flow.SynchronizedSink;
+import net.fortytwo.flow.Tee;
 
 import org.openrdf.model.vocabulary.RDF;
 

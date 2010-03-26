@@ -20,7 +20,7 @@ import net.fortytwo.ripple.libs.stack.Dup;
 import net.fortytwo.ripple.rdf.RDFUtils;
 import net.fortytwo.ripple.rdf.SesameInputAdapter;
 import net.fortytwo.ripple.test.RippleTestCase;
-import net.fortytwo.ripple.flow.Collector;
+import net.fortytwo.flow.Collector;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.RippleValue;

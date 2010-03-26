@@ -12,7 +12,7 @@ package net.fortytwo.ripple.cli.ast;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.flow.Sink;
 
 public interface AST<T>
 {

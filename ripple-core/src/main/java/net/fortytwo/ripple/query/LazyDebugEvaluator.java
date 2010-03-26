@@ -10,7 +10,7 @@
 package net.fortytwo.ripple.query;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.model.Closure;
 import net.fortytwo.ripple.model.StackMapping;
 import net.fortytwo.ripple.model.Operator;

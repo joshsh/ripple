@@ -10,8 +10,8 @@
 package net.fortytwo.ripple.libs.logic;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.ripple.flow.Collector;
+import net.fortytwo.flow.Sink;
+import net.fortytwo.flow.Collector;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleValue;

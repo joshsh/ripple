@@ -12,7 +12,7 @@ package net.fortytwo.ripple.cli;
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.flow.Sink;
 
 import java.io.PrintStream;
 

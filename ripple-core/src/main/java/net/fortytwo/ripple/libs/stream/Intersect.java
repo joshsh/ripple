@@ -19,7 +19,7 @@ import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.NullStackMapping;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.ListMemoizer;
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.flow.Sink;
 
 
 /**

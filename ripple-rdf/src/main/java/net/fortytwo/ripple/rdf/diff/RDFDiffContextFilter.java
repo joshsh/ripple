@@ -14,8 +14,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.ripple.flow.diff.DiffSink;
+import net.fortytwo.flow.Sink;
+import net.fortytwo.flow.diff.DiffSink;
 import net.fortytwo.ripple.rdf.RDFSink;
 
 import org.openrdf.model.Namespace;

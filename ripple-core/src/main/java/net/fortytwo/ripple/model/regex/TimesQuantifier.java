@@ -9,7 +9,7 @@
 
 package net.fortytwo.ripple.model.regex;
 
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.StackMapping;
 import net.fortytwo.ripple.model.StackContext;

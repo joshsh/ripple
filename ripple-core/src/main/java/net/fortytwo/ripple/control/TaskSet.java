@@ -10,7 +10,7 @@
 package net.fortytwo.ripple.control;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.flow.Sink;
 
 /**
  * A set of tasks which are executed concurrently.  Tasks are scheduled for

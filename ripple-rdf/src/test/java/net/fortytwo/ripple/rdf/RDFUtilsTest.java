@@ -11,7 +11,7 @@ package net.fortytwo.ripple.rdf;
 
 import java.io.InputStream;
 
-import net.fortytwo.ripple.flow.Collector;
+import net.fortytwo.flow.Collector;
 import net.fortytwo.ripple.RippleException;
 
 import org.openrdf.model.Namespace;

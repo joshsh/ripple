@@ -16,7 +16,7 @@ import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.StackMapping;
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.flow.Sink;
 
 /**
  * A primitive which follows inferred forward triples from a resource.

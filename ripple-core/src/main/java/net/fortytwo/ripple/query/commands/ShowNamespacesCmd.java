@@ -12,7 +12,6 @@ package net.fortytwo.ripple.query.commands;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Comparator;
 import java.util.Arrays;
 
 import net.fortytwo.ripple.RippleException;
@@ -20,8 +19,7 @@ import net.fortytwo.ripple.io.RipplePrintStream;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.flow.Collector;
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.flow.Collector;
 
 import org.openrdf.model.Namespace;
 

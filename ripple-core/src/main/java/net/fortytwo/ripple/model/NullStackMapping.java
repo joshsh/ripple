@@ -10,9 +10,7 @@
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.ripple.flow.Mapping;
-import net.fortytwo.ripple.flow.NullMapping;
+import net.fortytwo.flow.Sink;
 
 /**
  *  A filter which yields no results, regardless of its inputs.

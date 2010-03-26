@@ -21,8 +21,8 @@ import net.fortytwo.ripple.io.RDFImporter;
 import net.fortytwo.ripple.rdf.RDFUtils;
 import net.fortytwo.ripple.rdf.SesameInputAdapter;
 import net.fortytwo.ripple.test.RippleTestCase;
-import net.fortytwo.ripple.flow.Collector;
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.flow.Collector;
+import net.fortytwo.flow.Sink;
 
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.model.vocabulary.XMLSchema;

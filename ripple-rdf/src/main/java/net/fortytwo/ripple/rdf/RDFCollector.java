@@ -9,9 +9,9 @@
 
 package net.fortytwo.ripple.rdf;
 
-import net.fortytwo.ripple.flow.Collector;
-import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.ripple.flow.Source;
+import net.fortytwo.flow.Collector;
+import net.fortytwo.flow.Sink;
+import net.fortytwo.flow.Source;
 
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;

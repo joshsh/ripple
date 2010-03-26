@@ -17,9 +17,9 @@ import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.StackEvaluator;
-import net.fortytwo.ripple.flow.Collector;
-import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.ripple.flow.Source;
+import net.fortytwo.flow.Collector;
+import net.fortytwo.flow.Sink;
+import net.fortytwo.flow.Source;
 
 public class RippleQueryCmd extends Command
 {

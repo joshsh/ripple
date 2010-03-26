@@ -10,7 +10,7 @@
 package net.fortytwo.ripple.query.commands;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.flow.Collector;
+import net.fortytwo.flow.Collector;
 import net.fortytwo.ripple.cli.ast.ListAST;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RDFValue;

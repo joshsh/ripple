@@ -7,7 +7,7 @@
  */
 
 
-package net.fortytwo.ripple.flow;
+package net.fortytwo.flow;
 
 public class SynchronizedSink<T, E extends Exception> implements Sink<T, E>
 {

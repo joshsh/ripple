@@ -10,7 +10,7 @@
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.flow.Mapping;
+import net.fortytwo.flow.Mapping;
 
 public interface StackMapping extends Mapping<StackContext, StackContext, RippleException>
 {

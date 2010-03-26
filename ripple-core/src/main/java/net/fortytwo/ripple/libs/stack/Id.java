@@ -12,7 +12,7 @@ package net.fortytwo.ripple.libs.stack;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.flow.Sink;
 
 /**
  * A primitive function which has no effect on the stack.

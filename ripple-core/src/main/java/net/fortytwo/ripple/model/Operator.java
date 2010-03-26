@@ -12,7 +12,7 @@ package net.fortytwo.ripple.model;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RipplePrintStream;
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.flow.Sink;
 
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.model.Resource;

@@ -7,9 +7,9 @@
  */
 
 
-package net.fortytwo.ripple.flow.diff;
+package net.fortytwo.flow.diff;
 
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.flow.Sink;
 import org.apache.log4j.Logger;
 
 import java.util.LinkedList;

@@ -10,8 +10,8 @@
 package net.fortytwo.ripple.rdf;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.ripple.flow.Source;
+import net.fortytwo.flow.Sink;
+import net.fortytwo.flow.Source;
 import info.aduna.iteration.CloseableIteration;
 
 public class CloseableIterationSource<T, E extends Exception> implements Source<T, RippleException>

@@ -1,9 +1,9 @@
 package net.fortytwo.ripple.rdf.diff;
 
 import net.fortytwo.ripple.rdf.RDFSink;
-import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.ripple.flow.NullSink;
-import net.fortytwo.ripple.flow.diff.DiffSink;
+import net.fortytwo.flow.Sink;
+import net.fortytwo.flow.NullSink;
+import net.fortytwo.flow.diff.DiffSink;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
 import org.openrdf.model.Statement;

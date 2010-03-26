@@ -7,7 +7,7 @@
  */
 
 
-package net.fortytwo.ripple.flow.diff;
+package net.fortytwo.flow.diff;
 
 /**
  * Author: josh

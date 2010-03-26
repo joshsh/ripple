@@ -20,7 +20,7 @@ import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StatementPatternQuery;
-import net.fortytwo.ripple.flow.Collector;
+import net.fortytwo.flow.Collector;
 import net.fortytwo.ripple.io.RDFImporter;
 import net.fortytwo.ripple.rdf.SesameInputAdapter;
 import net.fortytwo.ripple.test.RippleTestCase;

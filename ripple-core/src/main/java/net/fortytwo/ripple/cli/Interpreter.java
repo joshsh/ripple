@@ -13,13 +13,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.flow.Sink;
 
 import org.apache.log4j.Logger;
 
 import antlr.TokenStreamIOException;
-import antlr.RecognitionException;
-import antlr.TokenStreamException;
 
 public class Interpreter
 {

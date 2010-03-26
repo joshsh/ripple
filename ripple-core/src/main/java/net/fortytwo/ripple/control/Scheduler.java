@@ -11,8 +11,8 @@ package net.fortytwo.ripple.control;
 
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.flow.NullSink;
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.flow.NullSink;
+import net.fortytwo.flow.Sink;
 import org.apache.log4j.Logger;
 
 import java.util.Iterator;

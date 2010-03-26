@@ -14,7 +14,7 @@ import net.fortytwo.linkeddata.SparqlUpdater;
 import net.fortytwo.linkeddata.WebClosure;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.URIMap;
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.rdf.RDFUtils;
 import net.fortytwo.ripple.rdf.diff.RDFDiffBuffer;
 import net.fortytwo.ripple.rdf.diff.RDFDiffSink;

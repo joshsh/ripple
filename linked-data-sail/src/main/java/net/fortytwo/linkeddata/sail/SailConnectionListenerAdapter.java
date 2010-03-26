@@ -10,7 +10,7 @@
 package net.fortytwo.linkeddata.sail;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.rdf.diff.RDFDiffSink;
 
 import org.apache.log4j.Logger;

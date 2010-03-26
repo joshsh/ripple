@@ -9,7 +9,7 @@
 
 package net.fortytwo.ripple.model;
 
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.flow.Sink;
 
 import org.openrdf.model.Value;
 import org.openrdf.model.Resource;
@@ -22,7 +22,7 @@ import org.openrdf.model.vocabulary.XMLSchema;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
-import net.fortytwo.ripple.flow.Buffer;
+import net.fortytwo.flow.Buffer;
 import net.fortytwo.ripple.RippleException;
 import info.aduna.iteration.CloseableIteration;
 

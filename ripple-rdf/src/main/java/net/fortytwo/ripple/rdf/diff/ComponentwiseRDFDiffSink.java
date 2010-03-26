@@ -1,8 +1,8 @@
 package net.fortytwo.ripple.rdf.diff;
 
 import net.fortytwo.ripple.rdf.RDFSink;
-import net.fortytwo.ripple.flow.diff.DiffSink;
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.flow.diff.DiffSink;
+import net.fortytwo.flow.Sink;
 import org.openrdf.model.Statement;
 import org.openrdf.model.Namespace;
 

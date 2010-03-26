@@ -1,7 +1,7 @@
-package net.fortytwo.ripple.flow.diff;
+package net.fortytwo.flow.diff;
 
-import net.fortytwo.ripple.flow.Sink;
-import net.fortytwo.ripple.flow.NullSink;
+import net.fortytwo.flow.Sink;
+import net.fortytwo.flow.NullSink;
 
 /**
  * Author: josh

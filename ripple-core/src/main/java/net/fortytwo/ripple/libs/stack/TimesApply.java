@@ -12,7 +12,7 @@ package net.fortytwo.ripple.libs.stack;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.*;
 import net.fortytwo.ripple.model.regex.TimesQuantifier;
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.flow.Sink;
 
 /**
  * A primitive which consumes an item and a number n, then pushes n active

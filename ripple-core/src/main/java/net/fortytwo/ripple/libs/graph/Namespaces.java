@@ -18,8 +18,8 @@ import net.fortytwo.ripple.rdf.RDFSink;
 import net.fortytwo.ripple.rdf.SesameInputAdapter;
 import net.fortytwo.ripple.util.HTTPUtils;
 import net.fortytwo.ripple.util.RDFHTTPUtils;
-import net.fortytwo.ripple.flow.NullSink;
-import net.fortytwo.ripple.flow.Sink;
+import net.fortytwo.flow.NullSink;
+import net.fortytwo.flow.Sink;
 
 import org.apache.commons.httpclient.HttpMethod;
 import org.openrdf.model.Namespace;

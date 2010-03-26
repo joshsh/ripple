@@ -7,7 +7,7 @@
  */
 
 
-package net.fortytwo.ripple.flow;
+package net.fortytwo.flow;
 
 public interface Source<T, E extends Exception>
 {
