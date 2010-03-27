@@ -10,11 +10,7 @@
 package net.fortytwo.ripple.model.impl.sesame;
 
 import info.aduna.iteration.CloseableIteration;
-import net.fortytwo.linkeddata.sail.SailConnectionListenerAdapter;
-import net.fortytwo.ripple.Ripple;
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.control.Task;
-import net.fortytwo.ripple.control.TaskSet;
+import net.fortytwo.flow.AdapterSink;
 import net.fortytwo.flow.Buffer;
 import net.fortytwo.flow.Collector;
 import net.fortytwo.flow.DistinctFilter;
@@ -22,6 +18,15 @@ import net.fortytwo.flow.NullSink;
 import net.fortytwo.flow.NullSource;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.Source;
+import net.fortytwo.flow.rdf.CloseableIterationSource;
+import net.fortytwo.flow.rdf.RDFSource;
+import net.fortytwo.flow.rdf.SesameOutputAdapter;
+import net.fortytwo.flow.rdf.diff.RDFDiffSink;
+import net.fortytwo.linkeddata.sail.SailConnectionListenerAdapter;
+import net.fortytwo.ripple.Ripple;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.control.Task;
+import net.fortytwo.ripple.control.TaskSet;
 import net.fortytwo.ripple.model.GetStatementsQuery;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
@@ -31,12 +36,8 @@ import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.RippleValueComparator;
 import net.fortytwo.ripple.model.StatementPatternQuery;
-import net.fortytwo.flow.rdf.BNodeClosureFilter;
-import net.fortytwo.flow.rdf.CloseableIterationSource;
-import net.fortytwo.flow.rdf.RDFSource;
-import net.fortytwo.flow.rdf.RDFUtils;
-import net.fortytwo.flow.rdf.SesameOutputAdapter;
-import net.fortytwo.flow.rdf.diff.RDFDiffSink;
+import net.fortytwo.ripple.util.BNodeClosureFilter;
+import net.fortytwo.ripple.util.RDFUtils;
 import org.apache.log4j.Logger;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Namespace;
@@ -54,6 +55,7 @@ import org.openrdf.query.impl.MapBindingSet;
 import org.openrdf.query.parser.ParsedQuery;
 import org.openrdf.query.parser.sparql.SPARQLParser;
 import org.openrdf.rio.RDFFormat;
+import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.sail.NotifyingSailConnection;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailConnectionListener;
@@ -880,14 +882,28 @@ public class SesameModelConnection implements ModelConnection
         return format;
     }
 
+    private class RippleExceptionAdapter implements AdapterSink.ExceptionAdapter<RippleException> {
+        public void doThrow(Exception e) throws RippleException {
+            throw new RippleException(e);
+        }
+    }
+
+    private class SailExceptionAdapter implements AdapterSink.ExceptionAdapter<SailException> {
+        public void doThrow(Exception e) throws SailException {
+            throw new SailException(e);
+        }
+    }
+
     public void exportNamespace( final String ns, final OutputStream os )
 		throws RippleException
 	{
 		SesameOutputAdapter adapter = RDFUtils.createOutputAdapter(
                 os, getExportFormat() );
-	
+	    Sink<Statement, RippleException> stSink
+                = new AdapterSink<Statement, RDFHandlerException, RippleException>(
+                adapter.statementSink(), new RippleExceptionAdapter());
 		final Sink<Resource, RippleException> bnodeClosure = new BNodeClosureFilter(
-			adapter.statementSink(), getSailConnection() );
+			stSink, getSailConnection() );
 	
 		// Hackishly find all terms in the given namespace which are the subject
 		// of statements.
@@ -906,10 +922,14 @@ public class SesameModelConnection implements ModelConnection
 	
 		Buffer<Statement, RippleException> buffer = new Buffer<Statement, RippleException>( sink );
 		getStatements( null, null, null, buffer, false );
-	
-		adapter.startRDF();
-		buffer.flush();
-		adapter.endRDF();
+
+        try {
+            adapter.startRDF();
+            buffer.flush();
+            adapter.endRDF();
+        } catch (RDFHandlerException e) {
+            throw new RippleException(e);
+        }
 	}
 	
 	////////////////////////////////////////////////////////////////////////////
@@ -1293,7 +1313,7 @@ public class SesameModelConnection implements ModelConnection
     public Source<Namespace, RippleException> getNamespaces() throws RippleException
 	{
         Collector<Namespace, RippleException> results = new Collector<Namespace, RippleException>();
-        Source<Namespace, RippleException> source;
+        Source<Namespace, SailException> source;
 
         try
         {
@@ -1306,7 +1326,13 @@ public class SesameModelConnection implements ModelConnection
             throw new RippleException( e );
         }
 
-        source.writeTo( results );
+        Sink<Namespace, SailException> nsSink = new AdapterSink<Namespace, RippleException, SailException>
+                (results, new SailExceptionAdapter());
+        try {
+            source.writeTo( nsSink );
+        } catch (SailException e) {
+            throw new RippleException(e);
+        }
         return results;
 	}
 	

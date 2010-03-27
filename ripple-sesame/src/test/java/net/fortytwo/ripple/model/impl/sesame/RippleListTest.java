@@ -9,23 +9,22 @@
 
 package net.fortytwo.ripple.model.impl.sesame;
 
-import java.io.InputStream;
-import java.util.Iterator;
-
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.RDFValue;
-import net.fortytwo.ripple.io.RDFImporter;
-import net.fortytwo.flow.rdf.RDFUtils;
-import net.fortytwo.flow.rdf.SesameInputAdapter;
-import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.flow.Collector;
 import net.fortytwo.flow.Sink;
-
-import org.openrdf.rio.RDFFormat;
+import net.fortytwo.flow.rdf.SesameInputAdapter;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.io.RDFImporter;
+import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.RDFValue;
+import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.RippleValue;
+import net.fortytwo.ripple.test.RippleTestCase;
+import net.fortytwo.ripple.util.RDFUtils;
 import org.openrdf.model.vocabulary.XMLSchema;
+import org.openrdf.rio.RDFFormat;
+
+import java.io.InputStream;
+import java.util.Iterator;
 
 public class RippleListTest extends RippleTestCase
 {

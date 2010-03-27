@@ -9,16 +9,16 @@
 
 package net.fortytwo.linkeddata;
 
+import net.fortytwo.flow.rdf.RDFBuffer;
+import net.fortytwo.flow.rdf.RDFSink;
+import net.fortytwo.flow.rdf.SesameInputAdapter;
+import net.fortytwo.flow.rdf.SingleContextPipe;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.StringUtils;
 import net.fortytwo.ripple.URIMap;
-import net.fortytwo.flow.rdf.BNodeToURIFilter;
-import net.fortytwo.flow.rdf.RDFBuffer;
-import net.fortytwo.flow.rdf.RDFSink;
-import net.fortytwo.flow.rdf.RDFUtils;
-import net.fortytwo.flow.rdf.SesameInputAdapter;
-import net.fortytwo.flow.rdf.SingleContextPipe;
+import net.fortytwo.ripple.util.BNodeToURIFilter;
+import net.fortytwo.ripple.util.RDFUtils;
 import org.apache.log4j.Logger;
 import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;

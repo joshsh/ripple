@@ -9,20 +9,18 @@
 
 package net.fortytwo.ripple.io;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-
-import java.net.URL;
-
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.util.RDFHTTPUtils;
-import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.flow.rdf.SesameInputAdapter;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.test.RippleTestCase;
-import net.fortytwo.flow.rdf.RDFUtils;
-
+import net.fortytwo.ripple.util.RDFHTTPUtils;
+import net.fortytwo.ripple.util.RDFUtils;
 import org.openrdf.model.URI;
 import org.openrdf.rio.RDFFormat;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.net.URL;
 
 public class RDFImporterTest extends RippleTestCase
 {

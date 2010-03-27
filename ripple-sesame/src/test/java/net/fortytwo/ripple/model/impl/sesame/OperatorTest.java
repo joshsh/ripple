@@ -9,27 +9,26 @@
 
 package net.fortytwo.ripple.model.impl.sesame;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-
+import net.fortytwo.flow.Collector;
+import net.fortytwo.flow.rdf.SesameInputAdapter;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.io.RDFImporter;
+import net.fortytwo.ripple.libs.stack.Dup;
+import net.fortytwo.ripple.model.ListDequotation;
+import net.fortytwo.ripple.model.Model;
+import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.NullStackMapping;
+import net.fortytwo.ripple.model.Operator;
+import net.fortytwo.ripple.model.RDFPredicateMapping;
+import net.fortytwo.ripple.model.RDFValue;
+import net.fortytwo.ripple.model.RippleValue;
+import net.fortytwo.ripple.test.RippleTestCase;
+import net.fortytwo.ripple.util.RDFUtils;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.rio.RDFFormat;
 
-import net.fortytwo.ripple.io.RDFImporter;
-import net.fortytwo.ripple.libs.stack.Dup;
-import net.fortytwo.flow.rdf.RDFUtils;
-import net.fortytwo.flow.rdf.SesameInputAdapter;
-import net.fortytwo.ripple.test.RippleTestCase;
-import net.fortytwo.flow.Collector;
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.model.Model;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.Operator;
-import net.fortytwo.ripple.model.ListDequotation;
-import net.fortytwo.ripple.model.RDFValue;
-import net.fortytwo.ripple.model.RDFPredicateMapping;
-import net.fortytwo.ripple.model.NullStackMapping;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
 public class OperatorTest extends RippleTestCase
 {

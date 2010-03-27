@@ -9,9 +9,9 @@
 
 package net.fortytwo.linkeddata.dereferencers;
 
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.flow.rdf.RDFUtils;
 import net.fortytwo.linkeddata.Dereferencer;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.util.RDFUtils;
 import org.openrdf.rio.RDFFormat;
 import org.restlet.resource.Representation;
 

@@ -4,7 +4,7 @@ import info.aduna.iteration.CloseableIteration;
 import net.fortytwo.linkeddata.sail.LinkedDataSail;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.flow.rdf.RDFUtils;
+import net.fortytwo.ripple.util.RDFUtils;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;

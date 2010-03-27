@@ -10,16 +10,16 @@
 package net.fortytwo.linkeddata.sail;
 
 import info.aduna.iteration.CloseableIteration;
-import net.fortytwo.linkeddata.SparqlUpdater;
-import net.fortytwo.linkeddata.WebClosure;
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.URIMap;
 import net.fortytwo.flow.Sink;
-import net.fortytwo.flow.rdf.RDFUtils;
 import net.fortytwo.flow.rdf.diff.RDFDiffBuffer;
 import net.fortytwo.flow.rdf.diff.RDFDiffSink;
 import net.fortytwo.flow.rdf.diff.RDFDiffTee;
 import net.fortytwo.flow.rdf.diff.SynchronizedRDFDiffSink;
+import net.fortytwo.linkeddata.SparqlUpdater;
+import net.fortytwo.linkeddata.WebClosure;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.URIMap;
+import net.fortytwo.ripple.util.RDFUtils;
 import org.apache.log4j.Logger;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Resource;
@@ -39,6 +39,7 @@ import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailConnectionListener;
 import org.openrdf.sail.SailException;
+import org.openrdf.rio.RDFHandlerException;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -71,7 +72,7 @@ public class LinkedDataSailConnection implements NotifyingSailConnection
     private final WebClosure webClosure;
 	// Note: SparqlUpdater is not thread-safe, so we must synchronize all
 	//       operations involving it.
-	private final SparqlUpdater sparqlUpdater;
+	private final SparqlUpdater<RippleException> sparqlUpdater;
     private final RDFDiffSink<RippleException> apiInputSink;
     // Buffering input to the wrapped SailConnection avoids deadlocks.
     private final RDFDiffBuffer<RippleException> baseSailWriteBuffer;
@@ -170,8 +171,12 @@ public class LinkedDataSailConnection implements NotifyingSailConnection
 			//       been pushed.
 			synchronized ( sparqlUpdater )
 			{
-				sparqlUpdater.flush();
-			}
+                try {
+                    sparqlUpdater.flush();
+                } catch (RDFHandlerException e) {
+                    throw new SailException(e);
+                }
+            }
 		}
 
 		catch ( RippleException e )
@@ -448,7 +453,7 @@ public class LinkedDataSailConnection implements NotifyingSailConnection
         Object mutex = baseSailWriteBuffer;
         baseSailWriteSink = new SynchronizedRDFDiffSink<RippleException>( baseSailWriteBuffer, mutex );
 
-		sparqlUpdater = new SparqlUpdater( URIMap, baseSailWriteSink );
+		sparqlUpdater = new SparqlUpdater<RippleException>( URIMap, baseSailWriteSink );
 		apiInputSink = sparqlUpdater.getSink();
 
 		open = true;

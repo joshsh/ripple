@@ -9,16 +9,16 @@
 
 package net.fortytwo.linkeddata.dereferencers;
 
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.flow.rdf.RDFUtils;
 import net.fortytwo.linkeddata.Dereferencer;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.util.RDFUtils;
 import org.openrdf.rio.RDFFormat;
 import org.restlet.resource.Representation;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.FileInputStream;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 

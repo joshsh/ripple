@@ -9,6 +9,7 @@
 
 package net.fortytwo.linkeddata.sail;
 
+import net.fortytwo.flow.rdf.diff.RDFDiffSink;
 import net.fortytwo.linkeddata.ContextMemo;
 import net.fortytwo.linkeddata.Rdfizer;
 import net.fortytwo.linkeddata.WebCache;
@@ -22,8 +23,7 @@ import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.RippleProperties;
 import net.fortytwo.ripple.URIMap;
-import net.fortytwo.flow.rdf.RDFUtils;
-import net.fortytwo.flow.rdf.diff.RDFDiffSink;
+import net.fortytwo.ripple.util.RDFUtils;
 import org.apache.log4j.Logger;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.rio.RDFFormat;

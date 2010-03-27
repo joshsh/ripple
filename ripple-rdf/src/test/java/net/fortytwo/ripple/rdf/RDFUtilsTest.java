@@ -9,19 +9,18 @@
 
 package net.fortytwo.ripple.rdf;
 
-import java.io.InputStream;
-
+import junit.framework.Assert;
+import junit.framework.TestCase;
 import net.fortytwo.flow.Collector;
 import net.fortytwo.flow.rdf.RDFCollector;
 import net.fortytwo.flow.rdf.SesameInputAdapter;
-import net.fortytwo.flow.rdf.RDFUtils;
 import net.fortytwo.ripple.RippleException;
-
+import net.fortytwo.ripple.util.RDFUtils;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;
 import org.openrdf.rio.RDFFormat;
-import junit.framework.Assert;
-import junit.framework.TestCase;
+
+import java.io.InputStream;
 
 public class RDFUtilsTest extends TestCase
 {
