@@ -9,15 +9,14 @@
     <version>0.5.1</version>
     <packaging>jar</packaging>
     <name>RDFFlow</name>
-    <description>RDF dataflow library in Sesame</description>
-
-    <parent>
-        <groupId>net.fortytwo.ripple</groupId>
-        <artifactId>ripple</artifactId>
-        <version>0.5.1</version>
-    </parent>
+    <description>RDF dataflow in Sesame</description>
 
     <repositories>
+        <repository>
+            <id>fortytwo</id>
+            <name>fortytwo.net Maven repository</name>
+            <url>http://fortytwo.net/maven2</url>
+        </repository>
         <repository>
             <id>aduna-repo</id>
             <name>Aduna repository</name>
@@ -71,6 +70,18 @@
             <artifactId>sesame-rio-turtle</artifactId>
             <version>2.3.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.14</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.5.2</version>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

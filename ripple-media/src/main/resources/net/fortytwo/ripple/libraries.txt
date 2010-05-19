@@ -5,7 +5,6 @@ net.fortytwo.ripple.libs.etc.EtcLibrary
 net.fortytwo.ripple.libs.graph.GraphLibrary
 net.fortytwo.ripple.libs.logic.LogicLibrary
 net.fortytwo.ripple.libs.math.MathLibrary
-net.fortytwo.ripple.libs.services.ServicesLibrary
 net.fortytwo.ripple.libs.stack.StackLibrary
 net.fortytwo.ripple.libs.stream.StreamLibrary
 net.fortytwo.ripple.libs.string.StringLibrary
