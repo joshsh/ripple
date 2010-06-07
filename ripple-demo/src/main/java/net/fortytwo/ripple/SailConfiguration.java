@@ -85,7 +85,7 @@ public class SailConfiguration {
 
     private Sail createSail(final String sailType,
                             final URIMap uriMap) throws RippleException {
-        System.out.println("creating Sail of type: " + sailType);
+        //System.out.println("creating Sail of type: " + sailType);
         Sail sail;
 
         if (sailType.equals(MemoryStore.class.getName())) {
