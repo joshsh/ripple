@@ -124,8 +124,11 @@ public class SailConfiguration {
     private Sail createNativeStore() throws RippleException {
         RippleProperties props = Ripple.getProperties();
         File dir = props.getFile(Ripple.NATIVESTORE_DIRECTORY);
+        String indexes = props.getString(Ripple.NATIVESTORE_INDEXES);
 
-        Sail sail = new NativeStore(dir);
+        Sail sail = (null == indexes)
+                ? new NativeStore(dir)
+                : new NativeStore(dir, indexes.trim());
         try {
             sail.initialize();
         } catch (SailException e) {
@@ -280,4 +283,13 @@ public class SailConfiguration {
             throw new RippleException(e);
         }
     }
+
+    /*
+    public static void main(final String[] args) throws Exception {
+        NativeStore sail;
+
+        sail = new NativeStore(new File("/tmp/deleteme"), "spoc,csop,posc");
+        sail.initialize();
+        sail.shutDown();
+    }*/
 }
