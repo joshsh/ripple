@@ -124,7 +124,7 @@ public class SailConfiguration {
     private Sail createNativeStore() throws RippleException {
         RippleProperties props = Ripple.getProperties();
         File dir = props.getFile(Ripple.NATIVESTORE_DIRECTORY);
-        String indexes = props.getString(Ripple.NATIVESTORE_INDEXES);
+        String indexes = props.getString(Ripple.NATIVESTORE_INDEXES, null);
 
         Sail sail = (null == indexes)
                 ? new NativeStore(dir)
