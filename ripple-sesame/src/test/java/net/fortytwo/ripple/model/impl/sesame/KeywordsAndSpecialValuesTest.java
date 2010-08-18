@@ -1,8 +1,8 @@
 package net.fortytwo.ripple.model.impl.sesame;
 
-import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.libs.stack.StackLibrary;
 import net.fortytwo.ripple.libs.string.StringLibrary;
+import net.fortytwo.ripple.test.RippleTestCase;
 
 /**
  * Author: josh
@@ -11,6 +11,25 @@ import net.fortytwo.ripple.libs.string.StringLibrary;
  */
 public class KeywordsAndSpecialValuesTest extends RippleTestCase
 {
+    /*
+    public void testTemp() throws Exception {
+        QueryEngine qe = getTestQueryEngine();
+        Sink<RippleList, RippleException> results = new NullSink<RippleList, RippleException>();
+
+        QueryPipe pipe = new QueryPipe( qe, results );
+
+        long before = new Date().getTime();
+
+        int iterations = 100000;
+        for (int i = 0; i < iterations; i++) {
+            pipe.put("links >> pop >> links >> .");
+        }
+
+        long after = new Date().getTime();
+        long duration = (after - before);
+        System.out.println("duration: " + duration + "ms (" + (duration / (1.0 * iterations)) + "ms / expr)");
+    }   */
+
     public void testAliasMapsToPrimaryURI() throws Exception
     {
         assertReducesTo( "<" + StackLibrary.NS_2007_05 + "dup>", "dup" );

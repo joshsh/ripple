@@ -20,9 +20,10 @@ import net.fortytwo.ripple.model.LibraryLoader;
 public class GraphLibrary extends Library
 {
     public static final String
-            NS_2008_08 = "http://fortytwo.net/2008/08/ripple/analysis#",
-            NS_2007_08 = "http://fortytwo.net/2007/08/ripple/analysis#",
-            NS_2007_05 = "http://fortytwo.net/2007/05/ripple/analysis#";
+            NS_2010_08 = "http://fortytwo.net/2008/08/ripple/graph#",
+            NS_2008_08 = "http://fortytwo.net/2008/08/ripple/graph#",
+            NS_2007_08 = "http://fortytwo.net/2007/08/ripple/graph#",
+            NS_2007_05 = "http://fortytwo.net/2007/05/ripple/graph#";
     public static final String
             NS_XML = "http://www.w3.org/XML/1998/namespace#",
             NS_XSD = "http://www.w3.org/2001/XMLSchema#";
@@ -39,7 +40,7 @@ public class GraphLibrary extends Library
                       final boolean includePrimitivesWithSideEffects )
 		throws RippleException
 	{
-		uf.put( NS_2008_08, getClass().getResource( "analysis.ttl" ) + "#" );
+		uf.put( NS_2008_08, getClass().getResource( "graph.ttl" ) + "#" );
 
         if ( includePrimitivesWithSideEffects )
         {
@@ -82,6 +83,9 @@ public class GraphLibrary extends Library
 
                 // Tuple queries
                 Sparql.class,
+
+                // JSON
+                ToJson.class,
 
                 // Note: the xml: namespace is actually said to be
                 //       http://www.w3.org/XML/1998/namespace

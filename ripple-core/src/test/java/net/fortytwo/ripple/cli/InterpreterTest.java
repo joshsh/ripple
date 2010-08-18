@@ -9,18 +9,17 @@
 
 package net.fortytwo.ripple.cli;
 
-import net.fortytwo.ripple.cli.ast.ListAST;
-import net.fortytwo.ripple.query.Command;
-import net.fortytwo.ripple.query.PipedIOStream;
+import junit.framework.TestCase;
 import net.fortytwo.flow.Collector;
 import net.fortytwo.flow.NullSink;
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.cli.ast.ListAST;
+import net.fortytwo.ripple.query.Command;
+import net.fortytwo.ripple.query.PipedIOStream;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
-import junit.framework.TestCase;
 
 public class InterpreterTest extends TestCase
 {

@@ -9,13 +9,15 @@
 
 package net.fortytwo.ripple.model;
 
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RipplePrintStream;
-import net.fortytwo.flow.Sink;
-
-import org.openrdf.model.vocabulary.RDF;
+import net.fortytwo.ripple.model.json.KeyValueMapping;
+import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
+import org.openrdf.model.Value;
+import org.openrdf.model.vocabulary.RDF;
 
 public class Operator implements RippleValue
 {
@@ -26,6 +28,11 @@ public class Operator implements RippleValue
 	private final StackMapping mapping;
 
     private RDFValue rdfEquivalent = null;
+
+    private Operator( final String key )
+    {
+        mapping = new KeyValueMapping( key );
+    }
 
 	private Operator( final RDFValue pred ) throws RippleException
 	{
@@ -127,23 +134,30 @@ return rdfEquivalent;
 				};
 
 				mc.toList( v, listSink );
-				return;
+                return;
 			}
 
-			// An RDF value not otherwise recognizable becomes a predicate filter.
-			else if ( ( (RDFValue) v ).sesameValue() instanceof Resource )
-			{
-				opSink.put( new Operator( (RDFValue) v ) );
-				return;
-			}
+            else
+            {
+                Value sv = ( (RDFValue) v ).sesameValue();
+
+                if ( sv instanceof Literal )
+                {
+                    opSink.put( new Operator( ( (Literal) sv ).getLabel() ) );
+                    return;
+                }
+
+                // An RDF resource not otherwise recognizable becomes a predicate filter.
+                else if ( sv instanceof Resource)
+                {
+                    opSink.put( new Operator( (RDFValue) v ) );
+                    return;
+                }
+            }
         }
 
 		// Anything else becomes an active nullary filter with no output.
-		else
-		{
-			opSink.put( new Operator( new NullStackMapping() ) );
-			return;
-		}
+	    opSink.put( new Operator( new NullStackMapping() ) );
 	}
 
 // TODO: replace this with something a little more clever
