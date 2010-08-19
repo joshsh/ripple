@@ -107,7 +107,7 @@ public class LazyStackEvaluator extends StackEvaluator
 	////////////////////////////////////////////////////////////////////////////
 
 	public void apply( final StackContext arg,
-						final Sink<StackContext, RippleException> solutions )
+                       final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
 if ( arg.getStack().isNil() )

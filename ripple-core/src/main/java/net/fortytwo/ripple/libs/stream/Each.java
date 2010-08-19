@@ -70,8 +70,14 @@ public class Each extends PrimitiveStackMapping
 			{
 				while ( !list.isNil() )
 				{
-					solutions.put( arg.with(
-							rest.push( list.getFirst() ) ) );
+                    try {
+                        solutions.put( arg.with(
+                                rest.push( list.getFirst() ) ) );
+                    } catch (RippleException e) {
+                        // Soft fail
+                        e.logError();
+                    }
+
 					list = list.getRest();
 				}
 			}

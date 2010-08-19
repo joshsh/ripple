@@ -22,9 +22,8 @@ import net.fortytwo.flow.Sink;
  * A primitive which consumes a number and produces all real square roots of the
  * number.
  */
-public class Sqrt extends PrimitiveStackMapping
-{
-	private static final int ARITY = 1;
+public class Sqrt extends PrimitiveStackMapping {
+    private static final int ARITY = 1;
 
     private static final String[] IDENTIFIERS = {
             MathLibrary.NS_2008_08 + "sqrt",
@@ -32,95 +31,87 @@ public class Sqrt extends PrimitiveStackMapping
 
     private final StackMapping self;
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-	public Sqrt()
-		throws RippleException
-	{
-		super();
+    public Sqrt()
+            throws RippleException {
+        super();
 
         this.self = this;
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "x", null, true )};
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("x", null, true)};
+    }
+
+    public String getComment() {
         return "x  =>  real square root(s) of x";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext, RippleException> solutions )
-		throws RippleException
-	{
-		final ModelConnection mc = arg.getModelConnection();
-		RippleList stack = arg.getStack();
+    public void apply(final StackContext arg,
+                      final Sink<StackContext, RippleException> solutions)
+            throws RippleException {
+        final ModelConnection mc = arg.getModelConnection();
+        RippleList stack = arg.getStack();
 
-		double a;
+        double a;
 
-		a = mc.toNumericValue( stack.getFirst() ).doubleValue();
-		stack = stack.getRest();
+        a = mc.toNumericValue(stack.getFirst()).doubleValue();
+        stack = stack.getRest();
 
-		// Apply the function only if it is defined for the given argument.
-		if ( a >= 0 )
-		{
-			double d = Math.sqrt( a );
+        // Apply the function only if it is defined for the given argument.
+        if (a >= 0) {
+            double d = Math.sqrt(a);
 
-			// Yield both square roots.
-			solutions.put( arg.with(
-					stack.push( mc.value( d ) ) ) );
-			if ( d > 0 )
-			{
-				solutions.put( arg.with(
-						stack.push( mc.value( 0.0 - d ) ) ) );
-			}
-		}
-	}
+            // Yield both square roots.
+            try {
+                solutions.put(arg.with(
+                        stack.push(mc.value(d))));
+                if (d > 0) {
+                    solutions.put(arg.with(
+                            stack.push(mc.value(0.0 - d))));
+                }
+            } catch (RippleException e) {
+                // Soft fail
+                e.logError();
+            }
+        }
+    }
 
     @Override
-    public StackMapping inverse()
-    {
+    public StackMapping inverse() {
         return new Square();
     }
 
-    private class Square implements StackMapping
-    {
-        public int arity()
-        {
+    private class Square implements StackMapping {
+        public int arity() {
             return 1;
         }
 
-        public StackMapping inverse() throws RippleException
-        {
+        public StackMapping inverse() throws RippleException {
             return self;
         }
 
-        public boolean isTransparent()
-        {
+        public boolean isTransparent() {
             return true;
         }
 
-        public void apply(StackContext arg, Sink<StackContext, RippleException> solutions) throws RippleException
-        {
+        public void apply(StackContext arg, Sink<StackContext, RippleException> solutions) throws RippleException {
             final ModelConnection mc = arg.getModelConnection();
             RippleList stack = arg.getStack();
 
             NumericValue a, result;
 
-            a = mc.toNumericValue( stack.getFirst() );
+            a = mc.toNumericValue(stack.getFirst());
             stack = stack.getRest();
 
-            result = a.mul( a );
+            result = a.mul(a);
 
-            solutions.put( arg.with(
-                    stack.push( result ) ) );
+            solutions.put(arg.with(
+                    stack.push(result)));
         }
     }
 }

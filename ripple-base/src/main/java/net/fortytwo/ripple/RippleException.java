@@ -81,7 +81,6 @@ public class RippleException extends Exception
 
 		try
 		{
-//System.out.println("REALLY LOGGING THE ERROR");
 			LOGGER.error( description );
 		}
 
@@ -94,7 +93,7 @@ public class RippleException extends Exception
 
 	public void logError()
 	{
-		logError( true );
+		logError( false );
 	}
 }
 
