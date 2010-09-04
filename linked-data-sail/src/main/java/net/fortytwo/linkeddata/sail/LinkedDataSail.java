@@ -209,5 +209,9 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
     public static boolean logFailedUris() {
         return logFailedUris;
     }
+
+    public static void main(final String[] args) {
+        System.out.println(RDFFormat.TURTLE.getDefaultMIMEType());
+    }
 }
 
