@@ -1,6 +1,7 @@
 package net.fortytwo.ripple;
 
 import com.knowledgereefsystems.agsail.AllegroSail;
+import net.fortytwo.linkeddata.WebClosure;
 import net.fortytwo.linkeddata.sail.LinkedDataSail;
 import net.fortytwo.ripple.sesametools.readonly.ReadOnlySail;
 import net.fortytwo.ripple.util.RDFUtils;
@@ -143,7 +144,7 @@ public class SailConfiguration {
         String baseSailType = props.getString(Ripple.LINKEDDATASAIL_BASE_SAIL);
 
         linkedDataSailBaseSail = createSail(baseSailType, uriMap);
-        Sail sail = new LinkedDataSail(linkedDataSailBaseSail, uriMap);
+        Sail sail = new LinkedDataSail(linkedDataSailBaseSail, WebClosure.createDefault(linkedDataSailBaseSail, uriMap));
         try {
             // Note: base Sail is already initialized.
             sail.initialize();

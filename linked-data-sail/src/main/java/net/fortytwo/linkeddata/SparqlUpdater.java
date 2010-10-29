@@ -39,13 +39,13 @@ public class SparqlUpdater<E extends Exception>
 {
 	private final RDFDiffContextFilter<RDFHandlerException> contextFilter;
 	private final RDFDiffSink<E> sink;
-	private final URIMap URIMap;
+	private final URIMap uriMap;
     private final AdapterSink.ExceptionAdapter<RippleException> exAdapter;
     private final AdapterSink.ExceptionAdapter<RDFHandlerException> exAdapter2;
 
-	public SparqlUpdater( final URIMap URIMap, final RDFDiffSink<E> sink )
+    public SparqlUpdater( final URIMap uriMap, final RDFDiffSink<E> sink )
 	{
-		this.URIMap = URIMap;
+		this.uriMap = uriMap;
 		this.sink = sink;
 
 		contextFilter = new RDFDiffContextFilter<RDFHandlerException>();
@@ -81,7 +81,7 @@ public class SparqlUpdater<E extends Exception>
 					&& context instanceof URI
 					&& RDFUtils.isHttpUri( (URI) context ) )
 			{
-				String url = URIMap.get( context.toString() );
+				String url = uriMap.get( context.toString() );
 
 				postUpdate( url, source );
 			}

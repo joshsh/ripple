@@ -18,7 +18,6 @@ import net.fortytwo.flow.rdf.diff.SynchronizedRDFDiffSink;
 import net.fortytwo.linkeddata.SparqlUpdater;
 import net.fortytwo.linkeddata.WebClosure;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.URIMap;
 import net.fortytwo.ripple.util.RDFUtils;
 import org.apache.log4j.Logger;
 import org.openrdf.model.Namespace;
@@ -34,12 +33,12 @@ import org.openrdf.query.QueryEvaluationException;
 import org.openrdf.query.algebra.TupleExpr;
 import org.openrdf.query.algebra.evaluation.TripleSource;
 import org.openrdf.query.algebra.evaluation.impl.EvaluationStrategyImpl;
+import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.sail.NotifyingSailConnection;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailConnectionListener;
 import org.openrdf.sail.SailException;
-import org.openrdf.rio.RDFHandlerException;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -432,7 +431,6 @@ public class LinkedDataSailConnection implements NotifyingSailConnection
 
 	LinkedDataSailConnection( final Sail baseSail,
 								final WebClosure webClosure,
-								final URIMap URIMap,
 								final RDFDiffSink<RippleException> listenerSink )
 		throws SailException
 	{
@@ -453,18 +451,17 @@ public class LinkedDataSailConnection implements NotifyingSailConnection
         Object mutex = baseSailWriteBuffer;
         baseSailWriteSink = new SynchronizedRDFDiffSink<RippleException>( baseSailWriteBuffer, mutex );
 
-		sparqlUpdater = new SparqlUpdater<RippleException>( URIMap, baseSailWriteSink );
+		sparqlUpdater = new SparqlUpdater<RippleException>( webClosure.getURIMap(), baseSailWriteSink );
 		apiInputSink = sparqlUpdater.getSink();
 
 		open = true;
 	}
 
 	LinkedDataSailConnection( final Sail localStore,
-                              final WebClosure webClosure,
-                              final URIMap URIMap )
+                              final WebClosure webClosure )
 		throws SailException
 	{
-		this( localStore, webClosure, URIMap, null );
+		this( localStore, webClosure, null );
 	}
 
 	void addNamespace( final Namespace ns )

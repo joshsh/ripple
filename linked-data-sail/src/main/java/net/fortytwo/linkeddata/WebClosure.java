@@ -13,6 +13,12 @@ import net.fortytwo.flow.rdf.RDFBuffer;
 import net.fortytwo.flow.rdf.RDFSink;
 import net.fortytwo.flow.rdf.SesameInputAdapter;
 import net.fortytwo.flow.rdf.SingleContextPipe;
+import net.fortytwo.linkeddata.dereferencers.FileURIDereferencer;
+import net.fortytwo.linkeddata.dereferencers.HTTPURIDereferencer;
+import net.fortytwo.linkeddata.dereferencers.JarURIDereferencer;
+import net.fortytwo.linkeddata.rdfizers.ImageRdfizer;
+import net.fortytwo.linkeddata.rdfizers.VerbatimRdfizer;
+import net.fortytwo.linkeddata.sail.LinkedDataSail;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.StringUtils;
@@ -22,8 +28,11 @@ import net.fortytwo.ripple.util.RDFUtils;
 import org.apache.log4j.Logger;
 import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
+import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFHandler;
+import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailConnection;
+import org.openrdf.sail.SailException;
 import org.restlet.data.MediaType;
 import org.restlet.resource.Representation;
 
@@ -37,7 +46,7 @@ import java.util.Map;
 
 /**
  * A configurable container of URI dereferencers and RDFizers which provides a unified view of the Web as a collection of RDF documents.
- * 
+ * <p/>
  * Note: this tool stores metadata about web activity; if a suitable
  * dereferencer cannot be found for a URI, no metadata will be stored.
  * <p/>
@@ -45,14 +54,27 @@ import java.util.Map;
  * Date: Jan 16, 2008
  * Time: 12:25:29 PM
  */
-public class WebClosure
-{
+public class WebClosure {
     // TODO: these should probably not be HTTP URIs
     public static final String
             CACHE_NS = "http://fortytwo.net/2008/01/webclosure#",
             CACHE_CONTEXT = CACHE_NS + "context",
             CACHE_MEMO = CACHE_NS + "memo",
             FULL_MEMO = CACHE_NS + "fullMemo";
+
+    private static final String[] BADEXT = {
+            "123", "3dm", "3dmf", "3gp", "8bi", "aac", "ai", "aif", "app", "asf",
+            "asp", "asx", "avi", "bat", "bin", "bmp", "c", "cab", "cfg", "cgi",
+            "com", "cpl", "cpp", "css", "csv", "dat", "db", "dll", "dmg", "dmp",
+            "doc", "drv", "drw", "dxf", "eps", "exe", "fnt", "fon", "gif", "gz",
+            "h", "hqx", "htm", "html", "iff", "indd", "ini", "iso", "java", /*"jpeg",*/
+            /*"jpg",*/ "js", "jsp", "key", "log", "m3u", "mdb", "mid", "midi", "mim",
+            "mng", "mov", "mp3", "mp4", "mpa", "mpg", "msg", "msi", "otf", "pct",
+            "pdf", "php", "pif", "pkg", "pl", "plugin", "png", "pps", "ppt", "ps",
+            "psd", "psp", "qt", "qxd", "qxp", "ra", "ram", "rar", "reg", "rm",
+            "rtf", "sea", "sit", "sitx", "sql", "svg", "swf", "sys", "tar", "tif",
+            "ttf", "uue", "vb", "vcd", "wav", "wks", "wma", "wmv", "wpd", "wps",
+            "ws", "xhtml", "xll", "xls", "yps", "zip"};
 
     private static final Logger LOGGER = Logger.getLogger(WebClosure.class);
 
@@ -71,6 +93,61 @@ public class WebClosure
 
     private String acceptHeader = null;
 
+    public static WebClosure createDefault(final Sail baseSail,
+                                           final URIMap uriMap) throws RippleException {
+        try {
+            SailConnection sc = baseSail.getConnection();
+            try {
+                int maxCacheCapacity = Ripple.getProperties().getInt(LinkedDataSail.MAX_CACHE_CAPACITY);
+
+                WebCache cache = new WebCache(maxCacheCapacity, baseSail.getValueFactory());
+                WebClosure wc = new WebClosure(cache, uriMap, baseSail.getValueFactory());
+
+                // Add URI dereferencers.
+                HTTPURIDereferencer hdref = new HTTPURIDereferencer(wc);
+                for (String aBADEXT : BADEXT) {
+                    hdref.blackListExtension(aBADEXT);
+                }
+                wc.addDereferencer("http", hdref);
+                wc.addDereferencer("jar", new JarURIDereferencer());
+                wc.addDereferencer("file", new FileURIDereferencer());
+
+                // Add rdfizers.
+                wc.addRdfizer(RDFUtils.findMediaType(RDFFormat.RDFXML), new VerbatimRdfizer(RDFFormat.RDFXML));
+                wc.addRdfizer(RDFUtils.findMediaType(RDFFormat.TURTLE), new VerbatimRdfizer(RDFFormat.TURTLE));
+                wc.addRdfizer(RDFUtils.findMediaType(RDFFormat.N3), new VerbatimRdfizer(RDFFormat.N3), 0.9);
+                wc.addRdfizer(RDFUtils.findMediaType(RDFFormat.TRIG), new VerbatimRdfizer(RDFFormat.TRIG), 0.8);
+                wc.addRdfizer(RDFUtils.findMediaType(RDFFormat.TRIX), new VerbatimRdfizer(RDFFormat.TRIX), 0.8);
+                wc.addRdfizer(RDFUtils.findMediaType(RDFFormat.NTRIPLES), new VerbatimRdfizer(RDFFormat.NTRIPLES), 0.5);
+                Rdfizer imageRdfizer = new ImageRdfizer();
+                // Mainstream EXIF-compatible image types: JPEG, TIFF
+                wc.addRdfizer(MediaType.IMAGE_JPEG, imageRdfizer, 0.4);
+                wc.addRdfizer(new MediaType("image/tiff"), imageRdfizer, 0.4);
+                wc.addRdfizer(new MediaType("image/tiff-fx"), imageRdfizer, 0.4);
+                // TODO: add an EXIF-based Rdfizer for RIFF WAV audio files
+
+                // Don't bother trying to dereference terms in these common namespaces.
+                wc.addMemo("http://www.w3.org/XML/1998/namespace#", new ContextMemo(ContextMemo.Status.Ignored), sc);
+                wc.addMemo("http://www.w3.org/2001/XMLSchema", new ContextMemo(ContextMemo.Status.Ignored), sc);
+                wc.addMemo("http://www.w3.org/2001/XMLSchema#", new ContextMemo(ContextMemo.Status.Ignored), sc);
+
+                // Don't try to dereference the cache index.
+                wc.addMemo("http://fortytwo.net/2007/08/ripple/cache#", new ContextMemo(ContextMemo.Status.Ignored), sc);
+
+                return wc;
+            } finally {
+                sc.close();
+            }
+        } catch (SailException e) {
+            throw new RippleException(e);
+        }
+    }
+
+    /**
+     * @param cache        caching metadata
+     * @param uriMap       mapping for virtual URI spaces
+     * @param valueFactory factory for URI and literal objects
+     */
     public WebClosure(final WebCache cache,
                       final URIMap uriMap,
                       final ValueFactory valueFactory) throws RippleException {
@@ -78,6 +155,10 @@ public class WebClosure
         this.valueFactory = valueFactory;
         this.uriMap = uriMap;
         useBlankNodes = Ripple.getProperties().getBoolean(Ripple.USE_BLANK_NODES);
+    }
+
+    public URIMap getURIMap() {
+        return uriMap;
     }
 
     public String getAcceptHeader() {

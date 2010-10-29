@@ -19,6 +19,8 @@ import java.util.LinkedList;
 import java.util.Map;
 
 /**
+ * A collection of caching metadata for aggregated Linked Data
+ * 
  * User: josh
  * Date: Feb 17, 2010
  * Time: 7:04:08 PM

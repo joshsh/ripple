@@ -9,22 +9,20 @@
 
 package net.fortytwo.linkeddata;
 
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.URIMap;
-import net.fortytwo.ripple.Ripple;
+import info.aduna.iteration.CloseableIteration;
+import junit.framework.TestCase;
 import net.fortytwo.linkeddata.sail.LinkedDataSail;
-
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.model.ValueFactory;
-import org.openrdf.model.URI;
+import net.fortytwo.ripple.Ripple;
+import net.fortytwo.ripple.URIMap;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
+import org.openrdf.model.URI;
+import org.openrdf.model.ValueFactory;
+import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
 import org.openrdf.sail.memory.MemoryStore;
-import junit.framework.TestCase;
-import info.aduna.iteration.CloseableIteration;
 
 public class LinkedDataSailTest extends TestCase
 {
@@ -38,16 +36,17 @@ public class LinkedDataSailTest extends TestCase
         baseSail = new MemoryStore();
         baseSail.initialize();
 
-        URIMap URIMap = new URIMap();
+        URIMap map = new URIMap();
 
         // This is an example where HttpDereferencer fails by requesting the
         // full URI of a resource (rather than stripping off the local part).
         // Here, we define a mapping to a local file, so dereferencing
         // succeeds.
-        URIMap.put( "http://www.holygoat.co.uk/owl/redwood/0.1/tags/Tagging",
+        map.put( "http://www.holygoat.co.uk/owl/redwood/0.1/tags/Tagging",
                 LinkedDataSailTest.class.getResource( "tags.owl" ).toString() );
 
-        sail = new LinkedDataSail(baseSail, URIMap);
+        WebClosure wc = WebClosure.createDefault(baseSail, map);
+        sail = new LinkedDataSail(baseSail, wc);
         sail.initialize();
     }
 

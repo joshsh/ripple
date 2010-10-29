@@ -1,16 +1,17 @@
 package net.fortytwo.ripple;
 
-import org.openrdf.sail.Sail;
-import org.openrdf.sail.memory.MemoryStore;
+import net.fortytwo.linkeddata.WebClosure;
 import net.fortytwo.linkeddata.sail.LinkedDataSail;
+import net.fortytwo.ripple.cli.TurtleView;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
-import net.fortytwo.ripple.query.StackEvaluator;
 import net.fortytwo.ripple.query.LazyStackEvaluator;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.QueryPipe;
-import net.fortytwo.ripple.cli.TurtleView;
+import net.fortytwo.ripple.query.StackEvaluator;
+import org.openrdf.sail.Sail;
+import org.openrdf.sail.memory.MemoryStore;
 
 /**
  * Author: josh
@@ -29,7 +30,7 @@ public class HenryDemo {
 
         // Instantiate LinkedDataSail.
         URIMap uriMap = new URIMap();
-		Sail sail = new LinkedDataSail( baseSail, uriMap );
+		Sail sail = new LinkedDataSail( baseSail, WebClosure.createDefault(baseSail, uriMap) );
 		sail.initialize();
 
 		// Attach a Ripple model to the repository.
