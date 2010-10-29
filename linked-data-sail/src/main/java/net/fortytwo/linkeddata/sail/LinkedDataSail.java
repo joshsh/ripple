@@ -67,8 +67,6 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
 
     private static boolean logFailedUris;
 
-    private final int maxCacheCapacity;
-
     private final WebClosure webClosure;
     private final URIMap URIMap;
 
@@ -76,23 +74,35 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
     private boolean initialized = false;
 
     /**
-     * @param baseSail (should be initialized before this object is used)
+     * @param baseSail base Sail which provides a storage layer for aggregated RDF data (Note: the base Sail should be initialized before this Sail is used)
+     * @param uriMap mapping for virtual URI spaces
+     * @param webClosure a custom WebClosure providing an RDF-document-level view of the Web
      */
     public LinkedDataSail(final Sail baseSail,
-                          final URIMap URIMap)
+                          final URIMap uriMap,
+                          final WebClosure webClosure)
             throws RippleException {
         RippleProperties properties = Ripple.getProperties();
         logFailedUris = properties.getBoolean(LOG_FAILED_URIS);
-        maxCacheCapacity = properties.getInt(MAX_CACHE_CAPACITY);
 
         this.baseSail = baseSail;
-        this.URIMap = URIMap;
+        this.URIMap = uriMap;
 
-        webClosure = createDefaultWebClosure();
+        this.webClosure = webClosure;
     }
 
     /**
-     * @param baseSail (should be initialized before this object is used)
+     * @param baseSail base Sail which provides a storage layer for aggregated RDF data (Note: the base Sail should be initialized before this Sail is used)
+     * @param uriMap mapping for virtual URI spaces
+     */
+    public LinkedDataSail(final Sail baseSail,
+                          final URIMap uriMap)
+            throws RippleException {
+        this(baseSail, uriMap, createDefaultWebClosure(baseSail, uriMap));
+    }
+
+    /**
+     * @param baseSail base Sail which provides a storage layer for aggregated RDF data (Note: the base Sail should be initialized before this Sail is used)
      */
     public LinkedDataSail(final Sail baseSail)
             throws RippleException {
@@ -159,12 +169,15 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
 
     ////////////////////////////////////////////////////////////////////////////
 
-    private WebClosure createDefaultWebClosure() throws RippleException {
+    private static WebClosure createDefaultWebClosure(final Sail baseSail,
+                                                      final URIMap uriMap) throws RippleException {
         try {
             SailConnection sc = baseSail.getConnection();
             try {
-                WebCache cache = new WebCache(maxCacheCapacity, getValueFactory());
-                WebClosure wc = new WebClosure(cache, URIMap, getValueFactory());
+                int maxCacheCapacity = Ripple.getProperties().getInt(MAX_CACHE_CAPACITY);
+
+                WebCache cache = new WebCache(maxCacheCapacity, baseSail.getValueFactory());
+                WebClosure wc = new WebClosure(cache, uriMap, baseSail.getValueFactory());
 
                 // Add URI dereferencers.
                 HTTPURIDereferencer hdref = new HTTPURIDereferencer(wc);

@@ -28,8 +28,8 @@ public class RDFUtilsTest extends TestCase
     public void testReadFromInputStream() throws Exception
     {
         InputStream is = RDFUtilsTest.class.getResourceAsStream( "rdfUtilsReadTest.ttl" );
-        RDFCollector allRdf = new RDFCollector();
-        SesameInputAdapter sc = new SesameInputAdapter( allRdf );
+        RDFCollector<RippleException> allRdf = new RDFCollector<RippleException>();
+        SesameInputAdapter<RippleException> sc = new SesameInputAdapter<RippleException>( allRdf );
         String baseURI = "";
         RDFUtils.read( is, sc, baseURI, RDFFormat.TURTLE );
         is.close();

@@ -36,6 +36,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * A configurable container of URI dereferencers and RDFizers which provides a unified view of the Web as a collection of RDF documents.
+ * 
  * Note: this tool stores metadata about web activity; if a suitable
  * dereferencer cannot be found for a URI, no metadata will be stored.
  * <p/>
@@ -43,7 +45,7 @@ import java.util.Map;
  * Date: Jan 16, 2008
  * Time: 12:25:29 PM
  */
-public class WebClosure  // TODO: the name is a little misleading...
+public class WebClosure
 {
     // TODO: these should probably not be HTTP URIs
     public static final String
