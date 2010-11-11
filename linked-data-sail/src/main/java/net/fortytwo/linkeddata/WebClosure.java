@@ -289,7 +289,7 @@ public class WebClosure {
         // Note: from this point on, failures are explicitly stored as caching
         // metadata.
 
-        Representation rep;
+        Representation rep = null;
 
         try {
             rep = dref.dereference(mapped);
@@ -298,12 +298,12 @@ public class WebClosure {
         catch (RippleException e) {
             e.logError();
             memo.setStatus(ContextMemo.Status.DereferencerError);
-            return logStatus(nonInfoURI, memo.getStatus());
+            return logStatus(nonInfoURI, memo.getStatus(), rep.getMediaType());
         }
 
         catch (Throwable t) {
             memo.setStatus(ContextMemo.Status.DereferencerError);
-            logStatus(nonInfoURI, memo.getStatus());
+            logStatus(nonInfoURI, memo.getStatus(), rep.getMediaType());
             throw new RippleException(t);
         }
 
@@ -324,7 +324,7 @@ public class WebClosure {
         if (null == rfiz) {
             memo.setStatus(ContextMemo.Status.BadMediaType);
             memo.setMediaType(mt);
-            return logStatus(nonInfoURI, memo.getStatus());
+            return logStatus(nonInfoURI, memo.getStatus(), mt);
         }
 
         memo.setRdfizer(rfiz);
@@ -375,13 +375,19 @@ public class WebClosure {
 
         memo.setStatus(status);
 
-        return logStatus(nonInfoURI, status);
+        return logStatus(nonInfoURI, status, mt);
     }
 
-    private ContextMemo.Status logStatus(final URI uri, final ContextMemo.Status status) {
+    private ContextMemo.Status logStatus(final URI uri,
+                                         final ContextMemo.Status status,
+                                         final MediaType mt) {
         if (ContextMemo.Status.Success != status) {
-            LOGGER.info("Failed to dereference URI <"
-                    + StringUtils.escapeURIString(uri.toString()) + ">: " + status);
+            String msg = "Failed to dereference URI <"
+                    + StringUtils.escapeURIString(uri.toString()) + ">: " + status;
+            if (ContextMemo.Status.ParseError == status) {// && MediaType.TEXT_PLAIN == mt) {
+                msg += " (perhaps " + mt.getName() + " is not the correct media type for this data)";
+            }
+            LOGGER.info(msg);
         }
 
         return status;

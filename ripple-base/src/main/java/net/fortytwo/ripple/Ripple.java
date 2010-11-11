@@ -71,10 +71,10 @@ public final class Ripple
     private static boolean initialized = false;
 
 	private static RippleProperties properties;
-	
+
     // TODO: get rid of these
 	private static boolean useAsynchronousQueries = true;
-	
+
 // FIXME: quiet is never used
 	private static boolean quiet = false;
 
@@ -119,7 +119,7 @@ public final class Ripple
             {
                 throw new IllegalArgumentException("null Properties");
             }
-            
+
             props.putAll(p);
         }
 
@@ -127,7 +127,7 @@ public final class Ripple
 
 		initialized = true;
 	}
-	
+
 	public static RippleProperties getProperties() throws RippleException
     {
         if ( !initialized )
