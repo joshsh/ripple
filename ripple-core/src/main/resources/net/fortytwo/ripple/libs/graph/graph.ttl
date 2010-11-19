@@ -164,19 +164,6 @@ graph:equal
 	owl:sameAs <http://fortytwo.net/2007/05/ripple/graph#equal> ;
 	.
 
-graph:forget
-	a rpl:Function ;
-	rpl:arity 1 ;
-	rpl:parameters (
-		[
-			rdfs:label "x" ;
-			rpl:isTransparent false ]
-		) ;
-	rdfs:label "forget" ;
-	rdfs:comment "x  =>  x  -- has the side-effect of revoking all statements about x" ;
-	owl:sameAs <http://fortytwo.net/2007/05/ripple/graph#forget> ;
-	.
-
 graph:inContext
 	a rpl:Function ;
 	rpl:arity 3 ;

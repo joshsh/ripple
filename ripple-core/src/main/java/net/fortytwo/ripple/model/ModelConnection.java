@@ -56,8 +56,6 @@ public interface ModelConnection
 	URI toUri( RippleValue v ) throws RippleException;
 	void toList( RippleValue v, Sink<RippleList, RippleException> sink ) throws RippleException;
 
-	void forget( RippleValue v ) throws RippleException;
-
 	void findPredicates( RippleValue subject, Sink<RippleValue, RippleException> sink ) throws RippleException;
 
 // FIXME: Statements should not be part of the ModelConnection API

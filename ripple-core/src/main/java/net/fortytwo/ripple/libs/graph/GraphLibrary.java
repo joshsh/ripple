@@ -51,7 +51,6 @@ public class GraphLibrary extends Library
                     AssertInContext.class,
                     Deny.class,
                     DenyInContext.class,
-                    Forget.class,
                     New.class );
         }
 

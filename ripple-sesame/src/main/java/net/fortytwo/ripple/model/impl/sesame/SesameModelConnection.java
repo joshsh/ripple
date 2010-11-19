@@ -310,15 +310,6 @@ public class SesameModelConnection implements ModelConnection {
 
     ////////////////////////////////////////////////////////////////////////////
 
-    public void forget(final RippleValue v) throws RippleException {
-/*
-		// FIXME: messy
-		model.sail.getDereferencer().forget( v.toRdf( this ), this );
-*/
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
-
     public void findPredicates(final RippleValue subject,
                                final Sink<RippleValue, RippleException> sink)
             throws RippleException {
