@@ -153,7 +153,7 @@ System.out.println( "    type = " + type );
 //				case ABSID:
 				case ABSRF:
 					assertFalse( null == base );
-					uri = mc.createURI( base );
+					uri = createURI( base, mc );
 					break;
 // 				case ABS2REL:
 // 				case DECOMP:
@@ -164,7 +164,7 @@ System.out.println( "    type = " + type );
 // 				case RELATIVE:
 				case RELRF:
 					assertFalse( null == base );
-					uri = mc.createURI( fakeBase + base );
+					uri = createURI( fakeBase + base, mc );
 					break;
 //				case REL2ABS:
 				default:
@@ -206,7 +206,7 @@ System.out.println( "unhandled test case!" );
                 final ModelConnection mc )
         throws Exception
     {
-        URI uriCreated = mc.createURI( uri );
+        URI uriCreated = createURI( uri, mc );
         String nsCreated = uriCreated.getNamespace();
         String localNameCreated = uriCreated.getLocalName();
 

@@ -40,7 +40,7 @@ public abstract class Library
 		try
 		{
 			prim = (PrimitiveStackMapping) c.newInstance();
-            prim.setRdfEquivalent( new RDFValue( mc.createURI( prim.getIdentifiers()[0] ) ), mc );
+            prim.setRdfEquivalent( mc.uriValue( prim.getIdentifiers()[0] ), mc );
         }
 
 		catch ( InstantiationException e )
@@ -60,7 +60,7 @@ public abstract class Library
         String[] identifiers = prim.getIdentifiers();
         for ( int i = 1; i < identifiers.length; i++ )
         {
-            context.addAlias( mc.createURI( identifiers[i] ), prim );
+            context.addAlias( mc.uriValue( identifiers[i] ).sesameValue(), prim );
         }
 
         return prim;

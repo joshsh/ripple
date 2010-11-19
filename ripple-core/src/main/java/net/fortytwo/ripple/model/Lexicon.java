@@ -78,7 +78,7 @@ public class Lexicon
             {
                 if ( key instanceof URI )
                 {
-                    Value mapsTo = mc.value( key ).toRDF( mc ).sesameValue();
+                    Value mapsTo = mc.canonicalValue( key ).toRDF( mc ).sesameValue();
                     boolean isPrimary = isPrimaryValue( key, mc );
 
                     // The keyword for a special URI is its local part.
@@ -140,7 +140,7 @@ public class Lexicon
     private boolean isPrimaryValue( final Value key,
                                     final ModelConnection mc ) throws RippleException
     {
-        Value mapsTo = mc.value( key ).toRDF( mc ).sesameValue();
+        Value mapsTo = mc.canonicalValue( key ).toRDF( mc ).sesameValue();
         return key.equals( mapsTo );
     }
 

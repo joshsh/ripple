@@ -9,16 +9,16 @@
 
 package net.fortytwo.ripple.libs.media;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.util.HTTPUtils;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
-import org.openrdf.model.URI;
 
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Sequencer;
@@ -59,7 +59,7 @@ public class Play extends PrimitiveStackMapping
         ModelConnection mc = arg.getModelConnection();
         RippleList stack = arg.getStack();
 
-        URI uri = mc.createURI( mc.toString( stack.getFirst() ) );
+        RDFValue uri = mc.uriValue( mc.toString( stack.getFirst() ) );
 		//stack = stack.getRest();
 
 		try
@@ -77,7 +77,7 @@ System.out.println( "error: " + e );
 		solutions.put( arg.with( stack ) );
 	}
 
-	private void play( final URI uri ) throws RippleException
+	private void play( final RDFValue uri ) throws RippleException
 	{
 		String[] mimeTypes = { "audio/midi" };
         HttpMethod method = HTTPUtils.createRdfGetMethod( uri.toString() );

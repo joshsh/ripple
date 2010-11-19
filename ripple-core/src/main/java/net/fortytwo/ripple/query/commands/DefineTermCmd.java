@@ -67,12 +67,12 @@ public class DefineTermCmd extends Command
 //System.out.println( "exprList = " + exprList );
 
 // TODO: check for collision with an existing URI
-			URI uri = mc.createURI( qe.getDefaultNamespace() + name);
-			new ModelConnectionHelper(mc).copyStatements( expr, new RDFValue( uri ) );
+			RDFValue uri = mc.uriValue( qe.getDefaultNamespace() + name);
+			new ModelConnectionHelper(mc).copyStatements( expr, uri );
 			mc.commit();
 
-			qe.getLexicon().addURI( uri );
-            mc.getModel().getSpecialValues().put( uri, expr );
+			qe.getLexicon().addURI( (URI) uri.sesameValue() );
+            mc.getModel().getSpecialValues().put( uri.sesameValue(), expr );
         }
 	}
 

@@ -66,7 +66,7 @@ public class Get extends PrimitiveStackMapping
 
 		String result;
 
-		String uriStr = mc.toUri( stack.getFirst() ).toString();
+		String uriStr = stack.getFirst().toString();
         uriStr = mc.getModel().getURIMap().get( uriStr );
         stack = stack.getRest();
 

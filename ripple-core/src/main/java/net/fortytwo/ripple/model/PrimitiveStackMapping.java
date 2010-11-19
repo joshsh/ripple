@@ -100,7 +100,7 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
 	{
         if ( null == rdfEquivalent )
         {
-            rdfEquivalent = new RDFValue( new ModelConnectionHelper(mc).createRandomURI() );
+            rdfEquivalent = new ModelConnectionHelper(mc).createRandomURI().toRDF(mc);
         }
 
         return rdfEquivalent;

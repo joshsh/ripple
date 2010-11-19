@@ -9,7 +9,6 @@ import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleValue;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 
 import java.util.Random;
@@ -118,7 +117,7 @@ public class ModelConnectionHelper {
             throws RippleException {
         final Sink<Value, RippleException> valueSink = new Sink<Value, RippleException>() {
             public void put(final Value v) throws RippleException {
-                sink.put(connection.value(v));
+                sink.put(connection.canonicalValue(v));
             }
         };
 
@@ -134,7 +133,7 @@ public class ModelConnectionHelper {
         connection.getStatements(subject.toRDF(connection), null, null, predSelector, false);
     }
 
-	public URI createRandomURI() throws RippleException
+	public RippleValue createRandomURI() throws RippleException
 	{
 		// Local name will be a UUID (without the dashes).
 		byte[] bytes = new byte[32];
@@ -150,7 +149,7 @@ public class ModelConnectionHelper {
 			bytes[i] = (byte) ( ( c > 9 ) ? c - 10 + 'a' : c + '0' );
 		}
 
-		return connection.createURI( Ripple.RANDOM_URN_PREFIX + new String( bytes ) );
+		return connection.uriValue( Ripple.RANDOM_URN_PREFIX + new String( bytes ) );
 	}
 
 

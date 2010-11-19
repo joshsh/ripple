@@ -9,14 +9,13 @@
 
 package net.fortytwo.ripple.libs.graph;
 
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.flow.Sink;
-
-import org.openrdf.model.URI;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.model.RDFValue;
+import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.StackContext;
 
 /**
  * A primitive which consumes a literal value and produces the resource
@@ -62,10 +61,10 @@ public class ToUri extends PrimitiveStackMapping
 		s = mc.toString( stack.getFirst() );
 		stack = stack.getRest();
 
-		URI uri = mc.createURI( s );
+		RDFValue uri = mc.uriValue( s );
 
 		solutions.put( arg.with(
-				stack.push( mc.value( uri ) ) ) );
+				stack.push( uri ) ) );
 	}
 }
 

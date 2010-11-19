@@ -33,7 +33,7 @@ public class StackMappingWrapper implements StackMapping, RippleValue
         this.innerMapping = wrapped;
         
         // Uses a random identifier... not for actual use
-        rdfValue = new RDFValue( new ModelConnectionHelper(mc).createRandomURI() );
+        rdfValue = new ModelConnectionHelper(mc).createRandomURI().toRDF(mc);
 //System.out.println("created a StackMappingWrapper: " + this + " for mapping " + innerMapping);
     }
 

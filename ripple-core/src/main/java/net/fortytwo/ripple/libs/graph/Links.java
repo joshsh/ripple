@@ -71,9 +71,9 @@ public class Links extends PrimitiveStackMapping
                 Resource context = st.getContext();
 
 				//RippleValue subj = bridge.get( st.getSubject() );
-				RippleValue pred = mc.value( st.getPredicate() );
-				RippleValue obj = mc.value( st.getObject() );
-                RippleValue ctx = ( null == context ) ? mc.list() : mc.value( context );
+				RippleValue pred = mc.canonicalValue( st.getPredicate() );
+				RippleValue obj = mc.canonicalValue( st.getObject() );
+                RippleValue ctx = ( null == context ) ? mc.list() : mc.canonicalValue( context );
 				//RippleList triple = mc.list( obj ).push( pred ).push( subj );
 
 				//sink.put( arg.with(

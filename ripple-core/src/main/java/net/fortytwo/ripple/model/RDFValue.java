@@ -10,13 +10,11 @@
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.io.RipplePrintStream;
 import net.fortytwo.ripple.StringUtils;
+import net.fortytwo.ripple.io.RipplePrintStream;
 import org.openrdf.model.Literal;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
-import org.openrdf.model.BNode;
-import org.openrdf.model.vocabulary.XMLSchema;
 
 /**
  *  Note: this class has a natural ordering that is inconsistent with equals.
@@ -70,7 +68,9 @@ public class RDFValue implements RippleValue
 		if ( value instanceof URI )
 		{
 			URI uri = (URI) value;
-			return "<" + uri.getNamespace() + uri.getLocalName() + ">";
+            return uri.toString();
+//            return uri.getNamespace() + uri.getLocalName();
+//            return "<" + uri.getNamespace() + uri.getLocalName() + ">";
 		}
 
 		else if ( value instanceof Literal )

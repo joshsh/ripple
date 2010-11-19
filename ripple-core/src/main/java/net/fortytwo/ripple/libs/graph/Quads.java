@@ -66,7 +66,7 @@ public class Quads extends PrimitiveStackMapping
 		final ModelConnection mc = arg.getModelConnection();
 		RippleList stack = arg.getStack();
 
-		String uri = mc.toUri( stack.getFirst() ).toString();
+		String uri = stack.getFirst().toString();
 
 		SesameInputAdapter sc = createAdapter( arg, solutions  );
 
@@ -90,10 +90,10 @@ public class Quads extends PrimitiveStackMapping
                 {
                     Resource context = st.getContext();
                     resultSink.put( arg.with(
-                            rest.push( mc.value( st.getSubject() ) )
-                                    .push( mc.value( st.getPredicate() ) )
-                                    .push( mc.value( st.getObject() ) )
-                                    .push( ( null == context ) ? mc.list() : mc.value( context ) ) ) );
+                            rest.push( mc.canonicalValue( st.getSubject() ) )
+                                    .push( mc.canonicalValue( st.getPredicate() ) )
+                                    .push( mc.canonicalValue( st.getObject() ) )
+                                    .push( ( null == context ) ? mc.list() : mc.canonicalValue( context ) ) ) );
                 }
             };
 

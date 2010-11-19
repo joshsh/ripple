@@ -14,7 +14,6 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
-import org.openrdf.model.URI;
 
 public class UndefineTermCmd extends Command
 {
@@ -28,10 +27,11 @@ public class UndefineTermCmd extends Command
 	public void execute( final QueryEngine qe, final ModelConnection mc )
 		throws RippleException
 	{
-        URI uri = mc.createURI( qe.getDefaultNamespace() + term );
-        mc.remove( new RDFValue(uri), null, null );
+        RDFValue uri = mc.uriValue( qe.getDefaultNamespace() + term );
+//System.out.println("uri = " + uri);
+        mc.remove( uri, null, null );
 		mc.commit();
-        mc.getModel().getSpecialValues().remove( uri );        
+        mc.getModel().getSpecialValues().remove( uri.sesameValue() );
     }
 
 	protected void abort()

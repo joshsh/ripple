@@ -25,25 +25,25 @@ public class ModelConnectionTest extends RippleTestCase
 
         // Hash namespaces.
 
-        uri = mc.createURI( "http://example.org/foo#bar" );
+        uri = createURI( "http://example.org/foo#bar", mc );
         localName = uri.getLocalName();
         namespace = uri.getNamespace();
         assertEquals( localName, "bar" );
         assertEquals( namespace, "http://example.org/foo#" );
 
-        uri = mc.createURI( "http://example.org/foo#" );
+        uri = createURI( "http://example.org/foo#", mc );
         localName = uri.getLocalName();
         namespace = uri.getNamespace();
         assertEquals( localName, "" );
         assertEquals( namespace, "http://example.org/foo#" );
 
-        uri = mc.createURI( "http://example.org/ns/foo/#bar" );
+        uri = createURI( "http://example.org/ns/foo/#bar", mc );
         localName = uri.getLocalName();
         namespace = uri.getNamespace();
         assertEquals( localName, "bar" );
         assertEquals( namespace, "http://example.org/ns/foo/#" );
 
-        uri = mc.createURI( "http://example.org/ns/foo/#" );
+        uri = createURI( "http://example.org/ns/foo/#", mc );
         localName = uri.getLocalName();
         namespace = uri.getNamespace();
         assertEquals( localName, "" );
@@ -51,13 +51,13 @@ public class ModelConnectionTest extends RippleTestCase
 
         // Slash namespaces.
 
-        uri = mc.createURI( "http://example.org/ns/foo/bar" );
+        uri = createURI( "http://example.org/ns/foo/bar", mc );
         localName = uri.getLocalName();
         namespace = uri.getNamespace();
         assertEquals( localName, "bar" );
         assertEquals( namespace, "http://example.org/ns/foo/" );
 
-        uri = mc.createURI( "http://example.org/ns/foo/" );
+        uri = createURI( "http://example.org/ns/foo/", mc );
         localName = uri.getLocalName();
         namespace = uri.getNamespace();
         assertEquals( localName, "" );

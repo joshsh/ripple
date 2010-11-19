@@ -52,7 +52,6 @@ public interface ModelConnection
 	 */
 	String toString( RippleValue v ) throws RippleException;
 
-	URI toUri( RippleValue v ) throws RippleException;
 	void toList( RippleValue v, Sink<RippleList, RippleException> sink ) throws RippleException;
 
 // FIXME: Statements should not be part of the ModelConnection API
@@ -60,9 +59,7 @@ public interface ModelConnection
 	void remove( RippleValue subj, RippleValue pred, RippleValue obj, RippleValue... contexts ) throws RippleException;
 
 // FIXME: Sesame URIs should not be part of the ModelConnection API
-	URI createURI( String s ) throws RippleException;
-	URI createURI( String ns, String s ) throws RippleException;
-	URI createURI( URI ns, String s ) throws RippleException;
+	RDFValue uriValue( String s ) throws RippleException;
 // FIXME: Statements should not be part of the ModelConnection API
 	Statement createStatement( Resource subj, URI pred, Value obj ) throws RippleException;
 
@@ -80,7 +77,7 @@ public interface ModelConnection
     NumericValue value( double d ) throws RippleException;
     NumericValue value( BigDecimal bd ) throws RippleException;
 // FIXME: this should use an implementation-independent URI class
-	RippleValue value( Value v );
+	RippleValue canonicalValue( Value v );
 	
     RippleList list();
     RippleList list( RippleValue v );
@@ -106,5 +103,5 @@ public interface ModelConnection
     CloseableIteration<? extends BindingSet, QueryEvaluationException> evaluate( String query ) throws RippleException ;
     
 	Source<RippleValue, RippleException> getContexts() throws RippleException;
-	
+
 }

@@ -60,7 +60,7 @@ mc.commit();
         ModelConnection mc = getTestModel().createConnection();
 
         {
-            URI ctxA = mc.createURI( "urn:org.example.test.addGraphTest.turtleStrA#" );
+            URI ctxA = createURI( "urn:org.example.test.addGraphTest.turtleStrA#", mc );
 
             String s = "@prefix foo:  <http://example.org/foo#>.\n"
                 + "foo:a foo:b foo:c." ;
@@ -76,8 +76,8 @@ mc.commit();
             URL test1Url = RDFImporterTest.class.getResource( "rdfImporterTest1.ttl" );
             URL test2Url = RDFImporterTest.class.getResource( "rdfImporterTest2.ttl" );
 
-            URI ctxA = mc.createURI( "urn:org.example.test.addGraphTest.turtleA#" );
-            URI ctxB = mc.createURI( "urn:org.example.test.addGraphTest.turtleB#" );
+            URI ctxA = createURI( "urn:org.example.test.addGraphTest.turtleA#", mc );
+            URI ctxB = createURI( "urn:org.example.test.addGraphTest.turtleB#", mc );
 
             addGraph( test1Url, ctxA, RDFFormat.TURTLE, mc );
             assertEquals( countStatements( mc, ctxA ), 2 );
@@ -94,8 +94,8 @@ mc.commit();
             URL test1Url = RDFImporterTest.class.getResource( "rdfImporterTest1.rdf" );
             URL test2Url = RDFImporterTest.class.getResource( "rdfImporterTest2.rdf" );
 
-            URI ctxA = mc.createURI( "urn:org.example.test.addGraphTest.rdfxmlA#" );
-            URI ctxB = mc.createURI( "urn:org.example.test.addGraphTest.rdfxmlB#" );
+            URI ctxA = createURI( "urn:org.example.test.addGraphTest.rdfxmlA#", mc );
+            URI ctxB = createURI( "urn:org.example.test.addGraphTest.rdfxmlB#", mc );
 
             addGraph( test1Url, ctxA, RDFFormat.RDFXML, mc );
             assertEquals( countStatements( mc, ctxA ), 2 );

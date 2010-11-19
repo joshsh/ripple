@@ -32,7 +32,6 @@ import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.RippleValueComparator;
 import net.fortytwo.ripple.model.StatementPatternQuery;
-import net.fortytwo.ripple.util.RDFUtils;
 import org.apache.log4j.Logger;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Namespace;
@@ -290,17 +289,6 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
-    public URI toUri(final RippleValue rv)
-            throws RippleException {
-        Value v = rv.toRDF(this).sesameValue();
-
-        if (v instanceof URI) {
-            return (URI) v;
-        } else {
-            throw new RippleException("value " + v.toString() + " is not a URI");
-        }
-    }
-
     ////////////////////////////////////////////////////////////////////////////
 
     public void add(final RippleValue subj, final RippleValue pred, final RippleValue obj, RippleValue... contexts)
@@ -469,41 +457,6 @@ public class SesameModelConnection implements ModelConnection {
 
     ////////////////////////////////////////////////////////////////////////////
 
-    public URI createURI(final String s) throws RippleException {
-        try {
-            return valueFactory.createURI(s);
-        }
-
-        catch (Throwable t) {
-            reset(true);
-            throw new RippleException(t);
-        }
-    }
-
-    public URI createURI(final String ns, final String s)
-            throws RippleException {
-        try {
-            return valueFactory.createURI(ns + s);
-        }
-
-        catch (Throwable t) {
-            reset(true);
-            throw new RippleException(t);
-        }
-    }
-
-    public URI createURI(final URI ns, final String s)
-            throws RippleException {
-        try {
-            return valueFactory.createURI(ns.toString() + s);
-        }
-
-        catch (Throwable t) {
-            reset(true);
-            throw new RippleException(t);
-        }
-    }
-
     /*
      private static int randomInt( final int lo, final int hi )
      {
@@ -557,7 +510,21 @@ public class SesameModelConnection implements ModelConnection {
 
     ////////////////////////////////////////////////////////////////////////////
 
-    public RippleValue value(final Value v) {
+    public RDFValue uriValue(final String s) throws RippleException {
+        try {
+// return canonicalize(valueFactory.createURI(s));
+            // Note: do NOT automatically canonicalize values.  Sometimes one needs the original URI (e.g. so as to
+            // remove statements), and not the native object it maps to.
+            return new RDFValue(valueFactory.createURI(s));
+        }
+
+        catch (Throwable t) {
+            reset(true);
+            throw new RippleException(t);
+        }
+    }
+    
+    public RippleValue canonicalValue(final Value v) {
         return model.specialValues.get(v);
     }
 
@@ -736,7 +703,7 @@ public class SesameModelConnection implements ModelConnection {
 
             Sink<Value, RippleException> valueSink = new Sink<Value, RippleException>() {
                 public void put(final Value val) throws RippleException {
-                    sink.put(value(val));
+                    sink.put(canonicalValue(val));
                 }
             };
 

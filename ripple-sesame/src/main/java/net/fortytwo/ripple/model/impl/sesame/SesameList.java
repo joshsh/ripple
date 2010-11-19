@@ -25,6 +25,7 @@ import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.util.ModelConnectionHelper;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
+import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.RDF;
 
@@ -133,7 +134,7 @@ RDFImporter importer = new RDFImporter( mc );
 			// Associate list nodes with RDF values.
 			if ( null == cur.rdfEquivalent )
 			{
-				curRdf = new ModelConnectionHelper(mc).createRandomURI();
+				curRdf = (URI) new ModelConnectionHelper(mc).createRandomURI().toRDF(mc).sesameValue();
 				cur.rdfEquivalent = curRdf;
 			}
 

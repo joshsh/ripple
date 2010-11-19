@@ -68,9 +68,9 @@ public class Inlinks extends PrimitiveStackMapping
 			{
                 Resource context = st.getContext();
 
-                RippleValue subj = mc.value( st.getSubject() );
-				RippleValue pred = mc.value( st.getPredicate() );
-                RippleValue ctx = ( null == context ) ? mc.list() : mc.value( context );
+                RippleValue subj = mc.canonicalValue( st.getSubject() );
+				RippleValue pred = mc.canonicalValue( st.getPredicate() );
+                RippleValue ctx = ( null == context ) ? mc.list() : mc.canonicalValue( context );
 
                 solutions.put( arg.with( rest.push( subj ).push( pred ).push( obj ).push( ctx ) ) );
             }

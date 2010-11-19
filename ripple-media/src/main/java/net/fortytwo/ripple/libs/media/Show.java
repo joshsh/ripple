@@ -9,22 +9,20 @@
 
 package net.fortytwo.ripple.libs.media;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.util.HTTPUtils;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
-import org.openrdf.model.URI;
 
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.Graphics;
-import java.awt.Image;
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -64,7 +62,7 @@ public class Show extends PrimitiveStackMapping
         ModelConnection mc = arg.getModelConnection();
         RippleList stack = arg.getStack();
 
-        URI uri = mc.createURI( mc.toString( stack.getFirst() ) );
+        RDFValue uri = mc.uriValue( mc.toString( stack.getFirst() ) );
 		//stack = stack.getRest();
 
 		ImagePanel panel;
@@ -102,7 +100,7 @@ public class Show extends PrimitiveStackMapping
 		//image object
 		public Image img;
 		
-		public ImagePanel( final URI uri ) throws RippleException
+		public ImagePanel( final RDFValue uri ) throws RippleException
 		{
             HttpMethod method = HTTPUtils.createRdfGetMethod( uri.toString() );
             HTTPUtils.setAcceptHeader( method, MIME_TYPES);

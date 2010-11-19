@@ -68,7 +68,7 @@ public class Comments extends PrimitiveStackMapping
 
 		String uri;
 
-		uri = mc.toUri( stack.getFirst() ).toString();
+		uri = stack.getFirst().toString();
 
 		SesameInputAdapter sc = createAdapter( arg, solutions  );
 

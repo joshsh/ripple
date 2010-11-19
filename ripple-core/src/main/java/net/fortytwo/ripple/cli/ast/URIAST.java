@@ -9,12 +9,13 @@
 
 package net.fortytwo.ripple.cli.ast;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
-import net.fortytwo.ripple.query.QueryEngine;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.StringUtils;
+import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.RDFValue;
+import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.query.QueryEngine;
 
 public class URIAST implements AST<RippleList>
 {
@@ -44,7 +45,8 @@ public class URIAST implements AST<RippleList>
 						final ModelConnection mc )
 		throws RippleException
 	{
-		sink.put( mc.list( mc.value( mc.createURI( value ) ) ) );
+        RDFValue v = mc.uriValue(value);
+		sink.put( mc.list(mc.canonicalValue( v.sesameValue() ) ) );
 	}
 
 	public String toString()

@@ -9,15 +9,13 @@
 
 package net.fortytwo.ripple.query.commands;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Collector;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.cli.ast.URIAST;
-import net.fortytwo.ripple.query.Command;
-import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleList;
-
-import org.openrdf.model.URI;
+import net.fortytwo.ripple.query.Command;
+import net.fortytwo.ripple.query.QueryEngine;
 import org.openrdf.model.impl.NamespaceImpl;
 
 public class DefinePrefixCmd extends Command
@@ -58,14 +56,14 @@ public class DefinePrefixCmd extends Command
 		}
 
 		// TODO: check that the list has exactly one element
-		URI ns = mc.toUri( sink.iterator().next().getFirst() );
+		String ns = sink.iterator().next().getFirst().toString();
 		
-		mc.setNamespace( prefix, ns.toString(), true );
+		mc.setNamespace( prefix, ns, true );
 
 		// Note: when a namespace is manually defined, it may both override an
 		// existing prefix with the same name, or duplicate another namespace
 		// with the same URI.
-		qe.getLexicon().addNamespace( new NamespaceImpl( prefix, ns.toString() ) );
+		qe.getLexicon().addNamespace( new NamespaceImpl( prefix, ns ) );
 	}
 
 	protected void abort()

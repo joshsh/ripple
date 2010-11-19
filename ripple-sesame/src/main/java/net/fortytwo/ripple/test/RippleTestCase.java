@@ -18,6 +18,7 @@ import net.fortytwo.ripple.query.StackEvaluator;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.model.vocabulary.RDFS;
 import org.openrdf.model.vocabulary.XMLSchema;
+import org.openrdf.model.URI;
 import org.openrdf.sail.NotifyingSail;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailConnection;
@@ -37,26 +38,24 @@ import java.util.LinkedList;
  * Date: May 3, 2008
  * Time: 1:43:08 PM
  */
-public abstract class RippleTestCase extends TestCase
-{
+public abstract class RippleTestCase extends TestCase {
     private static final boolean SUPPORT_INFERENCE = true;
 
     // TODO: add a shutdown hook to clean up these objects
     private static Sail sail = null;
-	private static URIMap uriMap = null;
+    private static URIMap uriMap = null;
     private static Model model = null;
     private static QueryEngine queryEngine = null;
 
     protected ModelConnection modelConnection = null;
     protected Comparator<RippleValue> comparator = null;
 
-    public void setUp() throws Exception
-    {
-        modelConnection = getTestModel().createConnection( null );
+    public void setUp() throws Exception {
+        modelConnection = getTestModel().createConnection(null);
         comparator = modelConnection.getComparator();
 
         SailConnection sc = getTestSail().getConnection();
-        
+
         try {
             sc.clear();
             sc.commit();
@@ -65,117 +64,99 @@ public abstract class RippleTestCase extends TestCase
         }
     }
 
-    public void tearDown() throws Exception
-    {
-        if ( null != modelConnection )
-        {
+    public void tearDown() throws Exception {
+        if (null != modelConnection) {
             modelConnection.close();
             modelConnection = null;
         }
     }
 
-    protected Sail getTestSail() throws RippleException
-    {
-		if ( null == sail )
-		{
+    protected Sail getTestSail() throws RippleException {
+        if (null == sail) {
             sail = new MemoryStore();
 
             try {
                 // Use inference if desired and if the underlying Sail supports it.
-                if ( SUPPORT_INFERENCE && sail instanceof NotifyingSail)
-                {
-                    sail = new ForwardChainingRDFSInferencer( (NotifyingSail) sail );
+                if (SUPPORT_INFERENCE && sail instanceof NotifyingSail) {
+                    sail = new ForwardChainingRDFSInferencer((NotifyingSail) sail);
                 }
 
                 sail.initialize();
 
                 SailConnection sc = sail.getConnection();
-                try
-                {
+                try {
                     // Define some common namespaces
-                    sc.setNamespace( "rdf", RDF.NAMESPACE );
-                    sc.setNamespace( "rdfs", RDFS.NAMESPACE );
-                    sc.setNamespace( "xsd", XMLSchema.NAMESPACE );
+                    sc.setNamespace("rdf", RDF.NAMESPACE);
+                    sc.setNamespace("rdfs", RDFS.NAMESPACE);
+                    sc.setNamespace("xsd", XMLSchema.NAMESPACE);
                     sc.commit();
                 }
 
-                finally
-                {
+                finally {
                     sc.close();
                 }
             }
 
-            catch ( SailException e ) {
-                throw new RippleException( e );
+            catch (SailException e) {
+                throw new RippleException(e);
             }
         }
 
-		return sail;
-	}
+        return sail;
+    }
 
-    protected URIMap getTestURIMap()
-    {
-        if ( null == uriMap )
-        {
+    protected URIMap getTestURIMap() {
+        if (null == uriMap) {
             uriMap = new URIMap();
         }
 
         return uriMap;
     }
 
-	protected Model getTestModel() throws RippleException
-    {
-		if ( null == model )
-		{
+    protected Model getTestModel() throws RippleException {
+        if (null == model) {
             Ripple.initialize();
 
             // Asynchronous queries can cause certain tests cases to fail, as
             // they are not set up to wait on other threads.
-            Ripple.enableAsynchronousQueries( false );
+            Ripple.enableAsynchronousQueries(false);
 
-            model = new SesameModel( getTestSail(), Ripple.class.getResource( "libraries.txt" ), getTestURIMap() );
+            model = new SesameModel(getTestSail(), Ripple.class.getResource("libraries.txt"), getTestURIMap());
         }
 
-		return model;
-	}
+        return model;
+    }
 
-    protected QueryEngine getTestQueryEngine() throws RippleException
-    {
-        if ( null == queryEngine )
-        {
-			StackEvaluator eval = new LazyStackEvaluator();
-			queryEngine = new QueryEngine( getTestModel(), eval, System.out, System.err );
+    protected QueryEngine getTestQueryEngine() throws RippleException {
+        if (null == queryEngine) {
+            StackEvaluator eval = new LazyStackEvaluator();
+            queryEngine = new QueryEngine(getTestModel(), eval, System.out, System.err);
         }
 
         return queryEngine;
     }
 
-    protected RippleList createStack( final ModelConnection mc,
-                                      final RippleValue... values ) throws RippleException
-	{
-		if ( 0 == values.length )
-		{
-			return mc.list();
-		}
+    protected RippleList createStack(final ModelConnection mc,
+                                     final RippleValue... values) throws RippleException {
+        if (0 == values.length) {
+            return mc.list();
+        }
 
-		RippleList l = mc.list( values[0] );
-		for ( int i = 1; i < values.length; i++ )
-		{
-			l = l.push( values[i] );
-		}
+        RippleList l = mc.list(values[0]);
+        for (int i = 1; i < values.length; i++) {
+            l = l.push(values[i]);
+        }
 
-		return l;
-	}
+        return l;
+    }
 
-	protected RippleList createQueue( final ModelConnection mc,
-                                      final RippleValue... values ) throws RippleException
-	{
-		return createStack( mc, values ).invert();
-	}
+    protected RippleList createQueue(final ModelConnection mc,
+                                     final RippleValue... values) throws RippleException {
+        return createStack(mc, values).invert();
+    }
 
-	protected void assertCollectorsEqual( final Collector<RippleList, RippleException> expected,
-                                          final Collector<RippleList, RippleException> actual ) throws Exception
-	{
+    protected void assertCollectorsEqual(final Collector<RippleList, RippleException> expected,
+                                         final Collector<RippleList, RippleException> actual) throws Exception {
 //System.out.println("expected: " + expected + ", actual = " + actual);
         int size = expected.size();
 /*if (actual.size() != expected.size()) {
@@ -190,24 +171,22 @@ public abstract class RippleTestCase extends TestCase
         System.out.println("    " + l );
     }
 }*/
-        assertEquals( "wrong number of results.", size, actual.size() );
-		if ( 0 == size )
-		{
-			return;
-		}
+        assertEquals("wrong number of results.", size, actual.size());
+        if (0 == size) {
+            return;
+        }
 
         // Sort the results.
         RippleList[] expArray = new RippleList[size];
-		RippleList[] actArray = new RippleList[size];
-		Iterator<RippleList> expIter = expected.iterator();
-		Iterator<RippleList> actIter = actual.iterator();
-		for ( int i = 0; i < size; i++ )
-		{
-			expArray[i] = expIter.next();
-			actArray[i] = actIter.next();
-		}
-		Arrays.sort( expArray, comparator );
-		Arrays.sort( actArray, comparator );
+        RippleList[] actArray = new RippleList[size];
+        Iterator<RippleList> expIter = expected.iterator();
+        Iterator<RippleList> actIter = actual.iterator();
+        for (int i = 0; i < size; i++) {
+            expArray[i] = expIter.next();
+            actArray[i] = actIter.next();
+        }
+        Arrays.sort(expArray, comparator);
+        Arrays.sort(actArray, comparator);
 /*System.out.println("expected:");
 for ( RippleList l : expArray )
 {
@@ -220,8 +199,7 @@ for ( RippleList l : actArray )
 }*/
 
         // Compare the results by pairs.
-        for ( int i = 0; i < size; i++ )
-		{
+        for (int i = 0; i < size; i++) {
 //System.out.println("expected (" + expArray[i].getClass() + "): " + expArray[i] + ", actual (" + actArray[i].getClass() + "): " + actArray[i]);
 /*RippleList l;
 l = expArray[i];
@@ -238,79 +216,76 @@ while (!l.isNil()) {
     System.out.println("    (" + f.getClass() + ") -- " + f);
     l = l.getRest();
 } */
-            assertEquals( expArray[i], actArray[i] );
-		}
-	}
-
-    protected void assertEquals( final RippleValue first, final RippleValue second ) throws Exception
-    {
-        int cmp = comparator.compare( first, second );
-        if ( 0 != cmp )
-        {
-            throw new AssertionFailedError( "expected <" + first + "> but was <" + second + ">" );
+            assertEquals(expArray[i], actArray[i]);
         }
     }
 
-    protected Collection<RippleList> reduce( final InputStream from ) throws RippleException
-    {
+    protected void assertEquals(final RippleValue first, final RippleValue second) throws Exception {
+        int cmp = comparator.compare(first, second);
+        if (0 != cmp) {
+            throw new AssertionFailedError("expected <" + first + "> but was <" + second + ">");
+        }
+    }
+
+    protected Collection<RippleList> reduce(final InputStream from) throws RippleException {
         Collector<RippleList, RippleException>
                 results = new Collector<RippleList, RippleException>();
 
         QueryEngine qe = getTestQueryEngine();
 
-        QueryPipe actualPipe = new QueryPipe( qe, results );
-        actualPipe.put( from );
+        QueryPipe actualPipe = new QueryPipe(qe, results);
+        actualPipe.put(from);
         actualPipe.close();
 
         Collection<RippleList> c = new LinkedList<RippleList>();
-        for ( Iterator<RippleList> iter = results.iterator(); iter.hasNext(); )
-        {
-            c.add( iter.next() );
+        for (Iterator<RippleList> iter = results.iterator(); iter.hasNext();) {
+            c.add(iter.next());
         }
 
         return c;
     }
 
-    protected Collection<RippleList> reduce( final String from ) throws RippleException
-    {
+    protected Collection<RippleList> reduce(final String from) throws RippleException {
         Collector<RippleList, RippleException>
                 results = new Collector<RippleList, RippleException>();
 
         QueryEngine qe = getTestQueryEngine();
 
-        QueryPipe actualPipe = new QueryPipe( qe, results );
-        actualPipe.put( from + "." );
+        QueryPipe actualPipe = new QueryPipe(qe, results);
+        actualPipe.put(from + ".");
         actualPipe.close();
 
         Collection<RippleList> c = new LinkedList<RippleList>();
-        for ( Iterator<RippleList> iter = results.iterator(); iter.hasNext(); )
-        {
-            c.add( iter.next() );
+        for (Iterator<RippleList> iter = results.iterator(); iter.hasNext();) {
+            c.add(iter.next());
         }
-        
+
         return c;
     }
 
-    protected void assertReducesTo( final String from, final String... to ) throws Exception
-    {
+    protected void assertReducesTo(final String from, final String... to) throws Exception {
         Collector<RippleList, RippleException>
                 expected = new Collector<RippleList, RippleException>(),
                 actual = new Collector<RippleList, RippleException>();
 
         QueryEngine qe = getTestQueryEngine();
 
-        QueryPipe actualPipe = new QueryPipe( qe, actual );
-        actualPipe.put( from + "." );
+        QueryPipe actualPipe = new QueryPipe(qe, actual);
+        actualPipe.put(from + ".");
         actualPipe.close();
 
-        QueryPipe expectedPipe = new QueryPipe( qe, expected );
-        for ( String t : to )
-        {
-            expectedPipe.put( t + "." );
+        QueryPipe expectedPipe = new QueryPipe(qe, expected);
+        for (String t : to) {
+            expectedPipe.put(t + ".");
         }
         expectedPipe.close();
 
-        assertCollectorsEqual( expected, actual );
+        assertCollectorsEqual(expected, actual);
 //System.out.println( "########## expected.size() = " + expected.size() );
+    }
+
+    protected URI createURI(final String s,
+                            final ModelConnection mc) throws RippleException {
+        return (URI) mc.uriValue(s).sesameValue();
     }
 }

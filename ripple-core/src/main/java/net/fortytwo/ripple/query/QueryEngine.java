@@ -142,7 +142,7 @@ public class QueryEngine
         Set<RippleValue> uniqueValues = new HashSet<RippleValue>();
         for ( URI u : options )
         {
-            uniqueValues.add( mc.value( u ) );
+            uniqueValues.add( mc.canonicalValue( u ) );
         }
 
 		if ( 0 == uniqueValues.size() )
@@ -176,7 +176,7 @@ public class QueryEngine
 
 		else
 		{
-			sink.put( mc.value( mc.createURI( ns + localName ) ) );
+			sink.put( mc.uriValue( ns + localName ) );
 		}
 	}
 

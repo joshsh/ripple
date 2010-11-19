@@ -65,7 +65,7 @@ public class Triples extends PrimitiveStackMapping
 		final ModelConnection mc = arg.getModelConnection();
 		RippleList stack = arg.getStack();
 
-		String uri = mc.toUri( stack.getFirst() ).toString();
+		String uri = stack.getFirst().toString();
 
 		SesameInputAdapter sc = createAdapter( arg, solutions );
 
@@ -88,9 +88,9 @@ public class Triples extends PrimitiveStackMapping
                 public void put( final Statement st ) throws RippleException
                 {
                     resultSink.put( arg.with(
-                            rest.push( mc.value( st.getSubject() ) )
-                                    .push( mc.value( st.getPredicate() ) )
-                                    .push( mc.value( st.getObject() ) ) ) );
+                            rest.push( mc.canonicalValue( st.getSubject() ) )
+                                    .push( mc.canonicalValue( st.getPredicate() ) )
+                                    .push( mc.canonicalValue( st.getObject() ) ) ) );
                 }
             };
 
