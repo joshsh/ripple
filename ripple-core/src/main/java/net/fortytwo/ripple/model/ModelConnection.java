@@ -29,7 +29,6 @@ import java.util.Date;
 public interface ModelConnection
 {
 	Model getModel();
-	String getName();
 	
 	void close() throws RippleException;
 

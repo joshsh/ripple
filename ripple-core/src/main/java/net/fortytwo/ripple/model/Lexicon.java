@@ -69,7 +69,7 @@ public class Lexicon
 		namespaceToPrefixMap = new HashMap<String, String>();
 		allQNames = new ArrayList<String>();
 
-		ModelConnection mc = model.getConnection( "for Lexicon constructor" );
+		ModelConnection mc = model.createConnection();
         try {
             keywordToURIMap = new HashMap<String, Set<URI>>();
             uriToKeywordMap = new HashMap<URI, String>();

@@ -42,7 +42,7 @@ public class RippleListTest extends RippleTestCase
 
     public void testFromRDF() throws Exception
     {
-        final ModelConnection mc = getTestModel().getConnection( "for FromRdfTest" );
+        final ModelConnection mc = getTestModel().createConnection();
 
         InputStream is = RippleListTest.class.getResourceAsStream( "listTest.ttl" );
         RDFImporter importer = new RDFImporter( mc );
@@ -125,7 +125,7 @@ public class RippleListTest extends RippleTestCase
 
     public void testListConcatenation() throws Exception
     {
-        ModelConnection mc = getTestModel().getConnection( "for ListConcatenationTest" );
+        ModelConnection mc = getTestModel().createConnection();
         RippleValue
             a0 = mc.value( 42 ),
             a1 = mc.value( 137 ),

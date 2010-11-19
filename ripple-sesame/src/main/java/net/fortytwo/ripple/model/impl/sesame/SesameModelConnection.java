@@ -73,7 +73,6 @@ public class SesameModelConnection implements ModelConnection {
     protected SailConnection sailConnection;
     protected final RDFDiffSink listenerSink;
     protected final ValueFactory valueFactory;
-    protected final String name;
     private final TaskSet taskSet = new TaskSet();
     private final Comparator<RippleValue> comparator;
 
@@ -86,10 +85,9 @@ public class SesameModelConnection implements ModelConnection {
 
     ////////////////////////////////////////////////////////////////////////////
 
-    protected SesameModelConnection(final SesameModel model, final String name, final RDFDiffSink listenerSink)
+    protected SesameModelConnection(final SesameModel model, final RDFDiffSink listenerSink)
             throws RippleException {
         this.model = model;
-        this.name = name;
         this.listenerSink = listenerSink;
 
         try {
@@ -109,10 +107,6 @@ public class SesameModelConnection implements ModelConnection {
         this.useBlankNodes = Ripple.getProperties().getBoolean(Ripple.USE_BLANK_NODES);
 
         comparator = new RippleValueComparator(this);
-    }
-
-    public String getName() {
-        return name;
     }
 
     public Model getModel() {

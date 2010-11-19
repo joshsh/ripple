@@ -87,7 +87,7 @@ public class QueryEngine
 	public ModelConnection getConnection( final String name )
 		throws RippleException
 	{
-		return model.getConnection( name, new LexiconUpdater( lexicon ) );
+		return model.createConnection( new LexiconUpdater( lexicon ) );
 	}
 
 	public StackEvaluator getEvaluator()

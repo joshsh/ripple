@@ -18,7 +18,7 @@ public class ModelConnectionTest extends RippleTestCase
 {
     public void testCreateURI() throws Exception
     {
-        ModelConnection mc = getTestModel().getConnection( "for CreateUriTest" );
+        ModelConnection mc = getTestModel().createConnection();
 
         URI uri;
         String localName, namespace;

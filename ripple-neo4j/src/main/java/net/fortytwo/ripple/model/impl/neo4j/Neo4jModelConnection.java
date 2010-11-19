@@ -27,8 +27,8 @@ import org.neo4j.api.core.NeoService;
 public class Neo4jModelConnection extends SesameModelConnection {
     private final NeoService service;
 
-    public Neo4jModelConnection(final Neo4jModel model, final NeoService service, final String name) throws RippleException {
-        super(model, name, null);
+    public Neo4jModelConnection(final Neo4jModel model, final NeoService service) throws RippleException {
+        super(model, null);
         this.service = service;
     }
 

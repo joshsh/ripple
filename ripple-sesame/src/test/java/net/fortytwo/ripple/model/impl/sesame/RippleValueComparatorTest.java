@@ -15,7 +15,7 @@ public class RippleValueComparatorTest extends RippleTestCase
 {
     public void testLists() throws Exception
     {
-        ModelConnection mc = getTestModel().getConnection("");
+        ModelConnection mc = getTestModel().createConnection();
         Comparator<RippleValue> comparator = mc.getComparator();
 
         RippleValue

@@ -172,7 +172,7 @@ System.out.println( "unhandled test case!" );
 
     public void testGrahamKlyneCases() throws Exception
     {
-        ModelConnection mc = getTestModel().getConnection( "for GrahamKlyneCasesTest" );
+        ModelConnection mc = getTestModel().createConnection();
 
         // See: http://lists.w3.org/Archives/Public/uri/2006Feb/0003.html
         InputStream is = URITest.class.getResourceAsStream( "UriTest.n3" );
@@ -214,7 +214,7 @@ System.out.println( "unhandled test case!" );
 
     public void testURINamespace() throws Exception
     {
-        ModelConnection mc = getTestModel().getConnection( "for UriNamespaceTest" );
+        ModelConnection mc = getTestModel().createConnection();
 
         InputStream is = URITest.class.getResourceAsStream( "UriNamespaceTest.txt" );
 

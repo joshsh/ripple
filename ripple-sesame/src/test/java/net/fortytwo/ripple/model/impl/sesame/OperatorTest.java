@@ -53,7 +53,7 @@ public class OperatorTest extends RippleTestCase
     public void testCreateOperator() throws Exception
     {
         Model model = getTestModel();
-        ModelConnection mc = model.getConnection( "for CreateOperatorTest" );
+        ModelConnection mc = model.createConnection();
 
         InputStream is = new ByteArrayInputStream( TEST_1.getBytes() );
         RDFImporter importer = new RDFImporter( mc );

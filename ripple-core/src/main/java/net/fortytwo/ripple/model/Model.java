@@ -15,8 +15,8 @@ import net.fortytwo.flow.rdf.diff.RDFDiffSink;
 
 public interface Model
 {
-	ModelConnection getConnection( String name ) throws RippleException;
-	ModelConnection getConnection( String name, RDFDiffSink listener ) throws RippleException;
+	ModelConnection createConnection() throws RippleException;
+	ModelConnection createConnection( RDFDiffSink listener ) throws RippleException;
 
     SpecialValueMap getSpecialValues();
 

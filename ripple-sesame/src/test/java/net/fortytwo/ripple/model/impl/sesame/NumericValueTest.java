@@ -27,7 +27,7 @@ public class NumericValueTest extends RippleTestCase
     public void testValues() throws Exception
     {
         Model model = getTestModel();
-        ModelConnection mc = model.getConnection( "for NumericLiteralTest" );
+        ModelConnection mc = model.createConnection();
         NumericValue l;
 
         // Create an integer literal.

@@ -9,20 +9,20 @@
 
 package net.fortytwo.ripple.io;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.test.RippleTestCase;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 public class RipplePrintStreamTest extends RippleTestCase
 {
     public void testLiterals() throws Exception
     {
         Model model = getTestModel();
-        ModelConnection mc = model.getConnection( "" );
+        ModelConnection mc = model.createConnection();
         QueryEngine qe = new QueryEngine( model, null, System.out, System.err );
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         RipplePrintStream ps = new RipplePrintStream( new PrintStream( bos ), qe.getLexicon() );

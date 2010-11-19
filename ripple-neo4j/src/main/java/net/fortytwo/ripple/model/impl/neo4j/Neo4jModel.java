@@ -33,13 +33,13 @@ public class Neo4jModel extends SesameModel {
     }
 
     @Override
-    public ModelConnection getConnection(final String name) throws RippleException {
-        return new Neo4jModelConnection(this, service, name);
+    public ModelConnection createConnection() throws RippleException {
+        return new Neo4jModelConnection(this, service);
     }
 
     @Override
-    public ModelConnection getConnection(final String name, final RDFDiffSink listener) throws RippleException {
+    public ModelConnection createConnection(final RDFDiffSink listener) throws RippleException {
         // TODO: use the listener
-        return getConnection(name);
+        return createConnection();
     }
 }

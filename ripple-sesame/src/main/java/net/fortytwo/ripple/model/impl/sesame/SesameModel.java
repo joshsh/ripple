@@ -41,7 +41,7 @@ public class SesameModel implements Model
 		sail = baseSail;
         this.uriMap = uriMap;
 
-        ModelConnection mc = getConnection( null );
+        ModelConnection mc = createConnection();
 
         try
         {
@@ -70,15 +70,15 @@ public class SesameModel implements Model
         return uriMap;
     }
 
-    public ModelConnection getConnection( final String name )
+    public ModelConnection createConnection()
 		throws RippleException
 	{
-		return new SesameModelConnection( this, name, null );
+		return new SesameModelConnection( this, null );
 	}
 
-	public ModelConnection getConnection( final String name, final RDFDiffSink listener ) throws RippleException
+	public ModelConnection createConnection( final RDFDiffSink listener ) throws RippleException
 	{
-		return new SesameModelConnection( this, name, listener );
+		return new SesameModelConnection( this, listener );
 	}
 
     public void shutDown() throws RippleException {
@@ -101,7 +101,7 @@ public class SesameModel implements Model
                         sb.append( "," );
                     }
 
-                    sb.append( mc.getName() );
+                    sb.append( mc );
                 }
 
                 LOGGER.warn( sb.toString() );

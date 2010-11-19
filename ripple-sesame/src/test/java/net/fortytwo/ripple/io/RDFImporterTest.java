@@ -50,7 +50,7 @@ mc.commit();
 
     public void testImporter() throws Exception
     {
-        ModelConnection mc = getTestModel().getConnection( "for ImporterTest" );
+        ModelConnection mc = getTestModel().createConnection();
 
         {
             URI ctxA = mc.createURI( "urn:org.example.test.addGraphTest.turtleStrA#" );
