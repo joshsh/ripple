@@ -35,7 +35,6 @@ public final class Ripple
             ALLEGROSAIL_START                   = "net.fortytwo.ripple.demo.allegroSailStart",
             ALLEGROSAIL_NAME                    = "net.fortytwo.ripple.demo.allegroSailName",
             ALLEGROSAIL_DIRECTORY               = "net.fortytwo.ripple.demo.allegroSailDirectory",
-            EXPORT_FORMAT                       = "net.fortytwo.ripple.demo.exportFormat",
             LOAD_FILE                           = "net.fortytwo.ripple.demo.loadFile",
             LOAD_FILE_FORMAT                    = "net.fortytwo.ripple.demo.loadFileFormat",
             LOAD_FILE_BASE_URI                  = "net.fortytwo.ripple.demo.loadFileBaseURI",

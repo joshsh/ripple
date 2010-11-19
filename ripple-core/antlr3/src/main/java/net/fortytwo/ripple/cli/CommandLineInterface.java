@@ -252,7 +252,6 @@ System.out.println( "done reading the line: " + line );
 			ArrayList<String> directives = new ArrayList<String>();
 			directives.add( "@count" );
 			directives.add( "@define" );
-			directives.add( "@export" );
 			directives.add( "@help" );
 			directives.add( "@list" );
 			directives.add( "@prefix" );

@@ -265,7 +265,5 @@ public class Neo4jModelConnection extends SesameModelConnection {
 //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public void exportNamespace(String ns, OutputStream os) throws RippleException {
-//To change body of implemented methods use File | Settings | File Templates.
     }*/
 }

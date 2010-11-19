@@ -29,7 +29,6 @@ import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.commands.CountStatementsCmd;
 import net.fortytwo.ripple.query.commands.DefinePrefixCmd;
 import net.fortytwo.ripple.query.commands.DefineTermCmd;
-import net.fortytwo.ripple.query.commands.ExportCmd;
 import net.fortytwo.ripple.query.commands.QuitCmd;
 import net.fortytwo.ripple.query.commands.RedefineTermCmd;
 import net.fortytwo.ripple.query.commands.ShowContextsCmd;
@@ -236,7 +235,6 @@ DRCTV : '@' ;
 
 DRCTV_COUNT     : DRCTV ( "count"         | "c" ) ;
 DRCTV_DEFINE    : DRCTV ( "define"        | "d" ) ;
-DRCTV_EXPORT    : DRCTV ( "export"        | "e" ) ;
 DRCTV_HELP      : DRCTV ( "help"          | "h" ) ;
 DRCTV_LIST      : DRCTV ( "list"          | "l" ) ;
 DRCTV_PREFIX    : DRCTV ( "prefix"        | "p" ) ;
@@ -721,11 +719,6 @@ nt_Directive
 			matchCommand( redefine
 			        ? new RedefineTermCmd( keyword, rhs )
 			        : new DefineTermCmd( keyword, rhs ) );
-		}
-
-	| DRCTV_EXPORT ( nt_Ws ( nsPrefix=nt_PrefixName (nt_Ws)? )? )? COLON (nt_Ws)? exFile:STRING (nt_Ws)? PERIOD
-		{
-			matchCommand( new ExportCmd( nsPrefix, exFile.getText() ) );
 		}
 
 	| DRCTV_HELP (nt_Ws)? PERIOD

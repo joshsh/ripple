@@ -140,5 +140,4 @@ public interface ModelConnection
 
 	void putContexts( Sink<RippleValue, RippleException> sink ) throws RippleException;
 	
-	void exportNamespace( String ns, OutputStream os ) throws RippleException;
 }

@@ -20,7 +20,6 @@ import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.Source;
 import net.fortytwo.flow.rdf.CloseableIterationSource;
 import net.fortytwo.flow.rdf.RDFSource;
-import net.fortytwo.flow.rdf.SesameOutputAdapter;
 import net.fortytwo.flow.rdf.diff.RDFDiffSink;
 import net.fortytwo.linkeddata.sail.SailConnectionListenerAdapter;
 import net.fortytwo.ripple.Ripple;
@@ -36,7 +35,6 @@ import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.RippleValueComparator;
 import net.fortytwo.ripple.model.StatementPatternQuery;
-import net.fortytwo.ripple.util.BNodeClosureFilter;
 import net.fortytwo.ripple.util.RDFUtils;
 import org.apache.log4j.Logger;
 import org.openrdf.model.Literal;
@@ -54,8 +52,6 @@ import org.openrdf.query.QueryEvaluationException;
 import org.openrdf.query.impl.MapBindingSet;
 import org.openrdf.query.parser.ParsedQuery;
 import org.openrdf.query.parser.sparql.SPARQLParser;
-import org.openrdf.rio.RDFFormat;
-import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.sail.NotifyingSailConnection;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailConnectionListener;
@@ -63,7 +59,6 @@ import org.openrdf.sail.SailException;
 import org.openrdf.sail.SailReadOnlyException;
 
 import javax.xml.datatype.XMLGregorianCalendar;
-import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -696,17 +691,6 @@ public class SesameModelConnection implements ModelConnection {
 
     ////////////////////////////////////////////////////////////////////////////
 
-    private RDFFormat getExportFormat() throws RippleException {
-        String formatStr = Ripple.getProperties().getString(Ripple.EXPORT_FORMAT);
-        RDFFormat format = RDFUtils.findFormat(formatStr);
-
-        if (null == format) {
-            throw new RippleException("unknown RDF format: " + formatStr);
-        }
-
-        return format;
-    }
-
     private class RippleExceptionAdapter implements AdapterSink.ExceptionAdapter<RippleException> {
         public void doThrow(Exception e) throws RippleException {
             throw new RippleException(e);
@@ -716,40 +700,6 @@ public class SesameModelConnection implements ModelConnection {
     private class SailExceptionAdapter implements AdapterSink.ExceptionAdapter<SailException> {
         public void doThrow(Exception e) throws SailException {
             throw new SailException(e);
-        }
-    }
-
-    public void exportNamespace(final String ns, final OutputStream os)
-            throws RippleException {
-        SesameOutputAdapter adapter = RDFUtils.createOutputAdapter(
-                os, getExportFormat());
-        Sink<Statement, RippleException> stSink
-                = new AdapterSink<Statement, RDFHandlerException, RippleException>(
-                adapter.statementSink(), new RippleExceptionAdapter());
-        final Sink<Resource, RippleException> bnodeClosure = new BNodeClosureFilter(
-                stSink, getSailConnection());
-
-        // Hackishly find all terms in the given namespace which are the subject
-        // of statements.
-        Sink<Statement, RippleException> sink = new Sink<Statement, RippleException>() {
-            public void put(final Statement st) throws RippleException {
-                Resource subj = st.getSubject();
-                if (subj instanceof URI
-                        && subj.toString().startsWith(ns)) {
-                    bnodeClosure.put(subj);
-                }
-            }
-        };
-
-        Buffer<Statement, RippleException> buffer = new Buffer<Statement, RippleException>(sink);
-        getStatements(null, null, null, buffer, false);
-
-        try {
-            adapter.startRDF();
-            buffer.flush();
-            adapter.endRDF();
-        } catch (RDFHandlerException e) {
-            throw new RippleException(e);
         }
     }
 
