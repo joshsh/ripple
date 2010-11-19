@@ -18,6 +18,7 @@ import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.test.RippleTestCase;
+import net.fortytwo.ripple.util.ModelConnectionHelper;
 import net.fortytwo.ripple.util.RDFUtils;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.URIImpl;
@@ -85,10 +86,10 @@ public class URITest extends RippleTestCase
 		}
 	}
 
-	private static String strVal( RippleValue subj, RippleValue pred, ModelConnection mc )
+	private static String strVal( RippleValue subj, RippleValue pred, ModelConnectionHelper h )
 		throws Exception
 	{
-		RDFValue obj = mc.findSingleObject( subj, pred );
+		RDFValue obj = h.findSingleObject( subj, pred );
 		
 		if ( null == obj )
 		{
@@ -120,20 +121,22 @@ public class URITest extends RippleTestCase
 		public UriTestCase( final RippleValue r, final ModelConnection mc )
 			throws Exception
 		{
-			base = strVal( r, BASE, mc );
-			comment = strVal( r, COMMENT, mc );
-			frag = strVal( r, FRAG, mc );
-			label = strVal( r, LABEL, mc );
-			path = strVal( r, PATH, mc );
-			port = strVal( r, PORT, mc );
-			query = strVal( r, QUERY, mc );
-			reg = strVal( r, REG, mc );
-			scheme = strVal( r, SCHEME, mc );
-			user = strVal( r, USER, mc );
+            ModelConnectionHelper h = new ModelConnectionHelper(mc);
+
+			base = strVal( r, BASE, h );
+			comment = strVal( r, COMMENT, h );
+			frag = strVal( r, FRAG, h );
+			label = strVal( r, LABEL, h );
+			path = strVal( r, PATH, h );
+			port = strVal( r, PORT, h );
+			query = strVal( r, QUERY, h );
+			reg = strVal( r, REG, h );
+			scheme = strVal( r, SCHEME, h );
+			user = strVal( r, USER, h );
 
 System.out.println( "r = " + r );
 			type = TestType.find(
-					((URI) mc.findSingleObject( r, TEST ).toRDF( mc ).sesameValue() ).getLocalName() );
+					((URI) h.findSingleObject( r, TEST ).toRDF( mc ).sesameValue() ).getLocalName() );
 System.out.println( "    type = " + type );
 		}
 

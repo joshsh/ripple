@@ -56,11 +56,6 @@ public interface ModelConnection
 	URI toUri( RippleValue v ) throws RippleException;
 	void toList( RippleValue v, Sink<RippleList, RippleException> sink ) throws RippleException;
 
-	RDFValue findSingleObject( RippleValue subj, RippleValue pred )	throws RippleException;
-	RDFValue findAtLeastOneObject( RippleValue subj, RippleValue pred )	throws RippleException;
-	RDFValue findAtMostOneObject( RippleValue subj, RippleValue pred ) throws RippleException;
-	RDFValue findUniqueProduct( RippleValue subj, RippleValue pred ) throws RippleException;
-
 	void copyStatements( RippleValue src, RippleValue dest ) throws RippleException;
 	void removeStatementsAbout( URI subj ) throws RippleException;
 

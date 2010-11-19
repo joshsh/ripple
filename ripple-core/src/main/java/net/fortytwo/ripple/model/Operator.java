@@ -14,6 +14,7 @@ import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RipplePrintStream;
 import net.fortytwo.ripple.model.json.KeyValueMapping;
+import net.fortytwo.ripple.util.ModelConnectionHelper;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Value;
@@ -164,8 +165,9 @@ return rdfEquivalent;
 	public static boolean isRDFList( final RDFValue v, final ModelConnection mc )
 		throws RippleException
 	{
+        ModelConnectionHelper h = new ModelConnectionHelper(mc);
 		return ( v.sesameValue().equals( RDF.NIL )
-			|| null != mc.findSingleObject( v, RDF_FIRST ) );
+			|| null != h.findSingleObject( v, RDF_FIRST ) );
 	}
 }
 
