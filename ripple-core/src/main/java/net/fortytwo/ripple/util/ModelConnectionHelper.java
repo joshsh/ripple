@@ -1,5 +1,6 @@
 package net.fortytwo.ripple.util;
 
+import net.fortytwo.flow.Collector;
 import net.fortytwo.flow.DistinctFilter;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.Ripple;
@@ -7,6 +8,7 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleValue;
+import net.fortytwo.ripple.model.StatementPatternQuery;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.Value;
@@ -27,65 +29,13 @@ public class ModelConnectionHelper {
         this.connection = connection;
     }
 
-
-    public RDFValue findSingleObject(final RippleValue subj, final RippleValue pred)
+    public RippleValue findSingleObject(final RippleValue subj, final RippleValue pred)
             throws RippleException {
-        RDFValue subjRdf = subj.toRDF(connection);
-        RDFValue predRdf = pred.toRDF(connection);
+        StatementPatternQuery query = new StatementPatternQuery(subj, pred, null, false);
+        Collector<RippleValue, RippleException> results = new Collector<RippleValue, RippleException>();
+        connection.query(query, results, false);
 
-        SingleValueSink sink = new SingleValueSink();
-
-        multiplyRDFValues(subjRdf, predRdf, sink);
-
-        return sink.getValue();
-    }
-
-    public RDFValue findAtLeastOneObject(final RippleValue subj, final RippleValue pred)
-            throws RippleException {
-        RDFValue subjRdf = subj.toRDF(connection);
-        RDFValue predRdf = pred.toRDF(connection);
-
-        SingleValueSink sink = new SingleValueSink();
-
-        multiplyRDFValues(subjRdf, predRdf, sink);
-
-        if (0 == sink.countReceived()) {
-            throw new RippleException("no values resolved for " + pred.toString() + " of " + subj.toString());
-        } else {
-            return sink.getValue();
-        }
-    }
-
-    public RDFValue findAtMostOneObject(final RippleValue subj, final RippleValue pred)
-            throws RippleException {
-        RDFValue subjRdf = subj.toRDF(connection);
-        RDFValue predRdf = pred.toRDF(connection);
-
-        SingleValueSink sink = new SingleValueSink();
-
-        multiplyRDFValues(subjRdf, predRdf, sink);
-
-        int count = sink.countReceived();
-
-        if (1 < count) {
-            throw new RippleException(pred.toString() + " of " + subj.toString() + " resolved to more than one value");
-        } else {
-            return sink.getValue();
-        }
-    }
-
-    public RDFValue findUniqueProduct(final RippleValue subj, final RippleValue pred)
-            throws RippleException {
-        RDFValue subjRdf = subj.toRDF(connection);
-        RDFValue predRdf = pred.toRDF(connection);
-
-        RDFValue v = findAtMostOneObject(subjRdf, predRdf);
-
-        if (null == v) {
-            throw new RippleException("no values resolved for " + pred.toString() + " of " + subj.toString());
-        } else {
-            return v;
-        }
+        return results.isEmpty() ? null : results.iterator().next();
     }
 
     //TODO: context handling
@@ -133,56 +83,20 @@ public class ModelConnectionHelper {
         connection.getStatements(subject.toRDF(connection), null, null, predSelector, false);
     }
 
-	public RippleValue createRandomURI() throws RippleException
-	{
-		// Local name will be a UUID (without the dashes).
-		byte[] bytes = new byte[32];
+    public RippleValue createRandomURI() throws RippleException {
+        // Local name will be a UUID (without the dashes).
+        byte[] bytes = new byte[32];
 
-		// Artificially constrain the fist character to be a letter, so the
-		// local part of the URI is N3-friendly.
-		bytes[0] = (byte) ( 'a' + RANDOM.nextInt( 5 ) );
+        // Artificially constrain the fist character to be a letter, so the
+        // local part of the URI is N3-friendly.
+        bytes[0] = (byte) ('a' + RANDOM.nextInt(5));
 
-		// Remaining characters are hexadecimal digits.
-		for ( int i = 1; i < 32; i++ )
-		{
-			int c = RANDOM.nextInt( 16 );
-			bytes[i] = (byte) ( ( c > 9 ) ? c - 10 + 'a' : c + '0' );
-		}
-
-		return connection.uriValue( Ripple.RANDOM_URN_PREFIX + new String( bytes ) );
-	}
-
-
-    private void multiplyRDFValues(final RDFValue subj, final RDFValue pred, final Sink<RDFValue, RippleException> sink)
-            throws RippleException {
-        Sink<Statement, RippleException> stSink = new Sink<Statement, RippleException>() {
-            public void put(final Statement st) throws RippleException {
-                sink.put(new RDFValue(st.getObject()));
-            }
-        };
-
-        connection.getStatements(subj, pred, null, stSink, false);
-    }
-
-    /**
-     * A <code>Sink</code> which remembers how many times it has received a
-     * value, as well as the last value received.
-     */
-    private class SingleValueSink implements Sink<RDFValue, RippleException> {
-        private RDFValue value = null;
-        private int valuesReceived = 0;
-
-        public void put(final RDFValue v) throws RippleException {
-            value = v;
-            valuesReceived++;
+        // Remaining characters are hexadecimal digits.
+        for (int i = 1; i < 32; i++) {
+            int c = RANDOM.nextInt(16);
+            bytes[i] = (byte) ((c > 9) ? c - 10 + 'a' : c + '0');
         }
 
-        public RDFValue getValue() {
-            return value;
-        }
-
-        public int countReceived() {
-            return valuesReceived;
-        }
+        return connection.uriValue(Ripple.RANDOM_URN_PREFIX + new String(bytes));
     }
 }

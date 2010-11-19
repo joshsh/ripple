@@ -89,7 +89,7 @@ public class URITest extends RippleTestCase
 	private static String strVal( RippleValue subj, RippleValue pred, ModelConnectionHelper h )
 		throws Exception
 	{
-		RDFValue obj = h.findSingleObject( subj, pred );
+		RippleValue obj = h.findSingleObject( subj, pred );
 		
 		if ( null == obj )
 		{

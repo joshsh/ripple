@@ -63,7 +63,6 @@ public class DefineTermCmd extends Command
 		{
 			// Note: the first element of the list will also be a list
 			RippleList expr = (RippleList) expressions.iterator().next().getFirst();
-
 //System.out.println( "exprList = " + exprList );
 
 // TODO: check for collision with an existing URI

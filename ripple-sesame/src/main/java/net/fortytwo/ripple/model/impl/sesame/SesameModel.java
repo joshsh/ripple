@@ -113,4 +113,9 @@ public class SesameModel implements Model
             }
         }
     }
+
+    // Note: this method is not in the Model API
+    public Sail getSail() {
+        return sail;    
+    }
 }

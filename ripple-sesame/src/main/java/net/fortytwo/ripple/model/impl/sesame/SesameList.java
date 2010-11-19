@@ -27,6 +27,7 @@ import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
+import org.openrdf.model.ValueFactory;
 import org.openrdf.model.vocabulary.RDF;
 
 import java.util.HashMap;
@@ -125,6 +126,8 @@ RDFImporter importer = new RDFImporter( mc );
 		SesameList cur = this;
 		Resource prevRdf = null;
 
+        ValueFactory vf = ((SesameModel) mc.getModel()).getSail().getValueFactory();
+
 		do
 		{
 //System.out.println( "cur = " + cur );
@@ -153,7 +156,7 @@ RDFImporter importer = new RDFImporter( mc );
 				{
 //System.out.println( "    putting type statement" );
 					sink.put(
-						mc.createStatement( curRdf, RDF.TYPE, RDF.LIST ) );
+						vf.createStatement( curRdf, RDF.TYPE, RDF.LIST ) );
 				}
 			}
 
@@ -161,14 +164,14 @@ RDFImporter importer = new RDFImporter( mc );
 			{
 //System.out.println( "    putting rest statement" );
 				sink.put(
-					mc.createStatement( prevRdf, RDF.REST, curRdf ) );
+					vf.createStatement( prevRdf, RDF.REST, curRdf ) );
 			}
 
 			if ( RDF.NIL != curRdf )
 			{
 //System.out.println( "    putting first statement" );
 				sink.put(
-					mc.createStatement( curRdf, RDF.FIRST, cur.first.toRDF( mc ).sesameValue() ) );
+					vf.createStatement( curRdf, RDF.FIRST, cur.first.toRDF( mc ).sesameValue() ) );
 			}
 
 			prevRdf = curRdf;
@@ -380,6 +383,8 @@ RDFImporter importer = new RDFImporter( mc );
 											final ModelConnection mc )
 		throws RippleException
 	{
+        final ValueFactory vf = ((SesameModel) mc.getModel()).getSail().getValueFactory();
+
 		if ( head.toRDF( mc ).sesameValue().equals( RDF.NIL ) )
 		{
 			return;
@@ -396,7 +401,7 @@ RDFImporter importer = new RDFImporter( mc );
 		{
 			public void put( final RippleValue v ) throws RippleException
 			{
-				sink.put( mc.createStatement(
+				sink.put( vf.createStatement(
 					headVal, RDF.FIRST, v.toRDF( mc ).sesameValue() ) );
 			}
 		};
@@ -405,7 +410,7 @@ RDFImporter importer = new RDFImporter( mc );
 		{
 			public void put( final RippleValue v ) throws RippleException
 			{
-				sink.put( mc.createStatement(
+				sink.put( vf.createStatement(
 					headVal, RDF.REST, v.toRDF( mc ).sesameValue() ) );
 
 				// Recurse.
@@ -415,7 +420,7 @@ RDFImporter importer = new RDFImporter( mc );
 
 		// Annotate the head of the list with a type, but don't bother
 		// annotating every node in the list.
-		sink.put( mc.createStatement(
+		sink.put( vf.createStatement(
 			headVal, RDF.TYPE, RDF.LIST ) );
 
 		multiply( mc, head, RDF_FIRST, firstSink, false );

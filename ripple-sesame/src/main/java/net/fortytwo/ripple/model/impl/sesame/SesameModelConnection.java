@@ -479,19 +479,6 @@ public class SesameModelConnection implements ModelConnection {
 
     ////////////////////////////////////////////////////////////////////////////
 
-    public Statement createStatement(final Resource subj, final URI pred, final Value obj)
-            throws RippleException {
-        try {
-            return valueFactory.createStatement(subj, pred, obj);
-        }
-
-        catch (Throwable t) {
-            throw new RippleException(t);
-        }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
-
     public RDFValue createTypedLiteral(final String value, final RippleValue type) throws RippleException {
         Value v = type.toRDF(this).sesameValue();
 

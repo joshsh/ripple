@@ -14,7 +14,6 @@ import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.Source;
 import net.fortytwo.ripple.RippleException;
 import org.openrdf.model.Namespace;
-import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
@@ -58,10 +57,7 @@ public interface ModelConnection
 	void add( RippleValue subj, RippleValue pred, RippleValue obj, RippleValue... contexts ) throws RippleException;
 	void remove( RippleValue subj, RippleValue pred, RippleValue obj, RippleValue... contexts ) throws RippleException;
 
-// FIXME: Sesame URIs should not be part of the ModelConnection API
 	RDFValue uriValue( String s ) throws RippleException;
-// FIXME: Statements should not be part of the ModelConnection API
-	Statement createStatement( Resource subj, URI pred, Value obj ) throws RippleException;
 
     RDFValue createTypedLiteral( String label, RippleValue datatype ) throws RippleException;
 

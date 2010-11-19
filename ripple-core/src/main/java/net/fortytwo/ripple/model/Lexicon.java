@@ -78,9 +78,6 @@ public class Lexicon
             {
                 if ( key instanceof URI )
                 {
-                    Value mapsTo = mc.canonicalValue( key ).toRDF( mc ).sesameValue();
-                    boolean isPrimary = isPrimaryValue( key, mc );
-
                     // The keyword for a special URI is its local part.
                     String keyword = ( (URI) key ).getLocalName();
 

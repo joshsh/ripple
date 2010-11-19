@@ -9,17 +9,16 @@
 
 package net.fortytwo.ripple.libs.graph;
 
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
-
-import org.openrdf.model.Statement;
 import org.openrdf.model.Resource;
+import org.openrdf.model.Statement;
 
 /**
  * A primitive which consumes a resource and produces a three-element list
