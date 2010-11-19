@@ -412,11 +412,11 @@ System.out.println( RDFFormat.TURTLE.getName() + ": " + RDFFormat.TURTLE.getMIME
         return 0 <= i ? uri.substring(0, i) : uri;
 	}
 
-    public static URI createBNodeUri( final String id, final ValueFactory vf ) throws RippleException
+    public static URI createRandomUri( final String id, final ValueFactory vf ) throws RippleException
 	{
 		try
 		{
-			return vf.createURI( Ripple.URN_BNODE_PREFIX + id );
+			return vf.createURI( Ripple.RANDOM_URN_PREFIX + id );
 		}
 
 		catch ( Throwable t )
@@ -425,7 +425,7 @@ System.out.println( RDFFormat.TURTLE.getName() + ": " + RDFFormat.TURTLE.getMIME
 		}
 	}
 
-	public static URI createBNodeUri( final ValueFactory vf ) throws RippleException
+	public static URI createRandomUri( final ValueFactory vf ) throws RippleException
 	{
 		// Local name will be a UUID (without the dashes).
 		byte[] bytes = new byte[32];
@@ -441,7 +441,7 @@ System.out.println( RDFFormat.TURTLE.getName() + ": " + RDFFormat.TURTLE.getMIME
 			bytes[i] = (byte) ( ( c > 9 ) ? c - 10 + 'a' : c + '0' );
 		}
 
-		return createBNodeUri( new String( bytes ), vf );
+		return createRandomUri( new String( bytes ), vf );
 	}
 
     public static void main(final String[] args) throws RippleException {

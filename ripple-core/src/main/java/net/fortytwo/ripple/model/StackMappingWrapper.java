@@ -9,9 +9,10 @@
 
 package net.fortytwo.ripple.model;
 
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RipplePrintStream;
-import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.util.ModelConnectionHelper;
 
 /**
  * FIXME: this should probably not be a RippleValue.  Perhaps the behavior of 'invert' should change so that
@@ -32,7 +33,7 @@ public class StackMappingWrapper implements StackMapping, RippleValue
         this.innerMapping = wrapped;
         
         // Uses a random identifier... not for actual use
-        rdfValue = new RDFValue( mc.createBNode() );
+        rdfValue = new RDFValue( new ModelConnectionHelper(mc).createRandomURI() );
 //System.out.println("created a StackMappingWrapper: " + this + " for mapping " + innerMapping);
     }
 

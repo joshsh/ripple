@@ -22,6 +22,7 @@ import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StatementPatternQuery;
+import net.fortytwo.ripple.util.ModelConnectionHelper;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.Value;
@@ -132,7 +133,7 @@ RDFImporter importer = new RDFImporter( mc );
 			// Associate list nodes with RDF values.
 			if ( null == cur.rdfEquivalent )
 			{
-				curRdf = mc.createBNode();
+				curRdf = new ModelConnectionHelper(mc).createRandomURI();
 				cur.rdfEquivalent = curRdf;
 			}
 

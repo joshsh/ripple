@@ -92,7 +92,7 @@ public class BNodeClosureFilter implements Sink<Resource, RippleException>
 	{
         // Note: assuming that all non-URI resources are blank nodes
         return v instanceof Resource
-                && ( !( v instanceof URI ) || ( (URI) v ).getNamespace().startsWith( Ripple.URN_BNODE_PREFIX ) );
+                && ( !( v instanceof URI ) || ( (URI) v ).getNamespace().startsWith( Ripple.RANDOM_URN_PREFIX) );
 	}
 }
 

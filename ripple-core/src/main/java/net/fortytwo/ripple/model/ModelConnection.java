@@ -63,9 +63,6 @@ public interface ModelConnection
 	URI createURI( String s ) throws RippleException;
 	URI createURI( String ns, String s ) throws RippleException;
 	URI createURI( URI ns, String s ) throws RippleException;
-// FIXME: BNodes should not be part of the ModelConnection API
-	Resource createBNode() throws RippleException;
-	Resource createBNode( String id ) throws RippleException;
 // FIXME: Statements should not be part of the ModelConnection API
 	Statement createStatement( Resource subj, URI pred, Value obj ) throws RippleException;
 

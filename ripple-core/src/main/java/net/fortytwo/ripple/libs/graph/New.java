@@ -9,13 +9,14 @@
 
 package net.fortytwo.ripple.libs.graph;
 
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.util.ModelConnectionHelper;
 
 /**
  * A primitive which produces a new blank node.
@@ -57,7 +58,7 @@ public class New extends PrimitiveStackMapping
 
 		// Note: stack may be null (and this should not be a problem).
 		RippleList result = stack.push(
-			new RDFValue( mc.createBNode() ) );
+			new RDFValue( new ModelConnectionHelper(mc).createRandomURI() ) );
 //System.out.println( "Creating a new node" );
 
 		solutions.put( arg.with( result ) );

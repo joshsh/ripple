@@ -75,7 +75,7 @@ public class BNodeToURIFilter<E extends Exception> implements RDFSink<E>
 
 	private URI bnodeToUri( final BNode bnode )
 	{
-		return valueFactory.createURI( Ripple.URN_BNODE_PREFIX + bnode.getID() );
+		return valueFactory.createURI( Ripple.RANDOM_URN_PREFIX + bnode.getID() );
 	}
 	
 	public Sink<Statement, E> statementSink()

@@ -504,36 +504,6 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
-    public Resource createBNode() throws RippleException {
-        if (useBlankNodes) {
-            try {
-                return valueFactory.createBNode();
-            }
-
-            catch (Throwable t) {
-                reset(true);
-                throw new RippleException(t);
-            }
-        } else {
-            return RDFUtils.createBNodeUri(valueFactory);
-        }
-    }
-
-    public Resource createBNode(final String id) throws RippleException {
-        if (useBlankNodes) {
-            try {
-                return valueFactory.createBNode(id);
-            }
-
-            catch (Throwable t) {
-                reset(true);
-                throw new RippleException(t);
-            }
-        } else {
-            return RDFUtils.createBNodeUri(id, valueFactory);
-        }
-    }
-
     /*
      private static int randomInt( final int lo, final int hi )
      {

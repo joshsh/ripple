@@ -10,7 +10,6 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.StringUtils;
 import net.fortytwo.ripple.cli.ast.AST;
 import net.fortytwo.ripple.cli.ast.AnnotatedAST;
-import net.fortytwo.ripple.cli.ast.BlankNodeAST;
 import net.fortytwo.ripple.cli.ast.BooleanAST;
 import net.fortytwo.ripple.cli.ast.DecimalAST;
 import net.fortytwo.ripple.cli.ast.DoubleAST;
@@ -179,8 +178,6 @@ NAME_OR_PREFIX
 NAME_NOT_PREFIX
 	: '_' (NAME_CHAR)*
 	;
-
-NODEID_PREFIX : "_:" ;
 
 NUMBER
 	: ('-' | '+')? ( DIGIT )+
@@ -545,7 +542,6 @@ nt_Resource returns [ AST r ]
 	: r=nt_URIRef
 	| ( (NAME_OR_PREFIX)? COLON ) => r=nt_QName
 	| r=nt_KeywordOrBoolean
-	| r=nt_BNodeRef
 	;
 
 
@@ -604,18 +600,6 @@ nt_QName returns [ AST r ]
 	  )
 		{
 			r = new QNameAST( nsPrefix, localName );
-		}
-	;
-
-
-nt_BNodeRef returns [ AST r ]
-{
-	r = null;
-	String localName = null;
-}
-	: NODEID_PREFIX localName=nt_Name
-		{
-			r = new BlankNodeAST( localName );
 		}
 	;
 

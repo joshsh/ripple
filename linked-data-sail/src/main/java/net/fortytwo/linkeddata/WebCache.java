@@ -125,7 +125,7 @@ public class WebCache {
         else {
             Resource memoResource = useBNodes
                     ? valueFactory.createBNode()
-                    : RDFUtils.createBNodeUri(valueFactory);
+                    : RDFUtils.createRandomUri(valueFactory);
             sc.addStatement(contextURI, fullMemo, memoResource, cacheContext);
 
             for (ContextProperty entry : memo.getEntries()) {

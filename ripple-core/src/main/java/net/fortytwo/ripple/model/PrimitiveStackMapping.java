@@ -11,6 +11,7 @@ package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RipplePrintStream;
+import net.fortytwo.ripple.util.ModelConnectionHelper;
 import org.openrdf.model.Resource;
 
 public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
@@ -99,7 +100,7 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
 	{
         if ( null == rdfEquivalent )
         {
-            rdfEquivalent = new RDFValue( mc.createBNode() );
+            rdfEquivalent = new RDFValue( new ModelConnectionHelper(mc).createRandomURI() );
         }
 
         return rdfEquivalent;

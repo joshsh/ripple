@@ -1,14 +1,18 @@
 package net.fortytwo.ripple.util;
 
-import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.DistinctFilter;
+import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleValue;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
+import org.openrdf.model.URI;
 import org.openrdf.model.Value;
+
+import java.util.Random;
 
 /**
  * User: josh
@@ -16,6 +20,8 @@ import org.openrdf.model.Value;
  * Time: 4:21:35 PM
  */
 public class ModelConnectionHelper {
+    private static final Random RANDOM = new Random();
+
     private final ModelConnection connection;
 
     public ModelConnectionHelper(ModelConnection connection) {
@@ -83,7 +89,7 @@ public class ModelConnectionHelper {
         }
     }
 
-       //TODO: context handling
+    //TODO: context handling
     public void copyStatements(final RippleValue src, final RippleValue dest)
             throws RippleException {
         Sink<Statement, RippleException> stSink = new Sink<Statement, RippleException>() {
@@ -127,6 +133,26 @@ public class ModelConnectionHelper {
 
         connection.getStatements(subject.toRDF(connection), null, null, predSelector, false);
     }
+
+	public URI createRandomURI() throws RippleException
+	{
+		// Local name will be a UUID (without the dashes).
+		byte[] bytes = new byte[32];
+
+		// Artificially constrain the fist character to be a letter, so the
+		// local part of the URI is N3-friendly.
+		bytes[0] = (byte) ( 'a' + RANDOM.nextInt( 5 ) );
+
+		// Remaining characters are hexadecimal digits.
+		for ( int i = 1; i < 32; i++ )
+		{
+			int c = RANDOM.nextInt( 16 );
+			bytes[i] = (byte) ( ( c > 9 ) ? c - 10 + 'a' : c + '0' );
+		}
+
+		return connection.createURI( Ripple.RANDOM_URN_PREFIX + new String( bytes ) );
+	}
+
 
     private void multiplyRDFValues(final RDFValue subj, final RDFValue pred, final Sink<RDFValue, RippleException> sink)
             throws RippleException {

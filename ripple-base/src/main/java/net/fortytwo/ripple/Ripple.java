@@ -19,7 +19,7 @@ import java.util.Properties;
  */
 public final class Ripple
 {
-	public static final String URN_BNODE_PREFIX = "urn:bnode:";
+	public static final String RANDOM_URN_PREFIX = "urn:random:";
 
     public static final String
             BUFFER_QUERY_RESULTS                = "net.fortytwo.ripple.cli.bufferQueryResults",
@@ -77,7 +77,7 @@ public final class Ripple
 // FIXME: quiet is never used
 	private static boolean quiet = false;
 
-	////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
 
     private Ripple()
 	{
