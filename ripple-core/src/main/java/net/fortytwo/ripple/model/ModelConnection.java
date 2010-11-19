@@ -12,7 +12,6 @@ package net.fortytwo.ripple.model;
 import info.aduna.iteration.CloseableIteration;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.Source;
-import net.fortytwo.flow.rdf.RDFSource;
 import net.fortytwo.ripple.RippleException;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Resource;
@@ -56,8 +55,6 @@ public interface ModelConnection
 	URI toUri( RippleValue v ) throws RippleException;
 	void toList( RippleValue v, Sink<RippleList, RippleException> sink ) throws RippleException;
 
-	void findPredicates( RippleValue subject, Sink<RippleValue, RippleException> sink ) throws RippleException;
-
 // FIXME: Statements should not be part of the ModelConnection API
 	void add( RippleValue subj, RippleValue pred, RippleValue obj, RippleValue... contexts ) throws RippleException;
 	void remove( RippleValue subj, RippleValue pred, RippleValue obj, RippleValue... contexts ) throws RippleException;
@@ -91,7 +88,6 @@ public interface ModelConnection
     RippleList list();
     RippleList list( RippleValue v );
 	RippleList list( RippleValue v, RippleList rest );
-	RippleList concat( RippleList head, RippleList tail );
 
     /**
      * Define a namespace prefix.
@@ -102,15 +98,12 @@ public interface ModelConnection
      */
     void setNamespace( String prefix, String ns, boolean override ) throws RippleException;
 
-    void query( StatementPatternQuery query, Sink<RippleValue, RippleException> sink ) throws RippleException;
-    void queryAsynch( StatementPatternQuery query, Sink<RippleValue, RippleException> sink ) throws RippleException;
+    void query( StatementPatternQuery query, Sink<RippleValue, RippleException> sink, boolean asynchronous ) throws RippleException;
 
 // FIXME: Namespaces should not be part of the ModelConnection API
 	Source<Namespace, RippleException> getNamespaces() throws RippleException;
 // FIXME: Statements should not be part of the ModelConnection API
 	void getStatements( RDFValue subj, RDFValue pred, RDFValue obj, Sink<Statement, RippleException> sink, boolean includeInferred ) throws RippleException;
-
-	RDFSource getSource();
 
 // FIXME: this is a hack
     CloseableIteration<? extends BindingSet, QueryEvaluationException> evaluate( String query ) throws RippleException ;

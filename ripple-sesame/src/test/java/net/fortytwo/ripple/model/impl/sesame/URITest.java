@@ -187,7 +187,7 @@ System.out.println( "unhandled test case!" );
 
         Collector<RippleValue, RippleException> cases = new Collector<RippleValue, RippleException>();
         StatementPatternQuery query = new StatementPatternQuery( null, TYPE, URITEST, false );
-        mc.query( query, cases );
+        mc.query( query, cases, false );
 
         Iterator<RippleValue> iter = cases.iterator();
         while ( iter.hasNext() )

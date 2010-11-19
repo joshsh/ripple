@@ -147,30 +147,30 @@ public class RippleListTest extends RippleTestCase
 
         RippleList lresult;
 
-        lresult = mc.concat( listA, listB );
+        lresult = listA.concat( listB );
         assertEquals( lresult.length(), 4 );
         assertEquals( lresult.get( 0 ), a0 );
         assertEquals( lresult.get( 1 ), a1 );
         assertEquals( lresult.get( 2 ), a2 );
         assertEquals( lresult.get( 3 ), b0 );
-        lresult = mc.concat( listB, listA );
+        lresult = listB.concat( listA );
         assertEquals( lresult.length(), 4 );
         assertEquals( lresult.get( 0 ), b0 );
         assertEquals( lresult.get( 1 ), a0 );
         assertEquals( lresult.get( 2 ), a1 );
         assertEquals( lresult.get( 3 ), a2 );
 
-        lresult = mc.concat( listA, mc.list() );
+        lresult = listA.concat( mc.list() );
         assertEquals( lresult.length(), 3 );
         assertEquals( lresult.get( 0 ), a0 );
         assertEquals( lresult.get( 1 ), a1 );
         assertEquals( lresult.get( 2 ), a2 );
 
-        lresult = mc.concat( mc.list(), listB );
+        lresult = mc.list().concat( listB );
         assertEquals( lresult.length(), 1 );
         assertEquals( lresult.get( 0 ), b0 );
 
-        lresult = mc.concat( mc.list(), mc.list() );
+        lresult = mc.list().concat( mc.list() );
         assertEquals( lresult.length(), 0 );
         assertEquals( lresult, mc.list() );
     }

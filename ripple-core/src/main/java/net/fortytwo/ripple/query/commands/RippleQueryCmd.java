@@ -55,7 +55,7 @@ public class RippleQueryCmd extends Command
                     public void put( final RippleList base )
                         throws RippleException
                     {
-                        expressions.put( mc.concat( stack, base ) );
+                        expressions.put( stack.concat( base ) );
                     }
                 };
 

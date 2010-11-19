@@ -9,9 +9,10 @@
 
 package net.fortytwo.ripple.model.impl.sesame;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import net.fortytwo.flow.Collector;
+import net.fortytwo.flow.Sink;
+import net.fortytwo.flow.Source;
+import net.fortytwo.ripple.ListNode;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RDFImporter;
@@ -21,15 +22,13 @@ import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StatementPatternQuery;
-import net.fortytwo.flow.Collector;
-import net.fortytwo.flow.Sink;
-import net.fortytwo.flow.Source;
-import net.fortytwo.ripple.ListNode;
-
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.RDF;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SesameList extends RippleList
 {
@@ -174,6 +173,12 @@ RDFImporter importer = new RDFImporter( mc );
 			cur = (SesameList) cur.getRest();
 		} while ( RDF.NIL != prevRdf );
 	}
+
+    public RippleList concat( final RippleList tail ) {
+ 		return ( NIL == this )
+			? tail
+			: new SesameList( this.getFirst(), concat( this.getRest(), tail ) );
+    }
 
 	public static RippleList concat( final RippleList head, final RippleList tail )
 	{
@@ -339,7 +344,7 @@ RDFImporter importer = new RDFImporter( mc );
                            final boolean includeInferred ) throws RippleException
     {
         StatementPatternQuery query = new StatementPatternQuery( subj, pred, null, includeInferred );
-        mc.query( query, sink );
+        mc.query( query, sink, false );
     }
 
     ////////////////////////////////////////////////////////////////////////////

@@ -13,13 +13,10 @@ import info.aduna.iteration.CloseableIteration;
 import net.fortytwo.flow.AdapterSink;
 import net.fortytwo.flow.Buffer;
 import net.fortytwo.flow.Collector;
-import net.fortytwo.flow.DistinctFilter;
 import net.fortytwo.flow.NullSink;
-import net.fortytwo.flow.NullSource;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.Source;
 import net.fortytwo.flow.rdf.CloseableIterationSource;
-import net.fortytwo.flow.rdf.RDFSource;
 import net.fortytwo.flow.rdf.diff.RDFDiffSink;
 import net.fortytwo.linkeddata.sail.SailConnectionListenerAdapter;
 import net.fortytwo.ripple.Ripple;
@@ -132,10 +129,6 @@ public class SesameModelConnection implements ModelConnection {
 
     public RippleList list(RippleValue v, RippleList rest) {
         return new SesameList(v, rest);
-    }
-
-    public RippleList concat(final RippleList head, final RippleList tail) {
-        return SesameList.concat(head, tail);
     }
 
     public void close() throws RippleException {
@@ -306,29 +299,6 @@ public class SesameModelConnection implements ModelConnection {
         } else {
             throw new RippleException("value " + v.toString() + " is not a URI");
         }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
-
-    public void findPredicates(final RippleValue subject,
-                               final Sink<RippleValue, RippleException> sink)
-            throws RippleException {
-        final Sink<Value, RippleException> valueSink = new Sink<Value, RippleException>() {
-            public void put(final Value v) throws RippleException {
-                sink.put(value(v));
-            }
-        };
-
-        Sink<Statement, RippleException> predSelector = new Sink<Statement, RippleException>() {
-            Sink<Value, RippleException> predSink = new DistinctFilter<Value, RippleException>(valueSink);
-
-            public void put(final Statement st) throws RippleException {
-                //TODO: don't create a new RdfValue before checking for uniqueness
-                predSink.put(st.getPredicate());
-            }
-        };
-
-        getStatements(subject.toRDF(this), null, null, predSelector, false);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -768,7 +738,7 @@ public class SesameModelConnection implements ModelConnection {
         }
 
         public void executeProtected() throws RippleException {
-            query(query, sink);
+            query(query, sink, false);
         }
 
         protected void stopProtected() {
@@ -778,34 +748,36 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
-    public void query(final StatementPatternQuery query, final Sink<RippleValue, RippleException> sink) throws RippleException {
-        GetStatementsQuery sesameQuery;
+    public void query(final StatementPatternQuery query,
+                      final Sink<RippleValue, RippleException> sink,
+                      final boolean asynchronous) throws RippleException {
+        if (asynchronous) {
+            QueryTask task = new QueryTask(query, sink);
+            taskSet.add(task);
+        } else {
+            GetStatementsQuery sesameQuery;
 
-        try {
-            sesameQuery = new GetStatementsQuery(query, this);
-        } catch (GetStatementsQuery.InvalidQueryException e) {
-            LOGGER.debug("invalid query: " + e.getMessage());
-            return;
-        }
-
-        Sink<Value, RippleException> valueSink = new Sink<Value, RippleException>() {
-            public void put(final Value val) throws RippleException {
-                sink.put(value(val));
+            try {
+                sesameQuery = new GetStatementsQuery(query, this);
+            } catch (GetStatementsQuery.InvalidQueryException e) {
+                LOGGER.debug("invalid query: " + e.getMessage());
+                return;
             }
-        };
 
-        try {
-            sesameQuery.getValues(sailConnection, valueSink);
-        } catch (RippleException e) {
-            reset(true);
-            throw e;
+            Sink<Value, RippleException> valueSink = new Sink<Value, RippleException>() {
+                public void put(final Value val) throws RippleException {
+                    sink.put(value(val));
+                }
+            };
+
+            try {
+                sesameQuery.getValues(sailConnection, valueSink);
+            } catch (RippleException e) {
+                reset(true);
+                throw e;
+            }
+            //getStatements( query.subject, query.predicate, query.object, stSink, query.includeInferred );
         }
-        //getStatements( query.subject, query.predicate, query.object, stSink, query.includeInferred );
-    }
-
-    public void queryAsynch(final StatementPatternQuery query, final Sink<RippleValue, RippleException> sink) throws RippleException {
-        QueryTask task = new QueryTask(query, sink);
-        taskSet.add(task);
     }
 
     public Source<Namespace, RippleException> getNamespaces() throws RippleException {
@@ -898,31 +870,6 @@ public class SesameModelConnection implements ModelConnection {
             buffer.flush();
         }
     }
-
-    public RDFSource getSource() {
-        return new RDFSource() {
-            private Source<Statement, RippleException> stSource = new Source<Statement, RippleException>() {
-                public void writeTo(final Sink<Statement, RippleException> sink)
-                        throws RippleException {
-                    getStatements(null, null, null, sink, false);
-                }
-            };
-
-            private Source<String, RippleException> comSource = new NullSource<String, RippleException>();
-
-            public Source<Statement, RippleException> statementSource() throws RippleException {
-                return stSource;
-            }
-
-            public Source<Namespace, RippleException> namespaceSource() throws RippleException {
-                return getNamespaces();
-            }
-
-            public Source<String, RippleException> commentSource() throws RippleException {
-                return comSource;
-            }
-        };
-    }// FIXME: this is a hack
 
     public CloseableIteration<? extends BindingSet, QueryEvaluationException> evaluate(final String query)
             throws RippleException {

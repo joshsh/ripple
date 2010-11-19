@@ -9,16 +9,17 @@
 
 package net.fortytwo.ripple.cli;
 
+import net.fortytwo.flow.Collector;
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.RippleProperties;
-import net.fortytwo.flow.Collector;
-import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.io.RipplePrintStream;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StatementPatternQuery;
+import net.fortytwo.ripple.util.ModelConnectionHelper;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -37,7 +38,8 @@ public class TurtleView implements Sink<RippleList, RippleException>
 	private static final String INDEX_SEPARATOR = "  ";
 
 	private final RipplePrintStream printStream;
-	private final ModelConnection modelConnection;
+    private final ModelConnection modelConnection;
+    private final ModelConnectionHelper helper;
 
     private final boolean printEntireStack;
     private final boolean showEdges;
@@ -53,6 +55,7 @@ public class TurtleView implements Sink<RippleList, RippleException>
 	{
 		this.printStream = printStream;
 		this.modelConnection = modelConnection;
+        this.helper = new ModelConnectionHelper(modelConnection);
 
         RippleProperties props = Ripple.getProperties();
         this.printEntireStack = props.getBoolean(
@@ -106,7 +109,7 @@ public class TurtleView implements Sink<RippleList, RippleException>
 		if ( showEdges )
 		{
 			Collector<RippleValue, RippleException> predicates = new Collector<RippleValue, RippleException>();
-			modelConnection.findPredicates( subject, predicates );
+			helper.findPredicates( subject, predicates );
 	
 			int predCount = 0;
 
@@ -131,7 +134,7 @@ public class TurtleView implements Sink<RippleList, RippleException>
 	
 				Collector<RippleValue, RippleException> objects = new Collector<RippleValue, RippleException>();
                 StatementPatternQuery query = new StatementPatternQuery( subject, predicate, null, Ripple.useInference() );
-                modelConnection.query( query, objects );
+                modelConnection.query( query, objects, false );
 
 				int objCount = 0;
 

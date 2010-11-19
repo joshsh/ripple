@@ -125,7 +125,7 @@ nilSource.put( mc.list() );
 		try
 		{
             StatementPatternQuery query = new StatementPatternQuery( v, RDF_FIRST, null, false );
-            mc.query( query, new NullSink<RippleValue, RippleException>() );
+            mc.query( query, new NullSink<RippleValue, RippleException>(), false );
 		}
 
 		catch ( RippleException e )

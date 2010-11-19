@@ -49,4 +49,9 @@ public class Neo4jList extends RippleList {
     public RippleList invert() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    public RippleList concat(RippleList tail) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
 }

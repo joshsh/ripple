@@ -222,18 +222,6 @@ public class Neo4jModelConnection extends SesameModelConnection {
     }
 */
 
-    @Override
-    public void query( final StatementPatternQuery query, final Sink<RippleValue, RippleException> sink ) throws RippleException
-    {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void queryAsynch( final StatementPatternQuery query, final Sink<RippleValue, RippleException> sink ) throws RippleException
-    {
-        // TODO
-        query( query, sink );
-    }
 
     /*
     public void getNamespaces(Sink<Namespace, RippleException> sink) throws RippleException {

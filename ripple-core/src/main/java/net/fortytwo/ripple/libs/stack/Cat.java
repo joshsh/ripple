@@ -77,7 +77,7 @@ public class Cat extends PrimitiveStackMapping
 				{
 					public void put( final RippleList list1 ) throws RippleException
 					{
-						RippleList result = mc.concat( list2, list1 );
+						RippleList result = list2.concat( list1 );
 						solutions.put( arg.with(
 								rest.push( result ) ) );
 					}

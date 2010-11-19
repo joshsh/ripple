@@ -77,6 +77,7 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
 	
 	public abstract RippleList push( RippleValue v ) throws RippleException;
     public abstract RippleList invert();
+    public abstract RippleList concat( final RippleList tail );
 
     private static void initialize() throws RippleException
     {

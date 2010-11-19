@@ -151,7 +151,7 @@ public class ListAST extends ListNode<AST> implements AST<RippleList>
 					{
 						public void put( final RippleList f ) throws RippleException
 						{
-							sink.put( mc.concat( f, rest ) );
+							sink.put( f.concat( rest ) );
 						}
 					};
 

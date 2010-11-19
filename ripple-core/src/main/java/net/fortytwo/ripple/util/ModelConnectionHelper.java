@@ -1,12 +1,14 @@
 package net.fortytwo.ripple.util;
 
 import net.fortytwo.flow.Sink;
+import net.fortytwo.flow.DistinctFilter;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleValue;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
+import org.openrdf.model.Value;
 
 /**
  * User: josh
@@ -103,6 +105,27 @@ public class ModelConnectionHelper {
         };
 
         connection.getStatements(src.toRDF(connection), null, null, stSink, false);
+    }
+
+    public void findPredicates(final RippleValue subject,
+                               final Sink<RippleValue, RippleException> sink)
+            throws RippleException {
+        final Sink<Value, RippleException> valueSink = new Sink<Value, RippleException>() {
+            public void put(final Value v) throws RippleException {
+                sink.put(connection.value(v));
+            }
+        };
+
+        Sink<Statement, RippleException> predSelector = new Sink<Statement, RippleException>() {
+            Sink<Value, RippleException> predSink = new DistinctFilter<Value, RippleException>(valueSink);
+
+            public void put(final Statement st) throws RippleException {
+                //TODO: don't create a new RdfValue before checking for uniqueness
+                predSink.put(st.getPredicate());
+            }
+        };
+
+        connection.getStatements(subject.toRDF(connection), null, null, predSelector, false);
     }
 
     private void multiplyRDFValues(final RDFValue subj, final RDFValue pred, final Sink<RDFValue, RippleException> sink)
