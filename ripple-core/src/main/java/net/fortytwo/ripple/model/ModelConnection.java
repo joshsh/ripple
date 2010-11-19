@@ -56,8 +56,6 @@ public interface ModelConnection
 	URI toUri( RippleValue v ) throws RippleException;
 	void toList( RippleValue v, Sink<RippleList, RippleException> sink ) throws RippleException;
 
-	void removeStatementsAbout( URI subj ) throws RippleException;
-
 	void forget( RippleValue v ) throws RippleException;
 
 	void findPredicates( RippleValue subject, Sink<RippleValue, RippleException> sink ) throws RippleException;
@@ -66,9 +64,6 @@ public interface ModelConnection
 	void add( RippleValue subj, RippleValue pred, RippleValue obj, RippleValue... contexts ) throws RippleException;
 	void remove( RippleValue subj, RippleValue pred, RippleValue obj, RippleValue... contexts ) throws RippleException;
 
-// FIXME: URIs should not be part of the ModelConnection API
-	void removeStatementsAbout( RDFValue subj, URI context ) throws RippleException;
-    
 // FIXME: Sesame URIs should not be part of the ModelConnection API
 	URI createURI( String s ) throws RippleException;
 	URI createURI( String ns, String s ) throws RippleException;

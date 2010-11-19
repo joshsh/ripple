@@ -9,15 +9,14 @@
 
 package net.fortytwo.ripple.model.impl.neo4j;
 
-import net.fortytwo.ripple.model.RippleValue;
+import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.RDFValue;
+import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.model.impl.sesame.SesameModelConnection;
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.flow.Sink;
-import org.openrdf.model.URI;
-import org.openrdf.model.Statement;
 import org.neo4j.api.core.NeoService;
+import org.openrdf.model.Statement;
 
 /**
  * Author: josh
@@ -127,11 +126,6 @@ public class Neo4jModelConnection extends SesameModelConnection {
     public void remove(RippleValue subj, RippleValue pred, RippleValue obj, final RippleValue... contexts) throws RippleException {
 //To change body of implemented methods use File | Settings | File Templates.
     }// FIXME: URIs should not be part of the ModelConnection API
-
-    @Override
-    public void removeStatementsAbout(RDFValue subj, URI context) throws RippleException {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }// FIXME: Resources should not be part of the ModelConnection API
 
     /*
     // FIXME: Resources should not be part of the ModelConnection API

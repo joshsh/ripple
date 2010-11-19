@@ -308,22 +308,6 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
-    public void removeStatementsAbout(final URI subj)
-            throws RippleException {
-        try {
-            sailConnection.removeStatements(subj, null, null);
-        }
-
-        catch (SailReadOnlyException e) {
-            handleSailReadOnlyException(e);
-        }
-
-        catch (Throwable t) {
-            reset(true);
-            throw new RippleException(t);
-        }
-    }
-
     ////////////////////////////////////////////////////////////////////////////
 
     public void forget(final RippleValue v) throws RippleException {
@@ -477,34 +461,6 @@ public class SesameModelConnection implements ModelConnection {
         }
 
         uncommittedChanges = true;
-    }
-
-    public void removeStatementsAbout(final RDFValue subj, final URI context)
-            throws RippleException {
-        Value subjValue = subj.toRDF(this).sesameValue();
-
-        if (!(subjValue instanceof Resource)) {
-            return;
-        }
-
-        try {
-            if (null == context) {
-                sailConnection.removeStatements((Resource) subjValue, null, null);
-            } else {
-                sailConnection.removeStatements((Resource) subjValue, null, null, context);
-            }
-
-            uncommittedChanges = true;
-        }
-
-        catch (SailReadOnlyException e) {
-            handleSailReadOnlyException(e);
-        }
-
-        catch (SailException e) {
-            reset(true);
-            throw new RippleException(e);
-        }
     }
 
     // Note: this method is no longer in the ModelConnection API
