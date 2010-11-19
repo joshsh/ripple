@@ -26,7 +26,6 @@ import net.fortytwo.ripple.cli.ast.TemplateAST;
 import net.fortytwo.ripple.cli.ast.TypedLiteralAST;
 import net.fortytwo.ripple.cli.ast.URIAST;
 import net.fortytwo.ripple.query.Command;
-import net.fortytwo.ripple.query.commands.CountStatementsCmd;
 import net.fortytwo.ripple.query.commands.DefinePrefixCmd;
 import net.fortytwo.ripple.query.commands.DefineTermCmd;
 import net.fortytwo.ripple.query.commands.QuitCmd;
@@ -233,7 +232,6 @@ OP_PLUS_FORWARD : "+>>";
 protected
 DRCTV : '@' ;
 
-DRCTV_COUNT     : DRCTV ( "count"         | "c" ) ;
 DRCTV_DEFINE    : DRCTV ( "define"        | "d" ) ;
 DRCTV_HELP      : DRCTV ( "help"          | "h" ) ;
 DRCTV_LIST      : DRCTV ( "list"          | "l" ) ;
@@ -701,13 +699,8 @@ nt_Directive
 	ListAST lhs = new ListAST();
 	boolean redefine = false;
 }
-	: DRCTV_COUNT nt_Ws "statements" (nt_Ws)? PERIOD
-		{
-			matchCommand( new CountStatementsCmd() );
-		}
-
     // FIXME: this syntax allows a parenthesized expression in place of the definition name
-	| ( DRCTV_DEFINE || DRCTV_REDEFINE { redefine = true; } )
+	: ( DRCTV_DEFINE || DRCTV_REDEFINE { redefine = true; } )
 	        nt_Ws lhs=nt_TemplateList /*(nt_Ws)?*/ COLON (nt_Ws)? rhs=nt_List /*(nt_Ws)?*/ PERIOD
 		{
             lhs = lhs.invert();

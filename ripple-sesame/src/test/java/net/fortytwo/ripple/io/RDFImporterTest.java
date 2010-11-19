@@ -12,9 +12,11 @@ package net.fortytwo.ripple.io;
 import net.fortytwo.flow.rdf.SesameInputAdapter;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.impl.sesame.SesameModelConnection;
 import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.util.RDFHTTPUtils;
 import net.fortytwo.ripple.util.RDFUtils;
+import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.rio.RDFFormat;
 
@@ -24,7 +26,7 @@ import java.net.URL;
 
 public class RDFImporterTest extends RippleTestCase
 {
-    void addGraph( final InputStream is,
+    private void addGraph( final InputStream is,
                     final URI context,
                     final RDFFormat format,
                     final ModelConnection mc )
@@ -36,7 +38,7 @@ public class RDFImporterTest extends RippleTestCase
 mc.commit();
     }
 
-    void addGraph( final URL url,
+    private void addGraph( final URL url,
                     final URI context,
                     final RDFFormat format,
                     final ModelConnection mc )
@@ -46,6 +48,11 @@ mc.commit();
         SesameInputAdapter sc = new SesameInputAdapter( importer );
         RDFHTTPUtils.read( url, sc, context.toString(), format );
 mc.commit();
+    }
+
+    private long countStatements(final ModelConnection mc,
+                                final Resource... contexts) throws RippleException {
+        return ((SesameModelConnection) mc).countStatements(contexts);
     }
 
     public void testImporter() throws Exception
@@ -62,7 +69,7 @@ mc.commit();
             addGraph( is, ctxA, RDFFormat.TURTLE, mc );
 
             //assertEquals( mc.countStatements( null ), 1 );
-            assertEquals( mc.countStatements( ctxA ), 1 );
+            assertEquals( countStatements( mc, ctxA ), 1 );
         }
 
         {
@@ -73,14 +80,14 @@ mc.commit();
             URI ctxB = mc.createURI( "urn:org.example.test.addGraphTest.turtleB#" );
 
             addGraph( test1Url, ctxA, RDFFormat.TURTLE, mc );
-            assertEquals( mc.countStatements( ctxA ), 2 );
+            assertEquals( countStatements( mc, ctxA ), 2 );
             addGraph( test2Url, ctxA, RDFFormat.TURTLE, mc );
-            assertEquals( mc.countStatements( ctxA ), 4 );
+            assertEquals( countStatements( mc, ctxA ), 4 );
 
             addGraph( test1Url, ctxB, RDFFormat.TURTLE, mc );
-            assertEquals( mc.countStatements( ctxB ), 2 );
+            assertEquals( countStatements( mc, ctxB ), 2 );
             addGraph( test2Url, ctxB, RDFFormat.TURTLE, mc );
-            assertEquals( mc.countStatements( ctxB ), 4 );
+            assertEquals( countStatements( mc, ctxB ), 4 );
         }
 
         {
@@ -91,14 +98,14 @@ mc.commit();
             URI ctxB = mc.createURI( "urn:org.example.test.addGraphTest.rdfxmlB#" );
 
             addGraph( test1Url, ctxA, RDFFormat.RDFXML, mc );
-            assertEquals( mc.countStatements( ctxA ), 2 );
+            assertEquals( countStatements( mc, ctxA ), 2 );
             addGraph( test2Url, ctxA, RDFFormat.RDFXML, mc );
-            assertEquals( mc.countStatements( ctxA ), 4 );
+            assertEquals( countStatements( mc, ctxA ), 4 );
 
             addGraph( test1Url, ctxB, RDFFormat.RDFXML, mc );
-            assertEquals( mc.countStatements( ctxB ), 2 );
+            assertEquals( countStatements( mc, ctxB ), 2 );
             addGraph( test2Url, ctxB, RDFFormat.RDFXML, mc );
-            assertEquals( mc.countStatements( ctxB ), 4 );
+            assertEquals( countStatements( mc, ctxB ), 4 );
         }
 
         mc.close();

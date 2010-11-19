@@ -9,15 +9,15 @@
 
 package net.fortytwo.ripple.query.commands;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Collector;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.cli.ast.ListAST;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
-
+import net.fortytwo.ripple.util.ModelConnectionHelper;
 import org.openrdf.model.URI;
 
 public class DefineTermCmd extends Command
@@ -68,7 +68,7 @@ public class DefineTermCmd extends Command
 
 // TODO: check for collision with an existing URI
 			URI uri = mc.createURI( qe.getDefaultNamespace() + name);
-			mc.copyStatements( expr, new RDFValue( uri ) );
+			new ModelConnectionHelper(mc).copyStatements( expr, new RDFValue( uri ) );
 			mc.commit();
 
 			qe.getLexicon().addURI( uri );

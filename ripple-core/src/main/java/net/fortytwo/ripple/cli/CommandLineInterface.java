@@ -251,7 +251,6 @@ jline.Terminal term = reader.getTerminal();
 			}
 
 			ArrayList<String> directives = new ArrayList<String>();
-			directives.add( "@count" );
 			directives.add( "@define" );
 			directives.add( "@help" );
 			directives.add( "@list" );

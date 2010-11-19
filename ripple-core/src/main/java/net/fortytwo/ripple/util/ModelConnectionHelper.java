@@ -1,10 +1,11 @@
 package net.fortytwo.ripple.util;
 
+import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.flow.Sink;
+import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 
 /**
@@ -80,6 +81,29 @@ public class ModelConnectionHelper {
         }
     }
 
+       //TODO: context handling
+    public void copyStatements(final RippleValue src, final RippleValue dest)
+            throws RippleException {
+        Sink<Statement, RippleException> stSink = new Sink<Statement, RippleException>() {
+            public void put(final Statement st) throws RippleException {
+                Resource context = st.getContext();
+
+                try {
+                    if (null == context) {
+                        connection.add(dest, new RDFValue(st.getPredicate()), new RDFValue(st.getObject()));
+                    } else {
+                        connection.add(dest, new RDFValue(st.getPredicate()), new RDFValue(st.getObject()), new RDFValue(st.getContext()));
+                    }
+                }
+
+                catch (Throwable t) {
+                    throw new RippleException(t);
+                }
+            }
+        };
+
+        connection.getStatements(src.toRDF(connection), null, null, stSink, false);
+    }
 
     private void multiplyRDFValues(final RDFValue subj, final RDFValue pred, final Sink<RDFValue, RippleException> sink)
             throws RippleException {

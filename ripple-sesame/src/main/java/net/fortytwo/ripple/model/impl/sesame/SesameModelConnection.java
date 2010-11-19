@@ -308,39 +308,6 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
-    //TODO: context handling
-    public void copyStatements(final RippleValue src, final RippleValue dest)
-            throws RippleException {
-        final Resource destResource = castToResource(dest.toRDF(this).sesameValue());
-
-        Sink<Statement, RippleException> stSink = new Sink<Statement, RippleException>() {
-            public void put(final Statement st) throws RippleException {
-                Resource context = st.getContext();
-
-                try {
-                    if (null == context) {
-                        sailConnection.addStatement(
-                                destResource, st.getPredicate(), st.getObject());
-                    } else {
-                        sailConnection.addStatement(
-                                destResource, st.getPredicate(), st.getObject(), context);
-                    }
-                }
-
-                catch (SailReadOnlyException e) {
-                    handleSailReadOnlyException(e);
-                }
-
-                catch (Throwable t) {
-                    reset(true);
-                    throw new RippleException(t);
-                }
-            }
-        };
-
-        getStatements(src.toRDF(this), null, null, stSink, false);
-    }
-
     public void removeStatementsAbout(final URI subj)
             throws RippleException {
         try {
@@ -390,25 +357,6 @@ public class SesameModelConnection implements ModelConnection {
     }
 
     ////////////////////////////////////////////////////////////////////////////
-
-    //FIXME: Statements should be absent from the ModelConnection API
-
-    public void add(final Statement st, final Resource... contexts)
-            throws RippleException {
-        try {
-            sailConnection.addStatement(st.getSubject(), st.getPredicate(), st.getObject(), contexts);
-            uncommittedChanges = true;
-        }
-
-        catch (SailReadOnlyException e) {
-            handleSailReadOnlyException(e);
-        }
-
-        catch (Throwable t) {
-            reset(true);
-            throw new RippleException(t);
-        }
-    }
 
     public void add(final RippleValue subj, final RippleValue pred, final RippleValue obj, RippleValue... contexts)
             throws RippleException {
@@ -559,7 +507,7 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
-    //FIXME: Resources should be absent from the ModelConnection API
+    // Note: this method is no longer in the ModelConnection API
     public long countStatements(final Resource... contexts)
             throws RippleException {
         int count = 0;
