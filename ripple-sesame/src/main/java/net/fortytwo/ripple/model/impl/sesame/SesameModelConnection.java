@@ -445,19 +445,6 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
-    public void putContainerMembers(final RippleValue head, final Sink<RippleValue, RippleException> sink)
-            throws RippleException {
-        Sink<Statement, RippleException> stSink = new Sink<Statement, RippleException>() {
-            public void put(final Statement st) throws RippleException {
-                if ('_' == st.getPredicate().getLocalName().charAt(0)) {
-                    sink.put(new RDFValue(st.getObject()));
-                }
-            }
-        };
-
-        getStatements(head.toRDF(this), null, null, stSink, false);
-    }
-
     ////////////////////////////////////////////////////////////////////////////
 
     public void forget(final RippleValue v) throws RippleException {
@@ -1167,40 +1154,26 @@ public class SesameModelConnection implements ModelConnection {
 
     ////////////////////////////////////////////////////////////////////////////
 
-    //TODO: Namespaces should not be part of the ModelConnection API
-
-    public void putNamespaces(final Sink<Namespace, RippleException> sink)
+    public Source<RippleValue, RippleException> getContexts()
             throws RippleException {
-        try {
-            CloseableIteration<? extends Namespace, SailException> iter
-                    = sailConnection.getNamespaces();
+        return new Source<RippleValue, RippleException>() {
+            public void writeTo(Sink<RippleValue, RippleException> sink) throws RippleException {
+                try {
+                    CloseableIteration<? extends Resource, SailException> iter
+                            = sailConnection.getContextIDs();
 
-            while (iter.hasNext()) {
-                sink.put(iter.next());
+                    while (iter.hasNext()) {
+                        sink.put(new RDFValue(iter.next()));
+                    }
+
+                    iter.close();
+                }
+
+                catch (SailException e) {
+                    throw new RippleException(e);
+                }
             }
-        }
-
-        catch (SailException e) {
-            throw new RippleException(e);
-        }
-    }
-
-    public void putContexts(final Sink<RippleValue, RippleException> sink)
-            throws RippleException {
-        try {
-            CloseableIteration<? extends Resource, SailException> iter
-                    = sailConnection.getContextIDs();
-
-            while (iter.hasNext()) {
-                sink.put(new RDFValue(iter.next()));
-            }
-
-            iter.close();
-        }
-
-        catch (SailException e) {
-            throw new RippleException(e);
-        }
+        };
     }
 
     private void handleSailReadOnlyException(final SailReadOnlyException e) {

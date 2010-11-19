@@ -9,19 +9,18 @@
 
 package net.fortytwo.ripple.query.commands;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Arrays;
-
+import net.fortytwo.flow.Collector;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RipplePrintStream;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.flow.Collector;
-
 import org.openrdf.model.Namespace;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class ShowNamespacesCmd extends Command
 {
@@ -33,7 +32,7 @@ public class ShowNamespacesCmd extends Command
         // Create a map of prefixes to names and find the longest prefix.
         Map<String, String> prefixesToNames = new HashMap<String, String>();
         Collector<Namespace, RippleException> coll = new Collector<Namespace, RippleException>();
-		mc.putNamespaces( coll );
+		mc.getNamespaces().writeTo(coll);
 		int max = 0;
         int j = 0;
 		Iterator<Namespace> iter = coll.iterator();

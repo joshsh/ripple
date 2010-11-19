@@ -36,7 +36,7 @@ public class ShowContextsCmd extends Command
 		};
 
 		ps.println( "" );
-		mc.putContexts( printSink );
+		mc.getContexts().writeTo( printSink );
 		ps.println( "" );
 	}
 

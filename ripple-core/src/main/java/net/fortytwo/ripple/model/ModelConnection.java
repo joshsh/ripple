@@ -10,10 +10,10 @@
 package net.fortytwo.ripple.model;
 
 import info.aduna.iteration.CloseableIteration;
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.Source;
 import net.fortytwo.flow.rdf.RDFSource;
+import net.fortytwo.ripple.RippleException;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
@@ -22,7 +22,6 @@ import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
 import org.openrdf.query.QueryEvaluationException;
 
-import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.Date;
@@ -65,7 +64,6 @@ public interface ModelConnection
 
 	void copyStatements( RippleValue src, RippleValue dest ) throws RippleException;
 	void removeStatementsAbout( URI subj ) throws RippleException;
-	void putContainerMembers( RippleValue head, Sink<RippleValue, RippleException> sink ) throws RippleException;
 
 	void forget( RippleValue v ) throws RippleException;
 
@@ -134,10 +132,7 @@ public interface ModelConnection
 
 // FIXME: this is a hack
     CloseableIteration<? extends BindingSet, QueryEvaluationException> evaluate( String query ) throws RippleException ;
-
-// TODO: Namespaces should not be part of the ModelConnection API
-	void putNamespaces( Sink<Namespace, RippleException> sink ) throws RippleException;
-
-	void putContexts( Sink<RippleValue, RippleException> sink ) throws RippleException;
+    
+	Source<RippleValue, RippleException> getContexts() throws RippleException;
 	
 }
