@@ -3,7 +3,7 @@
  * $Revision: 134 $
  * $Author: parcour $
  *
- * Copyright (C) 2007-2010 Joshua Shinavier
+ * Copyright (C) 2007-2011 Joshua Shinavier
  */
 
 
