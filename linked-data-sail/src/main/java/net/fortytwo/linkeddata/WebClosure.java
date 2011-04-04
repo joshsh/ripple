@@ -91,6 +91,11 @@ public class WebClosure {
     private final ValueFactory valueFactory;
     private final boolean useBlankNodes;
 
+    private boolean derefSubjects = true;
+    private boolean derefPredicates = false;
+    private boolean derefObjects = true;
+    private boolean derefContexts = false;
+
     private String acceptHeader = null;
 
     public static WebClosure createDefault(final Sail baseSail,
@@ -253,18 +258,14 @@ public class WebClosure {
 
             try {
                 mapped = uriMap.get(defrag);
-            }
-
-            catch (RippleException e) {
+            } catch (RippleException e) {
                 // Don't log extremely common errors.
                 return ContextMemo.Status.InvalidUri;
             }
 
             try {
                 dref = chooseDereferencer(mapped);
-            }
-
-            catch (RippleException e) {
+            } catch (RippleException e) {
                 e.logError(false);
 
                 // Don't log extremely common errors.
@@ -293,15 +294,11 @@ public class WebClosure {
 
         try {
             rep = dref.dereference(mapped);
-        }
-
-        catch (RippleException e) {
+        } catch (RippleException e) {
             e.logError();
             memo.setStatus(ContextMemo.Status.DereferencerError);
             return logStatus(nonInfoURI, memo.getStatus(), rep.getMediaType());
-        }
-
-        catch (Throwable t) {
+        } catch (Throwable t) {
             memo.setStatus(ContextMemo.Status.DereferencerError);
             logStatus(nonInfoURI, memo.getStatus(), rep.getMediaType());
             throw new RippleException(t);
@@ -311,9 +308,7 @@ public class WebClosure {
 
         try {
             mt = rep.getMediaType();
-        }
-
-        catch (Throwable t) {
+        } catch (Throwable t) {
             throw new RippleException(t);
         }
 
@@ -333,9 +328,7 @@ public class WebClosure {
 
         try {
             context = valueFactory.createURI(defrag);
-        }
-
-        catch (Throwable t) {
+        } catch (Throwable t) {
             throw new RippleException(t);
         }
 
@@ -351,13 +344,9 @@ public class WebClosure {
 
         try {
             is = rep.getStream();
-        }
-
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new RippleException(e);
-        }
-
-        catch (Throwable t) {
+        } catch (Throwable t) {
             throw new RippleException(t);
         }
 
@@ -376,6 +365,38 @@ public class WebClosure {
         memo.setStatus(status);
 
         return logStatus(nonInfoURI, status, mt);
+    }
+
+    public boolean getDereferenceStatementSubjects() {
+        return derefSubjects;
+    }
+
+    public void setDereferenceStatementSubjects(final boolean flag) {
+        this.derefSubjects = flag;
+    }
+
+    public boolean getDereferenceStatementPredicates() {
+        return derefPredicates;
+    }
+
+    public void setDereferenceStatementPredicates(final boolean flag) {
+        this.derefPredicates = flag;
+    }
+
+    public boolean getDereferenceStatementObjects() {
+        return derefObjects;
+    }
+
+    public void setDereferenceStatementObjects(final boolean flag) {
+        this.derefObjects = flag;
+    }
+
+    public boolean getDereferenceStatementContexts() {
+        return derefContexts;
+    }
+
+    public void setDereferenceStatementContexts(final boolean flag) {
+        this.derefContexts = flag;
     }
 
     private ContextMemo.Status logStatus(final URI uri,
@@ -398,9 +419,7 @@ public class WebClosure {
 
         try {
             scheme = new java.net.URI(uri).getScheme();
-        }
-
-        catch (URISyntaxException e) {
+        } catch (URISyntaxException e) {
             throw new RippleException(e);
         }
 

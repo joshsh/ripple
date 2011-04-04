@@ -59,10 +59,6 @@ import java.util.Set;
 // TODO: cut down on excessive synchronization
 public class LinkedDataSailConnection implements NotifyingSailConnection
 {
-    private static final boolean DEREFERENCE_SUBJECT = true;
-    private static final boolean DEREFERENCE_PREDICATE = false;
-    private static final boolean DEREFERENCE_OBJECT = false;
-
 	private static final Logger LOGGER
 		    = Logger.getLogger( LinkedDataSailConnection.class );
 
@@ -203,7 +199,7 @@ public class LinkedDataSailConnection implements NotifyingSailConnection
 
 			return strategy.evaluate( tupleExpr, bindings );
 		}
-		
+
 		catch ( QueryEvaluationException e )
 		{
 			throw new SailException( e );
@@ -216,12 +212,12 @@ public class LinkedDataSailConnection implements NotifyingSailConnection
 		try
 		{
 			CloseableIteration<? extends Resource, SailException> iter;
-			
+
 			synchronized ( baseSail )
 			{
 				iter = baseConnection.getContextIDs();
 			}
-			
+
 			return new ThreadSafeIteration<Resource>( iter );
 		}
 
@@ -236,7 +232,7 @@ public class LinkedDataSailConnection implements NotifyingSailConnection
 		throws SailException
 	{
 		try
-		{			
+		{
 			synchronized ( baseSail )
 			{
 				// Note: only committed namespaces will match.
@@ -263,7 +259,7 @@ public class LinkedDataSailConnection implements NotifyingSailConnection
 				// Note: only committed namespaces will match.
 				iter = baseConnection.getNamespaces();
 			}
-			
+
 			return new ThreadSafeIteration<Namespace>( iter );
 		}
 
@@ -282,21 +278,21 @@ public class LinkedDataSailConnection implements NotifyingSailConnection
 			final boolean includeInferred,
 			final Resource... contexts ) throws SailException
 	{
-		extendClosureToStatement( subj, pred, obj );
-			
+		extendClosureToStatement( subj, pred, obj, contexts );
+
 		// Now that the new RDF data is in the local store, query it.
 //System.out.println( "getStatements(" + subj + ", " + pred + ", " + obj + ", " + includeInferred + ", " + contexts + ")" );
 //System.out.println( "    # contexts = " + contexts.length );
 		try
 		{
 			CloseableIteration<? extends Statement, SailException> iter;
-			
+
 			synchronized ( baseSail )
 			{
 				iter = baseConnection.getStatements(
 					subj, pred, obj, includeInferred, contexts );
 			}
-			
+
 			return new ThreadSafeIteration<Statement>( iter );
 		}
 
@@ -612,10 +608,10 @@ public class LinkedDataSailConnection implements NotifyingSailConnection
 				{
 					baseConnection.rollback();
 				}
-	
+
 				baseConnection.close();
 			}
-	
+
 			else
 			{
 				// Don't throw an exception: we could easily end up in a loop.
@@ -678,26 +674,41 @@ public class LinkedDataSailConnection implements NotifyingSailConnection
 		}
 	}
 
-	private void extendClosureToStatement( final Resource subj, final URI pred, final Value obj ) throws SailException
+	private void extendClosureToStatement( final Resource subj,
+                                           final URI pred,
+                                           final Value obj,
+                                           final Resource... contexts) throws SailException
 	{
 		boolean changed = false;
-		
-		if ( DEREFERENCE_SUBJECT && null != subj && subj instanceof URI )
+
+		if ( webClosure.getDereferenceStatementSubjects() && null != subj && subj instanceof URI )
 		{
 			extendClosureTo( (URI) subj );
 			changed = true;
 		}
 
-		if ( DEREFERENCE_PREDICATE && null != pred )
+		if ( webClosure.getDereferenceStatementPredicates() && null != pred )
 		{
 			extendClosureTo( pred );
 			changed = true;
 		}
-		
-		if ( DEREFERENCE_OBJECT && null != obj && obj instanceof URI )
+
+		if ( webClosure.getDereferenceStatementObjects() && null != obj && obj instanceof URI )
 		{
 			extendClosureTo( (URI) obj );
 			changed = true;
+		}
+
+        if ( webClosure.getDereferenceStatementContexts())
+		{
+            for ( Resource ctx : contexts )
+            {
+                if (null != ctx && ctx instanceof URI )
+                {
+                    extendClosureTo( (URI) ctx );
+                    changed = true;
+                }
+            }
 		}
 
 		if ( changed )
@@ -707,7 +718,7 @@ public class LinkedDataSailConnection implements NotifyingSailConnection
 	}
 
     ////////////////////////////////////////////////////////////////////////////
-	
+
 	/**
 	 * A CloseableIteration which is thread-safe with respect to the base Sail
 	 * and halts if this SailConnection is closed or throws an Exception.
@@ -733,7 +744,7 @@ public class LinkedDataSailConnection implements NotifyingSailConnection
 				{
 					return false;
 				}
-				
+
 				if ( null != next )
 				{
 					return true;
@@ -743,12 +754,12 @@ public class LinkedDataSailConnection implements NotifyingSailConnection
 				{
 					return false;
 				}
-				
+
 				next = wrappedIteration.next();
 				return true;
 			}
 		}
-	
+
 		public T next() throws SailException
 		{
 			synchronized ( baseSail )
@@ -759,19 +770,19 @@ public class LinkedDataSailConnection implements NotifyingSailConnection
 					next = null;
 					return tmp;
 				}
-	
+
 				else if ( ok() )
 				{
 					return wrappedIteration.next();
 				}
-	
+
 				else
 				{
 					throw new SailException( "iterator has no next element" );
 				}
 			}
 		}
-	
+
 		public void remove() throws SailException
 		{
 // TODO
@@ -787,6 +798,6 @@ public class LinkedDataSailConnection implements NotifyingSailConnection
 		{
 			return originalConnection == baseConnection;
 		}
-	}	
+	}
 }
 
