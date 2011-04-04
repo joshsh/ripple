@@ -61,8 +61,8 @@ public class TurtleView implements Sink<RippleList, RippleException>
         this.printEntireStack = props.getBoolean(
                 Ripple.RESULT_VIEW_PRINT_ENTIRE_STACK );
         this.showEdges = props.getBoolean(
-                Ripple.RESOURCE_VIEW_SHOW_EDGES )
-            && modelConnection.getModel() instanceof SesameModel;
+                Ripple.RESOURCE_VIEW_SHOW_EDGES );
+            //&& modelConnection.getModel() instanceof SesameModel;
         this.maxPredicates = props.getInt(
                 Ripple.RESULT_VIEW_MAX_PREDICATES );
         this.maxObjects = props.getInt(
