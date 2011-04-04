@@ -35,13 +35,12 @@ public abstract class RDFPredicateStackMapping extends PrimitiveStackMapping
     }
 
     protected RDFPredicateMapping getMapping( final RDFValue predicate,
-                                              final RDFValue context,
-                                              final boolean includeInferred )
+                                              final RDFValue context )
 		throws RippleException
 	{
         StatementPatternQuery.Pattern type = inverted
                 ? StatementPatternQuery.Pattern.PO_S
                 : StatementPatternQuery.Pattern.SP_O;
-        return new RDFPredicateMapping( type, predicate, context, includeInferred );
+        return new RDFPredicateMapping( type, predicate, context );
     }
 }

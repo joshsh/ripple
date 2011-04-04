@@ -67,7 +67,7 @@ public class InferInContext extends RDFPredicateStackMapping
         RDFValue pred = stack.getFirst().toRDF( mc );
         stack = stack.getRest();
 
-        RDFPredicateMapping mapping = getMapping( pred, context, true );
+        RDFPredicateMapping mapping = getMapping( pred, context );
 
         solutions.put( arg.with(
 				stack.push( new Operator( mapping ) ) ) );

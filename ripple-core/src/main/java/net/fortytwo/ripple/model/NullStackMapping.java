@@ -23,7 +23,7 @@ public class NullStackMapping implements StackMapping
 	}
 
 	public void apply( final StackContext arg,
-						final Sink<StackContext, RippleException> sink )
+					   final Sink<StackContext, RippleException> sink )
 		throws RippleException
 	{
         // Do nothing.

@@ -134,7 +134,7 @@ public class TurtleView implements Sink<RippleList, RippleException>
 				printStream.print( "\n" );
 	
 				Collector<RippleValue, RippleException> objects = new Collector<RippleValue, RippleException>();
-                StatementPatternQuery query = new StatementPatternQuery( subject, predicate, null, Ripple.useInference() );
+                StatementPatternQuery query = new StatementPatternQuery( subject, predicate, null );
                 modelConnection.query( query, objects, false );
 
 				int objCount = 0;

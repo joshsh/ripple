@@ -25,7 +25,7 @@ public class StatementPatternQuery
             S_PO,
             SO_P,
             SP_O,
-            SPO_ };
+            SPO_ }
 
 	private final RippleValue subject;
 	private final RippleValue predicate;
@@ -33,18 +33,14 @@ public class StatementPatternQuery
 	private final RippleValue[] contexts;
     private final Pattern pattern;
 
-    private final boolean includeInferred;
-
     public StatementPatternQuery( final RippleValue subject,
                                   final RippleValue predicate,
                                   final RippleValue object,
-                                  final boolean includeInferred,
                                   final RippleValue... contexts )
     {
         this.subject = subject;
         this.predicate = predicate;
         this.object = object;
-        this.includeInferred = includeInferred;
         this.contexts = contexts;
 
         this.pattern = ( null == subject )
@@ -82,11 +78,6 @@ public class StatementPatternQuery
     public RippleValue getObject()
     {
         return object;
-    }
-
-    public boolean getIncludeInferred()
-    {
-        return includeInferred;
     }
 
     public RippleValue[] getContexts()

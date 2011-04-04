@@ -26,20 +26,13 @@ public class RDFPredicateMapping implements StackMapping {
 
     private final RDFValue predicate;
     private final RDFValue context;
-    private final boolean includeInferred;
 
-    /**
-     * @param pred            must contain a Resource value
-     * @param includeInferred
-     */
     public RDFPredicateMapping(final StatementPatternQuery.Pattern type,
                                final RDFValue pred,
-                               final RDFValue context,
-                               final boolean includeInferred) {
+                               final RDFValue context) {
         this.type = type;
         this.predicate = pred;
         this.context = context;
-        this.includeInferred = includeInferred;
     }
 
     public int arity() {
@@ -60,13 +53,13 @@ public class RDFPredicateMapping implements StackMapping {
         switch (this.type) {
             case SP_O:
                 query = (null == context)
-                        ? new StatementPatternQuery(sourceVal, predicate, null, includeInferred)
-                        : new StatementPatternQuery(sourceVal, predicate, null, includeInferred, context);
+                        ? new StatementPatternQuery(sourceVal, predicate, null)
+                        : new StatementPatternQuery(sourceVal, predicate, null, context);
                 break;
             case PO_S:
                 query = (null == context)
-                        ? new StatementPatternQuery(null, predicate, sourceVal, includeInferred)
-                        : new StatementPatternQuery(null, predicate, sourceVal, includeInferred, context);
+                        ? new StatementPatternQuery(null, predicate, sourceVal)
+                        : new StatementPatternQuery(null, predicate, sourceVal, context);
                 break;
             default:
                 throw new RippleException("unsupported query type: " + type);
@@ -100,7 +93,7 @@ public class RDFPredicateMapping implements StackMapping {
                 throw new RippleException("unsupported query type: " + type);
         }
 
-        return new RDFPredicateMapping(inverseType, this.predicate, this.context, this.includeInferred);
+        return new RDFPredicateMapping(inverseType, this.predicate, this.context);
     }
 
     private class ValueSink implements Sink<RippleValue, RippleException> {

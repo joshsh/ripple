@@ -10,6 +10,8 @@
 package net.fortytwo.ripple.libs.etc;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.etc.ranking.Amp;
+import net.fortytwo.ripple.libs.etc.ranking.Rank;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.LibraryLoader;
@@ -21,6 +23,7 @@ import net.fortytwo.ripple.URIMap;
 public class EtcLibrary extends Library
 {
     public static final String
+            NS_2011_04 = "http://fortytwo.net/2011/04/ripple/etc#",
             NS_2008_08 = "http://fortytwo.net/2008/08/ripple/etc#",
             NS_2007_08 = "http://fortytwo.net/2007/08/ripple/etc#",
             NS_2007_05 = "http://fortytwo.net/2007/05/ripple/etc#";
@@ -37,7 +40,10 @@ public class EtcLibrary extends Library
                 DateTimeToMillis.class,
                 Get.class,
                 System.class,
-                Time.class );
+                Time.class,
+                // TODO: move these?
+                Rank.class,
+                Amp.class );
         invertVal = registerPrimitive( Invert.class, context );
 	}
 

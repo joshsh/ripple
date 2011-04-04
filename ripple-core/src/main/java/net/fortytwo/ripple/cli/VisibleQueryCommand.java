@@ -35,7 +35,7 @@ import org.openrdf.model.vocabulary.RDF;
 public class VisibleQueryCommand extends Command
 {
 	private static RDFValue RDF_FIRST = new RDFValue( RDF.FIRST );
-	
+
 	private final ListAST ast;
 	private final CollectorHistory<RippleList, RippleException> resultHistory;
 
@@ -124,14 +124,13 @@ nilSource.put( mc.list() );
 	{
 		try
 		{
-            StatementPatternQuery query = new StatementPatternQuery( v, RDF_FIRST, null, false );
+            StatementPatternQuery query = new StatementPatternQuery( v, RDF_FIRST, null );
             mc.query( query, new NullSink<RippleValue, RippleException>(), false );
 		}
 
 		catch ( RippleException e )
 		{
 			// (soft fail... don't even log the error)
-			return;
 		}
 	}
 }

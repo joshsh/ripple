@@ -328,11 +328,11 @@ RDFImporter importer = new RDFImporter( mc );
 				}
 			};*/
 
-			multiply( mc, head, RDF_FIRST, firstValues, false );
+			multiply( mc, head, RDF_FIRST, firstValues );
 			
 			if ( firstValues.size() > 0 || head.toRDF( mc ).sesameValue().equals( RDF.NIL ) )
 			{
-				multiply( mc, head, RDF_REST, rdfRestSink, false );
+				multiply( mc, head, RDF_REST, rdfRestSink );
 			}
 			
 			else
@@ -345,10 +345,9 @@ RDFImporter importer = new RDFImporter( mc );
     private static void multiply( final ModelConnection mc,
                            final RippleValue subj,
                            final RippleValue pred,
-                           final Sink<RippleValue, RippleException> sink,
-                           final boolean includeInferred ) throws RippleException
+                           final Sink<RippleValue, RippleException> sink ) throws RippleException
     {
-        StatementPatternQuery query = new StatementPatternQuery( subj, pred, null, includeInferred );
+        StatementPatternQuery query = new StatementPatternQuery( subj, pred, null );
         mc.query( query, sink, false );
     }
 
@@ -423,7 +422,7 @@ RDFImporter importer = new RDFImporter( mc );
 		sink.put( vf.createStatement(
 			headVal, RDF.TYPE, RDF.LIST ) );
 
-		multiply( mc, head, RDF_FIRST, firstSink, false );
-		multiply( mc, head, RDF_REST, restSink, false );
+		multiply( mc, head, RDF_FIRST, firstSink );
+		multiply( mc, head, RDF_REST, restSink );
 	}
 }

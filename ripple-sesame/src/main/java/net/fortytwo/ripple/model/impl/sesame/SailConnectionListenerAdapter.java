@@ -7,7 +7,7 @@
  */
 
 
-package net.fortytwo.linkeddata.sail;
+package net.fortytwo.ripple.model.impl.sesame;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;

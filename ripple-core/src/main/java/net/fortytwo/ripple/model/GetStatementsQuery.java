@@ -49,8 +49,6 @@ public class GetStatementsQuery
     // FIXME: this is temporary
     private static final ValueFactory VALUE_FACTORY = new ValueFactoryImpl();
 
-    public final boolean includeInferred;
-
     public final Resource subject;
 	public final URI predicate;
 	public final Value object;
@@ -109,8 +107,6 @@ public class GetStatementsQuery
         {
             throw new InvalidQueryException( "value could not be cast to the appropriate Sesame type" );
         }
-
-        this.includeInferred = patternQuery.getIncludeInferred();
     }
 
     private URI getURI( final RippleValue rv, final ModelConnection mc ) throws RippleException, ClassCastException
@@ -171,7 +167,7 @@ public class GetStatementsQuery
 		// Perform the query and collect results.
 		try
 		{
-			stmtIter = sc.getStatements( subject, predicate, object, includeInferred, contexts );
+			stmtIter = sc.getStatements( subject, predicate, object, false, contexts );
 //stmtIter.enableDuplicateFilter();
             try
             {

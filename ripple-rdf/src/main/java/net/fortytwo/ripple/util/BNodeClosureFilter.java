@@ -54,8 +54,7 @@ public class BNodeClosureFilter implements Sink<Resource, RippleException>
 		try
 		{
 			CloseableIteration<? extends Statement, SailException> stmtIter
-				= sailConnection.getStatements(
-					r, null, null, Ripple.useInference() );
+				= sailConnection.getStatements( r, null, null, false );
 
 			while ( stmtIter.hasNext() )
 			{

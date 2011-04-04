@@ -31,7 +31,7 @@ public class ModelConnectionHelper {
 
     public RippleValue findSingleObject(final RippleValue subj, final RippleValue pred)
             throws RippleException {
-        StatementPatternQuery query = new StatementPatternQuery(subj, pred, null, false);
+        StatementPatternQuery query = new StatementPatternQuery(subj, pred, null);
         Collector<RippleValue, RippleException> results = new Collector<RippleValue, RippleException>();
         connection.query(query, results, false);
 

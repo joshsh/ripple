@@ -18,7 +18,6 @@ import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.Source;
 import net.fortytwo.flow.rdf.CloseableIterationSource;
 import net.fortytwo.flow.rdf.diff.RDFDiffSink;
-import net.fortytwo.linkeddata.sail.SailConnectionListenerAdapter;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.control.Task;
@@ -422,7 +421,7 @@ public class SesameModelConnection implements ModelConnection {
             {
                 CloseableIteration<? extends Statement, SailException> stmtIter
                         = sailConnection.getStatements(
-                        null, null, null, Ripple.useInference(), contexts);
+                        null, null, null, false, contexts);
 
                 while (stmtIter.hasNext()) {
                     stmtIter.next();

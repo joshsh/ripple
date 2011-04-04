@@ -297,10 +297,10 @@ public class WebClosure {
         } catch (RippleException e) {
             e.logError();
             memo.setStatus(ContextMemo.Status.DereferencerError);
-            return logStatus(nonInfoURI, memo.getStatus(), rep.getMediaType());
+            return logStatus(nonInfoURI, memo.getStatus(), null);
         } catch (Throwable t) {
             memo.setStatus(ContextMemo.Status.DereferencerError);
-            logStatus(nonInfoURI, memo.getStatus(), rep.getMediaType());
+            logStatus(nonInfoURI, memo.getStatus(), null);
             throw new RippleException(t);
         }
 
@@ -405,7 +405,7 @@ public class WebClosure {
         if (ContextMemo.Status.Success != status) {
             String msg = "Failed to dereference URI <"
                     + StringUtils.escapeURIString(uri.toString()) + ">: " + status;
-            if (ContextMemo.Status.ParseError == status) {// && MediaType.TEXT_PLAIN == mt) {
+            if (ContextMemo.Status.ParseError == status && null != mt) {// && MediaType.TEXT_PLAIN == mt) {
                 msg += " (perhaps " + mt.getName() + " is not the correct media type for this data)";
             }
             LOGGER.info(msg);

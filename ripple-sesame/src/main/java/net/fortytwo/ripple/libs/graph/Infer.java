@@ -67,7 +67,7 @@ public class Infer extends RDFPredicateStackMapping
 		RDFValue pred = stack.getFirst().toRDF( mc );
 		stack = stack.getRest();
 
-        StackMapping mapping = getMapping( pred, null, true );
+        StackMapping mapping = getMapping( pred, null );
 
         solutions.put( arg.with(
 				stack.push( new Operator( mapping ) ) ) );

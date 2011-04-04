@@ -186,14 +186,13 @@ System.out.println( "unhandled test case!" );
         mc.commit();
 
         Collector<RippleValue, RippleException> cases = new Collector<RippleValue, RippleException>();
-        StatementPatternQuery query = new StatementPatternQuery( null, TYPE, URITEST, false );
+        StatementPatternQuery query = new StatementPatternQuery( null, TYPE, URITEST );
         mc.query( query, cases, false );
 
-        Iterator<RippleValue> iter = cases.iterator();
-        while ( iter.hasNext() )
+        for ( Object aCase : cases )
         {
-            RippleValue caseValue = iter.next();
-            ( new UriTestCase( caseValue, mc ) ).test( mc );
+            RippleValue caseValue = (RippleValue) aCase;
+            (new UriTestCase(caseValue, mc)).test(mc);
         }
 
         is.close();

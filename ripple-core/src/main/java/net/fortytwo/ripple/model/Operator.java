@@ -37,7 +37,7 @@ public class Operator implements RippleValue
 
 	private Operator( final RDFValue pred ) throws RippleException
 	{
-		mapping = new RDFPredicateMapping( StatementPatternQuery.Pattern.SP_O, pred, null, Ripple.useInference() );
+		mapping = new RDFPredicateMapping( StatementPatternQuery.Pattern.SP_O, pred, null );
 	}
 
 	public Operator( final StackMapping mapping )
