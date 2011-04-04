@@ -19,56 +19,84 @@ import java.util.Comparator;
 public class ListMemoizer<T, M>
 {
     private final Comparator<T> comparator;
-    private ListMemoizerInner inner;
+    private ListMemoizerHelper helper;
 
     public ListMemoizer( final Comparator<T> comparator )
     {
         this.comparator = comparator;
-        this.inner = null;
+        this.helper = null;
     }
 
     public M get( final ListNode<T> list )
     {
-        return ( null == inner )
+        if ( null == list )
+        {
+            throw new IllegalArgumentException( "null key" );
+        }
+
+        return ( null == helper)
                 ? null
-                : inner.get( list );
+                : helper.get( list );
     }
 
+    /**
+     * Adds a new value to the map.
+     * @param list the list-valued key
+     * @param memo the value to store
+     * @return whether the key/memo pair has been added to the store.
+     * A return value of false indicates that this memoizer already contains a memo for the given key,
+     * and that the new memo has not been added.
+     */
     public boolean put( final ListNode<T> list, final M memo )
     {
-        if ( null == inner )
+        if ( null == list )
         {
-            inner = new ListMemoizerInner( list, memo );
+            throw new IllegalArgumentException( "null key" );
+        }
+
+        if ( list.isNil() )
+        {
+            throw new IllegalArgumentException( "the empty list cannot be memoized" );
+        }
+
+        if ( null == helper)
+        {
+            helper = new ListMemoizerHelper( list, memo );
             return true;
         }
 
         else
         {
-            return inner.put( list, memo );
+            return helper.put( list, memo );
         }
     }
 
-    private class ListMemoizerInner
+    public boolean remove( final ListNode<T> list )
+    {
+        if ( null == list )
+        {
+            throw new IllegalArgumentException( "null key" );
+        }
+
+        return !list.isNil() && null != helper && helper.remove( list );
+    }
+
+    private class ListMemoizerHelper
     {
         private final T first;
 
         private M memo;
-        private ListMemoizerInner left, right;
-        private ListMemoizerInner rest;
+        private ListMemoizerHelper left, right;
+        private ListMemoizerHelper rest;
 
-        public ListMemoizerInner( final ListNode<T> list, final M memo )
+        public ListMemoizerHelper(final ListNode<T> list, final M memo)
         {
-            if ( null == list )
-            {
-                throw new IllegalArgumentException( "the empty list cannot be memoized" );
-            }
-
             first = list.getFirst();
             left = null;
             right = null;
 
             ListNode<T> r = list.getRest();
-            if ( null == r )
+            if ( r.isNil() )
             {
                 rest = null;
                 this.memo = memo;
@@ -76,25 +104,60 @@ public class ListMemoizer<T, M>
 
             else
             {
-                rest = new ListMemoizerInner( r, memo );
+                rest = new ListMemoizerHelper( r, memo );
                 this.memo = null;
             }
         }
 
-        public boolean put( final ListNode<T> list, final M memo )
+        // TODO: remove empty branches
+        public boolean remove( final ListNode<T> list )
         {
-            if ( null == list )
-            {
-                throw new IllegalArgumentException( "the empty list cannot be memoized" );
-            }
-
             int cmp = comparator.compare( this.first, list.getFirst() );
 
             if ( 0 == cmp )
             {
                 ListNode<T> r = list.getRest();
 
-                if ( null == r )
+                if ( r.isNil() )
+                {
+                    if ( null != this.memo )
+                    {
+                        this.memo = null;
+                        return true;
+                    }
+
+                    else
+                    {
+                        return false;
+                    }
+                }
+
+                else
+                {
+                    return null != this.rest && this.rest.remove( r );
+                }
+            }
+
+            else if ( cmp < 0 )
+            {
+                return null != this.left && this.left.remove(list);
+            }
+
+            else
+            {
+                return null != this.right && this.right.remove(list);
+            }
+        }
+
+        public boolean put( final ListNode<T> list, final M memo )
+        {
+            int cmp = comparator.compare( this.first, list.getFirst() );
+
+            if ( 0 == cmp )
+            {
+                ListNode<T> r = list.getRest();
+
+                if ( r.isNil() )
                 {
                     if ( null == this.memo )
                     {
@@ -112,7 +175,7 @@ public class ListMemoizer<T, M>
                 {
                     if ( null == this.rest )
                     {
-                        this.rest = new ListMemoizerInner( r, memo );
+                        this.rest = new ListMemoizerHelper( r, memo );
                         return true;
                     }
 
@@ -127,7 +190,7 @@ public class ListMemoizer<T, M>
             {
                 if ( null == this.left )
                 {
-                    this.left = new ListMemoizerInner( list, memo );
+                    this.left = new ListMemoizerHelper( list, memo );
                     return true;
                 }
 
@@ -141,7 +204,7 @@ public class ListMemoizer<T, M>
             {
                 if ( null == this.right )
                 {
-                    this.right = new ListMemoizerInner( list, memo );
+                    this.right = new ListMemoizerHelper( list, memo );
                     return true;
                 }
 
@@ -154,7 +217,8 @@ public class ListMemoizer<T, M>
 
         public M get( final ListNode<T> list )
         {
-            if ( null == list )
+            //System.out.println("getting " + list);
+            if ( list.isNil() )
             {
                 return null;
             }
@@ -165,7 +229,7 @@ public class ListMemoizer<T, M>
             {
                 ListNode<T> r = list.getRest();
 
-                if ( null == r )
+                if ( r.isNil() )
                 {
                     return this.memo;
                 }
@@ -195,8 +259,8 @@ public class ListMemoizer<T, M>
 
         ////////////////////////////////////////////////////////////////////////////
 
-        private int compare( final ListMemoizerInner first,
-                            final ListMemoizerInner second )
+        private int compare( final ListMemoizerHelper first,
+                            final ListMemoizerHelper second )
         {
             if ( null == first )
             {
@@ -215,7 +279,7 @@ public class ListMemoizer<T, M>
             }
         }
 
-        private int compareTo( final ListMemoizerInner other )
+        private int compareTo( final ListMemoizerHelper other )
         {
             int cmp = comparator.compare( this.first, other.first );
 

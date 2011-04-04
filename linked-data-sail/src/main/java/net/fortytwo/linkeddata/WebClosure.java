@@ -98,7 +98,7 @@ public class WebClosure {
         try {
             SailConnection sc = baseSail.getConnection();
             try {
-                int maxCacheCapacity = Ripple.getProperties().getInt(LinkedDataSail.MAX_CACHE_CAPACITY);
+                int maxCacheCapacity = Ripple.getConfiguration().getInt(LinkedDataSail.MAX_CACHE_CAPACITY);
 
                 WebCache cache = new WebCache(maxCacheCapacity, baseSail.getValueFactory());
                 WebClosure wc = new WebClosure(cache, uriMap, baseSail.getValueFactory());
@@ -154,7 +154,7 @@ public class WebClosure {
         this.cache = cache;
         this.valueFactory = valueFactory;
         this.uriMap = uriMap;
-        useBlankNodes = Ripple.getProperties().getBoolean(Ripple.USE_BLANK_NODES);
+        useBlankNodes = Ripple.getConfiguration().getBoolean(Ripple.USE_BLANK_NODES);
     }
 
     public URIMap getURIMap() {

@@ -27,7 +27,7 @@ public class RDFImporter implements RDFSink {
 
     public RDFImporter(final ModelConnection mc,
                        final Resource... contexts) throws RippleException {
-        final boolean override = Ripple.getProperties().getBoolean(Ripple.PREFER_NEWEST_NAMESPACE_DEFINITIONS);
+        final boolean override = Ripple.getConfiguration().getBoolean(Ripple.PREFER_NEWEST_NAMESPACE_DEFINITIONS);
 
         stSink = new Sink<Statement, RippleException>() {
             public void put(final Statement st) throws RippleException {

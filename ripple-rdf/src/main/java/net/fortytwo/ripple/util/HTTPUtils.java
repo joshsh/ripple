@@ -42,9 +42,9 @@ public class HTTPUtils
 
     private static void initialize() throws RippleException
     {
-        courtesyInterval = Ripple.getProperties().getLong(
+        courtesyInterval = Ripple.getConfiguration().getLong(
                 Ripple.HTTPCONNECTION_COURTESY_INTERVAL );
-        connectionTimeout = Ripple.getProperties().getLong(
+        connectionTimeout = Ripple.getConfiguration().getLong(
                 Ripple.HTTPCONNECTION_TIMEOUT );
         initialized = true;
     }

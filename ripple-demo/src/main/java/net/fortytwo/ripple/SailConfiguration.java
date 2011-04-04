@@ -43,7 +43,7 @@ public class SailConfiguration {
 
     public SailConfiguration(final URIMap uriMap) throws RippleException {
         this.uriMap = uriMap;
-        RippleProperties props = Ripple.getProperties();
+        RippleProperties props = Ripple.getConfiguration();
         sailType = props.getString(Ripple.SAIL_TYPE).trim();
     }
 
@@ -101,7 +101,7 @@ public class SailConfiguration {
             throw new RippleException("unhandled Sail type: " + sailType);
         }
 
-        boolean readOnly = Ripple.getProperties().getBoolean(Ripple.READ_ONLY, false);
+        boolean readOnly = Ripple.getConfiguration().getBoolean(Ripple.READ_ONLY, false);
         if (readOnly) {
             sail = new ReadOnlySail(sail);
         }
@@ -123,7 +123,7 @@ public class SailConfiguration {
     }
 
     private Sail createNativeStore() throws RippleException {
-        RippleProperties props = Ripple.getProperties();
+        RippleProperties props = Ripple.getConfiguration();
         File dir = props.getFile(Ripple.NATIVESTORE_DIRECTORY);
         String indexes = props.getString(Ripple.NATIVESTORE_INDEXES, null);
 
@@ -140,7 +140,7 @@ public class SailConfiguration {
     }
 
     private Sail createLinkedDataSail(final URIMap uriMap) throws RippleException {
-        RippleProperties props = Ripple.getProperties();
+        RippleProperties props = Ripple.getConfiguration();
         String baseSailType = props.getString(Ripple.LINKEDDATASAIL_BASE_SAIL);
 
         linkedDataSailBaseSail = createSail(baseSailType, uriMap);
@@ -156,7 +156,7 @@ public class SailConfiguration {
     }
 
     private static Sail createAllegroSail() throws RippleException {
-        RippleProperties props = Ripple.getProperties();
+        RippleProperties props = Ripple.getConfiguration();
 
         String host = props.getString(Ripple.ALLEGROSAIL_HOST);
         int port = props.getInt(Ripple.ALLEGROSAIL_PORT);
@@ -183,7 +183,7 @@ public class SailConfiguration {
     ////////////////////////////////////////////////////////////////////////////
 
     private void loadFromPersistFile(final Sail sail) throws RippleException {
-        RippleProperties props = Ripple.getProperties();
+        RippleProperties props = Ripple.getConfiguration();
         persistFile = props.getFile(Ripple.MEMORYSTORE_PERSIST_FILE, null);
 
         // If a persist file has been specified, attempt to load from it.  A
@@ -203,7 +203,7 @@ public class SailConfiguration {
 
     private void saveToPersistFile() throws RippleException {
         if (null != persistSail) {
-            boolean readOnly = Ripple.getProperties().getBoolean(Ripple.READ_ONLY, false);
+            boolean readOnly = Ripple.getConfiguration().getBoolean(Ripple.READ_ONLY, false);
 
             // If the Sail is configured as read-only, we not only shouldn't
             // write to the Sail during execution, but we also shouldn't write
@@ -215,7 +215,7 @@ public class SailConfiguration {
     }
 
     private void loadDumpFile(final Sail sail) throws RippleException {
-        RippleProperties props = Ripple.getProperties();
+        RippleProperties props = Ripple.getConfiguration();
         File loadFile = props.getFile(Ripple.LOAD_FILE, null);
 
         if (null != loadFile) {
@@ -226,7 +226,7 @@ public class SailConfiguration {
     }
 
     private RDFFormat getRDFFormat(final String propertyName) throws RippleException {
-        String value = Ripple.getProperties().getString(propertyName);
+        String value = Ripple.getConfiguration().getString(propertyName);
 
         RDFFormat format = RDFUtils.findFormat(value);
 

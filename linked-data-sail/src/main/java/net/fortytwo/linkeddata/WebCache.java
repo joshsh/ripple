@@ -41,8 +41,8 @@ public class WebCache {
 
         this.valueFactory = valueFactory;
 
-        compact = Ripple.getProperties().getBoolean(LinkedDataSail.USE_COMPACT_MEMO_FORMAT);
-        useBNodes = Ripple.getProperties().getBoolean(Ripple.USE_BLANK_NODES);
+        compact = Ripple.getConfiguration().getBoolean(LinkedDataSail.USE_COMPACT_MEMO_FORMAT);
+        useBNodes = Ripple.getConfiguration().getBoolean(Ripple.USE_BLANK_NODES);
 
         cacheContext = valueFactory.createURI(WebClosure.CACHE_CONTEXT);
         cacheMemo = valueFactory.createURI(WebClosure.CACHE_MEMO);

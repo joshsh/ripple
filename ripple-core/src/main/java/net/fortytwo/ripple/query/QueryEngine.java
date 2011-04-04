@@ -54,7 +54,7 @@ public class QueryEngine
 		initializeLexicon();
 //System.out.println("--- w");
 
-        String defaultNamespace = Ripple.getProperties().getString(
+        String defaultNamespace = Ripple.getConfiguration().getString(
                 Ripple.DEFAULT_NAMESPACE );
 
         // Set the default namespace.

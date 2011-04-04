@@ -60,7 +60,7 @@ public final class Scheduler
 		allRunnables = new LinkedList<WorkerRunnable>();
 		waitingRunnables = new LinkedList<WorkerRunnable>();
 
-		maxThreads = Ripple.getProperties().getInt(Ripple.MAX_WORKER_THREADS);
+		maxThreads = Ripple.getConfiguration().getInt(Ripple.MAX_WORKER_THREADS);
 	}
 
 	private void addPrivate( final Task task, final Sink<Task, RippleException> completedTaskSink )

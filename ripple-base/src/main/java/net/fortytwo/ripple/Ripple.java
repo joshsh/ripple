@@ -69,7 +69,7 @@ public final class Ripple
 
     private static boolean initialized = false;
 
-	private static RippleProperties properties;
+	private static RippleProperties CONFIGURATION;
 
     // TODO: get rid of these
 	private static boolean useAsynchronousQueries = true;
@@ -122,19 +122,19 @@ public final class Ripple
             props.putAll(p);
         }
 
-        properties = new RippleProperties( props );
+        Ripple.CONFIGURATION = new RippleProperties( props );
 
 		initialized = true;
 	}
 
-	public static RippleProperties getProperties() throws RippleException
+	public static RippleProperties getConfiguration() throws RippleException
     {
         if ( !initialized )
         {
             throw new RippleException( "Environment is not ready.  Use Ripple.initialize()." );
         }
 
-        return properties;
+        return CONFIGURATION;
 	}
 
 	////////////////////////////////////////////////////////////////////////////
@@ -146,7 +146,7 @@ public final class Ripple
 
 	public static String getVersion()
 	{
-		return "0.5-dev";
+		return "0.6-alpha";
 	}
 
 	public static boolean getQuiet()
@@ -162,7 +162,7 @@ public final class Ripple
     // TODO: move this
     public static boolean useInference() throws RippleException
 	{
-		return properties.getBoolean( USE_INFERENCE );
+		return CONFIGURATION.getBoolean( USE_INFERENCE );
 	}
 
     // TODO: move these

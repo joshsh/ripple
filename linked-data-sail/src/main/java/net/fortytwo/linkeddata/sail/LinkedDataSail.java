@@ -53,7 +53,7 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
     public LinkedDataSail(final Sail baseSail,
                           final WebClosure webClosure)
             throws RippleException {
-        RippleProperties properties = Ripple.getProperties();
+        RippleProperties properties = Ripple.getConfiguration();
         logFailedUris = properties.getBoolean(LOG_FAILED_URIS);
 
         this.baseSail = baseSail;

@@ -199,7 +199,7 @@ RDFImporter importer = new RDFImporter( mc );
 	{
         if ( null == memoize )
         {
-            memoize = Ripple.getProperties().getBoolean( Ripple.MEMOIZE_LISTS_FROM_RDF );
+            memoize = Ripple.getConfiguration().getBoolean( Ripple.MEMOIZE_LISTS_FROM_RDF );
         }
 
         // If already a list...

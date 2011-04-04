@@ -100,7 +100,7 @@ public class SesameModelConnection implements ModelConnection {
             model.openConnections.add(this);
         }
 
-        this.useBlankNodes = Ripple.getProperties().getBoolean(Ripple.USE_BLANK_NODES);
+        this.useBlankNodes = Ripple.getConfiguration().getBoolean(Ripple.USE_BLANK_NODES);
 
         comparator = new RippleValueComparator(this);
     }

@@ -81,7 +81,7 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
 
     private static void initialize() throws RippleException
     {
-        RippleProperties props = Ripple.getProperties();
+        RippleProperties props = Ripple.getConfiguration();
         expressionOrder = ExpressionOrder.find(props.getString( Ripple.EXPRESSION_ORDER ) );
         printPadded = props.getBoolean( Ripple.LIST_PADDING );
         initialized = true;

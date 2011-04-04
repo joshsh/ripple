@@ -40,9 +40,9 @@ public class LexiconUpdater implements RDFDiffSink<RippleException>
 
     public LexiconUpdater( final Lexicon lexicon ) throws RippleException
     {
-		final boolean override = Ripple.getProperties().getBoolean(
+		final boolean override = Ripple.getConfiguration().getBoolean(
                 Ripple.PREFER_NEWEST_NAMESPACE_DEFINITIONS );
-		final boolean allowDuplicateNamespaces = Ripple.getProperties().getBoolean(
+		final boolean allowDuplicateNamespaces = Ripple.getConfiguration().getBoolean(
                 Ripple.ALLOW_DUPLICATE_NAMESPACES );
 
 		addSink = new RDFSink<RippleException>()

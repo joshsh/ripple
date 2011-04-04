@@ -150,7 +150,7 @@ private boolean lastQueryContinued = false;
 		InputStream filter = new InputStreamEventFilter( is, ra );
 		consoleReaderInput = new ThreadedInputStream( filter );
 
-		String jlineDebugOutput = Ripple.getProperties().getString(
+		String jlineDebugOutput = Ripple.getConfiguration().getString(
                 Ripple.JLINE_DEBUG_OUTPUT );
 
         // Create reader.
