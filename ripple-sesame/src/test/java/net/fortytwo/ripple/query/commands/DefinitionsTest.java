@@ -36,7 +36,7 @@ public class DefinitionsTest extends RippleTestCase
 
         ListAST foobar = new ListAST( new PlainLiteralAST( "foo" ), new ListAST( new PlainLiteralAST( "bar" ), new ListAST() ) );
         ListAST foobar2 = new ListAST( new PlainLiteralAST( "foo2" ), new ListAST( new PlainLiteralAST( "bar2" ), new ListAST() ) );
-        URI foobarUri = sail.getValueFactory().createURI( qe.getDefaultNamespace() + "foobar" );
+        URI foobarUri = sail.getValueFactory().createURI( qe.getLexicon().getDefaultNamespace() + "foobar" );
         Literal foo = sail.getValueFactory().createLiteral( "foo" );
         Literal foo2 = sail.getValueFactory().createLiteral( "foo2" );
 

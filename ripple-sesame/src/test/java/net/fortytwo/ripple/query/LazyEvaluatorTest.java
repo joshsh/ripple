@@ -26,7 +26,7 @@ public class LazyEvaluatorTest extends RippleTestCase
 {
     public void testSimple() throws Exception
     {
-        ModelConnection mc = getTestModel().createConnection( null );
+        ModelConnection mc = getTestModel().createConnection( );
         Evaluator eval = new LazyStackEvaluator();
         Collector<RippleList, RippleException> expected = new Collector<RippleList, RippleException>();
         final Collector<RippleList, RippleException> actual = new Collector<RippleList, RippleException>();

@@ -27,7 +27,7 @@ public class UndefineTermCmd extends Command
 	public void execute( final QueryEngine qe, final ModelConnection mc )
 		throws RippleException
 	{
-        RDFValue uri = mc.uriValue( qe.getDefaultNamespace() + term );
+        RDFValue uri = mc.uriValue( qe.getLexicon().getDefaultNamespace() + term );
 //System.out.println("uri = " + uri);
         mc.remove( uri, null, null );
 		mc.commit();

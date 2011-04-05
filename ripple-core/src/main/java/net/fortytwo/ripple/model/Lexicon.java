@@ -11,31 +11,36 @@ package net.fortytwo.ripple.model;
 
 import jline.Completor;
 import jline.NullCompletor;
+import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.cli.jline.LexicalCompletor;
-import org.openrdf.model.Namespace;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.HashSet;
 import java.util.regex.Pattern;
 
 /**
  * Defines a mapping between keywords and URIs, and between namespace prefixes
  * and URIs.
  */
-public class Lexicon
-{
+public class Lexicon {
     // Note: these definitions are to be kept in exact agreement with those in
     // the Ripple parser grammar.
     private static final String
-            NAME_START_CHAR_NOUSC = "[A-Z]|[a-z]" +
+            NAME_START_CHAR_NOUSC =
+            "[A-Z]|[a-z]" +
                     "|[\u00C0-\u00D6]" +
                     "|[\u00D8-\u00F6]" +
                     "|[\u00F8-\u02FF]" +
@@ -57,63 +62,50 @@ public class Lexicon
             NAME_OR_PREFIX = Pattern.compile("(" + NAME_START_CHAR_NOUSC + ")(" + NAME_CHAR + ")*"),
             NAME_NOT_PREFIX = Pattern.compile("_(" + NAME_CHAR + ")*");
 
-    private final Map<String, Set<URI>> keywordToURIMap;
-	private final Map<URI, String> uriToKeywordMap;
-	private final Map<String, String> prefixToNamespaceMap;
-	private final Map<String, String> namespaceToPrefixMap;
-	private final Collection<String> allQNames;
+    private final Map<String, Set<URI>> keywordToUri;
+    private final Map<URI, String> uriToKeyword;
+    private final Map<String, String> prefixToUri;
+    private final Map<String, String> uriToPrefix;
+    private final Collection<String> allQNames;
 
-	public Lexicon( final Model model ) throws RippleException
-	{
-		prefixToNamespaceMap = new HashMap<String, String>();
-		namespaceToPrefixMap = new HashMap<String, String>();
-		allQNames = new ArrayList<String>();
+    public Lexicon(final Model model) throws RippleException {
+        prefixToUri = new HashMap<String, String>();
+        uriToPrefix = new HashMap<String, String>();
+        allQNames = new ArrayList<String>();
 
-		ModelConnection mc = model.createConnection();
+        ModelConnection mc = model.createConnection();
         try {
-            keywordToURIMap = new HashMap<String, Set<URI>>();
-            uriToKeywordMap = new HashMap<URI, String>();
+            keywordToUri = new HashMap<String, Set<URI>>();
+            uriToKeyword = new HashMap<URI, String>();
 
-            for ( Value key : model.getSpecialValues().keySet() )
-            {
-                if ( key instanceof URI )
-                {
+            for (Value key : model.getSpecialValues().keySet()) {
+                if (key instanceof URI) {
                     // The keyword for a special URI is its local part.
-                    String keyword = ( (URI) key ).getLocalName();
+                    String keyword = ((URI) key).getLocalName();
 
-                    Set<URI> siblings = keywordToURIMap.get( keyword );
+                    Set<URI> siblings = keywordToUri.get(keyword);
 
                     // If there is no existing value for the key, simply add it.
-                    if ( null == siblings )
-                    {
+                    if (null == siblings) {
                         siblings = new HashSet<URI>();
-                        siblings.add( (URI) key );
-                        keywordToURIMap.put( keyword, siblings );
-                    }
+                        siblings.add((URI) key);
+                        keywordToUri.put(keyword, siblings);
+                    } else {
+                        boolean thisIsPrimary = isPrimaryValue(key, mc);
+                        boolean othersArePrimary = isPrimaryValue(siblings.iterator().next(), mc);
 
-                    else
-                    {
-                        boolean thisIsPrimary = isPrimaryValue( key, mc );
-                        boolean othersArePrimary = isPrimaryValue( siblings.iterator().next(), mc );
-
-                        if ( thisIsPrimary )
-                        {
+                        if (thisIsPrimary) {
                             // Primary values override any alias values.
-                            if ( !othersArePrimary )
-                            {
+                            if (!othersArePrimary) {
                                 siblings.clear();
                             }
 
-                            siblings.add( (URI) key );
-                        }
-
-                        else
-                        {
+                            siblings.add((URI) key);
+                        } else {
                             // Alias values may only be added if there are no
                             // competing primary values.
-                            if ( !othersArePrimary )
-                            {
-                                siblings.add( (URI) key );
+                            if (!othersArePrimary) {
+                                siblings.add((URI) key);
                             }
                         }
                     }
@@ -122,11 +114,9 @@ public class Lexicon
 
             // Assign keywords to URIs only after the final configuration
             // has been determined.
-            for ( String keyword : keywordToURIMap.keySet() )
-            {
-                for ( URI uri : keywordToURIMap.get( keyword ) )
-                {
-                    uriToKeywordMap.put( uri, keyword );
+            for (String keyword : keywordToUri.keySet()) {
+                for (URI uri : keywordToUri.get(keyword)) {
+                    uriToKeyword.put(uri, keyword);
                 }
             }
         } finally {
@@ -134,141 +124,206 @@ public class Lexicon
         }
     }
 
-    private boolean isPrimaryValue( final Value key,
-                                    final ModelConnection mc ) throws RippleException
-    {
-        Value mapsTo = mc.canonicalValue( key ).toRDF( mc ).sesameValue();
-        return key.equals( mapsTo );
+    private boolean isPrimaryValue(final Value key,
+                                   final ModelConnection mc) throws RippleException {
+        Value mapsTo = mc.canonicalValue(key).toRDF(mc).sesameValue();
+        return key.equals(mapsTo);
     }
 
-    public boolean isValidPrefix( final String prefix )
-    {
-        return ( 0 == prefix.length() )
-                || NAME_OR_PREFIX.matcher( prefix ).matches();
-    }
-    
-    public boolean isValidLocalName( final String localName )
-    {
-        return ( 0 == localName.length() )
-                || NAME_OR_PREFIX.matcher( localName ).matches()
-                || NAME_NOT_PREFIX.matcher( localName ).matches();
+    public boolean isValidPrefix(final String prefix) {
+        return (0 == prefix.length())
+                || NAME_OR_PREFIX.matcher(prefix).matches();
     }
 
-    public Set<URI> uriForKeyword( final String localName )
-	{
-		Set<URI> result = keywordToURIMap.get( localName );
+    public boolean isValidLocalName(final String localName) {
+        return (0 == localName.length())
+                || NAME_OR_PREFIX.matcher(localName).matches()
+                || NAME_NOT_PREFIX.matcher(localName).matches();
+    }
 
-		// If there are no results, return an empty list instead of null.
-		return ( null == result )
-			? new HashSet<URI>()
-			: result;
-	}
+    public Set<URI> uriForKeyword(final String localName) {
+        Set<URI> result = keywordToUri.get(localName);
 
-	public String resolveNamespacePrefix( final String nsPrefix )
-	{
-		return prefixToNamespaceMap.get( nsPrefix );
-	}
+        // If there are no results, return an empty list instead of null.
+        return (null == result)
+                ? new HashSet<URI>()
+                : result;
+    }
 
-	public String symbolForURI( final URI uri )
-	{
-		// Does it have a keyword?
-		String symbol = uriToKeywordMap.get( uri );
+    public String getNamespaceUri(final String prefix) {
+        return prefixToUri.get(prefix);
+    }
 
-		// If not, does it have a namespace prefix?
-		if ( null == symbol )
-		{
-			String nsPrefix = namespaceToPrefixMap.get( uri.getNamespace() );
+    public String findSymbol(final URI uri) {
+        // Does it have a keyword?
+        String symbol = uriToKeyword.get(uri);
 
-			// Namespace prefix may be empty but non-null.
-			if ( null != nsPrefix )
-			{
+        // If not, does it have a namespace prefix?
+        if (null == symbol) {
+            String nsPrefix = uriToPrefix.get(uri.getNamespace());
+
+            // Namespace prefix may be empty but non-null.
+            if (null != nsPrefix) {
                 String localName = uri.getLocalName();
 
                 // Note: assumes that the local name is never null (although it
-				//       may be empty).
-                symbol = ( isValidPrefix( nsPrefix ) && isValidLocalName( localName ) )
-                        ? symbol = nsPrefix + ":" + uri.getLocalName()
+                //       may be empty).
+                symbol = (isValidPrefix(nsPrefix) && isValidLocalName(localName))
+                        ? nsPrefix + ":" + uri.getLocalName()
                         : null;
             }
-		}
+        }
 
-		return symbol;
-	}
+        return symbol;
+    }
 
-	public String nsPrefixOf( final String uri )
-	{
-		return namespaceToPrefixMap.get( uri );
-	}
+    public Completor getCompletor() throws RippleException {
+        Set<String> keywords = keywordToUri.keySet();
+        Set<String> prefixes = prefixToUri.keySet();
 
-	public Completor getCompletor() throws RippleException
-	{
-		Set<String> keywords = keywordToURIMap.keySet();
-		Set<String> prefixes = prefixToNamespaceMap.keySet();
+        int size = keywords.size() + prefixes.size() + allQNames.size();
+        if (0 < size) {
+            Collection<String> alts = new ArrayList<String>();
 
-		int size = keywords.size() + prefixes.size() + allQNames.size();
-		if ( 0 < size )
-		{
-			Collection<String> alts = new ArrayList<String>();
+            for (String keyword : keywords) {
+                alts.add(keyword);
+            }
 
-			Iterator<String> localNameIter = keywords.iterator();
-			while ( localNameIter.hasNext() )
-			{
-				alts.add( localNameIter.next() );
-			}
+            for (String allQName : allQNames) {
+                alts.add(allQName);
+            }
 
-			Iterator<String> qNameIter = allQNames.iterator();
-			while ( qNameIter.hasNext() )
-			{
-				alts.add( qNameIter.next() );
-			}
+            for (String prefixe : prefixes) {
+                alts.add(prefixe + ":");
+            }
 
-			Iterator<String> prefixIter = prefixes.iterator();
-			while ( prefixIter.hasNext() )
-			{
-				alts.add( prefixIter.next() + ":" );
-			}
+            return new LexicalCompletor(alts);
+        } else {
+            return new NullCompletor();
+        }
+    }
 
-			return new LexicalCompletor( alts );
-		}
+    public void uriForKeyword(final String localName,
+                              final Sink<RippleValue, RippleException> sink,
+                              final ModelConnection mc,
+                              final PrintStream errors)
+            throws RippleException {
+        Collection<URI> options = uriForKeyword(localName);
 
-		else
-		{
-			return new NullCompletor();
-		}
-	}
+        // Creating a set of values eliminates the possibility of a keyword
+        // resolving to the same runtime value more than once (as is the case,
+        // for instance, when two or more URIs mapping to a special value have
+        // the same local name).
+        Set<RippleValue> uniqueValues = new HashSet<RippleValue>();
+        for (URI u : options) {
+            uniqueValues.add(mc.canonicalValue(u));
+        }
 
-	////////////////////////////////////////////////////////////////////////////
+        if (0 == uniqueValues.size()) {
+            errors.println("Warning: keyword '" + localName + "' is not defined\n");
+        } else if (1 < uniqueValues.size()) {
+            errors.println("Warning: keyword '" + localName + "' is ambiguous\n");
+        }
 
-	public void addNamespace( final Namespace ns )
-	{
-//System.out.println( "(" + ns.getPrefix() + "=" + ns.getName() + ")" );
-		prefixToNamespaceMap.put( ns.getPrefix(), ns.getName() );
-		namespaceToPrefixMap.put( ns.getName(), ns.getPrefix() );
-	}
+        for (RippleValue v : uniqueValues) {
+            sink.put(v);
+        }
+    }
 
-    // TODO: untested
-    public void removeNamespace( final String prefix )
-    {
-        String ns = prefixToNamespaceMap.get( prefix );
-        if ( null != ns )
-        {
-            prefixToNamespaceMap.remove( prefix );
-            namespaceToPrefixMap.remove( ns );
+    public void uriForQName(final String nsPrefix,
+                            final String localName,
+                            final Sink<RippleValue, RippleException> sink,
+                            final ModelConnection mc,
+                            final PrintStream errors) throws RippleException {
+        String ns = getNamespaceUri(nsPrefix);
+
+        if (null == ns) {
+            errors.println("Warning: prefix '" + nsPrefix + "' does not identify a namespace\n");
+        } else {
+            sink.put(mc.uriValue(ns + localName));
+        }
+    }
+
+    public String getDefaultNamespace() throws RippleException {
+        String uri = getNamespaceUri("");
+
+        if (null == uri) {
+            throw new RippleException("no default namespace is defined.  Use '@prefix : <...>.'\n");
+        }
+
+        return uri;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Defines a new prefix:namespace pair.
+     * In order to maintain a one-to-one mapping of prefixes and URIs, any namespaces in which the given prefix or URI exist will be removed
+     * before the new namespace is added.
+     *
+     * @param prefix the prefix of the namespace, e.g. <code>"foaf"</code>
+     * @param uri    the URI to which the prefix is bound, e.g. <code>"http://xmlns.com/foaf/0.1/"</code>
+     */
+    public void setNamespace(final String prefix,
+                             final String uri) {
+        String p = uriToPrefix.remove(uri);
+        String u = prefixToUri.remove(prefix);
+        if (null != p) {
+            prefixToUri.remove(p);
+        }
+        if (null != u) {
+            uriToPrefix.remove(u);
+        }
+
+        prefixToUri.put(prefix, uri);
+        uriToPrefix.put(uri, prefix);
+    }
+
+    /**
+     * Removes a namespace definition.
+     * In order to maintain a one-to-one mapping of prefixes and URIs, both prefix and URI of an existing namespace will be unbound.
+     *
+     * @param prefix the prefix of the namespace to remove
+     */
+    public void removeNamespace(final String prefix) {
+        String u = prefixToUri.remove(prefix);
+        if (null != u) {
+            uriToPrefix.remove(u);
         }
     }
 
     // Note: assumes that the same URI will not be added twice.
-	public void addURI( final URI uri ) throws RippleException
-	{
-//System.out.println( "adding URI: " + uri );
-		// If possible, add a qualified name as well.
-		String prefix = namespaceToPrefixMap.get( uri.getNamespace() );
-		if ( null != prefix )
-		{
-			String qName = prefix + ":" + uri.getLocalName();
-//System.out.println( "adding qname: " + qName );
-			allQNames.add( qName );
-		}
-	}
+    public void addURI(final URI uri) throws RippleException {
+        // If possible, add a qualified name as well.
+        String prefix = uriToPrefix.get(uri.getNamespace());
+        if (null != prefix) {
+            String qName = prefix + ":" + uri.getLocalName();
+            allQNames.add(qName);
+        }
+    }
+
+    public void addCommonNamespaces() throws RippleException {
+        try {
+            InputStream is = Ripple.class.getResourceAsStream("common-namespaces.txt");
+            try {
+                BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                String l;
+                while ((l = br.readLine()) != null) {
+                    l = l.trim();
+                    if (0 < l.length() && !l.startsWith("#")) {
+                        int i = l.indexOf("\t");
+                        String prefix = l.substring(0, i);
+                        String uri = l.substring(i + 1);
+
+                        setNamespace(prefix, uri);
+                    }
+                }
+            } finally {
+                is.close();
+            }
+        } catch (IOException e) {
+            throw new RippleException(e);
+        }
+    }
 }
 

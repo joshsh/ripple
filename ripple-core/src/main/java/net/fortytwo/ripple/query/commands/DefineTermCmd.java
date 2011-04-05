@@ -66,7 +66,7 @@ public class DefineTermCmd extends Command
 //System.out.println( "exprList = " + exprList );
 
 // TODO: check for collision with an existing URI
-			RDFValue uri = mc.uriValue( qe.getDefaultNamespace() + name);
+			RDFValue uri = mc.uriValue( qe.getLexicon().getDefaultNamespace() + name);
 			new ModelConnectionHelper(mc).copyStatements( expr, uri );
 			mc.commit();
 

@@ -33,7 +33,9 @@ public class SesameModel implements Model
 	final Set<ModelConnection> openConnections = new LinkedHashSet<ModelConnection>();
     final URIMap uriMap;
 
-    public SesameModel( final Sail baseSail, final URL libraries, final URIMap uriMap )
+    public SesameModel( final Sail baseSail,
+                        final URL libraries,
+                        final URIMap uriMap )
 		throws RippleException
 	{
 		LOGGER.debug( "Creating new SesameModel" );

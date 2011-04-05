@@ -77,21 +77,7 @@ public class LexiconUpdater implements RDFDiffSink<RippleException>
 			{
 				public void put( final Namespace ns ) throws RippleException
 				{
-					if ( !allowedNsPrefix( ns.getPrefix() ) )
-					{
-						return;
-					}
-				
-					synchronized ( lexicon )
-					{
-						if ( override || null == lexicon.resolveNamespacePrefix( ns.getPrefix() ) )
-						{
-							if ( allowDuplicateNamespaces || null == lexicon.nsPrefixOf( ns.getName() ) )
-							{
-								lexicon.addNamespace( ns );
-							}
-						}
-					}
+// TODO: delete me
 				}
 			};
 

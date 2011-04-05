@@ -21,7 +21,7 @@ public class DatatypeSyntaxTest extends RippleTestCase
         Collection<RippleList> results;
         RippleList stack;
         Literal l;
-        ModelConnection mc = getTestModel().createConnection(null);
+        ModelConnection mc = getTestModel().createConnection();
 
         results = reduce( "true" );
         assertEquals( 1, results.size() );
@@ -47,7 +47,7 @@ public class DatatypeSyntaxTest extends RippleTestCase
         Collection<RippleList> results;
         RippleList stack;
         Literal l;
-        ModelConnection mc = getTestModel().createConnection(null);
+        ModelConnection mc = getTestModel().createConnection();
 
         results = reduce( "0" );
         assertEquals( 1, results.size() );
@@ -100,7 +100,7 @@ public class DatatypeSyntaxTest extends RippleTestCase
         Collection<RippleList> results;
         RippleList stack;
         Literal l;
-        ModelConnection mc = getTestModel().createConnection(null);
+        ModelConnection mc = getTestModel().createConnection();
 
         results = reduce( "0.0e0" );
         assertEquals( 1, results.size() );
@@ -173,7 +173,7 @@ public class DatatypeSyntaxTest extends RippleTestCase
         Collection<RippleList> results;
         RippleList stack;
         Literal l;
-        ModelConnection mc = getTestModel().createConnection(null);
+        ModelConnection mc = getTestModel().createConnection();
 
         results = reduce( "0.0" );
         assertEquals( 1, results.size() );

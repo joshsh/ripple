@@ -46,7 +46,7 @@ public class QNameAST implements AST<RippleList>
 			}
 		};
 
-		qe.uriForQName( nsPrefix, localName, uriSink, mc );
+		qe.getLexicon().uriForQName( nsPrefix, localName, uriSink, mc, qe.getErrorPrintStream() );
 	}
 }
 

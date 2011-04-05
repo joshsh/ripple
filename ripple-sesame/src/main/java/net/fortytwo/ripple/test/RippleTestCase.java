@@ -51,7 +51,7 @@ public abstract class RippleTestCase extends TestCase {
     protected Comparator<RippleValue> comparator = null;
 
     public void setUp() throws Exception {
-        modelConnection = getTestModel().createConnection(null);
+        modelConnection = getTestModel().createConnection();
         comparator = modelConnection.getComparator();
 
         SailConnection sc = getTestSail().getConnection();
