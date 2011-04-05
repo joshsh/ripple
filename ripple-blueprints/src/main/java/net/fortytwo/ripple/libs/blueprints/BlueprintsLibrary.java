@@ -25,8 +25,10 @@ public class BlueprintsLibrary extends Library {
         uf.put(NS_2011_04, getClass().getResource("blueprints.ttl") + "#");
 
         registerPrimitives(context,
-                From.class,
-                To.class,
+                Tail.class,
+                Id.class,
+                Label.class,
+                Head.class,
                 Gremlin.class);
     }
 

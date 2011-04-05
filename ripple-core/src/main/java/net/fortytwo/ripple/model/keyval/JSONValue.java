@@ -103,4 +103,12 @@ public class JSONValue implements KeyValueValue {
     public String toString() {
         return jsonObject.toString();
     }
+
+    public int compareTo(final KeyValueValue other) {
+        if (other instanceof JSONValue) {
+            return this.jsonObject.toString().compareTo(other.toString());
+        } else {
+            return this.getClass().getName().compareTo(other.getClass().getName());
+        }
+    }
 }

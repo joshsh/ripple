@@ -2,6 +2,7 @@ package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Collector;
+import net.fortytwo.ripple.model.keyval.KeyValueValue;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
@@ -36,6 +37,7 @@ public class RippleValueComparator implements Comparator<RippleValue>
             PLAIN_LITERAL_WITH_LANGUAGE_TAG,
             NUMERIC_TYPED_LITERAL,
             OTHER_TYPED_LITERAL,
+            KEYVALUE_VALUE,
             LIST,
             OPERATOR,
             OTHER_RESOURCE  // Note: includes PrimitiveStackMapping
@@ -72,6 +74,8 @@ public class RippleValueComparator implements Comparator<RippleValue>
                         return compareOtherTypedLiteral( first, second );
                     case LIST:
                         return compareList( first, second );
+                    case KEYVALUE_VALUE:
+                        return compareKeyValueValue( first, second );
                     case OPERATOR:
                         return compareOperator( first, second );
                     case OTHER_RESOURCE:
@@ -171,6 +175,11 @@ public class RippleValueComparator implements Comparator<RippleValue>
         else if ( value instanceof PrimitiveStackMapping )
         {
             return Type.OTHER_RESOURCE;
+        }
+
+        else if ( value instanceof KeyValueValue )
+        {
+            return Type.KEYVALUE_VALUE;
         }
 
         else
@@ -305,6 +314,11 @@ public class RippleValueComparator implements Comparator<RippleValue>
                 return compareListCollectors( firstLists, secondLists );
             }
         }
+    }
+
+    private int compareKeyValueValue( final RippleValue first,
+                                      final RippleValue second ) {
+        return ((KeyValueValue) first).compareTo((KeyValueValue) second);
     }
 
     private int compareOperator( final RippleValue first,

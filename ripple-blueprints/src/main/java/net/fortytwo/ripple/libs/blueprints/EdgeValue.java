@@ -15,14 +15,14 @@ import java.util.Collection;
  * Date: 4/5/11
  * Time: 9:05 PM
  */
-public class EdgeValue implements KeyValueValue {
+public class EdgeValue implements ElementValue {
     private final Edge edge;
 
     public EdgeValue(final Edge edge) {
         this.edge = edge;
     }
 
-    public Edge getEdge() {
+    public Edge getElement() {
         return edge;
     }
 
@@ -52,5 +52,19 @@ public class EdgeValue implements KeyValueValue {
     @Override
     public Collection<String> getKeys() {
         return edge.getPropertyKeys();
+    }
+
+    public int compareTo(final KeyValueValue other) {
+        if (other instanceof EdgeValue) {
+            String otherLabel = ((EdgeValue) other).edge.getLabel();
+            int cmp = this.edge.getLabel().compareTo(otherLabel);
+            if (0 == cmp) {
+                return ((Integer) edge.getId().hashCode()).compareTo(((EdgeValue) other).edge.hashCode());
+            } else {
+                return cmp;
+            }
+        } else {
+            return this.getClass().getName().compareTo(other.getClass().getName());
+        }
     }
 }

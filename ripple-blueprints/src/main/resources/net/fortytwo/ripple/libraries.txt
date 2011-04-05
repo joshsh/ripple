@@ -10,4 +10,4 @@ net.fortytwo.ripple.libs.stream.StreamLibrary
 net.fortytwo.ripple.libs.string.StringLibrary
 
 # Additional library
-net.fortytwo.ripple.libs.tinkerpop.TinkerPopLibrary
+net.fortytwo.ripple.libs.blueprints.BlueprintsLibrary

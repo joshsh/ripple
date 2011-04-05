@@ -15,23 +15,25 @@ import net.fortytwo.ripple.model.StackMapping;
  * Date: 4/5/11
  * Time: 8:11 PM
  */
-public class To extends PrimitiveStackMapping {
+public class Head extends PrimitiveStackMapping {
     @Override
     public String[] getIdentifiers() {
         return new String[]{
-                BlueprintsLibrary.NS_2011_04 + "to"
+                BlueprintsLibrary.NS_2011_04 + "head"
         };
     }
 
     @Override
     public Parameter[] getParameters() {
         return new Parameter[]{
-                new Parameter("vertex", "the vertex from which to find incoming edges", true)};
+                new Parameter("edge", "an edge, which has exactly one head", true)};
+
     }
 
     @Override
     public String getComment() {
-        return "finds the incoming edges incident on a given Blueprints vertex";
+        return "finds the head of an edge (the vertex from which the edge is incoming)." +
+                " The inverse mapping finds the incoming edges of a vertex.";
     }
 
     @Override
@@ -41,12 +43,9 @@ public class To extends PrimitiveStackMapping {
         RippleValue first = stack.getFirst();
         stack = stack.getRest();
 
-        if (first instanceof VertexValue) {
-            Vertex vertex = ((VertexValue) first).getVertex();
-
-            for (Edge edge : vertex.getInEdges()) {
-                solutions.put(arg.with(stack.push(new EdgeValue(edge))));
-            }
+        if (first instanceof EdgeValue) {
+            Edge edge = ((EdgeValue) first).getElement();
+            solutions.put(arg.with(stack.push(new VertexValue(edge.getInVertex()))));
         }
     }
 
@@ -76,14 +75,16 @@ public class To extends PrimitiveStackMapping {
         @Override
         public void apply(final StackContext arg,
                           final Sink<StackContext, RippleException> solutions) throws RippleException {
-
             RippleList stack = arg.getStack();
             RippleValue first = stack.getFirst();
             stack = stack.getRest();
 
-            if (first instanceof EdgeValue) {
-                Edge edge = ((EdgeValue) first).getEdge();
-                solutions.put(arg.with(stack.push(new VertexValue(edge.getInVertex()))));
+            if (first instanceof VertexValue) {
+                Vertex vertex = ((VertexValue) first).getElement();
+
+                for (Edge edge : vertex.getInEdges()) {
+                    solutions.put(arg.with(stack.push(new EdgeValue(edge))));
+                }
             }
         }
     };

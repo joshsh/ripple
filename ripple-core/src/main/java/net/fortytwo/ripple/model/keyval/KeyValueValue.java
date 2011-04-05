@@ -11,7 +11,7 @@ import java.util.Collection;
  * Date: 4/5/11
  * Time: 11:09 PM
  */
-public interface KeyValueValue extends RippleValue {
+public interface KeyValueValue extends RippleValue, Comparable<KeyValueValue> {
     RippleValue getValue(String key,
                          ModelConnection mc) throws RippleException;
     Collection<String> getKeys();

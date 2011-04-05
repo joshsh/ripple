@@ -15,14 +15,14 @@ import java.util.Collection;
  * Date: 4/5/11
  * Time: 9:06 PM
  */
-public class VertexValue implements KeyValueValue {
+public class VertexValue implements ElementValue {
     private final Vertex vertex;
 
     public VertexValue(final Vertex vertex) {
         this.vertex = vertex;
     }
 
-    public Vertex getVertex() {
+    public Vertex getElement() {
         return vertex;
     }
 
@@ -52,5 +52,13 @@ public class VertexValue implements KeyValueValue {
     @Override
     public Collection<String> getKeys() {
         return vertex.getPropertyKeys();
+    }
+
+    public int compareTo(final KeyValueValue other) {
+        if (other instanceof VertexValue) {
+            return ((Integer) vertex.getId().hashCode()).compareTo(((VertexValue) other).vertex.hashCode());
+        } else {
+            return this.getClass().getName().compareTo(other.getClass().getName());
+        }
     }
 }
