@@ -35,7 +35,7 @@ public class NullStackMapping implements StackMapping
 	}
 
     // The null filter is considered to be its own inverse
-    public StackMapping inverse() throws RippleException
+    public StackMapping getInverse() throws RippleException
     {
         return this;
     }

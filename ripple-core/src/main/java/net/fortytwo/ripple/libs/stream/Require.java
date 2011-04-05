@@ -93,7 +93,7 @@ public class Require extends PrimitiveStackMapping
             return criterion.getMapping().arity();
         }
 
-        public StackMapping inverse() throws RippleException
+        public StackMapping getInverse() throws RippleException
         {
             return new NullStackMapping();
         }
@@ -128,7 +128,7 @@ public class Require extends PrimitiveStackMapping
             return 1;
         }
 
-        public StackMapping inverse() throws RippleException
+        public StackMapping getInverse() throws RippleException
         {
             return new NullStackMapping();
         }

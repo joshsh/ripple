@@ -75,7 +75,7 @@ public class Inlinks extends PrimitiveStackMapping {
                 }
             };
 
-            mc.getStatements(null, null, obj.toRDF(mc), stSink, false);
+            mc.getStatements(null, null, obj.toRDF(mc), stSink);
         } else {
             LOGGER.warn("primitive is compatible only with the Sesame model: " + this);
         }

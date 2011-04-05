@@ -73,7 +73,7 @@ public class TimesQuantifier implements StackMapping
 		}
 	}
 
-    public StackMapping inverse() throws RippleException
+    public StackMapping getInverse() throws RippleException
     {
         return new NullStackMapping();
     }

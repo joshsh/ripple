@@ -51,7 +51,7 @@ public class StarQuantifier implements StackMapping
 				.push( new Operator( this ) ) ) );
 	}
 
-    public StackMapping inverse() throws RippleException
+    public StackMapping getInverse() throws RippleException
     {
         return new NullStackMapping();
     }

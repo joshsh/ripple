@@ -51,7 +51,7 @@ public class ListDequotation implements StackMapping
                 RippleValue v = out.getFirst();
                 if ( v.isActive() )
                 {
-                    StackMapping inverted = ( (Operator) v ).getMapping().inverse();
+                    StackMapping inverted = ( (Operator) v ).getMapping().getInverse();
                     out = out.getRest().push( new Operator( inverted ) );
                     sink.put( arg.with( out ) );
                 }
@@ -69,7 +69,7 @@ public class ListDequotation implements StackMapping
 		return true;
 	}
 
-    public StackMapping inverse() throws RippleException
+    public StackMapping getInverse() throws RippleException
     {
         ListDequotation m = new ListDequotation( list );
         m.invert = true;

@@ -100,7 +100,7 @@ public class Distinct extends PrimitiveStackMapping
 			return true;
 		}
         
-        public StackMapping inverse() throws RippleException
+        public StackMapping getInverse() throws RippleException
         {
             return new NullStackMapping();
         }

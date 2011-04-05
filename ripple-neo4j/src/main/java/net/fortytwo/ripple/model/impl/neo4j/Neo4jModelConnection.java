@@ -230,7 +230,7 @@ public class Neo4jModelConnection extends SesameModelConnection {
     */
 
     @Override
-    public void getStatements(RDFValue subj, RDFValue pred, RDFValue obj, Sink<Statement, RippleException> sink, boolean includeInferred) throws RippleException {
+    public void getStatements(RDFValue subj, RDFValue pred, RDFValue obj, Sink<Statement, RippleException> sink) throws RippleException {
         // (only graph:links needs this method)
     }
 

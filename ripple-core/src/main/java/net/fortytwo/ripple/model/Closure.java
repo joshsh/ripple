@@ -52,9 +52,9 @@ public class Closure implements StackMapping
 		return "Closure(" + innerMapping + ", " + argument + ")";
 	}
 
-    public StackMapping inverse() throws RippleException
+    public StackMapping getInverse() throws RippleException
     {
-        return new Closure( innerMapping.inverse(), argument );
+        return new Closure( innerMapping.getInverse(), argument );
     }
 }
 

@@ -78,7 +78,7 @@ public class Log10 extends PrimitiveStackMapping
 	}
 
     @Override
-    public StackMapping inverse()
+    public StackMapping getInverse()
     {
         return new Pow10();
     }
@@ -90,7 +90,7 @@ public class Log10 extends PrimitiveStackMapping
             return 1;
         }
 
-        public StackMapping inverse() throws RippleException
+        public StackMapping getInverse() throws RippleException
         {
             return self;
         }

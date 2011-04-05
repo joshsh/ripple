@@ -77,7 +77,7 @@ public class Members extends PrimitiveStackMapping {
                 }
             };
 
-            mc.getStatements(head.toRDF(mc), null, null, stSink, false);
+            mc.getStatements(head.toRDF(mc), null, null, stSink);
 
             /*
             int i = 1;

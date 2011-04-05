@@ -59,7 +59,7 @@ public class ModelConnectionHelper {
             }
         };
 
-        connection.getStatements(src.toRDF(connection), null, null, stSink, false);
+        connection.getStatements(src.toRDF(connection), null, null, stSink);
     }
 
     public void findPredicates(final RippleValue subject,
@@ -80,7 +80,7 @@ public class ModelConnectionHelper {
             }
         };
 
-        connection.getStatements(subject.toRDF(connection), null, null, predSelector, false);
+        connection.getStatements(subject.toRDF(connection), null, null, predSelector);
     }
 
     public RippleValue createRandomURI() throws RippleException {

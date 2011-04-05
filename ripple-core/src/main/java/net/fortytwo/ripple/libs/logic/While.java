@@ -110,7 +110,7 @@ public class While extends PrimitiveStackMapping
             return 1;
         }
 
-        public StackMapping inverse() throws RippleException
+        public StackMapping getInverse() throws RippleException
         {
             return new NullStackMapping();
         }
@@ -158,7 +158,7 @@ public class While extends PrimitiveStackMapping
             return 1;
         }
 
-        public StackMapping inverse() throws RippleException
+        public StackMapping getInverse() throws RippleException
         {
             return new NullStackMapping();
         }

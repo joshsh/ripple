@@ -69,7 +69,7 @@ public class Op implements StackMapping, RippleValue
 		return true;
 	}
 
-    public StackMapping inverse() throws RippleException
+    public StackMapping getInverse() throws RippleException
     {
         return new OpInverse();
     }
@@ -108,7 +108,7 @@ public class Op implements StackMapping, RippleValue
                 public void put( final Operator oper )
                     throws RippleException
                 {
-                    Operator inv = new Operator( oper.getMapping().inverse() );
+                    Operator inv = new Operator( oper.getMapping().getInverse() );
                     sink.put( arg.with( rest.push( inv ) ) );
                 }
             };
@@ -117,7 +117,7 @@ public class Op implements StackMapping, RippleValue
         }
 
         @Override
-        public StackMapping inverse() throws RippleException
+        public StackMapping getInverse() throws RippleException
         {
             return Operator.OP.getMapping();
         }

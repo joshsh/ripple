@@ -78,7 +78,7 @@ public class RDFPredicateMapping implements StackMapping {
         return "Predicate(" + predicate + ")";
     }
 
-    public StackMapping inverse() throws RippleException {
+    public StackMapping getInverse() throws RippleException {
         StatementPatternQuery.Pattern inverseType;
 
 //System.out.println("inverting RDF predicate mapping with predicate " + predicate + " and context " + context);

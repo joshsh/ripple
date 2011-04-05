@@ -50,7 +50,7 @@ public class PlusQuantifier implements StackMapping
 				.push( new Operator( new StarQuantifier( innerOperator ) ) ) ) );
 	}
 
-    public StackMapping inverse() throws RippleException
+    public StackMapping getInverse() throws RippleException
     {
         return new NullStackMapping();
     }

@@ -12,13 +12,19 @@ package net.fortytwo.ripple.model;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Mapping;
 
-public interface StackMapping extends Mapping<StackContext, StackContext, RippleException>
-{
-	/**
-	*  The fixed number of arguments which this function consumes before
-	*  yielding a result.
-	*/
-	int arity();
+/**
+ * A streaming filter which maps stacks to stacks.
+ */
+public interface StackMapping extends Mapping<StackContext, StackContext, RippleException> {
+    /**
+     * @return the fixed number of arguments which this function consumes before computing a result.
+     */
+    int arity();
 
-    StackMapping inverse() throws RippleException;
+    /**
+     * @return the <code>StackMapping</code> exactly inverse to this mapping,
+     *         or a <code>NullMapping</code> if no such mapping can be defined.
+     * @throws RippleException if the inverse cannot be determined
+     */
+    StackMapping getInverse() throws RippleException;
 }

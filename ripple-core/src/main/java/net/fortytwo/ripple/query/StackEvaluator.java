@@ -27,7 +27,7 @@ public abstract class StackEvaluator extends Evaluator<StackContext, StackContex
 	}
 
     // TODO
-    public StackMapping inverse() throws RippleException
+    public StackMapping getInverse() throws RippleException
     {
         return new NullStackMapping();
     }

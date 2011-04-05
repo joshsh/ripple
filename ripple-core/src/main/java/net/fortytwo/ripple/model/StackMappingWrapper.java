@@ -52,9 +52,9 @@ public class StackMappingWrapper implements StackMapping, RippleValue
         innerMapping.apply( arg, solutions );
     }
 
-    public StackMapping inverse() throws RippleException
+    public StackMapping getInverse() throws RippleException
     {
-        return innerMapping.inverse();
+        return innerMapping.getInverse();
     }
 
     public RDFValue toRDF( final ModelConnection mc ) throws RippleException

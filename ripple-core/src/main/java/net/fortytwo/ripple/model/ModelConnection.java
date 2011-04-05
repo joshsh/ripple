@@ -93,7 +93,7 @@ public interface ModelConnection
 // FIXME: Namespaces should not be part of the ModelConnection API
 	Source<Namespace, RippleException> getNamespaces() throws RippleException;
 // FIXME: Statements should not be part of the ModelConnection API
-	void getStatements( RDFValue subj, RDFValue pred, RDFValue obj, Sink<Statement, RippleException> sink, boolean includeInferred ) throws RippleException;
+	void getStatements( RDFValue subj, RDFValue pred, RDFValue obj, Sink<Statement, RippleException> sink ) throws RippleException;
 
 // FIXME: this is a hack
     CloseableIteration<? extends BindingSet, QueryEvaluationException> evaluate( String query ) throws RippleException ;

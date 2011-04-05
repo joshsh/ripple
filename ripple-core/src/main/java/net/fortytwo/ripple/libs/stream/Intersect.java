@@ -153,7 +153,7 @@ public class Intersect extends PrimitiveStackMapping
 		}
 
         // TODO
-        public StackMapping inverse() throws RippleException
+        public StackMapping getInverse() throws RippleException
         {
             return new NullStackMapping();
         }

@@ -124,7 +124,7 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
 		return transparent;
 	}
 
-    public StackMapping inverse() throws RippleException
+    public StackMapping getInverse() throws RippleException
     {
         return new NullStackMapping();
     }

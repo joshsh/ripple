@@ -24,7 +24,7 @@ public class KeyValueMapping implements StackMapping {
         return 1;
     }
 
-    public StackMapping inverse() throws RippleException {
+    public StackMapping getInverse() throws RippleException {
         return new NullStackMapping();
     }
 

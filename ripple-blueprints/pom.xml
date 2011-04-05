@@ -40,10 +40,15 @@
             <artifactId>ripple-core</artifactId>
             <version>0.6.2</version>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>com.tinkerpop.blueprints</groupId>
-            <artifactId>blueprints-core</artifactId>
+            <artifactId>blueprints-neo4j-graph</artifactId>
             <version>0.6</version>
+        </dependency>-->
+        <dependency>
+            <groupId>com.tinkerpop</groupId>
+            <artifactId>gremlin</artifactId>
+            <version>0.9</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

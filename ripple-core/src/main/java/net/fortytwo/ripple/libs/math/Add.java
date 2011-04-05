@@ -72,7 +72,7 @@ public class Add extends PrimitiveStackMapping
 	}
 
     @Override
-    public StackMapping inverse() throws RippleException
+    public StackMapping getInverse() throws RippleException
     {
         return MathLibrary.getSubValue();
     }

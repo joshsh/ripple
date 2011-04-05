@@ -78,7 +78,7 @@ public class Count extends PrimitiveStackMapping
             return 1;
         }
 
-        public StackMapping inverse() throws RippleException
+        public StackMapping getInverse() throws RippleException
         {
             return new NullStackMapping();
         }

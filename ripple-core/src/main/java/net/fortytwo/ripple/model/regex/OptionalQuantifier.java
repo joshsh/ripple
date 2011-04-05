@@ -50,7 +50,7 @@ public class OptionalQuantifier implements StackMapping
 				.push( innerOperator ) ) );
 	}
 
-    public StackMapping inverse() throws RippleException
+    public StackMapping getInverse() throws RippleException
     {
         return new NullStackMapping();
     }

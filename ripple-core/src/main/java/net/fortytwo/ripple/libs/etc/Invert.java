@@ -61,7 +61,7 @@ public class Invert extends PrimitiveStackMapping
             {
 //System.out.println("mapping to invert: " + op.getMapping());
                 // Note: this operation both inverts and applies the mapping
-                RippleValue inverse = new StackMappingWrapper( op.getMapping().inverse(), mc );
+                RippleValue inverse = new StackMappingWrapper( op.getMapping().getInverse(), mc );
                 solutions.put( arg.with( rest.push( inverse ) ) );
             }
         };

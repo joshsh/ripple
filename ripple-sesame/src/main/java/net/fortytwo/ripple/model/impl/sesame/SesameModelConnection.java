@@ -219,19 +219,7 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
-    public synchronized SailConnection getSailConnection() {
-        return sailConnection;
-    }
-
     ////////////////////////////////////////////////////////////////////////////
-
-    private Resource castToResource(final Value v) throws RippleException {
-        if (v instanceof Resource) {
-            return (Resource) v;
-        } else {
-            throw new RippleException("value " + v + " is not a Resource");
-        }
-    }
 
     private Literal castToLiteral(final Value v) throws RippleException {
         if (v instanceof Literal) {
@@ -442,12 +430,6 @@ public class SesameModelConnection implements ModelConnection {
 
     ////////////////////////////////////////////////////////////////////////////
 
-    private class RippleExceptionAdapter implements AdapterSink.ExceptionAdapter<RippleException> {
-        public void doThrow(Exception e) throws RippleException {
-            throw new RippleException(e);
-        }
-    }
-
     private class SailExceptionAdapter implements AdapterSink.ExceptionAdapter<SailException> {
         public void doThrow(Exception e) throws SailException {
             throw new SailException(e);
@@ -652,7 +634,7 @@ public class SesameModelConnection implements ModelConnection {
     ////////////////////////////////////////////////////////////////////////////
 
     private class QueryTask extends Task {
-        private StatementPatternQuery query;
+        private final StatementPatternQuery query;
         private Sink<RippleValue, RippleException> sink;
 
         public QueryTask(final StatementPatternQuery query, final Sink<RippleValue, RippleException> sink) {
@@ -665,7 +647,7 @@ public class SesameModelConnection implements ModelConnection {
         }
 
         protected void stopProtected() {
-            synchronized (sink) {
+            synchronized (query) {
                 sink = new NullSink<RippleValue, RippleException>();
             }
         }
@@ -730,8 +712,7 @@ public class SesameModelConnection implements ModelConnection {
     public void getStatements(final RDFValue subj,
                               final RDFValue pred,
                               final RDFValue obj,
-                              final Sink<Statement, RippleException> sink,
-                              final boolean includeInferred)
+                              final Sink<Statement, RippleException> sink)
             throws RippleException {
 //System.out.println("getStatements(" + subj + ", " + pred + ", " + obj + ")");
         Value rdfSubj = (null == subj) ? null : subj.sesameValue();
@@ -756,7 +737,7 @@ public class SesameModelConnection implements ModelConnection {
                 //synchronized ( model )
                 //{
                 stmtIter = sailConnection.getStatements(
-                        (Resource) rdfSubj, (URI) rdfPred, rdfObj, includeInferred);
+                        (Resource) rdfSubj, (URI) rdfPred, rdfObj, false);
                 //stmtIter.enableDuplicateFilter();
 
                 while (stmtIter.hasNext()) {
