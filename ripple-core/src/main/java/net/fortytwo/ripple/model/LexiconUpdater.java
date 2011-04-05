@@ -198,12 +198,12 @@ public class LexiconUpdater implements RDFDiffSink<RippleException>
         };
 	}
 
-	public RDFSink adderSink()
+	public RDFSink<RippleException> adderSink()
 	{
 		return addSink;
 	}
 
-	public RDFSink subtractorSink()
+	public RDFSink<RippleException> subtractorSink()
 	{
 		return subSink;
 	}
