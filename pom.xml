@@ -47,7 +47,6 @@
         <module>ripple-core</module>
         <module>ripple-demo</module>
         <module>ripple-media</module>
-        <module>ripple-neo4j</module>
         <module>ripple-rdf</module>
         <module>ripple-scriptengine</module>
         <module>ripple-sesame</module>

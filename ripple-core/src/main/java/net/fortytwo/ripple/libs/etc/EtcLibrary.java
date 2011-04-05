@@ -42,6 +42,7 @@ public class EtcLibrary extends Library
                 System.class,
                 Time.class,
                 // TODO: move these?
+                Keys.class,
                 Rank.class,
                 Amp.class );
         invertVal = registerPrimitive( Invert.class, context );

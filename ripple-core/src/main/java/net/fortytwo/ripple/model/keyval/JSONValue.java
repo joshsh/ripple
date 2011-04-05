@@ -1,4 +1,4 @@
-package net.fortytwo.ripple.model.json;
+package net.fortytwo.ripple.model.keyval;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RipplePrintStream;
@@ -10,12 +10,17 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
 
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * User: josh
  * Date: Aug 18, 2010
  * Time: 1:38:43 PM
  */
-public class JSONValue implements RippleValue {
+public class JSONValue implements KeyValueValue {
     private final JSONObject jsonObject;
 
     public JSONValue(final JSONObject jsonObject) {
@@ -43,6 +48,19 @@ public class JSONValue implements RippleValue {
         } else {
             return toRippleValue(o, mc);
         }
+    }
+
+    public Collection<String> getKeys() {
+        List<String> keys = new LinkedList<String>();
+        Iterator i = jsonObject.keys();
+        while (i.hasNext()) {
+            Object key = i.next();
+            if (key instanceof String) {
+                keys.add((String) key);
+            }
+        }
+
+        return keys;
     }
 
     /**

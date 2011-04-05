@@ -10,10 +10,9 @@
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.flow.Sink;
-import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RipplePrintStream;
-import net.fortytwo.ripple.model.json.KeyValueMapping;
+import net.fortytwo.ripple.model.keyval.KeyValueMapping;
 import net.fortytwo.ripple.util.ModelConnectionHelper;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;

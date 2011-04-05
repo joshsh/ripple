@@ -1,4 +1,4 @@
-package net.fortytwo.ripple.model.json;
+package net.fortytwo.ripple.model.keyval;
 
 import net.fortytwo.ripple.model.StackMapping;
 import net.fortytwo.ripple.model.StackContext;
@@ -40,8 +40,8 @@ public class KeyValueMapping implements StackMapping {
         x = stack.getFirst();
         stack = stack.getRest();
 
-        if (x instanceof JSONValue) {
-            RippleValue result = ((JSONValue) x).getValue(key, arg.getModelConnection());
+        if (x instanceof KeyValueValue) {
+            RippleValue result = ((KeyValueValue) x).getValue(key, arg.getModelConnection());
             solutions.put(arg.with(
                     stack.push(result)));
         } else {

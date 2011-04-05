@@ -16,7 +16,7 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.model.json.JSONValue;
+import net.fortytwo.ripple.model.keyval.JSONValue;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
