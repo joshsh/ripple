@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.fortytwo.ripple</groupId>
     <artifactId>ripple-scriptengine</artifactId>
-    <version>0.6.2</version>
+    <version>0.7-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Ripple ScriptEngine</name>
     <description>javax.script.ScriptEngine implementation for Ripple</description>
@@ -14,7 +14,7 @@
     <parent>
         <groupId>net.fortytwo.ripple</groupId>
         <artifactId>ripple</artifactId>
-        <version>0.6.2</version>
+        <version>0.7-SNAPSHOT</version>
     </parent>
 
     <repositories>
@@ -34,13 +34,13 @@
         <dependency>
             <groupId>net.fortytwo</groupId>
             <artifactId>flow</artifactId>
-            <version>0.6.2</version>
+            <version>0.7-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>net.fortytwo.ripple</groupId>
             <!-- TODO: choose the least possible dependency here -->
             <artifactId>ripple-demo</artifactId>
-            <version>0.6.2</version>
+            <version>0.7-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

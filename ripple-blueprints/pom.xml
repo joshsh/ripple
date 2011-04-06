@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.fortytwo.ripple</groupId>
     <artifactId>ripple-blueprints</artifactId>
-    <version>0.6.2</version>
+    <version>0.7-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Ripple Blueprints</name>
     <description>Blueprints, Gremlin, and Pipes integration for Ripple</description>
@@ -14,7 +14,7 @@
     <parent>
         <groupId>net.fortytwo.ripple</groupId>
         <artifactId>ripple</artifactId>
-        <version>0.6.2</version>
+        <version>0.7-SNAPSHOT</version>
     </parent>
 
     <repositories>
@@ -38,12 +38,12 @@
         <!--<dependency>
             <groupId>net.fortytwo</groupId>
             <artifactId>flow</artifactId>
-            <version>0.6.2</version>
+            <version>0.7-SNAPSHOT</version>
         </dependency>-->
         <dependency>
             <groupId>net.fortytwo.ripple</groupId>
             <artifactId>ripple-demo</artifactId>
-            <version>0.6.2</version>
+            <version>0.7-SNAPSHOT</version>
         </dependency>
         <!--<dependency>
             <groupId>com.tinkerpop.blueprints</groupId>
