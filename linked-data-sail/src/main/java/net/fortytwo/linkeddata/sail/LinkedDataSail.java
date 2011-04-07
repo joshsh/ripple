@@ -1,7 +1,7 @@
 /*
- * $URL$
- * $Revision$
- * $Author$
+ * $URL: https://ripple.googlecode.com/svn/trunk/linked-data-sail/src/main/java/net/fortytwo/linkeddata/sail/LinkedDataSail.java $
+ * $Revision: 212 $
+ * $Author: parcour $
  *
  * Copyright (C) 2007-2011 Joshua Shinavier
  */
@@ -133,8 +133,9 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
         return logFailedUris;
     }
 
+    // For testing/debugging/play only.
     public static void main(final String[] args) {
-        System.out.println(RDFFormat.TURTLE.getDefaultMIMEType());
+        //System.out.println(RDFFormat.TURTLE.getDefaultMIMEType());
     }
 }
 

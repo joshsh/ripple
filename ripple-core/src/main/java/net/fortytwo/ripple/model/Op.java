@@ -128,5 +128,10 @@ public class Op implements StackMapping, RippleValue
             return "opInverse";
         }
     }
+
+    public Type getType() {
+        // FIXME: the Operator class also uses this type
+        return Type.OPERATOR;
+    }
 }
 

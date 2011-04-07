@@ -15,7 +15,7 @@ import java.util.Collection;
  * Date: 4/5/11
  * Time: 9:05 PM
  */
-public class EdgeValue implements ElementValue {
+public class EdgeValue extends ElementValue {
     private final Edge edge;
 
     public EdgeValue(final Edge edge) {

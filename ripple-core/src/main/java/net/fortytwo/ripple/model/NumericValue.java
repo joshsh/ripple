@@ -27,7 +27,7 @@ public abstract class NumericValue implements RippleValue, Comparable<NumericVal
 	/**
 	 * Distinguishes between numeric literals of type xsd:integer and xsd:double.
 	 */
-	public enum Type { INTEGER, LONG, DOUBLE, FLOAT, DECIMAL };
+	public enum Type { INTEGER, LONG, DOUBLE, FLOAT, DECIMAL }
 
     protected static final Map<URI, Type> uriToTypeMap;
 
@@ -49,7 +49,7 @@ public abstract class NumericValue implements RippleValue, Comparable<NumericVal
 
 	public abstract RDFValue toRDF( final ModelConnection mc ) throws RippleException;
 	
-	public Type getType()
+	public Type getDatatype()
 	{
 		return type;
 	}
@@ -107,7 +107,7 @@ public abstract class NumericValue implements RippleValue, Comparable<NumericVal
 	public void printTo( final RipplePrintStream p )
 		throws RippleException
 	{
-        switch ( getType() )
+        switch ( getDatatype() )
         {
             case INTEGER:
                 p.printInteger( intValue() );
@@ -195,7 +195,7 @@ public abstract class NumericValue implements RippleValue, Comparable<NumericVal
 
         else
         {
-            Type precision = maxPrecision( aType, b.getType() );
+            Type precision = maxPrecision( aType, b.getDatatype() );
 
             switch ( precision )
             {
@@ -286,7 +286,7 @@ public abstract class NumericValue implements RippleValue, Comparable<NumericVal
 
     protected static Type maxPrecision( final NumericValue a, final NumericValue b )
     {
-        return maxPrecision( a.getType(), b.getType() );
+        return maxPrecision( a.getDatatype(), b.getDatatype() );
     }
 
     protected static Type maxPrecision( final Type a, final Type b )
@@ -318,10 +318,8 @@ public abstract class NumericValue implements RippleValue, Comparable<NumericVal
 
     public boolean equals( final Object other )
     {
-        return ( other instanceof NumericValue )
-                ? ( (NumericValue) other ).getType().equals( type )
-                        && ( (NumericValue) other ).number.equals( number )
-                : false;
+        return (other instanceof NumericValue) && ((NumericValue) other).getType().equals(type)
+                && ((NumericValue) other).number.equals(number);
     }
 
     public int hashCode()
@@ -348,5 +346,9 @@ public abstract class NumericValue implements RippleValue, Comparable<NumericVal
             System.out.println("" + type + ": " + type.hashCode());
         }
     }*/
+
+    public RippleValue.Type getType() {
+        return RippleValue.Type.NUMERIC_TYPED_LITERAL;
+    }
 }
 

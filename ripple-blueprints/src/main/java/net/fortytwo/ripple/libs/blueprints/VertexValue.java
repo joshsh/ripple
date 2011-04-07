@@ -15,7 +15,7 @@ import java.util.Collection;
  * Date: 4/5/11
  * Time: 9:06 PM
  */
-public class VertexValue implements ElementValue {
+public class VertexValue extends ElementValue {
     private final Vertex vertex;
 
     public VertexValue(final Vertex vertex) {

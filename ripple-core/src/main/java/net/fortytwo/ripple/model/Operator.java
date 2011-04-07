@@ -168,5 +168,9 @@ return rdfEquivalent;
 		return ( v.sesameValue().equals( RDF.NIL )
 			|| null != h.findSingleObject( v, RDF_FIRST ) );
 	}
+
+    public Type getType() {
+        return Type.OPERATOR;
+    }
 }
 

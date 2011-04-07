@@ -238,7 +238,7 @@ public class WebClosure {
                                        final RDFSink<RippleException> resultSink,
                                        final SailConnection sc) throws RippleException {
         // TODO: memos should be inferred in a scheme-specific way
-        String defrag = RDFUtils.removeFragmentIdentifier(nonInfoURI.toString());
+        String nofrag = RDFUtils.removeFragmentIdentifier(nonInfoURI.toString());
 
         ContextMemo memo;
         Dereferencer dref;
@@ -249,7 +249,7 @@ public class WebClosure {
 
         // Rules out an otherwise possible race condition
         synchronized (cache) {
-            memo = cache.getMemo(defrag, sc);
+            memo = cache.getMemo(nofrag, sc);
 
             if (null != memo) {
                 // Don't log success or failure based on cached values.
@@ -257,7 +257,7 @@ public class WebClosure {
             }
 
             try {
-                mapped = uriMap.get(defrag);
+                mapped = uriMap.get(nofrag);
             } catch (RippleException e) {
                 // Don't log extremely common errors.
                 return ContextMemo.Status.InvalidUri;
@@ -282,7 +282,7 @@ public class WebClosure {
             //+ " at location " + mapped );
 
             memo = new ContextMemo(ContextMemo.Status.Success);
-            cache.setMemo(defrag, memo, sc);
+            cache.setMemo(nofrag, memo, sc);
         }
 
         memo.setUriDereferencer(dref);
@@ -327,7 +327,7 @@ public class WebClosure {
         URI context;
 
         try {
-            context = valueFactory.createURI(defrag);
+            context = valueFactory.createURI(nofrag);
         } catch (Throwable t) {
             throw new RippleException(t);
         }
@@ -351,7 +351,7 @@ public class WebClosure {
         }
 
         // For now...
-        String baseUri = defrag;
+        String baseUri = nofrag;
 
         ContextMemo.Status status;
 

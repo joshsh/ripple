@@ -1,21 +1,19 @@
 package net.fortytwo.ripple.model;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Collector;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.keyval.KeyValueValue;
 import org.openrdf.model.Literal;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
 
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Iterator;
 
 /**
  * Author: josh
  * Date: Jul 9, 2008
  * Time: 5:23:43 PM
+ *
+ * TODO: this comparator currently ignores the equivalence of RDF lists with native lists, and of numeric values with numeric-typed literals
  *
  * literal
  *     plain literal
@@ -31,18 +29,6 @@ import java.util.Iterator;
  */
 public class RippleValueComparator implements Comparator<RippleValue>
 {
-    // TODO: rpl:op may not be handled consistently.
-    private enum Type {
-            PLAIN_LITERAL_WITHOUT_LANGUAGE_TAG,
-            PLAIN_LITERAL_WITH_LANGUAGE_TAG,
-            NUMERIC_TYPED_LITERAL,
-            OTHER_TYPED_LITERAL,
-            KEYVALUE_VALUE,
-            LIST,
-            OPERATOR,
-            OTHER_RESOURCE  // Note: includes PrimitiveStackMapping
-    }
-
     private final ModelConnection modelConnection;
 
     public RippleValueComparator( final ModelConnection mc )
@@ -55,14 +41,11 @@ public class RippleValueComparator implements Comparator<RippleValue>
     {
         try
         {
-            Type firstType = findType( first );
-            Type secondType = findType( second );
-
-            int c = firstType.compareTo( secondType );
+            int c = first.getType().compareTo(second.getType());
 
             if ( 0 == c )
             {
-                switch ( firstType )
+                switch ( first.getType() )
                 {
                     case PLAIN_LITERAL_WITHOUT_LANGUAGE_TAG:
                         return comparePlainLiteralWithoutLanguageTag( first, second );
@@ -96,95 +79,6 @@ public class RippleValueComparator implements Comparator<RippleValue>
         {
             e.logError();
             return 0;
-        }
-    }
-
-    private Type findType( final RippleValue value ) throws RippleException
-    {
-        if ( value instanceof RippleList )
-        {
-            return Type.LIST;
-        }
-
-        else if ( value instanceof NumericValue )
-        {
-            return Type.NUMERIC_TYPED_LITERAL;
-        }
-
-        else if ( value instanceof Operator )
-        {
-            return Type.OPERATOR;
-        }
-
-        else if ( value instanceof RDFValue)
-        {
-            Value sesameValue = ( (RDFValue) value ).sesameValue();
-
-            if ( sesameValue instanceof Literal )
-            {
-                URI datatype = ( (Literal) sesameValue ).getDatatype();
-
-                if ( null == datatype )
-                {
-                    String language = ( (Literal) sesameValue ).getLanguage();
-
-                    if ( null == language )
-                    {
-                        return Type.PLAIN_LITERAL_WITHOUT_LANGUAGE_TAG;
-                    }
-
-                    else
-                    {
-                        return Type.PLAIN_LITERAL_WITH_LANGUAGE_TAG;
-                    }
-                }
-
-                else
-                {
-                    if ( NumericValue.isNumericLiteral( (Literal) sesameValue ) )
-                    {
-                        return Type.NUMERIC_TYPED_LITERAL;
-                    }
-
-                    else
-                    {
-                        return Type.OTHER_TYPED_LITERAL;
-                    }
-                }
-            }
-
-            else if ( sesameValue instanceof Resource )
-            {
-                if ( Operator.isRDFList( (RDFValue) value, modelConnection ) )
-                {
-                    return Type.LIST;
-                }
-
-                else
-                {
-                    return Type.OTHER_RESOURCE;
-                }
-            }
-
-            else
-            {
-                throw new RippleException( "Sesame value has unrecognized class: " + sesameValue );
-            }
-        }
-
-        else if ( value instanceof PrimitiveStackMapping )
-        {
-            return Type.OTHER_RESOURCE;
-        }
-
-        else if ( value instanceof KeyValueValue )
-        {
-            return Type.KEYVALUE_VALUE;
-        }
-
-        else
-        {
-            throw new RippleException( "value has unhandled unrecognized class: " + value );
         }
     }
 
@@ -400,14 +294,12 @@ public class RippleValueComparator implements Comparator<RippleValue>
             RippleList secondArray[] = new RippleList[secondSize];
 
             int i = 0;
-            for ( Iterator<RippleList> iter = firstLists.iterator(); iter.hasNext(); )
-            {
-                firstArray[i] = iter.next();
+            for (RippleList firstList : firstLists) {
+                firstArray[i] = firstList;
             }
             i = 0;
-            for ( Iterator<RippleList> iter = secondLists.iterator(); iter.hasNext(); )
-            {
-                secondArray[i] = iter.next();
+            for (RippleList secondList : secondLists) {
+                secondArray[i] = secondList;
             }
 
             Comparator<RippleList> comparator = new RippleListComparator();

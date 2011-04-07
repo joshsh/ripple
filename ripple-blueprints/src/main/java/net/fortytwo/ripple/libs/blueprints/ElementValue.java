@@ -8,6 +8,6 @@ import net.fortytwo.ripple.model.keyval.KeyValueValue;
  * Date: 4/6/11
  * Time: 12:15 AM
  */
-public interface ElementValue extends KeyValueValue {
-    Element getElement();
+public abstract class ElementValue extends KeyValueValue {
+    public abstract Element getElement();
 }

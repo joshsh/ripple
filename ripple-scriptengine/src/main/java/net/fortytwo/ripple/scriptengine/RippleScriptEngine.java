@@ -1,39 +1,37 @@
 package net.fortytwo.ripple.scriptengine;
 
 import net.fortytwo.flow.Collector;
-import net.fortytwo.ripple.model.Model;
-import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.NumericValue;
-import net.fortytwo.ripple.model.RDFValue;
-import net.fortytwo.ripple.model.impl.sesame.SesameModel;
+import net.fortytwo.ripple.Ripple;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.SailConfiguration;
 import net.fortytwo.ripple.URIMap;
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.Ripple;
-import net.fortytwo.ripple.query.QueryEngine;
-import net.fortytwo.ripple.query.StackEvaluator;
+import net.fortytwo.ripple.model.Model;
+import net.fortytwo.ripple.model.NumericValue;
+import net.fortytwo.ripple.model.RDFValue;
+import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.RippleValue;
+import net.fortytwo.ripple.model.impl.sesame.SesameModel;
 import net.fortytwo.ripple.query.LazyStackEvaluator;
+import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.QueryPipe;
+import net.fortytwo.ripple.query.StackEvaluator;
+import org.openrdf.model.BNode;
+import org.openrdf.model.Literal;
+import org.openrdf.model.URI;
+import org.openrdf.model.Value;
+import org.openrdf.model.vocabulary.XMLSchema;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptContext;
-import javax.script.ScriptException;
 import javax.script.Bindings;
+import javax.script.ScriptContext;
+import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
-import java.io.Reader;
+import javax.script.ScriptException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Iterator;
+import java.io.Reader;
 import java.net.URISyntaxException;
-
-import org.openrdf.model.Value;
-import org.openrdf.model.URI;
-import org.openrdf.model.Literal;
-import org.openrdf.model.BNode;
-import org.openrdf.model.vocabulary.XMLSchema;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -105,9 +103,8 @@ public class RippleScriptEngine implements ScriptEngine {
         if (0 == results.size()) {
             return null;
         } else {
-            Iterator<RippleList> iter = results.iterator();
-            while (iter.hasNext()) {
-                RippleList l = iter.next();
+            for (Object result : results) {
+                RippleList l = (RippleList) result;
                 if (!l.isNil()) {
                     return toJavaObject(l.getFirst());
                 }
@@ -122,7 +119,7 @@ public class RippleScriptEngine implements ScriptEngine {
     private Object toJavaObject(final RippleValue v) throws ScriptException {
         if (v instanceof NumericValue) {
             NumericValue n = (NumericValue) v;
-            switch (n.getType()) {
+            switch (n.getDatatype()) {
                 case DECIMAL:
                     return n.decimalValue();
                 case DOUBLE:
@@ -153,7 +150,7 @@ public class RippleScriptEngine implements ScriptEngine {
     private Object toJavaObject(final Value v) throws ScriptException {
         if (v instanceof URI) {
             try {
-                return new java.net.URI(((URI) v).toString());
+                return new java.net.URI(v.toString());
             } catch (URISyntaxException e) {
                 throw new ScriptException(e);
             }

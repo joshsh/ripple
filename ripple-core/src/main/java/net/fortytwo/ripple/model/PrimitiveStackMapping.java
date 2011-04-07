@@ -151,5 +151,9 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
 
         return code;
     }
+
+    public Type getType() {
+        return Type.OTHER_RESOURCE;
+    }
 }
 

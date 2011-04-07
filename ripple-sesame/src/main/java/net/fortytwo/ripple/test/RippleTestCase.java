@@ -271,12 +271,12 @@ while (!l.isNil()) {
         QueryEngine qe = getTestQueryEngine();
 
         QueryPipe actualPipe = new QueryPipe(qe, actual);
-        actualPipe.put(from + ".");
+        actualPipe.put(from + "\n");
         actualPipe.close();
 
         QueryPipe expectedPipe = new QueryPipe(qe, expected);
         for (String t : to) {
-            expectedPipe.put(t + ".");
+            expectedPipe.put(t + "\n");
         }
         expectedPipe.close();
 

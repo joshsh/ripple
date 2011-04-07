@@ -28,25 +28,25 @@ public class SesameNumericValue extends NumericValue {
 	public SesameNumericValue( final int i )
 	{
 		type = Type.INTEGER;
-		number = new Integer( i );
+		number = i;
 	}
     
     public SesameNumericValue( final long l )
 	{
 		type = Type.LONG;
-		number = new Long( l );
+		number = l;
 	}
 	
 	public SesameNumericValue( final double d )
 	{
 		type = Type.DOUBLE;
-		number = new Double( d );
+		number = d;
 	}
 
     public SesameNumericValue( final float f )
 	{
 		type = Type.FLOAT;
-		number = new Float( f );
+		number = f;
 	}
 
     public SesameNumericValue( final BigDecimal b )
@@ -79,7 +79,7 @@ public class SesameNumericValue extends NumericValue {
 			try
 			{
 				type = Type.INTEGER;
-				number = new Integer( ( (Literal) v ).intValue() );
+				number = ((Literal) v).intValue();
 			}
 
 			catch ( Throwable t )
@@ -93,7 +93,7 @@ public class SesameNumericValue extends NumericValue {
 			try
 			{
 				type = Type.LONG;
-				number = new Long( ( (Literal) v ).intValue() );
+				number = (long) ((Literal) v).intValue();
 			}
 
 			catch ( Throwable t )
@@ -121,7 +121,7 @@ public class SesameNumericValue extends NumericValue {
 			try
 			{
 				type = Type.FLOAT;
-				number = new Float( ( (Literal) v ).floatValue() );
+				number = ((Literal) v).floatValue();
 			}
 
 			catch ( Throwable t )
@@ -185,7 +185,7 @@ public class SesameNumericValue extends NumericValue {
 	{
 		NumericValue a = this;
 
-        switch ( a.getType() )
+        switch ( a.getDatatype() )
         {
             case INTEGER:
                 return new SesameNumericValue( Math.abs( a.intValue() ) );
@@ -207,7 +207,7 @@ public class SesameNumericValue extends NumericValue {
 	{
 		NumericValue a = this;
 
-        switch ( a.getType() )
+        switch ( a.getDatatype() )
         {
             case INTEGER:
                 return new SesameNumericValue( -a.intValue() );
@@ -348,7 +348,7 @@ public class SesameNumericValue extends NumericValue {
 //System.out.println("this = " + this + " (type = " + this.getType() + "), pow = " + pow + " (type = " + pow.getType() + ")");
         NumericValue a = this;
 
-        if ( Type.DECIMAL == a.getType() && Type.INTEGER == pow.getType() )
+        if ( Type.DECIMAL == a.getDatatype() && Type.INTEGER == pow.getDatatype() )
         {
             return new SesameNumericValue( a.decimalValue().pow( pow.intValue() ) );
         }

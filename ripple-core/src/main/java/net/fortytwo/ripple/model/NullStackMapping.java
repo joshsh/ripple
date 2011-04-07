@@ -40,5 +40,9 @@ public class NullStackMapping implements StackMapping
         return this;
     }
 
+    @Override
+    public String toString() {
+        return "[NullStackMapping]";
+    }
 }
 

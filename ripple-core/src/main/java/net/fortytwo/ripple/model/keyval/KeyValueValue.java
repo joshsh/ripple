@@ -11,8 +11,12 @@ import java.util.Collection;
  * Date: 4/5/11
  * Time: 11:09 PM
  */
-public interface KeyValueValue extends RippleValue, Comparable<KeyValueValue> {
-    RippleValue getValue(String key,
+public abstract class KeyValueValue implements RippleValue, Comparable<KeyValueValue> {
+    public abstract RippleValue getValue(String key,
                          ModelConnection mc) throws RippleException;
-    Collection<String> getKeys();
+    public abstract Collection<String> getKeys();
+
+    public Type getType() {
+        return Type.KEYVALUE_VALUE;
+    }
 }

@@ -20,7 +20,7 @@ import java.util.List;
  * Date: Aug 18, 2010
  * Time: 1:38:43 PM
  */
-public class JSONValue implements KeyValueValue {
+public class JSONValue extends KeyValueValue {
     private final JSONObject jsonObject;
 
     public JSONValue(final JSONObject jsonObject) {

@@ -171,7 +171,7 @@ public class NumericValueTest extends RippleTestCase
             {
                 assertTrue( "for case " + signature, null != correctResult );
 
-                switch ( correctResult.getType() )
+                switch ( correctResult.getDatatype() )
                 {
                 case INTEGER:
                     assertEquals( "for case " + signature, NumericValue.Type.INTEGER, actualResult.getType() );

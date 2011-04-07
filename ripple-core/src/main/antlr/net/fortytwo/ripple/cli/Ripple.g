@@ -57,10 +57,10 @@ options
 		adapter = i;
 	}
 
-	void matchEndOfLine()
+	/*void matchEndOfLine()
 	{
 		adapter.putEvent( RecognizerEvent.NEWLINE );
-	}
+	}*/
 
 /*
 	void matchEscapeCharacter()
@@ -72,23 +72,18 @@ System.out.println( "matchEscapeCharacter" );
 }
 
 
+NEWLINE
+	: '\n'  { newline(); /*matchEndOfLine();*/ }
+    ;
+
 protected
 WS_CHAR
 	: ' ' | '\t' | '\r'
-	| '\n'  { newline(); matchEndOfLine(); }
 	;
 
 WS
 	: (WS_CHAR)+
 	;
-
-/*
-ESC
-	: //(('\0'..'\8') | ('\11'..'\12') | ('\14'..'\27'))
-	  (('\u0000'..'\u0008') | ('\u000b'..'\u000c') | ('\u000e'..'\u001b'))
-		{ matchEscapeCharacter(); $setType(Token.SKIP); }
-	;
-*/
 
 protected
 HEX
@@ -217,14 +212,11 @@ COLON : ':' ;
 
 EQUAL : '=';
 
-OP_APPLY_PRE : '/' ;
-OP_APPLY_FORWARD : ">>";
-OP_APPLY_BACKWARD : "<<";
+// Is it possible to create an alias for the period as the application operator?
+//OP_APPLY : ".";
 OP_MOD_OPTION : "?" ;
 OP_MOD_STAR : "*";
-//OP_MOD_PLUS : "+";
-// Special-case to avoid lexical conflict with "+" prefix for numbers.
-OP_PLUS_FORWARD : "+>>";
+OP_MOD_PLUS : "+";
 
 protected
 DRCTV : '@' ;
@@ -260,6 +252,11 @@ options
 		adapter = i;
 	}
 
+	void matchEndOfLine()
+	{
+		adapter.putEvent( RecognizerEvent.NEWLINE );
+	}
+
 	public void matchCommand( final Command cmd )
 	{
 		adapter.putCommand( cmd );
@@ -268,11 +265,6 @@ options
 	public void matchQuery( final ListAST AST )
 	{
 		adapter.putQuery( AST );
-	}
-
-	public void matchContinuingQuery( final ListAST AST )
-	{
-		adapter.putContinuingQuery( AST );
 	}
 
 	public void matchQuit()
@@ -311,7 +303,7 @@ nt_Document
 nt_Statements
     : (nt_Ws)?
       ( (EOF) => EOF
-        | nt_Statement nt_Statements )
+        | nt_Statement { matchEndOfLine(); } nt_Statements )
     ;
 
 nt_Ws
@@ -325,18 +317,14 @@ nt_Statement
 {
 	ListAST r;
 }
-	// A directive is executed as soon as PERIOD is matched in the individual
-	// rule.
-	: nt_Directive
+	// A directive is executed as soon as PERIOD is matched in the individual rule.
+	: nt_Directive (nt_Ws)? NEWLINE
 
 	// Query statements are always lists.
-	| r=nt_List (
-		PERIOD { matchQuery( r ); }
- 		| SEMI { matchContinuingQuery( r ); } )
+	| r=nt_List NEWLINE { matchQuery( r ); }
 
 	// Empty statements are effectively ignored.
-	| PERIOD { matchQuery( new ListAST() ); }
-	| SEMI { matchContinuingQuery( new ListAST() ); }
+	| NEWLINE { matchQuery( new ListAST() ); }
 	;
 
 
@@ -345,21 +333,18 @@ nt_List returns [ ListAST list ]
 	AST first;
 	ListAST rest = null;
 	list = null;
-	boolean modified = false;
 }
 		// Optional slash operator.
-	:	( OP_APPLY_PRE (WS)? { modified = true; } )?
-
-		// Head of the list.
+	:	// Head of the list.
 		first = nt_Node
 
 		(	(WS) => ( nt_Ws
-				( (~(PERIOD | SEMI | R_PAREN )) => rest = nt_List
+				( (~(R_PAREN)) => rest = nt_List
 				| {}
 				) )
 
 			// Tail of the list.
-		|	(~(WS | PERIOD | SEMI | R_PAREN)) => rest = nt_List
+		|	(~(WS | R_PAREN)) => rest = nt_List
 
 			// End of the list.
 		|	()
@@ -368,11 +353,6 @@ nt_List returns [ ListAST list ]
 				if ( null == rest )
 				{
 					rest = new ListAST();
-				}
-
-				if ( modified )
-				{
-					rest = new ListAST( new OperatorAST(), rest );
 				}
 
 				list = new ListAST( first, rest );
@@ -506,7 +486,7 @@ nt_Number returns [ NumberAST r ]
     r = null;
 }
     : u:NUMBER
-		{
+		{       //System.out.print("#");
 			// Note: number format exceptions are handled at a higher level.
 			String s = u.getText();
 
@@ -616,47 +596,39 @@ nt_Name returns [ String name ]
 nt_Operator returns [ OperatorAST AST ]
 {
 	AST = null;
-	boolean inverse = false;
 	OperatorAST.Type type = OperatorAST.Type.Apply;
 	NumberAST minTimes = null, maxTimes = null;
 }
-	: ((OP_MOD_OPTION { type = OperatorAST.Type.Option; }
-	    | OP_MOD_STAR { type = OperatorAST.Type.Star; }
-//	    | OP_MOD_PLUS { type = OperatorAST.Type.Plus; }
-	    | L_CURLY (nt_Ws)? minTimes=nt_Number (nt_Ws)? ( COMMA (nt_Ws)? maxTimes=nt_Number (nt_Ws)? )? R_CURLY
+	: ( PERIOD { type = OperatorAST.Type.Apply; }
+	  | OP_MOD_OPTION { type = OperatorAST.Type.Option; }
+	  | OP_MOD_STAR { type = OperatorAST.Type.Star; }
+	  | OP_MOD_PLUS { type = OperatorAST.Type.Plus; }
+	  | L_CURLY (nt_Ws)? minTimes=nt_Number (nt_Ws)? ( COMMA (nt_Ws)? maxTimes=nt_Number (nt_Ws)? )? R_CURLY
 		  {
 		    type = ( null == maxTimes )
 			        ? OperatorAST.Type.Times
 			        : OperatorAST.Type.Range;
 	      }
-	    ) (nt_Ws)? )?
-
-	  (OP_APPLY_FORWARD
-	    | OP_APPLY_BACKWARD { inverse = true; }
-
-	    // Special-case to avoid lexical conflict with "+" prefix for numbers.
-	    | OP_PLUS_FORWARD { type = OperatorAST.Type.Plus; }
-	    )
-        {
+	  ) {
             switch (type)
             {
                 case Apply:
-                    AST = new OperatorAST( type, inverse );
+                    AST = new OperatorAST( type, false );
                     break;
                 case Option:
-                    AST = new OperatorAST( type, inverse );
+                    AST = new OperatorAST( type, false );
                     break;
                 case Star:
-                    AST = new OperatorAST( type, inverse );
+                    AST = new OperatorAST( type, false );
                     break;
                 case Plus:
-                    AST = new OperatorAST( type, inverse );
+                    AST = new OperatorAST( type, false );
                     break;
                 case Times:
-                    AST = new OperatorAST( minTimes, inverse );
+                    AST = new OperatorAST( minTimes, false );
                     break;
                 case Range:
-                    AST = new OperatorAST( minTimes, maxTimes, inverse );
+                    AST = new OperatorAST( minTimes, maxTimes, false );
                     break;
             }
         }
@@ -685,7 +657,7 @@ nt_Directive
 }
     // FIXME: this syntax allows a parenthesized expression in place of the definition name
 	: ( DRCTV_DEFINE || DRCTV_REDEFINE { redefine = true; } )
-	        nt_Ws lhs=nt_TemplateList /*(nt_Ws)?*/ COLON (nt_Ws)? rhs=nt_List /*(nt_Ws)?*/ PERIOD
+	        nt_Ws lhs=nt_TemplateList /*(nt_Ws)?*/ COLON (nt_Ws)? rhs=nt_List
 		{
             lhs = lhs.invert();
             keyword = ( (KeywordAST) lhs.getFirst() ).getName();
@@ -698,43 +670,40 @@ nt_Directive
 			        : new DefineTermCmd( keyword, rhs ) );
 		}
 
-	| DRCTV_HELP (nt_Ws)? PERIOD
+	| DRCTV_HELP
 		{
 			System.out.println( "\nSorry, the @help directive is just a placeholder for now.\n" );
 		}
 
 	| DRCTV_LIST nt_Ws
-		( "contexts" (nt_Ws)? PERIOD
+		( "contexts"
 			{
 				matchCommand( new ShowContextsCmd() );
 			}
-		| "prefixes" (nt_Ws)? PERIOD
+		| "prefixes"
 			{
 				matchCommand( new ShowNamespacesCmd() );
 			}
 		)
 
-	| DRCTV_PREFIX nt_Ws ( nsPrefix=nt_PrefixName (nt_Ws)? )? COLON (nt_Ws)? ns=nt_URIRef (nt_Ws)? PERIOD
+	| DRCTV_PREFIX nt_Ws ( nsPrefix=nt_PrefixName (nt_Ws)? )? COLON (nt_Ws)? ns=nt_URIRef
 		{
 			matchCommand( new DefinePrefixCmd( nsPrefix, ns ) );
 		}
 
-	| DRCTV_QUIT (nt_Ws)? PERIOD
+	| DRCTV_QUIT
 		{
 			matchQuit();
 //			matchCommand( new QuitCmd() );
 		}
 
-	| DRCTV_UNDEFINE nt_Ws keyword=nt_Name (nt_Ws)? PERIOD
+	| DRCTV_UNDEFINE nt_Ws keyword=nt_Name
 		{
 			matchCommand( new UndefineTermCmd( keyword ) );
 		}
 
-	| DRCTV_UNPREFIX nt_Ws nsPrefix=nt_PrefixName (nt_Ws)? PERIOD
+	| DRCTV_UNPREFIX nt_Ws nsPrefix=nt_PrefixName
 		{
 			matchCommand( new UndefinePrefixCmd( nsPrefix ) );
 		}
 	;
-
-
-// kate: tab-width 4

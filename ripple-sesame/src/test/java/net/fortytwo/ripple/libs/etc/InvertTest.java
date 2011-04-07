@@ -12,7 +12,7 @@ public class InvertTest extends RippleTestCase
     public void testAll() throws Exception
     {
         // Invert primitive functions
-        assertReducesTo( "2 3 add invert >> >>", "-1" );
+        assertReducesTo( "2 3 add invert . .", "-1" );
         assertReducesTo( "2 3 div invert >> >>", "6" );
 
         // Invert an RDF predicate

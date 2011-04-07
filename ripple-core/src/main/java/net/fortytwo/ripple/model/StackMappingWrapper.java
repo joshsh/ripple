@@ -68,8 +68,12 @@ public class StackMappingWrapper implements StackMapping, RippleValue
 
     public void printTo( final RipplePrintStream p ) throws RippleException
     {
-        p.print( "wrapper[" );
+        p.print( "[StackMappingWrapper: " );
         p.print( innerMapping );
         p.print( "]" );
+    }
+
+    public Type getType() {
+        return Type.OTHER_RESOURCE;
     }
 }
