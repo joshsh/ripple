@@ -17,13 +17,13 @@ public class ApplicationSyntaxTest extends RippleTestCase
         assertReducesTo( "(1 2 3) rdf:rest * rdf:first .", "1", "2", "3" );
         assertReducesTo( "(1 2 3) rdf:rest* rdf:first.", "1", "2", "3" );
         assertReducesTo( "(1 2 3) rdf:rest* rdf:first .", "1", "2", "3" );
-        assertReducesTo( "2 (3 add.) {1, 2} invert.", "-1", "-4" );
-        assertReducesTo( "2 (3 add.){1, 2}invert.", "-1", "-4" );
-        assertReducesTo( "2 (3 add.){1, 2}  \t  invert.", "-1", "-4" );
+        assertReducesTo( "2 (3 add.) invert. {1, 2}", "-1", "-4" );
+        assertReducesTo( "2 (3 add.) invert. {1, 2}", "-1", "-4" );
+        assertReducesTo( "2 (3 add.)invert.   \t {1, 2}", "-1", "-4" );
 
         // White space within numeric and range quantifiers is ignored.
-        assertReducesTo( "2 (3 add.) {1, \t2} invert.", "-1", "-4" );
-        assertReducesTo( "2 (3 add.) { \t1,2} invert.", "-1", "-4" );
+        assertReducesTo( "2 (3 add.) invert. {1, \t2}", "-1", "-4" );
+        assertReducesTo( "2 (3 add.) invert. { \t1,2}", "-1", "-4" );
         assertReducesTo( "0 (1 add.) {5}", "5" );
         assertReducesTo( "0 (1 add.) {\t5   }", "5" );
     }

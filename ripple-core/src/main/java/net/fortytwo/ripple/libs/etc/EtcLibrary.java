@@ -20,8 +20,7 @@ import net.fortytwo.ripple.URIMap;
 /**
  * A collection of miscellaneous primitives.
  */
-public class EtcLibrary extends Library
-{
+public class EtcLibrary extends Library {
     public static final String
             NS_2011_04 = "http://fortytwo.net/2011/04/ripple/etc#",
             NS_2008_08 = "http://fortytwo.net/2008/08/ripple/etc#",
@@ -30,13 +29,12 @@ public class EtcLibrary extends Library
 
     private static PrimitiveStackMapping invertVal;
 
-    public void load( final URIMap uf,
-                      final LibraryLoader.Context context )
-		throws RippleException
-	{
-		uf.put( NS_2008_08, getClass().getResource( "etc.ttl" ) + "#" );
+    public void load(final URIMap uf,
+                     final LibraryLoader.Context context)
+            throws RippleException {
+        uf.put(NS_2008_08, getClass().getResource("etc.ttl") + "#");
 
-        registerPrimitives( context,
+        registerPrimitives(context,
                 DateTimeToMillis.class,
                 Get.class,
                 System.class,
@@ -44,12 +42,11 @@ public class EtcLibrary extends Library
                 // TODO: move these?
                 Keys.class,
                 Rank.class,
-                Amp.class );
-        invertVal = registerPrimitive( Invert.class, context );
-	}
+                Amp.class);
+        invertVal = registerPrimitive(Invert.class, context);
+    }
 
-    public static PrimitiveStackMapping getInvertValue()
-    {
+    public static PrimitiveStackMapping getInvertValue() {
         return invertVal;
     }
 }

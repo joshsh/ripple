@@ -26,7 +26,7 @@ public class OperatorAST implements AST<RippleList>
         Star,
         Plus,
         Times,
-        Range };
+        Range }
 
 	private final Type type;
     private final boolean inverse;
