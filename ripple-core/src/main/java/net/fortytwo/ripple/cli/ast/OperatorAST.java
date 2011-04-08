@@ -11,8 +11,8 @@ package net.fortytwo.ripple.cli.ast;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.libs.extras.ExtrasLibrary;
 import net.fortytwo.ripple.libs.stack.StackLibrary;
-import net.fortytwo.ripple.libs.etc.EtcLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.RippleList;
@@ -70,8 +70,8 @@ public class OperatorAST implements AST<RippleList>
 			case Apply:
 				l = inverse
                         ? mc.list( Operator.OP )
-                                .push( Operator.OP )
-                                .push( EtcLibrary.getInvertValue() )
+                                .push(Operator.OP)
+                                .push( ExtrasLibrary.getInvertValue() )
                         : mc.list( Operator.OP );
 				break;
             case Option:
@@ -79,7 +79,7 @@ public class OperatorAST implements AST<RippleList>
                         ? mc.list( Operator.OP )
                                 .push( StackLibrary.getOptApplyValue() )
                                 .push( Operator.OP )
-                                .push( EtcLibrary.getInvertValue() )
+                                .push( ExtrasLibrary.getInvertValue() )
                         : mc.list( Operator.OP )
                                 .push( StackLibrary.getOptApplyValue() );
 				break;
@@ -88,7 +88,7 @@ public class OperatorAST implements AST<RippleList>
                         ? mc.list( Operator.OP )
                                 .push( StackLibrary.getPlusApplyValue() )
                                 .push( Operator.OP )
-                                .push( EtcLibrary.getInvertValue() )
+                                .push( ExtrasLibrary.getInvertValue() )
                         : mc.list( Operator.OP )
                                 .push( StackLibrary.getPlusApplyValue() );
                 break;
@@ -99,7 +99,7 @@ public class OperatorAST implements AST<RippleList>
                                 .push( max.getValue( mc ) )
                                 .push( min.getValue( mc ) )
                                 .push( Operator.OP )
-                                .push( EtcLibrary.getInvertValue() )
+                                .push( ExtrasLibrary.getInvertValue() )
                         : mc.list( Operator.OP )
                                 .push( StackLibrary.getRangeApplyValue() )
                                 .push( max.getValue( mc ) )
@@ -110,7 +110,7 @@ public class OperatorAST implements AST<RippleList>
                         ? mc.list( Operator.OP )
                                 .push( StackLibrary.getStarApplyValue() )
                                 .push( Operator.OP )
-                                .push( EtcLibrary.getInvertValue() )
+                                .push( ExtrasLibrary.getInvertValue() )
                         : mc.list( Operator.OP )
                                 .push( StackLibrary.getStarApplyValue() );
 				break;
@@ -120,7 +120,7 @@ public class OperatorAST implements AST<RippleList>
                                 .push( StackLibrary.getTimesApplyValue() )
                                 .push( min.getValue( mc ) )
                                 .push( Operator.OP )
-                                .push( EtcLibrary.getInvertValue() )
+                                .push( ExtrasLibrary.getInvertValue() )
                         : mc.list( Operator.OP )
                                 .push( StackLibrary.getTimesApplyValue() )
                                 .push( min.getValue( mc ) );

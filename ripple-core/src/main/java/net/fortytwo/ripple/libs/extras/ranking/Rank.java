@@ -1,9 +1,9 @@
-package net.fortytwo.ripple.libs.etc.ranking;
+package net.fortytwo.ripple.libs.extras.ranking;
 
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.libs.etc.EtcLibrary;
+import net.fortytwo.ripple.libs.extras.ExtrasLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
@@ -28,7 +28,7 @@ public class Rank extends PrimitiveStackMapping {
     @Override
     public String[] getIdentifiers() {
         return new String[]{
-                EtcLibrary.NS_2011_04 + "rank"
+                ExtrasLibrary.NS_2011_04 + "rank"
         };
     }
 

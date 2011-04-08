@@ -1,4 +1,4 @@
-package net.fortytwo.ripple.libs.etc.ranking;
+package net.fortytwo.ripple.libs.extras.ranking;
 
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.ListMemoizer;

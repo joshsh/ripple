@@ -1,4 +1,4 @@
-package net.fortytwo.ripple.libs.etc;
+package net.fortytwo.ripple.libs.extras;
 
 import net.fortytwo.ripple.test.RippleTestCase;
 

@@ -17,7 +17,7 @@ import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.StringUtils;
-import net.fortytwo.ripple.libs.etc.EtcLibrary;
+import net.fortytwo.ripple.libs.extras.ExtrasLibrary;
 
 /**
  * A primitive which consumes a string and produces its (RFC 3986)
@@ -28,7 +28,7 @@ public class PercentEncode extends PrimitiveStackMapping
     private static final String[] IDENTIFIERS = {
             StringLibrary.NS_2008_08 + "percentEncode",
             StringLibrary.NS_2007_08 + "percentEncode",
-            EtcLibrary.NS_2007_05 + "urlEncoding"};
+            ExtrasLibrary.NS_2007_05 + "urlEncoding"};
 
     public String[] getIdentifiers()
     {

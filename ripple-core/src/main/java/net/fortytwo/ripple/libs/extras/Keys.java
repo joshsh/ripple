@@ -1,4 +1,4 @@
-package net.fortytwo.ripple.libs.etc;
+package net.fortytwo.ripple.libs.extras;
 
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
@@ -18,7 +18,7 @@ public class Keys extends PrimitiveStackMapping {
     @Override
     public String[] getIdentifiers() {
         return new String[]{
-                EtcLibrary.NS_2011_04 + "keys"
+                ExtrasLibrary.NS_2011_04 + "keys"
         };
     }
 

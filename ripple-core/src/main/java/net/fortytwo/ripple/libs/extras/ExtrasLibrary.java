@@ -7,11 +7,11 @@
  */
 
 
-package net.fortytwo.ripple.libs.etc;
+package net.fortytwo.ripple.libs.extras;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.libs.etc.ranking.Amp;
-import net.fortytwo.ripple.libs.etc.ranking.Rank;
+import net.fortytwo.ripple.libs.extras.ranking.Amp;
+import net.fortytwo.ripple.libs.extras.ranking.Rank;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.LibraryLoader;
@@ -20,9 +20,9 @@ import net.fortytwo.ripple.URIMap;
 /**
  * A collection of miscellaneous primitives.
  */
-public class EtcLibrary extends Library {
+public class ExtrasLibrary extends Library {
     public static final String
-            NS_2011_04 = "http://fortytwo.net/2011/04/ripple/etc#",
+            NS_2011_04 = "http://fortytwo.net/2011/04/ripple/extras#",
             NS_2008_08 = "http://fortytwo.net/2008/08/ripple/etc#",
             NS_2007_08 = "http://fortytwo.net/2007/08/ripple/etc#",
             NS_2007_05 = "http://fortytwo.net/2007/05/ripple/etc#";

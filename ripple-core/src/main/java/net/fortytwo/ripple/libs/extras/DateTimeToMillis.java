@@ -7,7 +7,7 @@
  */
 
 
-package net.fortytwo.ripple.libs.etc;
+package net.fortytwo.ripple.libs.extras;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
@@ -40,7 +40,7 @@ etc:dateTimeToMillis
 public class DateTimeToMillis extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            EtcLibrary.NS_2008_08 + "dateTimeToMillis"};
+            ExtrasLibrary.NS_2008_08 + "dateTimeToMillis"};
 
     public String[] getIdentifiers()
     {
