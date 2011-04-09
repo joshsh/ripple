@@ -44,7 +44,7 @@ public class AddTest extends RippleTestCase
 
     public void testInverse() throws Exception
     {
-        assertReducesTo( "2 5.0 add <<", "-3" );
-        assertReducesTo( "2 0 add <<", "2" );
+        assertReducesTo( "2 5.0 add~.", "-3" );
+        assertReducesTo( "2 0 add~.", "2" );
     }
 }

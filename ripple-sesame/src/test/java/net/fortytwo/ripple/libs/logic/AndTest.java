@@ -11,18 +11,18 @@ public class AndTest extends RippleTestCase
 {
     public void testSimple() throws Exception
     {
-        assertReducesTo( "true true and >>", "true" );
-        assertReducesTo( "true false and >>", "false" );
-        assertReducesTo( "false true and >>", "false" );
-        assertReducesTo( "false false and >>", "false" );
+        assertReducesTo( "true true and.", "true" );
+        assertReducesTo( "true false and.", "false" );
+        assertReducesTo( "false true and.", "false" );
+        assertReducesTo( "false false and.", "false" );
     }
 
     public void testNonBooleanValues() throws Exception
     {
-        assertReducesTo( "true 42 and >>", "false" );
-        assertReducesTo( "false 42 and >>", "false" );
-        assertReducesTo( "42 true and >>", "false" );
-        assertReducesTo( "42 false and >>", "false" );
-        assertReducesTo( "42 42 and >>", "false" );
+        assertReducesTo( "true 42 and.", "false" );
+        assertReducesTo( "false 42 and.", "false" );
+        assertReducesTo( "42 true and.", "false" );
+        assertReducesTo( "42 false and.", "false" );
+        assertReducesTo( "42 42 and.", "false" );
     }
 }
