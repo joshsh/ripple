@@ -177,7 +177,7 @@ NAME_NOT_PREFIX
 NUMBER
 	: ('-' | '+')? ( DIGIT )+
 		(('.' DIGIT ) => ( '.' ( DIGIT )+ )
-		| ())
+		 | ())
 		(('e' | 'E') ('-' | '+')? ( DIGIT )+ )?
 	;
 
@@ -214,9 +214,10 @@ EQUAL : '=';
 
 // Is it possible to create an alias for the period as the application operator?
 //OP_APPLY : ".";
-OP_MOD_OPTION : "?" ;
+OP_MOD_OPTION : "?";
 OP_MOD_STAR : "*";
 OP_MOD_PLUS : "+";
+OP_MOD_INVERSE : "~";
 
 protected
 DRCTV : '@' ;
@@ -334,9 +335,8 @@ nt_List returns [ ListAST list ]
 	ListAST rest = null;
 	list = null;
 }
-		// Optional slash operator.
-	:	// Head of the list.
-		first = nt_Node
+	:	// The head of the list.
+		first = nt_NormalNode
 
 		(	(WS) => ( nt_Ws
 				( (~(R_PAREN)) => rest = nt_List
@@ -389,6 +389,8 @@ nt_TemplateList returns [ ListAST list ]
 				list = new ListAST( first, rest );
 			}
 	;
+
+
 nt_ParenthesizedTemplateList returns [ ListAST r ]
 {
 	r = null;
@@ -397,6 +399,8 @@ nt_ParenthesizedTemplateList returns [ ListAST r ]
 		( r = nt_TemplateList /*(nt_Ws)?*/ R_PAREN )
 		| R_PAREN { r = new ListAST(); } )
 	;
+
+
 nt_TemplateNode returns [ AST r ]
 {
 	r = null;
@@ -407,7 +411,7 @@ nt_TemplateNode returns [ AST r ]
 	;
 		
 
-nt_Node returns [ AST r ]
+nt_NormalNode returns [ AST r ]
 {
 	r = null;
 	Properties props;
@@ -415,7 +419,6 @@ nt_Node returns [ AST r ]
 	: ( r=nt_Resource
 		| r=nt_Literal
 		| r=nt_ParenthesizedList
-		| r=nt_Operator
 		)
 	  (( (WS)? L_BRACKET ) => ( (WS)? props=nt_Properties { r = new AnnotatedAST( r, props ); } )
 	  | ())
@@ -486,7 +489,7 @@ nt_Number returns [ NumberAST r ]
     r = null;
 }
     : u:NUMBER
-		{       //System.out.print("#");
+		{
 			// Note: number format exceptions are handled at a higher level.
 			String s = u.getText();
 
@@ -599,39 +602,18 @@ nt_Operator returns [ OperatorAST AST ]
 	OperatorAST.Type type = OperatorAST.Type.Apply;
 	NumberAST minTimes = null, maxTimes = null;
 }
-	: ( PERIOD { type = OperatorAST.Type.Apply; }
-	  | OP_MOD_OPTION { type = OperatorAST.Type.Option; }
-	  | OP_MOD_STAR { type = OperatorAST.Type.Star; }
-	  | OP_MOD_PLUS { type = OperatorAST.Type.Plus; }
+	: ( PERIOD { AST = new OperatorAST(OperatorAST.Type.Apply); }
+	  | OP_MOD_OPTION { AST = new OperatorAST(OperatorAST.Type.Option); }
+	  | OP_MOD_STAR { AST = new OperatorAST(OperatorAST.Type.Star); }
+	  | OP_MOD_PLUS { AST = new OperatorAST(OperatorAST.Type.Plus); }
+	  | OP_MOD_INVERSE { AST = new OperatorAST(OperatorAST.Type.Inverse); }
 	  | L_CURLY (nt_Ws)? minTimes=nt_Number (nt_Ws)? ( COMMA (nt_Ws)? maxTimes=nt_Number (nt_Ws)? )? R_CURLY
 		  {
-		    type = ( null == maxTimes )
+		    AST = new OperatorAST(null == maxTimes
 			        ? OperatorAST.Type.Times
-			        : OperatorAST.Type.Range;
+			        : OperatorAST.Type.Range);
 	      }
-	  ) {
-            switch (type)
-            {
-                case Apply:
-                    AST = new OperatorAST( type, false );
-                    break;
-                case Option:
-                    AST = new OperatorAST( type, false );
-                    break;
-                case Star:
-                    AST = new OperatorAST( type, false );
-                    break;
-                case Plus:
-                    AST = new OperatorAST( type, false );
-                    break;
-                case Times:
-                    AST = new OperatorAST( minTimes, false );
-                    break;
-                case Range:
-                    AST = new OperatorAST( minTimes, maxTimes, false );
-                    break;
-            }
-        }
+	  )
 	;
 
 

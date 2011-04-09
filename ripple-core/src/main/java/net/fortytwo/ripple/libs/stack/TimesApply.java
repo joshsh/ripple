@@ -67,7 +67,7 @@ public class TimesApply extends PrimitiveStackMapping
 			public void put( final Operator op ) throws RippleException
 			{
 				solutions.put( arg.with( rest.push(
-						new Operator( new TimesQuantifier( op, times, times ) ) ) ) );
+						new StackMappingWrapper( new TimesQuantifier( op, times, times ), mc ) ) ) );
 			}
 		};
 

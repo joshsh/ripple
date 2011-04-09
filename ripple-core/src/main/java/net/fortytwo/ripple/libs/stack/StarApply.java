@@ -11,11 +11,13 @@ package net.fortytwo.ripple.libs.stack;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
+import net.fortytwo.ripple.model.StackMappingWrapper;
 import net.fortytwo.ripple.model.regex.StarQuantifier;
 
 
@@ -60,6 +62,7 @@ public class StarApply extends PrimitiveStackMapping
 						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
+        final ModelConnection mc = arg.getModelConnection();
 		RippleList stack = arg.getStack();
 		RippleValue first = stack.getFirst();
 		final RippleList rest = stack.getRest();
@@ -69,7 +72,7 @@ public class StarApply extends PrimitiveStackMapping
 			public void put( final Operator op ) throws RippleException
 			{
 				solutions.put( arg.with( rest.push(
-						new Operator( new StarQuantifier( op ) ) ) ) );
+						new StackMappingWrapper( new StarQuantifier( op ), mc ) ) ) );
 			}
 		};
 

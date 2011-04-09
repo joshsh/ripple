@@ -10,7 +10,9 @@
 package net.fortytwo.ripple.libs.stack;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
+import net.fortytwo.ripple.model.StackMappingWrapper;
 import net.fortytwo.ripple.model.regex.OptionalQuantifier;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
@@ -53,6 +55,7 @@ public class OptApply extends PrimitiveStackMapping
 						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
+        final ModelConnection mc = arg.getModelConnection();
 		RippleList stack = arg.getStack();
 		RippleValue first = stack.getFirst();
 		final RippleList rest = stack.getRest();
@@ -62,7 +65,7 @@ public class OptApply extends PrimitiveStackMapping
 			public void put( final Operator op ) throws RippleException
 			{
 				solutions.put( arg.with( rest.push(
-						new Operator( new OptionalQuantifier( op ) ) ) ) );
+						new StackMappingWrapper( new OptionalQuantifier( op ), mc ) ) ) );
 			}
 		};
 

@@ -71,7 +71,7 @@ public class RangeApply extends PrimitiveStackMapping
 			public void put( final Operator op ) throws RippleException
 			{
 				solutions.put( arg.with( rest.push(
-						new Operator( new TimesQuantifier( op, min, max ) ) ) ) );
+						new StackMappingWrapper( new TimesQuantifier( op, min, max ), mc ) ) ) );
 			}
 		};
 

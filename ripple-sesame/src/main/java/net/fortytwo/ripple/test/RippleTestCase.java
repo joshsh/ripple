@@ -238,8 +238,8 @@ while (!l.isNil()) {
         actualPipe.close();
 
         Collection<RippleList> c = new LinkedList<RippleList>();
-        for (Iterator<RippleList> iter = results.iterator(); iter.hasNext();) {
-            c.add(iter.next());
+        for (RippleList result : results) {
+            c.add(result);
         }
 
         return c;
@@ -261,6 +261,14 @@ while (!l.isNil()) {
         }
 
         return c;
+    }
+
+    protected void assertLegal(final String from) throws Exception {
+        assertReducesTo(from + " 4 sqrt.", from + " 2", from + "-2");
+    }
+
+    protected void assertIllegal(final String from) throws Exception {
+        assertReducesTo(from + " 4 sqrt.");
     }
 
     protected void assertReducesTo(final String from, final String... to) throws Exception {
