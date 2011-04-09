@@ -43,7 +43,7 @@ public class ExtrasLibrary extends Library {
                 Keys.class,
                 Rank.class,
                 Amp.class);
-        invertVal = registerPrimitive(Invert.class, context);
+        invertVal = registerPrimitive(Inverse.class, context);
     }
 
     public static PrimitiveStackMapping getInvertValue() {

@@ -24,10 +24,11 @@ import net.fortytwo.ripple.model.StackMappingWrapper;
  * Date: Apr 2, 2008
  * Time: 4:25:16 PM
  */
-public class Invert extends PrimitiveStackMapping
+public class Inverse extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            ExtrasLibrary.NS_2008_08 + "invert"};
+            ExtrasLibrary.NS_2008_08 + "invert",
+            ExtrasLibrary.NS_2011_04 + "inverse"};
 
     public String[] getIdentifiers()
     {

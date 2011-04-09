@@ -17,7 +17,7 @@ rpl:
 rpl:Function
 	a rdfs:Class ;
 	rdfs:label "Function" ;
-	rdfs:comment "an abstraction which consumes a series of rdf:Lists as input and produces a series of rdf:Lists as output" ;
+	rdfs:comment "an abstraction which consumes a stream of rdf:Lists as input and produces a stream of rdf:Lists as output" ;
 	rdfs:isDefinedBy rpl: ;
 	.
 
