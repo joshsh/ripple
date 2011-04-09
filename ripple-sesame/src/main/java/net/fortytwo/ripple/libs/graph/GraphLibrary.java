@@ -75,7 +75,6 @@ public class GraphLibrary extends Library
                 Members.class,
 
                 // Document-centric primitives
-                Namespaces.class,
                 Triples.class,
                 Quads.class,
 

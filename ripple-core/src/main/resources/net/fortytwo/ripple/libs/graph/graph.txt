@@ -36,17 +36,6 @@ graph:compare
 
 
 ========================================
-graph:contains
-========================================
-
-new >>
-    rdf:_1 "one" assert >>
-    rdf:_2 "two" assert >>
-    rdf:_3 "three" assert >>
-    contains >> .
-
-
-========================================
 graph:deny
 ========================================
 
@@ -124,6 +113,17 @@ graph:links
 ========================================
 
 rdf:type links >> .  # lots of statements about rdf:type
+
+
+========================================
+graph:members
+========================================
+
+new >>
+    rdf:_1 "one" assert >>
+    rdf:_2 "two" assert >>
+    rdf:_3 "three" assert >>
+    members >> .
 
 
 ========================================
