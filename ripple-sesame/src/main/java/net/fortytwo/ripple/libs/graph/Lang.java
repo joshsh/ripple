@@ -67,13 +67,11 @@ public class Lang extends PrimitiveStackMapping
 		{
 			result = ( (Literal) v ).getLanguage();
 
-			if ( null == result )
+			if ( null != result )
 			{
-				result = "";
-			}
-
-			solutions.put( arg.with(
+                solutions.put( arg.with(
 					stack.push( mc.value( result ) ) ) );
+			}
 		}
 	}
 }

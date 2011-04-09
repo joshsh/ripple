@@ -17,6 +17,7 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.cli.jline.LexicalCompletor;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
+import org.openrdf.model.impl.URIImpl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -240,7 +241,8 @@ public class Lexicon {
         if (null == ns) {
             errors.println("Warning: prefix '" + nsPrefix + "' does not identify a namespace\n");
         } else {
-            sink.put(mc.uriValue(ns + localName));
+            // TODO: using URIImpl is a bit of a hack
+            sink.put(mc.canonicalValue(new URIImpl(ns + localName)));
         }
     }
 

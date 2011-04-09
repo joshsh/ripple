@@ -27,12 +27,10 @@ import org.openrdf.model.URI;
  */
 public class Type extends PrimitiveStackMapping
 {
-    private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_XSD + "type"};
-
     public String[] getIdentifiers()
     {
-        return IDENTIFIERS;
+        return new String[] {
+            GraphLibrary.NS_XSD + "type"};
     }
 
 	public Type()

@@ -2,6 +2,7 @@ package net.fortytwo.ripple.test;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import net.fortytwo.flow.NullSink;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.URIMap;
@@ -90,14 +91,10 @@ public abstract class RippleTestCase extends TestCase {
                     sc.setNamespace("rdfs", RDFS.NAMESPACE);
                     sc.setNamespace("xsd", XMLSchema.NAMESPACE);
                     sc.commit();
-                }
-
-                finally {
+                } finally {
                     sc.close();
                 }
-            }
-
-            catch (SailException e) {
+            } catch (SailException e) {
                 throw new RippleException(e);
             }
         }
@@ -269,6 +266,14 @@ while (!l.isNil()) {
 
     protected void assertIllegal(final String from) throws Exception {
         assertReducesTo(from + " 4 sqrt.");
+    }
+
+    protected void evaluate(final String from) throws Exception {
+        QueryEngine qe = getTestQueryEngine();
+
+        QueryPipe actualPipe = new QueryPipe(qe, new NullSink<RippleList, RippleException>());
+        actualPipe.put(from + "\n");
+        actualPipe.close();
     }
 
     protected void assertReducesTo(final String from, final String... to) throws Exception {

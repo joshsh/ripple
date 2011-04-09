@@ -34,4 +34,20 @@ public class LibraryTest extends RippleTestCase
 
         assertEquals( dup05Val, dup08Val );
     }
+
+    public void testAliasInExpression() throws Exception {
+        assertReducesTo("<http://fortytwo.net/2007/05/ripple/stack#dup>", "<http://fortytwo.net/2007/08/ripple/stack#dup>");
+        assertReducesTo("2 <http://fortytwo.net/2007/05/ripple/stack#dup>.", "2 2");
+        assertReducesTo("2 <http://fortytwo.net/2007/08/ripple/stack#dup>.", "2 2");
+    }
+
+    public void testAliasesAsKeywords() throws Exception {
+        assertReducesTo("dup", "<http://fortytwo.net/2007/05/ripple/stack#dup>");
+        assertReducesTo("2 dup.", "2 <http://fortytwo.net/2007/05/ripple/stack#dup>.");
+
+        assertReducesTo("xsd:type", "type");
+        assertReducesTo("xsd:type", "<http://www.w3.org/2001/XMLSchema#type>");
+        assertReducesTo("42 xsd:type.", "42 type.");
+        assertReducesTo("42 type.", "42 <http://www.w3.org/2001/XMLSchema#type>.");
+    }
 }
