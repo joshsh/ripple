@@ -31,22 +31,22 @@ public class RippleScriptEngineTest extends TestCase {
     }
 
     public void testSimple() throws Exception {
-        //System.out.println(engine.eval("2 3 add >> .").getClass());
-        assertEquals(5, engine.eval("2 3 add >> ."));
-        assertEquals("foobar", engine.eval("\"foo\" \"bar\" strCat >> ."));
+        //System.out.println(engine.eval("2 3 add. .").getClass());
+        assertEquals(5, engine.eval("2 3 add.\n"));
+        assertEquals("foobar", engine.eval("\"foo\" \"bar\" strCat.\n"));
     }
 
     public void testMultipleValues() throws Exception {
-        assertEquals(2, engine.eval("2 dup >> both >> ."));
+        assertEquals(2, engine.eval("2 dup. both.\n"));
     }
 
     public void testNoValues() throws Exception {
-        assertNull(engine.eval("-1 sqrt >> ."));
-        assertNull(engine.eval(""));
-        assertNull(engine.eval("."));
+        assertNull(engine.eval("-1 sqrt.\n"));
+        assertNull(engine.eval("\n"));
+        assertNull(engine.eval(".\n"));
     }
 
     public void testTopValueFromStack() throws Exception {
-        assertEquals(2, engine.eval("1 2 ."));
+        assertEquals(2, engine.eval("1 2\n"));
     }
 }

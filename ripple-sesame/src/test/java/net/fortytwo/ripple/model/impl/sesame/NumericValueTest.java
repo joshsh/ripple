@@ -33,57 +33,57 @@ public class NumericValueTest extends RippleTestCase
         // Create an integer literal.
         l = mc.value( 42 );
         assertTrue( l instanceof NumericValue );
-        assertEquals( NumericValue.Type.INTEGER, l.getType() );
+        assertEquals( NumericValue.Type.INTEGER, l.getDatatype() );
         assertEquals( 42, l.intValue() );
         l = mc.value( 0 );
         assertTrue( l instanceof NumericValue );
-        assertEquals( NumericValue.Type.INTEGER, l.getType() );
+        assertEquals( NumericValue.Type.INTEGER, l.getDatatype() );
         assertEquals( 0, l.intValue() );
         l = mc.value( -42 );
         assertTrue( l instanceof NumericValue );
-        assertEquals( NumericValue.Type.INTEGER, l.getType() );
+        assertEquals( NumericValue.Type.INTEGER, l.getDatatype() );
         assertEquals( -42, l.intValue() );
 
         // Create a long literal.
         l = mc.value( 42l );
         assertTrue( l instanceof NumericValue );
-        assertEquals( NumericValue.Type.LONG, l.getType() );
+        assertEquals( NumericValue.Type.LONG, l.getDatatype() );
         assertEquals( 42l, l.longValue() );
         l = mc.value( 0l );
         assertTrue( l instanceof NumericValue );
-        assertEquals( NumericValue.Type.LONG, l.getType() );
+        assertEquals( NumericValue.Type.LONG, l.getDatatype() );
         assertEquals( 0l, l.longValue() );
         l = mc.value( -42l );
         assertTrue( l instanceof NumericValue );
-        assertEquals( NumericValue.Type.LONG, l.getType() );
+        assertEquals( NumericValue.Type.LONG, l.getDatatype() );
         assertEquals( -42l, l.longValue() );
 
         // Create a double literal
         l = mc.value( 42.0 );
         assertTrue( l instanceof NumericValue );
-        assertEquals( NumericValue.Type.DOUBLE, l.getType() );
+        assertEquals( NumericValue.Type.DOUBLE, l.getDatatype() );
         assertEquals( 42.0, l.doubleValue() );
         l = mc.value( 0.0 );
         assertTrue( l instanceof NumericValue );
-        assertEquals( NumericValue.Type.DOUBLE, l.getType() );
+        assertEquals( NumericValue.Type.DOUBLE, l.getDatatype() );
         assertEquals( 0.0, l.doubleValue() );
         l = mc.value( -42.0 );
         assertTrue( l instanceof NumericValue );
-        assertEquals( NumericValue.Type.DOUBLE, l.getType() );
+        assertEquals( NumericValue.Type.DOUBLE, l.getDatatype() );
         assertEquals( -42.0, l.doubleValue() );
 
         InputStream is = ModelTest.class.getResourceAsStream( "numericLiteralTest.txt" );
         Iterator<String> lines = FileUtils.getLines( is ).iterator();
         is.close();
         Map<String, Integer> argsForFunc = new HashMap<String, Integer>();
-        argsForFunc.put( "abs", new Integer( 1 ) );
-        argsForFunc.put( "neg", new Integer( 1 ) );
-        argsForFunc.put( "add", new Integer( 2 ) );
-        argsForFunc.put( "sub", new Integer( 2 ) );
-        argsForFunc.put( "mul", new Integer( 2 ) );
-        argsForFunc.put( "div", new Integer( 2 ) );
-        argsForFunc.put( "mod", new Integer( 2 ) );
-        argsForFunc.put( "pow", new Integer( 2 ) );
+        argsForFunc.put( "abs", 1);
+        argsForFunc.put( "neg", 1);
+        argsForFunc.put( "add", 2);
+        argsForFunc.put( "sub", 2);
+        argsForFunc.put( "mul", 2);
+        argsForFunc.put( "div", 2);
+        argsForFunc.put( "mod", 2);
+        argsForFunc.put( "pow", 2);
 
         // Verify individual operator test cases.
         while ( lines.hasNext() )
@@ -174,15 +174,15 @@ public class NumericValueTest extends RippleTestCase
                 switch ( correctResult.getDatatype() )
                 {
                 case INTEGER:
-                    assertEquals( "for case " + signature, NumericValue.Type.INTEGER, actualResult.getType() );
+                    assertEquals( "for case " + signature, NumericValue.Type.INTEGER, actualResult.getDatatype() );
                     assertEquals( "for case " + signature, correctResult.intValue(), actualResult.intValue() );
                     break;
                 case LONG:
-                    assertEquals( "for case " + signature, NumericValue.Type.LONG, actualResult.getType() );
+                    assertEquals( "for case " + signature, NumericValue.Type.LONG, actualResult.getDatatype() );
                     assertEquals( "for case " + signature, correctResult.longValue(), actualResult.longValue() );
                     break;
                 case DOUBLE:
-                    assertEquals( "for case " + signature, NumericValue.Type.DOUBLE, actualResult.getType() );
+                    assertEquals( "for case " + signature, NumericValue.Type.DOUBLE, actualResult.getDatatype() );
                     assertEquals( "for case " + signature, correctResult.longValue(), actualResult.longValue() );
                     break;
                 }
@@ -218,17 +218,17 @@ public class NumericValueTest extends RippleTestCase
 
         else if ( s.contains( "l" ) )
         {
-            l = new SesameNumericValue( new Long( s.substring( 0, s.length() - 1 ) ).longValue() );
+            l = new SesameNumericValue(new Long(s.substring(0, s.length() - 1)));
         }
 
         else if ( s.contains( "." ) )
         {
-            l = new SesameNumericValue( new Double( s ).doubleValue() );
+            l = new SesameNumericValue(new Double(s));
         }
 
         else
         {
-            l = new SesameNumericValue( new Integer( s ).intValue() );
+            l = new SesameNumericValue(new Integer(s));
         }
 
         return l;
@@ -241,100 +241,100 @@ public class NumericValueTest extends RippleTestCase
             intLit = new SesameNumericValue( 5 ),
             doubleLit = new SesameNumericValue( 3.1415926 );
 
-        assertEquals( intLit.getType(), NumericValue.Type.INTEGER );
-        assertEquals( doubleLit.getType(), NumericValue.Type.DOUBLE );
+        assertEquals( intLit.getDatatype(), NumericValue.Type.INTEGER );
+        assertEquals( doubleLit.getDatatype(), NumericValue.Type.DOUBLE );
 
         assertEquals(
-            intLit.abs().getType(),
+            intLit.abs().getDatatype(),
             NumericValue.Type.INTEGER );
         assertEquals(
-            doubleLit.abs().getType(),
+            doubleLit.abs().getDatatype(),
             NumericValue.Type.DOUBLE );
 
         /*
         assertEquals(
-            NumericLiteral.neg( intLit ).getType(),
+            NumericLiteral.neg( intLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.INTEGER );
         assertEquals(
-            NumericLiteral.neg( doubleLit ).getType(),
+            NumericLiteral.neg( doubleLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.DOUBLE );
 
         assertEquals(
-            NumericLiteral.add( intLit, intLit ).getType(),
+            NumericLiteral.add( intLit, intLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.INTEGER );
         assertEquals(
-            NumericLiteral.add( intLit, doubleLit ).getType(),
+            NumericLiteral.add( intLit, doubleLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.DOUBLE );
         assertEquals(
-            NumericLiteral.add( doubleLit, intLit ).getType(),
+            NumericLiteral.add( doubleLit, intLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.DOUBLE );
         assertEquals(
-            NumericLiteral.add( doubleLit, doubleLit ).getType(),
+            NumericLiteral.add( doubleLit, doubleLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.DOUBLE );
 
         assertEquals(
-            NumericLiteral.sub( intLit, intLit ).getType(),
+            NumericLiteral.sub( intLit, intLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.INTEGER );
         assertEquals(
-            NumericLiteral.sub( intLit, doubleLit ).getType(),
+            NumericLiteral.sub( intLit, doubleLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.DOUBLE );
         assertEquals(
-            NumericLiteral.sub( doubleLit, intLit ).getType(),
+            NumericLiteral.sub( doubleLit, intLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.DOUBLE );
         assertEquals(
-            NumericLiteral.sub( doubleLit, doubleLit ).getType(),
+            NumericLiteral.sub( doubleLit, doubleLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.DOUBLE );
 
         assertEquals(
-            NumericLiteral.mul( intLit, intLit ).getType(),
+            NumericLiteral.mul( intLit, intLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.INTEGER );
         assertEquals(
-            NumericLiteral.mul( intLit, doubleLit ).getType(),
+            NumericLiteral.mul( intLit, doubleLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.DOUBLE );
         assertEquals(
-            NumericLiteral.mul( doubleLit, intLit ).getType(),
+            NumericLiteral.mul( doubleLit, intLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.DOUBLE );
         assertEquals(
-            NumericLiteral.mul( doubleLit, doubleLit ).getType(),
+            NumericLiteral.mul( doubleLit, doubleLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.DOUBLE );
 
         assertEquals(
-            NumericLiteral.div( intLit, intLit ).getType(),
+            NumericLiteral.div( intLit, intLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.INTEGER );
         assertEquals(
-            NumericLiteral.div( intLit, doubleLit ).getType(),
+            NumericLiteral.div( intLit, doubleLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.DOUBLE );
         assertEquals(
-            NumericLiteral.div( doubleLit, intLit ).getType(),
+            NumericLiteral.div( doubleLit, intLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.DOUBLE );
         assertEquals(
-            NumericLiteral.div( doubleLit, doubleLit ).getType(),
+            NumericLiteral.div( doubleLit, doubleLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.DOUBLE );
 
         assertEquals(
-            NumericLiteral.mod( intLit, intLit ).getType(),
+            NumericLiteral.mod( intLit, intLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.INTEGER );
         assertEquals(
-            NumericLiteral.mod( intLit, doubleLit ).getType(),
+            NumericLiteral.mod( intLit, doubleLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.DOUBLE );
         assertEquals(
-            NumericLiteral.mod( doubleLit, intLit ).getType(),
+            NumericLiteral.mod( doubleLit, intLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.DOUBLE );
         assertEquals(
-            NumericLiteral.mod( doubleLit, doubleLit ).getType(),
+            NumericLiteral.mod( doubleLit, doubleLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.DOUBLE );
 
         assertEquals(
-            NumericLiteral.pow( intLit, intLit ).getType(),
+            NumericLiteral.pow( intLit, intLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.INTEGER );
         assertEquals(
-            NumericLiteral.pow( intLit, doubleLit ).getType(),
+            NumericLiteral.pow( intLit, doubleLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.DOUBLE );
         assertEquals(
-            NumericLiteral.pow( doubleLit, intLit ).getType(),
+            NumericLiteral.pow( doubleLit, intLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.DOUBLE );
         assertEquals(
-            NumericLiteral.pow( doubleLit, doubleLit ).getType(),
+            NumericLiteral.pow( doubleLit, doubleLit ).getDatatype(),
             NumericLiteral.NumericLiteralType.DOUBLE ); */
     }
 

@@ -30,8 +30,8 @@ public class RippleListTest extends RippleTestCase
 {
     public void testListRDFEquivalence() throws Exception
     {
-        assertReducesTo( "(1 2 3) rdf:rest >>", "(2 3)" );
-        assertReducesTo( "(1 2 3) rdf:rest >> rdf:first >>", "2" );
+        assertReducesTo( "(1 2 3) rdf:rest.", "(2 3)" );
+        assertReducesTo( "(1 2 3) rdf:rest. rdf:first.", "2" );
 
         /* TODO: in order to pass, these test cases will require a new feature.
         assertReducesTo( "rdf:nil rdf:type >>", "rdf:List" );

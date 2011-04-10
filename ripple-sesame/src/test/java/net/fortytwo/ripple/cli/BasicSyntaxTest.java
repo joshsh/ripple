@@ -29,15 +29,17 @@ public class BasicSyntaxTest extends RippleTestCase {
         assertIllegal("2 .2");
     }
 
-    public void testAmbiguousTokens() throws Exception {
+    public void testPotentiallyAmbiguousSyntax() throws Exception {
         assertReducesTo("2 +3 add.", "5");
         assertReducesTo("2 +3", "2 3");
 
         assertLegal("2+ 3");
-        assertReducesTo("2+ 3");
-        //assertReducesTo("id+ 3", "3");
 
-        // FIXME: restore
         assertIllegal("2+3");
+
+        assertReducesTo("42 to-string.", "\"42\"^^xsd:string");
+        // This is a gray area; the syntax is legal, but the apparent keywords are not defined.
+        assertIllegal("42 to- string.");
+        assertIllegal("42 to -string.");
     }
 }

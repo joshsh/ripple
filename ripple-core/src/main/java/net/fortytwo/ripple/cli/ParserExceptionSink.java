@@ -49,7 +49,7 @@ public class ParserExceptionSink implements Sink<Exception, RippleException>
         else
 		{
 			alert( "Strange error (see log for details): " + e.toString() );
-			( new RippleException( e ) ).logError();
+			( new RippleException( e ) ).logError( true );
 		}
 	}
 	
@@ -57,4 +57,4 @@ public class ParserExceptionSink implements Sink<Exception, RippleException>
 	{
 		errorPrintStream.println( "\n" + s + "\n" );
 	}
-};
+}

@@ -261,11 +261,13 @@ while (!l.isNil()) {
     }
 
     protected void assertLegal(final String from) throws Exception {
-        assertReducesTo(from + " 4 sqrt.", from + " 2", from + "-2");
+        Collection<RippleList> result = reduce("(" + from + ")");
+        assertTrue("expression is illegal: " + from, 1 == result.size());
     }
 
     protected void assertIllegal(final String from) throws Exception {
-        assertReducesTo(from + " 4 sqrt.");
+        Collection<RippleList> result = reduce("(" + from + ")");
+        assertTrue("expression is legal: " + from, 0 == result.size());
     }
 
     protected void assertReducesTo(final String from, final String... to) throws Exception {

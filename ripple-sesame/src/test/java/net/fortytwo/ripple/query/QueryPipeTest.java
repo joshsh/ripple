@@ -45,7 +45,7 @@ public class QueryPipeTest extends RippleTestCase
 
         // A simple expression.
         results.clear();
-        qp.put( "2 3 add >> .\n" );
+        qp.put( "2 3 add .\n" );
         expected.clear();
         expected.put( createStack( mc, five ) );
         assertCollectorsEqual( expected, results );
@@ -53,15 +53,15 @@ public class QueryPipeTest extends RippleTestCase
         // A slightly more complex expression.
         results.clear();
         qp.put( "105"
-                + " ((1 2 3 4 5) 0 add fold >>) {7}>>"
-                + " add {6}>> sub >> .\n" );
+                + " ((1 2 3 4 5) 0 add fold.) {7}"
+                + " add {6} sub.\n" );
         expected.clear();
         expected.put( createStack( mc, zero ) );
         assertCollectorsEqual( expected, results );
 
         // A branching expression.
         results.clear();
-        qp.put( "(1 2) each >> 3 add >> .\n" );
+        qp.put( "(1 2) each. 3 add.\n" );
         expected.clear();
         expected.put( createStack( mc, four ) );
         expected.put( createStack( mc, five ) );
@@ -116,7 +116,7 @@ public class QueryPipeTest extends RippleTestCase
 
             // Now make sure the pipe still works.
             results.clear();
-            qp.put( "2 3 add >> .\n" );
+            qp.put( "2 3 add.\n" );
             expected.clear();
             expected.put( createStack( mc, five ) );
             assertCollectorsEqual( expected, results );

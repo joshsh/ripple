@@ -11,8 +11,8 @@ public class ScrapTest extends RippleTestCase
 {
     public void testSimple() throws Exception
     {
-        assertReducesTo( "scrap >>" );
-        assertReducesTo( "42 scrap >>" );
-        assertReducesTo( "(1 2 3) each >> scrap >>" );
+        assertReducesTo( "scrap." );
+        assertReducesTo( "42 scrap." );
+        assertReducesTo( "(1 2 3) each. scrap." );
     }
 }

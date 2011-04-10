@@ -100,8 +100,8 @@ public class CompareTest extends RippleTestCase
         assertEq( "()", "rdf:nil" );
         assertGt( "(42)", "rdf:nil" );
         assertLt( "rdf:nil", "(1 2 3)" );
-        reduce("@prefix : <http://example.org/compareTest/> .\n"
-                + "@define prog: 1 2 3 .");
+        reduce("@prefix : <http://example.org/compareTest/>\n"
+                + "@define prog: 1 2 3");
         assertEq( ":prog", "(1 2 3)" );
         assertLt( "rdf:nil", ":prog" );
         assertGt( ":prog", "rdf:nil" );
@@ -128,8 +128,8 @@ public class CompareTest extends RippleTestCase
     public void testHeterogeneousValues() throws Exception
     {
         // Compare plain literals with typed literals.
-        assertLt( "\"foo\"", "\"foo\"^^xsd:string" );
-        assertGt( "\"foo\"^^xsd:string", "\"foo\"" );
+        assertGt( "\"foo\"", "\"foo\"^^xsd:string" );
+        assertLt( "\"foo\"^^xsd:string", "\"foo\"" );
 
         // TODO: compare objects of different types, once the rules for doing so are better defined.
     }
@@ -151,7 +151,7 @@ public class CompareTest extends RippleTestCase
 
     private double compare( final String expr1, final String expr2 ) throws Exception
     {
-        Collection<RippleList> results = reduce(expr1 + " " + expr2 + " compare >>");
+        Collection<RippleList> results = reduce(expr1 + " " + expr2 + " compare.");
         assertEquals( 1, results.size() );
         RippleList l = results.iterator().next();
         assertEquals( 1, l.length() );

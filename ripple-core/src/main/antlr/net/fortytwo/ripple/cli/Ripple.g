@@ -43,7 +43,8 @@ class RippleLexer extends Lexer;
 
 options
 {
-	k = 3;
+    // Note the @unprefix and @undefine commands, which share the same three-character prefix.
+	k = 4;
 
 	// Use custom error recovery.
 	defaultErrorHandler = false;
@@ -102,7 +103,7 @@ SCHARACTER
 
 protected
 UCHARACTER
-	: (' '..';') | '=' | ('?'..'[')  // excludes: '>', '\\' and '<' (the lAST of which is not excluded by Turtle)
+	: (' '..';') | '=' | ('?'..'[')  // excludes: '>', '\\' and '<' (the LAST of which is not excluded by Turtle)
 	| (']'..'\uFFFF')  // Note: '\u10FFFF' in Turtle
 	| "\\u" HEX HEX HEX HEX
 	| "\\U" HEX HEX HEX HEX HEX HEX HEX HEX
@@ -174,8 +175,9 @@ NAME_NOT_PREFIX
 	: '_' (NAME_CHAR)*
 	;
 
-NUMBER
-	: ('-' | '+')? ( DIGIT )+
+UNSIGNED_NUMBER
+	: //('-' | '+')?
+	  ( DIGIT )+
 		(('.' DIGIT ) => ( '.' ( DIGIT )+ )
 		 | ())
 		(('e' | 'E') ('-' | '+')? ( DIGIT )+ )?
@@ -204,20 +206,16 @@ R_BRACKET : ']' ;
 L_CURLY : '{' ;
 R_CURLY : '}' ;
 
-SEMI : ';' ;
-PERIOD : '.' ;
-COMMA : ',';
-
 COLON : ':' ;
-
+COMMA : ',';
 EQUAL : '=';
-
-// Is it possible to create an alias for the period as the application operator?
-//OP_APPLY : ".";
-OP_OPTION : "?";
-OP_STAR : "*";
-OP_PLUS : "+";
-OP_INVERSE : "~";
+MINUS : '-';
+PERIOD : '.' ;
+PLUS : '+';
+QUESTION : '?';
+SEMI : ';' ;
+STAR : '*';
+TILDE : '~';
 
 protected
 DRCTV : '@' ;
@@ -344,7 +342,9 @@ nt_List returns [ ListAST list ]
 				) )
 
         // Only operators may follow other nodes without being separated by whitespace.
-		|	(PERIOD | OP_OPTION | OP_STAR | OP_PLUS | OP_INVERSE) => rest = nt_List
+		|	(PERIOD | QUESTION | STAR | TILDE | L_CURLY) => rest = nt_List
+
+		|   (PLUS (~(UNSIGNED_NUMBER))) => rest = nt_List
 
 			// End of the list.
 		|	()
@@ -411,11 +411,16 @@ nt_TemplateNode returns [ AST r ]
 	;
 		
 
+// Operators are not "normal nodes" in that they can't have annotations.
 nt_Node returns [ AST r ]
 {
 }
-    : r=nt_NormalNode
-    | r=nt_Operator
+    // Note: this disambiguation is necessary because of the '+' symbol, which is either an operator or the beginning of a number.
+    //       It is more straightforward to do this disambiguation here than in the lexer.
+    : (PERIOD | QUESTION | STAR | TILDE | L_CURLY) => r=nt_Operator
+    | (PLUS UNSIGNED_NUMBER) => r=nt_NormalNode
+    | (PLUS (~(UNSIGNED_NUMBER))) => r=nt_Operator
+    | r=nt_NormalNode
     ;
 
 
@@ -493,12 +498,17 @@ nt_Literal returns [ AST r ]
 
 nt_Number returns [ NumberAST r ]
 {
+    boolean negative = false;
     r = null;
 }
-    : u:NUMBER
+    :   (PLUS | MINUS { negative = true; })?
+        u:UNSIGNED_NUMBER
 		{
 			// Note: number format exceptions are handled at a higher level.
 			String s = u.getText();
+			if (negative) {
+			    s = "-" + s;
+			}
 
             // Numbers with an exponent portion are considered to be xsd:double
             // values.  A decimal point is optional, but must be followed by at
@@ -610,15 +620,15 @@ nt_Operator returns [ OperatorAST AST ]
 	NumberAST minTimes = null, maxTimes = null;
 }
 	: ( PERIOD { AST = new OperatorAST(OperatorAST.Type.Apply); }
-	  | OP_OPTION { AST = new OperatorAST(OperatorAST.Type.Option); }
-	  | OP_STAR { AST = new OperatorAST(OperatorAST.Type.Star); }
-	  | OP_PLUS { AST = new OperatorAST(OperatorAST.Type.Plus); }
-	  | OP_INVERSE { AST = new OperatorAST(OperatorAST.Type.Inverse); }
+	  | QUESTION { AST = new OperatorAST(OperatorAST.Type.Option); }
+	  | STAR { AST = new OperatorAST(OperatorAST.Type.Star); }
+	  | PLUS { AST = new OperatorAST(OperatorAST.Type.Plus); }
+	  | TILDE { AST = new OperatorAST(OperatorAST.Type.Inverse); }
 	  | L_CURLY (nt_Ws)? minTimes=nt_Number (nt_Ws)? ( COMMA (nt_Ws)? maxTimes=nt_Number (nt_Ws)? )? R_CURLY
 		  {
-		    AST = new OperatorAST(null == maxTimes
-			        ? OperatorAST.Type.Times
-			        : OperatorAST.Type.Range);
+		    AST = null == maxTimes
+		            ? new OperatorAST(minTimes)
+		            : new OperatorAST(minTimes, maxTimes);
 	      }
 	  )
 	;

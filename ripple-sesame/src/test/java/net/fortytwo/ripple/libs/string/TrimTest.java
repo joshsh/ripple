@@ -11,14 +11,14 @@ public class TrimTest extends RippleTestCase
 {
     public void testSimple() throws Exception
     {
-        assertReducesTo( "\"one two\" trim >>", "\"one two\"" );
-        assertReducesTo( "\" one two\" trim >>", "\"one two\"" );
-        assertReducesTo( "\"one two \" trim >>", "\"one two\"" );
-        assertReducesTo( "\"\\n\\tone two \\t\" trim >>", "\"one two\"" );
+        assertReducesTo( "\"one two\" trim.", "\"one two\"" );
+        assertReducesTo( "\" one two\" trim.", "\"one two\"" );
+        assertReducesTo( "\"one two \" trim.", "\"one two\"" );
+        assertReducesTo( "\"\\n\\tone two \\t\" trim.", "\"one two\"" );
     }
 
     public void testEmptyStrings() throws Exception
     {
-        assertReducesTo( "\"\" trim >>", "\"\"" );
+        assertReducesTo( "\"\" trim.", "\"\"" );
     }
 }

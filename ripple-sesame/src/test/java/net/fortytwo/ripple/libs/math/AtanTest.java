@@ -11,21 +11,21 @@ public class AtanTest extends RippleTestCase
 {
     public void testSingleSolution() throws Exception
     {
-        assertReducesTo( "1 atan >>", "0.7853981633974483" );
-        assertReducesTo( "0 atan >>", "0" );
-        assertReducesTo( "-1 atan >>", "-0.7853981633974483" );
+        assertReducesTo( "1 atan.", "0.7853981633974483" );
+        assertReducesTo( "0 atan.", "0" );
+        assertReducesTo( "-1 atan.", "-0.7853981633974483" );
     }
 
     public void testSpecialValues() throws Exception
     {
-        assertReducesTo( "\"NaN\"^^xsd:double atan >>", "\"NaN\"^^xsd:double" );
-        assertReducesTo( "\"INF\"^^xsd:double atan >>", "1.5707963267948966" );
-        assertReducesTo( "\"-INF\"^^xsd:double atan >>", "-1.5707963267948966" );
+        assertReducesTo( "\"NaN\"^^xsd:double atan.", "\"NaN\"^^xsd:double" );
+        assertReducesTo( "\"INF\"^^xsd:double atan.", "1.5707963267948966" );
+        assertReducesTo( "\"-INF\"^^xsd:double atan.", "-1.5707963267948966" );
     }
 
     public void testInverse() throws Exception
     {
-        assertReducesTo( "0.7853981633974483e0 atan <<", "0.9999999999999999" );
-        assertReducesTo( "0 atan <<", "0" );
+        assertReducesTo( "0.7853981633974483e0 atan~.", "0.9999999999999999" );
+        assertReducesTo( "0 atan~.", "0" );
     }
 }

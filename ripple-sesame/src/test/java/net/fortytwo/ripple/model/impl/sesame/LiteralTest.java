@@ -26,7 +26,7 @@ public class LiteralTest extends RippleTestCase
 {
     public void testEscapedCharacters() throws Exception
     {
-        assertReducesTo( "\"\\\"\" length >>", "1" );
-        assertReducesTo( "\"\\\"\"^^xsd:string length >>", "1" );
+        assertReducesTo( "\"\\\"\" length.", "1" );
+        assertReducesTo( "\"\\\"\"^^xsd:string length.", "1" );
     }
 }

@@ -11,11 +11,11 @@ public class ToLowerCaseTest extends RippleTestCase
 {
     public void testSimple() throws Exception
     {
-        assertReducesTo( "\"BrainF@#$ language\" toLowerCase >>", "\"brainf@#$ language\"" );
+        assertReducesTo( "\"BrainF@#$ language\" toLowerCase.", "\"brainf@#$ language\"" );
     }
 
     public void testEmptyStrings() throws Exception
     {
-        assertReducesTo( "\"\" toLowerCase >>", "\"\"" );
+        assertReducesTo( "\"\" toLowerCase.", "\"\"" );
     }
 }
