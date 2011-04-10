@@ -46,8 +46,8 @@ public class StringLibrary extends Library
                 Length.class,
                 Matches.class,
                 Md5.class,
-                PercentDecode.class,
-                PercentEncode.class,
+                PercentDecoded.class,
+                PercentEncoded.class,
                 ReplaceAll.class,
                 Sha1.class,
                 Split.class,
@@ -56,8 +56,8 @@ public class StringLibrary extends Library
                 ToLowerCase.class,
                 ToUpperCase.class,
                 Trim.class,
-                UrlDecode.class,
-                UrlEncode.class );
+                UrlDecoded.class,
+                UrlEncoded.class );
 	}
 
     public static RDFValue value( final String label,

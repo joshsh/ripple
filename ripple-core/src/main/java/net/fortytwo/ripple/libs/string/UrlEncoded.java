@@ -19,21 +19,22 @@ import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.StringUtils;
 
 /**
- * A primitive which consumes an application/x-www-form-urlencoded string and
- * produces its decoded equivalent.
+ * A primitive which consumes a string and produces its
+ * application/x-www-form-urlencoded equivalent.
  */
-public class UrlDecode extends PrimitiveStackMapping
+public class UrlEncoded extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StringLibrary.NS_2011_04 + "url-decoded",
-            StringLibrary.NS_2008_08 + "urlDecode"};
+            StringLibrary.NS_2011_04 + "url-encoded",
+            StringLibrary.NS_2008_08 + "urlEncode",
+            StringLibrary.NS_2007_08 + "urlEncode"};
 
     public String[] getIdentifiers()
     {
         return IDENTIFIERS;
     }
-
-	public UrlDecode()
+    
+	public UrlEncoded()
 		throws RippleException
 	{
 		super();
@@ -42,12 +43,12 @@ public class UrlDecode extends PrimitiveStackMapping
     public Parameter[] getParameters()
     {
         return new Parameter[] {
-                new Parameter( "encoded", null, true )};
+                new Parameter( "plaintext", null, true )};
     }
 
     public String getComment()
     {
-        return "decodes an application/x-www-form-urlencoded string";
+        return "finds the URL encoding (per application/x-www-form-urlencoded) of a string";
     }
 
 	public void apply( final StackContext arg,
@@ -60,7 +61,7 @@ public class UrlDecode extends PrimitiveStackMapping
 		RippleValue s = stack.getFirst();
 		stack = stack.getRest();
 
-        String result = StringUtils.urlDecode( mc.toString( s ) );
+        String result = StringUtils.urlEncode( mc.toString( s ) );
 
 		solutions.put( arg.with(
 				stack.push( StringLibrary.value( result, mc, s ) ) ) );

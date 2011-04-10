@@ -32,6 +32,7 @@ public class Show extends PrimitiveStackMapping
 
     private static final String[] IDENTIFIERS = {
             MediaLibrary.NS_2011_04 + "show",
+            MediaLibrary.NS_2008_08 + "show",
             MediaLibrary.NS_2007_08 + "show"};
 
     public String[] getIdentifiers()

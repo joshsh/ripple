@@ -25,7 +25,7 @@ import net.fortytwo.flow.Sink;
  * A primitive which activates ("applies") the topmost item on the stack any
  * number of times.
  */
-public class OptApply extends PrimitiveStackMapping
+public class OptionApply extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
             // Note: this primitive different semantics than its predecessor, stack:optApply
@@ -36,7 +36,7 @@ public class OptApply extends PrimitiveStackMapping
         return IDENTIFIERS;
     }
 
-	public OptApply() throws RippleException
+	public OptionApply() throws RippleException
 	{
 		super();
 	}

@@ -17,26 +17,23 @@ import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.StringUtils;
-import net.fortytwo.ripple.libs.extras.ExtrasLibrary;
 
 /**
- * A primitive which consumes a string and produces its (RFC 3986)
- * percent-encoded equivalent.
+ * A primitive which consumes an  (RFC 3986) percent-encoded string and produces
+ * its decoded equivalent.
  */
-public class PercentEncode extends PrimitiveStackMapping
+public class PercentDecoded extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StringLibrary.NS_2011_04 + "percent-encoded",
-            StringLibrary.NS_2008_08 + "percentEncode",
-            StringLibrary.NS_2007_08 + "percentEncode",
-            ExtrasLibrary.NS_2007_05 + "urlEncoding"};
+            StringLibrary.NS_2011_04 + "percent-decoded",
+            StringLibrary.NS_2008_08 + "percentDecode"};
 
     public String[] getIdentifiers()
     {
         return IDENTIFIERS;
     }
 
-	public PercentEncode()
+	public PercentDecoded()
 		throws RippleException
 	{
 		super();
@@ -45,12 +42,12 @@ public class PercentEncode extends PrimitiveStackMapping
     public Parameter[] getParameters()
     {
         return new Parameter[] {
-                new Parameter( "plaintext", null, true )};
+                new Parameter( "encoded", null, true )};
     }
 
     public String getComment()
     {
-        return "finds the percent encoding (per RFC 3986) of a string";
+        return "decodes a (RFC 3986) percent-encoded string";
     }
 
 	public void apply( final StackContext arg,
@@ -63,7 +60,7 @@ public class PercentEncode extends PrimitiveStackMapping
 		RippleValue a = stack.getFirst();
 		stack = stack.getRest();
 
-		String result = StringUtils.percentEncode( mc.toString( a ) );
+		String result = StringUtils.percentDecode( mc.toString( a ) );
 		solutions.put( arg.with(
 				stack.push( StringLibrary.value( result, mc, a ) ) ) );
 	}

@@ -61,7 +61,7 @@ public class StackLibrary extends Library
                 Ary.class,
                 Dip.class,
                 Dipd.class );
-		optApplyVal = registerPrimitive( OptApply.class, context );
+		optApplyVal = registerPrimitive( OptionApply.class, context );
 		plusApplyVal = registerPrimitive( PlusApply.class, context );
 		starApplyVal = registerPrimitive( StarApply.class, context );
 		rangeApplyVal = registerPrimitive( RangeApply.class, context );
