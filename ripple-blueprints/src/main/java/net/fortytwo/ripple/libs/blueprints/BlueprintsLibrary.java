@@ -21,15 +21,12 @@ public class BlueprintsLibrary extends Library {
     @Override
     public void load(final URIMap uf,
                      final LibraryLoader.Context context) throws RippleException {
-        // TODO: no such file
-        uf.put(NS_2011_04, getClass().getResource("blueprints.ttl") + "#");
-
         registerPrimitives(context,
-                Tail.class,
+                Gremlin.class,
+                Head.class,
                 Id.class,
                 Label.class,
-                Head.class,
-                Gremlin.class);
+                Tail.class);
     }
 
     public static RippleValue createRippleValue(final Object tinker,
