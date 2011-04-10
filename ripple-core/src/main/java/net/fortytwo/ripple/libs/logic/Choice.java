@@ -25,6 +25,7 @@ import net.fortytwo.flow.Sink;
 public class Choice extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            LogicLibrary.NS_2011_04 + "choice",
             LogicLibrary.NS_2008_08 + "choice",
             StackLibrary.NS_2007_08 + "choice",
             StackLibrary.NS_2007_05 + "choice"};

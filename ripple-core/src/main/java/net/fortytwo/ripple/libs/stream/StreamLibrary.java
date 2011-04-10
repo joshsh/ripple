@@ -20,6 +20,7 @@ import net.fortytwo.ripple.model.LibraryLoader;
 public class StreamLibrary extends Library
 {
     public static final String
+            NS_2011_04 = "http://fortytwo.net/2011/04/ripple/stream#",
             NS_2008_08 = "http://fortytwo.net/2008/08/ripple/stream#",
             NS_2007_08 = "http://fortytwo.net/2007/08/ripple/stream#",
             NS_2007_05 = "http://fortytwo.net/2007/05/ripple/stream#";

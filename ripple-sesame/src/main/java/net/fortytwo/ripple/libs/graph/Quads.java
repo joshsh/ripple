@@ -35,6 +35,7 @@ import org.openrdf.model.Resource;
 public class Quads extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            GraphLibrary.NS_2011_04 + "quads",
             GraphLibrary.NS_2008_08 + "quads"};
 
     public String[] getIdentifiers()

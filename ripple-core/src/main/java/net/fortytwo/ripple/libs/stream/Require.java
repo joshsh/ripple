@@ -33,6 +33,7 @@ public class Require extends PrimitiveStackMapping
     }
     
     private static final String[] IDENTIFIERS = {
+            StreamLibrary.NS_2011_04 + "require",
             StreamLibrary.NS_2008_08 + "require"};
 
     public String[] getIdentifiers()

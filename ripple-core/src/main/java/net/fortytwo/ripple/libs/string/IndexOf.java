@@ -23,6 +23,7 @@ import net.fortytwo.flow.Sink;
 public class IndexOf extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            StringLibrary.NS_2011_04 + "index-of",
             StringLibrary.NS_2008_08 + "indexOf",
             StringLibrary.NS_2007_08 + "indexOf"};
 

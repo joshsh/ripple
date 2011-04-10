@@ -23,6 +23,7 @@ import net.fortytwo.ripple.model.StackContext;
 public class Max extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2011_04 + "max",
             StackLibrary.NS_2008_08 + "max",
             StackLibrary.NS_2007_08 + "max"};
 

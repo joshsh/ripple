@@ -23,6 +23,7 @@ import net.fortytwo.flow.Sink;
 public class Dip extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2011_04 + "dip",
             StackLibrary.NS_2008_08 + "dip",
             StackLibrary.NS_2007_08 + "dip",
             StackLibrary.NS_2007_05 + "dip"};

@@ -24,6 +24,7 @@ import net.fortytwo.ripple.model.RippleValue;
 public class ToUpperCase extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            StringLibrary.NS_2011_04 + "to-uppercase",
             StringLibrary.NS_2008_08 + "toUpperCase",
             StringLibrary.NS_2007_08 + "toUpperCase"};
 

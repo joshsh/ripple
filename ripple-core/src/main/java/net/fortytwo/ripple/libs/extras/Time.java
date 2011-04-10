@@ -25,6 +25,7 @@ import java.lang.System;
 public class Time extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            ExtrasLibrary.NS_2011_04 + "time",
             ExtrasLibrary.NS_2008_08 + "time",
             ExtrasLibrary.NS_2007_08 + "time",
             ExtrasLibrary.NS_2007_05 + "time"};
@@ -41,7 +42,7 @@ public class Time extends PrimitiveStackMapping
 
     public String getComment()
     {
-        return "=>  t  -- pushes the current time, in milliseconds since the Unix epoch";
+        return "produces the current time in milliseconds since the Unix epoch";
     }
 
 	public Time() throws RippleException

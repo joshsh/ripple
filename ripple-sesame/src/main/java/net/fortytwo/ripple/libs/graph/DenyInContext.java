@@ -25,6 +25,7 @@ import net.fortytwo.ripple.model.RippleList;
 public class DenyInContext extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            GraphLibrary.NS_2011_04 + "deny-in-context",
             GraphLibrary.NS_2008_08 + "denyInContext"};
 
     public String[] getIdentifiers()

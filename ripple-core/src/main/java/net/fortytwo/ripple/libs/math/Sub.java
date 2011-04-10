@@ -24,6 +24,7 @@ import net.fortytwo.ripple.model.StackMapping;
 public class Sub extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            MathLibrary.NS_2011_04 + "sub",
             MathLibrary.NS_2008_08 + "sub",
             MathLibrary.NS_2007_08 + "sub",
             MathLibrary.NS_2007_05 + "sub"};

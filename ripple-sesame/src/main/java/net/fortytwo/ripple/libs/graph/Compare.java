@@ -24,6 +24,7 @@ import net.fortytwo.ripple.model.RippleList;
 public class Compare extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            GraphLibrary.NS_2011_04 + "compare",
             GraphLibrary.NS_2008_08 + "compare",
             GraphLibrary.NS_2007_08 + "compare",
             GraphLibrary.NS_2007_05 + "compare"};

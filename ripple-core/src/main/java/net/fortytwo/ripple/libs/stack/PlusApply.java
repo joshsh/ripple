@@ -28,7 +28,8 @@ import net.fortytwo.ripple.model.StackContext;
 public class PlusApply extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2008_08 + "plusApply"};
+            // Note: this primitive has different semantics than its predecessor, stack:plusApply
+            StackLibrary.NS_2011_04 + "plus-apply"};
 
     public String[] getIdentifiers()
     {

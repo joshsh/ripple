@@ -20,6 +20,7 @@ import net.fortytwo.ripple.URIMap;
 public class LogicLibrary extends Library
 {
     public static final String
+            NS_2011_04 = "http://fortytwo.net/2011/04/ripple/logic#",
             NS_2008_08 = "http://fortytwo.net/2008/08/ripple/logic#";
 
     public void load( final URIMap uf,

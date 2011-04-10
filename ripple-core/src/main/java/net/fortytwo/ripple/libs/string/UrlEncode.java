@@ -25,6 +25,7 @@ import net.fortytwo.ripple.StringUtils;
 public class UrlEncode extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            StringLibrary.NS_2011_04 + "url-encoded",
             StringLibrary.NS_2008_08 + "urlEncode",
             StringLibrary.NS_2007_08 + "urlEncode"};
 

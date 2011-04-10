@@ -20,6 +20,7 @@ import net.fortytwo.ripple.model.StackContext;
 public class Scrap extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            StreamLibrary.NS_2011_04 + "scrap",
             StreamLibrary.NS_2008_08 + "scrap",
             StreamLibrary.NS_2007_08 + "scrap",
             StreamLibrary.NS_2007_05 + "scrap"};

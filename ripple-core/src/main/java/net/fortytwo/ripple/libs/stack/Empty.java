@@ -24,6 +24,7 @@ import net.fortytwo.ripple.model.StackContext;
 public class Empty extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2011_04 + "empty",
             StackLibrary.NS_2008_08 + "empty"};
 
     public String[] getIdentifiers()

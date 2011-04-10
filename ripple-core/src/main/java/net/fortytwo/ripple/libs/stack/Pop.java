@@ -21,6 +21,7 @@ import net.fortytwo.flow.Sink;
 public class Pop extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2011_04 + "pop",
             StackLibrary.NS_2008_08 + "pop",
             StackLibrary.NS_2007_08 + "pop",
             StackLibrary.NS_2007_05 + "pop"};

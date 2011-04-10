@@ -24,6 +24,7 @@ import net.fortytwo.ripple.model.StackContext;
 public class EndsWith extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            StringLibrary.NS_2011_04 + "ends-with",
             StringLibrary.NS_2008_08 + "endsWith",
             StringLibrary.NS_2007_08 + "endsWith"};
 

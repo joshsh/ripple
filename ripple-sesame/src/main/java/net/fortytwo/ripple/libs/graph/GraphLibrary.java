@@ -20,6 +20,7 @@ import net.fortytwo.ripple.model.LibraryLoader;
 public class GraphLibrary extends Library
 {
     public static final String
+            NS_2011_04 = "http://fortytwo.net/2011/04/ripple/graph#",
             NS_2010_08 = "http://fortytwo.net/2008/08/ripple/graph#",
             NS_2008_08 = "http://fortytwo.net/2008/08/ripple/graph#",
             NS_2007_08 = "http://fortytwo.net/2007/08/ripple/graph#",

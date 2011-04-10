@@ -23,6 +23,7 @@ import net.fortytwo.ripple.model.RippleList;
 public class Rotate extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2011_04 + "rotate",
             StackLibrary.NS_2008_08 + "rotate",
             StackLibrary.NS_2007_08 + "rotate",
             StackLibrary.NS_2007_05 + "rotate"};

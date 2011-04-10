@@ -32,6 +32,7 @@ import java.util.Iterator;
 public class While extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            LogicLibrary.NS_2011_04 + "while",
             LogicLibrary.NS_2008_08 + "while"};
 
     public String[] getIdentifiers()

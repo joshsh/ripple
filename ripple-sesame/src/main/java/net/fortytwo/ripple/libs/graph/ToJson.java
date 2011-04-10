@@ -27,6 +27,7 @@ import org.json.JSONObject;
  */
 public class ToJson extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
+            GraphLibrary.NS_2011_04 + "to-json",
             GraphLibrary.NS_2010_08 + "toJson"};
 
     public String[] getIdentifiers() {
@@ -40,7 +41,7 @@ public class ToJson extends PrimitiveStackMapping {
 
     public Parameter[] getParameters() {
         return new Parameter[]{
-                new Parameter("s", null, true)};
+                new Parameter("s", "the string representation of a JSON object", true)};
     }
 
     public String getComment() {

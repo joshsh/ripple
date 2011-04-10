@@ -24,6 +24,7 @@ import net.fortytwo.flow.Sink;
 public class Infer extends RDFPredicateStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            GraphLibrary.NS_2011_04 + "infer",
             GraphLibrary.NS_2008_08 + "infer"};
 
     public String[] getIdentifiers()

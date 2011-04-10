@@ -32,6 +32,7 @@ public class Sparql extends PrimitiveStackMapping {
             = Logger.getLogger(Sparql.class);
 
     private static final String[] IDENTIFIERS = {
+            GraphLibrary.NS_2011_04 + "sparql",
             GraphLibrary.NS_2008_08 + "sparql"};
 
     public String[] getIdentifiers() {

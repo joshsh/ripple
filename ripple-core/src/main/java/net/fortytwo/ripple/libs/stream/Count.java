@@ -28,6 +28,7 @@ public class Count extends PrimitiveStackMapping
     private int count;
 
     private static final String[] IDENTIFIERS = {
+            StreamLibrary.NS_2011_04 + "count",
             StreamLibrary.NS_2008_08 + "count"};
 
     public String[] getIdentifiers()

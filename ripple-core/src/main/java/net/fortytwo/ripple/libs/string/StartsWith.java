@@ -24,6 +24,7 @@ import net.fortytwo.flow.Sink;
 public class StartsWith extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            StringLibrary.NS_2011_04 + "starts-with",
             StringLibrary.NS_2008_08 + "startsWith",
             StringLibrary.NS_2007_08 + "startsWith"};
 

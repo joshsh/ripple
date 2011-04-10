@@ -25,6 +25,7 @@ import net.fortytwo.ripple.StringUtils;
 public class UrlDecode extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            StringLibrary.NS_2011_04 + "url-decoded",
             StringLibrary.NS_2008_08 + "urlDecode"};
 
     public String[] getIdentifiers()

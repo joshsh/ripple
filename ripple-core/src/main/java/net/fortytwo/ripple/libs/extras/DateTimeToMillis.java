@@ -22,57 +22,36 @@ import java.util.Date;
  * A primitive which produces the current time, in seconds since midnight UTC of
  * January 1, 1970.
  */
-/*
-etc:dateTimeToMillis
-	a rpl:Function ;
-	rpl:arity 1 ;
-	rpl:parameters (
-		[
-			rdfs:label "dateTime" ;
-			rpl:parameterType xsd:dateTime ;
-			rpl:isTransparent true ]
-		) ;
-	rdfs:label "dateTimeToMillis" ;
-	rpl:returnType xsd:long ;
-	rdfs:comment "dateTime -> [milliseconds since the Unix epoch]" ;
-	.
- */
-public class DateTimeToMillis extends PrimitiveStackMapping
-{
-    private static final String[] IDENTIFIERS = {
-            ExtrasLibrary.NS_2008_08 + "dateTimeToMillis"};
-
-    public String[] getIdentifiers()
-    {
-        return IDENTIFIERS;
+public class DateTimeToMillis extends PrimitiveStackMapping {
+    public String[] getIdentifiers() {
+        return new String[]{
+                ExtrasLibrary.NS_2011_04 + "dateTime-to-millis",
+                ExtrasLibrary.NS_2008_08 + "dateTimeToMillis",
+        };
     }
 
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "dateTime", null, true )};
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("dateTime", null, true)};
     }
 
-    public String getComment()
-    {
-        return "dateTime -> [milliseconds since the Unix epoch]";
+    public String getComment() {
+        return "converts an xsd:dateTime value to milliseconds since the Unix epoch";
     }
 
-    public DateTimeToMillis() throws RippleException
-	{
-		super();
-	}
+    public DateTimeToMillis() throws RippleException {
+        super();
+    }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext, RippleException> solutions	)
-		    throws RippleException
-	{
-		final ModelConnection mc = arg.getModelConnection();
-		RippleList stack = arg.getStack();
-        Date d = mc.toDateValue( stack.getFirst() );
+    public void apply(final StackContext arg,
+                      final Sink<StackContext, RippleException> solutions)
+            throws RippleException {
+        final ModelConnection mc = arg.getModelConnection();
+        RippleList stack = arg.getStack();
+        Date d = mc.toDateValue(stack.getFirst());
         stack = stack.getRest();
 
-        solutions.put( arg.with( stack.push(
-			mc.value( d.getTime() ) ) ) );
-	}
+        solutions.put(arg.with(stack.push(
+                mc.value(d.getTime()))));
+    }
 }

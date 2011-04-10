@@ -23,6 +23,7 @@ import net.fortytwo.ripple.util.ModelConnectionHelper;
 public class New extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            GraphLibrary.NS_2011_04 + "new",
             GraphLibrary.NS_2008_08 + "new",
             GraphLibrary.NS_2007_08 + "new",
             GraphLibrary.NS_2007_05 + "new"};

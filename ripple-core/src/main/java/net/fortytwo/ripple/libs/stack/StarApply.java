@@ -35,7 +35,8 @@ public class StarApply extends PrimitiveStackMapping
     }
 
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2008_08 + "starApply"};
+            // Note: this primitive has different semantics than its predecessor, stack:starApply
+            StackLibrary.NS_2011_04 + "star-apply"};
 
     public String[] getIdentifiers()
     {

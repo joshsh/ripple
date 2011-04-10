@@ -24,6 +24,7 @@ import net.fortytwo.flow.Sink;
 public class Mul extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            MathLibrary.NS_2011_04 + "mul",
             MathLibrary.NS_2008_08 + "mul",
             MathLibrary.NS_2007_08 + "mul",
             MathLibrary.NS_2007_05 + "mul"};

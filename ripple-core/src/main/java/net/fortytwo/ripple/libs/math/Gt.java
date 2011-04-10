@@ -25,6 +25,7 @@ import net.fortytwo.flow.Sink;
 public class Gt extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            MathLibrary.NS_2011_04 + "gt",
             MathLibrary.NS_2008_08 + "gt",
             MathLibrary.NS_2007_08 + "gt",
             MathLibrary.NS_2007_05 + "gt"};

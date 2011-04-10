@@ -24,6 +24,7 @@ import net.fortytwo.flow.Sink;
 public class Pow extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            MathLibrary.NS_2011_04 + "pow",
             MathLibrary.NS_2008_08 + "pow",
             MathLibrary.NS_2007_08 + "pow",
             MathLibrary.NS_2007_05 + "pow"};

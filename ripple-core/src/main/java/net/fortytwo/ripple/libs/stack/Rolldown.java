@@ -23,6 +23,7 @@ import net.fortytwo.ripple.model.RippleList;
 public class Rolldown extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2011_04 + "rolldown",
             StackLibrary.NS_2008_08 + "rolldown",
             StackLibrary.NS_2007_08 + "rolldown",
             StackLibrary.NS_2007_05 + "rolldown"};

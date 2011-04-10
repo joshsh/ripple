@@ -24,46 +24,38 @@ import net.fortytwo.ripple.model.StackMappingWrapper;
  * Date: Apr 2, 2008
  * Time: 4:25:16 PM
  */
-public class Inverse extends PrimitiveStackMapping
-{
-    private static final String[] IDENTIFIERS = {
-            ExtrasLibrary.NS_2008_08 + "invert",
-            ExtrasLibrary.NS_2011_04 + "inverse"};
-
-    public String[] getIdentifiers()
-    {
-        return IDENTIFIERS;
+public class Inverse extends PrimitiveStackMapping {
+    public String[] getIdentifiers() {
+        return new String[]{
+                ExtrasLibrary.NS_2011_04 + "inverse",
+                ExtrasLibrary.NS_2008_08 + "invert",
+        };
     }
 
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "mapping", null, true )};
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("mapping", null, true)};
     }
 
-    public String getComment()
-    {
+    public String getComment() {
         return "consumes a mapping and produces the inverse of that mapping (or a null mapping if the inverse is not otherwise defined)";
     }
 
-    public void apply( final StackContext arg,
-                         final Sink<StackContext, RippleException> solutions ) throws RippleException
-    {
+    public void apply(final StackContext arg,
+                      final Sink<StackContext, RippleException> solutions) throws RippleException {
         RippleList stack = arg.getStack();
         final ModelConnection mc = arg.getModelConnection();
 
         final RippleList rest = stack.getRest();
         RippleValue f = stack.getFirst();
 
-        Sink<Operator, RippleException> opSink = new Sink<Operator, RippleException>()
-        {
-            public void put( final Operator op ) throws RippleException
-            {
-                RippleValue inverse = new StackMappingWrapper( op.getMapping().getInverse(), mc );
-                solutions.put( arg.with( rest.push( inverse ) ) );
+        Sink<Operator, RippleException> opSink = new Sink<Operator, RippleException>() {
+            public void put(final Operator op) throws RippleException {
+                RippleValue inverse = new StackMappingWrapper(op.getMapping().getInverse(), mc);
+                solutions.put(arg.with(rest.push(inverse)));
             }
         };
 
-        Operator.createOperator( f, opSink, mc );
+        Operator.createOperator(f, opSink, mc);
     }
 }

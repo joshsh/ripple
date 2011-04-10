@@ -32,6 +32,7 @@ import java.util.Iterator;
 public class Map extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2011_04 + "map",
             StackLibrary.NS_2008_08 + "map"};
 
     public String[] getIdentifiers()

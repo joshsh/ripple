@@ -24,6 +24,7 @@ import net.fortytwo.ripple.model.StackContext;
 public class ToUri extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            GraphLibrary.NS_2011_04 + "to-uri",
             GraphLibrary.NS_2008_08 + "toUri",
             GraphLibrary.NS_2007_08 + "toUri"};
 

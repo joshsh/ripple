@@ -24,6 +24,7 @@ import net.fortytwo.flow.Sink;
 public class At extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2011_04 + "at",
             StackLibrary.NS_2008_08 + "at",
             StackLibrary.NS_2007_08 + "at",
             StackLibrary.NS_2007_05 + "at"};

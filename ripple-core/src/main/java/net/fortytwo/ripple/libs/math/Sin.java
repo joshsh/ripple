@@ -25,6 +25,7 @@ import net.fortytwo.ripple.model.StackMapping;
 public class Sin extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            MathLibrary.NS_2011_04 + "sin",
             MathLibrary.NS_2008_08 + "sin",
             MathLibrary.NS_2007_08 + "sin"};
 

@@ -24,6 +24,7 @@ import net.fortytwo.ripple.model.StackContext;
 public class Uncons extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2011_04 + "uncons",
             StackLibrary.NS_2008_08 + "uncons",
             StackLibrary.NS_2007_08 + "uncons",
             StackLibrary.NS_2007_05 + "uncons"};

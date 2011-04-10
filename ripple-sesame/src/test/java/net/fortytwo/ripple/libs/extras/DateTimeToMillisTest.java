@@ -12,6 +12,6 @@ public class DateTimeToMillisTest extends RippleTestCase
     public void testAll() throws Exception
     {
         // TODO: native syntax for xsd:long literals
-        assertReducesTo( "\"2008-04-01T11:34:36+06:00\"^^xsd:dateTime dateTimeToMillis.", "\"1207028076000\"^^xsd:long" );
+        assertReducesTo( "\"2008-04-01T11:34:36+06:00\"^^xsd:dateTime dateTime-to-millis.", "\"1207028076000\"^^xsd:long" );
     }
 }

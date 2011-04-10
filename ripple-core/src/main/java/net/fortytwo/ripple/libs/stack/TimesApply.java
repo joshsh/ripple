@@ -22,9 +22,8 @@ import net.fortytwo.flow.Sink;
 public class TimesApply extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2008_08 + "timesApply",
-            StackLibrary.NS_2007_08 + "times",
-            StackLibrary.NS_2007_05 + "times"};
+            // Note: this primitive has different semantics than its predecessors, stack:times and stack:timesApply
+            StackLibrary.NS_2011_04 + "times-apply"};
 
     public String[] getIdentifiers()
     {

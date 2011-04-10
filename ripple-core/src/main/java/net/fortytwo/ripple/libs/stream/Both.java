@@ -21,6 +21,7 @@ import net.fortytwo.ripple.model.RippleList;
  */
 public class Both extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
+            StreamLibrary.NS_2011_04 + "both",
             StreamLibrary.NS_2008_08 + "both",
             StreamLibrary.NS_2007_08 + "union",
             StreamLibrary.NS_2007_05 + "union"};

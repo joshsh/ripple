@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
  */
 public class Members extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
+            GraphLibrary.NS_2011_04 + "members",
             GraphLibrary.NS_2008_08 + "members",
             GraphLibrary.NS_2007_08 + "contains",
             GraphLibrary.NS_2007_05 + "contains"};

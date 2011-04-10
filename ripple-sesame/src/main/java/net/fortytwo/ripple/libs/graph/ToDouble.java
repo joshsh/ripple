@@ -28,6 +28,7 @@ public class ToDouble extends PrimitiveStackMapping
 		= Logger.getLogger( ToDouble.class );
 
     private static final String[] IDENTIFIERS = {
+            GraphLibrary.NS_2011_04 + "to-double",
             GraphLibrary.NS_2008_08 + "toDouble",
             GraphLibrary.NS_2007_08 + "toDouble",
             GraphLibrary.NS_2007_05 + "toDouble"};

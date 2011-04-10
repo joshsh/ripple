@@ -25,6 +25,7 @@ import net.fortytwo.flow.Sink;
 public class Cat extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2011_04 + "cat",
             StackLibrary.NS_2008_08 + "cat",
             StackLibrary.NS_2007_08 + "cat",
             StackLibrary.NS_2007_05 + "cat"};

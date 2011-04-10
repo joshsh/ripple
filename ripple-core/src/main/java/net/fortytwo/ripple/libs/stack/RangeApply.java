@@ -25,7 +25,8 @@ public class RangeApply extends PrimitiveStackMapping
 	private static final int ARITY = 3;
 
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2008_08 + "rangeApply"};
+            // Note: this primitive has different semantics than its predecessor, stack:rangeApply
+            StackLibrary.NS_2011_04 + "range-apply"};
 
     public String[] getIdentifiers()
     {

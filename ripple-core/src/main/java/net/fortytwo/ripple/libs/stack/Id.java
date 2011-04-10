@@ -20,6 +20,7 @@ import net.fortytwo.flow.Sink;
 public class Id extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2011_04 + "id",
             StackLibrary.NS_2008_08 + "id",
             StackLibrary.NS_2007_08 + "id",
             StackLibrary.NS_2007_05 + "id"};

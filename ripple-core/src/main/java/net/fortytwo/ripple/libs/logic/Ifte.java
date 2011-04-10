@@ -29,6 +29,7 @@ import net.fortytwo.ripple.model.ModelConnection;
 public class Ifte extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            LogicLibrary.NS_2011_04 + "ifte",
             // Note: the previous implementation of ifte had different semantics
             // (rather than the current, Joy semantics).
             LogicLibrary.NS_2008_08 + "ifte"};

@@ -28,7 +28,8 @@ import net.fortytwo.flow.Sink;
 public class OptApply extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2008_08 + "optApply"};
+            // Note: this primitive different semantics than its predecessor, stack:optApply
+            StackLibrary.NS_2011_04 + "option-apply"};
 
     public String[] getIdentifiers()
     {

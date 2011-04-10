@@ -28,6 +28,7 @@ public class ToInteger extends PrimitiveStackMapping
 		= Logger.getLogger( ToInteger.class );
 
     private static final String[] IDENTIFIERS = {
+            GraphLibrary.NS_2011_04 + "to-integer",
             GraphLibrary.NS_2008_08 + "toInteger",
             GraphLibrary.NS_2007_08 + "toInteger",
             GraphLibrary.NS_2007_05 + "toInteger"};

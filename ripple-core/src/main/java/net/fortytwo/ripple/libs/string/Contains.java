@@ -24,6 +24,7 @@ import net.fortytwo.ripple.model.StackContext;
 public class Contains extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            StringLibrary.NS_2011_04 + "contains",
             StringLibrary.NS_2008_08 + "contains"};
 
     public String[] getIdentifiers()

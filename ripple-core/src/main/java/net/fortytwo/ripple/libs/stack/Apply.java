@@ -22,6 +22,7 @@ import net.fortytwo.ripple.model.RippleList;
 public class Apply extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2011_04 + "apply",
             StackLibrary.NS_2008_08 + "apply",
             StackLibrary.NS_2007_08 + "i",
             StackLibrary.NS_2007_05 + "i"};

@@ -24,6 +24,7 @@ import net.fortytwo.ripple.model.StackContext;
 public class Size extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            StackLibrary.NS_2011_04 + "size",
             StackLibrary.NS_2008_08 + "size",
             StackLibrary.NS_2007_08 + "size",
             StackLibrary.NS_2007_05 + "size"};

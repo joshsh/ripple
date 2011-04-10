@@ -25,6 +25,7 @@ import net.fortytwo.flow.Sink;
  */
 public class Split extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
+            StringLibrary.NS_2011_04 + "split",
             StringLibrary.NS_2008_08 + "split",
             StringLibrary.NS_2007_08 + "split"};
 

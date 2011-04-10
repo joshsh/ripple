@@ -26,6 +26,7 @@ public class Sqrt extends PrimitiveStackMapping {
     private static final int ARITY = 1;
 
     private static final String[] IDENTIFIERS = {
+            MathLibrary.NS_2011_04 + "sqrt",
             MathLibrary.NS_2008_08 + "sqrt",
             MathLibrary.NS_2007_08 + "sqrt"};
 

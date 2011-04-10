@@ -31,6 +31,7 @@ import java.io.InputStreamReader;
 public class Get extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            ExtrasLibrary.NS_2011_04 + "get",
             ExtrasLibrary.NS_2008_08 + "get",
             ExtrasLibrary.NS_2007_08 + "get",
             ExtrasLibrary.NS_2007_05 + "get"};

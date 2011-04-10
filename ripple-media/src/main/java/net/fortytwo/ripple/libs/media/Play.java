@@ -28,6 +28,7 @@ import java.io.InputStream;
 public class Play extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            MediaLibrary.NS_2011_04 + "play",
             MediaLibrary.NS_2007_08 + "play"};
 
     public String[] getIdentifiers()

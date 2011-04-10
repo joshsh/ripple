@@ -25,6 +25,7 @@ import net.fortytwo.flow.Sink;
 public class Sign extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
+            MathLibrary.NS_2011_04 + "sign",
             MathLibrary.NS_2008_08 + "sign",
             MathLibrary.NS_2007_08 + "signum",
             MathLibrary.NS_2007_05 + "sign"};
