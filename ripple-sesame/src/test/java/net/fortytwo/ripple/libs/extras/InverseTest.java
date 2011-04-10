@@ -21,6 +21,6 @@ public class InverseTest extends RippleTestCase
         // triple store, then the head node is copied.  So there are two lists
         // which have '137' as their first element.
         assertReducesTo( "@redefine foobar: 137 69\n"
-                + "136 1 add. rdf:first invert...", "137 69", "137 69" );
+                + "136 1 add. rdf:first inverse...", "137 69", "137 69" );
     }
 }

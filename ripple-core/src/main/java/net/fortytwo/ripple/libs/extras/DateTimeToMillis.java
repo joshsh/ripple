@@ -71,7 +71,7 @@ public class DateTimeToMillis extends PrimitiveStackMapping
 		RippleList stack = arg.getStack();
         Date d = mc.toDateValue( stack.getFirst() );
         stack = stack.getRest();
-        
+
         solutions.put( arg.with( stack.push(
 			mc.value( d.getTime() ) ) ) );
 	}

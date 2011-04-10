@@ -268,12 +268,15 @@ while (!l.isNil()) {
         assertReducesTo(from + " 4 sqrt.");
     }
 
-    protected void evaluate(final String from) throws Exception {
+    protected Collection<RippleList> evaluate(final String from) throws Exception {
         QueryEngine qe = getTestQueryEngine();
+        Collector<RippleList, RippleException> results = new Collector<RippleList, RippleException>();
 
-        QueryPipe actualPipe = new QueryPipe(qe, new NullSink<RippleList, RippleException>());
+        QueryPipe actualPipe = new QueryPipe(qe, results);
         actualPipe.put(from + "\n");
         actualPipe.close();
+
+        return results.asCollection();
     }
 
     protected void assertReducesTo(final String from, final String... to) throws Exception {

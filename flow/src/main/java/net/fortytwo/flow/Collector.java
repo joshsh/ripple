@@ -9,7 +9,9 @@
 
 package net.fortytwo.flow;
 
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  * Note: while this class is not actually thread-safe, put() may safely be
@@ -63,6 +65,17 @@ public class Collector<T, E extends Exception> extends SimpleReadOnlyCollection<
 	{
 		return count;
 	}
+
+    public Collection<T> asCollection() {
+        Collection<T> c = new LinkedList<T>();
+        Node cur = first;
+        while (null != cur) {
+            c.add(cur.value);
+            cur = cur.next;
+        }
+
+        return c;
+    }
 
 	public Iterator<T> iterator()
 	{
