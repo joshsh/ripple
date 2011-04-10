@@ -9,7 +9,7 @@ import net.fortytwo.ripple.test.RippleTestCase;
  */
 public class LangTest extends RippleTestCase {
     public void testAll() throws Exception {
-        evaluate("@prefix xml: <http://www.w3.org/XML/1998/namespace#>");
+        reduce("@prefix xml: <http://www.w3.org/XML/1998/namespace#>");
 
         assertReducesTo("lang", "xml:lang");
 

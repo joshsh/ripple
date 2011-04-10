@@ -26,7 +26,7 @@ public class RandomTest extends RippleTestCase
         
         for ( int i = 0; i < 1000; i++ )
         {
-            results = reduce( "random >>" );
+            results = reduce("random >>");
             assertEquals( 1, results.size() );
             l = results.iterator().next();
             assertEquals( 1, l.length() );

@@ -9,7 +9,7 @@ import net.fortytwo.ripple.test.RippleTestCase;
  */
 public class KeysTest extends RippleTestCase {
     public void testAll() throws Exception {
-        assertReducesTo("\"{\\\"foo\\\": true, \\\"bar\\\": [6, 9, 42]}\" toJson. keys.", "\"foo\"", "\"bar\"");
-        assertReducesTo("() toJson.");
+        assertReducesTo("\"{\\\"foo\\\": true, \\\"bar\\\": [6, 9, 42]}\" to-json. keys.", "\"foo\"", "\"bar\"");
+        assertReducesTo("() to-json.");
     }
 }

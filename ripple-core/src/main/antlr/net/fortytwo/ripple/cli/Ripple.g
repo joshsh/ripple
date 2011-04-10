@@ -214,10 +214,10 @@ EQUAL : '=';
 
 // Is it possible to create an alias for the period as the application operator?
 //OP_APPLY : ".";
-OP_MOD_OPTION : "?";
-OP_MOD_STAR : "*";
-OP_MOD_PLUS : "+";
-OP_MOD_INVERSE : "~";
+OP_OPTION : "?";
+OP_STAR : "*";
+OP_PLUS : "+";
+OP_INVERSE : "~";
 
 protected
 DRCTV : '@' ;
@@ -336,15 +336,15 @@ nt_List returns [ ListAST list ]
 	list = null;
 }
 	:	// The head of the list.
-		first = nt_NormalNode
+	    first = nt_Node
 
 		(	(WS) => ( nt_Ws
 				( (~(R_PAREN)) => rest = nt_List
 				| {}
 				) )
 
-			// Tail of the list.
-		|	(~(WS | R_PAREN)) => rest = nt_List
+        // Only operators may follow other nodes without being separated by whitespace.
+		|	(PERIOD | OP_OPTION | OP_STAR | OP_PLUS | OP_INVERSE) => rest = nt_List
 
 			// End of the list.
 		|	()
@@ -411,9 +411,16 @@ nt_TemplateNode returns [ AST r ]
 	;
 		
 
+nt_Node returns [ AST r ]
+{
+}
+    : r=nt_NormalNode
+    | r=nt_Operator
+    ;
+
+
 nt_NormalNode returns [ AST r ]
 {
-	r = null;
 	Properties props;
 }
 	: ( r=nt_Resource
@@ -603,10 +610,10 @@ nt_Operator returns [ OperatorAST AST ]
 	NumberAST minTimes = null, maxTimes = null;
 }
 	: ( PERIOD { AST = new OperatorAST(OperatorAST.Type.Apply); }
-	  | OP_MOD_OPTION { AST = new OperatorAST(OperatorAST.Type.Option); }
-	  | OP_MOD_STAR { AST = new OperatorAST(OperatorAST.Type.Star); }
-	  | OP_MOD_PLUS { AST = new OperatorAST(OperatorAST.Type.Plus); }
-	  | OP_MOD_INVERSE { AST = new OperatorAST(OperatorAST.Type.Inverse); }
+	  | OP_OPTION { AST = new OperatorAST(OperatorAST.Type.Option); }
+	  | OP_STAR { AST = new OperatorAST(OperatorAST.Type.Star); }
+	  | OP_PLUS { AST = new OperatorAST(OperatorAST.Type.Plus); }
+	  | OP_INVERSE { AST = new OperatorAST(OperatorAST.Type.Inverse); }
 	  | L_CURLY (nt_Ws)? minTimes=nt_Number (nt_Ws)? ( COMMA (nt_Ws)? maxTimes=nt_Number (nt_Ws)? )? R_CURLY
 		  {
 		    AST = new OperatorAST(null == maxTimes

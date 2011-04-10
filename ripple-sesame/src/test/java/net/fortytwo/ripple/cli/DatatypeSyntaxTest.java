@@ -23,7 +23,7 @@ public class DatatypeSyntaxTest extends RippleTestCase
         Literal l;
         ModelConnection mc = getTestModel().createConnection();
 
-        results = reduce( "true" );
+        results = reduce("true");
         assertEquals( 1, results.size() );
         stack = results.iterator().next();
         assertEquals( 1, stack.length() );
@@ -31,7 +31,7 @@ public class DatatypeSyntaxTest extends RippleTestCase
         assertEquals( "true", l.getLabel() );
         assertEquals( XMLSchema.BOOLEAN, l.getDatatype() );
 
-        results = reduce( "false" );
+        results = reduce("false");
         assertEquals( 1, results.size() );
         stack = results.iterator().next();
         assertEquals( 1, stack.length() );
@@ -49,7 +49,7 @@ public class DatatypeSyntaxTest extends RippleTestCase
         Literal l;
         ModelConnection mc = getTestModel().createConnection();
 
-        results = reduce( "0" );
+        results = reduce("0");
         assertEquals( 1, results.size() );
         stack = results.iterator().next();
         assertEquals( 1, stack.length() );
@@ -57,7 +57,7 @@ public class DatatypeSyntaxTest extends RippleTestCase
         assertEquals( "0", l.getLabel() );
         assertEquals( XMLSchema.INTEGER, l.getDatatype() );
 
-        results = reduce( "10" );
+        results = reduce("10");
         assertEquals( 1, results.size() );
         stack = results.iterator().next();
         assertEquals( 1, stack.length() );
@@ -66,7 +66,7 @@ public class DatatypeSyntaxTest extends RippleTestCase
         assertEquals( XMLSchema.INTEGER, l.getDatatype() );
 
         // Leading "-" sign
-        results = reduce( "-5" );
+        results = reduce("-5");
         assertEquals( 1, results.size() );
         stack = results.iterator().next();
         assertEquals( 1, stack.length() );
@@ -75,7 +75,7 @@ public class DatatypeSyntaxTest extends RippleTestCase
         assertEquals( XMLSchema.INTEGER, l.getDatatype() );
 
         // Leading "+" sign
-        results = reduce( "+1" );
+        results = reduce("+1");
         assertEquals( 1, results.size() );
         stack = results.iterator().next();
         assertEquals( 1, stack.length() );
@@ -84,7 +84,7 @@ public class DatatypeSyntaxTest extends RippleTestCase
         assertEquals( XMLSchema.INTEGER, l.getDatatype() );
 
         // Leading zeroes
-        results = reduce( "042" );
+        results = reduce("042");
         assertEquals( 1, results.size() );
         stack = results.iterator().next();
         assertEquals( 1, stack.length() );
@@ -102,7 +102,7 @@ public class DatatypeSyntaxTest extends RippleTestCase
         Literal l;
         ModelConnection mc = getTestModel().createConnection();
 
-        results = reduce( "0.0e0" );
+        results = reduce("0.0e0");
         assertEquals( 1, results.size() );
         stack = results.iterator().next();
         assertEquals( 1, stack.length() );
@@ -111,7 +111,7 @@ public class DatatypeSyntaxTest extends RippleTestCase
         assertEquals( XMLSchema.DOUBLE, l.getDatatype() );
 
         // Leading '-' on exponent.
-        results = reduce( "10E-02" );
+        results = reduce("10E-02");
         assertEquals( 1, results.size() );
         stack = results.iterator().next();
         assertEquals( 1, stack.length() );
@@ -120,7 +120,7 @@ public class DatatypeSyntaxTest extends RippleTestCase
         assertEquals( XMLSchema.DOUBLE, l.getDatatype() );
 
         // Leading '+' on exponent.
-        results = reduce( "10.1E+2" );
+        results = reduce("10.1E+2");
         assertEquals( 1, results.size() );
         stack = results.iterator().next();
         assertEquals( 1, stack.length() );
@@ -130,7 +130,7 @@ public class DatatypeSyntaxTest extends RippleTestCase
 
         // Extra trailing zeroes are preserved (although according to the XML
         // Schema specification, they don't need to be).
-        results = reduce( "0.00e0" );
+        results = reduce("0.00e0");
         assertEquals( 1, results.size() );
         stack = results.iterator().next();
         assertEquals( 1, stack.length() );
@@ -139,7 +139,7 @@ public class DatatypeSyntaxTest extends RippleTestCase
         assertEquals( XMLSchema.DOUBLE, l.getDatatype() );
 
         // Leading "-" on mantissa
-        results = reduce( "-5e23" );
+        results = reduce("-5e23");
         assertEquals( 1, results.size() );
         stack = results.iterator().next();
         assertEquals( 1, stack.length() );
@@ -148,7 +148,7 @@ public class DatatypeSyntaxTest extends RippleTestCase
         assertEquals( XMLSchema.DOUBLE, l.getDatatype() );
 
         // Leading "+" on mantissa
-        results = reduce( "+1.2e1" );
+        results = reduce("+1.2e1");
         assertEquals( 1, results.size() );
         stack = results.iterator().next();
         assertEquals( 1, stack.length() );
@@ -157,7 +157,7 @@ public class DatatypeSyntaxTest extends RippleTestCase
         assertEquals( XMLSchema.DOUBLE, l.getDatatype() );
 
         // Leading zeroes
-        results = reduce( "00042E99" );
+        results = reduce("00042E99");
         assertEquals( 1, results.size() );
         stack = results.iterator().next();
         assertEquals( 1, stack.length() );
@@ -175,7 +175,7 @@ public class DatatypeSyntaxTest extends RippleTestCase
         Literal l;
         ModelConnection mc = getTestModel().createConnection();
 
-        results = reduce( "0.0" );
+        results = reduce("0.0");
         assertEquals( 1, results.size() );
         stack = results.iterator().next();
         assertEquals( 1, stack.length() );
@@ -183,7 +183,7 @@ public class DatatypeSyntaxTest extends RippleTestCase
         assertEquals( "0.0", l.getLabel() );
         assertEquals( XMLSchema.DECIMAL, l.getDatatype() );
 
-        results = reduce( "10.1" );
+        results = reduce("10.1");
         assertEquals( 1, results.size() );
         stack = results.iterator().next();
         assertEquals( 1, stack.length() );
@@ -193,7 +193,7 @@ public class DatatypeSyntaxTest extends RippleTestCase
 
         // Extra trailing zeroes are preserved (although according to the XML
         // Schema specification, they don't need to be).
-        results = reduce( "0.00" );
+        results = reduce("0.00");
         assertEquals( 1, results.size() );
         stack = results.iterator().next();
         assertEquals( 1, stack.length() );
@@ -202,7 +202,7 @@ public class DatatypeSyntaxTest extends RippleTestCase
         assertEquals( XMLSchema.DECIMAL, l.getDatatype() );
 
         // Leading "-" sign
-        results = reduce( "-5.1" );
+        results = reduce("-5.1");
         assertEquals( 1, results.size() );
         stack = results.iterator().next();
         assertEquals( 1, stack.length() );
@@ -211,7 +211,7 @@ public class DatatypeSyntaxTest extends RippleTestCase
         assertEquals( XMLSchema.DECIMAL, l.getDatatype() );
 
         // Leading "+" sign
-        results = reduce( "+1.2" );
+        results = reduce("+1.2");
         assertEquals( 1, results.size() );
         stack = results.iterator().next();
         assertEquals( 1, stack.length() );
@@ -220,7 +220,7 @@ public class DatatypeSyntaxTest extends RippleTestCase
         assertEquals( XMLSchema.DECIMAL, l.getDatatype() );
 
         // Leading zeroes
-        results = reduce( "00042.09" );
+        results = reduce("00042.09");
         assertEquals( 1, results.size() );
         stack = results.iterator().next();
         assertEquals( 1, stack.length() );

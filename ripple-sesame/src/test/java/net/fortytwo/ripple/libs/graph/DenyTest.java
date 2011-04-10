@@ -12,7 +12,7 @@ public class DenyTest extends RippleTestCase
 {
     public void testSimple() throws Exception
     {
-        reduce( "@prefix ex: <http://example.org/denyTest/> ." );
+        reduce("@prefix ex: <http://example.org/denyTest/> .");
 
         assertReducesTo( "ex:a rdf:type ex:ClassA ex:ClassB both >> assert >>", "ex:a", "ex:a" );
         assertReducesTo( "ex:a rdf:type >>", "ex:ClassA", "ex:ClassB" );
@@ -44,7 +44,7 @@ public class DenyTest extends RippleTestCase
     }
 
     public void testLiteralObjects() throws Exception {
-        reduce( "@prefix ex: <http://example.org/denyTest/>." );
+        reduce("@prefix ex: <http://example.org/denyTest/>.");
 
         modelConnection.remove( null, null, modelConnection.value( 42 ) );
         modelConnection.commit();

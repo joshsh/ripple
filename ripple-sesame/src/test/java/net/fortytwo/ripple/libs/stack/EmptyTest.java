@@ -19,7 +19,7 @@ public class EmptyTest extends RippleTestCase
     {
         assertReducesTo( "rdf:nil empty >>", "true" );
 
-        reduce( "@define list42: 1 2 3 ." );
+        reduce("@define list42: 1 2 3 .");
         assertReducesTo( ":list42 empty >>", "false" );
     }
 

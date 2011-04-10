@@ -12,7 +12,7 @@ public class AssertTest extends RippleTestCase
 {
     public void testSimple() throws Exception
     {
-        reduce( "@prefix ex: <http://example.org/assertTest/>." );
+        reduce("@prefix ex: <http://example.org/assertTest/>.");
         assertReducesTo( "ex:a rdf:type." );
 
         assertReducesTo( "ex:a rdf:type ex:Example assert.", "ex:a" );
@@ -38,7 +38,7 @@ public class AssertTest extends RippleTestCase
     }
 
     public void testLiteralObjects() throws Exception {
-        reduce( "@prefix ex: <http://example.org/assertTest/>." );
+        reduce("@prefix ex: <http://example.org/assertTest/>.");
 
         modelConnection.remove( null, null, modelConnection.value( 42 ) );
         modelConnection.commit();
@@ -65,7 +65,7 @@ public class AssertTest extends RippleTestCase
     }
 
     public void testImpossibleStatements() throws Exception {
-        reduce( "@prefix ex: <http://example.org/assertTest/>." );
+        reduce("@prefix ex: <http://example.org/assertTest/>.");
 
         // Bad subject.
         assertReducesTo( "42 rdfs:comment \"foo\" assert.", "42" );

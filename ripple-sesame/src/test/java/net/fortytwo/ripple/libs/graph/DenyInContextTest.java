@@ -12,7 +12,7 @@ public class DenyInContextTest extends RippleTestCase
 {
     public void testSimple() throws Exception
     {
-        reduce( "@prefix ex: <http://example.org/denyInTest/> ." );
+        reduce("@prefix ex: <http://example.org/denyInTest/> .");
 
         assertReducesTo( "ex:a rdf:type ex:ClassA ex:ClassB both >> ex:ctx1 assertInContext >>", "ex:a", "ex:a" );
         assertReducesTo( "ex:a rdf:type >>", "ex:ClassA", "ex:ClassB" );
@@ -59,7 +59,7 @@ public class DenyInContextTest extends RippleTestCase
     }
 
     public void testLiteralObjects() throws Exception {
-        reduce( "@prefix ex: <http://example.org/denyInContextTest/>." );
+        reduce("@prefix ex: <http://example.org/denyInContextTest/>.");
 
         modelConnection.remove( null, null, modelConnection.value( 42 ) );
         modelConnection.commit();
@@ -112,7 +112,7 @@ public class DenyInContextTest extends RippleTestCase
     }
 
     public void testNullContext() throws Exception {
-        reduce( "@prefix ex: <http://example.org/assertInContextTest/>." );
+        reduce("@prefix ex: <http://example.org/assertInContextTest/>.");
 
         modelConnection.remove( null, null, modelConnection.value( "q" ) );
         modelConnection.commit();

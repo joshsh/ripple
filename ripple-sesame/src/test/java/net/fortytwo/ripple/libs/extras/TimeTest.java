@@ -1,6 +1,5 @@
 package net.fortytwo.ripple.libs.extras;
 
-import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.test.RippleTestCase;
@@ -17,7 +16,7 @@ import java.util.Collection;
  */
 public class TimeTest extends RippleTestCase {
     public void testAll() throws Exception {
-        Collection<RippleList> r = evaluate("time.");
+        Collection<RippleList> r = reduce("time.");
         assertEquals(1, r.size());
         RippleList l = r.iterator().next();
         assertEquals(1, l.length());

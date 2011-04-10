@@ -249,12 +249,12 @@ while (!l.isNil()) {
         QueryEngine qe = getTestQueryEngine();
 
         QueryPipe actualPipe = new QueryPipe(qe, results);
-        actualPipe.put(from + ".");
+        actualPipe.put(from + "\n");
         actualPipe.close();
 
         Collection<RippleList> c = new LinkedList<RippleList>();
-        for (Iterator<RippleList> iter = results.iterator(); iter.hasNext();) {
-            c.add(iter.next());
+        for (RippleList result : results) {
+            c.add(result);
         }
 
         return c;
@@ -266,17 +266,6 @@ while (!l.isNil()) {
 
     protected void assertIllegal(final String from) throws Exception {
         assertReducesTo(from + " 4 sqrt.");
-    }
-
-    protected Collection<RippleList> evaluate(final String from) throws Exception {
-        QueryEngine qe = getTestQueryEngine();
-        Collector<RippleList, RippleException> results = new Collector<RippleList, RippleException>();
-
-        QueryPipe actualPipe = new QueryPipe(qe, results);
-        actualPipe.put(from + "\n");
-        actualPipe.close();
-
-        return results.asCollection();
     }
 
     protected void assertReducesTo(final String from, final String... to) throws Exception {
