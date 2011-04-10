@@ -7,10 +7,11 @@
  */
 
 
-package net.fortytwo.ripple.libs.extras;
+package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.libs.extras.ExtrasLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
@@ -22,10 +23,10 @@ import java.util.Date;
  * A primitive which produces the current time, in seconds since midnight UTC of
  * January 1, 1970.
  */
-public class DateTimeToMillis extends PrimitiveStackMapping {
+public class ToMillis extends PrimitiveStackMapping {
     public String[] getIdentifiers() {
         return new String[]{
-                ExtrasLibrary.NS_2011_04 + "dateTime-to-millis",
+                GraphLibrary.NS_2011_04 + "to-millis",
                 ExtrasLibrary.NS_2008_08 + "dateTimeToMillis",
         };
     }
@@ -39,7 +40,7 @@ public class DateTimeToMillis extends PrimitiveStackMapping {
         return "converts an xsd:dateTime value to milliseconds since the Unix epoch";
     }
 
-    public DateTimeToMillis() throws RippleException {
+    public ToMillis() throws RippleException {
         super();
     }
 

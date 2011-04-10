@@ -28,7 +28,12 @@ public class StackLibrary extends Library
             NS_2007_05 = "http://fortytwo.net/2007/05/ripple/stack#";
 
 	// Special values.
-	private static PrimitiveStackMapping optApplyVal, starApplyVal, plusApplyVal, timesApplyVal, rangeApplyVal;
+	private static PrimitiveStackMapping
+            optionApplyVal,
+            plusApplyVal,
+            rangeApplyVal,
+            starApplyVal,
+            timesApplyVal;
 
     public void load( final URIMap uf,
                       final LibraryLoader.Context context )
@@ -40,11 +45,9 @@ public class StackLibrary extends Library
         registerPrimitives( context,
                 Dup.class,
                 Dupd.class,
-                Dupdd.class,
                 Id.class,
                 Pop.class,
                 Popd.class,
-                Popdd.class,
                 Rolldown.class,
                 Rolldownd.class,
                 Rollup.class,
@@ -52,8 +55,7 @@ public class StackLibrary extends Library
                 Rotate.class,
                 Rotated.class,
                 Swap.class,
-                Swapd.class,
-                Swapdd.class );
+                Swapd.class );
 
 		// Application primitives
 		registerPrimitives( context,
@@ -61,7 +63,7 @@ public class StackLibrary extends Library
                 Ary.class,
                 Dip.class,
                 Dipd.class );
-		optApplyVal = registerPrimitive( OptionApply.class, context );
+		optionApplyVal = registerPrimitive( OptionApply.class, context );
 		plusApplyVal = registerPrimitive( PlusApply.class, context );
 		starApplyVal = registerPrimitive( StarApply.class, context );
 		rangeApplyVal = registerPrimitive( RangeApply.class, context );
@@ -90,9 +92,9 @@ public class StackLibrary extends Library
 
 	////////////////////////////////////////////////////////////////////////////
 
-	public static PrimitiveStackMapping getOptApplyValue()
+	public static PrimitiveStackMapping getOptionApplyValue()
 	{
-		return optApplyVal;
+		return optionApplyVal;
 	}
 
 	public static PrimitiveStackMapping getStarApplyValue()

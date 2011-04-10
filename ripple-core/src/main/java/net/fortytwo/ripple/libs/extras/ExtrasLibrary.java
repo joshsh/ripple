@@ -35,7 +35,6 @@ public class ExtrasLibrary extends Library {
         uf.put(NS_2008_08, getClass().getResource("etc.ttl") + "#");
 
         registerPrimitives(context,
-                DateTimeToMillis.class,
                 Get.class,
                 System.class,
                 Time.class,

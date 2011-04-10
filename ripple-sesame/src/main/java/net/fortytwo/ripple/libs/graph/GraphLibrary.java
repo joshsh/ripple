@@ -64,13 +64,12 @@ public class GraphLibrary extends Library
                 // Type conversion and literal reification primitives
                 ToDouble.class,
                 ToInteger.class,
+                ToMillis.class,
                 ToString.class,
                 ToUri.class,
 
                 // Resource-centric primitives
                 InContext.class,
-                Infer.class,
-                InferInContext.class,
                 Inlinks.class,
                 Links.class,
                 Members.class,

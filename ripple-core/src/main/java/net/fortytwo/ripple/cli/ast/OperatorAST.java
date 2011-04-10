@@ -69,7 +69,7 @@ public class OperatorAST implements AST<RippleList> {
             case Option:
                 l = mc.list(Operator.OP)
                         .push(Operator.OP)
-                        .push(StackLibrary.getOptApplyValue());
+                        .push(StackLibrary.getOptionApplyValue());
                 break;
             case Plus:
                 l = mc.list(Operator.OP)
