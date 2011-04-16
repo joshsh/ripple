@@ -73,7 +73,7 @@ public interface ModelConnection
     NumericValue value( double d ) throws RippleException;
     NumericValue value( BigDecimal bd ) throws RippleException;
 // FIXME: this should use an implementation-independent URI class
-	RippleValue canonicalValue( Value v );
+	RippleValue canonicalValue( RDFValue v );
 	
     RippleList list();
     RippleList list( RippleValue v );

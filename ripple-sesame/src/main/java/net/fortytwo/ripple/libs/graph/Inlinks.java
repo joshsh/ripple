@@ -15,6 +15,7 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
@@ -68,9 +69,9 @@ public class Inlinks extends PrimitiveStackMapping {
                 public void put(final Statement st) throws RippleException {
                     Resource context = st.getContext();
 
-                    RippleValue subj = mc.canonicalValue(st.getSubject());
-                    RippleValue pred = mc.canonicalValue(st.getPredicate());
-                    RippleValue ctx = (null == context) ? mc.list() : mc.canonicalValue(context);
+                    RippleValue subj = mc.canonicalValue(new RDFValue(st.getSubject()));
+                    RippleValue pred = mc.canonicalValue(new RDFValue(st.getPredicate()));
+                    RippleValue ctx = (null == context) ? mc.list() : mc.canonicalValue(new RDFValue(context));
 
                     solutions.put(arg.with(rest.push(subj).push(pred).push(obj).push(ctx)));
                 }

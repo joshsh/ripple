@@ -67,7 +67,7 @@ public class ModelConnectionHelper {
             throws RippleException {
         final Sink<Value, RippleException> valueSink = new Sink<Value, RippleException>() {
             public void put(final Value v) throws RippleException {
-                sink.put(connection.canonicalValue(v));
+                sink.put(connection.canonicalValue(new RDFValue(v)));
             }
         };
 

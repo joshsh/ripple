@@ -14,6 +14,7 @@ import net.fortytwo.flow.NullSink;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.flow.rdf.RDFSink;
@@ -91,10 +92,10 @@ public class Quads extends PrimitiveStackMapping
                 {
                     Resource context = st.getContext();
                     resultSink.put( arg.with(
-                            rest.push( mc.canonicalValue( st.getSubject() ) )
-                                    .push( mc.canonicalValue( st.getPredicate() ) )
-                                    .push( mc.canonicalValue( st.getObject() ) )
-                                    .push( ( null == context ) ? mc.list() : mc.canonicalValue( context ) ) ) );
+                            rest.push(mc.canonicalValue(new RDFValue(st.getSubject())))
+                                    .push(mc.canonicalValue(new RDFValue(st.getPredicate())))
+                                    .push(mc.canonicalValue(new RDFValue(st.getObject())))
+                                    .push((null == context) ? mc.list() : mc.canonicalValue(new RDFValue(context)))) );
                 }
             };
 

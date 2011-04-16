@@ -492,7 +492,7 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
     
-    public RippleValue canonicalValue(final Value v) {
+    public RippleValue canonicalValue(final RDFValue v) {
         return model.specialValues.get(v);
     }
 
@@ -671,7 +671,7 @@ public class SesameModelConnection implements ModelConnection {
 
             Sink<Value, RippleException> valueSink = new Sink<Value, RippleException>() {
                 public void put(final Value val) throws RippleException {
-                    sink.put(canonicalValue(val));
+                    sink.put(canonicalValue(new RDFValue(val)));
                 }
             };
 

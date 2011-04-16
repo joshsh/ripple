@@ -9,20 +9,19 @@
 
 package net.fortytwo.ripple.libs.graph;
 
-import net.fortytwo.ripple.Ripple;
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.Model;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
-
-import org.openrdf.model.Statement;
-import org.openrdf.model.Resource;
 import org.apache.log4j.Logger;
+import org.openrdf.model.Resource;
+import org.openrdf.model.Statement;
 
 /**
  * A primitive which consumes a resource and produces a three-element list
@@ -72,9 +71,9 @@ public class Links extends PrimitiveStackMapping {
                     Resource context = st.getContext();
 
                     //RippleValue subj = bridge.get( st.getSubject() );
-                    RippleValue pred = mc.canonicalValue(st.getPredicate());
-                    RippleValue obj = mc.canonicalValue(st.getObject());
-                    RippleValue ctx = (null == context) ? mc.list() : mc.canonicalValue(context);
+                    RippleValue pred = mc.canonicalValue(new RDFValue(st.getPredicate()));
+                    RippleValue obj = mc.canonicalValue(new RDFValue(st.getObject()));
+                    RippleValue ctx = (null == context) ? mc.list() : mc.canonicalValue(new RDFValue(context));
                     //RippleList triple = mc.list( obj ).push( pred ).push( subj );
 
                     //sink.put( arg.with(

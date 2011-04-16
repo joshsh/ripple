@@ -13,7 +13,6 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.test.RippleTestCase;
-import org.openrdf.model.Value;
 
 public class LibraryTest extends RippleTestCase
 {
@@ -21,11 +20,11 @@ public class LibraryTest extends RippleTestCase
     {
         ModelConnection mc = this.modelConnection;
 
-        Value dup05 = createURI( "http://fortytwo.net/2007/05/ripple/stack#dup", mc );
-        Value dup08 = createURI( "http://fortytwo.net/2007/08/ripple/stack#dup", mc );
+        String dup05 = "http://fortytwo.net/2007/05/ripple/stack#dup";
+        String dup08 = "http://fortytwo.net/2007/08/ripple/stack#dup";
 
-        RippleValue dup05Val = mc.canonicalValue( dup05 );
-        RippleValue dup08Val = mc.canonicalValue( dup08 );
+        RippleValue dup05Val = mc.canonicalValue( mc.uriValue(dup05) );
+        RippleValue dup08Val = mc.canonicalValue( mc.uriValue(dup08) );
 
         assertNotNull( dup05Val );
         assertNotNull( dup08Val );
