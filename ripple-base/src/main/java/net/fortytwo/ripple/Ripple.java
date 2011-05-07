@@ -92,46 +92,47 @@ public final class Ripple
     public static void initialize( final Properties... configuration )
 		throws RippleException
 	{
-		if ( initialized )
+		if ( !initialized )
 		{
-			return;
-		}
+            PropertyConfigurator.configure(
+                    Ripple.class.getResource( LOG4J_PROPERTIES ) );
 
-        PropertyConfigurator.configure(
-			    Ripple.class.getResource( LOG4J_PROPERTIES ) );
+            Properties props = new Properties();
 
-		Properties props = new Properties();
-
-		try
-		{
-			props.load( Ripple.class.getResourceAsStream( RIPPLE_PROPERTIES ) );
-		}
-
-		catch ( IOException e )
-		{
-			throw new RippleException( "unable to load properties file " + RIPPLE_PROPERTIES );
-		}
-
-        for ( Properties p : configuration )
-        {
-            if ( null == p )
+            try
             {
-                throw new IllegalArgumentException("null Properties");
+                props.load( Ripple.class.getResourceAsStream( RIPPLE_PROPERTIES ) );
             }
 
-            props.putAll(p);
+            catch ( IOException e )
+            {
+                throw new RippleException( "unable to load properties file " + RIPPLE_PROPERTIES );
+            }
+
+            for ( Properties p : configuration )
+            {
+                if ( null == p )
+                {
+                    throw new IllegalArgumentException("null Properties");
+                }
+
+                props.putAll(p);
+            }
+
+            Ripple.CONFIGURATION = new RippleProperties( props );
+
+            initialized = true;
         }
-
-        Ripple.CONFIGURATION = new RippleProperties( props );
-
-		initialized = true;
 	}
 
 	public static RippleProperties getConfiguration() throws RippleException
     {
         if ( !initialized )
         {
-            throw new RippleException( "Environment is not ready.  Use Ripple.initialize()." );
+            // If the environment has not already been initialized (using custom properties),
+            // initialize automatically (using no custom properties).
+            initialize();
+            //throw new RippleException( "Environment is not ready.  Use Ripple.initialize()." );
         }
 
         return CONFIGURATION;

@@ -10,8 +10,6 @@
 package net.fortytwo.ripple.model;
 
 import java.io.InputStream;
-import java.io.File;
-import java.io.FileInputStream;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -19,8 +17,6 @@ import java.net.URL;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.URIMap;
-import net.fortytwo.ripple.Ripple;
-import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.util.FileUtils;
 import org.openrdf.model.Value;
 
@@ -31,7 +27,7 @@ public class LibraryLoader extends ClassLoader
 		super( LibraryLoader.class.getClassLoader() );
 	}
 
-	public SpecialValueMap load( final URL libraries, final URIMap uriMap, final ModelConnection mc )
+	public SpecialValueMap load(final URL libraries, final ModelConnection mc)
 		throws RippleException
 	{
         Context specialValues = new Context( mc );
@@ -66,7 +62,7 @@ public class LibraryLoader extends ClassLoader
 				throw new RippleException( e );
 			}
 
-			library.load( uriMap, specialValues );
+			library.load( specialValues );
 		}
 
         return specialValues.createSpecialValueMap();

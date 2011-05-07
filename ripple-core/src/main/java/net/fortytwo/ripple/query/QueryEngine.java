@@ -29,6 +29,16 @@ public class QueryEngine
 
     ////////////////////////////////////////////////////////////////////////////
 
+    public QueryEngine( final Model model ) throws RippleException {
+        this(model, new LazyStackEvaluator(), System.out, System.err);
+    }
+
+    public QueryEngine( final Model model,
+                    final PrintStream out,
+                    final PrintStream err ) throws RippleException {
+        this(model, new LazyStackEvaluator(), out, err);
+    }
+
 	public QueryEngine( final Model model,
 						final StackEvaluator evaluator,
 						final PrintStream out,

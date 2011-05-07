@@ -17,7 +17,7 @@ import net.fortytwo.ripple.URIMap;
  */
 public abstract class Library
 {
-	public abstract void load( URIMap uf, LibraryLoader.Context context )
+	public abstract void load(LibraryLoader.Context context)
 		throws RippleException;
 
     protected void registerPrimitives( final LibraryLoader.Context context,

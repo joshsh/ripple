@@ -3,7 +3,6 @@ package net.fortytwo.ripple.libs.blueprints;
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.URIMap;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
 import net.fortytwo.ripple.model.ModelConnection;
@@ -19,9 +18,9 @@ public class BlueprintsLibrary extends Library {
             NS_2011_04 = "http://fortytwo.net/2011/04/ripple/blueprints#";
 
     @Override
-    public void load(final URIMap uf,
-                     final LibraryLoader.Context context) throws RippleException {
+    public void load(final LibraryLoader.Context context) throws RippleException {
         registerPrimitives(context,
+                //Edit.class,
                 Gremlin.class,
                 Head.class,
                 Id.class,

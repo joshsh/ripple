@@ -1,12 +1,5 @@
-export JAVA_HOME=/opt/java/jdk1.5.0_11/
-export PATH=$JAVA_HOME/bin:$PATH
-
 javac RippleEffect.java
-
 java RippleEffect
-
-
-
 
 randomSeed = 2750
 randomSeed = 2530

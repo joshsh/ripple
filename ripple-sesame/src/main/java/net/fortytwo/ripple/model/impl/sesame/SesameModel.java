@@ -9,6 +9,7 @@
 
 package net.fortytwo.ripple.model.impl.sesame;
 
+import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.URIMap;
 import net.fortytwo.ripple.model.LibraryLoader;
@@ -31,17 +32,18 @@ public class SesameModel implements Model
 	final Sail sail;
     SpecialValueMap specialValues;
 	final Set<ModelConnection> openConnections = new LinkedHashSet<ModelConnection>();
-    final URIMap uriMap;
 
-    public SesameModel( final Sail baseSail,
-                        final URL libraries,
-                        final URIMap uriMap )
+    public SesameModel(final Sail baseSail) throws RippleException {
+        this(baseSail, Ripple.class.getResource("libraries.txt"));
+    }
+
+    public SesameModel(final Sail baseSail,
+                       final URL libraries)
 		throws RippleException
 	{
 		LOGGER.debug( "Creating new SesameModel" );
 
 		sail = baseSail;
-        this.uriMap = uriMap;
 
         ModelConnection mc = createConnection();
 
@@ -49,7 +51,7 @@ public class SesameModel implements Model
         {
             // TODO: eliminate this temporary value map
             specialValues = new SpecialValueMap();
-            specialValues = new LibraryLoader().load( libraries, uriMap, mc );
+            specialValues = new LibraryLoader().load( libraries, mc );
 
             // At the moment, op needs to be a special value for the sake of the
             // evaluator.  This has the side-effect of making it a keyword.
@@ -65,11 +67,6 @@ public class SesameModel implements Model
     public SpecialValueMap getSpecialValues()
     {
         return specialValues;
-    }
-
-    public URIMap getURIMap()
-    {
-        return uriMap;
     }
 
     public ModelConnection createConnection()

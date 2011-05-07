@@ -10,7 +10,6 @@
 package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.URIMap;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
 
@@ -29,19 +28,17 @@ public class GraphLibrary extends Library
             NS_XML = "http://www.w3.org/XML/1998/namespace#",
             NS_XSD = "http://www.w3.org/2001/XMLSchema#";
 
-    public void load( final URIMap uf,
-                      final LibraryLoader.Context context )
+    public void load(final LibraryLoader.Context context)
         throws RippleException
     {
-        load( uf, context, true );
+        load( context, true );
     }
 
-    protected void load( final URIMap uf,
-                      final LibraryLoader.Context context,
+    protected void load( final LibraryLoader.Context context,
                       final boolean includePrimitivesWithSideEffects )
 		throws RippleException
 	{
-		uf.put( NS_2008_08, getClass().getResource( "graph.ttl" ) + "#" );
+		//uf.put( NS_2008_08, getClass().getResource( "graph.ttl" ) + "#" );
 
         if ( includePrimitivesWithSideEffects )
         {

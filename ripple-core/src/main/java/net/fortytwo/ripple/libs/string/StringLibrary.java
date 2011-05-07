@@ -15,7 +15,6 @@ import net.fortytwo.ripple.model.LibraryLoader;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.URIMap;
 import org.openrdf.model.Value;
 import org.openrdf.model.Literal;
 import org.openrdf.model.URI;
@@ -31,11 +30,10 @@ public class StringLibrary extends Library
             NS_2008_08 = "http://fortytwo.net/2008/08/ripple/string#",
             NS_2007_08 = "http://fortytwo.net/2007/08/ripple/string#";
 
-    public void load( final URIMap uf,
-                      final LibraryLoader.Context context )
+    public void load(final LibraryLoader.Context context)
 		throws RippleException
 	{
-		uf.put( NS_2008_08, getClass().getResource( "string.ttl" ) + "#" );
+		//uf.put( NS_2008_08, getClass().getResource( "string.ttl" ) + "#" );
 
         registerPrimitives( context,
                 Concat.class,

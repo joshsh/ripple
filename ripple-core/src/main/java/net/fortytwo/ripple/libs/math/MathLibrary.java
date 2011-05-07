@@ -10,7 +10,6 @@
 package net.fortytwo.ripple.libs.math;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.URIMap;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.LibraryLoader;
@@ -34,11 +33,10 @@ public class MathLibrary extends Library
             tanVal, atanVal,
             logVal, expVal;
 
-    public void load( final URIMap uf,
-                      final LibraryLoader.Context context )
+    public void load(final LibraryLoader.Context context)
 		throws RippleException
 	{
-		uf.put( NS_2008_08, getClass().getResource( "math.ttl" ) + "#" );
+		//uf.put( NS_2008_08, getClass().getResource( "math.ttl" ) + "#" );
 
 		// Comparison
 		registerPrimitive( Gt.class, context );

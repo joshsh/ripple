@@ -12,7 +12,6 @@ package net.fortytwo.ripple.libs.logic;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
-import net.fortytwo.ripple.URIMap;
 
 /**
  * A collection of primitives for boolean logic and conditionals.
@@ -23,11 +22,10 @@ public class LogicLibrary extends Library
             NS_2011_04 = "http://fortytwo.net/2011/04/ripple/logic#",
             NS_2008_08 = "http://fortytwo.net/2008/08/ripple/logic#";
 
-    public void load( final URIMap uf,
-                      final LibraryLoader.Context context )
+    public void load(final LibraryLoader.Context context)
 		throws RippleException
 	{
-		uf.put( NS_2008_08, getClass().getResource( "logic.ttl" ) + "#" );
+		//uf.put( NS_2008_08, getClass().getResource( "logic.ttl" ) + "#" );
 
 		registerPrimitives( context,
                 And.class,

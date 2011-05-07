@@ -15,7 +15,6 @@ import net.fortytwo.ripple.libs.extras.ranking.Rank;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.LibraryLoader;
-import net.fortytwo.ripple.URIMap;
 
 /**
  * A collection of miscellaneous primitives.
@@ -29,10 +28,9 @@ public class ExtrasLibrary extends Library {
 
     private static PrimitiveStackMapping invertVal;
 
-    public void load(final URIMap uf,
-                     final LibraryLoader.Context context)
+    public void load(final LibraryLoader.Context context)
             throws RippleException {
-        uf.put(NS_2008_08, getClass().getResource("etc.ttl") + "#");
+        //uf.put(NS_2008_08, getClass().getResource("etc.ttl") + "#");
 
         registerPrimitives(context,
                 Get.class,

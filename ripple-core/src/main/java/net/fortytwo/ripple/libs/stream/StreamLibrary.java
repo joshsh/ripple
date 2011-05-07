@@ -10,7 +10,6 @@
 package net.fortytwo.ripple.libs.stream;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.URIMap;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
 
@@ -25,11 +24,10 @@ public class StreamLibrary extends Library
             NS_2007_08 = "http://fortytwo.net/2007/08/ripple/stream#",
             NS_2007_05 = "http://fortytwo.net/2007/05/ripple/stream#";
 
-    public void load( final URIMap uf,
-                      final LibraryLoader.Context context )
+    public void load(final LibraryLoader.Context context)
 		throws RippleException
 	{
-		uf.put( NS_2008_08, getClass().getResource( "stream.ttl" ) + "#" );
+		//uf.put( NS_2008_08, getClass().getResource( "stream.ttl" ) + "#" );
 
         registerPrimitives( context,
                 Both.class,

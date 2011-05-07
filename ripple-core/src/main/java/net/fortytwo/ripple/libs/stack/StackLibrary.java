@@ -13,7 +13,6 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.LibraryLoader;
-import net.fortytwo.ripple.URIMap;
 
 /**
  * A collection of stack manipulation primitives.  Compare with Joy and other
@@ -35,11 +34,10 @@ public class StackLibrary extends Library
             starApplyVal,
             timesApplyVal;
 
-    public void load( final URIMap uf,
-                      final LibraryLoader.Context context )
+    public void load(final LibraryLoader.Context context)
 		throws RippleException
 	{
-		uf.put( NS_2008_08, getClass().getResource( "stack.ttl" ) + "#" );
+		//uf.put( NS_2008_08, getClass().getResource( "stack.ttl" ) + "#" );
 
 		// Stack shuffling primitives
         registerPrimitives( context,

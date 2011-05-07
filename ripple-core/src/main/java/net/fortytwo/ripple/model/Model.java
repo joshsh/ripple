@@ -20,7 +20,5 @@ public interface Model
 
     SpecialValueMap getSpecialValues();
 
-    URIMap getURIMap();
-
     void shutDown() throws RippleException;
 }

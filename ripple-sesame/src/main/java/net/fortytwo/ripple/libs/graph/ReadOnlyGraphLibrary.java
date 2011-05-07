@@ -10,7 +10,6 @@
 package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.URIMap;
 import net.fortytwo.ripple.model.LibraryLoader;
 
 
@@ -21,10 +20,9 @@ import net.fortytwo.ripple.model.LibraryLoader;
 public class ReadOnlyGraphLibrary extends GraphLibrary
 {
     @Override
-    public void load( final URIMap uf,
-                      final LibraryLoader.Context context )
+    public void load(final LibraryLoader.Context context)
         throws RippleException
     {
-        load( uf, context, false );
+        load( context, false );
     }
 }

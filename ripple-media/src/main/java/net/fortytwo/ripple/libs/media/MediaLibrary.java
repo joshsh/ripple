@@ -10,7 +10,6 @@
 package net.fortytwo.ripple.libs.media;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.URIMap;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
 
@@ -20,11 +19,9 @@ public class MediaLibrary extends Library {
             NS_2008_08 = "http://fortytwo.net/2008/08/ripple/media#",
             NS_2007_08 = "http://fortytwo.net/2007/08/ripple/media#";
 
-    public void load(final URIMap uf,
-                     final LibraryLoader.Context context)
+    public void load(final LibraryLoader.Context context)
             throws RippleException {
-        uf.put(
-                NS_2007_08, getClass().getResource("media.ttl") + "#");
+        //uf.put(NS_2007_08, getClass().getResource("media.ttl") + "#");
 
         registerPrimitive(Play.class, context);
         registerPrimitive(Show.class, context);

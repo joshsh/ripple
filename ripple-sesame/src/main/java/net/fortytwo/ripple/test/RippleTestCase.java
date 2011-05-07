@@ -2,7 +2,6 @@ package net.fortytwo.ripple.test;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
-import net.fortytwo.flow.NullSink;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.URIMap;
@@ -118,7 +117,7 @@ public abstract class RippleTestCase extends TestCase {
             // they are not set up to wait on other threads.
             Ripple.enableAsynchronousQueries(false);
 
-            model = new SesameModel(getTestSail(), Ripple.class.getResource("libraries.txt"), getTestURIMap());
+            model = new SesameModel(getTestSail());
         }
 
         return model;

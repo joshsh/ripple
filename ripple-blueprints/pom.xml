@@ -103,7 +103,7 @@
                     <descriptors>
                         <descriptor>src/assembly/standalone.xml</descriptor>
                     </descriptors>
-                    <finalName>ripple-tinkerpop-${project.version}</finalName>
+                    <finalName>ripple-blueprints-${project.version}</finalName>
                     <outputDirectory>target</outputDirectory>
                     <workDirectory>target/assembly/work</workDirectory>
                     <tarLongFileMode>warn</tarLongFileMode>

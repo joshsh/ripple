@@ -59,7 +59,7 @@ public class RippleScriptEngine implements ScriptEngine {
         sailConfig.initialize();
 
         // TODO: shutDown on failure
-        model = new SesameModel(sailConfig.getSail(), Ripple.class.getResource("libraries.txt"), uriMap);
+        model = new SesameModel(sailConfig.getSail());
 
         StackEvaluator eval = new LazyStackEvaluator();
         QueryEngine queryEngine = new QueryEngine(model, eval, System.out, System.err);

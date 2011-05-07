@@ -34,7 +34,7 @@ public class HenryDemo {
 		sail.initialize();
 
 		// Attach a Ripple model to the repository.
-		Model model = new SesameModel( sail, Ripple.class.getResource("libraries.txt"), uriMap );
+		Model model = new SesameModel( sail, Ripple.class.getResource("libraries.txt"));
 
 		// Attach a query engine to the model.
 		StackEvaluator evaluator = new LazyStackEvaluator();
