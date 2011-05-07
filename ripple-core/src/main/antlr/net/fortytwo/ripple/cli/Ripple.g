@@ -73,10 +73,6 @@ System.out.println( "matchEscapeCharacter" );
 }
 
 
-NEWLINE
-	: '\n'  { newline(); /*matchEndOfLine();*/ }
-    ;
-
 protected
 WS_CHAR
 	: ' ' | '\t' | '\r'
@@ -85,6 +81,16 @@ WS_CHAR
 WS
 	: (WS_CHAR)+
 	;
+
+
+LINE_CONT
+    : '\\' (WS_CHAR)* '\n' { newline(); }
+    ;
+
+
+NEWLINE
+	: '\n' { newline(); /*matchEndOfLine();*/ }
+    ;
 
 protected
 HEX
@@ -308,7 +314,7 @@ nt_Statements
 nt_Ws
 	// Note: consecutive WS tokens occur when the lexer matches a COMMENT
 	//       between them.
-	: (WS)+
+	: (WS | LINE_CONT)+
 	;
 
 
@@ -336,7 +342,7 @@ nt_List returns [ ListAST list ]
 	:	// The head of the list.
 	    first = nt_Node
 
-		(	(WS) => ( nt_Ws
+		(	(WS | LINE_CONT) => ( nt_Ws
 				( (~(R_PAREN)) => rest = nt_List
 				| {}
 				) )
@@ -369,13 +375,13 @@ nt_TemplateList returns [ ListAST list ]
 	:   // Head of the list.
 		first = nt_TemplateNode
 
-		(	(WS) => ( nt_Ws
+		(	(WS | LINE_CONT) => ( nt_Ws
 				( (~(R_PAREN)) => rest = nt_TemplateList
 				| {}
 				) )
 
 			// Tail of the list.
-		|	(~(WS | R_PAREN)) => rest = nt_TemplateList
+		|	(~(WS | LINE_CONT | R_PAREN)) => rest = nt_TemplateList
 
 			// End of the list.
 		|	()
@@ -432,7 +438,7 @@ nt_NormalNode returns [ AST r ]
 		| r=nt_Literal
 		| r=nt_ParenthesizedList
 		)
-	  (( (WS)? L_BRACKET ) => ( (WS)? props=nt_Properties { r = new AnnotatedAST( r, props ); } )
+	  (( (WS | LINE_CONT)? L_BRACKET ) => ( (WS | LINE_CONT)? props=nt_Properties { r = new AnnotatedAST( r, props ); } )
 	  | ())
 	;
 
@@ -441,7 +447,7 @@ nt_Properties returns [ Properties props ]
 {
 	props = new Properties();
 }
-	: L_BRACKET (WS)? nt_PropertyList[props] R_BRACKET
+	: L_BRACKET (WS | LINE_CONT)? nt_PropertyList[props] R_BRACKET
 	;
 
 	
@@ -449,8 +455,8 @@ nt_PropertyList[ Properties props ]
 {
 	String name;
 }
-	: name=nt_PropertyName EQUAL value:STRING (WS)? { props.setProperty( name, value.getText() ); }
-		( COMMA (WS)? nt_PropertyList[props] )?
+	: name=nt_PropertyName EQUAL value:STRING (WS | LINE_CONT)? { props.setProperty( name, value.getText() ); }
+		( COMMA (WS | LINE_CONT)? nt_PropertyList[props] )?
 	;
 	
 	
@@ -685,7 +691,7 @@ nt_Directive
 			}
 		)
 
-	| DRCTV_PREFIX nt_Ws ( nsPrefix=nt_PrefixName (nt_Ws)? )? COLON (nt_Ws)? ns=nt_URIRef
+	| DRCTV_PREFIX nt_Ws ( nsPrefix=nt_PrefixName (nt_Ws)? )? COLON (nt_Ws)? ns=nt_URIRef ((nt_Ws)? PERIOD)?
 		{
 			matchCommand( new DefinePrefixCmd( nsPrefix, ns ) );
 		}
