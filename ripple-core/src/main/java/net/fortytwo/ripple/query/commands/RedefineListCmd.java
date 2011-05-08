@@ -15,15 +15,15 @@ import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.cli.ast.ListAST;
 import net.fortytwo.ripple.model.ModelConnection;
 
-public class RedefineTermCmd extends Command
+public class RedefineListCmd extends Command
 {
-	private final UndefineTermCmd undefineCmd;
-    private final DefineTermCmd defineCmd;
+	private final UndefineListCmd undefineCmd;
+    private final DefineListCmd defineCmd;
 
-	public RedefineTermCmd( final String term, final ListAST ast )
+	public RedefineListCmd(final String term, final ListAST ast)
 	{
-		undefineCmd = new UndefineTermCmd( term );
-		defineCmd = new DefineTermCmd( term, ast );
+		undefineCmd = new UndefineListCmd( term );
+		defineCmd = new DefineListCmd( term, ast );
 	}
 
     public String getName()

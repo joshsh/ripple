@@ -40,9 +40,9 @@ public class DefinitionsTest extends RippleTestCase
         Literal foo = sail.getValueFactory().createLiteral( "foo" );
         Literal foo2 = sail.getValueFactory().createLiteral( "foo2" );
 
-        Command defCmd = new DefineTermCmd( "foobar", foobar );
-        Command undefCmd = new UndefineTermCmd( "foobar" );
-        Command redefCmd = new RedefineTermCmd( "foobar", foobar2 );
+        Command defCmd = new DefineListCmd( "foobar", foobar );
+        Command undefCmd = new UndefineListCmd( "foobar" );
+        Command redefCmd = new RedefineListCmd( "foobar", foobar2 );
 
         int count;
         Value obj;

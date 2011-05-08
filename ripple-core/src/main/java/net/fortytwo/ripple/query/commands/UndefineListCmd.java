@@ -15,11 +15,11 @@ import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
 
-public class UndefineTermCmd extends Command
+public class UndefineListCmd extends Command
 {
 	private final String term;
 
-	public UndefineTermCmd( final String term )
+	public UndefineListCmd(final String term)
 	{
 		this.term = term;
 	}

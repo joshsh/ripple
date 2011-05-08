@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class ShowNamespacesCmd extends Command
+public class ShowPrefixesCmd extends Command
 {
 	public void execute( final QueryEngine qe, final ModelConnection mc )
 		throws RippleException

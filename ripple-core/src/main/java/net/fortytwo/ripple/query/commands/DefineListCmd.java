@@ -20,12 +20,12 @@ import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.util.ModelConnectionHelper;
 import org.openrdf.model.URI;
 
-public class DefineTermCmd extends Command
+public class DefineListCmd extends Command
 {
 	private final ListAST list;
 	private final String name;
 
-	public DefineTermCmd( final String name, final ListAST list)
+	public DefineListCmd(final String name, final ListAST list)
 	{
 		this.list = list;
 		this.name = name;

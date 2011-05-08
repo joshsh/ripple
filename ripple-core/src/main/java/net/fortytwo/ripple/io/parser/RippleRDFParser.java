@@ -9,6 +9,7 @@
 
 package net.fortytwo.ripple.io.parser;
 
+import net.fortytwo.ripple.query.commands.DefineListCmd;
 import org.openrdf.rio.helpers.RDFParserBase;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFParseException;
@@ -25,9 +26,8 @@ import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.NullSink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.query.Command;
-import net.fortytwo.ripple.query.commands.DefineTermCmd;
 import net.fortytwo.ripple.query.commands.DefinePrefixCmd;
-import net.fortytwo.ripple.query.commands.RedefineTermCmd;
+import net.fortytwo.ripple.query.commands.RedefineListCmd;
 
 /**
  * Author: josh
@@ -114,21 +114,21 @@ public class RippleRDFParser extends RDFParserBase
 
                 }
 
-                else if ( command instanceof DefineTermCmd || command instanceof RedefineTermCmd )
+                else if ( command instanceof DefineListCmd || command instanceof RedefineListCmd)
                 {
                     String name;
                     ListAST list;
 
-                    if ( command instanceof DefineTermCmd )
+                    if ( command instanceof DefineListCmd)
                     {
-                        name = ( (DefineTermCmd) command ).getName();
-                        list = ( (DefineTermCmd) command ).getList();
+                        name = ( (DefineListCmd) command ).getName();
+                        list = ( (DefineListCmd) command ).getList();
                     }
 
                     else
                     {
-                        name = ( (RedefineTermCmd) command ).getName();
-                        list = ( (RedefineTermCmd) command ).getList();
+                        name = ( (RedefineListCmd) command ).getName();
+                        list = ( (RedefineListCmd) command ).getList();
                     }
 
                     //...

@@ -26,13 +26,13 @@ import net.fortytwo.ripple.cli.ast.TypedLiteralAST;
 import net.fortytwo.ripple.cli.ast.URIAST;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.commands.DefinePrefixCmd;
-import net.fortytwo.ripple.query.commands.DefineTermCmd;
+import net.fortytwo.ripple.query.commands.DefineListCmd;
 import net.fortytwo.ripple.query.commands.QuitCmd;
-import net.fortytwo.ripple.query.commands.RedefineTermCmd;
+import net.fortytwo.ripple.query.commands.RedefineListCmd;
 import net.fortytwo.ripple.query.commands.ShowContextsCmd;
-import net.fortytwo.ripple.query.commands.ShowNamespacesCmd;
+import net.fortytwo.ripple.query.commands.ShowPrefixesCmd;
 import net.fortytwo.ripple.query.commands.UndefinePrefixCmd;
-import net.fortytwo.ripple.query.commands.UndefineTermCmd;
+import net.fortytwo.ripple.query.commands.UndefineListCmd;
 }
 
 
@@ -671,8 +671,8 @@ nt_Directive
 		    rhs = new TemplateAST( lhs, rhs );
 
 			matchCommand( redefine
-			        ? new RedefineTermCmd( keyword, rhs )
-			        : new DefineTermCmd( keyword, rhs ) );
+			        ? new RedefineListCmd( keyword, rhs )
+			        : new DefineListCmd( keyword, rhs ) );
 		}
 
 	| DRCTV_HELP
@@ -687,7 +687,7 @@ nt_Directive
 			}
 		| "prefixes"
 			{
-				matchCommand( new ShowNamespacesCmd() );
+				matchCommand( new ShowPrefixesCmd() );
 			}
 		)
 
@@ -704,7 +704,7 @@ nt_Directive
 
 	| DRCTV_UNLIST nt_Ws keyword=nt_Name
 		{
-			matchCommand( new UndefineTermCmd( keyword ) );
+			matchCommand( new UndefineListCmd( keyword ) );
 		}
 
 	| DRCTV_UNPREFIX nt_Ws nsPrefix=nt_PrefixName
