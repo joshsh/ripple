@@ -203,7 +203,7 @@ public class CommandLineInterface {
 
             // Add a newline character so the lexer will call readLine()
             // again when it gets there.
-            writeIn.write(EOL);
+     //       writeIn.write(EOL);
 
             writeIn.flush();
         } catch (java.io.IOException e) {
@@ -227,13 +227,13 @@ public class CommandLineInterface {
             }
 
             ArrayList<String> directives = new ArrayList<String>();
-            directives.add("@define");
             directives.add("@help");
             directives.add("@list");
             directives.add("@prefix");
             directives.add("@quit");
-            directives.add("@redefine");
-            directives.add("@undefine");
+            directives.add("@relist");
+            directives.add("@show");
+            directives.add("@unlist");
             directives.add("@unprefix");
 
             completors.add(

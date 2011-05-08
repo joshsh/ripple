@@ -35,19 +35,16 @@ public class ShowNamespacesCmd extends Command
 		mc.getNamespaces().writeTo(coll);
 		int max = 0;
         int j = 0;
-		Iterator<Namespace> iter = coll.iterator();
-		while ( iter.hasNext() )
-		{
-            Namespace ns = iter.next();
+        for (Object aColl : coll) {
+            Namespace ns = (Namespace) aColl;
             prefixesToNames.put(ns.getPrefix(), ns.getName());
 
-            int len = ( ns.getPrefix() + j ).length();
-			if ( len > max )
-			{
-				max = len;
-			}
-			j++;
-		}
+            int len = (ns.getPrefix() + j).length();
+            if (len > max) {
+                max = len;
+            }
+            j++;
+        }
 		final int maxlen = max + 4;
 
         // Alphabetize the prefixes.

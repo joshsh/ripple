@@ -267,7 +267,10 @@ public class Lexicon {
      * @param uri    the URI to which the prefix is bound, e.g. <code>"http://xmlns.com/foaf/0.1/"</code>
      */
     public void setNamespace(final String prefix,
-                             final String uri) {
+                             final String uri,
+                             final ModelConnection mc) throws RippleException {
+        mc.setNamespace(prefix, uri, true);
+
         String p = uriToPrefix.remove(uri);
         String u = prefixToUri.remove(prefix);
         if (null != p) {
@@ -304,7 +307,7 @@ public class Lexicon {
         }
     }
 
-    public void addCommonNamespaces() throws RippleException {
+    public void addCommonNamespaces( final ModelConnection mc ) throws RippleException {
         try {
             InputStream is = Ripple.class.getResourceAsStream("common-namespaces.txt");
             try {
@@ -317,7 +320,7 @@ public class Lexicon {
                         String prefix = l.substring(0, i);
                         String uri = l.substring(i + 1);
 
-                        setNamespace(prefix, uri);
+                        setNamespace(prefix, uri, mc);
                     }
                 }
             } finally {

@@ -23,7 +23,7 @@ public class DistinctTest extends RippleTestCase
         assertReducesTo( "(() rdf:nil) each. distinct.", "()" );
 
         reduce("@prefix : <http://example.org/distinctTest/>\n"
-                + "@define foo: 1 2 3");
+                + "@list foo: 1 2 3");
         assertReducesTo( ":foo", "(1 2 3)" );
         assertReducesTo( ":foo rdf:rest.", "(2 3)" );
     }

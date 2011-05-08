@@ -18,7 +18,7 @@ public class ConsTest extends RippleTestCase
     public void testRDFLists() throws Exception
     {
         assertReducesTo( "42 rdf:nil cons.", "(42)" );
-        assertReducesTo( "@redefine myList: 1 2 3\n"
+        assertReducesTo( "@relist myList: 1 2 3\n"
                 + "0 :myList cons.", "(0 1 2 3)" );
     }
 

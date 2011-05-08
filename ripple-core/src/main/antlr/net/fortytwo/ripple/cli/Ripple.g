@@ -84,7 +84,7 @@ WS
 
 
 LINE_CONT
-    : '\\' (WS_CHAR)* '\n' { newline(); }
+    : '\\' (WS_CHAR)* '\n' //{ newline(); }
     ;
 
 
@@ -226,13 +226,13 @@ TILDE : '~';
 protected
 DRCTV : '@' ;
 
-DRCTV_DEFINE    : DRCTV ( "define"        | "d" ) ;
 DRCTV_HELP      : DRCTV ( "help"          | "h" ) ;
 DRCTV_LIST      : DRCTV ( "list"          | "l" ) ;
 DRCTV_PREFIX    : DRCTV ( "prefix"        | "p" ) ;
 DRCTV_QUIT      : DRCTV ( "quit"          | "q" | "exit" ) ;
-DRCTV_REDEFINE  : DRCTV ( "redefine"      | "r" ) ;
-DRCTV_UNDEFINE  : DRCTV ( "undefine"      | "u" ) ;
+DRCTV_RELIST    : DRCTV ( "relist"        | "r" ) ;
+DRCTV_SHOW      : DRCTV ( "show"          | "s" ) ;
+DRCTV_UNLIST    : DRCTV ( "unlist"        | "u" ) ;
 DRCTV_UNPREFIX  : DRCTV ( "unprefix"            ) ;
 
 
@@ -661,7 +661,7 @@ nt_Directive
 	boolean redefine = false;
 }
     // FIXME: this syntax allows a parenthesized expression in place of the definition name
-	: ( DRCTV_DEFINE || DRCTV_REDEFINE { redefine = true; } )
+	: ( DRCTV_LIST || DRCTV_RELIST { redefine = true; } )
 	        nt_Ws lhs=nt_TemplateList /*(nt_Ws)?*/ COLON (nt_Ws)? rhs=nt_List
 		{
             lhs = lhs.invert();
@@ -680,7 +680,7 @@ nt_Directive
 			System.out.println( "\nSorry, the @help directive is just a placeholder for now.\n" );
 		}
 
-	| DRCTV_LIST nt_Ws
+	| DRCTV_SHOW nt_Ws
 		( "contexts"
 			{
 				matchCommand( new ShowContextsCmd() );
@@ -702,7 +702,7 @@ nt_Directive
 //			matchCommand( new QuitCmd() );
 		}
 
-	| DRCTV_UNDEFINE nt_Ws keyword=nt_Name
+	| DRCTV_UNLIST nt_Ws keyword=nt_Name
 		{
 			matchCommand( new UndefineTermCmd( keyword ) );
 		}

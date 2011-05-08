@@ -60,16 +60,17 @@ public class QueryEngine
 		ModelConnection mc = getConnection();
 
         try {
-            mc.setNamespace( "", defaultNamespace, false );
+            //mc.setNamespace( "", defaultNamespace, false );
+
+            // FIXME: these should not be hard-coded
+            getLexicon().addCommonNamespaces( mc );
+
+            getLexicon().setNamespace("", defaultNamespace, mc);
+
             mc.commit();
         } finally {
             mc.close();
         }
-
-        // FIXME: these should not be hard-coded
-        getLexicon().addCommonNamespaces();
-
-		getLexicon().setNamespace("", defaultNamespace);
 	}
 
 	////////////////////////////////////////////////////////////////////////////

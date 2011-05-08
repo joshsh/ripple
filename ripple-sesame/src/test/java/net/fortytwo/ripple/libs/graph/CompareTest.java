@@ -101,7 +101,7 @@ public class CompareTest extends RippleTestCase
         assertGt( "(42)", "rdf:nil" );
         assertLt( "rdf:nil", "(1 2 3)" );
         reduce("@prefix : <http://example.org/compareTest/>\n"
-                + "@define prog: 1 2 3");
+                + "@list prog: 1 2 3");
         assertEq( ":prog", "(1 2 3)" );
         assertLt( "rdf:nil", ":prog" );
         assertGt( ":prog", "rdf:nil" );

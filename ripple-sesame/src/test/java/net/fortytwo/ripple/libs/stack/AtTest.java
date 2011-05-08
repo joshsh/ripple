@@ -25,7 +25,7 @@ public class AtTest extends RippleTestCase
 
     public void testRDFLists() throws Exception
     {
-        assertReducesTo( "@redefine myList: 1 2 3.\n"
+        assertReducesTo( "@relist myList: 1 2 3.\n"
                 + ":myList 2 at.", "2" );
     }
 

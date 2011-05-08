@@ -14,7 +14,7 @@ public class AryTest extends RippleTestCase
         assertReducesTo( "2 3 dup dip.", "2 dup. 3" );
         assertReducesTo( "2 3 dup dip. 2 ary.", "2 2 3" );        
 
-        assertReducesTo( "@redefine recfunc: "
+        assertReducesTo( "@relist recfunc: "
                 + "rdf:first (rdf:rest. :recfunc.) both. "
                 + "2 ary. apply.\n"
                 + "(100 200 300) :recfunc.", "100", "200", "300" );
@@ -23,13 +23,13 @@ public class AryTest extends RippleTestCase
     public void testInsufficientArity() throws Exception
     {
         // TODO: this can't actually be tested without a way of halting the infinite loop
-        //assertReducesTo( "@redefine badrecfunc: rdf:first (rdf:rest. :badrecfunc.) both. 1 ary. apply.."
+        //assertReducesTo( "@relist badrecfunc: rdf:first (rdf:rest. :badrecfunc.) both. 1 ary. apply.."
         //       + "(1 2 3) :badrecfunc.", "1", "2", "3" );
     }
 
     public void testExcessiveArity() throws Exception
     {
-        assertReducesTo( "@redefine weirdrecfunc: rdf:first (rdf:rest. :weirdrecfunc.) both. 3 ary. apply. .\n"
+        assertReducesTo( "@relist weirdrecfunc: rdf:first (rdf:rest. :weirdrecfunc.) both. 3 ary. apply. .\n"
                 + "(1 2 3) :weirdrecfunc." );
         assertReducesTo( "100 200 3 ary." );
     }
