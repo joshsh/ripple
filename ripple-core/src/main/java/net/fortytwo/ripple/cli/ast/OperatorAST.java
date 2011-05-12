@@ -59,37 +59,37 @@ public class OperatorAST implements AST<RippleList> {
 
         switch (type) {
             case Apply:
-                l = mc.list(Operator.OP);
+                l = mc.list().push(Operator.OP);
                 break;
             case Inverse:
                 // Note: only one "op" here.  This merely finds the inverse; it doesn't automatically apply the inverse.
-                l = mc.list(Operator.OP)
+                l = mc.list().push(Operator.OP)
                         .push(ExtrasLibrary.getInvertValue());
                 break;
             case Option:
-                l = mc.list(Operator.OP)
+                l = mc.list().push(Operator.OP)
                         .push(Operator.OP)
                         .push(StackLibrary.getOptionApplyValue());
                 break;
             case Plus:
-                l = mc.list(Operator.OP)
+                l = mc.list().push(Operator.OP)
                         .push(Operator.OP)
                         .push(StackLibrary.getPlusApplyValue());
                 break;
             case Range:
-                l = mc.list(Operator.OP)
+                l = mc.list().push(Operator.OP)
                         .push(Operator.OP)
                         .push(StackLibrary.getRangeApplyValue())
                         .push(max.getValue(mc))
                         .push(min.getValue(mc));
                 break;
             case Star:
-                l = mc.list(Operator.OP)
+                l = mc.list().push(Operator.OP)
                         .push(Operator.OP)
                         .push(StackLibrary.getStarApplyValue());
                 break;
             case Times:
-                l = mc.list(Operator.OP)
+                l = mc.list().push(Operator.OP)
                         .push(Operator.OP)
                         .push(StackLibrary.getTimesApplyValue())
                         .push(min.getValue(mc));

@@ -46,7 +46,7 @@ public class URIAST implements AST<RippleList>
 		throws RippleException
 	{
         RDFValue v = mc.uriValue(value);
-		sink.put( mc.list( mc.canonicalValue( v ) ) );
+		sink.put( mc.list().push( mc.canonicalValue( v ) ) );
 	}
 
 	public String toString()

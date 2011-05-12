@@ -25,7 +25,7 @@ public abstract class NumberAST implements AST<RippleList>
 						final ModelConnection mc )
 		throws RippleException
 	{
-		sink.put( mc.list( getValue( mc ) ) );
+		sink.put( mc.list().push( getValue( mc ) ) );
 	}
 
     // Strip off leading "+" from mantissa and/or exponent.

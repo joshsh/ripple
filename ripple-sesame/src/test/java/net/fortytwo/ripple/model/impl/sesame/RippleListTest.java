@@ -86,7 +86,7 @@ public class RippleListTest extends RippleTestCase
         mc.toList( head, created );
         assertEquals( 1, created.size() );
         allowed.clear();
-        allowed.put( mc.list( l2 ).push( l1 ) );
+        allowed.put( mc.list().push( l2 ).push( l1 ) );
         created.writeTo( verifySink );
 
         head = new RDFValue( createURI( "urn:test.RippleListTest.FromRdfTest#firstBranchingList", mc ) );
@@ -94,8 +94,8 @@ public class RippleListTest extends RippleTestCase
         mc.toList( head, created );
         assertEquals( 2, created.size() );
         allowed.clear();
-        allowed.put( mc.list( l2 ).push( l1a ) );
-        allowed.put( mc.list( l2 ).push( l1b ) );
+        allowed.put( mc.list().push( l2 ).push( l1a ) );
+        allowed.put( mc.list().push( l2 ).push( l1b ) );
         created.writeTo( verifySink );
 
         head = new RDFValue( createURI( "urn:test.RippleListTest.FromRdfTest#restBranchingList", mc ) );
@@ -103,8 +103,8 @@ public class RippleListTest extends RippleTestCase
         mc.toList( head, created );
         assertEquals( 2, created.size() );
         allowed.clear();
-        allowed.put( mc.list( l2a ).push( l1 ) );
-        allowed.put( mc.list( l2b ).push( l1 ) );
+        allowed.put( mc.list().push( l2a ).push( l1 ) );
+        allowed.put( mc.list().push( l2b ).push( l1 ) );
         created.writeTo( verifySink );
 
         head = new RDFValue( createURI( "urn:test.RippleListTest.FromRdfTest#firstAndRestBranchingList", mc ) );
@@ -112,10 +112,10 @@ public class RippleListTest extends RippleTestCase
         mc.toList( head, created );
         assertEquals( 4, created.size() );
         allowed.clear();
-        allowed.put( mc.list( l2a ).push( l1a ) );
-        allowed.put( mc.list( l2a ).push( l1b ) );
-        allowed.put( mc.list( l2b ).push( l1a ) );
-        allowed.put( mc.list( l2b ).push( l1b ) );
+        allowed.put( mc.list().push( l2a ).push( l1a ) );
+        allowed.put( mc.list().push( l2a ).push( l1b ) );
+        allowed.put( mc.list().push( l2b ).push( l1a ) );
+        allowed.put( mc.list().push( l2b ).push( l1b ) );
         created.writeTo( verifySink );
 
         // Note: the circular list is not tested.
@@ -134,8 +134,8 @@ public class RippleListTest extends RippleTestCase
         mc.close();
 
         RippleList
-            listA = mc.list( a2 ).push( a1 ).push( a0 ),
-            listB = mc.list( b0 );
+            listA = mc.list().push( a2 ).push( a1 ).push( a0 ),
+            listB = mc.list().push( b0 );
 
         assertEquals( listA.length(), 3 );
         assertEquals( listA.get( 0 ), a0 );

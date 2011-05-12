@@ -93,7 +93,7 @@ public class ListAST extends ListNode<AST> implements AST<RippleList>
 		{
 			public void put(final RippleList l) throws RippleException
 			{
-				sink.put( mc.list( l ) );
+				sink.put( mc.list().push( l ) );
 			}
 		};
 

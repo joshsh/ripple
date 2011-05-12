@@ -42,7 +42,7 @@ public class QNameAST implements AST<RippleList>
 		{
 			public void put(final RippleValue v) throws RippleException
 			{
-				sink.put( mc.list( v ) );
+				sink.put( mc.list().push( v ) );
 			}
 		};
 

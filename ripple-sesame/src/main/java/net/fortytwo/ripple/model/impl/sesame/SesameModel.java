@@ -11,7 +11,6 @@ package net.fortytwo.ripple.model.impl.sesame;
 
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.URIMap;
 import net.fortytwo.ripple.model.LibraryLoader;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
@@ -25,6 +24,9 @@ import java.net.URL;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+/**
+ * A <code>Model</code> implementation using the Sesame RDF toolkit.
+ */
 public class SesameModel implements Model
 {
 	private static final Logger LOGGER = Logger.getLogger( SesameModel.class );

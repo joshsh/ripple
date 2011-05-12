@@ -37,7 +37,7 @@ public class TypedLiteralAST implements AST<RippleList>
 			public void put( final RippleList l ) throws RippleException
 			{
                 RippleValue type = l.getFirst();
-                sink.put( mc.list( mc.createTypedLiteral( value, type ) ) );
+                sink.put( mc.list().push( mc.createTypedLiteral( value, type ) ) );
 			}
 		};
 		

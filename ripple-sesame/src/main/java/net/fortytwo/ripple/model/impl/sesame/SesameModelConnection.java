@@ -121,14 +121,6 @@ public class SesameModelConnection implements ModelConnection {
         return SesameList.nilList();
     }
 
-    public RippleList list(RippleValue v) {
-        return new SesameList(v);
-    }
-
-    public RippleList list(RippleValue v, RippleList rest) {
-        return new SesameList(v, rest);
-    }
-
     public void close() throws RippleException {
 //System.out.println("closing...");
         // Complete any still-executing tasks.

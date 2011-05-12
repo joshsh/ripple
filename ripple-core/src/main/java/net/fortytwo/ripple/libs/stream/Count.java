@@ -61,7 +61,7 @@ public class Count extends PrimitiveStackMapping
         RippleList stack = arg.getStack();
 
         // Push the last result, in a stack of its own.
-        solutions.put( arg.with( mc.list( mc.value( count ) ) ) );
+        solutions.put( arg.with( mc.list().push( mc.value( count ) ) ) );
 
         // Push the code to "count" the current argument stack.
         solutions.put( arg.with( stack.push( new Operator( new Counter() ) ) ) );

@@ -41,7 +41,7 @@ public class PlainLiteralAST implements AST<RippleList>
 		RippleValue v = ( null == language )
 			? mc.value( value )
 			: mc.value( value, language );
-		sink.put( mc.list( v ) );
+		sink.put( mc.list().push( v ) );
 	}
 
 	public String toString()

@@ -68,7 +68,7 @@ public class OperatorTest extends RippleTestCase
         RippleValue a2 = mc.value( "2" );
 
         // a RippleList --> ListDequotation
-        arg = mc.list( a2 ).push( a1 );
+        arg = mc.list().push( a2 ).push( a1 );
         ops.clear();
         Operator.createOperator( arg, ops, mc );
         assertEquals( 1, ops.size() );

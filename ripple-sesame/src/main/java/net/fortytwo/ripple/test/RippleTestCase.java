@@ -138,7 +138,7 @@ public abstract class RippleTestCase extends TestCase {
             return mc.list();
         }
 
-        RippleList l = mc.list(values[0]);
+        RippleList l = mc.list().push(values[0]);
         for (int i = 1; i < values.length; i++) {
             l = l.push(values[i]);
         }
