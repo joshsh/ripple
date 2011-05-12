@@ -10,7 +10,6 @@
 package net.fortytwo.ripple.cli.ast;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.io.RipplePrintStream;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.NumericValue;
 
@@ -111,7 +110,7 @@ public class DoubleAST extends NumberAST
     
     public NumericValue getValue( final ModelConnection mc ) throws RippleException
     {
-        return mc.value( value );
+        return mc.numericValue(value);
     }
 
 	public String toString()

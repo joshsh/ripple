@@ -486,9 +486,8 @@ nt_Literal returns [ AST r ]
 }
 	: ( t:STRING
 
-		/* Note: for agreement with Turtle, the grammar allows any resource
-				reference as the data type of a literal (i.e. a URI or a blank
-				node).  However, the Sesame back end will only accept a URI. */
+		/* Note: only a URI reference is accepted as a datatype, in contrast to Turtle,
+		 which also allows blank-node datatypes */
 		( DOUBLE_HAT dataType=nt_Resource )?
 	)
 		{

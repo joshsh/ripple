@@ -70,7 +70,7 @@ public class Lang extends PrimitiveStackMapping
 			if ( null != result )
 			{
                 solutions.put( arg.with(
-					stack.push( mc.value( result ) ) ) );
+					stack.push( mc.plainValue(result) ) ) );
 			}
 		}
 	}

@@ -15,38 +15,39 @@ import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.RippleList;
+import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 
-public class TypedLiteralAST implements AST<RippleList>
-{
-	private final String value;
-	private final AST type;
+public class TypedLiteralAST implements AST<RippleList> {
+    private final String value;
+    private final AST type;
 
-	public TypedLiteralAST( final String value, final AST type )
-	{
-		this.value = value;
-		this.type = type;
-	}
+    public TypedLiteralAST(final String value, final AST type) {
+        this.value = value;
+        this.type = type;
+    }
 
-	public void evaluate( final Sink<RippleList, RippleException> sink,
-						final QueryEngine qe,
-						final ModelConnection mc )
-		throws RippleException
-	{
-		Sink<RippleList, RippleException> typeSink = new Sink<RippleList, RippleException>()
-		{
-			public void put( final RippleList l ) throws RippleException
-			{
+    public void evaluate(final Sink<RippleList, RippleException> sink,
+                         final QueryEngine qe,
+                         final ModelConnection mc)
+            throws RippleException {
+        Sink<RippleList, RippleException> typeSink = new Sink<RippleList, RippleException>() {
+            public void put(final RippleList l) throws RippleException {
                 RippleValue type = l.getFirst();
-                sink.put( mc.list().push( mc.createTypedLiteral( value, type ) ) );
-			}
-		};
-		
-		type.evaluate( typeSink, qe, mc );
-	}
+                Value t = (URI) type.toRDF(mc).sesameValue();
+                if (t instanceof URI) {
+                    sink.put(mc.list().push(mc.typedValue(value, (URI) t)));
+                } else {
+                    qe.getErrorPrintStream().println("datatype does not map to a URI reference: " + type);
+                }
+            }
+        };
 
-	public String toString()
-	{
-		return "\"" + value + "\"^^" + type;
-	}
+        type.evaluate(typeSink, qe, mc);
+    }
+
+    public String toString() {
+        return "\"" + value + "\"^^" + type;
+    }
 }
 

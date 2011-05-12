@@ -61,7 +61,7 @@ public class Play extends PrimitiveStackMapping
         ModelConnection mc = arg.getModelConnection();
         RippleList stack = arg.getStack();
 
-        RDFValue uri = mc.uriValue( mc.toString( stack.getFirst() ) );
+        RDFValue uri = mc.uriValue(mc.toString(stack.getFirst()));
 		//stack = stack.getRest();
 
 		try

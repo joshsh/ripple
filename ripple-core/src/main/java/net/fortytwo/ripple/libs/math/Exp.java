@@ -63,7 +63,7 @@ public class Exp extends PrimitiveStackMapping
 		a = mc.toNumericValue( stack.getFirst() );
 		stack = stack.getRest();
 
-		result = mc.value( Math.exp( a.doubleValue() ) );
+		result = mc.numericValue(Math.exp(a.doubleValue()));
 
 		solutions.put( arg.with(
 				stack.push( result ) ) );

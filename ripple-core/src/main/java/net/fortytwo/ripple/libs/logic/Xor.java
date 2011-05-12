@@ -66,7 +66,7 @@ public class Xor extends PrimitiveStackMapping
 		y = mc.toBoolean( stack.getFirst() );
 		stack = stack.getRest();
 
-		RippleValue result = mc.value( ( x && !y ) || ( !x && y ) );
+		RippleValue result = mc.booleanValue((x && !y) || (!x && y));
 
 		solutions.put( arg.with(
 				stack.push( result ) ) );

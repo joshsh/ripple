@@ -69,7 +69,7 @@ public class Size extends PrimitiveStackMapping
 			{
 				int result = list.length();
 				solutions.put( arg.with(
-						rest.push( mc.value( result ) ) ) );
+						rest.push( mc.numericValue(result) ) ) );
 			}
 		};
 

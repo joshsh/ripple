@@ -38,6 +38,8 @@ public class ExtrasLibrary extends Library {
                 Time.class,
                 // TODO: move these?
                 Keys.class,
+                KeyValues.class,
+                Values.class,
                 Rank.class,
                 Amp.class);
         invertVal = registerPrimitive(Inverse.class, context);

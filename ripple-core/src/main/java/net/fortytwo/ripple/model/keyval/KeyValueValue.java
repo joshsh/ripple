@@ -14,6 +14,7 @@ import java.util.Collection;
 public abstract class KeyValueValue implements RippleValue, Comparable<KeyValueValue> {
     public abstract RippleValue getValue(String key,
                          ModelConnection mc) throws RippleException;
+
     public abstract Collection<String> getKeys();
 
     public Type getType() {

@@ -63,7 +63,7 @@ public class Floor extends PrimitiveStackMapping
 		a = mc.toNumericValue( stack.getFirst() );
 		stack = stack.getRest();
 
-		result = mc.value( (int) Math.floor( a.doubleValue() ) );
+		result = mc.numericValue((int) Math.floor(a.doubleValue()));
 
 		solutions.put( arg.with(
 				stack.push( result ) ) );

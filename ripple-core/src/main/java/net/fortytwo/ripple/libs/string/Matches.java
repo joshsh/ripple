@@ -69,7 +69,7 @@ public class Matches extends PrimitiveStackMapping
 
 		try
 		{
-			result = mc.value( s.matches( regex ) );
+			result = mc.booleanValue(s.matches(regex));
             
             solutions.put( arg.with(
 					stack.push( result ) ) );

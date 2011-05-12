@@ -71,7 +71,7 @@ public class Log10 extends PrimitiveStackMapping
 		// Apply the function only if it is defined for the given argument.
 		if ( a > 0 )
 		{
-			result = mc.value( Math.log10( a ) );
+			result = mc.numericValue(Math.log10(a));
 
 			solutions.put( arg.with(
 					stack.push( result ) ) );
@@ -113,7 +113,7 @@ public class Log10 extends PrimitiveStackMapping
             x = mc.toNumericValue( stack.getFirst() );
             stack = stack.getRest();
 
-            result = mc.value( 10 ).pow( x );
+            result = mc.numericValue(10).pow( x );
 
             solutions.put( arg.with(
                     stack.push( result ) ) );

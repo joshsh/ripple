@@ -29,7 +29,7 @@ public class JSONValue extends KeyValueValue {
 
     public RDFValue toRDF(final ModelConnection mc) throws RippleException {
         // FIXME: add a data type
-        return mc.value(jsonObject.toString());
+        return mc.plainValue(jsonObject.toString());
     }
 
     public boolean isActive() {
@@ -72,11 +72,11 @@ public class JSONValue extends KeyValueValue {
     public static RippleValue toRippleValue(final Object o,
                                             final ModelConnection mc) throws RippleException {
         if (o instanceof Boolean) {
-            return mc.value((Boolean) o);
+            return mc.booleanValue((Boolean) o);
         } else if (o instanceof Double) {
-            return mc.value((Double) o);
+            return mc.numericValue((Double) o);
         } else if (o instanceof Integer) {
-            return mc.value((Integer) o);
+            return mc.numericValue((Integer) o);
         } else if (o instanceof JSONArray) {
             JSONArray a = (JSONArray) o;
             RippleList l = mc.list();
@@ -91,9 +91,9 @@ public class JSONValue extends KeyValueValue {
         } else if (o instanceof JSONObject) {
             return new JSONValue((JSONObject) o);
         } else if (o instanceof Long) {
-            return mc.value((Long) o);
+            return mc.numericValue((Long) o);
         } else if (o instanceof String) {
-            return mc.value((String) o);
+            return mc.plainValue((String) o);
         } else {
             throw new RippleException("tried to convert object of unfamiliar type: " + o);
         }

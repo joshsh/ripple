@@ -1,7 +1,6 @@
 package net.fortytwo.ripple.libs.blueprints;
 
 import com.tinkerpop.blueprints.pgm.Edge;
-import com.tinkerpop.blueprints.pgm.Element;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
@@ -44,7 +43,7 @@ public class Label extends PrimitiveStackMapping {
 
         if (first instanceof EdgeValue) {
             Edge el = ((EdgeValue) first).getElement();
-            solutions.put(arg.with(stack.push(mc.value(el.getLabel()))));
+            solutions.put(arg.with(stack.push(mc.plainValue(el.getLabel()))));
         }
     }
 }

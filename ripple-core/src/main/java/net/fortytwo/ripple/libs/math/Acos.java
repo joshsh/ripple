@@ -68,7 +68,7 @@ public class Acos extends PrimitiveStackMapping
 		// Apply the function only if it is defined for the given argument.
 		if ( a >= -1 && a <= 1 )
 		{
-			result = mc.value( Math.acos( a ) );
+			result = mc.numericValue(Math.acos(a));
 
 			solutions.put( arg.with(
 					stack.push( result ) ) );

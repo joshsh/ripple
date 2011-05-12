@@ -61,7 +61,7 @@ public class Length extends PrimitiveStackMapping
 		stack = stack.getRest();
 
 		solutions.put( arg.with(
-				stack.push( mc.value( s.length() ) ) ) );
+				stack.push( mc.numericValue(s.length()) ) ) );
 	}
 }
 

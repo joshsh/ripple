@@ -130,7 +130,7 @@ public class Get extends PrimitiveStackMapping
 			throw new RippleException( t );
 		}
 
-		solutions.put( arg.with( stack.push( mc.value( result, XMLSchema.STRING ) ) ) );
+		solutions.put( arg.with( stack.push( mc.typedValue(result, XMLSchema.STRING) ) ) );
 	}
 }
 

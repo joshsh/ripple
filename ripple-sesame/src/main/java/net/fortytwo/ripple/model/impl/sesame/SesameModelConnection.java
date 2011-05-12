@@ -430,40 +430,6 @@ public class SesameModelConnection implements ModelConnection {
 
     ////////////////////////////////////////////////////////////////////////////
 
-    /*
-     private static int randomInt( final int lo, final int hi )
-     {
-         int n = hi - lo + 1;
-         int i = rand.nextInt() % n;
-
-         if (i < 0)
-         {
-             i = -i;
-         }
-
-         return lo + i;
-     }
-
-     URI createRandomUri() throws RippleException
-     {
-         return createUri( "urn:random:" + randomInt( 0, Integer.MAX_VALUE ) );
-     }
-     */
-
-    ////////////////////////////////////////////////////////////////////////////
-
-    public RDFValue createTypedLiteral(final String value, final RippleValue type) throws RippleException {
-        Value v = type.toRDF(this).sesameValue();
-
-        if (!(v instanceof URI)) {
-            throw new RippleException("literal type is not a URI");
-        } else {
-            return value(value, (URI) v);
-        }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
-
     public Comparator<RippleValue> getComparator() {
         return comparator;
     }
@@ -488,7 +454,7 @@ public class SesameModelConnection implements ModelConnection {
         return model.specialValues.get(v);
     }
 
-    public RDFValue value(final String s) throws RippleException {
+    public RDFValue plainValue(final String s) throws RippleException {
         try {
             return new RDFValue(
                     valueFactory.createLiteral(s));
@@ -501,7 +467,7 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
-    public RDFValue value(final String s, final String language)
+    public RDFValue languageTaggedValue(final String s, final String language)
             throws RippleException {
         try {
             return new RDFValue(
@@ -514,7 +480,7 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
-    public RDFValue value(final String s, final URI dataType)
+    public RDFValue typedValue(final String s, final URI dataType)
             throws RippleException {
         try {
             return new RDFValue(
@@ -527,7 +493,7 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
-    public RDFValue value(final boolean b)
+    public RDFValue booleanValue(final boolean b)
             throws RippleException {
         try {
             return new RDFValue(
@@ -540,19 +506,19 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
-    public NumericValue value(final int i) throws RippleException {
+    public NumericValue numericValue(final int i) throws RippleException {
         return new SesameNumericValue(i);
     }
 
-    public NumericValue value(final long l) throws RippleException {
+    public NumericValue numericValue(final long l) throws RippleException {
         return new SesameNumericValue(l);
     }
 
-    public NumericValue value(final double d) throws RippleException {
+    public NumericValue numericValue(final double d) throws RippleException {
         return new SesameNumericValue(d);
     }
 
-    public NumericValue value(final BigDecimal b) throws RippleException {
+    public NumericValue numericValue(final BigDecimal b) throws RippleException {
         return new SesameNumericValue(b);
     }
 

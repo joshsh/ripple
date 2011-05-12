@@ -67,7 +67,7 @@ public class Asin extends PrimitiveStackMapping
 		// Apply the function only if it is defined for the given argument.
 		if ( a >= -1 && a <= 1 )
 		{
-			result = mc.value( Math.asin( a ) );
+			result = mc.numericValue(Math.asin(a));
 
 			solutions.put( arg.with(
 					stack.push( result ) ) );

@@ -10,7 +10,6 @@
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.URIMap;
 
 /**
  * RDF data and Java implementation of a library of primitive functions.
@@ -40,7 +39,7 @@ public abstract class Library
 		try
 		{
 			prim = (PrimitiveStackMapping) c.newInstance();
-            prim.setRdfEquivalent( mc.uriValue( prim.getIdentifiers()[0] ), mc );
+            prim.setRdfEquivalent( mc.uriValue(prim.getIdentifiers()[0]), mc );
         }
 
 		catch ( InstantiationException e )
@@ -60,7 +59,7 @@ public abstract class Library
         String[] identifiers = prim.getIdentifiers();
         for ( int i = 1; i < identifiers.length; i++ )
         {
-            context.addAlias( mc.uriValue( identifiers[i] ).sesameValue(), prim );
+            context.addAlias( mc.uriValue(identifiers[i]).sesameValue(), prim );
         }
 
         return prim;

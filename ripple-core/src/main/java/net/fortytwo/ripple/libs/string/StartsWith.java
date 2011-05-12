@@ -66,7 +66,7 @@ public class StartsWith extends PrimitiveStackMapping
 		s = mc.toString( stack.getFirst() );
 		stack = stack.getRest();
 
-		result = mc.value( s.startsWith( affix ) );
+		result = mc.booleanValue(s.startsWith(affix));
         
         solutions.put( arg.with(
 			stack.push( result ) ) );

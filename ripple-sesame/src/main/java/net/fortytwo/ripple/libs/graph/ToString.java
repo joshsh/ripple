@@ -68,7 +68,7 @@ public class ToString extends PrimitiveStackMapping
 		stack = stack.getRest();
 
 		solutions.put( arg.with(
-				stack.push( mc.value( mc.toString( v ), XMLSchema.STRING ) ) ) );
+				stack.push( mc.typedValue(mc.toString(v), XMLSchema.STRING) ) ) );
 	}
 }
 

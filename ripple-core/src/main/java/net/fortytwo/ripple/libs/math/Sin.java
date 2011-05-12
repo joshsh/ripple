@@ -63,7 +63,7 @@ public class Sin extends PrimitiveStackMapping
 		a = mc.toNumericValue( stack.getFirst() );
 		stack = stack.getRest();
 
-		result = mc.value( Math.sin( a.doubleValue() ) );
+		result = mc.numericValue(Math.sin(a.doubleValue()));
 
 		solutions.put( arg.with(
 				stack.push( result ) ) );

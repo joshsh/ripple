@@ -91,7 +91,7 @@ public RDFValue toRDF( final ModelConnection mc )
 // Note: only correct for OP, but I expect this method only to be used with OP anyway
 if ( null == rdfEquivalent )
 {
-	rdfEquivalent = mc.uriValue( "http://fortytwo.net/2007/03/ripple/schema#op" );
+	rdfEquivalent = mc.uriValue("http://fortytwo.net/2007/03/ripple/schema#op");
 }
 return rdfEquivalent;
 }

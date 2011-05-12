@@ -66,7 +66,7 @@ public class Tan extends PrimitiveStackMapping
 
 // TODO: check for undefined values
 		double d = Math.tan( a );
-		result = mc.value( d );
+		result = mc.numericValue(d);
 
 		solutions.put( arg.with(
 				stack.push( result ) ) );

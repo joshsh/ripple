@@ -31,43 +31,43 @@ public class NumericValueTest extends RippleTestCase
         NumericValue l;
 
         // Create an integer literal.
-        l = mc.value( 42 );
+        l = mc.numericValue(42);
         assertTrue( l instanceof NumericValue );
         assertEquals( NumericValue.Type.INTEGER, l.getDatatype() );
         assertEquals( 42, l.intValue() );
-        l = mc.value( 0 );
+        l = mc.numericValue(0);
         assertTrue( l instanceof NumericValue );
         assertEquals( NumericValue.Type.INTEGER, l.getDatatype() );
         assertEquals( 0, l.intValue() );
-        l = mc.value( -42 );
+        l = mc.numericValue(-42);
         assertTrue( l instanceof NumericValue );
         assertEquals( NumericValue.Type.INTEGER, l.getDatatype() );
         assertEquals( -42, l.intValue() );
 
         // Create a long literal.
-        l = mc.value( 42l );
+        l = mc.numericValue(42l);
         assertTrue( l instanceof NumericValue );
         assertEquals( NumericValue.Type.LONG, l.getDatatype() );
         assertEquals( 42l, l.longValue() );
-        l = mc.value( 0l );
+        l = mc.numericValue(0l);
         assertTrue( l instanceof NumericValue );
         assertEquals( NumericValue.Type.LONG, l.getDatatype() );
         assertEquals( 0l, l.longValue() );
-        l = mc.value( -42l );
+        l = mc.numericValue(-42l);
         assertTrue( l instanceof NumericValue );
         assertEquals( NumericValue.Type.LONG, l.getDatatype() );
         assertEquals( -42l, l.longValue() );
 
         // Create a double literal
-        l = mc.value( 42.0 );
+        l = mc.numericValue(42.0);
         assertTrue( l instanceof NumericValue );
         assertEquals( NumericValue.Type.DOUBLE, l.getDatatype() );
         assertEquals( 42.0, l.doubleValue() );
-        l = mc.value( 0.0 );
+        l = mc.numericValue(0.0);
         assertTrue( l instanceof NumericValue );
         assertEquals( NumericValue.Type.DOUBLE, l.getDatatype() );
         assertEquals( 0.0, l.doubleValue() );
-        l = mc.value( -42.0 );
+        l = mc.numericValue(-42.0);
         assertTrue( l instanceof NumericValue );
         assertEquals( NumericValue.Type.DOUBLE, l.getDatatype() );
         assertEquals( -42.0, l.doubleValue() );

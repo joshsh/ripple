@@ -81,7 +81,7 @@ public class ToInteger extends PrimitiveStackMapping
 		}
 
 		solutions.put( arg.with(
-				stack.push( mc.value( i ) ) ) );
+				stack.push( mc.numericValue(i) ) ) );
 	}
 }
 

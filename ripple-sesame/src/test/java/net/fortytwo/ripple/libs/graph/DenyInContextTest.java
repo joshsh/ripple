@@ -61,7 +61,7 @@ public class DenyInContextTest extends RippleTestCase
     public void testLiteralObjects() throws Exception {
         reduce("@prefix ex: <http://example.org/denyInContextTest/>.");
 
-        modelConnection.remove( null, null, modelConnection.value( 42 ) );
+        modelConnection.remove( null, null, modelConnection.numericValue(42) );
         modelConnection.commit();
         assertReducesTo( "ex:a ex:specialNumer 42 ex:ctx1 assertInContext.", "ex:a" );
         assertReducesTo( "ex:a ex:specialNumer.", "42" );
@@ -79,7 +79,7 @@ public class DenyInContextTest extends RippleTestCase
         assertReducesTo( "ex:b ex:specialNumer.", "42" );
         assertReducesTo( "42 ex:specialNumer~.", "ex:b" );
 
-        modelConnection.remove( null, null, modelConnection.value( "something" ) );
+        modelConnection.remove( null, null, modelConnection.plainValue("something") );
         modelConnection.commit();
         assertReducesTo( "ex:a rdfs:comment \"something\" ex:ctx1 assertInContext.", "ex:a" );
         assertReducesTo( "ex:a rdfs:comment.", "\"something\"" );
@@ -92,7 +92,7 @@ public class DenyInContextTest extends RippleTestCase
         assertReducesTo( "\"something\" rdfs:comment~." );
         assertReducesTo( "\"something\" rdfs:comment ex:ctx1 inContext~." );
 
-        modelConnection.remove( null, null, modelConnection.value( "something", XMLSchema.STRING ) );
+        modelConnection.remove( null, null, modelConnection.typedValue("something", XMLSchema.STRING) );
         modelConnection.commit();
         assertReducesTo( "ex:a rdfs:label \"something\"^^xsd:string ex:ctx1 assertInContext.", "ex:a" );
         assertReducesTo( "ex:a rdfs:label.", "\"something\"^^xsd:string" );
@@ -114,7 +114,7 @@ public class DenyInContextTest extends RippleTestCase
     public void testNullContext() throws Exception {
         reduce("@prefix ex: <http://example.org/assertInContextTest/>.");
 
-        modelConnection.remove( null, null, modelConnection.value( "q" ) );
+        modelConnection.remove( null, null, modelConnection.plainValue("q") );
         modelConnection.commit();
         assertReducesTo( "ex:q rdfs:label \"q\" () assertInContext.", "ex:q" );
         assertReducesTo( "ex:q rdfs:label () inContext.", "\"q\"" );

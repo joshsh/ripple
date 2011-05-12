@@ -66,7 +66,7 @@ public class Cbrt extends PrimitiveStackMapping
 		a = mc.toNumericValue( stack.getFirst() );
 		stack = stack.getRest();
 
-		result = mc.value( Math.cbrt( a.doubleValue() ) );
+		result = mc.numericValue(Math.cbrt(a.doubleValue()));
 
 		solutions.put( arg.with(
 				stack.push( result ) ) );

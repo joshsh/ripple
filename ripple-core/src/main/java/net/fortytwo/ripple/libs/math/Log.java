@@ -67,7 +67,7 @@ public class Log extends PrimitiveStackMapping
 		// Apply the function only if it is defined for the given argument.
 		if ( a > 0 )
 		{
-			result = mc.value( Math.log( a ) );
+			result = mc.numericValue(Math.log(a));
 
 			solutions.put( arg.with(
 					stack.push( result ) ) );

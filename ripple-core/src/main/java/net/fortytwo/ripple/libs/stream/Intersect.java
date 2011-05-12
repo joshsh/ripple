@@ -71,9 +71,9 @@ public class Intersect extends PrimitiveStackMapping
 
 		Operator inner = new Operator( new IntersectInner() );
 		solutions.put( arg.with(
-				stack.push( rtrue ).push( Operator.OP ).push( mc.value( true ) ).push( inner ) ) );
+				stack.push( rtrue ).push( Operator.OP ).push( mc.booleanValue(true) ).push( inner ) ) );
 		solutions.put( arg.with(
-				stack.push( rfalse ).push( Operator.OP ).push( mc.value( false ) ).push( inner ) ) );
+				stack.push( rfalse ).push( Operator.OP ).push( mc.booleanValue(false) ).push( inner ) ) );
 	}
 
 	////////////////////////////////////////////////////////////////////////////

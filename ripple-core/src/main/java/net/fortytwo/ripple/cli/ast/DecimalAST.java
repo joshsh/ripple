@@ -54,7 +54,7 @@ public class DecimalAST extends NumberAST
 
     public NumericValue getValue( final ModelConnection mc ) throws RippleException
     {
-        return mc.value( value );
+        return mc.numericValue(value);
     }
 
     public String toString()

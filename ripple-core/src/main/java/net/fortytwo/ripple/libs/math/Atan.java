@@ -63,7 +63,7 @@ public class Atan extends PrimitiveStackMapping
 		a = mc.toNumericValue( stack.getFirst() );
 		stack = stack.getRest();
 
-		result = mc.value( Math.atan( a.doubleValue() ) );
+		result = mc.numericValue(Math.atan(a.doubleValue()));
 
 		solutions.put( arg.with(
 				stack.push( result ) ) );

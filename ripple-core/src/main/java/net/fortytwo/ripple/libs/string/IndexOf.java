@@ -67,7 +67,7 @@ public class IndexOf extends PrimitiveStackMapping
 
 		result = str.indexOf( substr );
 		solutions.put( arg.with(
-				stack.push( mc.value( result ) ) ) );
+				stack.push( mc.numericValue(result) ) ) );
 	}
 }
 

@@ -57,7 +57,7 @@ public class Random extends PrimitiveStackMapping
 
 		NumericValue result;
 
-		result = mc.value( Math.random() );
+		result = mc.numericValue(Math.random());
 
 		solutions.put( arg.with(
 				stack.push( result ) ) );

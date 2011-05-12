@@ -58,6 +58,6 @@ public class Time extends PrimitiveStackMapping
 		RippleList stack = arg.getStack();
 
 		solutions.put( arg.with( stack.push(
-			mc.value( System.currentTimeMillis() ) ) ) );
+			mc.numericValue(System.currentTimeMillis()) ) ) );
 	}
 }

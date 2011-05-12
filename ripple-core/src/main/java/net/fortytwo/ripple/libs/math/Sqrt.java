@@ -70,10 +70,10 @@ public class Sqrt extends PrimitiveStackMapping {
             // Yield both square roots.
             try {
                 solutions.put(arg.with(
-                        stack.push(mc.value(d))));
+                        stack.push(mc.numericValue(d))));
                 if (d > 0) {
                     solutions.put(arg.with(
-                            stack.push(mc.value(0.0 - d))));
+                            stack.push(mc.numericValue(0.0 - d))));
                 }
             } catch (RippleException e) {
                 // Soft fail

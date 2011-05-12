@@ -80,8 +80,8 @@ public class StringLibrary extends Library
         }
 
         return stringTyped
-                ? mc.value( label, XMLSchema.STRING )
-                : mc.value( label );
+                ? mc.typedValue(label, XMLSchema.STRING)
+                : mc.plainValue(label);
     }
 }
 

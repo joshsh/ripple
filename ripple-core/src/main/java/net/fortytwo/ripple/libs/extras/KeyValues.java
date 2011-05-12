@@ -14,11 +14,11 @@ import net.fortytwo.ripple.model.keyval.KeyValueValue;
  * Date: 4/5/11
  * Time: 11:22 PM
  */
-public class Keys extends PrimitiveStackMapping {
+public class KeyValues extends PrimitiveStackMapping {
     @Override
     public String[] getIdentifiers() {
         return new String[]{
-                ExtrasLibrary.NS_2011_04 + "keys"
+                ExtrasLibrary.NS_2011_04 + "key-values"
         };
     }
 
@@ -30,7 +30,7 @@ public class Keys extends PrimitiveStackMapping {
 
     @Override
     public String getComment() {
-        return "finds all keys with values on the given object";
+        return "finds all key-value pairs on the given object";
     }
 
     public void apply(final StackContext arg,
@@ -42,7 +42,8 @@ public class Keys extends PrimitiveStackMapping {
 
         if (first instanceof KeyValueValue) {
             for (String key : ((KeyValueValue) first).getKeys()) {
-                solutions.put(arg.with(stack.push(mc.plainValue(key))));
+                RippleValue value = ((KeyValueValue) first).getValue(key, mc);
+                solutions.put(arg.with(stack.push(mc.plainValue(key)).push(value)));
             }
         }
     }

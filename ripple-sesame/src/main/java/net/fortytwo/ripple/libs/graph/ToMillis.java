@@ -53,6 +53,6 @@ public class ToMillis extends PrimitiveStackMapping {
         stack = stack.getRest();
 
         solutions.put(arg.with(stack.push(
-                mc.value(d.getTime()))));
+                mc.numericValue(d.getTime()))));
     }
 }

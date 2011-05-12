@@ -48,9 +48,9 @@ public class LazyEvaluatorTest extends RippleTestCase
             sqrt = new Sqrt(),
             abs = new Abs();
         RippleValue
-            minusone = mc.value( -1.0 ),
-            one = mc.value( 1 ),
-            two = mc.value( 2 );
+            minusone = mc.numericValue(-1.0),
+            one = mc.numericValue(1),
+            two = mc.numericValue(2);
 
         // passive stack passes through unchanged
         // (1 2) -> (1 2)
