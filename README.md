@@ -1,3 +1,5 @@
+![Ripple logo|width=420px|height=100px](https://github.com/joshsh/ripple/wiki/graphics/ripple-logo-text-medium.png)
+
 Welcome to the Ripple wiki!
 Ripple is a relational, stack-based dataflow language for exploring the Semantic Web and other multi-relational networks.
 Ripple programs resemble path expressions as in [XPath](http://www.w3.org/TR/xpath/)
@@ -19,5 +21,4 @@ This implementation is written in Java and includes an interactive command-line 
  * The [demo screencast](http://ripple.googlecode.com/svn/trunk/docs/screencast/index.html) from the [SFSW 2007 Scripting Challenge](http://www.semanticscripting.org/SFSW2007/)
  * [ripple.fortytwo.net](http://ripple.fortytwo.net) (the Ripple blog)
  * [clj-ripple](https://github.com/eduardoejp/clj-ripple): a library for embedding Ripple in Clojure.  Sweet!
-[[https://github.com/joshsh/ripple/wiki/ripple_logo_roundedsquare.png|align=right|width=100px|height=94px]]
 
