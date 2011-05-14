@@ -47,8 +47,6 @@ public abstract class NumericValue implements RippleValue, Comparable<NumericVal
 // TODO: move into implementation
 	protected RDFValue rdfEquivalent = null;
 
-	public abstract RDFValue toRDF( final ModelConnection mc ) throws RippleException;
-	
 	public Type getDatatype()
 	{
 		return type;

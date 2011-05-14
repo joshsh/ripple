@@ -12,6 +12,7 @@ import net.fortytwo.ripple.model.StatementPatternQuery;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.Value;
+import org.openrdf.model.ValueFactory;
 
 import java.util.Random;
 
@@ -38,30 +39,6 @@ public class ModelConnectionHelper {
         return results.isEmpty() ? null : results.iterator().next();
     }
 
-    //TODO: context handling
-    public void internalize(final RippleValue src, final RippleValue dest)
-            throws RippleException {
-        Sink<Statement, RippleException> stSink = new Sink<Statement, RippleException>() {
-            public void put(final Statement st) throws RippleException {
-                Resource context = st.getContext();
-
-                try {
-                    if (null == context) {
-                        connection.add(dest, new RDFValue(st.getPredicate()), new RDFValue(st.getObject()));
-                    } else {
-                        connection.add(dest, new RDFValue(st.getPredicate()), new RDFValue(st.getObject()), new RDFValue(st.getContext()));
-                    }
-                }
-
-                catch (Throwable t) {
-                    throw new RippleException(t);
-                }
-            }
-        };
-
-        connection.getStatements(src.toRDF(connection), null, null, stSink);
-    }
-
     public void findPredicates(final RippleValue subject,
                                final Sink<RippleValue, RippleException> sink)
             throws RippleException {
@@ -83,7 +60,7 @@ public class ModelConnectionHelper {
         connection.getStatements(subject.toRDF(connection), null, null, predSelector);
     }
 
-    public RippleValue createRandomURI() throws RippleException {
+    public RDFValue createRandomURI() throws RippleException {
         // Local name will be a UUID (without the dashes).
         byte[] bytes = new byte[32];
 

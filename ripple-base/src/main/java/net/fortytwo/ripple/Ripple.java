@@ -64,6 +64,8 @@ public final class Ripple
             // TODO: .........
             USE_ASYNCHRONOUS_QUERIES            = "";
 
+    public static final String RIPPLE_ONTO_BASEURI = "http://fortytwo.net/2007/03/ripple/schema#";
+
     private static final String RIPPLE_PROPERTIES = "default.properties";
     private static final String LOG4J_PROPERTIES = "log4j.properties";
 

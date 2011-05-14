@@ -12,6 +12,7 @@ package net.fortytwo.ripple.query.commands;
 import net.fortytwo.flow.Collector;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.cli.ast.ListAST;
+import net.fortytwo.ripple.io.RDFImporter;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
@@ -65,15 +66,13 @@ public class DefineListCmd extends Command
 			RippleList expr = (RippleList) expressions.iterator().next().getFirst();
 //System.out.println( "exprList = " + exprList );
 
-// TODO: check for collision with an existing URI
-			RDFValue uri = mc.uriValue(qe.getLexicon().getDefaultNamespace() + name);
-            ...
-			new ModelConnectionHelper(mc).internalize(expr, uri);
-            ...
+			RDFValue id = mc.uriValue(qe.getLexicon().getDefaultNamespace() + name);
+            expr.setRDF(id);
+            mc.internalize(expr);
 			mc.commit();
 
-			qe.getLexicon().addURI( (URI) uri.sesameValue() );
-            mc.getModel().getSpecialValues().put( uri.sesameValue(), expr );
+			qe.getLexicon().addURI( (URI) id.sesameValue() );
+            mc.getModel().getSpecialValues().put( id.sesameValue(), expr );
         }
 	}
 

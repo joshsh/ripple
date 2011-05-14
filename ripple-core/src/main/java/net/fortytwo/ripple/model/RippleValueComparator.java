@@ -214,8 +214,14 @@ public class RippleValueComparator implements Comparator<RippleValue> {
     private int compareOtherResource(final RippleValue first,
                                      final RippleValue second) throws RippleException {
 //System.out.println("first = " + first + ", second = " + second);
-        return first.toRDF(modelConnection).sesameValue().stringValue().compareTo(
-                second.toRDF(modelConnection).sesameValue().stringValue());
+        RDFValue firstRdf = first.toRDF(modelConnection);
+        RDFValue secondRdf = second.toRDF(modelConnection);
+        return null == firstRdf
+                ? null == secondRdf ? 0
+                : -1
+                : null == secondRdf ? 1
+                : firstRdf.sesameValue().stringValue().compareTo(
+                secondRdf.sesameValue().stringValue());
     }
 
     private int compareNativeLists(final RippleList first,

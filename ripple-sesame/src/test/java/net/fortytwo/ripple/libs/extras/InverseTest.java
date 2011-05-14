@@ -16,11 +16,15 @@ public class InverseTest extends RippleTestCase
         assertReducesTo( "2 3 div inverse..", "6" );
 
         // Invert an RDF predicate
-        // Note: the double result is a result of the quirky way in which
-        // definitions are bound to lists: the list is first pushed into the
-        // triple store, then the head node is copied.  So there are two lists
-        // which have '137' as their first element.
         assertReducesTo( "@relist foobar: 137 69\n"
-                + "136 1 add. rdf:first inverse...", "137 69", "137 69" );
+                + "136 1 add. rdf:first inverse...", "137 69" );
+    }
+
+    public void testInverseListPredicates() throws Exception {
+        reduce("@list lintilla42: 1331 137");
+
+        // This results in three answers because both an RDF resource and a native list are matched by rdf:first,
+        // and then again by rdf:rest.
+        assertReducesTo("1331 rdf:first~. rdf:rest. rdf:first.",  "137", "137", "137");
     }
 }

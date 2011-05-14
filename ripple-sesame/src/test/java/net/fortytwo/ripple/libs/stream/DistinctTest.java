@@ -22,10 +22,10 @@ public class DistinctTest extends RippleTestCase
     {
         assertReducesTo( "(() rdf:nil) each. distinct.", "()" );
 
-        reduce("@prefix : <http://example.org/distinctTest/>\n"
-                + "@list foo: 1 2 3");
+        reduce("@prefix : <http://example.org/distinctTest/>");
+        reduce("@list foo: 1 2 3");
         assertReducesTo( ":foo", "(1 2 3)" );
-        assertReducesTo( ":foo rdf:rest.", "(2 3)" );
+        assertReducesTo( ":foo rdf:rest.", "(2 3)", "(2 3)" );
     }
 
     public void testArity() throws Exception

@@ -47,6 +47,8 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
         return rest;
     }
 
+    public abstract void setRDF(final RDFValue id);
+
     /**
      * @return the number of items in this list.
      *         This is purely a convenience method.

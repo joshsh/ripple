@@ -35,12 +35,6 @@ public class DenyTest extends RippleTestCase
         assertReducesTo( "ex:b rdf:type () deny.", "ex:b" );
         assertReducesTo( "ex:b rdf:type." );
         assertReducesTo( "() rdf:type~." );
-
-        assertReducesTo( "ex:c rdf:type (1 2) assert.", "ex:c" );
-        assertReducesTo( "ex:c rdf:type.", "(1 2)" );        
-        // Equality does not imply identity in statement queries.
-        assertReducesTo( "ex:c rdf:type (1 2) deny.", "ex:c" );
-        assertReducesTo( "ex:c rdf:type.", "(1 2)" );
     }
 
     public void testLiteralObjects() throws Exception {

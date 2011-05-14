@@ -22,6 +22,7 @@ import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.control.Task;
 import net.fortytwo.ripple.control.TaskSet;
+import net.fortytwo.ripple.io.RDFImporter;
 import net.fortytwo.ripple.model.GetStatementsQuery;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
@@ -59,6 +60,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SesameModelConnection implements ModelConnection {
     private static final Logger LOGGER
@@ -87,9 +90,7 @@ public class SesameModelConnection implements ModelConnection {
 
         try {
             valueFactory = model.sail.getValueFactory();
-        }
-
-        catch (Throwable t) {
+        } catch (Throwable t) {
             throw new RippleException(t);
         }
 
@@ -154,13 +155,9 @@ public class SesameModelConnection implements ModelConnection {
         try {
             sailConnection.commit();
             uncommittedChanges = false;
-        }
-
-        catch (SailReadOnlyException e) {
+        } catch (SailReadOnlyException e) {
             handleSailReadOnlyException(e);
-        }
-
-        catch (Throwable t) {
+        } catch (Throwable t) {
             throw new RippleException(t);
         }
 //System.out.println("    done.");
@@ -180,9 +177,7 @@ public class SesameModelConnection implements ModelConnection {
 
                 ((NotifyingSailConnection) sailConnection).addConnectionListener(listener);
             }
-        }
-
-        catch (Throwable t) {
+        } catch (Throwable t) {
             throw new RippleException(t);
         }
     }
@@ -200,13 +195,9 @@ public class SesameModelConnection implements ModelConnection {
                 // Don't throw an exception: we could easily end up in a loop.
                 LOGGER.error("tried to close an already-closed connection");
             }
-        }
-
-        catch (SailReadOnlyException e) {
+        } catch (SailReadOnlyException e) {
             handleSailReadOnlyException(e);
-        }
-
-        catch (Throwable t) {
+        } catch (Throwable t) {
             throw new RippleException(t);
         }
     }
@@ -308,13 +299,9 @@ public class SesameModelConnection implements ModelConnection {
                             (Resource) subjValue, (URI) predValue, objValue, (Resource) contextValue);
                 }
             }
-        }
-
-        catch (SailReadOnlyException e) {
+        } catch (SailReadOnlyException e) {
             handleSailReadOnlyException(e);
-        }
-
-        catch (SailException e) {
+        } catch (SailException e) {
             reset(true);
             throw new RippleException(e);
         }
@@ -377,13 +364,9 @@ public class SesameModelConnection implements ModelConnection {
                             (Resource) subjValue, (URI) predValue, objValue, (Resource) contextValue);
                 }
             }
-        }
-
-        catch (SailReadOnlyException e) {
+        } catch (SailReadOnlyException e) {
             handleSailReadOnlyException(e);
-        }
-
-        catch (SailException e) {
+        } catch (SailException e) {
             reset(true);
             throw new RippleException(e);
         }
@@ -410,9 +393,7 @@ public class SesameModelConnection implements ModelConnection {
 
                 stmtIter.close();
             }
-        }
-
-        catch (Throwable t) {
+        } catch (Throwable t) {
             reset(true);
             throw new RippleException(t);
         }
@@ -442,14 +423,12 @@ public class SesameModelConnection implements ModelConnection {
             // Note: do NOT automatically canonicalize values.  Sometimes one needs the original URI (e.g. so as to
             // remove statements), and not the native object it maps to.
             return new RDFValue(valueFactory.createURI(s));
-        }
-
-        catch (Throwable t) {
+        } catch (Throwable t) {
             reset(true);
             throw new RippleException(t);
         }
     }
-    
+
     public RippleValue canonicalValue(final RDFValue v) {
         return model.specialValues.get(v);
     }
@@ -459,9 +438,7 @@ public class SesameModelConnection implements ModelConnection {
             return new RDFValue(
                     valueFactory.createLiteral(s));
 //                    valueFactory.createLiteral( s, XMLSchema.STRING ) );
-        }
-
-        catch (Throwable t) {
+        } catch (Throwable t) {
             reset(true);
             throw new RippleException(t);
         }
@@ -472,9 +449,7 @@ public class SesameModelConnection implements ModelConnection {
         try {
             return new RDFValue(
                     valueFactory.createLiteral(s, language));
-        }
-
-        catch (Throwable t) {
+        } catch (Throwable t) {
             reset(true);
             throw new RippleException(t);
         }
@@ -485,9 +460,7 @@ public class SesameModelConnection implements ModelConnection {
         try {
             return new RDFValue(
                     valueFactory.createLiteral(s, dataType));
-        }
-
-        catch (Throwable t) {
+        } catch (Throwable t) {
             reset(true);
             throw new RippleException(t);
         }
@@ -498,9 +471,7 @@ public class SesameModelConnection implements ModelConnection {
         try {
             return new RDFValue(
                     valueFactory.createLiteral("" + b, XMLSchema.BOOLEAN));
-        }
-
-        catch (Throwable t) {
+        } catch (Throwable t) {
             reset(true);
             throw new RippleException(t);
         }
@@ -544,13 +515,9 @@ public class SesameModelConnection implements ModelConnection {
 //System.out.println("--- v");
                 }
             }
-        }
-
-        catch (SailReadOnlyException e) {
+        } catch (SailReadOnlyException e) {
             handleSailReadOnlyException(e);
-        }
-
-        catch (Throwable t) {
+        } catch (Throwable t) {
             reset(true);
             throw new RippleException(t);
         }
@@ -650,9 +617,7 @@ public class SesameModelConnection implements ModelConnection {
         try {
             source = new CloseableIterationSource<Namespace, SailException>(
                     (CloseableIteration<Namespace, SailException>) sailConnection.getNamespaces());
-        }
-
-        catch (SailException e) {
+        } catch (SailException e) {
             throw new RippleException(e);
         }
 
@@ -711,16 +676,12 @@ public class SesameModelConnection implements ModelConnection {
 
                 stmtIter.close();
                 //}
-            }
-
-            catch (Throwable t) {
+            } catch (Throwable t) {
                 try {
                     if (null != stmtIter) {
                         stmtIter.close();
                     }
-                }
-
-                catch (Throwable t2) {
+                } catch (Throwable t2) {
                     t2.printStackTrace(System.err);
                     System.exit(1);
                 }
@@ -772,9 +733,7 @@ public class SesameModelConnection implements ModelConnection {
                     }
 
                     iter.close();
-                }
-
-                catch (SailException e) {
+                } catch (SailException e) {
                     throw new RippleException(e);
                 }
             }
@@ -783,5 +742,52 @@ public class SesameModelConnection implements ModelConnection {
 
     private void handleSailReadOnlyException(final SailReadOnlyException e) {
         // For now, ignore these exceptions.
+    }
+
+    public boolean internalize(final RippleList list) throws RippleException {
+        Collector<Statement, RippleException> buffer = new Collector<Statement, RippleException>();
+
+        // Handle circular lists (in the unlikely event that some implementation allows them) sanely.
+        // TODO: handle list containment cycles (e.g. list containing a list containing the original list) as well.  These are actually more likely than circular lists.
+        Set<RDFValue> alreadyInterned = new HashSet<RDFValue>();
+
+        RippleList cur = list;
+        RDFValue id = cur.toRDF(this);
+        while (!cur.isNil()) {
+            if (alreadyInterned.contains(id)) {
+                break;
+            } else {
+                alreadyInterned.add(id);
+            }
+
+            RDFValue firstRdf = cur.getFirst().toRDF(this);
+
+            if (null == firstRdf) {
+                System.err.println("list item has no RDF identity: " + cur.getFirst());
+                return false;
+            }
+
+            if (cur.getFirst() instanceof RippleList) {
+                internalize((RippleList) cur.getFirst());
+            }
+
+            RippleList rest = cur.getRest();
+            RDFValue restRdf = rest.toRDF(this);
+
+            buffer.put(
+                    valueFactory.createStatement((Resource) id.sesameValue(), RDF.TYPE, RDF.LIST));
+            buffer.put(
+                    valueFactory.createStatement((Resource) id.sesameValue(), RDF.FIRST, firstRdf.sesameValue()));
+            buffer.put(
+                    valueFactory.createStatement((Resource) id.sesameValue(), RDF.REST, restRdf.sesameValue()));
+
+            cur = rest;
+            id = restRdf;
+        }
+
+        RDFImporter importer = new RDFImporter(this);
+        buffer.writeTo(importer.statementSink());
+
+        return true;
     }
 }

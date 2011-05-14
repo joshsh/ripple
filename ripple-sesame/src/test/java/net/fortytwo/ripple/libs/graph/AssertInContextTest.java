@@ -36,10 +36,17 @@ public class AssertInContextTest extends RippleTestCase
         assertReducesTo( "() rdf:type ex:ctx2 in-context~." );
 
         assertReducesTo( "ex:c rdf:type (1 2) ex:ctx1 assert-in-context.", "ex:c" );
-        assertReducesTo( "ex:c rdf:type ex:ctx1 in-context. rdf:type.", "rdf:List" );
-        assertReducesTo( "ex:c rdf:type ex:ctx1 in-context.", "(1 2)" );
+        // The list (1 2) is not in the data store, as it was not interned.
+        assertReducesTo( "ex:c rdf:type ex:ctx1 in-context. rdf:type." );
         // Equality does not imply identity in statement queries.
         assertReducesTo( "(1 2) rdf:type ex:ctx1 in-context~." );
+
+        assertReducesTo( "@list blah: 1 2 3\n" +
+                "ex:d rdf:type :blah ex:ctx1 assert-in-context.", "ex:d");
+        assertReducesTo( "ex:d rdf:type ex:ctx1 in-context.", "(1 2 3)");
+        // There are two results, because rdf:type matches against both the RDF resource and the native list.
+        assertReducesTo( "ex:d rdf:type ex:ctx1 in-context. rdf:type.", "rdf:List", "rdf:List");
+
     }
 
     public void testLiteralObjects() throws Exception {

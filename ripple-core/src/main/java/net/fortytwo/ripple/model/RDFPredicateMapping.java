@@ -12,6 +12,7 @@ package net.fortytwo.ripple.model;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.Ripple;
+import org.openrdf.model.vocabulary.RDF;
 
 /**
  * Author: josh
@@ -43,8 +44,28 @@ public class RDFPredicateMapping implements StackMapping {
         return true;
     }
 
+    private void findListPredicateSolutions(final RippleValue subject,
+                                            final StackContext arg,
+                                            final RippleList rest,
+                                            final Sink<StackContext, RippleException> solutions) throws RippleException {
+        if (subject instanceof RippleList) {
+            if (predicate.sesameValue().equals(RDF.TYPE)) {
+                solutions.put(arg.with(rest.push(arg.getModelConnection().uriValue(RDF.LIST.toString()))));
+            } else if (!((RippleList) subject).isNil()) {
+                //System.out.println("" + subject + " " + predicate);
+                if (predicate.sesameValue().equals(RDF.FIRST)) {
+                    RippleValue f = ((RippleList) subject).getFirst();
+                    solutions.put(arg.with(rest.push(f)));
+                } else if (predicate.sesameValue().equals(RDF.REST)) {
+                    RippleList r = ((RippleList) subject).getRest();
+                    solutions.put(arg.with(rest.push(r)));
+                }
+            }
+        }
+    }
+
     public void apply(final StackContext arg,
-                      final Sink<StackContext, RippleException> sink) throws RippleException {
+                      final Sink<StackContext, RippleException> solutions) throws RippleException {
         final ModelConnection mc = arg.getModelConnection();
         RippleList stack = arg.getStack();
         RippleValue sourceVal = stack.getFirst();
@@ -52,6 +73,8 @@ public class RDFPredicateMapping implements StackMapping {
 
         switch (this.type) {
             case SP_O:
+                findListPredicateSolutions(sourceVal, arg, stack.getRest(), solutions);
+
                 query = (null == context)
                         ? new StatementPatternQuery(sourceVal, predicate, null)
                         : new StatementPatternQuery(sourceVal, predicate, null, context);
@@ -65,7 +88,7 @@ public class RDFPredicateMapping implements StackMapping {
                 throw new RippleException("unsupported query type: " + type);
         }
 
-        Sink<RippleValue, RippleException> resultSink = new ValueSink(arg, sink);
+        Sink<RippleValue, RippleException> resultSink = new ValueSink(arg, solutions);
 
         if (Ripple.asynchronousQueries()) {
             mc.query(query, resultSink, true);

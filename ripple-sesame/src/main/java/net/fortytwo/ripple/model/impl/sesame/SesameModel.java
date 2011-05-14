@@ -56,8 +56,11 @@ public class SesameModel implements Model
             specialValues = new LibraryLoader().load( libraries, mc );
 
             // At the moment, op needs to be a special value for the sake of the
-            // evaluator.  This has the side-effect of making it a keyword.
+            // evaluator.  This has the side-effect of making "op" a keyword.
             specialValues.add( Operator.OP, mc );
+
+            // The nil list also needs to be special, so "nil" is also incidentally a keyword.
+            specialValues.add( mc.list(), mc );
         }
 
         finally

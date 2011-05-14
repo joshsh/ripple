@@ -29,8 +29,7 @@ public class EdgeValue extends ElementValue {
 
     @Override
     public RDFValue toRDF(final ModelConnection mc) throws RippleException {
-        // FIXME: add a data type
-        return mc.plainValue("[edge " + edge.getId() + "]");
+        return null;
     }
 
     @Override

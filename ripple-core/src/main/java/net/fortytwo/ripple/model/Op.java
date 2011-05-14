@@ -9,9 +9,11 @@
 
 package net.fortytwo.ripple.model;
 
+import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.io.RipplePrintStream;
+import org.openrdf.model.impl.URIImpl;
 
 public class Op implements RippleValue {
     private final StackMapping inverseMapping = new StackMapping() {
@@ -100,7 +102,7 @@ public class Op implements RippleValue {
 
     public RDFValue toRDF(final ModelConnection mc)
             throws RippleException {
-        return mc.uriValue("http://fortytwo.net/2007/03/ripple/schema#op");
+        return mc.uriValue(Ripple.RIPPLE_ONTO_BASEURI + "op");
     }
 
     public StackMapping getMapping() {

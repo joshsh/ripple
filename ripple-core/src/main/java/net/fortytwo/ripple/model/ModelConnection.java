@@ -147,6 +147,7 @@ public interface ModelConnection {
 
     /**
      * Constructs a boolean value.
+     *
      * @param b the primitive value to wrap
      * @return the resulting RDF value
      * @throws RippleException if the value cannot be constructed
@@ -155,6 +156,7 @@ public interface ModelConnection {
 
     /**
      * Constructs an integer-typed numeric value.
+     *
      * @param i the primitive value to wrap
      * @return the resulting numeric value
      * @throws RippleException if the value cannot be constructed
@@ -163,6 +165,7 @@ public interface ModelConnection {
 
     /**
      * Constructs a long-integer-typed numeric value.
+     *
      * @param l the primitive value to wrap
      * @return the resulting numeric value
      * @throws RippleException if the value cannot be constructed
@@ -171,6 +174,7 @@ public interface ModelConnection {
 
     /**
      * Constructs a double-precision numeric value.
+     *
      * @param d the primitive value to wrap
      * @return the resulting numeric value
      * @throws RippleException if the value cannot be constructed
@@ -179,6 +183,7 @@ public interface ModelConnection {
 
     /**
      * Constructs a big-decimal-typed numeric value.
+     *
      * @param bd the primitive value to wrap
      * @return the resulting numeric value
      * @throws RippleException if the value cannot be constructed
@@ -217,16 +222,18 @@ public interface ModelConnection {
 
     /**
      * Issues a triple pattern query over the model.
-     * @param query the query to evaluate
-     * @param sink a handler for query results
+     *
+     * @param query        the query to evaluate
+     * @param sink         a handler for query results
      * @param asynchronous whether the query should be evaluated in an asynchronous fashion,
-     * allowing new threads to be spawned in order to compute results in parallel
+     *                     allowing new threads to be spawned in order to compute results in parallel
      * @throws RippleException if the query cannot be evaluated
      */
     void query(StatementPatternQuery query, Sink<RippleValue, RippleException> sink, boolean asynchronous) throws RippleException;
 
     /**
      * Retrieves all namespaces defined in this model.
+     *
      * @return a source producing all namespaces
      * @throws RippleException if namespaces cannot be retrieved
      */
@@ -235,9 +242,10 @@ public interface ModelConnection {
 
     /**
      * Retrieves all statements in the model matching a given triple pattern.
+     *
      * @param subj the subject of matching statements
      * @param pred the predicate of matching statements
-     * @param obj the object of matching statements
+     * @param obj  the object of matching statements
      * @param sink a handler for matched statements
      * @throws RippleException if statements cannot be retrieved
      */
@@ -246,6 +254,7 @@ public interface ModelConnection {
 
     /**
      * Evaluates a SPARQL query against the model.
+     *
      * @param query the query to evaluate
      * @return an iterator over all solutios to the query
      * @throws RippleException if query evaluation fails
@@ -286,4 +295,17 @@ public interface ModelConnection {
      * @throws RippleException if matching statements cannot be removed
      */
     void remove(RippleValue subj, RippleValue pred, RippleValue obj, RippleValue... contexts) throws RippleException;
+
+    /**
+     * Adds an RDF description of the given list to the model.
+     * This involves adding all appropriate <code>rdf:type</code>, <code>rdf:first</code>, and <code>rdf:rest</code>
+     * statements for the list itself,
+     * as well as those of any lists it contains, recursively.
+     *
+     * @param list the list to internalize
+     * @return whether the list was internalized successfully.
+     *         If this operation is unsuccessful, no statements are added to the model.
+     * @throws RippleException if internalization fails
+     */
+    boolean internalize(RippleList list) throws RippleException;
 }

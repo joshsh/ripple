@@ -70,8 +70,6 @@ public class Operator implements RippleValue {
 
     public RDFValue toRDF(final ModelConnection mc)
             throws RippleException {
-        System.err.println("trying to convert an Operator to RDF...");
-        new Exception().printStackTrace(System.err);
         return null;
     }
 

@@ -29,8 +29,7 @@ public class JSONValue extends KeyValueValue {
     }
 
     public RDFValue toRDF(final ModelConnection mc) throws RippleException {
-        // FIXME: add a data type
-        return mc.plainValue(jsonObject.toString());
+        return null;
     }
 
     public StackMapping getMapping() {

@@ -29,8 +29,7 @@ public class VertexValue extends ElementValue {
 
     @Override
     public RDFValue toRDF(final ModelConnection mc) throws RippleException {
-        // FIXME: add a data type
-        return mc.plainValue("[vertex " + vertex.getId() + "]");
+        return null;
     }
 
     @Override
