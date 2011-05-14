@@ -9,6 +9,7 @@
 
 package net.fortytwo.ripple.io.parser;
 
+import net.fortytwo.ripple.cli.ast.KeywordAST;
 import net.fortytwo.ripple.query.commands.DefineListCmd;
 import org.openrdf.rio.helpers.RDFParserBase;
 import org.openrdf.rio.RDFFormat;
@@ -91,20 +92,16 @@ public class RippleRDFParser extends RDFParserBase
 
     private void createAdapter()
     {
-        Sink<ListAST, RippleException> querySink = new Sink<ListAST, RippleException>()
-        {
-            public void put( final ListAST query ) throws RippleException
-            {
-                //To change body of implemented methods use File | Settings | File Templates.
+        adapter = new RecognizerAdapter(System.err){
+            @Override
+            protected void handleQuery(ListAST ast) throws RippleException {
+                // TODO
             }
-        };
 
-        Sink<Command, RippleException> commandSink = new Sink<Command, RippleException>()
-        {
-            public void put( final Command command ) throws RippleException
-            {
+            @Override
+            protected void handleCommand(Command command) throws RippleException {
                 // FIXME: using instanceof is a bit of a hack
-                
+
                 if ( command instanceof DefinePrefixCmd )
                 {
                     String prefix = ( (DefinePrefixCmd) command ).getPrefix();
@@ -134,10 +131,16 @@ public class RippleRDFParser extends RDFParserBase
                     //...
                 }
             }
+
+            @Override
+            protected void handleEvent(RecognizerEvent event) throws RippleException {
+                // TODO
+            }
+
+            @Override
+            protected void handleAssignment(KeywordAST name) throws RippleException {
+                // TODO
+            }
         };
-
-        Sink<RecognizerEvent, RippleException> eventSink = new NullSink<RecognizerEvent, RippleException>();
-
-        adapter = new RecognizerAdapter(querySink, querySink, commandSink, eventSink, System.err);
     }
 }

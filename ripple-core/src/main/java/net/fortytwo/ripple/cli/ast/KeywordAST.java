@@ -48,7 +48,7 @@ public class KeywordAST implements AST<RippleList>
 			}
 		};
 
-		qe.getLexicon().uriForKeyword( name, uriSink, mc, qe.getErrorPrintStream() );
+		qe.getLexicon().resolveKeyword(name, uriSink, mc, qe.getErrorPrintStream());
 	}
 }
 

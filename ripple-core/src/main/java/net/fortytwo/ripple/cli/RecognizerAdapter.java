@@ -12,52 +12,35 @@ package net.fortytwo.ripple.cli;
 import java.io.PrintStream;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.cli.ast.KeywordAST;
 import net.fortytwo.ripple.cli.ast.ListAST;
 import net.fortytwo.ripple.query.Command;
 
-public class RecognizerAdapter
+public abstract class RecognizerAdapter
 {
-	private final Sink<ListAST, RippleException> querySink, continuingQuerySink;
-	private final Sink<Command, RippleException> commandSink;
-	private final Sink<RecognizerEvent, RippleException> eventSink;
 	private final PrintStream errorStream;
 
 	// A helper variable for the lexer and parser.
 	private String languageTag;
 
-	public RecognizerAdapter( final Sink<ListAST, RippleException> querySink,
-								final Sink<ListAST, RippleException> continuingQuerySink,
-								final Sink<Command, RippleException> commandSink,
-								final Sink<RecognizerEvent, RippleException> eventSink,
-								final PrintStream errorStream )
+	public RecognizerAdapter( final PrintStream errorStream )
 	{
-		this.querySink = querySink;
-		this.continuingQuerySink = continuingQuerySink;
-		this.commandSink = commandSink;
-		this.eventSink = eventSink;
 		this.errorStream = errorStream;
 	}
 
-	public void putQuery( final ListAST ast )
+    protected abstract void handleQuery( ListAST query ) throws RippleException;
+
+    protected abstract void handleCommand( Command command ) throws RippleException;
+
+    protected abstract void handleEvent( RecognizerEvent event ) throws RippleException;
+
+    protected abstract void handleAssignment ( KeywordAST name ) throws RippleException;
+
+	public void putQuery( final ListAST query )
 	{
 		try
 		{
-			querySink.put( ast );
-		}
-
-		catch ( RippleException e )
-		{
-			errorStream.println( "\nQuery error: " + e + "\n" );
-			e.logError();
-		}
-	}
-
-	public void putContinuingQuery( final ListAST ast )
-	{
-		try
-		{
-			continuingQuerySink.put( ast );
+			handleQuery(query);
 		}
 
 		catch ( RippleException e )
@@ -71,7 +54,7 @@ public class RecognizerAdapter
 	{
 		try
 		{
-			commandSink.put( cmd );
+			handleCommand(cmd);
 		}
 
 		catch ( RippleException e )
@@ -86,7 +69,7 @@ public class RecognizerAdapter
 //System.out.println("putting event: " + event);
         try
 		{
-			eventSink.put( event );
+			handleEvent(event);
 		}
 
 		catch ( RippleException e )
@@ -95,6 +78,20 @@ public class RecognizerAdapter
 			e.logError();
 		}
 	}
+
+
+    public void putAssignment( final KeywordAST name )
+    {
+        try
+        {
+            handleAssignment( name );
+        }
+
+        catch ( RippleException e )
+        {
+            errorStream.println( "\nAssignment failed: " + e + "\n" );
+        }
+    }
 
 	public String getLanguageTag()
 	{

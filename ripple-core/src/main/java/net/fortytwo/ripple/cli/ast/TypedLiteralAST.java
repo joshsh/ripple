@@ -20,9 +20,9 @@ import org.openrdf.model.Value;
 
 public class TypedLiteralAST implements AST<RippleList> {
     private final String value;
-    private final AST type;
+    private final AST<RippleList> type;
 
-    public TypedLiteralAST(final String value, final AST type) {
+    public TypedLiteralAST(final String value, final AST<RippleList> type) {
         this.value = value;
         this.type = type;
     }

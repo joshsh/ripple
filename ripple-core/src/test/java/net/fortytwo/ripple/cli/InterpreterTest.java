@@ -13,6 +13,7 @@ import junit.framework.TestCase;
 import net.fortytwo.flow.Collector;
 import net.fortytwo.flow.NullSink;
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.cli.ast.KeywordAST;
 import net.fortytwo.ripple.cli.ast.ListAST;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.PipedIOStream;
@@ -40,12 +41,27 @@ public class InterpreterTest extends TestCase
 		final PipedIOStream pio = new PipedIOStream();
 
 		Collector<Exception, RippleException> exceptions = new Collector<Exception, RippleException>();
-		RecognizerAdapter ra = new RecognizerAdapter(
-				new NullSink<ListAST, RippleException>(),
-				new NullSink<ListAST, RippleException>(),
-				new NullSink<Command, RippleException>(),
-				new NullSink<RecognizerEvent, RippleException>(),
-				System.err );
+		RecognizerAdapter ra = new RecognizerAdapter(System.err ){
+            @Override
+            protected void handleQuery(ListAST query) throws RippleException {
+                // Do nothing.
+            }
+
+            @Override
+            protected void handleCommand(Command command) throws RippleException {
+                // Do nothing.
+            }
+
+            @Override
+            protected void handleEvent(RecognizerEvent event) throws RippleException {
+                // Do nothing.
+            }
+
+            @Override
+            protected void handleAssignment(KeywordAST name) throws RippleException {
+                // Do nothing.
+            }
+        };
 		final Interpreter interpreter = new Interpreter( ra, pio, exceptions );
 
 		Thread interpreterThread = new Thread( new Runnable()

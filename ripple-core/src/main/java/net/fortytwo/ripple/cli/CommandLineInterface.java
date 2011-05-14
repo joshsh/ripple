@@ -12,21 +12,27 @@ package net.fortytwo.ripple.cli;
 import jline.Completor;
 import jline.ConsoleReader;
 import jline.MultiCompletor;
+import net.fortytwo.flow.Collector;
+import net.fortytwo.flow.Source;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.cli.ast.KeywordAST;
 import net.fortytwo.ripple.cli.ast.ListAST;
 import net.fortytwo.ripple.cli.jline.DirectiveCompletor;
 import net.fortytwo.ripple.control.Scheduler;
 import net.fortytwo.ripple.control.TaskQueue;
 import net.fortytwo.ripple.control.ThreadedInputStream;
-import net.fortytwo.flow.CollectorHistory;
+import net.fortytwo.flow.HistorySink;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.model.Lexicon;
+import net.fortytwo.ripple.model.ListGenerator;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.PipedIOStream;
 import net.fortytwo.ripple.query.QueryEngine;
+import net.fortytwo.ripple.query.commands.DefineKeywordCmd;
 import org.apache.log4j.Logger;
 
 import java.io.FileWriter;
@@ -52,12 +58,11 @@ public class CommandLineInterface {
     private final Interpreter interpreter;
     private final ConsoleReader reader;
     private final QueryEngine queryEngine;
-    private final CollectorHistory<RippleList, RippleException> queryResultHistory
-            = new CollectorHistory<RippleList, RippleException>(2);
+    private final HistorySink<RippleList, RippleException> queryResultHistory
+            = new HistorySink<RippleList, RippleException>(2);
     private final TaskQueue taskQueue = new TaskQueue();
 
     private int lineNumber;
-    private boolean lastQueryContinued = false;
 
     ////////////////////////////////////////////////////////////////////////////
 
@@ -75,39 +80,23 @@ public class CommandLineInterface {
             throws RippleException {
         queryEngine = qe;
 
-        // Handling of queries
-        Sink<ListAST, RippleException> querySink = new Sink<ListAST, RippleException>() {
-            public void put(final ListAST ast) throws RippleException {
-                addCommand(new VisibleQueryCommand(ast, queryResultHistory, lastQueryContinued));
-                lastQueryContinued = false;
+        RecognizerAdapter ra = new RecognizerAdapter(qe.getErrorPrintStream()) {
+            @Override
+            protected void handleQuery(final ListAST query) throws RippleException {
+                addCommand(new VisibleQueryCommand(query, queryResultHistory));
                 addCommand(new UpdateCompletorsCmd());
                 executeCommands();
             }
-        };
 
-        // Handling of "continuing" queries
-        Sink<ListAST, RippleException> continuingQuerySink = new Sink<ListAST, RippleException>() {
-            public void put(final ListAST ast) throws RippleException {
-                addCommand(new VisibleQueryCommand(ast, queryResultHistory, lastQueryContinued));
-                lastQueryContinued = true;
+            @Override
+            protected void handleCommand(Command command) throws RippleException {
+                addCommand(command);
                 addCommand(new UpdateCompletorsCmd());
                 executeCommands();
             }
-        };
 
-        // Handling of commands
-        Sink<Command, RippleException> commandSink = new Sink<Command, RippleException>() {
-            public void put(final Command cmd) throws RippleException {
-                addCommand(cmd);
-                addCommand(new UpdateCompletorsCmd());
-                executeCommands();
-            }
-        };
-
-        // Handling of parser events
-        Sink<RecognizerEvent, RippleException> eventSink = new Sink<RecognizerEvent, RippleException>() {
-            public void put(final RecognizerEvent event)
-                    throws RippleException {
+            @Override
+            protected void handleEvent(RecognizerEvent event) throws RippleException {
                 switch (event) {
                     case NEWLINE:
                         readLine();
@@ -126,10 +115,17 @@ public class CommandLineInterface {
                                 "event not yet supported: " + event);
                 }
             }
-        };
 
-        RecognizerAdapter ra = new RecognizerAdapter(
-                querySink, continuingQuerySink, commandSink, eventSink, qe.getErrorPrintStream());
+            @Override
+            protected void handleAssignment(KeywordAST name) throws RippleException {
+                Source<RippleList, RippleException> source = queryResultHistory.get(0);
+                if (null == source) {
+                    source = new Collector<RippleList, RippleException>();
+                }
+
+                addCommand(new DefineKeywordCmd(name, new ListGenerator(source)));
+            }
+        };
 
         Sink<Exception, RippleException> parserExceptionSink = new ParserExceptionSink(
                 qe.getErrorPrintStream());

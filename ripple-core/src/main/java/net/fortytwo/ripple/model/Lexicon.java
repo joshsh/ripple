@@ -68,11 +68,13 @@ public class Lexicon {
     private final Map<String, String> prefixToUri;
     private final Map<String, String> uriToPrefix;
     private final Collection<String> allQNames;
+    private final Map<String, RippleValue> temporaryValues;
 
     public Lexicon(final Model model) throws RippleException {
         prefixToUri = new HashMap<String, String>();
         uriToPrefix = new HashMap<String, String>();
         allQNames = new ArrayList<String>();
+        temporaryValues = new HashMap<String, RippleValue>();
 
         ModelConnection mc = model.createConnection();
         try {
@@ -204,30 +206,35 @@ public class Lexicon {
         }
     }
 
-    public void uriForKeyword(final String localName,
-                              final Sink<RippleValue, RippleException> sink,
-                              final ModelConnection mc,
-                              final PrintStream errors)
+    public void resolveKeyword(final String keyword,
+                               final Sink<RippleValue, RippleException> solutions,
+                               final ModelConnection mc,
+                               final PrintStream errors)
             throws RippleException {
-        Collection<URI> options = uriForKeyword(localName);
+        Collection<URI> options = uriForKeyword(keyword);
 
         // Creating a set of values eliminates the possibility of a keyword
         // resolving to the same runtime value more than once (as is the case,
         // for instance, when two or more URIs mapping to a special value have
         // the same local name).
-        Set<RippleValue> uniqueValues = new HashSet<RippleValue>();
+        Set<RippleValue> values = new HashSet<RippleValue>();
         for (URI u : options) {
-            uniqueValues.add(mc.canonicalValue(new RDFValue(u)));
+            values.add(mc.canonicalValue(new RDFValue(u)));
         }
 
-        if (0 == uniqueValues.size()) {
-            errors.println("Warning: keyword '" + localName + "' is not defined\n");
-        } else if (1 < uniqueValues.size()) {
-            errors.println("Warning: keyword '" + localName + "' is ambiguous\n");
+        RippleValue t = temporaryValues.get(keyword);
+        if (null != t) {
+            values.add(t);
         }
 
-        for (RippleValue v : uniqueValues) {
-            sink.put(v);
+        if (0 == values.size()) {
+            errors.println("Warning: keyword '" + keyword + "' is not defined\n");
+        } else if (1 < values.size()) {
+            errors.println("Warning: keyword '" + keyword + "' is ambiguous\n");
+        }
+
+        for (RippleValue v : values) {
+            solutions.put(v);
         }
     }
 
@@ -307,7 +314,7 @@ public class Lexicon {
         }
     }
 
-    public void addCommonNamespaces( final ModelConnection mc ) throws RippleException {
+    public void addCommonNamespaces(final ModelConnection mc) throws RippleException {
         try {
             InputStream is = Ripple.class.getResourceAsStream("common-namespaces.txt");
             try {
@@ -329,6 +336,13 @@ public class Lexicon {
         } catch (IOException e) {
             throw new RippleException(e);
         }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    public void putTemporaryValue(final String name,
+                                  final RippleValue value) {
+        temporaryValues.put(name, value);
     }
 }
 

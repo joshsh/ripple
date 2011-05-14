@@ -267,10 +267,15 @@ options
 		adapter.putCommand( cmd );
 	}
 
-	public void matchQuery( final ListAST AST )
+	public void matchQuery( final ListAST query )
 	{
-		adapter.putQuery( AST );
+		adapter.putQuery( query );
 	}
+
+    public void matchAssignment( final KeywordAST name )
+    {
+        adapter.putAssignment( name );
+    }
 
 	public void matchQuit()
 	{
@@ -321,12 +326,21 @@ nt_Ws
 nt_Statement
 {
 	ListAST r;
+	KeywordAST k = null;
 }
 	// A directive is executed as soon as PERIOD is matched in the individual rule.
 	: nt_Directive (nt_Ws)? NEWLINE
 
 	// Query statements are always lists.
-	| r=nt_List NEWLINE { matchQuery( r ); }
+	| (r=nt_List
+	  (EQUAL (nt_Ws)? k=nt_Keyword (nt_Ws)?)?
+	  NEWLINE
+	) {
+	    matchQuery( r );
+	    if (null != k) { matchAssignment( k ); }
+	  }
+
+    | (EQUAL (nt_Ws)? k=nt_Keyword (nt_Ws)? NEWLINE ) { matchAssignment( k ); }
 
 	// Empty statements are effectively ignored.
 	| NEWLINE { matchQuery( new ListAST() ); }
@@ -569,7 +583,7 @@ nt_PrefixName returns [ String prefix ]
 	;
 
 
-nt_Keyword returns [ AST r ]
+nt_Keyword returns [ KeywordAST r ]
 {
 	String keyword;
 	r = null;

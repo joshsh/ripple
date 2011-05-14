@@ -93,7 +93,7 @@ public class RippleException extends Exception
 
 	public void logError()
 	{
-		logError( false );
+		logError( true );
 	}
 }
 

@@ -25,17 +25,14 @@ public class RippleQueryCmd extends Command
 {
 	private final ListAST listAst;
 	private final Sink<RippleList, RippleException> sink;
-	private final Source<RippleList, RippleException> composedWith;
 
     private StackEvaluator evaluator;
 
     public RippleQueryCmd( final ListAST listAst,
-							final Sink<RippleList, RippleException> sink,
-							final Source<RippleList, RippleException> composedWith )
+							final Sink<RippleList, RippleException> sink )
 	{
 		this.listAst = listAst;
 		this.sink = sink;
-		this.composedWith = composedWith;
 	}
 
 	public void execute( final QueryEngine qe, final ModelConnection mc )
@@ -50,16 +47,7 @@ public class RippleQueryCmd extends Command
                 // Note: the first element of the list will also be a list
                 final RippleList stack = ( (RippleList) l.getFirst() ).invert();
 
-                Sink<RippleList, RippleException> composedWithSink = new Sink<RippleList, RippleException>()
-                {
-                    public void put( final RippleList base )
-                        throws RippleException
-                    {
-                        expressions.put( stack.concat( base ) );
-                    }
-                };
-
-                composedWith.writeTo( composedWithSink );
+                expressions.put( stack );
             }
         };
 

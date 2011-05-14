@@ -9,8 +9,10 @@
 
 package net.fortytwo.ripple.cli;
 
+import net.fortytwo.flow.HistorySink;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.cli.ast.KeywordAST;
 import net.fortytwo.ripple.cli.ast.ListAST;
 import net.fortytwo.ripple.control.TaskSet;
 import net.fortytwo.ripple.model.ModelConnection;
@@ -22,8 +24,6 @@ import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.commands.RippleQueryCmd;
 import net.fortytwo.flow.Buffer;
-import net.fortytwo.flow.Collector;
-import net.fortytwo.flow.CollectorHistory;
 import net.fortytwo.flow.NullSink;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.Switch;
@@ -32,30 +32,32 @@ import net.fortytwo.flow.Tee;
 
 import org.openrdf.model.vocabulary.RDF;
 
+/**
+ * A command for evaluating a Ripple query at the command line.
+ */
 public class VisibleQueryCommand extends Command
 {
 	private static RDFValue RDF_FIRST = new RDFValue( RDF.FIRST );
 
-	private final ListAST ast;
-	private final CollectorHistory<RippleList, RippleException> resultHistory;
+	private final ListAST query;
+	private final HistorySink<RippleList, RippleException> resultHistory;
 
-    private boolean continued;
 	private TaskSet taskSet;
 
 	private Switch<RippleList, RippleException> results;
 
 	public VisibleQueryCommand( final ListAST query,
-							final CollectorHistory<RippleList, RippleException> history,
-							final boolean continued )
+							    final HistorySink<RippleList, RippleException> history )
 	{
-		ast = query;
+		this.query = query;
 		resultHistory = history;
-		this.continued = continued;
 	}
 
 	public void execute( final QueryEngine qe, final ModelConnection mc )
 		throws RippleException
 	{
+        resultHistory.advance();
+
 		boolean doBuffer = Ripple.getConfiguration().getBoolean(
                 Ripple.BUFFER_QUERY_RESULTS );
 
@@ -66,9 +68,11 @@ public class VisibleQueryCommand extends Command
 		TurtleView view = new TurtleView(
 			qe.getPrintStream(), mc );
 
+        Buffer<RippleList, RippleException> buffer = doBuffer ? new Buffer<RippleList, RippleException>( view ) : null;
+
 		Sink<RippleList, RippleException> med = new SynchronizedSink<RippleList, RippleException>(
 			( doBuffer
-				? new Buffer<RippleList, RippleException>( view )
+				? buffer
 				: view ) );
 
 		results = new Switch<RippleList, RippleException>(
@@ -84,12 +88,7 @@ public class VisibleQueryCommand extends Command
 			}
 		};
 
-Collector<RippleList, RippleException> nilSource = new Collector<RippleList, RippleException>();
-nilSource.put( mc.list() );
-		Command cmd = new RippleQueryCmd( ast, derefSink,
-			( continued
-				? resultHistory.getSource( 1 )
-				: nilSource ) );
+		Command cmd = new RippleQueryCmd(query, derefSink );
 
 		// Execute the inner command and wait until it is finished.
 		cmd.setQueryEngine( qe );
@@ -100,15 +99,13 @@ nilSource.put( mc.list() );
 		// Flush results to the view.
 		if ( doBuffer )
 		{
-			( (Buffer<RippleList, RippleException>) med ).flush();
+			buffer.flush();
 		}
 
 		if ( view.size() > 0 )
 		{
 			qe.getPrintStream().println( "" );
 		}
-
-		resultHistory.advance();
 	}
 
 	protected void abort()

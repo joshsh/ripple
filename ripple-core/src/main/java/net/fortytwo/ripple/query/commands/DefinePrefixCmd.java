@@ -55,7 +55,6 @@ public class DefinePrefixCmd extends Command
 			throw new RippleException( "multiple values constructed from " + uri );
 		}
 
-		// TODO: check that the list has exactly one element
 		String ns = sink.iterator().next().getFirst().toString();
 		
 		mc.setNamespace( prefix, ns, true );

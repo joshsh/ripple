@@ -9,16 +9,17 @@
 
 package net.fortytwo.ripple.query;
 
+import net.fortytwo.flow.HistorySink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Buffer;
 import net.fortytwo.flow.Collector;
-import net.fortytwo.flow.CollectorHistory;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.Source;
 import net.fortytwo.ripple.cli.Interpreter;
 import net.fortytwo.ripple.cli.ParserExceptionSink;
 import net.fortytwo.ripple.cli.RecognizerAdapter;
 import net.fortytwo.ripple.cli.RecognizerEvent;
+import net.fortytwo.ripple.cli.ast.KeywordAST;
 import net.fortytwo.ripple.cli.ast.ListAST;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleList;
@@ -37,100 +38,50 @@ public class QueryPipe implements Sink<String, RippleException>
 	private final RecognizerAdapter recognizerAdapter;
     private final Sink<Exception, RippleException> parserExceptionSink;
     private final Buffer<RippleList, RippleException> resultBuffer;
-	private final CollectorHistory<RippleList, RippleException> queryResultHistory
-		= new CollectorHistory<RippleList, RippleException>( 2 );
-
-    private boolean lastQueryContinued = false;
+	private final HistorySink<RippleList, RippleException> queryResultHistory
+		= new HistorySink<RippleList, RippleException>( 2 );
 
 	public QueryPipe( final QueryEngine queryEngine, final Sink<RippleList, RippleException> resultSink ) throws RippleException
 	{
 		resultBuffer = new Buffer<RippleList, RippleException>( resultSink );
-		final Object mutex = resultBuffer;
+		final Object mutex = "";
 
-		final Collector<RippleList, RippleException> nilSource = new Collector<RippleList, RippleException>();
-		// FIXME: this is stupid
-		ModelConnection mc = queryEngine.getConnection();
-		nilSource.put( mc.list() );
-                mc.close();
-
-		// Handling of queries
-		Sink<ListAST, RippleException> querySink = new Sink<ListAST, RippleException>()
-		{
-			public void put( final ListAST ast ) throws RippleException
-			{
-//System.out.println( "### received: " + ast );
+		recognizerAdapter = new RecognizerAdapter(queryEngine.getErrorPrintStream() ){
+            @Override
+            protected void handleQuery(ListAST ast) throws RippleException {
 				synchronized ( mutex )
 				{
-					Source<RippleList, RippleException> composedWith = lastQueryContinued
-							? queryResultHistory.getSource( 1 ) : nilSource;
+                    queryResultHistory.advance();
 
-					ModelConnection mc = queryEngine.getConnection();
+                    ModelConnection mc = queryEngine.getConnection();
                     try {
-                        new RippleQueryCmd( ast, resultBuffer, composedWith ).execute( queryEngine, mc );
+                        new RippleQueryCmd( ast, resultBuffer ).execute( queryEngine, mc );
                     } finally {
                         mc.close();
                     }
-
-                    lastQueryContinued = false;
-					queryResultHistory.advance();
 				}
-			}
-		};
+            }
 
-		// Handling of "continuing" queries
-		Sink<ListAST, RippleException> continuingQuerySink = new Sink<ListAST, RippleException>()
-		{
-			public void put( final ListAST ast ) throws RippleException
-			{
-				synchronized ( mutex )
-				{
-					Source<RippleList, RippleException> composedWith = lastQueryContinued
-							? queryResultHistory.getSource( 1 ) : nilSource;
-
-					ModelConnection mc = queryEngine.getConnection();
-                    try {
-                        new RippleQueryCmd( ast, resultBuffer, composedWith ).execute( queryEngine, mc );
-                    } finally {
-                        mc.close();
-                    }
-
-                    lastQueryContinued = true;
-					queryResultHistory.advance();
-				}
-			}
-		};
-
-		// Handling of commands
-		Sink<Command, RippleException> commandSink = new Sink<Command, RippleException>()
-		{
-			public void put( final Command cmd ) throws RippleException
-			{
+            @Override
+            protected void handleCommand(Command command) throws RippleException {
 				ModelConnection mc = queryEngine.getConnection();
                 try {
-                    cmd.execute( queryEngine, mc );
+                    command.execute( queryEngine, mc );
                 } finally {
                     mc.close();
                 }
             }
-		};
 
-		// Handling of parser events
-		Sink<RecognizerEvent, RippleException> eventSink = new Sink<RecognizerEvent, RippleException>()
-		{
-			public void put( final RecognizerEvent event )
-				throws RippleException
-			{
-				/*if ( RecognizerEvent.QUIT == event )
-				{
-					throw new ParserQuitException();
-				}*/
-				
-				// (ignore other events)
-			}
-		};
-		
-		recognizerAdapter = new RecognizerAdapter(
-				querySink, continuingQuerySink, commandSink, eventSink, queryEngine.getErrorPrintStream() );
+            @Override
+            protected void handleEvent(RecognizerEvent event) throws RippleException {
+                // TODO
+            }
+
+            @Override
+            protected void handleAssignment(KeywordAST name) throws RippleException {
+                // TODO
+            }
+        };
 
 		parserExceptionSink = new ParserExceptionSink(
 				queryEngine.getErrorPrintStream() );
