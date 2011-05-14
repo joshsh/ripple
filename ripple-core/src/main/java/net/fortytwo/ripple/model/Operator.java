@@ -26,8 +26,6 @@ public class Operator implements RippleValue {
 
     private final StackMapping mapping;
 
-    private RDFValue rdfEquivalent = null;
-
     private Operator(final String key) {
         mapping = new KeyValueMapping(key);
     }
@@ -46,10 +44,6 @@ public class Operator implements RippleValue {
         mapping = new ListDequotation(list);
     }
 
-    public StackMapping getMapping() {
-        return mapping;
-    }
-
     // TODO: implement equals() and hashCode() for all StackMappings
     public boolean equals(final Object other) {
         return ((Operator) other).mapping.equals(mapping) && (other instanceof Operator);
@@ -65,11 +59,13 @@ public class Operator implements RippleValue {
 
     public void printTo(final RipplePrintStream p)
             throws RippleException {
-        p.print(rdfEquivalent);
+        p.print("[Operator: ");
+        p.print(mapping);
+        p.print("]");
     }
 
-    public boolean isActive() {
-        return true;
+    public StackMapping getMapping() {
+        return mapping;
     }
 
     public RDFValue toRDF(final ModelConnection mc)

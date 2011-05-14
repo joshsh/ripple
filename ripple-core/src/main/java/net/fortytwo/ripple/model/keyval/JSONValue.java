@@ -6,6 +6,7 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
+import net.fortytwo.ripple.model.StackMapping;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
@@ -32,8 +33,8 @@ public class JSONValue extends KeyValueValue {
         return mc.plainValue(jsonObject.toString());
     }
 
-    public boolean isActive() {
-        return false;
+    public StackMapping getMapping() {
+        return null;
     }
 
     public void printTo(final RipplePrintStream p) throws RippleException {

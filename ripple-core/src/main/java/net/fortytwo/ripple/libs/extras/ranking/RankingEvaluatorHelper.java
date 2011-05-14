@@ -80,7 +80,7 @@ public class RankingEvaluatorHelper {
 
     private void handleOutput(final RankingContext c) {
         //System.out.println("adding intermediate: " + c.getStack());
-        if (c.getStack().isNil() || !c.getStack().getFirst().isActive()) {
+        if (c.getStack().isNil() || null == c.getStack().getFirst().getMapping()) {
             RankingContext other = resultMemos.get(c.getStack());
 
             if (null == other) {
@@ -120,17 +120,17 @@ public class RankingEvaluatorHelper {
         while (true) {
             RippleValue first = stack.getFirst();
 
-            if (stack.isNil() || !first.isActive()) {
+            if (stack.isNil() || null == first.getMapping()) {
                 if (ops.isNil()) {
                     outputSink.put(arg.with(stack));
                     return;
                 } else {
-                    Closure c = new Closure(((Operator) ops.getFirst()).getMapping(), first);
+                    Closure c = new Closure(ops.getFirst().getMapping(), first);
                     stack = stack.getRest().push(new Operator(c));
                     ops = ops.getRest();
                 }
             } else {
-                StackMapping f = ((Operator) first).getMapping();
+                StackMapping f = first.getMapping();
 
                 if (0 == f.arity()) {
                     try {

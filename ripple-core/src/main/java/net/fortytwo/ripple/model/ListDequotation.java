@@ -49,9 +49,9 @@ public class ListDequotation implements StackMapping
             if ( invert )
             {
                 RippleValue v = out.getFirst();
-                if ( v.isActive() )
+                if ( null != v.getMapping() )
                 {
-                    StackMapping inverted = ( (Operator) v ).getMapping().getInverse();
+                    StackMapping inverted = v.getMapping().getInverse();
                     out = out.getRest().push( new Operator( inverted ) );
                     sink.put( arg.with( out ) );
                 }

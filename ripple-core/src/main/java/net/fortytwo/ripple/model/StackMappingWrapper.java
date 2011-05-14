@@ -62,8 +62,8 @@ public class StackMappingWrapper implements StackMapping, RippleValue
         return rdfValue;
     }
 
-    public boolean isActive() {
-        return false;
+    public StackMapping getMapping() {
+        return null;
     }
 
     public void printTo( final RipplePrintStream p ) throws RippleException

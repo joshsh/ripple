@@ -10,13 +10,22 @@
 package net.fortytwo.ripple;
 
 /**
- * Head of a linked list.
+ * The head of an abstract linked list.
  */
 public abstract class ListNode<T> {
+    /**
+     * @return the value at the head of the list, or <code>null</code> if this is a nil list
+     */
     public abstract T getFirst();
 
+    /**
+     * @return the rest of the list, or <code>null</code> if this is a nil list
+     */
     public abstract ListNode<T> getRest();
 
+    /**
+     * @return whether this is a nil list node, being the terminator of any number of lists
+     */
     public abstract boolean isNil();
 
     public boolean equals(final ListNode<T> other) {

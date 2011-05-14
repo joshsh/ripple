@@ -114,10 +114,9 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
                 : "" + rdfEquivalent;
 	}
 
-	public boolean isActive()
-	{
-		return false;
-	}
+    public StackMapping getMapping() {
+        return null;
+    }
 
 	public boolean isTransparent()
 	{

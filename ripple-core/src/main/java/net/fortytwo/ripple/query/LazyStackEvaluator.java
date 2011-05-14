@@ -52,12 +52,12 @@ public class LazyStackEvaluator extends StackEvaluator
 //LOGGER.info( "   first.isActive() = " + first.isActive() );
 //System.out.println( "   first = " + stack.getFirst() );
 
-			if ( first.isActive() )
+			if ( null != first.getMapping() )
 			{
 				RippleList rest = stack.getRest();
 //LOGGER.info( "   rest = " + rest );
 
-				final StackMapping f = ( (Operator) first ).getMapping();
+				final StackMapping f = first.getMapping();
 //LOGGER.info( "   f = " + f );
 //LOGGER.info( "   f.arity() = " + f.arity() );
 

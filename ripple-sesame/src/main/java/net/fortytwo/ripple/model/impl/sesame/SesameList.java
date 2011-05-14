@@ -21,6 +21,7 @@ import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
+import net.fortytwo.ripple.model.StackMapping;
 import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.util.ModelConnectionHelper;
 import org.openrdf.model.Resource;
@@ -33,6 +34,9 @@ import org.openrdf.model.vocabulary.RDF;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A
+ */
 public class SesameList extends RippleList
 {
 	private static final RDFValue RDF_FIRST = new RDFValue( RDF.FIRST );
@@ -52,32 +56,27 @@ public class SesameList extends RippleList
 
     public SesameList( final RippleValue first )
 	{
-		this.first = first;
-		rest = NIL;
+        super(first, NIL);
 	}
-	
+
 	public SesameList( final RippleValue first, final RippleList rest )
 	{
-		this.first = first;
-		this.rest = rest;
+        super(first, rest);
 	}
 
     // FIXME: this is temporary
 	private SesameList()
 	{
-		// Note: this is a trick to avoid null pointer exceptions in the list
-		// memoizer.
-		first = this;
-		
-		// This should never be dereferenced.
-		rest = null;
+		super(null, null);
+		// Note: this is a trick to avoid null pointer exceptions in the list memoizer.
+        first = this;
 
 		rdfEquivalent = RDF.NIL;
 	}
 
     public boolean isNil()
     {
-        return ( null == rest );
+        return null == rest;
     }
 
     public RippleList push( final RippleValue first ) throws RippleException
@@ -99,10 +98,9 @@ public class SesameList extends RippleList
 		return out;
     }
 
-	public boolean isActive()
-	{
-		return false;
-	}
+    public StackMapping getMapping() {
+        return null;
+    }
 
 	public RDFValue toRDF( final ModelConnection mc )
 		throws RippleException
@@ -111,7 +109,7 @@ public class SesameList extends RippleList
 		{
 RDFImporter importer = new RDFImporter( mc );
 			putRdfStatements( importer.statementSink(), mc );
-			
+
 			// This is important, because the caller of toRdf() may expect to
 			// query statements immediately.
 			mc.commit();
@@ -219,17 +217,17 @@ RDFImporter importer = new RDFImporter( mc );
 				if ( null == source )
 				{
 					Collector<RippleList, RippleException> coll = new Collector<RippleList, RippleException>();
-					
+
 					createList( v, coll, mc );
-					
+
 					source = coll;
 					nativeLists.put( rdfVal, source );
 				}
 //else System.out.println("   found source for list");
-				
+
 				source.writeTo( sink );
 			}
-			
+
 			else
 			{
 				createList( v, sink, mc );
@@ -268,16 +266,16 @@ RDFImporter importer = new RDFImporter( mc );
 
 		Operator.createOperator( head, opSink, mc );
 		*/
-		
+
 		sink.put( new SesameList( Operator.OP ).push( head ) );
 	}
-	
+
 // TODO: extend circular lists and other convergent structures
 	private static void createList( final RippleValue head,
 									final Sink<RippleList, RippleException> sink,
 									final ModelConnection mc )
 		throws RippleException
-	{	
+	{
 		if ( head.toRDF( mc ).sesameValue().equals( RDF.NIL ) )
 		{
 			sink.put( NIL );
@@ -300,11 +298,11 @@ RDFImporter importer = new RDFImporter( mc );
 							sink.put( list );
 						}
 					};
-			
+
 					firstValues.writeTo( firstSink );
 				}
 			};
-			
+
 			Sink<RippleValue, RippleException> rdfRestSink = new Sink<RippleValue, RippleException>()
 			{
 				public void put( final RippleValue rest ) throws RippleException
@@ -313,7 +311,7 @@ RDFImporter importer = new RDFImporter( mc );
 					createList( rest, restSink, mc );
 				}
 			};
-			
+
 			/*
 			Sink<RdfValue> rdfFirstSink = new Sink<RdfValue>()
 			{
@@ -329,12 +327,12 @@ RDFImporter importer = new RDFImporter( mc );
 			};*/
 
 			multiply( mc, head, RDF_FIRST, firstValues );
-			
+
 			if ( firstValues.size() > 0 || head.toRDF( mc ).sesameValue().equals( RDF.NIL ) )
 			{
 				multiply( mc, head, RDF_REST, rdfRestSink );
 			}
-			
+
 			else
 			{
 				createConceptualList( head, sink, mc );

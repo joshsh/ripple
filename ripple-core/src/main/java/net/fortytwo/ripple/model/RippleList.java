@@ -19,6 +19,9 @@ import net.fortytwo.ripple.model.enums.ExpressionOrder;
 import java.util.List;
 import java.util.LinkedList;
 
+/**
+ * The head of a linked-list data structure holding <code>RippleValue</code>s.
+ */
 public abstract class RippleList extends ListNode<RippleValue> implements RippleValue {
     // Constants
     private static ExpressionOrder expressionOrder;
@@ -26,20 +29,32 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
     private static boolean initialized = false;
 
     protected RippleValue first;
-    protected RippleList rest;
+    protected final RippleList rest;
 
+    protected RippleList(final RippleValue first,
+                         final RippleList rest) {
+        this.first = first;
+        this.rest = rest;
+    }
+
+    @Override
     public RippleValue getFirst() {
         return first;
     }
 
+    @Override
     public RippleList getRest() {
         return rest;
     }
 
+    /**
+     * @return the number of items in this list.
+     *         This is purely a convenience method.
+     */
     public int length() {
         int l = 0;
 
-        RippleList cur = this;
+        ListNode<RippleValue> cur = this;
         while (!cur.isNil()) {
             l++;
             cur = cur.getRest();
@@ -48,13 +63,20 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
         return l;
     }
 
+    /**
+     * Gets the item at the specified index in the list.
+     * This is purely a convenience method.
+     * @param i an index into the list, where the index 0 corresponds to the first item in the list
+     * @return the corresponding list item
+     * @throws RippleException
+     */
     public RippleValue get(final int i)
             throws RippleException {
         if (i < 0) {
             throw new RippleException("list index out of bounds: " + i);
         }
 
-        RippleList cur = this;
+        ListNode<RippleValue> cur = this;
         for (int j = 0; j < i; j++) {
             if (cur.isNil()) {
                 throw new RippleException("list index out of bounds: " + i);
@@ -91,7 +113,7 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
 
         StringBuilder sb = new StringBuilder();
 
-        RippleList cur =
+        ListNode<RippleValue> cur =
                 (ExpressionOrder.DIAGRAMMATIC == expressionOrder)
                         ? this : invert();
 
@@ -134,7 +156,7 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
             initialize();
         }
 
-        RippleList cur =
+        ListNode<RippleValue> cur =
                 (ExpressionOrder.DIAGRAMMATIC == expressionOrder)
                         ? this : invert();
 
@@ -166,10 +188,13 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
         }
     }
 
+    /**
+     * @return a Java list of the items in this list.  This is purely a convenience method.
+     */
     public List<RippleValue> toJavaList() {
         LinkedList javaList = new LinkedList();
 
-        RippleList cur = this;
+        ListNode<RippleValue> cur = this;
         while (!cur.isNil()) {
             javaList.addLast(cur.getFirst());
             cur = cur.getRest();
@@ -180,8 +205,8 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
 
     public boolean equals(final Object other) {
         if (other instanceof RippleList) {
-            RippleList cur = this;
-            RippleList cur2 = (RippleList) other;
+            ListNode<RippleValue> cur = this;
+            ListNode<RippleValue> cur2 = (RippleList) other;
 
             while (!cur.isNil()) {
                 if (cur2.isNil()) {
@@ -206,7 +231,7 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
         int code = 1320672831;
         int pow = 2;
 
-        RippleList cur = this;
+        ListNode<RippleValue> cur = this;
         while (!cur.isNil()) {
             code += pow * cur.getFirst().hashCode();
             pow *= 2;

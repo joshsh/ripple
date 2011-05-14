@@ -67,7 +67,9 @@ public class DefineListCmd extends Command
 
 // TODO: check for collision with an existing URI
 			RDFValue uri = mc.uriValue(qe.getLexicon().getDefaultNamespace() + name);
-			new ModelConnectionHelper(mc).copyStatements( expr, uri );
+            ...
+			new ModelConnectionHelper(mc).internalize(expr, uri);
+            ...
 			mc.commit();
 
 			qe.getLexicon().addURI( (URI) uri.sesameValue() );

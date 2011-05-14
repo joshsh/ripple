@@ -6,6 +6,7 @@ import net.fortytwo.ripple.io.RipplePrintStream;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleValue;
+import net.fortytwo.ripple.model.StackMapping;
 import net.fortytwo.ripple.model.keyval.KeyValueValue;
 
 import java.util.Collection;
@@ -33,8 +34,8 @@ public class VertexValue extends ElementValue {
     }
 
     @Override
-    public boolean isActive() {
-        return false;
+    public StackMapping getMapping() {
+        return null;
     }
 
     @Override

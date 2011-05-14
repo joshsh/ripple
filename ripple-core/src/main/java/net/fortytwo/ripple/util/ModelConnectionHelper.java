@@ -39,7 +39,7 @@ public class ModelConnectionHelper {
     }
 
     //TODO: context handling
-    public void copyStatements(final RippleValue src, final RippleValue dest)
+    public void internalize(final RippleValue src, final RippleValue dest)
             throws RippleException {
         Sink<Statement, RippleException> stSink = new Sink<Statement, RippleException>() {
             public void put(final Statement st) throws RippleException {

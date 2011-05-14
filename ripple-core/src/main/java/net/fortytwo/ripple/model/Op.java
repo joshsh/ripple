@@ -103,10 +103,6 @@ public class Op implements RippleValue {
         return mc.uriValue("http://fortytwo.net/2007/03/ripple/schema#op");
     }
 
-    public boolean isActive() {
-        return true;
-    }
-
     public StackMapping getMapping() {
         return mapping;
     }

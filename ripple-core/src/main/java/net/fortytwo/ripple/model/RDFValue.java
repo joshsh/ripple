@@ -40,8 +40,8 @@ public class RDFValue implements RippleValue {
         p.print(value);
     }
 
-    public boolean isActive() {
-        return false;
+    public StackMapping getMapping() {
+        return null;
     }
 
     public boolean equals(final Object other) {

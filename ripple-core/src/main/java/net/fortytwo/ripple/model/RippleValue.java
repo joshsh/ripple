@@ -27,7 +27,7 @@ public interface RippleValue {
 
     RDFValue toRDF(ModelConnection mc) throws RippleException;
 
-    boolean isActive();
+    StackMapping getMapping();
 
     void printTo(RipplePrintStream p) throws RippleException;
 
