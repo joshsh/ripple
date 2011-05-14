@@ -42,4 +42,18 @@ public class BasicSyntaxTest extends RippleTestCase {
         assertIllegal("42 to- string.");
         assertIllegal("42 to -string.");
     }
+
+    public void testPostPositionKeywords() throws Exception {
+        assertReducesTo("1 2 3 = x", "1 2 3");
+        assertReducesTo("x", "(1 2 3)");
+        assertReducesTo("x.", "1 2 3");
+        assertReducesTo("10 x. add.", "10 1 5");
+
+        assertReducesTo("4 sqrt.\n=y", "2", "-2");
+        assertReducesTo("x. y. 2 ary.", "1 2 3 2", "1 2 3 -2");
+
+        // Redefine x.
+        assertReducesTo("42 = x", "42");
+        assertReducesTo("x.", "42");
+    }
 }
