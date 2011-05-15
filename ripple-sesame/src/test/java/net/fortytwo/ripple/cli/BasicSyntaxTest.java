@@ -17,10 +17,9 @@ public class BasicSyntaxTest extends RippleTestCase {
         assertReducesTo("2 3 add.", "5");
         assertReducesTo("2 3 add .", "5");
 
-        // FIXME: restore
-        //assertIllegal("2(3)");
-        //assertIllegal("2 3add.");
-        //assertIllegal("8 8 add.sqrt.");
+        assertIllegal("2(3)");
+        assertIllegal("2 3add.");
+        assertIllegal("8 8 add.sqrt.");
 
         assertLegal(".");
         assertLegal("**");
