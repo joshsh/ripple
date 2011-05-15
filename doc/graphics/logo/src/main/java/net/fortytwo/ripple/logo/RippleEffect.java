@@ -16,8 +16,15 @@ import java.awt.image.MemoryImageSource;
 import java.util.Random;
 
 public class RippleEffect {
+    // Changing the seed value will change the result
+    Random random = new Random(4621);
+//    Random random = new Random(293);
+//Random random = new Random(7884);
+
     Color[][] matrix;
     int width, height;
+
+    double virtualWidth, virtualHeight;
 
     Point2D trefoilMidpoint;
     Point2D[] trefoilCenters;
@@ -30,107 +37,28 @@ public class RippleEffect {
 
     double sloshWeight;
     int nSloshes;
+    int nRandomRipplers;
+    double randomRipplerIntensity;
     double sloshConstA, sloshConstB;
     double sloshPointiness;
 
+    double highPassThreshold;
+
     Color backgroundColor;
+    Color foregroundColor;
 
     Image image;
-    // Changing the seed value will change the result
-    Random random = new Random(8212);
-
-    double dampen(double distance) {
-        // TODO: this is a bit of a hack
-        double d = 1.0 + (distance * rippleDissipation);
-        return 1.0 / (d * d);
-    }
-
-    double dampen(Point2D p) {
-        double min = 100;
-        for (int i = 0; i < 3; i++) {
-            double d = p.distance(trefoilCenters[i]);
-            if (d < min)
-                min = d;
-        }
-
-        return dampen(min);
-    }
-
-    double waveFunc(double distance) {
-        return dampen(distance)
-                * Math.sin(2 * Math.PI * distance / rippleWavelength);
-    }
-
-    void addRippler(double[][] field, Point2D center, double intensity) {
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                Point2D p = new Point2D.Double(
-                        (double) i / (double) height,
-                        1.0 - ((double) j / (double) width));
-
-                double dist = p.distance(center);
-
-                field[i][j] += intensity * waveFunc(dist);
-            }
-        }
-    }
-
-    void addSlosher(double[][] field) {
-        Slosher s = new Slosher(this);
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                Point2D p = new Point2D.Double(j / ((double) width), i / ((double) height));
-                field[i][j] += s.waveFunc(p);
-            }
-        }
-    }
-
-    void clearField(double[][] field) {
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                field[i][j] = 0;
-            }
-        }
-    }
-
-    double[][] createEmptyField(int height, int width) {
-        double[][] f = new double[height][width];
-        clearField(f);
-        return f;
-    }
-
-    void normalizeField(double[][] field) {
-        double max = 0;
-
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                double d = field[i][j];
-                if (d > 0) {
-                    if (d > max)
-                        max = d;
-                } else if (d < 0) {
-                    if (-d > max)
-                        max = -d;
-                }
-            }
-        }
-
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                field[i][j] = field[i][j] / max;
-            }
-        }
-    }
 
     double intensify(double val, int n) {
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < n; i++) {
             val = Math.sin(val * Math.PI / 2.0);
+        }
 
         return val;
     }
 
     void createPoints() {
-        trefoilMidpoint = new Point2D.Double(0.5, 0.5);
+        trefoilMidpoint = new Point2D.Double(0, -0.5);
         trefoilCenters = new Point2D.Double[3];
 
         for (int i = 0; i < 3; i++) {
@@ -141,47 +69,69 @@ public class RippleEffect {
         }
     }
 
+    double dissipateFieldOfView(final double distance) {
+        double d = 1 - (distance / 1.5);
+        if (d < 0) {
+            d = 0;
+        }
+        return d;
+    }
+
     void createField()
             throws Exception {
         matrix = new Color[height][width];
 
-        double[][] ripples = createEmptyField(height, width);
-        addRippler(ripples, trefoilCenters[0], 1.0);
-        addRippler(ripples, trefoilCenters[1], 1.0);
-        addRippler(ripples, trefoilCenters[2], 1.0);
-        normalizeField(ripples);
+        Field ripples = new Field(height, width, virtualHeight, virtualWidth);
+        ripples.clear();
+        for (Point2D p : trefoilCenters) {
+            new Rippler(p, 1.0, rippleWavelength, rippleDissipation).applyTo(ripples);
+        }
+        for (int i = 0; i < nRandomRipplers; i++) {
+            Point2D p = new Point2D.Double(random.nextDouble(), random.nextDouble());
+            double intensity = random.nextDouble() * randomRipplerIntensity;
+            new Rippler(p, intensity, rippleWavelength, rippleDissipation).applyTo(ripples);
+        }
+        ripples.normalize();
 
         sloshConstB = 2 * sloshConstA / Math.PI;
-        double[][] sloshes = createEmptyField(height, width);
+        Field sloshes = new Field(height, width, virtualHeight, virtualWidth);
+        sloshes.clear();
         for (int i = 0; i < nSloshes; i++) {
-            addSlosher(sloshes);
+            Slosher s = new Slosher(sloshConstA, sloshConstB, sloshPointiness, random);
+            s.applyTo(sloshes);
         }
-        normalizeField(sloshes);
+        sloshes.normalize();
+
+        Field field = new Field(height, width, virtualHeight, virtualWidth);
+        field.clear();
+        field.add(ripples);
+        field.add(sloshes);
+        //field.posNorm();
+        //field.highPass(highPassThreshold);
+        field.normalize();
+        //field.highPass(0);
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 Point2D p = new Point2D.Double(
-                        (double) i / (double) height,
-                        1.0 - ((double) j / (double) width));
+                        field.virtualY(i),
+                        field.virtualX(j));
 
-                double ripple = ripples[i][j];
-                double slosh = sloshes[i][j];
-
-                double intensity = ripple + (slosh * sloshWeight);
-                intensity = intensity / 6.0;
+                double intensity = field.values[i][j];
 
                 // Fade out at edges of trefoil.
-                intensity = intensity * dampen(p);
+                //intensity = intensity * Rippler.dampen(p.distance(trefoilMidpoint), rippleDissipation * 3);
+                intensity = intensity * dissipateFieldOfView(p.distance(trefoilMidpoint));
 
+                intensity = intensify(intensity, 3);
                 if (intensity < 0) {
                     intensity = 0;
                 }
 
-                intensity = intensify(intensity, 4);
-//*
                 int v = (int) (255 * intensity);
-                Color result = new Color(255, 255, 255, v);
-//*/
+
+                Color result = new Color(0, 0, 255, v);
+//                Color result = new Color(255, 255, 255, v);
 
                 matrix[i][j] = result;
             }
@@ -209,22 +159,50 @@ public class RippleEffect {
                 new MemoryImageSource(width, height, bytes, off, scan));
     }
 
+    enum Config {RainPuddle, HighEnergy}
+
     void init()
             throws Exception {
         trefoilRadius = 0.06;
-        trefoilRotatedBy = 0.55;
+        trefoilRotatedBy = 0.45;
 
-        backgroundColor = Color.BLUE;
+        width = 1600;
+        height = 800;
 
-        width = 1000;
-        height = 1000;
+        virtualHeight = 1.0;
+        virtualWidth = ((double) width) / ((double) height);
 
-        rippleWavelength = 0.1;
+        Config config = RippleEffect.Config.HighEnergy;
 
-        nSloshes = 40;
-        sloshWeight = 2.0;
-        sloshConstA = 1.0;
-        sloshPointiness = 20.0;
+//        backgroundColor = Color.WHITE;
+
+        switch (config) {
+
+            case RainPuddle:
+                backgroundColor = Color.BLUE;
+                foregroundColor = Color.WHITE;
+                rippleWavelength = 0.1;
+                nRandomRipplers = 10;
+                randomRipplerIntensity = 0.75;
+                nSloshes = 40;
+                sloshWeight = 1.0;
+                sloshConstA = 1.0;
+                sloshPointiness = 20.0;
+                highPassThreshold = 0;
+                break;
+            case HighEnergy:
+                backgroundColor = Color.WHITE;
+                foregroundColor = Color.BLUE;
+                rippleWavelength = 0.05;
+                nRandomRipplers = 0;
+                randomRipplerIntensity = 0.5;
+                nSloshes = 40;
+                sloshWeight = 1.0;
+                sloshConstA = 1.0;
+                sloshPointiness = 20.0;
+                highPassThreshold = 0.5;
+                break;
+        }
 
         createPoints();
         createField();
@@ -234,15 +212,18 @@ public class RippleEffect {
     public void show()
             throws Exception {
         ImagePanel panel = new ImagePanel(image);
+        JScrollPane scroll = new JScrollPane(panel);
+
         JFrame f = new JFrame();
         f.setBackground(backgroundColor);
-        f.getContentPane().add(panel);
+        f.getContentPane().add(scroll);
 
-        int width = panel.img.getWidth(null);
-        int height = panel.img.getHeight(null);
+        //f.setSize(1000, 1000);
+        //int width = panel.img.getWidth(null);
+        //int height = panel.img.getHeight(null);
 
         //show frame
-        f.setBounds(0, 0, width, height);
+        //f.setBounds(0, 0, width, height);
         f.setVisible(true);
     }
 
