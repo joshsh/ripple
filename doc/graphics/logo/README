@@ -1,6 +1,0 @@
-javac RippleEffect.java
-java RippleEffect
-
-randomSeed = 2750
-randomSeed = 2530
-
