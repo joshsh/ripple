@@ -33,7 +33,6 @@ public class RippleEffect {
     double sloshConstA, sloshConstB;
     double sloshPointiness;
 
-    Color[] colors;
     Color backgroundColor;
 
     Image image;
@@ -150,6 +149,7 @@ public class RippleEffect {
         addRippler(ripples, trefoilCenters[0], 1.0);
         addRippler(ripples, trefoilCenters[1], 1.0);
         addRippler(ripples, trefoilCenters[2], 1.0);
+        normalizeField(ripples);
 
         sloshConstB = 2 * sloshConstA / Math.PI;
         double[][] sloshes = createEmptyField(height, width);
@@ -226,11 +226,6 @@ public class RippleEffect {
         sloshConstA = 1.0;
         sloshPointiness = 20.0;
 
-        colors = new Color[3];
-        colors[0] = Color.RED;
-        colors[1] = Color.GREEN;
-        colors[2] = Color.BLUE;
-
         createPoints();
         createField();
         createImage();
@@ -277,5 +272,3 @@ public class RippleEffect {
         }
     }
 }
-
-// kate: tab-width 4
