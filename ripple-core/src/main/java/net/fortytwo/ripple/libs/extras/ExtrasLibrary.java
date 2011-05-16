@@ -34,7 +34,10 @@ public class ExtrasLibrary extends Library {
 
         registerPrimitives(context,
                 Get.class,
-                System.class,
+
+                // Disabled by default.
+                //System.class,
+
                 Time.class,
                 // TODO: move these?
                 Keys.class,

@@ -30,7 +30,7 @@ public class Values extends PrimitiveStackMapping {
 
     @Override
     public String getComment() {
-        return "finds all values of keys on the given object";
+        return "finds all values of key/value pairs attached to a given object";
     }
 
     public void apply(final StackContext arg,
