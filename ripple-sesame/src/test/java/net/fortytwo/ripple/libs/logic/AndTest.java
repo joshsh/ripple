@@ -25,4 +25,9 @@ public class AndTest extends RippleTestCase
         assertReducesTo( "42 false and.", "false" );
         assertReducesTo( "42 42 and.", "false" );
     }
+
+    public void testInverse() throws Exception {
+        assertReducesTo( "true and~.", "true true");
+        assertReducesTo( "false and~.", "true false", "false true", "false false");
+    }
 }
