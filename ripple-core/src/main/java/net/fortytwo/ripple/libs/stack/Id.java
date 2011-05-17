@@ -13,6 +13,7 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.model.StackMapping;
 
 /**
  * A primitive function which has no effect on the stack.
@@ -52,5 +53,10 @@ public class Id extends PrimitiveStackMapping
 	{
 		solutions.put( arg );
 	}
+
+    @Override
+    public StackMapping getInverse() {
+        return this;
+    }
 }
 

@@ -107,7 +107,7 @@ public class TurtleView implements Sink<RippleList, RippleException>
 
 		printStream.print( "\n" );
 
-		if ( showEdges )
+		if ( showEdges && !stack.isNil() )
 		{
 			Collector<RippleValue, RippleException> predicates = new Collector<RippleValue, RippleException>();
 			helper.findPredicates( subject, predicates );
