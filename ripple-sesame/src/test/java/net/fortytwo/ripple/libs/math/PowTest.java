@@ -50,6 +50,7 @@ public class PowTest extends RippleTestCase
 
     public void testInverse() throws Exception
     {
-        // TODO: implement inverse mapping
+        assertReducesTo( "2 8 pow~.", "3e0" );
+        assertReducesTo( "2 1 pow~.", "0" );
     }
 }
