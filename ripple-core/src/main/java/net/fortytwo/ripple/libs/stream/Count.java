@@ -10,6 +10,7 @@
 package net.fortytwo.ripple.libs.stream;
 
 import net.fortytwo.flow.Collector;
+import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.model.ModelConnection;
@@ -57,6 +58,10 @@ public class Count extends PrimitiveStackMapping {
     public void apply(final StackContext arg,
                       final Sink<StackContext, RippleException> solutions)
             throws RippleException {
+        // FIXME: cheat to temporarily disable asynchronous query answering
+        boolean a = Ripple.asynchronousQueries();
+        Ripple.enableAsynchronousQueries(false);
+
         ModelConnection mc = arg.getModelConnection();
 
         RippleList stack = arg.getStack();
@@ -66,6 +71,10 @@ public class Count extends PrimitiveStackMapping {
         e.apply(arg.with(stack.push(Operator.OP)), s);
         int count = s.size();
 
-        solutions.put(arg.with(arg.getStack().getRest().push(mc.numericValue(count))));
+        solutions.put(arg.with(
+                arg.getStack().getRest().push(
+                        mc.numericValue(count))));
+
+        Ripple.enableAsynchronousQueries(a);
     }
 }
