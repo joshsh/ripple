@@ -53,9 +53,7 @@ public class StringLibrary extends Library
                 Substring.class,
                 ToLowerCase.class,
                 ToUpperCase.class,
-                Trim.class,
-                UrlDecoded.class,
-                UrlEncoded.class );
+                Trim.class );
 	}
 
     public static RDFValue value( final String label,
