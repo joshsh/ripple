@@ -9,90 +9,63 @@
 
 package net.fortytwo.ripple.libs.stream;
 
+import net.fortytwo.flow.Collector;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.NullStackMapping;
+import net.fortytwo.ripple.model.Op;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.StackMapping;
+import net.fortytwo.ripple.query.LazyStackEvaluator;
+import net.fortytwo.ripple.query.StackEvaluator;
 
 /**
  *
  */
 // FIXME: total hack
-public class Count extends PrimitiveStackMapping
-{
-    private int count;
-
+public class Count extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             StreamLibrary.NS_2011_04 + "count",
             StreamLibrary.NS_2008_08 + "count"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-	public Count()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {};
+    public Count()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
-        return "-> count for last call of lastCount (disclaimer: this is a total hack)";
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("mapping",
+                        "a mapping to apply before counting",
+                        false)
+        };
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext, RippleException> solutions )
-		throws RippleException
-	{
+    public String getComment() {
+        return "m -> m op, for which solutions are found and counted, then the result replaces m on the stack";
+    }
+
+    public void apply(final StackContext arg,
+                      final Sink<StackContext, RippleException> solutions)
+            throws RippleException {
         ModelConnection mc = arg.getModelConnection();
 
         RippleList stack = arg.getStack();
 
-        // Push the last result, in a stack of its own.
-        solutions.put( arg.with( mc.list().push(mc.numericValue(count)) ) );
+        Collector<StackContext, RippleException> s = new Collector<StackContext, RippleException>();
+        StackEvaluator e = new LazyStackEvaluator();
+        e.apply(arg.with(stack.push(Operator.OP)), s);
+        int count = s.size();
 
-        // Push the code to "count" the current argument stack.
-        solutions.put( arg.with( stack.push( new Operator( new Counter() ) ) ) );
-	}
-
-    private class Counter implements StackMapping
-    {
-        public Counter()
-        {
-            count = 0;
-        }
-
-        public int arity()
-        {
-            return 1;
-        }
-
-        public StackMapping getInverse() throws RippleException
-        {
-            return new NullStackMapping();
-        }
-
-        public boolean isTransparent()
-        {
-            return true;
-        }
-
-        public void apply( final StackContext arg,
-                           final Sink<StackContext, RippleException> solutions ) throws RippleException
-        {
-            count++;
-        }
+        solutions.put(arg.with(arg.getStack().getRest().push(mc.numericValue(count))));
     }
 }
