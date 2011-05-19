@@ -68,6 +68,7 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
     /**
      * Gets the item at the specified index in the list.
      * This is purely a convenience method.
+     *
      * @param i an index into the list, where the index 0 corresponds to the first item in the list
      * @return the corresponding list item
      * @throws RippleException
@@ -170,16 +171,20 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
         while (!cur.isNil()) {
             RippleValue val = cur.getFirst();
 
-            if (isFirst) {
-                isFirst = false;
-            } else {
-                p.print(" ");
-            }
 
             if (Operator.OP == val) {
-                p.print(">>");
+                p.print(".");
             } else {
+                if (!isFirst) {
+                    p.print(" ");
+
+                }
+
                 p.print(val);
+            }
+
+            if (isFirst) {
+                isFirst = false;
             }
 
             cur = cur.getRest();

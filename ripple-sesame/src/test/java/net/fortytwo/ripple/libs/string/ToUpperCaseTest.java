@@ -11,11 +11,11 @@ public class ToUpperCaseTest extends RippleTestCase
 {
     public void testSimple() throws Exception
     {
-        assertReducesTo( "\"BrainF@#$ language\" toUpperCase.", "\"BRAINF@#$ LANGUAGE\"" );
+        assertReducesTo( "\"BrainF@#$ language\" to-upper-case.", "\"BRAINF@#$ LANGUAGE\"" );
     }
 
     public void testEmptyStrings() throws Exception
     {
-        assertReducesTo( "\"\" toUpperCase.", "\"\"" );
+        assertReducesTo( "\"\" to-upper-case.", "\"\"" );
     }
 }
