@@ -17,6 +17,7 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackContext;
+import net.fortytwo.ripple.model.keyval.KeyValueValue;
 import org.apache.log4j.Logger;
 import org.openrdf.model.Value;
 import org.openrdf.query.Binding;
@@ -68,15 +69,10 @@ public class Sparql extends PrimitiveStackMapping {
         try {
             try {
                 while (results.hasNext()) {
-                    RippleList newStack = stack;
-
-                    for (Binding b : results.next()) {
-                        Value v = b.getValue();
-                        newStack = newStack.push(new RDFValue(v));
-                    }
+                    KeyValueValue kv = new SPARQLValue(results.next());
 
                     try {
-                        solutions.put(arg.with(newStack));
+                        solutions.put(arg.with(stack.push(kv)));
                     } catch (RippleException e) {
                         // Soft fail
                         e.logError();

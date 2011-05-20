@@ -35,99 +35,88 @@ import org.openrdf.model.vocabulary.RDF;
 /**
  * A command for evaluating a Ripple query at the command line.
  */
-public class VisibleQueryCommand extends Command
-{
-	private static RDFValue RDF_FIRST = new RDFValue( RDF.FIRST );
+public class VisibleQueryCommand extends Command {
+    private static RDFValue RDF_FIRST = new RDFValue(RDF.FIRST);
 
-	private final ListAST query;
-	private final HistorySink<RippleList, RippleException> resultHistory;
+    private final ListAST query;
+    private final HistorySink<RippleList, RippleException> resultHistory;
 
-	private TaskSet taskSet;
+    private TaskSet taskSet;
 
-	private Switch<RippleList, RippleException> results;
+    private Switch<RippleList, RippleException> results;
 
-	public VisibleQueryCommand( final ListAST query,
-							    final HistorySink<RippleList, RippleException> history )
-	{
-		this.query = query;
-		resultHistory = history;
-	}
+    public VisibleQueryCommand(final ListAST query,
+                               final HistorySink<RippleList, RippleException> history) {
+        this.query = query;
+        resultHistory = history;
+    }
 
-	public void execute( final QueryEngine qe, final ModelConnection mc )
-		throws RippleException
-	{
+    public void execute(final QueryEngine qe, final ModelConnection mc)
+            throws RippleException {
         resultHistory.advance();
 
-		boolean doBuffer = Ripple.getConfiguration().getBoolean(
-                Ripple.BUFFER_QUERY_RESULTS );
+        boolean doBuffer = Ripple.getConfiguration().getBoolean(
+                Ripple.BUFFER_QUERY_RESULTS);
 
-		qe.getPrintStream().println( "" );
+        qe.getPrintStream().println("");
 
-		// Results are first dereferenced, then placed into a buffer which
-		// will be flushed into the view after the lexicon is updated.
-		TurtleView view = new TurtleView(
-			qe.getPrintStream(), mc );
+        // Results are first dereferenced, then placed into a buffer which
+        // will be flushed into the view after the lexicon is updated.
+        TurtleView view = new TurtleView(
+                qe.getPrintStream(), mc);
 
-        Buffer<RippleList, RippleException> buffer = doBuffer ? new Buffer<RippleList, RippleException>( view ) : null;
+        Buffer<RippleList, RippleException> buffer = doBuffer ? new Buffer<RippleList, RippleException>(view) : null;
 
-		Sink<RippleList, RippleException> med = new SynchronizedSink<RippleList, RippleException>(
-			( doBuffer
-				? buffer
-				: view ) );
+        Sink<RippleList, RippleException> med = new SynchronizedSink<RippleList, RippleException>(
+                (doBuffer
+                        ? buffer
+                        : view));
 
-		results = new Switch<RippleList, RippleException>(
-			new Tee<RippleList, RippleException>( med, resultHistory ),
-			new NullSink<RippleList, RippleException>() );
+        results = new Switch<RippleList, RippleException>(
+                new Tee<RippleList, RippleException>(med, resultHistory),
+                new NullSink<RippleList, RippleException>());
 
-		Sink<RippleList, RippleException> derefSink = new Sink<RippleList, RippleException>()
-		{
-			public void put( final RippleList list) throws RippleException
-			{
-				dereference( list.getFirst(), mc );
-				results.put( list );
-			}
-		};
+        Sink<RippleList, RippleException> derefSink = new Sink<RippleList, RippleException>() {
+            public void put(final RippleList list) throws RippleException {
+                dereference(list.getFirst(), mc);
+                results.put(list);
+            }
+        };
 
-		Command cmd = new RippleQueryCmd(query, derefSink );
+        Command cmd = new RippleQueryCmd(query, derefSink);
 
-		// Execute the inner command and wait until it is finished.
-		cmd.setQueryEngine( qe );
-		taskSet = new TaskSet();
-		taskSet.add( cmd );
-		taskSet.waitUntilEmpty();
+        // Execute the inner command and wait until it is finished.
+        cmd.setQueryEngine(qe);
+        taskSet = new TaskSet();
+        taskSet.add(cmd);
+        taskSet.waitUntilEmpty();
 
-		// Flush results to the view.
-		if ( doBuffer )
-		{
-			buffer.flush();
-		}
+        // Flush results to the view.
+        if (doBuffer) {
+            buffer.flush();
+        }
 
-		if ( view.size() > 0 )
-		{
-			qe.getPrintStream().println( "" );
-		}
-	}
+        if (view.size() > 0) {
+            qe.getPrintStream().println("");
+        }
+    }
 
-	protected void abort()
-	{
-		// Late arrivals should not show up in the view.
-		results.flip();
+    protected void abort() {
+        // Late arrivals should not show up in the view.
+        results.flip();
 
-		taskSet.stopWaiting();
-	}
+        taskSet.stopWaiting();
+    }
 
-	private static void dereference( final RippleValue v, final ModelConnection mc )
-		throws RippleException
-	{
-		try
-		{
-            StatementPatternQuery query = new StatementPatternQuery( v, RDF_FIRST, null );
-            mc.query( query, new NullSink<RippleValue, RippleException>(), false );
-		}
-
-		catch ( RippleException e )
-		{
-			// (soft fail... don't even log the error)
-		}
-	}
+    private static void dereference(final RippleValue v, final ModelConnection mc)
+            throws RippleException {
+        try {
+            if (null != v.toRDF(mc)) {
+                StatementPatternQuery query = new StatementPatternQuery(v, RDF_FIRST, null);
+                mc.query(query, new NullSink<RippleValue, RippleException>(), false);
+            }
+        } catch (RippleException e) {
+            // (soft fail... don't even log the error)
+        }
+    }
 }
