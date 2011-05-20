@@ -43,7 +43,7 @@ public class StackLibrary extends Library
         registerPrimitives( context,
                 Dup.class,
                 Dupd.class,
-                Id.class,
+                Self.class,
                 Pop.class,
                 Popd.class,
                 Rolldown.class,

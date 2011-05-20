@@ -18,10 +18,10 @@ import net.fortytwo.ripple.model.StackMapping;
 /**
  * A primitive function which has no effect on the stack.
  */
-public class Id extends PrimitiveStackMapping
+public class Self extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2011_04 + "id",
+            StackLibrary.NS_2011_04 + "self",
             StackLibrary.NS_2008_08 + "id",
             StackLibrary.NS_2007_08 + "id",
             StackLibrary.NS_2007_05 + "id"};
@@ -31,7 +31,7 @@ public class Id extends PrimitiveStackMapping
         return IDENTIFIERS;
     }
 
-	public Id()
+	public Self()
 		throws RippleException
 	{
 		super();

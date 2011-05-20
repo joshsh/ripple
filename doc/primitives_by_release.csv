@@ -110,7 +110,7 @@ stack_2007_05:false,stack_2007_08:false,,,
 stack_2007_05:fold,stack_2007_08:fold,stack_2008_08:fold,,stack_2011_04:fold
 stack_2007_05:has,stack_2007_08:has,stack_2008_08:has,,stack_2011_04:has
 stack_2007_05:I,stack_2007_08:I,(stack_2008_08:apply),,(stack_2011_04:apply)
-stack_2007_05:id,stack_2007_08:id,stack_2008_08:id,,stack_2011_04:id
+stack_2007_05:id,stack_2007_08:id,stack_2008_08:id,,(stack_2011_04:self)
 stack_2007_05:ifte,stack_2007_08:ifte,(logic_2008_08:ifte),,(logic_2011_04:ifte)
 stack_2007_05:in,stack_2007_08:in,stack_2008_08:in,,stack_2011_04:in
 ,,stack_2008_08:map,,stack_2011_04:map
@@ -134,6 +134,7 @@ stack_2007_05:rollup,stack_2007_08:rollup,stack_2008_08:rollup,,stack_2011_04:ro
 stack_2007_05:rollupd,stack_2007_08:rollupd,stack_2008_08:rollupd,,stack_2011_04:rollupd
 stack_2007_05:rotate,stack_2007_08:rotate,stack_2008_08:rotate,,stack_2011_04:rotate
 stack_2007_05:rotated,stack_2007_08:rotated,stack_2008_08:rotated,,stack_2011_04:rotated
+(stack_2007_05:id),(stack_2007_08:id),(stack_2008_08:id),,stack_2011_04:self
 stack_2007_05:size,stack_2007_08:size,stack_2008_08:size,,stack_2011_04:size
 ,,,,stack_2011_04:star-apply
 ,,stack_2008_08:starApply,,
