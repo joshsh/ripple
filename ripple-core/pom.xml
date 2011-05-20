@@ -8,7 +8,7 @@
     <artifactId>ripple-core</artifactId>
     <version>0.7-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Ripple core</name>
+    <name>Ripple Core</name>
     <description>core interfaces and utilities</description>
 
     <parent>

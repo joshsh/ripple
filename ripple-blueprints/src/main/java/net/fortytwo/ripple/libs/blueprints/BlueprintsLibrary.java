@@ -2,7 +2,9 @@ package net.fortytwo.ripple.libs.blueprints;
 
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
+import com.tinkerpop.gremlin.jsr223.GremlinScriptEngine;
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.extras.ExtrasLibrary;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
 import net.fortytwo.ripple.model.ModelConnection;
@@ -21,11 +23,12 @@ public class BlueprintsLibrary extends Library {
     public void load(final LibraryLoader.Context context) throws RippleException {
         registerPrimitives(context,
                 //Edit.class,
-                Gremlin.class,
                 Head.class,
                 Id.class,
                 Label.class,
                 Tail.class);
+
+        ExtrasLibrary.registerScriptEngine("gremlin", new GremlinWrapper());
     }
 
     public static RippleValue createRippleValue(final Object tinker,
@@ -50,5 +53,12 @@ public class BlueprintsLibrary extends Library {
         } else {
             return mc.plainValue("[" + tinker.toString() + " (" + tinker.getClass() + ")]");
         }
+    }
+
+    public static void main(final String[] args) throws Exception {
+        GremlinScriptEngine engine = new GremlinScriptEngine();
+        Object result = engine.eval("g = TinkerGraphFactory.createTinkerGraph()\ng.v(1)");
+        //result = engine.eval("g.v(1)");
+        System.out.println("" + result.getClass() + ": " + result);
     }
 }

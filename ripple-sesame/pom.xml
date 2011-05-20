@@ -8,7 +8,7 @@
     <artifactId>ripple-sesame</artifactId>
     <version>0.7-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Ripple4Sesame</name>
+    <name>Ripple Sesame</name>
     <description>Ripple Sesame bindings</description>
 
     <parent>

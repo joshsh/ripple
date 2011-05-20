@@ -27,10 +27,9 @@ public class ExtrasLibrary extends Library {
             NS_2007_05 = "http://fortytwo.net/2007/05/ripple/etc#";
 
     private static PrimitiveStackMapping invertVal;
+    private static Script scriptVal;
 
-    public void load(final LibraryLoader.Context context)
-            throws RippleException {
-        //uf.put(NS_2008_08, getClass().getResource("etc.ttl") + "#");
+    public void load(final LibraryLoader.Context context) throws RippleException {
 
         registerPrimitives(context,
                 Get.class,
@@ -46,10 +45,16 @@ public class ExtrasLibrary extends Library {
                 Rank.class,
                 Amp.class);
         invertVal = registerPrimitive(Inverse.class, context);
+        scriptVal = (Script) registerPrimitive(Script.class, context);
     }
 
     public static PrimitiveStackMapping getInvertValue() {
         return invertVal;
+    }
+
+    public static void registerScriptEngine(final String name,
+                                            final ScriptEngineWrapper wrapper) {
+        scriptVal.addScriptEngine(name, wrapper);
     }
 }
 

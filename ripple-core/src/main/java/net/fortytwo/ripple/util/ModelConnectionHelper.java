@@ -57,7 +57,11 @@ public class ModelConnectionHelper {
             }
         };
 
-        connection.getStatements(subject.toRDF(connection), null, null, predSelector);
+        RDFValue v = subject.toRDF(connection);
+        // Not all RippleValues have an RDF identity.
+        if (null != v) {
+            connection.getStatements(v, null, null, predSelector);
+        }
     }
 
     public RDFValue createRandomURI() throws RippleException {

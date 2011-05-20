@@ -8,7 +8,7 @@
     <artifactId>ripple-rdf</artifactId>
     <version>0.7-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Ripple RDF utilities</name>
+    <name>Ripple RDF Utilities</name>
     <description>generic RDF bindings for Ripple</description>
 
     <parent>

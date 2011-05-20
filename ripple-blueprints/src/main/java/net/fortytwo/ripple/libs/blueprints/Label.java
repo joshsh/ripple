@@ -30,7 +30,7 @@ public class Label extends PrimitiveStackMapping {
 
     @Override
     public String getComment() {
-        return "finds the label of a Blueprints edge, if any";
+        return "finds the label of a Blueprints edge";
     }
 
     @Override

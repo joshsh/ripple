@@ -149,7 +149,7 @@ public final class Ripple
 
 	public static String getVersion()
 	{
-		return "0.6-alpha";
+		return "0.7-SNAPSHOT";
 	}
 
 	public static boolean getQuiet()

@@ -8,7 +8,7 @@
     <artifactId>ripple-base</artifactId>
     <version>0.7-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Ripple base</name>
+    <name>Ripple Base</name>
     <description>basic data structures and utilities</description>
 
     <parent>

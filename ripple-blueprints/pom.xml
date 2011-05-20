@@ -8,7 +8,7 @@
     <artifactId>ripple-blueprints</artifactId>
     <version>0.7-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Ripple Blueprints</name>
+    <name>Ripple Blueprints Extension</name>
     <description>Blueprints, Gremlin, and Pipes integration for Ripple</description>
 
     <parent>
@@ -53,7 +53,7 @@
         <dependency>
             <groupId>com.tinkerpop</groupId>
             <artifactId>gremlin</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
