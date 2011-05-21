@@ -21,10 +21,10 @@ public class DoubleAST extends NumberAST
     /*
     [Definition:]  The double datatype is patterned after the IEEE
     double-precision 64-bit floating point type [IEEE 754-1985]. The basic
-    ávalue spaceá of double consists of the values m ? 2^e, where m is an
+    value space of double consists of the values m ? 2^e, where m is an
     integer whose absolute value is less than 2^53, and e is an integer
-    between -1075 and 970, inclusive. In addition to the basic ávalue spaceá
-    described above, the ávalue spaceá of double also contains the following
+    between -1075 and 970, inclusive. In addition to the basic value space
+    described above, the value space of double also contains the following
     three special values: positive and negative infinity and not-a-number (NaN).
     */
     private static final Pattern

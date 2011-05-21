@@ -16,7 +16,6 @@ import net.fortytwo.ripple.model.StackContext;
 
 ("one" "two") each. apply. 10000 rank. .
 (("one")) each. apply. 10000 rank. .
-
  */
 
 /**

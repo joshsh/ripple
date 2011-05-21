@@ -19,11 +19,11 @@ import java.math.BigInteger;
 public class IntegerAST extends NumberAST
 {
     /*
-    [Definition:]   integer is áderivedá from decimal by fixing the value of
-    áfractionDigitsá to be 0and disallowing the trailing decimal point. This
+    [Definition:]   integer is derived from decimal by fixing the value of
+    fractionDigits to be 0 and disallowing the trailing decimal point. This
     results in the standard mathematical concept of the integer numbers. The
-    ávalue spaceá of integer is the infinite set {...,-2,-1,0,1,2,...}. The
-    ábase typeá of integer is decimal.
+    value space of integer is the infinite set {...,-2,-1,0,1,2,...}. The
+    base type of integer is decimal.
     */
     private static final Pattern
             // Note: NaN, positive and negative infinity are apparently not allowed.

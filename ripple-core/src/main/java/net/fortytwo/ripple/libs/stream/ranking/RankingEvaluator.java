@@ -3,6 +3,7 @@ package net.fortytwo.ripple.libs.stream.ranking;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.query.StackEvaluator;
 
@@ -26,7 +27,7 @@ public class RankingEvaluator extends StackEvaluator {
 
     public void apply(final StackContext arg,
                       final Sink<StackContext, RippleException> solutions) throws RippleException {
-        RankingEvaluatorHelper h = new RankingEvaluatorHelper(arg);
+        RankingEvaluatorHelper h = new RankingEvaluatorHelper(arg.with(arg.getStack().push(Operator.OP)));
         ModelConnection mc = arg.getModelConnection();
 
         for (int i = 0; i < steps; i++) {
@@ -39,7 +40,7 @@ public class RankingEvaluator extends StackEvaluator {
 
         for (RankingContext c : h.getResults()) {
             //System.out.println("solution: " + c.getStack());
-            solutions.put(arg.with(c.getStack().push(mc.numericValue(c.getPriority()))));
+            solutions.put(arg.with(c.getStack().getRest().push(mc.numericValue(c.getPriority()))));
         }
     }
 }
