@@ -33,7 +33,7 @@
     <dependencies>
         <dependency>
             <groupId>net.fortytwo.ripple</groupId>
-            <artifactId>ripple-rdf</artifactId>
+            <artifactId>ripple-core</artifactId>
             <version>0.7-SNAPSHOT</version>
         </dependency>
         <dependency>

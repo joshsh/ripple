@@ -33,23 +33,13 @@
     <dependencies>
         <dependency>
             <groupId>net.fortytwo.ripple</groupId>
-            <artifactId>ripple-base</artifactId>
-            <version>0.7-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>net.fortytwo</groupId>
-            <artifactId>rdfflow</artifactId>
+            <artifactId>ripple-rdf</artifactId>
             <version>0.7-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>antlr</groupId>
             <artifactId>antlr</artifactId>
             <version>2.7.7</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-httpclient</groupId>
-            <artifactId>commons-httpclient</artifactId>
-            <version>3.1</version>
         </dependency>
         <!--<dependency>
             <groupId>org.restlet</groupId>
