@@ -10,6 +10,7 @@
 package net.fortytwo.ripple.libs.stream;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.control.Require;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
 
@@ -34,7 +35,6 @@ public class StreamLibrary extends Library
                 Each.class,
                 Intersect.class,
                 Limit.class,
-                Require.class,
                 Scrap.class,
                 Distinct.class,
 

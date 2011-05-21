@@ -26,50 +26,42 @@ import org.openrdf.model.vocabulary.XMLSchema;
  * this is the URI as a string.  For blank nodes, this is the identifier of
  * the node.
  */
-public class ToString extends PrimitiveStackMapping
-{
-    private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_2011_04 + "to-string",
-            GraphLibrary.NS_2008_08 + "toString",
-            GraphLibrary.NS_2007_08 + "toString",
-            GraphLibrary.NS_2007_05 + "toString"};
-
-    public String[] getIdentifiers()
-    {
-        return IDENTIFIERS;
+public class ToString extends PrimitiveStackMapping {
+    public String[] getIdentifiers() {
+        return new String[]{
+                DataLibrary.NS_2011_04 + "to-string",
+                GraphLibrary.NS_2008_08 + "toString",
+                GraphLibrary.NS_2007_08 + "toString",
+                GraphLibrary.NS_2007_05 + "toString"};
     }
 
-	public ToString()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "x", null, true )};
+    public ToString()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("x", null, true)};
+    }
+
+    public String getComment() {
         return "x  =>  string representation of x";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext, RippleException> solutions )
-		throws RippleException
-	{
-		final ModelConnection mc = arg.getModelConnection();
-		RippleList stack = arg.getStack();
+    public void apply(final StackContext arg,
+                      final Sink<StackContext, RippleException> solutions)
+            throws RippleException {
+        final ModelConnection mc = arg.getModelConnection();
+        RippleList stack = arg.getStack();
 
-		RippleValue v;
+        RippleValue v;
 
-		v = stack.getFirst();
-		stack = stack.getRest();
+        v = stack.getFirst();
+        stack = stack.getRest();
 
-		solutions.put( arg.with(
-				stack.push( mc.typedValue(mc.toString(v), XMLSchema.STRING) ) ) );
-	}
+        solutions.put(arg.with(
+                stack.push(mc.typedValue(mc.toString(v), XMLSchema.STRING))));
+    }
 }
 

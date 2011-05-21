@@ -17,7 +17,6 @@ public class ControlLibrary extends Library {
     public static final String
             NS_2011_04 = "http://fortytwo.net/2011/04/ripple/control#";
 
-
     // Special values.
     private static PrimitiveStackMapping
             optionApply,
@@ -37,6 +36,13 @@ public class ControlLibrary extends Library {
                 Apply.class,
                 Dip.class,
                 Dipd.class,
+
+                // Conditions and branching
+                Branch.class,
+                Choice.class,
+                Ifte.class,
+                While.class,
+                Require.class,
 
                 // Other
                 Ary.class);

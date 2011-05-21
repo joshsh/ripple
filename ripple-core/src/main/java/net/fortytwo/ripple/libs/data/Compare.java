@@ -22,57 +22,49 @@ import net.fortytwo.ripple.model.RippleList;
  * A primitive which consumes two resources and produces a comparison value
  * according to their data type.
  */
-public class Compare extends PrimitiveStackMapping
-{
-    private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_2011_04 + "compare",
-            GraphLibrary.NS_2008_08 + "compare",
-            GraphLibrary.NS_2007_08 + "compare",
-            GraphLibrary.NS_2007_05 + "compare"};
-
-    public String[] getIdentifiers()
-    {
-        return IDENTIFIERS;
+public class Compare extends PrimitiveStackMapping {
+    public String[] getIdentifiers() {
+        return new String[]{
+                DataLibrary.NS_2011_04 + "compare",
+                GraphLibrary.NS_2008_08 + "compare",
+                GraphLibrary.NS_2007_08 + "compare",
+                GraphLibrary.NS_2007_05 + "compare"};
     }
 
-	public Compare()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "x", null, true ),
-                new Parameter( "x", null, true )};
+    public Compare()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("x", null, true),
+                new Parameter("x", null, true)};
+    }
+
+    public String getComment() {
         return "x y  =>  i  -- where i is -1 if x < y, 0 if x = y, and 1 if x > y";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext, RippleException> solutions )
-		throws RippleException
-	{
-		final ModelConnection mc = arg.getModelConnection();
-		RippleList stack = arg.getStack();
+    public void apply(final StackContext arg,
+                      final Sink<StackContext, RippleException> solutions)
+            throws RippleException {
+        final ModelConnection mc = arg.getModelConnection();
+        RippleList stack = arg.getStack();
 
-		RippleValue y, x;
+        RippleValue y, x;
 
-		y = stack.getFirst();
-		stack = stack.getRest();
-		x = stack.getFirst();
-		stack = stack.getRest();
+        y = stack.getFirst();
+        stack = stack.getRest();
+        x = stack.getFirst();
+        stack = stack.getRest();
 
-		int result = mc.getComparator().compare( x, y );
-        
+        int result = mc.getComparator().compare(x, y);
+
         // Constrain the result to three possible values.
-        result = ( result < 0 ) ? -1 : ( result > 0 ) ? 1 : 0;
+        result = (result < 0) ? -1 : (result > 0) ? 1 : 0;
 
-        solutions.put( arg.with( stack.push( mc.numericValue(result) ) ) );
-	}
+        solutions.put(arg.with(stack.push(mc.numericValue(result))));
+    }
 }
 

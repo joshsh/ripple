@@ -27,7 +27,7 @@ import java.util.Date;
 public class ToMillis extends PrimitiveStackMapping {
     public String[] getIdentifiers() {
         return new String[]{
-                GraphLibrary.NS_2011_04 + "to-millis",
+                DataLibrary.NS_2011_04 + "to-millis",
                 ExtrasLibrary.NS_2008_08 + "dateTimeToMillis",
         };
     }

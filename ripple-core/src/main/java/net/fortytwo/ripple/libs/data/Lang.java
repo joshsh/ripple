@@ -24,56 +24,46 @@ import org.openrdf.model.Literal;
  * A primitive which consumes a plain literal value and produces its language
  * tag (or an empty string if the literal has no language tag).
  */
-public class Lang extends PrimitiveStackMapping
-{
-    private static final String[] IDENTIFIERS = {
-            DataLibrary.NS_XML + "lang"};
-
-    public String[] getIdentifiers()
-    {
-        return IDENTIFIERS;
+public class Lang extends PrimitiveStackMapping {
+    public String[] getIdentifiers() {
+        return new String[]{
+                DataLibrary.NS_XML + "lang"};
     }
 
-	public Lang()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "l", null, true )};
+    public Lang()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("l", null, true)};
+    }
+
+    public String getComment() {
         return "l  =>  language tag of literal l";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext, RippleException> solutions )
-		throws RippleException
-	{
-		final ModelConnection mc = arg.getModelConnection();
-		RippleList stack = arg.getStack();
+    public void apply(final StackContext arg,
+                      final Sink<StackContext, RippleException> solutions)
+            throws RippleException {
+        final ModelConnection mc = arg.getModelConnection();
+        RippleList stack = arg.getStack();
 
-		Value v;
-		String result;
+        Value v;
+        String result;
 
-		v = stack.getFirst().toRDF( mc ).sesameValue();
-		stack = stack.getRest();
+        v = stack.getFirst().toRDF(mc).sesameValue();
+        stack = stack.getRest();
 
-		if ( v instanceof Literal )
-		{
-			result = ( (Literal) v ).getLanguage();
+        if (v instanceof Literal) {
+            result = ((Literal) v).getLanguage();
 
-			if ( null != result )
-			{
-                solutions.put( arg.with(
-					stack.push( mc.plainValue(result) ) ) );
-			}
-		}
-	}
+            if (null != result) {
+                solutions.put(arg.with(
+                        stack.push(mc.plainValue(result))));
+            }
+        }
+    }
 }
 

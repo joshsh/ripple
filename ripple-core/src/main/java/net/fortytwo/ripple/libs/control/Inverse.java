@@ -28,7 +28,7 @@ import net.fortytwo.ripple.model.StackMappingWrapper;
 public class Inverse extends PrimitiveStackMapping {
     public String[] getIdentifiers() {
         return new String[]{
-                ExtrasLibrary.NS_2011_04 + "inverse",
+                ControlLibrary.NS_2011_04 + "inverse",
                 ExtrasLibrary.NS_2008_08 + "invert",
         };
     }

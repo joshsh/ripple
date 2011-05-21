@@ -13,6 +13,7 @@
 ,,,,control_2011_04:option-apply
 ,,,,control_2011_04:plus-apply
 ,,,,control_2011_04:range-apply
+,,(stream_2008_08:require),,control_2011_04:require
 ,,,,control_2011_04:star-apply
 ,,,,control_2011_04:times-apply
 (graph_2007_05:compare),(graph_2007_08:compare),(graph_2008_08:compare),,data_2011_04:compare
@@ -174,7 +175,7 @@ stack_2007_05:xor,stack_2007_08:xor,(logic_2008_08:xor),,(logic_2011_04:xor)
 stream_2007_05:each,stream_2007_08:each,stream_2008_08:each,,stream_2011_04:each
 ,,stream_2008_08:intersect,,stream_2011_04:intersect
 stream_2007_05:limit,stream_2007_08:limit,stream_2008_08:limit,,stream_2011_04:limit
-,,stream_2008_08:require,,stream_2011_04:require
+,,stream_2008_08:require,,(control_2011_04:require)
 stream_2007_05:scrap,stream_2007_08:scrap,stream_2008_08:scrap,,stream_2011_04:scrap
 stream_2007_05:union,stream_2007_08:union,(stream_2008_08:both),,(stream_2011_04:both)
 stream_2007_05:unique,stream_2007_08:unique,(stream_2008_08:distinct),,(stream_2011_04:distinct)

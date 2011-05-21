@@ -26,51 +26,41 @@ import net.fortytwo.ripple.model.StackContext;
  * A primitive which activates ("applies") the topmost item on the stack one or
  * more times.
  */
-public class PlusApply extends PrimitiveStackMapping
-{
-    private static final String[] IDENTIFIERS = {
-            // Note: this primitive has different semantics than its predecessor, stack:plusApply
-            StackLibrary.NS_2011_04 + "plus-apply"};
-
-    public String[] getIdentifiers()
-    {
-        return IDENTIFIERS;
+public class PlusApply extends PrimitiveStackMapping {
+    public String[] getIdentifiers() {
+        return new String[]{
+                // Note: this primitive has different semantics than its predecessor, stack:plusApply
+                ControlLibrary.NS_2011_04 + "plus-apply"};
     }
 
-	public PlusApply() throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "p", "the program to be executed", true )};
+    public PlusApply() throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("p", "the program to be executed", true)};
+    }
+
+    public String getComment() {
         return "p  =>  p+  -- execute the program p at least one time, and up to any number of times";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext, RippleException> solutions )
-		throws RippleException
-	{
+    public void apply(final StackContext arg,
+                      final Sink<StackContext, RippleException> solutions)
+            throws RippleException {
         final ModelConnection mc = arg.getModelConnection();
-		RippleList stack = arg.getStack();
-		RippleValue first = stack.getFirst();
-		final RippleList rest = stack.getRest();
+        RippleList stack = arg.getStack();
+        RippleValue first = stack.getFirst();
+        final RippleList rest = stack.getRest();
 
-		Sink<Operator, RippleException> opSink = new Sink<Operator, RippleException>()
-		{
-			public void put( final Operator op ) throws RippleException
-			{
-				solutions.put( arg.with( rest.push(
-						new StackMappingWrapper( new PlusQuantifier( op ), mc ) ) ) );
-			}
-		};
+        Sink<Operator, RippleException> opSink = new Sink<Operator, RippleException>() {
+            public void put(final Operator op) throws RippleException {
+                solutions.put(arg.with(rest.push(
+                        new StackMappingWrapper(new PlusQuantifier(op), mc))));
+            }
+        };
 
-		Operator.createOperator( first, opSink, arg.getModelConnection() );
-	}
+        Operator.createOperator(first, opSink, arg.getModelConnection());
+    }
 }

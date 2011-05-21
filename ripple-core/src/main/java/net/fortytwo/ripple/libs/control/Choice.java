@@ -7,9 +7,10 @@
  */
 
 
-package net.fortytwo.ripple.libs.logic;
+package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.logic.LogicLibrary;
 import net.fortytwo.ripple.libs.stack.StackLibrary;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleValue;
@@ -25,7 +26,7 @@ import net.fortytwo.flow.Sink;
 public class Choice extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            LogicLibrary.NS_2011_04 + "choice",
+            ControlLibrary.NS_2011_04 + "choice",
             LogicLibrary.NS_2008_08 + "choice",
             StackLibrary.NS_2007_08 + "choice",
             StackLibrary.NS_2007_05 + "choice"};

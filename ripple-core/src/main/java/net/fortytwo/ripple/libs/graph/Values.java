@@ -19,7 +19,7 @@ public class Values extends PrimitiveStackMapping {
     @Override
     public String[] getIdentifiers() {
         return new String[]{
-                ExtrasLibrary.NS_2011_04 + "values"
+                GraphLibrary.NS_2011_04 + "values"
         };
     }
 

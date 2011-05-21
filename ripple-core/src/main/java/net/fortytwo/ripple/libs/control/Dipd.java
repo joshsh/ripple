@@ -21,55 +21,47 @@ import net.fortytwo.flow.Sink;
 /**
  * A primitive which activates the third-to-topmost item on the stack.
  */
-public class Dipd extends PrimitiveStackMapping
-{
-    private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2011_04 + "dipd",
-            StackLibrary.NS_2008_08 + "dipd",
-            StackLibrary.NS_2007_08 + "dipd",
-            StackLibrary.NS_2007_05 + "dipd"};
-
-    public String[] getIdentifiers()
-    {
-        return IDENTIFIERS;
+public class Dipd extends PrimitiveStackMapping {
+    public String[] getIdentifiers() {
+        return new String[]{
+                ControlLibrary.NS_2011_04 + "dipd",
+                StackLibrary.NS_2008_08 + "dipd",
+                StackLibrary.NS_2007_08 + "dipd",
+                StackLibrary.NS_2007_05 + "dipd"};
     }
 
-	public Dipd()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "x", null, true ),
-                new Parameter( "y", null, true ),
-                new Parameter( "z", "the program to be executed", true )};
+    public Dipd()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("x", null, true),
+                new Parameter("y", null, true),
+                new Parameter("z", "the program to be executed", true)};
+    }
+
+    public String getComment() {
         return "x y z  =>  z! x y";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext, RippleException> solutions )
-		throws RippleException
-	{
-		RippleValue z, y, x;
-		RippleList stack = arg.getStack();
+    public void apply(final StackContext arg,
+                      final Sink<StackContext, RippleException> solutions)
+            throws RippleException {
+        RippleValue z, y, x;
+        RippleList stack = arg.getStack();
 
 // hack...
-		z = stack.getFirst();
-		stack = stack.getRest();
-		y = stack.getFirst();
-		stack = stack.getRest();
-		x = stack.getFirst();
-		stack = stack.getRest();
+        z = stack.getFirst();
+        stack = stack.getRest();
+        y = stack.getFirst();
+        stack = stack.getRest();
+        x = stack.getFirst();
+        stack = stack.getRest();
 
-		solutions.put( arg.with(
-				stack.push( z ).push( Operator.OP ).push( x ).push( y ) ) );
-	}
+        solutions.put(arg.with(
+                stack.push(z).push(Operator.OP).push(x).push(y)));
+    }
 }
 

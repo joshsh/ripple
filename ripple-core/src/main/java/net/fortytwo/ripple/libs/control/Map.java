@@ -30,98 +30,81 @@ import java.util.Iterator;
  * in turn, yielding another list.
  * For instance, <code>(1 2 3) (10 add >>) map >></code> yields <code>(11 12 13)</code>
  */
-public class Map extends PrimitiveStackMapping
-{
-    private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2011_04 + "map",
-            StackLibrary.NS_2008_08 + "map"};
-
-    public String[] getIdentifiers()
-    {
-        return IDENTIFIERS;
+public class Map extends PrimitiveStackMapping {
+    public String[] getIdentifiers() {
+        return new String[]{
+                ControlLibrary.NS_2011_04 + "map",
+                StackLibrary.NS_2008_08 + "map"};
     }
 
-	public Map() throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "l", "a List to map through m", true ),
-                new Parameter( "m", "a mapping which produces and consumes one argument", true )};
+    public Map() throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("l", "a List to map through m", true),
+                new Parameter("m", "a mapping which produces and consumes one argument", true)};
+    }
+
+    public String getComment() {
         return "l m  =>  l mapped through m";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext, RippleException> solutions )
-		throws RippleException
-	{
-		final ModelConnection mc = arg.getModelConnection();
-		RippleList stack = arg.getStack();
+    public void apply(final StackContext arg,
+                      final Sink<StackContext, RippleException> solutions)
+            throws RippleException {
+        final ModelConnection mc = arg.getModelConnection();
+        RippleList stack = arg.getStack();
 
-		final RippleValue mappingVal = stack.getFirst();
-		stack = stack.getRest();
-		RippleValue listVal = stack.getFirst();
-		final RippleList rest = stack.getRest();
+        final RippleValue mappingVal = stack.getFirst();
+        stack = stack.getRest();
+        RippleValue listVal = stack.getFirst();
+        final RippleList rest = stack.getRest();
 
         // Note: it is simply assumed that these mappings have a production of
         // exactly one item.
         final Collector<Operator, RippleException> operators = new Collector<Operator, RippleException>();
-        Operator.createOperator( mappingVal, operators, mc );
+        Operator.createOperator(mappingVal, operators, mc);
 
-        Sink<RippleList, RippleException> listSink = new Sink<RippleList, RippleException>()
-		{
-            public void put( final RippleList list ) throws RippleException
-			{
-                if ( list.isNil() )
-                {
-                    solutions.put( arg.with( rest.push( list ) ) );
+        Sink<RippleList, RippleException> listSink = new Sink<RippleList, RippleException>() {
+            public void put(final RippleList list) throws RippleException {
+                if (list.isNil()) {
+                    solutions.put(arg.with(rest.push(list)));
                 }
 
                 // TODO: this is probably a little more complicated than it needs to be
-                else
-                {
+                else {
                     RippleList inverted = list.invert();
                     RippleValue f = inverted.getFirst();
 
-                    for (Iterator<Operator> iter = operators.iterator(); iter.hasNext(); )
-                    {
-                        StackMapping inner = new InnerMapping( mc.list(), inverted.getRest(), iter.next() );
-                        solutions.put( arg.with( rest.push( f ).push( mappingVal ).push( Operator.OP ).push( new Operator( inner ) ) ) );
+                    for (Iterator<Operator> iter = operators.iterator(); iter.hasNext();) {
+                        StackMapping inner = new InnerMapping(mc.list(), inverted.getRest(), iter.next());
+                        solutions.put(arg.with(rest.push(f).push(mappingVal).push(Operator.OP).push(new Operator(inner))));
                     }
                 }
             }
-		};
+        };
 
-		mc.toList( listVal, listSink );
+        mc.toList(listVal, listSink);
     }
 
-    private class InnerMapping implements StackMapping
-    {
+    private class InnerMapping implements StackMapping {
         private RippleList invertedListHead;
         private RippleList constructedList;
         private Operator operator;
 
-        public InnerMapping( final RippleList constructedList, final RippleList invertedListHead, final Operator operator )
-        {
+        public InnerMapping(final RippleList constructedList, final RippleList invertedListHead, final Operator operator) {
             this.constructedList = constructedList;
             this.invertedListHead = invertedListHead;
             this.operator = operator;
         }
 
-        public int arity()
-        {
+        public int arity() {
             return 1;
         }
 
-        public StackMapping getInverse() throws RippleException
-        {
+        public StackMapping getInverse() throws RippleException {
             return new NullStackMapping();
         }
 
@@ -129,26 +112,21 @@ public class Map extends PrimitiveStackMapping
             return true;
         }
 
-        public void apply( final StackContext arg, final Sink<StackContext, RippleException> solutions ) throws RippleException
-        {
+        public void apply(final StackContext arg, final Sink<StackContext, RippleException> solutions) throws RippleException {
             RippleList stack = arg.getStack();
             RippleValue first = stack.getFirst();
             stack = stack.getRest();
 
-            RippleList newListRest = constructedList.push( first );
+            RippleList newListRest = constructedList.push(first);
 
-            if ( invertedListHead.isNil() )
-            {
-                solutions.put( arg.with( stack.push( newListRest ) ) );
-            }
-
-            else
-            {
+            if (invertedListHead.isNil()) {
+                solutions.put(arg.with(stack.push(newListRest)));
+            } else {
                 // The stack to operate on
-                RippleList restStack = stack.push( invertedListHead.getFirst() ).push( operator );
+                RippleList restStack = stack.push(invertedListHead.getFirst()).push(operator);
 
-                StackMapping restMapping = new InnerMapping( newListRest, invertedListHead.getRest(), operator );
-                solutions.put( arg.with( restStack.push( new Operator( restMapping ) ) ) );
+                StackMapping restMapping = new InnerMapping(newListRest, invertedListHead.getRest(), operator);
+                solutions.put(arg.with(restStack.push(new Operator(restMapping))));
             }
         }
     }

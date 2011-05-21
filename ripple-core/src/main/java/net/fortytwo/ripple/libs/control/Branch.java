@@ -7,9 +7,10 @@
  */
 
 
-package net.fortytwo.ripple.libs.logic;
+package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.logic.LogicLibrary;
 import net.fortytwo.ripple.libs.stack.StackLibrary;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.model.Operator;
@@ -27,7 +28,7 @@ import net.fortytwo.ripple.model.ModelConnection;
 public class Branch extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            LogicLibrary.NS_2011_04 + "branch",
+            ControlLibrary.NS_2011_04 + "branch",
             LogicLibrary.NS_2008_08 + "branch",
             StackLibrary.NS_2007_08 + "branch",
             StackLibrary.NS_2007_05 + "branch"};

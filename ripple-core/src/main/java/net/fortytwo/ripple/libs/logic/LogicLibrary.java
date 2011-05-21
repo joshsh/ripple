@@ -10,6 +10,10 @@
 package net.fortytwo.ripple.libs.logic;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.control.Branch;
+import net.fortytwo.ripple.libs.control.Choice;
+import net.fortytwo.ripple.libs.control.Ifte;
+import net.fortytwo.ripple.libs.control.While;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
 
@@ -25,16 +29,10 @@ public class LogicLibrary extends Library
     public void load(final LibraryLoader.Context context)
 		throws RippleException
 	{
-		//uf.put( NS_2008_08, getClass().getResource( "logic.ttl" ) + "#" );
-
 		registerPrimitives( context,
                 And.class,
-                Branch.class,
-                Choice.class,
-                Ifte.class,
                 Not.class,
                 Or.class,
-                While.class,
                 Xor.class );
     }
 }

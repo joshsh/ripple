@@ -7,11 +7,12 @@
  */
 
 
-package net.fortytwo.ripple.libs.logic;
+package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.Collector;
+import net.fortytwo.ripple.libs.logic.LogicLibrary;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleValue;
@@ -32,7 +33,7 @@ import java.util.Iterator;
 public class While extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            LogicLibrary.NS_2011_04 + "while",
+            ControlLibrary.NS_2011_04 + "while",
             LogicLibrary.NS_2008_08 + "while"};
 
     public String[] getIdentifiers()
@@ -76,17 +77,11 @@ public class While extends PrimitiveStackMapping
                 = new Collector<Operator, RippleException>();
         Operator.createOperator( criterion, criterionOps, mc );
 
-        for ( Iterator<Operator> programIter = programOps.iterator(); programIter.hasNext(); )
-        {
-            Operator programOp = programIter.next();
+        for (Operator programOp : programOps) {
+            for (Operator criterionOp : criterionOps) {
+                StackMapping a = new WhileApplicator(programOp, criterionOp);
 
-            for ( Iterator<Operator> criterionIter = criterionOps.iterator(); criterionIter.hasNext(); )
-            {
-                Operator criterionOp = criterionIter.next();
-
-                StackMapping a = new WhileApplicator( programOp, criterionOp );
-
-                solutions.put( arg.with( stack.push( new Operator( a ) ) ) );
+                solutions.put(arg.with(stack.push(new Operator(a))));
             }
         }
 	}

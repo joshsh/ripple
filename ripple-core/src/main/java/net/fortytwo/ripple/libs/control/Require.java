@@ -7,10 +7,11 @@
  */
 
 
-package net.fortytwo.ripple.libs.stream;
+package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.libs.stream.StreamLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
@@ -33,7 +34,7 @@ public class Require extends PrimitiveStackMapping
     }
     
     private static final String[] IDENTIFIERS = {
-            StreamLibrary.NS_2011_04 + "require",
+            ControlLibrary.NS_2011_04 + "require",
             StreamLibrary.NS_2008_08 + "require"};
 
     public String[] getIdentifiers()

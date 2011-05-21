@@ -25,89 +25,74 @@ import net.fortytwo.ripple.model.NullStackMapping;
  * filter with the given arity.  This forces the remainder of the stack to be
  * reduced to the corresponding depth.
  */
-public class Ary extends PrimitiveStackMapping
-{
-    private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2011_04 + "ary",
-            StackLibrary.NS_2008_08 + "ary",
-            StackLibrary.NS_2007_08 + "ary",
-            StackLibrary.NS_2007_05 + "ary"};
-
-    public String[] getIdentifiers()
-    {
-        return IDENTIFIERS;
+public class Ary extends PrimitiveStackMapping {
+    public String[] getIdentifiers() {
+        return new String[]{
+                ControlLibrary.NS_2011_04 + "ary",
+                StackLibrary.NS_2008_08 + "ary",
+                StackLibrary.NS_2007_08 + "ary",
+                StackLibrary.NS_2007_05 + "ary"};
     }
 
-	public Ary()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "n", "the (minimum) arity of the resulting function", true )};
+    public Ary()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("n", "the (minimum) arity of the resulting function", true)};
+    }
+
+    public String getComment() {
         return "n  =>  f -- where f is an n-ary version of the id function";
     }
 
-	private class NaryId implements StackMapping
-	{
-		private int n;
+    private class NaryId implements StackMapping {
+        private int n;
 
-		public NaryId( final int arity )
-		{
-			n = arity;
-		}
+        public NaryId(final int arity) {
+            n = arity;
+        }
 
-		public int arity()
-		{
-			return n;
-		}
+        public int arity() {
+            return n;
+        }
 
-		public void apply( final StackContext arg,
-							 final Sink<StackContext, RippleException> sink
-		)
-			throws RippleException
-		{
-			sink.put( arg );
-		}
-		
-		public boolean isTransparent()
-		{
-			return true;
-		}
+        public void apply(final StackContext arg,
+                          final Sink<StackContext, RippleException> sink
+        )
+                throws RippleException {
+            sink.put(arg);
+        }
+
+        public boolean isTransparent() {
+            return true;
+        }
 
         // TODO
-        public StackMapping getInverse() throws RippleException
-        {
+        public StackMapping getInverse() throws RippleException {
             return new NullStackMapping();
         }
 
-        public String toString()
-        {
+        public String toString() {
             return "NaryId(" + n + ")";
         }
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext, RippleException> solutions )
-		throws RippleException
-	{
-		final ModelConnection mc = arg.getModelConnection();
-		RippleList stack = arg.getStack();
+    public void apply(final StackContext arg,
+                      final Sink<StackContext, RippleException> solutions)
+            throws RippleException {
+        final ModelConnection mc = arg.getModelConnection();
+        RippleList stack = arg.getStack();
 
-		int n;
+        int n;
 
-		n = mc.toNumericValue( stack.getFirst() ).intValue();
-		stack = stack.getRest();
+        n = mc.toNumericValue(stack.getFirst()).intValue();
+        stack = stack.getRest();
 
-		solutions.put( arg.with(
-			stack.push( new Operator( new NaryId( n ) ) ) ) );
-	}
+        solutions.put(arg.with(
+                stack.push(new Operator(new NaryId(n)))));
+    }
 }
 

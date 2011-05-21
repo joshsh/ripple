@@ -22,51 +22,43 @@ import net.fortytwo.ripple.model.StackContext;
  * A primitive which consumes a literal value and produces the resource
  * identified by the corresponding URI (if any).
  */
-public class ToUri extends PrimitiveStackMapping
-{
-    private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_2011_04 + "to-uri",
-            GraphLibrary.NS_2008_08 + "toUri",
-            GraphLibrary.NS_2007_08 + "toUri"};
-
-    public String[] getIdentifiers()
-    {
-        return IDENTIFIERS;
+public class ToUri extends PrimitiveStackMapping {
+    public String[] getIdentifiers() {
+        return new String[]{
+                DataLibrary.NS_2011_04 + "to-uri",
+                GraphLibrary.NS_2008_08 + "toUri",
+                GraphLibrary.NS_2007_08 + "toUri"};
     }
 
-	public ToUri()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "s", null, true )};
+    public ToUri()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("s", null, true)};
+    }
+
+    public String getComment() {
         return "s  =>  uri -- where uri is the URI whose string representation is s";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext, RippleException> solutions )
-		throws RippleException
-	{
-		final ModelConnection mc = arg.getModelConnection();
-		RippleList stack = arg.getStack();
+    public void apply(final StackContext arg,
+                      final Sink<StackContext, RippleException> solutions)
+            throws RippleException {
+        final ModelConnection mc = arg.getModelConnection();
+        RippleList stack = arg.getStack();
 
-		String s;
+        String s;
 
-		s = mc.toString( stack.getFirst() );
-		stack = stack.getRest();
+        s = mc.toString(stack.getFirst());
+        stack = stack.getRest();
 
-		RDFValue uri = mc.uriValue(s);
+        RDFValue uri = mc.uriValue(s);
 
-		solutions.put( arg.with(
-				stack.push( uri ) ) );
-	}
+        solutions.put(arg.with(
+                stack.push(uri)));
+    }
 }
 
