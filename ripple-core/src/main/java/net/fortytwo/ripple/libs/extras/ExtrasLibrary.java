@@ -35,6 +35,7 @@ public class ExtrasLibrary extends Library {
                 // Disabled by default.
                 //System.class,
 
+                Random.class,
                 Time.class);
         scriptVal = (Script) registerPrimitive(Script.class, context);
     }

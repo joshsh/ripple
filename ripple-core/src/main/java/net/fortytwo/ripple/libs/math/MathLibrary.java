@@ -10,6 +10,7 @@
 package net.fortytwo.ripple.libs.math;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.extras.Random;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.LibraryLoader;
@@ -76,7 +77,6 @@ public class MathLibrary extends Library
 		// Misc
 		registerPrimitive( Ceil.class, context );
 		registerPrimitive( Floor.class, context );
-		registerPrimitive( Random.class, context );
 	}
 
     public static PrimitiveStackMapping getAddValue()
