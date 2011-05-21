@@ -33,8 +33,13 @@
     <dependencies>
         <dependency>
             <groupId>net.fortytwo.ripple</groupId>
-            <artifactId>ripple-core</artifactId>
+            <artifactId>ripple-rdf</artifactId>
             <version>0.7-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openrdf.sesame</groupId>
+            <artifactId>sesame-queryparser-sparql</artifactId>
+            <version>2.3.2</version>
         </dependency>
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
@@ -46,11 +51,7 @@
 
     <build>
         <directory>${basedir}/target</directory>
-        <finalName>${artifactId}-${version}</finalName>
-        <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
-        <testSourceDirectory>${basedir}/src/test/java</testSourceDirectory>
-        <outputDirectory>${basedir}/target/classes</outputDirectory>
-        <testOutputDirectory>${basedir}/target/test-classes</testOutputDirectory>
+        <finalName>${project.artifactId}-${project.version}</finalName>
         <resources>
             <resource>
                 <directory>${basedir}/src/main/resources</directory>
@@ -64,6 +65,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
@@ -71,5 +73,5 @@
             </plugin>
         </plugins>
     </build>
-    
+
 </project>

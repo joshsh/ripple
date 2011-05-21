@@ -2,10 +2,10 @@ package net.fortytwo.ripple.test;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import net.fortytwo.flow.Collector;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.URIMap;
-import net.fortytwo.flow.Collector;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleList;
@@ -15,15 +15,13 @@ import net.fortytwo.ripple.query.LazyStackEvaluator;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.QueryPipe;
 import net.fortytwo.ripple.query.StackEvaluator;
+import org.openrdf.model.URI;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.model.vocabulary.RDFS;
 import org.openrdf.model.vocabulary.XMLSchema;
-import org.openrdf.model.URI;
-import org.openrdf.sail.NotifyingSail;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
-import org.openrdf.sail.inferencer.fc.ForwardChainingRDFSInferencer;
 import org.openrdf.sail.memory.MemoryStore;
 
 import java.io.InputStream;
@@ -39,8 +37,6 @@ import java.util.LinkedList;
  * Time: 1:43:08 PM
  */
 public abstract class RippleTestCase extends TestCase {
-    private static final boolean SUPPORT_INFERENCE = true;
-
     // TODO: add a shutdown hook to clean up these objects
     private static Sail sail = null;
     private static URIMap uriMap = null;
@@ -76,11 +72,6 @@ public abstract class RippleTestCase extends TestCase {
             sail = new MemoryStore();
 
             try {
-                // Use inference if desired and if the underlying Sail supports it.
-                if (SUPPORT_INFERENCE && sail instanceof NotifyingSail) {
-                    sail = new ForwardChainingRDFSInferencer((NotifyingSail) sail);
-                }
-
                 sail.initialize();
 
                 SailConnection sc = sail.getConnection();
