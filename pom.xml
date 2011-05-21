@@ -49,7 +49,6 @@
         <module>ripple-media</module>
         <module>ripple-rdf</module>
         <module>ripple-scriptengine</module>
-        <module>ripple-sesame</module>
     </modules>
 
     <build>

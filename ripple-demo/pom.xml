@@ -33,13 +33,18 @@
     <dependencies>
         <dependency>
             <groupId>net.fortytwo.ripple</groupId>
-            <artifactId>ripple-sesame</artifactId>
+            <artifactId>ripple-core</artifactId>
             <version>0.7-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>net.fortytwo</groupId>
             <artifactId>linked-data-sail</artifactId>
             <version>0.7-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>net.fortytwo.sesametools</groupId>
+            <artifactId>readonly</artifactId>
+            <version>1.1</version>
         </dependency>
         <dependency>
             <groupId>urbanophile</groupId>

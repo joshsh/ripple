@@ -7,7 +7,7 @@
  */
 
 
-package net.fortytwo.ripple.io.parser;
+package net.fortytwo.ripple.io;
 
 import net.fortytwo.ripple.cli.ast.KeywordAST;
 import net.fortytwo.ripple.query.commands.DefineListCmd;
