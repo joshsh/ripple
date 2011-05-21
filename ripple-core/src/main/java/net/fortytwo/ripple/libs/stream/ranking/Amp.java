@@ -1,8 +1,9 @@
-package net.fortytwo.ripple.libs.extras.ranking;
+package net.fortytwo.ripple.libs.stream.ranking;
 
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.extras.ExtrasLibrary;
+import net.fortytwo.ripple.libs.stream.StreamLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
@@ -17,7 +18,7 @@ public class Amp extends PrimitiveStackMapping {
     @Override
     public String[] getIdentifiers() {
         return new String[]{
-                ExtrasLibrary.NS_2011_04 + "amp"
+                StreamLibrary.NS_2011_04 + "amp"
         };
     }
 

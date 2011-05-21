@@ -1,4 +1,4 @@
-package net.fortytwo.ripple.libs.extras.ranking;
+package net.fortytwo.ripple.libs.stream.ranking;
 
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleList;

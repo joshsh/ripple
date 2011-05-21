@@ -25,6 +25,8 @@ import org.openrdf.model.vocabulary.XMLSchema;
  */
 public class StringLibrary extends Library
 {
+    // Note: the prefix "string:" is commonly associated with this URI (per prefix.cc):
+    //       http://www.w3.org/2000/10/swap/string#
     public static final String
             NS_2011_04 = "http://fortytwo.net/2011/04/ripple/string#",
             NS_2008_08 = "http://fortytwo.net/2008/08/ripple/string#",
@@ -33,8 +35,6 @@ public class StringLibrary extends Library
     public void load(final LibraryLoader.Context context)
 		throws RippleException
 	{
-		//uf.put( NS_2008_08, getClass().getResource( "string.ttl" ) + "#" );
-
         registerPrimitives( context,
                 Concat.class,
                 Contains.class,

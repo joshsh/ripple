@@ -1,21 +1,22 @@
-package net.fortytwo.ripple.libs.extras.ranking;
+package net.fortytwo.ripple.libs.stream.ranking;
 
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.extras.ExtrasLibrary;
+import net.fortytwo.ripple.libs.stream.StreamLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackContext;
 
 /*
-(("one" "two" 0.5 amp >>)
- ("one" "two" 0.1 amp >>)
- ("one" "hundred" 0.3 amp >>)) each >> apply >> 0.1 amp >> 10000 rank >> .
+(("one" "two" 0.5 amp.)
+ ("one" "two" 0.1 amp.)
+ ("one" "hundred" 0.3 amp.)) each. apply. 0.1 amp. 10000 rank. .
 
-("one" "two") each >> apply >> 10000 rank >> .
-(("one")) each >> apply >> 10000 rank >> .
+("one" "two") each. apply. 10000 rank. .
+(("one")) each. apply. 10000 rank. .
 
  */
 
@@ -28,7 +29,7 @@ public class Rank extends PrimitiveStackMapping {
     @Override
     public String[] getIdentifiers() {
         return new String[]{
-                ExtrasLibrary.NS_2011_04 + "rank"
+                StreamLibrary.NS_2011_04 + "rank"
         };
     }
 

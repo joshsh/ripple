@@ -10,15 +10,15 @@
 package net.fortytwo.ripple.libs.stream;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.libs.control.Require;
+import net.fortytwo.ripple.libs.stream.ranking.Amp;
+import net.fortytwo.ripple.libs.stream.ranking.Rank;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
 
 /**
  * A collection of data flow primitives.
  */
-public class StreamLibrary extends Library
-{
+public class StreamLibrary extends Library {
     public static final String
             NS_2011_04 = "http://fortytwo.net/2011/04/ripple/stream#",
             NS_2008_08 = "http://fortytwo.net/2008/08/ripple/stream#",
@@ -26,11 +26,9 @@ public class StreamLibrary extends Library
             NS_2007_05 = "http://fortytwo.net/2007/05/ripple/stream#";
 
     public void load(final LibraryLoader.Context context)
-		throws RippleException
-	{
-		//uf.put( NS_2008_08, getClass().getResource( "stream.ttl" ) + "#" );
+            throws RippleException {
 
-        registerPrimitives( context,
+        registerPrimitives(context,
                 Both.class,
                 Each.class,
                 Intersect.class,
@@ -38,8 +36,10 @@ public class StreamLibrary extends Library
                 Scrap.class,
                 Distinct.class,
 
-                // FIXME: hack
-                Count.class );
-	}
+                // Closed world primitives
+                Amp.class,
+                Count.class,
+                Rank.class);
+    }
 }
 

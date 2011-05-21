@@ -10,11 +10,9 @@
 package net.fortytwo.ripple.libs.extras;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.libs.control.Inverse;
-import net.fortytwo.ripple.libs.extras.ranking.Amp;
-import net.fortytwo.ripple.libs.extras.ranking.Rank;
+import net.fortytwo.ripple.libs.stream.ranking.Amp;
+import net.fortytwo.ripple.libs.stream.ranking.Rank;
 import net.fortytwo.ripple.model.Library;
-import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.LibraryLoader;
 
 /**
@@ -37,11 +35,7 @@ public class ExtrasLibrary extends Library {
                 // Disabled by default.
                 //System.class,
 
-                Time.class,
-
-                // TODO: move these?
-                Rank.class,
-                Amp.class);
+                Time.class);
         scriptVal = (Script) registerPrimitive(Script.class, context);
     }
 
