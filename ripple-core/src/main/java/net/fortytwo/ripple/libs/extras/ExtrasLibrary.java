@@ -12,6 +12,9 @@ package net.fortytwo.ripple.libs.extras;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.extras.ranking.Amp;
 import net.fortytwo.ripple.libs.extras.ranking.Rank;
+import net.fortytwo.ripple.libs.graph.KeyValues;
+import net.fortytwo.ripple.libs.graph.Keys;
+import net.fortytwo.ripple.libs.graph.Values;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.LibraryLoader;
@@ -38,10 +41,8 @@ public class ExtrasLibrary extends Library {
                 //System.class,
 
                 Time.class,
+
                 // TODO: move these?
-                Keys.class,
-                KeyValues.class,
-                Values.class,
                 Rank.class,
                 Amp.class);
         invertVal = registerPrimitive(Inverse.class, context);

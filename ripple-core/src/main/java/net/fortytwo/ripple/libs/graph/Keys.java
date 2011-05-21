@@ -1,7 +1,8 @@
-package net.fortytwo.ripple.libs.extras;
+package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.extras.ExtrasLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
@@ -14,11 +15,11 @@ import net.fortytwo.ripple.model.keyval.KeyValueValue;
  * Date: 4/5/11
  * Time: 11:22 PM
  */
-public class KeyValues extends PrimitiveStackMapping {
+public class Keys extends PrimitiveStackMapping {
     @Override
     public String[] getIdentifiers() {
         return new String[]{
-                ExtrasLibrary.NS_2011_04 + "key-values"
+                ExtrasLibrary.NS_2011_04 + "keys"
         };
     }
 
@@ -30,7 +31,7 @@ public class KeyValues extends PrimitiveStackMapping {
 
     @Override
     public String getComment() {
-        return "finds all key-value pairs on the given object";
+        return "finds all keys with values on the given object";
     }
 
     public void apply(final StackContext arg,
@@ -42,8 +43,7 @@ public class KeyValues extends PrimitiveStackMapping {
 
         if (first instanceof KeyValueValue) {
             for (String key : ((KeyValueValue) first).getKeys()) {
-                RippleValue value = ((KeyValueValue) first).getValue(key, mc);
-                solutions.put(arg.with(stack.push(mc.plainValue(key)).push(value)));
+                solutions.put(arg.with(stack.push(mc.plainValue(key))));
             }
         }
     }

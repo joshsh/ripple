@@ -25,8 +25,7 @@ import net.fortytwo.ripple.model.LibraryLoader;
 /**
  * A collection of primitives for manipulating data types and RDF graphs.
  */
-public class GraphLibrary extends Library
-{
+public class GraphLibrary extends Library {
     public static final String
             NS_2011_04 = "http://fortytwo.net/2011/04/ripple/graph#",
             NS_2010_08 = "http://fortytwo.net/2008/08/ripple/graph#",
@@ -35,30 +34,27 @@ public class GraphLibrary extends Library
             NS_2007_05 = "http://fortytwo.net/2007/05/ripple/graph#";
 
     public void load(final LibraryLoader.Context context)
-        throws RippleException
-    {
-        load( context, true );
+            throws RippleException {
+        load(context, true);
     }
 
-    protected void load( final LibraryLoader.Context context,
-                      final boolean includePrimitivesWithSideEffects )
-		throws RippleException
-	{
-		//uf.put( NS_2008_08, getClass().getResource( "graph.ttl" ) + "#" );
+    protected void load(final LibraryLoader.Context context,
+                        final boolean includePrimitivesWithSideEffects)
+            throws RippleException {
+        //uf.put( NS_2008_08, getClass().getResource( "graph.ttl" ) + "#" );
 
-        if ( includePrimitivesWithSideEffects )
-        {
-            registerPrimitives( context,
+        if (includePrimitivesWithSideEffects) {
+            registerPrimitives(context,
 
                     // RDF primitives with side effects
                     Assert.class,
                     AssertInContext.class,
                     Deny.class,
                     DenyInContext.class,
-                    New.class );
+                    New.class);
         }
 
-        registerPrimitives( context,
+        registerPrimitives(context,
 
                 // Resource-centric primitives
                 InContext.class,
@@ -73,8 +69,13 @@ public class GraphLibrary extends Library
                 // Tuple queries
                 Sparql.class,
 
+                // Key/values
+                Keys.class,
+                KeyValues.class,
+                Values.class,
+
                 // JSON
-                ToJson.class );
-	}
+                ToJson.class);
+    }
 }
 

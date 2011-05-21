@@ -16,7 +16,6 @@ etc_2007_05:back,etc_2007_08:back,,,
 ,,etc_2008_08:dateTimeToMillis,,(graph_2011_04:to-millis)
 etc_2007_05:get,etc_2007_08:get,etc_2008_08:get,,extras_2011_04:get
 ,,etc_2008_08:invert,,extras_2011_04:inverse
-,,,,extras_2011_04:keys
 etc_2007_05:pingTheSemanticWeb,(services_2007_08:pingTheSemanticWeb),(services_2008_08:pingTheSemanticWeb),,
 etc_2007_05:pred,etc_2007_08:pred,,,
 etc_2007_05:prim,etc_2007_08:prim,,,
@@ -41,6 +40,8 @@ graph_2007_05:forget,graph_2007_08:forget,graph_2008_08:forget,,
 ,,graph_2008_08:infer,,
 ,,graph_2008_08:inferInContext,,
 ,,graph_2008_08:inlinks,,graph_2011_04:inlinks
+,,,,graph_2011_04:keys
+,,,,graph_2011_04:key-values
 ,,graph_2008_08:links,,graph_2011_04:links
 (graph_2007_05:contains),(graph_2007_08:contains),graph_2008_08:members,,graph_2011_04:members
 ,graph_2007_08:namespaces,graph_2008_08:namespaces,,
@@ -53,6 +54,7 @@ graph_2007_05:toInteger,graph_2007_08:toInteger,graph_2008_08:toInteger,,(data_2
 graph_2007_05:toString,graph_2007_08:toString,graph_2008_08:toString,,(data_2011_04:to-string)
 ,graph_2007_08:toUri,graph_2008_08:toUri,,(data_2011_04:to-uri)
 ,graph_2007_08:triples,graph_2008_08:triples,,graph_2011_04:triples
+,,,,graph_2011_04:values
 (stack_2007_05:and),(stack_2007_08:and),logic_2008_08:and,,logic_2011_04:and
 (stack_2007_05:branch),(stack_2007_08:branch),logic_2008_08:branch,,logic_2011_04:branch
 (stack_2007_05:choice),(stack_2007_08:choice),logic_2008_08:choice,,logic_2011_04:choice
