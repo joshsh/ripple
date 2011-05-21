@@ -1,4 +1,4 @@
-package net.fortytwo.ripple.libs.graph;
+package net.fortytwo.ripple.libs.data;
 
 import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.model.RippleList;

@@ -11,6 +11,7 @@ package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.graph.GraphLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;

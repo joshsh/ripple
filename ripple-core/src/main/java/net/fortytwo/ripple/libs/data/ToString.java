@@ -7,38 +7,39 @@
  */
 
 
-package net.fortytwo.ripple.libs.graph;
+package net.fortytwo.ripple.libs.data;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.graph.GraphLibrary;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.flow.Sink;
-
-import org.apache.log4j.Logger;
+import org.openrdf.model.vocabulary.XMLSchema;
 
 /**
- * A primitive which consumes a literal value and produces its xsd:integer
- * equivalent (if any).
+ * A primitive which consumes a resource or literal value and produces its
+ * string representation.  For literal values, this is the same literal
+ * value but with a type of xsd:string.  For resources identified by URIs,
+ * this is the URI as a string.  For blank nodes, this is the identifier of
+ * the node.
  */
-public class ToInteger extends PrimitiveStackMapping
+public class ToString extends PrimitiveStackMapping
 {
-	private static final Logger LOGGER
-		= Logger.getLogger( ToInteger.class );
-
     private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_2011_04 + "to-integer",
-            GraphLibrary.NS_2008_08 + "toInteger",
-            GraphLibrary.NS_2007_08 + "toInteger",
-            GraphLibrary.NS_2007_05 + "toInteger"};
+            GraphLibrary.NS_2011_04 + "to-string",
+            GraphLibrary.NS_2008_08 + "toString",
+            GraphLibrary.NS_2007_08 + "toString",
+            GraphLibrary.NS_2007_05 + "toString"};
 
     public String[] getIdentifiers()
     {
         return IDENTIFIERS;
     }
 
-	public ToInteger()
+	public ToString()
 		throws RippleException
 	{
 		super();
@@ -52,7 +53,7 @@ public class ToInteger extends PrimitiveStackMapping
 
     public String getComment()
     {
-        return "x  =>  x as integer literal";
+        return "x  =>  string representation of x";
     }
 
 	public void apply( final StackContext arg,
@@ -62,26 +63,13 @@ public class ToInteger extends PrimitiveStackMapping
 		final ModelConnection mc = arg.getModelConnection();
 		RippleList stack = arg.getStack();
 
-		String s;
+		RippleValue v;
 
-		s = mc.toString( stack.getFirst() );
+		v = stack.getFirst();
 		stack = stack.getRest();
 
-		int i;
-
-		try
-		{
-			i = new Integer( s ).intValue();
-		}
-
-		catch ( NumberFormatException e )
-		{
-			LOGGER.debug( "bad integer value: " + s );
-			return;
-		}
-
 		solutions.put( arg.with(
-				stack.push( mc.numericValue(i) ) ) );
+				stack.push( mc.typedValue(mc.toString(v), XMLSchema.STRING) ) ) );
 	}
 }
 

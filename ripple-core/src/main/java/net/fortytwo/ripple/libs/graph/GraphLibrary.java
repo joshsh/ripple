@@ -10,6 +10,15 @@
 package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.data.Compare;
+import net.fortytwo.ripple.libs.data.Equal;
+import net.fortytwo.ripple.libs.data.Lang;
+import net.fortytwo.ripple.libs.data.ToDouble;
+import net.fortytwo.ripple.libs.data.ToInteger;
+import net.fortytwo.ripple.libs.data.ToMillis;
+import net.fortytwo.ripple.libs.data.ToString;
+import net.fortytwo.ripple.libs.data.ToUri;
+import net.fortytwo.ripple.libs.data.Type;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
 
@@ -24,9 +33,6 @@ public class GraphLibrary extends Library
             NS_2008_08 = "http://fortytwo.net/2008/08/ripple/graph#",
             NS_2007_08 = "http://fortytwo.net/2007/08/ripple/graph#",
             NS_2007_05 = "http://fortytwo.net/2007/05/ripple/graph#";
-    public static final String
-            NS_XML = "http://www.w3.org/XML/1998/namespace#",
-            NS_XSD = "http://www.w3.org/2001/XMLSchema#";
 
     public void load(final LibraryLoader.Context context)
         throws RippleException
@@ -54,17 +60,6 @@ public class GraphLibrary extends Library
 
         registerPrimitives( context,
 
-                // Comparison primitives
-                Compare.class,
-                Equal.class,
-
-                // Type conversion and literal reification primitives
-                ToDouble.class,
-                ToInteger.class,
-                ToMillis.class,
-                ToString.class,
-                ToUri.class,
-
                 // Resource-centric primitives
                 InContext.class,
                 Inlinks.class,
@@ -79,15 +74,7 @@ public class GraphLibrary extends Library
                 Sparql.class,
 
                 // JSON
-                ToJson.class,
-
-                // Note: the xml: namespace is actually said to be
-                //       http://www.w3.org/XML/1998/namespace
-                //       (i.e. without the hash character).
-		        Lang.class,
-
-		        // Note: this URI is bogus.
-		        Type.class );
+                ToJson.class );
 	}
 }
 

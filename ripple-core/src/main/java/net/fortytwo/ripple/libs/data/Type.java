@@ -7,10 +7,12 @@
  */
 
 
-package net.fortytwo.ripple.libs.graph;
+package net.fortytwo.ripple.libs.data;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.graph.GraphLibrary;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
@@ -18,22 +20,21 @@ import net.fortytwo.flow.Sink;
 
 import org.openrdf.model.Value;
 import org.openrdf.model.Literal;
+import org.openrdf.model.URI;
 
 /**
- * A primitive which consumes a plain literal value and produces its language
- * tag (or an empty string if the literal has no language tag).
+ * A primitive which consumes a literal value and produces its data type (if
+ * any).
  */
-public class Lang extends PrimitiveStackMapping
+public class Type extends PrimitiveStackMapping
 {
-    private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_XML + "lang"};
-
     public String[] getIdentifiers()
     {
-        return IDENTIFIERS;
+        return new String[] {
+            DataLibrary.NS_XSD + "type"};
     }
 
-	public Lang()
+	public Type()
 		throws RippleException
 	{
 		super();
@@ -47,7 +48,7 @@ public class Lang extends PrimitiveStackMapping
 
     public String getComment()
     {
-        return "l  =>  language tag of literal l";
+        return "l  =>  data type of literal l";
     }
 
 	public void apply( final StackContext arg,
@@ -58,19 +59,18 @@ public class Lang extends PrimitiveStackMapping
 		RippleList stack = arg.getStack();
 
 		Value v;
-		String result;
 
 		v = stack.getFirst().toRDF( mc ).sesameValue();
 		stack = stack.getRest();
 
 		if ( v instanceof Literal )
 		{
-			result = ( (Literal) v ).getLanguage();
+			URI type = ( (Literal) v ).getDatatype();
 
-			if ( null != result )
+			if ( null != type )
 			{
-                solutions.put( arg.with(
-					stack.push( mc.plainValue(result) ) ) );
+				solutions.put( arg.with(
+						stack.push( new RDFValue( type ) ) ) );
 			}
 		}
 	}

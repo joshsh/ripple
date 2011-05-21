@@ -7,9 +7,10 @@
  */
 
 
-package net.fortytwo.ripple.libs.graph;
+package net.fortytwo.ripple.libs.data;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.graph.GraphLibrary;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;

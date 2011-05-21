@@ -1,6 +1,7 @@
 # Note: this list overrides the one in Ripple Sesame.
 
 # Ripple core libraries
+net.fortytwo.ripple.libs.data.DataLibrary
 net.fortytwo.ripple.libs.extras.ExtrasLibrary
 net.fortytwo.ripple.libs.graph.GraphLibrary
 net.fortytwo.ripple.libs.logic.LogicLibrary

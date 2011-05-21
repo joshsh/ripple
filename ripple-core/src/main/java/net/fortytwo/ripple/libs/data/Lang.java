@@ -7,11 +7,11 @@
  */
 
 
-package net.fortytwo.ripple.libs.graph;
+package net.fortytwo.ripple.libs.data;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.graph.GraphLibrary;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
@@ -19,21 +19,22 @@ import net.fortytwo.flow.Sink;
 
 import org.openrdf.model.Value;
 import org.openrdf.model.Literal;
-import org.openrdf.model.URI;
 
 /**
- * A primitive which consumes a literal value and produces its data type (if
- * any).
+ * A primitive which consumes a plain literal value and produces its language
+ * tag (or an empty string if the literal has no language tag).
  */
-public class Type extends PrimitiveStackMapping
+public class Lang extends PrimitiveStackMapping
 {
+    private static final String[] IDENTIFIERS = {
+            DataLibrary.NS_XML + "lang"};
+
     public String[] getIdentifiers()
     {
-        return new String[] {
-            GraphLibrary.NS_XSD + "type"};
+        return IDENTIFIERS;
     }
 
-	public Type()
+	public Lang()
 		throws RippleException
 	{
 		super();
@@ -47,7 +48,7 @@ public class Type extends PrimitiveStackMapping
 
     public String getComment()
     {
-        return "l  =>  data type of literal l";
+        return "l  =>  language tag of literal l";
     }
 
 	public void apply( final StackContext arg,
@@ -58,18 +59,19 @@ public class Type extends PrimitiveStackMapping
 		RippleList stack = arg.getStack();
 
 		Value v;
+		String result;
 
 		v = stack.getFirst().toRDF( mc ).sesameValue();
 		stack = stack.getRest();
 
 		if ( v instanceof Literal )
 		{
-			URI type = ( (Literal) v ).getDatatype();
+			result = ( (Literal) v ).getLanguage();
 
-			if ( null != type )
+			if ( null != result )
 			{
-				solutions.put( arg.with(
-						stack.push( new RDFValue( type ) ) ) );
+                solutions.put( arg.with(
+					stack.push( mc.plainValue(result) ) ) );
 			}
 		}
 	}

@@ -7,9 +7,10 @@
  */
 
 
-package net.fortytwo.ripple.libs.graph;
+package net.fortytwo.ripple.libs.data;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.graph.GraphLibrary;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
@@ -19,26 +20,26 @@ import net.fortytwo.flow.Sink;
 import org.apache.log4j.Logger;
 
 /**
- * A primitive which consumes a literal value and produces its xsd:double
+ * A primitive which consumes a literal value and produces its xsd:integer
  * equivalent (if any).
  */
-public class ToDouble extends PrimitiveStackMapping
+public class ToInteger extends PrimitiveStackMapping
 {
 	private static final Logger LOGGER
-		= Logger.getLogger( ToDouble.class );
+		= Logger.getLogger( ToInteger.class );
 
     private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_2011_04 + "to-double",
-            GraphLibrary.NS_2008_08 + "toDouble",
-            GraphLibrary.NS_2007_08 + "toDouble",
-            GraphLibrary.NS_2007_05 + "toDouble"};
+            GraphLibrary.NS_2011_04 + "to-integer",
+            GraphLibrary.NS_2008_08 + "toInteger",
+            GraphLibrary.NS_2007_08 + "toInteger",
+            GraphLibrary.NS_2007_05 + "toInteger"};
 
     public String[] getIdentifiers()
     {
         return IDENTIFIERS;
     }
 
-	public ToDouble()
+	public ToInteger()
 		throws RippleException
 	{
 		super();
@@ -52,7 +53,7 @@ public class ToDouble extends PrimitiveStackMapping
 
     public String getComment()
     {
-        return "x  =>  x as double literal";
+        return "x  =>  x as integer literal";
     }
 
 	public void apply( final StackContext arg,
@@ -67,11 +68,11 @@ public class ToDouble extends PrimitiveStackMapping
 		s = mc.toString( stack.getFirst() );
 		stack = stack.getRest();
 
-		double d;
+		int i;
 
 		try
 		{
-			d = new Double( s ).doubleValue();
+			i = new Integer( s ).intValue();
 		}
 
 		catch ( NumberFormatException e )
@@ -81,7 +82,7 @@ public class ToDouble extends PrimitiveStackMapping
 		}
 
 		solutions.put( arg.with(
-				stack.push( mc.numericValue(d) ) ) );
+				stack.push( mc.numericValue(i) ) ) );
 	}
 }
 
