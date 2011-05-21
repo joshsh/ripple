@@ -1,4 +1,4 @@
-package net.fortytwo.ripple.libs.extras;
+package net.fortytwo.ripple.libs.system;
 
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
@@ -31,7 +31,7 @@ public class Script extends PrimitiveStackMapping {
     @Override
     public String[] getIdentifiers() {
         return new String[]{
-                ExtrasLibrary.NS_2011_04 + "script"
+                SystemLibrary.NS_2011_04 + "script"
         };
     }
 

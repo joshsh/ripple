@@ -10,7 +10,7 @@
 package net.fortytwo.ripple.libs.string;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.libs.extras.ExtrasLibrary;
+import net.fortytwo.ripple.libs.system.SystemLibrary;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
@@ -28,7 +28,7 @@ public class Concat extends PrimitiveStackMapping
             StringLibrary.NS_2011_04 + "concat",
             StringLibrary.NS_2008_08 + "concat",
             StringLibrary.NS_2007_08 + "strCat",
-            ExtrasLibrary.NS_2007_05 + "strCat"};
+            SystemLibrary.NS_2007_05 + "strCat"};
 
     public String[] getIdentifiers()
     {

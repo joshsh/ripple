@@ -7,7 +7,7 @@
  */
 
 
-package net.fortytwo.ripple.libs.extras;
+package net.fortytwo.ripple.libs.system;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
@@ -29,8 +29,8 @@ public class System extends PrimitiveStackMapping {
 
     public String[] getIdentifiers() {
         return new String[]{
-                ExtrasLibrary.NS_2011_04 + "system",
-                ExtrasLibrary.NS_2008_08 + "system"};
+                SystemLibrary.NS_2011_04 + "system",
+                SystemLibrary.NS_2008_08 + "system"};
     }
 
     public Parameter[] getParameters() {

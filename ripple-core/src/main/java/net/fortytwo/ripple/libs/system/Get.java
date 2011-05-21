@@ -7,7 +7,7 @@
  */
 
 
-package net.fortytwo.ripple.libs.extras;
+package net.fortytwo.ripple.libs.system;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
@@ -31,10 +31,10 @@ import java.io.InputStreamReader;
 public class Get extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            ExtrasLibrary.NS_2011_04 + "get",
-            ExtrasLibrary.NS_2008_08 + "get",
-            ExtrasLibrary.NS_2007_08 + "get",
-            ExtrasLibrary.NS_2007_05 + "get"};
+            SystemLibrary.NS_2011_04 + "get",
+            SystemLibrary.NS_2008_08 + "get",
+            SystemLibrary.NS_2007_08 + "get",
+            SystemLibrary.NS_2007_05 + "get"};
 
     public String[] getIdentifiers()
     {

@@ -12,8 +12,6 @@ package net.fortytwo.ripple.cli.ast;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.libs.control.ControlLibrary;
-import net.fortytwo.ripple.libs.extras.ExtrasLibrary;
-import net.fortytwo.ripple.libs.stack.StackLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.RippleList;

@@ -1,4 +1,4 @@
-package net.fortytwo.ripple.libs.extras;
+package net.fortytwo.ripple.libs.system;
 
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;

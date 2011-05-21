@@ -4,7 +4,7 @@ import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 import com.tinkerpop.gremlin.jsr223.GremlinScriptEngine;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.libs.extras.ExtrasLibrary;
+import net.fortytwo.ripple.libs.system.SystemLibrary;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
 import net.fortytwo.ripple.model.ModelConnection;
@@ -28,7 +28,7 @@ public class BlueprintsLibrary extends Library {
                 Label.class,
                 Tail.class);
 
-        ExtrasLibrary.registerScriptEngine("gremlin", new GremlinWrapper());
+        SystemLibrary.registerScriptEngine("gremlin", new GremlinWrapper());
     }
 
     public static RippleValue createRippleValue(final Object tinker,

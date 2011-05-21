@@ -10,7 +10,7 @@
 package net.fortytwo.ripple.libs.string;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.libs.extras.ExtrasLibrary;
+import net.fortytwo.ripple.libs.system.SystemLibrary;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
@@ -28,7 +28,7 @@ public class Sha1 extends PrimitiveStackMapping
             StringLibrary.NS_2011_04 + "sha1",
             StringLibrary.NS_2008_08 + "sha1",
             StringLibrary.NS_2007_08 + "sha1",
-            ExtrasLibrary.NS_2007_05 + "sha1"};
+            SystemLibrary.NS_2007_05 + "sha1"};
 
     public String[] getIdentifiers()
     {

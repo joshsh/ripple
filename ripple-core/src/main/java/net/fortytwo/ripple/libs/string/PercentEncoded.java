@@ -11,13 +11,13 @@ package net.fortytwo.ripple.libs.string;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.libs.system.SystemLibrary;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.StringUtils;
-import net.fortytwo.ripple.libs.extras.ExtrasLibrary;
 
 /**
  * A primitive which consumes a string and produces its (RFC 3986)
@@ -29,7 +29,7 @@ public class PercentEncoded extends PrimitiveStackMapping
             StringLibrary.NS_2011_04 + "percent-encoded",
             StringLibrary.NS_2008_08 + "percentEncode",
             StringLibrary.NS_2007_08 + "percentEncode",
-            ExtrasLibrary.NS_2007_05 + "urlEncoding"};
+            SystemLibrary.NS_2007_05 + "urlEncoding"};
 
     public String[] getIdentifiers()
     {

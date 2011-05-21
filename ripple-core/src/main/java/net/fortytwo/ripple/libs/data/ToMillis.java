@@ -11,8 +11,7 @@ package net.fortytwo.ripple.libs.data;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
-import net.fortytwo.ripple.libs.extras.ExtrasLibrary;
-import net.fortytwo.ripple.libs.graph.GraphLibrary;
+import net.fortytwo.ripple.libs.system.SystemLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
@@ -28,7 +27,7 @@ public class ToMillis extends PrimitiveStackMapping {
     public String[] getIdentifiers() {
         return new String[]{
                 DataLibrary.NS_2011_04 + "to-millis",
-                ExtrasLibrary.NS_2008_08 + "dateTimeToMillis",
+                SystemLibrary.NS_2008_08 + "dateTimeToMillis",
         };
     }
 

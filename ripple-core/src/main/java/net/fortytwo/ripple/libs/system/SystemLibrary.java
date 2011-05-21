@@ -7,20 +7,18 @@
  */
 
 
-package net.fortytwo.ripple.libs.extras;
+package net.fortytwo.ripple.libs.system;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.libs.stream.ranking.Amp;
-import net.fortytwo.ripple.libs.stream.ranking.Rank;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
 
 /**
  * A collection of miscellaneous primitives.
  */
-public class ExtrasLibrary extends Library {
+public class SystemLibrary extends Library {
     public static final String
-            NS_2011_04 = "http://fortytwo.net/2011/04/ripple/extras#",
+            NS_2011_04 = "http://fortytwo.net/2011/04/ripple/system#",
             NS_2008_08 = "http://fortytwo.net/2008/08/ripple/etc#",
             NS_2007_08 = "http://fortytwo.net/2007/08/ripple/etc#",
             NS_2007_05 = "http://fortytwo.net/2007/05/ripple/etc#";

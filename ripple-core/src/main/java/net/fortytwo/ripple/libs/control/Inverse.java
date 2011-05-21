@@ -11,7 +11,7 @@ package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
-import net.fortytwo.ripple.libs.extras.ExtrasLibrary;
+import net.fortytwo.ripple.libs.system.SystemLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
@@ -29,7 +29,7 @@ public class Inverse extends PrimitiveStackMapping {
     public String[] getIdentifiers() {
         return new String[]{
                 ControlLibrary.NS_2011_04 + "inverse",
-                ExtrasLibrary.NS_2008_08 + "invert",
+                SystemLibrary.NS_2008_08 + "invert",
         };
     }
 

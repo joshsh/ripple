@@ -2,7 +2,7 @@ package net.fortytwo.ripple.libs.blueprints;
 
 import com.tinkerpop.gremlin.jsr223.GremlinScriptEngine;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.libs.extras.ScriptEngineWrapper;
+import net.fortytwo.ripple.libs.system.ScriptEngineWrapper;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleValue;
 
