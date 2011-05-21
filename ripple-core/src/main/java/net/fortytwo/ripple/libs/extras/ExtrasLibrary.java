@@ -10,11 +10,9 @@
 package net.fortytwo.ripple.libs.extras;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.control.Inverse;
 import net.fortytwo.ripple.libs.extras.ranking.Amp;
 import net.fortytwo.ripple.libs.extras.ranking.Rank;
-import net.fortytwo.ripple.libs.graph.KeyValues;
-import net.fortytwo.ripple.libs.graph.Keys;
-import net.fortytwo.ripple.libs.graph.Values;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.LibraryLoader;
@@ -29,7 +27,6 @@ public class ExtrasLibrary extends Library {
             NS_2007_08 = "http://fortytwo.net/2007/08/ripple/etc#",
             NS_2007_05 = "http://fortytwo.net/2007/05/ripple/etc#";
 
-    private static PrimitiveStackMapping invertVal;
     private static Script scriptVal;
 
     public void load(final LibraryLoader.Context context) throws RippleException {
@@ -45,12 +42,7 @@ public class ExtrasLibrary extends Library {
                 // TODO: move these?
                 Rank.class,
                 Amp.class);
-        invertVal = registerPrimitive(Inverse.class, context);
         scriptVal = (Script) registerPrimitive(Script.class, context);
-    }
-
-    public static PrimitiveStackMapping getInvertValue() {
-        return invertVal;
     }
 
     public static void registerScriptEngine(final String name,

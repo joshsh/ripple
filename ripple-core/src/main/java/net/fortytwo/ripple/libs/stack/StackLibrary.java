@@ -10,6 +10,17 @@
 package net.fortytwo.ripple.libs.stack;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.control.Apply;
+import net.fortytwo.ripple.libs.control.Ary;
+import net.fortytwo.ripple.libs.control.Dip;
+import net.fortytwo.ripple.libs.control.Dipd;
+import net.fortytwo.ripple.libs.control.Fold;
+import net.fortytwo.ripple.libs.control.Map;
+import net.fortytwo.ripple.libs.control.OptionApply;
+import net.fortytwo.ripple.libs.control.PlusApply;
+import net.fortytwo.ripple.libs.control.RangeApply;
+import net.fortytwo.ripple.libs.control.StarApply;
+import net.fortytwo.ripple.libs.control.TimesApply;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.LibraryLoader;
@@ -26,24 +37,13 @@ public class StackLibrary extends Library
             NS_2007_08 = "http://fortytwo.net/2007/08/ripple/stack#",
             NS_2007_05 = "http://fortytwo.net/2007/05/ripple/stack#";
 
-	// Special values.
-	private static PrimitiveStackMapping
-            optionApplyVal,
-            plusApplyVal,
-            rangeApplyVal,
-            starApplyVal,
-            timesApplyVal;
-
     public void load(final LibraryLoader.Context context)
 		throws RippleException
 	{
-		//uf.put( NS_2008_08, getClass().getResource( "stack.ttl" ) + "#" );
-
 		// Stack shuffling primitives
         registerPrimitives( context,
                 Dup.class,
                 Dupd.class,
-                Self.class,
                 Pop.class,
                 Popd.class,
                 Rolldown.class,
@@ -52,20 +52,9 @@ public class StackLibrary extends Library
                 Rollupd.class,
                 Rotate.class,
                 Rotated.class,
+                Self.class,
                 Swap.class,
                 Swapd.class );
-
-		// Application primitives
-		registerPrimitives( context,
-                Apply.class,
-                Ary.class,
-                Dip.class,
-                Dipd.class );
-		optionApplyVal = registerPrimitive( OptionApply.class, context );
-		plusApplyVal = registerPrimitive( PlusApply.class, context );
-		starApplyVal = registerPrimitive( StarApply.class, context );
-		rangeApplyVal = registerPrimitive( RangeApply.class, context );
-		timesApplyVal = registerPrimitive( TimesApply.class, context );
 
 		// List primitives.
 		registerPrimitives( context,
@@ -86,33 +75,6 @@ public class StackLibrary extends Library
                 Take.class,
                 Uncons.class,
                 Unswons.class );
-	}
-
-	////////////////////////////////////////////////////////////////////////////
-
-	public static PrimitiveStackMapping getOptionApplyValue()
-	{
-		return optionApplyVal;
-	}
-
-	public static PrimitiveStackMapping getStarApplyValue()
-	{
-		return starApplyVal;
-	}
-
-	public static PrimitiveStackMapping getPlusApplyValue()
-	{
-		return plusApplyVal;
-	}
-
-	public static PrimitiveStackMapping getTimesApplyValue()
-	{
-		return timesApplyVal;
-	}
-
-	public static PrimitiveStackMapping getRangeApplyValue()
-	{
-		return rangeApplyVal;
 	}
 }
 

@@ -2,6 +2,7 @@
 # which are to be available to the query environment.
 
 net.fortytwo.ripple.libs.data.DataLibrary
+net.fortytwo.ripple.libs.control.ControlLibrary
 net.fortytwo.ripple.libs.extras.ExtrasLibrary
 net.fortytwo.ripple.libs.graph.GraphLibrary
 net.fortytwo.ripple.libs.logic.LogicLibrary

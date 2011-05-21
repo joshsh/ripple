@@ -7,36 +7,37 @@
  */
 
 
-package net.fortytwo.ripple.libs.stack;
+package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.libs.stack.StackLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.StackMappingWrapper;
-import net.fortytwo.ripple.model.regex.PlusQuantifier;
+import net.fortytwo.ripple.model.regex.OptionalQuantifier;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
+import net.fortytwo.flow.Sink;
 
 
 /**
- * A primitive which activates ("applies") the topmost item on the stack one or
- * more times.
+ * A primitive which activates ("applies") the topmost item on the stack any
+ * number of times.
  */
-public class PlusApply extends PrimitiveStackMapping
+public class OptionApply extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            // Note: this primitive has different semantics than its predecessor, stack:plusApply
-            StackLibrary.NS_2011_04 + "plus-apply"};
+            // Note: this primitive different semantics than its predecessor, stack:optApply
+            StackLibrary.NS_2011_04 + "option-apply"};
 
     public String[] getIdentifiers()
     {
         return IDENTIFIERS;
     }
 
-	public PlusApply() throws RippleException
+	public OptionApply() throws RippleException
 	{
 		super();
 	}
@@ -49,7 +50,7 @@ public class PlusApply extends PrimitiveStackMapping
 
     public String getComment()
     {
-        return "p  =>  p+  -- execute the program p at least one time, and up to any number of times";
+        return "p  =>  p?  -- optionally execute the program p";
     }
 
 	public void apply( final StackContext arg,
@@ -66,7 +67,7 @@ public class PlusApply extends PrimitiveStackMapping
 			public void put( final Operator op ) throws RippleException
 			{
 				solutions.put( arg.with( rest.push(
-						new StackMappingWrapper( new PlusQuantifier( op ), mc ) ) ) );
+						new StackMappingWrapper( new OptionalQuantifier( op ), mc ) ) ) );
 			}
 		};
 

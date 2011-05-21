@@ -11,6 +11,7 @@ package net.fortytwo.ripple.cli.ast;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.libs.control.ControlLibrary;
 import net.fortytwo.ripple.libs.extras.ExtrasLibrary;
 import net.fortytwo.ripple.libs.stack.StackLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
@@ -64,34 +65,34 @@ public class OperatorAST implements AST<RippleList> {
             case Inverse:
                 // Note: only one "op" here.  This merely finds the inverse; it doesn't automatically apply the inverse.
                 l = mc.list().push(Operator.OP)
-                        .push(ExtrasLibrary.getInvertValue());
+                        .push(ControlLibrary.getInvertValue());
                 break;
             case Option:
                 l = mc.list().push(Operator.OP)
                         .push(Operator.OP)
-                        .push(StackLibrary.getOptionApplyValue());
+                        .push(ControlLibrary.getOptionApplyValue());
                 break;
             case Plus:
                 l = mc.list().push(Operator.OP)
                         .push(Operator.OP)
-                        .push(StackLibrary.getPlusApplyValue());
+                        .push(ControlLibrary.getPlusApplyValue());
                 break;
             case Range:
                 l = mc.list().push(Operator.OP)
                         .push(Operator.OP)
-                        .push(StackLibrary.getRangeApplyValue())
+                        .push(ControlLibrary.getRangeApplyValue())
                         .push(max.getValue(mc))
                         .push(min.getValue(mc));
                 break;
             case Star:
                 l = mc.list().push(Operator.OP)
                         .push(Operator.OP)
-                        .push(StackLibrary.getStarApplyValue());
+                        .push(ControlLibrary.getStarApplyValue());
                 break;
             case Times:
                 l = mc.list().push(Operator.OP)
                         .push(Operator.OP)
-                        .push(StackLibrary.getTimesApplyValue())
+                        .push(ControlLibrary.getTimesApplyValue())
                         .push(min.getValue(mc));
                 break;
             default:

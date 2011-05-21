@@ -7,36 +7,44 @@
  */
 
 
-package net.fortytwo.ripple.libs.stack;
+package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.libs.stack.StackLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
-import net.fortytwo.ripple.model.StackMappingWrapper;
-import net.fortytwo.ripple.model.regex.OptionalQuantifier;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.model.StackMappingWrapper;
+import net.fortytwo.ripple.model.regex.StarQuantifier;
 
 
 /**
- * A primitive which activates ("applies") the topmost item on the stack any
- * number of times.
+ * A primitive which optionally activates ("applies") the topmost item on the
+ * stack.
  */
-public class OptionApply extends PrimitiveStackMapping
+public class StarApply extends PrimitiveStackMapping
 {
+	// TODO: arity should really be 1, but this is a nice temporary solution
+    @Override
+    public int arity()
+    {
+        return 2;
+    }
+
     private static final String[] IDENTIFIERS = {
-            // Note: this primitive different semantics than its predecessor, stack:optApply
-            StackLibrary.NS_2011_04 + "option-apply"};
+            // Note: this primitive has different semantics than its predecessor, stack:starApply
+            StackLibrary.NS_2011_04 + "star-apply"};
 
     public String[] getIdentifiers()
     {
         return IDENTIFIERS;
     }
 
-	public OptionApply() throws RippleException
+	public StarApply() throws RippleException
 	{
 		super();
 	}
@@ -49,7 +57,7 @@ public class OptionApply extends PrimitiveStackMapping
 
     public String getComment()
     {
-        return "p  =>  p?  -- optionally execute the program p";
+        return "p  => p*  -- optionally execute the program p any number of times";
     }
 
 	public void apply( final StackContext arg,
@@ -66,7 +74,7 @@ public class OptionApply extends PrimitiveStackMapping
 			public void put( final Operator op ) throws RippleException
 			{
 				solutions.put( arg.with( rest.push(
-						new StackMappingWrapper( new OptionalQuantifier( op ), mc ) ) ) );
+						new StackMappingWrapper( new StarQuantifier( op ), mc ) ) ) );
 			}
 		};
 
