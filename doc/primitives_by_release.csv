@@ -22,6 +22,8 @@
 ,,(logic_2008_08:while),,control_2011_04:while
 (graph_2007_05:compare),(graph_2007_08:compare),(graph_2008_08:compare),,data_2011_04:compare
 (graph_2007_05:equal),(graph_2007_08:equal),(graph_2008_08:equal),,data_2011_04:equal
+(math_2007_05:gt),(math_2007_08:gt),(math_2008_08:gt),,data_2011_04:gt
+(math_2007_05:lt),(math_2007_08:lt),(math_2008_08:lt),,data_2011_04:lt
 (graph_2007_05:toDouble),(graph_2007_08:toDouble),(graph_2008_08:toDouble),,data_2011_04:to-double
 (graph_2007_05:toInteger),(graph_2007_08:toInteger),(graph_2008_08:toInteger),,data_2011_04:to-integer
 ,,(etc_2008_08:dateTimeToMillis),,data_2011_04:to-millis
@@ -91,10 +93,10 @@ math_2007_05:add,math_2007_08:add,math_2008_08:add,,math_2011_04:add
 math_2007_05:div,math_2007_08:div,math_2008_08:div,,math_2011_04:div
 ,math_2007_08:exp,math_2008_08:exp,,math_2011_04:exp
 ,,math_2008_08:floor,,math_2011_04:floor
-math_2007_05:gt,math_2007_08:gt,math_2008_08:gt,,math_2011_04:gt
+math_2007_05:gt,math_2007_08:gt,math_2008_08:gt,,(data_2011_04:gt)
 ,math_2007_08:log,math_2008_08:log,,math_2011_04:log
 ,math_2007_08:log10,math_2008_08:log10,,math_2011_04:log10
-math_2007_05:lt,math_2007_08:lt,math_2008_08:lt,,math_2011_04:lt
+math_2007_05:lt,math_2007_08:lt,math_2008_08:lt,,(data_2011_04:lt)
 math_2007_05:mod,math_2007_08:mod,math_2008_08:mod,,math_2011_04:mod
 math_2007_05:mul,math_2007_08:mul,math_2008_08:mul,,math_2011_04:mul
 math_2007_05:neg,math_2007_08:neg,math_2008_08:neg,,math_2011_04:neg

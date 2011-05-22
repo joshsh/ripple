@@ -10,6 +10,8 @@
 package net.fortytwo.ripple.libs.math;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.data.Gt;
+import net.fortytwo.ripple.libs.data.Lt;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.LibraryLoader;
@@ -38,12 +40,6 @@ public class MathLibrary extends Library
     public void load(final LibraryLoader.Context context)
 		throws RippleException
 	{
-		//uf.put( NS_2008_08, getClass().getResource( "math.ttl" ) + "#" );
-
-		// Comparison
-		registerPrimitive( Gt.class, context );
-		registerPrimitive( Lt.class, context );
-
 		// Arithmetic
 		registerPrimitive( Abs.class, context );
 		addVal = registerPrimitive( Add.class, context );

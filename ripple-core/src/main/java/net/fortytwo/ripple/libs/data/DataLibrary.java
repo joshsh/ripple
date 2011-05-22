@@ -26,6 +26,8 @@ public class DataLibrary extends Library {
                 // Comparison
                 Compare.class,
                 Equal.class,
+           		Gt.class,
+                Lt.class,
 
                 // Datatype conversion and literal reification
                 ToDouble.class,
