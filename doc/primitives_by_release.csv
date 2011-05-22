@@ -83,6 +83,7 @@ math_2007_05:abs,math_2007_08:abs,math_2008_08:abs,,math_2011_04:abs
 math_2007_05:add,math_2007_08:add,math_2008_08:add,,math_2011_04:add
 ,math_2007_08:asin,math_2008_08:asin,,math_2011_04:asin
 ,math_2007_08:atan,math_2008_08:atan,,math_2011_04:atan
+,,,,math_2011_04:atan2
 ,math_2007_08:cbrt,math_2008_08:cbrt,,math_2011_04:cbrt
 ,,math_2008_08:ceil,,math_2011_04:ceil
 ,math_2007_08:cos,math_2008_08:cos,,math_2011_04:cos

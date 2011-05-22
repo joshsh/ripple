@@ -66,6 +66,7 @@ public class MathLibrary extends Library
 		acosVal = registerPrimitive( Acos.class, context );
 		asinVal = registerPrimitive( Asin.class, context );
 		atanVal = registerPrimitive( Atan.class, context );
+        registerPrimitive( Atan2.class, context );
 		cosVal = registerPrimitive( Cos.class, context );
 		registerPrimitive( Cosh.class, context );
 		sinVal = registerPrimitive( Sin.class, context );
