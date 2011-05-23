@@ -9,34 +9,30 @@
 
 package net.fortytwo.ripple.libs.data;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
-import net.fortytwo.ripple.libs.math.MathLibrary;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.model.ModelConnection;
 
 /**
  * A primitive which consumes two items x and y and produces a Boolean value of
- * true if x is less than y according to the natural ordering of x, otherwise
+ * true if x is less than or equal to y according to Ripple total order, otherwise
  * false.
  */
-public class Lt extends PrimitiveStackMapping
+public class Lte extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            DataLibrary.NS_2011_04 + "lt",
-            MathLibrary.NS_2008_08 + "lt",
-            MathLibrary.NS_2007_08 + "lt",
-            MathLibrary.NS_2007_05 + "lt"};
+            DataLibrary.NS_2011_04 + "lte"};
 
     public String[] getIdentifiers()
     {
         return IDENTIFIERS;
     }
 
-	public Lt()
+	public Lte()
 		throws RippleException
 	{
 		super();
@@ -51,23 +47,24 @@ public class Lt extends PrimitiveStackMapping
 
     public String getComment()
     {
-        return "x y  =>  b  -- where b is true if x < y, otherwise false";
+        return "x y  =>  b  -- where b is true if x <= y, otherwise false";
     }
 
 	public void apply( final StackContext arg,
 						 final Sink<StackContext, RippleException> solutions )
 		throws RippleException
 	{
-		RippleValue a, b, result;
-        ModelConnection mc = arg.getModelConnection();
+		final ModelConnection mc = arg.getModelConnection();
 		RippleList stack = arg.getStack();
+
+		RippleValue a, b, result;
 
 		b = stack.getFirst();
 		stack = stack.getRest();
 		a = stack.getFirst();
 		stack = stack.getRest();
 
-		result = mc.booleanValue(mc.getComparator().compare(a, b) < 0);
+		result = mc.booleanValue(mc.getComparator().compare(a, b) <= 0);
 
 		solutions.put( arg.with(
 				stack.push( result ) ) );

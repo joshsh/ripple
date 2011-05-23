@@ -23,11 +23,14 @@ public class DataLibrary extends Library {
             throws RippleException {
 
         registerPrimitives(context,
+
                 // Comparison
                 Compare.class,
                 Equal.class,
-           		Gt.class,
+                Gt.class,
+                Gte.class,
                 Lt.class,
+                Lte.class,
 
                 // Datatype conversion and literal reification
                 ToDouble.class,

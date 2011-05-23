@@ -23,7 +23,9 @@
 (graph_2007_05:compare),(graph_2007_08:compare),(graph_2008_08:compare),,data_2011_04:compare
 (graph_2007_05:equal),(graph_2007_08:equal),(graph_2008_08:equal),,data_2011_04:equal
 (math_2007_05:gt),(math_2007_08:gt),(math_2008_08:gt),,data_2011_04:gt
+,,,,data_2011_04:gte
 (math_2007_05:lt),(math_2007_08:lt),(math_2008_08:lt),,data_2011_04:lt
+,,,,data_2011_04:lte
 (graph_2007_05:toDouble),(graph_2007_08:toDouble),(graph_2008_08:toDouble),,data_2011_04:to-double
 (graph_2007_05:toInteger),(graph_2007_08:toInteger),(graph_2008_08:toInteger),,data_2011_04:to-integer
 ,,(etc_2008_08:dateTimeToMillis),,data_2011_04:to-millis
