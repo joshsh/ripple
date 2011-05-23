@@ -39,6 +39,7 @@ public class StreamLibrary extends Library {
                 // Closed world primitives
                 Amp.class,
                 Count.class,
+                Order.class,
                 Rank.class);
     }
 }

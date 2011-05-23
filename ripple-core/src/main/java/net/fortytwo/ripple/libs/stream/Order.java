@@ -10,49 +10,44 @@
 package net.fortytwo.ripple.libs.stream;
 
 import net.fortytwo.flow.Collector;
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.NullStackMapping;
-import net.fortytwo.ripple.model.Op;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.model.StackMapping;
 import net.fortytwo.ripple.query.LazyStackEvaluator;
 import net.fortytwo.ripple.query.StackEvaluator;
+
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
  */
 // FIXME: total hack
-public class Count extends PrimitiveStackMapping {
+public class Order extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
-            // Note: this "count" has different semantics than the 2008-08 version
-            StreamLibrary.NS_2011_04 + "count"};
+            StreamLibrary.NS_2011_04 + "order"};
 
     public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-    public Count()
+    public Order()
             throws RippleException {
         super();
     }
 
     public Parameter[] getParameters() {
-        return new Parameter[]{
-                new Parameter("mapping",
-                        "a mapping to apply before counting",
-                        false)
-        };
+        return new Parameter[]{};
     }
 
     public String getComment() {
-        return "m -> m op, for which solutions are found and counted, then the result replaces m on the stack";
+        return "orders solutions according to Ripple's total order (closed world operation)";
     }
 
     public void apply(final StackContext arg,
@@ -64,16 +59,19 @@ public class Count extends PrimitiveStackMapping {
         try {
             ModelConnection mc = arg.getModelConnection();
 
-            RippleList stack = arg.getStack();
-
             Collector<StackContext, RippleException> s = new Collector<StackContext, RippleException>();
             StackEvaluator e = new LazyStackEvaluator();
-            e.apply(arg.with(stack.push(Operator.OP)), s);
-            int count = s.size();
+            e.apply(arg, s);
 
-            solutions.put(arg.with(
-                    arg.getStack().getRest().push(
-                            mc.numericValue(count))));
+            List<RippleList> all = new LinkedList<RippleList>();
+            for (StackContext c : s) {
+                all.add(c.getStack());
+            }
+            Collections.sort(all, mc.getComparator());
+
+            for (RippleList l : all) {
+                solutions.put(arg.with(l));
+            }
         } finally {
             Ripple.enableAsynchronousQueries(a);
         }

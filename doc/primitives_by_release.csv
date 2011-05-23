@@ -178,11 +178,13 @@ stack_2007_05:x,stack_2007_08:x,,,
 stack_2007_05:xor,stack_2007_08:xor,(logic_2008_08:xor),,(logic_2011_04:xor)
 ,,,,stream_2011_04:amp
 ,(stream_2007_08:union),stream_2008_08:both,,stream_2011_04:both
-,,stream_2008_08:count,,stream_2011_04:count
+,,stream_2008_08:count,,
+,,,,stream_2011_04:count
 (stream_2007_05:unique),(stream_2007_08:unique),stream_2008_08:distinct,,stream_2011_04:distinct
 stream_2007_05:each,stream_2007_08:each,stream_2008_08:each,,stream_2011_04:each
 ,,stream_2008_08:intersect,,stream_2011_04:intersect
 stream_2007_05:limit,stream_2007_08:limit,stream_2008_08:limit,,stream_2011_04:limit
+,,,,stream_2011_04:order
 ,,,,stream_2011_04:rank
 ,,stream_2008_08:require,,(control_2011_04:require)
 stream_2007_05:scrap,stream_2007_08:scrap,stream_2008_08:scrap,,stream_2011_04:scrap
