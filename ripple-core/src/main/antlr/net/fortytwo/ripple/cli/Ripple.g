@@ -62,14 +62,6 @@ options
 	{
 		adapter.putEvent( RecognizerEvent.NEWLINE );
 	}*/
-
-/*
-	void matchEscapeCharacter()
-	{
-System.out.println( "matchEscapeCharacter" );
-		adapter.putEvent( RecognizerEvent.ESCAPE );
-	}
-*/
 }
 
 
