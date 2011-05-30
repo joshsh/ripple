@@ -44,7 +44,7 @@
         <dependency>
             <groupId>net.fortytwo.sesametools</groupId>
             <artifactId>readonly</artifactId>
-            <version>1.1</version>
+            <version>1.2</version>
         </dependency>
         <dependency>
             <groupId>urbanophile</groupId>
@@ -54,17 +54,17 @@
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-sail-memory</artifactId>
-            <version>2.3.2</version>
+            <version>2.4.0</version>
         </dependency>
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-sail-nativerdf</artifactId>
-            <version>2.3.2</version>
+            <version>2.4.0</version>
         </dependency>
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-repository-sail</artifactId>
-            <version>2.3.2</version>
+            <version>2.4.0</version>
         </dependency>
         <dependency>
             <groupId>com.franz.ag</groupId>
