@@ -59,7 +59,6 @@ public class WebClosure {
     // TODO: these should probably not be HTTP URIs
     public static final String
             CACHE_NS = "http://fortytwo.net/2008/01/webclosure#",
-            CACHE_CONTEXT = CACHE_NS + "context",
             CACHE_MEMO = CACHE_NS + "memo",
             FULL_MEMO = CACHE_NS + "fullMemo";
 

@@ -45,7 +45,9 @@ public class WebCache {
         compact = Ripple.getConfiguration().getBoolean(LinkedDataSail.USE_COMPACT_MEMO_FORMAT);
         useBNodes = Ripple.getConfiguration().getBoolean(Ripple.USE_BLANK_NODES);
 
-        cacheContext = valueFactory.createURI(WebClosure.CACHE_CONTEXT);
+        // Use the null context / default graph for caching metadata,
+        // as opposed a named graph which is special only to LinkedDataSail.
+        cacheContext = null;
         cacheMemo = valueFactory.createURI(WebClosure.CACHE_MEMO);
         fullMemo = valueFactory.createURI(WebClosure.FULL_MEMO);
 
