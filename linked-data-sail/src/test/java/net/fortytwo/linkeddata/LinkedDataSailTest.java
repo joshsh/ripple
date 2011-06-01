@@ -63,14 +63,15 @@ public class LinkedDataSailTest extends TestCase {
         long count;
         boolean includeInferred = false;
         ValueFactory vf = sail.getValueFactory();
-        URI tagTagging = vf.createURI("http://www.holygoat.co.uk/owl/redwood/0.1/tags/Tagging");
+        URI tagging = vf.createURI("http://www.holygoat.co.uk/owl/redwood/0.1/tags/Tagging");
 
         SailConnection sc = sail.getConnection();
-
-        count = countStatements(sc.getStatements(tagTagging, RDF.TYPE, null, includeInferred));
-        assertEquals(1, count);
-
-        sc.close();
+        try {
+            count = countStatements(sc.getStatements(tagging, RDF.TYPE, null, includeInferred));
+            assertEquals(1, count);
+        } finally {
+            sc.close();
+        }
     }
 
     public void testCountStatements() throws Exception {

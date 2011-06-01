@@ -17,10 +17,11 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * A collection of caching metadata for aggregated Linked Data
- * 
+ * <p/>
  * User: josh
  * Date: Feb 17, 2010
  * Time: 7:04:08 PM
@@ -51,25 +52,25 @@ public class WebCache {
         miss = new ContextMemo();
     }
 
-    public ContextMemo getMemo(final String uri,
+    public ContextMemo getMemo(final UUID memoUuid,
                                final SailConnection sc) throws RippleException {
-        ContextMemo memo = memos.get(uri);
+        ContextMemo memo = memos.get(memoUuid);
 
         // If the memo is not cached
         if (null == memo) {
             // Attempt to retrieve the memo from the persistent store.
             try {
-                memo = retrieveMemo(uri, sc);
+                memo = retrieveMemo(memoUuid, sc);
             } catch (SailException e) {
                 throw new RippleException(e);
             }
 
             if (null == memo) {
                 // There is no such memo.  Cache the "miss" value to avoid future retrieval attempts.
-                memos.put(uri, miss);
+                memos.put(memoUuid, miss);
             } else {
                 // The memo exists.  Cache it.
-                memos.put(uri, memo);
+                memos.put(memoUuid, memo);
             }
         }
 
@@ -84,22 +85,22 @@ public class WebCache {
                 sc.removeStatements(null, null, null, cacheContext);
                 sc.commit();
      */
-    public void setMemo(final String uri,
+    public void setMemo(final UUID memoUuid,
                         final ContextMemo memo,
                         final SailConnection sc) throws RippleException {
         try {
             // Unset the memo.
             if (null == memo) {
-                unpersistMemo(uri, sc);
+                unpersistMemo(memoUuid, sc);
                 sc.commit();
-                memos.remove(uri);
+                memos.remove(memoUuid);
             }
 
             // Set the memo.
             else {
-                persistMemo(uri, memo, sc);
+                persistMemo(memoUuid, memo, sc);
                 sc.commit();
-                memos.put(uri, memo);
+                memos.put(memoUuid, memo);
             }
         } catch (SailException e) {
             throw new RippleException(e);
@@ -110,10 +111,10 @@ public class WebCache {
      * Writes cache metadata to the base Sail.
      * Note: for now, this metadata resides in the null context.
      */
-    private void persistMemo(final String uri,
+    private void persistMemo(final UUID memoUuid,
                              final ContextMemo memo,
                              final SailConnection sc) throws SailException, RippleException {
-        URI contextURI = valueFactory.createURI(uri);
+        URI contextURI = valueFactory.createURI(uuidToUri(memoUuid));
 
         // Write context memo in the compact, statement-per-context format
         if (compact) {
@@ -143,9 +144,9 @@ public class WebCache {
     /**
      * Deletes a memo from the persistent store.
      */
-    private void unpersistMemo(final String uri,
+    private void unpersistMemo(final UUID memoUuid,
                                final SailConnection sc) throws SailException, RippleException {
-        URI contextURI = valueFactory.createURI(uri);
+        URI contextURI = valueFactory.createURI(uuidToUri(memoUuid));
 
         if (compact) {
             sc.removeStatements(contextURI, null, null, cacheContext);
@@ -155,7 +156,7 @@ public class WebCache {
                     = sc.getStatements(null, fullMemo, null, false, cacheContext);
             try {
                 if (!iter.hasNext()) {
-                    throw new RippleException("memo resource not found for URI: " + uri);
+                    throw new RippleException("memo resource not found for URI: " + memoUuid);
                 }
                 memoResource = (Resource) iter.next().getObject();
             } finally {
@@ -166,14 +167,22 @@ public class WebCache {
         }
     }
 
+    public static String uuidToUri(final UUID memoUuid) {
+        return "urn:uuid:" + memoUuid;
+    }
+
+    public static UUID stringToUuid(final String s) {
+        return UUID.nameUUIDFromBytes(s.getBytes());
+    }
+
     /**
      * Restores dereferencer state by reading success and failure memos from
      * the last session (if present).
      */
-    private ContextMemo retrieveMemo(final String uri,
+    private ContextMemo retrieveMemo(final UUID memoUuid,
                                      final SailConnection sc) throws SailException, RippleException {
         CloseableIteration<? extends Statement, SailException> iter;
-        URI contextURI = valueFactory.createURI(uri);
+        URI contextURI = valueFactory.createURI(uuidToUri(memoUuid));
 
         // Read context memos in the compact, statement-per-context
         if (compact) {
@@ -188,9 +197,7 @@ public class WebCache {
 
                     return new ContextMemo(obj.getLabel());
                 }
-            }
-
-            finally {
+            } finally {
                 iter.close();
             }
         }
@@ -239,20 +246,20 @@ public class WebCache {
     }
 
     // An LRU-caching HashMap
-    private class MemoMap extends LinkedHashMap<String, ContextMemo> {
+    private class MemoMap extends LinkedHashMap<UUID, ContextMemo> {
         private final int maxCapacity;
 
         // Creates an access-order linked hashmap with the given maximum capacity.
         // Default values are used for initial capacity and load factor.
         public MemoMap(final int maxCapacity) {
             super(16, 0.75f, true);
-            
+
             this.maxCapacity = maxCapacity;
         }
 
         @Override
         protected boolean removeEldestEntry(Map.Entry eldest) {
-           return size() > maxCapacity;
+            return size() > maxCapacity;
         }
 
     }

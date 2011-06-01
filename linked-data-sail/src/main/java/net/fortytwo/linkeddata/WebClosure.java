@@ -43,6 +43,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * A configurable container of URI dereferencers and RDFizers which provides a unified view of the Web as a collection of RDF documents.
@@ -132,12 +133,12 @@ public class WebClosure {
                 // TODO: add an EXIF-based Rdfizer for RIFF WAV audio files
 
                 // Don't bother trying to dereference terms in these common namespaces.
-                wc.addMemo("http://www.w3.org/XML/1998/namespace#", new ContextMemo(ContextMemo.Status.Ignored), sc);
-                wc.addMemo("http://www.w3.org/2001/XMLSchema", new ContextMemo(ContextMemo.Status.Ignored), sc);
-                wc.addMemo("http://www.w3.org/2001/XMLSchema#", new ContextMemo(ContextMemo.Status.Ignored), sc);
+                wc.addMemo(WebCache.stringToUuid("http://www.w3.org/XML/1998/namespace#"), new ContextMemo(ContextMemo.Status.Ignored), sc);
+                wc.addMemo(WebCache.stringToUuid("http://www.w3.org/2001/XMLSchema"), new ContextMemo(ContextMemo.Status.Ignored), sc);
+                wc.addMemo(WebCache.stringToUuid("http://www.w3.org/2001/XMLSchema#"), new ContextMemo(ContextMemo.Status.Ignored), sc);
 
                 // Don't try to dereference the cache index.
-                wc.addMemo("http://fortytwo.net/2007/08/ripple/cache#", new ContextMemo(ContextMemo.Status.Ignored), sc);
+                wc.addMemo(WebCache.stringToUuid("http://fortytwo.net/2007/08/ripple/cache#"), new ContextMemo(ContextMemo.Status.Ignored), sc);
 
                 return wc;
             } finally {
@@ -228,17 +229,20 @@ public class WebClosure {
         dereferencers.put(scheme, uriDereferencer);
     }
 
-    public void addMemo(final String uri,
+    public void addMemo(final UUID memoUuid,
                         final ContextMemo memo,
                         final SailConnection sc) throws RippleException {
-        cache.setMemo(uri, memo, sc);
+        cache.setMemo(memoUuid, memo, sc);
     }
 
     public ContextMemo.Status extendTo(final URI nonInfoURI,
                                        final RDFSink<RippleException> resultSink,
                                        final SailConnection sc) throws RippleException {
-        // TODO: memos should be inferred in a scheme-specific way
         String nofrag = RDFUtils.removeFragmentIdentifier(nonInfoURI.toString());
+
+        // Note: using hashed URIs for graph names avoids collision with resource URIs in retrieved descriptions
+        // TODO: use only the UUID portion of the URI as the memo (without the "urn:uuid:" prefix)
+        UUID memoUuid = WebCache.stringToUuid(nofrag);
 
         ContextMemo memo;
         Dereferencer dref;
@@ -249,7 +253,7 @@ public class WebClosure {
 
         // Rules out an otherwise possible race condition
         synchronized (cache) {
-            memo = cache.getMemo(nofrag, sc);
+            memo = cache.getMemo(memoUuid, sc);
 
             if (null != memo) {
                 // Don't log success or failure based on cached values.
@@ -282,7 +286,7 @@ public class WebClosure {
             //+ " at location " + mapped );
 
             memo = new ContextMemo(ContextMemo.Status.Success);
-            cache.setMemo(nofrag, memo, sc);
+            cache.setMemo(memoUuid, memo, sc);
         }
 
         memo.setUriDereferencer(dref);
@@ -290,7 +294,7 @@ public class WebClosure {
         // Note: from this point on, failures are explicitly stored as caching
         // metadata.
 
-        Representation rep = null;
+        Representation rep;
 
         try {
             rep = dref.dereference(mapped);
@@ -327,7 +331,7 @@ public class WebClosure {
         URI context;
 
         try {
-            context = valueFactory.createURI(nofrag);
+            context = valueFactory.createURI(WebCache.uuidToUri(memoUuid));
         } catch (Throwable t) {
             throw new RippleException(t);
         }
