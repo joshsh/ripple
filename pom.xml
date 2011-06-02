@@ -48,6 +48,7 @@
         <module>ripple-demo</module>
         <module>ripple-media</module>
         <module>ripple-rdf</module>
+	<module>ripple-sail</module>
         <module>ripple-scriptengine</module>
     </modules>
 

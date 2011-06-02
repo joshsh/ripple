@@ -163,6 +163,10 @@ public class SesameModelConnection implements ModelConnection {
 //System.out.println("    done.");
     }
 
+    public SailConnection getSailConnection() {
+        return sailConnection;
+    }
+
     private synchronized void openSailConnection()
             throws RippleException {
         try {

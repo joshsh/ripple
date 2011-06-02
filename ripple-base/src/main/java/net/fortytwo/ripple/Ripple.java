@@ -173,6 +173,7 @@ public final class Ripple
 	{
 		return useAsynchronousQueries;
 	}
+
     public static void enableAsynchronousQueries( final boolean enable )
 	{
 		useAsynchronousQueries = enable;
