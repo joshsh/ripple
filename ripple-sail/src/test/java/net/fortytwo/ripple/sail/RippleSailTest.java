@@ -14,11 +14,17 @@ import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
 import net.fortytwo.ripple.query.LazyStackEvaluator;
 import net.fortytwo.ripple.query.StackEvaluator;
+import org.openrdf.model.Literal;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.URIImpl;
 import org.openrdf.model.vocabulary.RDF;
+import org.openrdf.query.BindingSet;
+import org.openrdf.query.QueryEvaluationException;
+import org.openrdf.query.impl.EmptyBindingSet;
+import org.openrdf.query.parser.ParsedQuery;
+import org.openrdf.query.parser.sparql.SPARQLParser;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.sail.SailRepository;
@@ -28,7 +34,9 @@ import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
 import org.openrdf.sail.memory.MemoryStore;
 
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 /**
@@ -37,48 +45,107 @@ import java.util.Set;
  * Time: 2:49 PM
  */
 public class RippleSailTest extends TestCase {
+    private Sail baseSail;
+    private Sail sail;
+    private ValueFactory vf;
+    private SailConnection sc;
+    private SPARQLParser parser = new SPARQLParser();
+
+    public final void setUp() throws Exception {
+        baseSail = new MemoryStore();
+        baseSail.initialize();
+        sail = new RippleSail(baseSail);
+        sail.initialize();
+        vf = sail.getValueFactory();
+
+        Repository repo = new SailRepository(baseSail);
+        RepositoryConnection rc = repo.getConnection();
+        try {
+            rc.add(RippleSail.class.getResource("rippleSailTest.trig"), "", RDFFormat.TRIG);
+            rc.commit();
+        } finally {
+            rc.close();
+        }
+
+        sc = sail.getConnection();
+    }
+
+    public final void tearDown() throws Exception {
+        sc.close();
+        sail.shutDown();
+        baseSail.shutDown();
+    }
 
     public void testAll() throws Exception {
-        Sail baseSail = new MemoryStore();
-        baseSail.initialize();
-        RippleSail sail = new RippleSail(baseSail);
-        sail.initialize();
-        try {
-            ValueFactory vf = sail.getValueFactory();
-            URI foo = vf.createURI("http://example.org/foo");
+        URI foo = vf.createURI("http://example.org/foo");
 
-            addDummyData(baseSail);
+        Set<Statement> set;
 
-            SailConnection sc = sail.getConnection();
-            try {
-                Set<Statement> set;
+        set = toSet(sc.getStatements(foo, RDF.FIRST, null, false));
+        for (Statement st : set) {
+            System.out.println(st);
+        }
 
-                set = toSet(sc.getStatements(foo, RDF.FIRST, null, false));
-                for (Statement st : set) {
-                    System.out.println(st);
-                }
-
-                set = toSet(sc.getStatements(foo, sail.getValueFactory().createURI("http://fortytwo.net/2011/04/ripple/control#apply"), null, false));
-                for (Statement st : set) {
-                    System.out.println(st);
-                }
-            } finally {
-                sc.close();
-            }
-        } finally {
-            sail.shutDown();
+        set = toSet(sc.getStatements(foo, sail.getValueFactory().createURI("http://fortytwo.net/2011/04/ripple/control#apply"), null, false));
+        for (Statement st : set) {
+            System.out.println(st);
         }
     }
 
+    private Collection<BindingSet> evaluate(final String queryStr) throws Exception {
+        BindingSet bindings = new EmptyBindingSet();
+        String baseURI = "http://example.org/baseUri#";
+        ParsedQuery query;
+        CloseableIteration<? extends BindingSet, QueryEvaluationException> results;
+        query = parser.parseQuery(queryStr, baseURI);
+        Collection<BindingSet> coll = new LinkedList<BindingSet>();
+        results = sc.evaluate(query.getTupleExpr(), query.getDataset(), bindings, false);
+        try {
+            while (results.hasNext()) {
+                coll.add(results.next());
+            }
+        } finally {
+            results.close();
+        }
+        return coll;
+    }
+
+    public void testSparql() throws Exception {
+        Collection<BindingSet> results;
+
+        results = evaluate("PREFIX : <http://example.org/>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "SELECT ?f WHERE {\n" +
+                "    :foo rdf:first ?f.\n" +
+                "}");
+        assertEquals(1, results.size());
+        assertEquals("2", ((Literal) results.iterator().next().getValue("f")).getLabel());
+
+        results = evaluate("PREFIX : <http://example.org/>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "SELECT ?f WHERE {\n" +
+                "    :foo rdf:rest ?l.\n" +
+                "    ?l rdf:first ?f.\n" +
+                "}");
+        assertEquals(1, results.size());
+        assertEquals("3", ((Literal) results.iterator().next().getValue("f")).getLabel());
+
+        results = evaluate("PREFIX : <http://example.org/>\n" +
+                "PREFIX control: <http://fortytwo.net/2011/04/ripple/control#>\n" +
+                "PREFIX math: <http://fortytwo.net/2011/04/ripple/math#>\n" +
+                "SELECT ?sum WHERE {\n" +
+                "    :foo control:apply ?stack.\n" +
+                "    ?stack math:add ?sum.\n" +
+                "}");
+        assertEquals(1, results.size());
+        assertEquals("5", ((Literal) results.iterator().next().getValue("sum")).getLabel());
+    }
+
     public void testNothing() throws Exception {
-        // This is necessary to avoid race conditions.
+        // This is necessary in order to avoid race conditions.
         Ripple.enableAsynchronousQueries(false);
 
-        Sail sail = new MemoryStore();
-        sail.initialize();
-        addDummyData(sail);
-
-        Model model = new SesameModel(sail);
+        Model model = new SesameModel(baseSail);
         StackEvaluator eval = new LazyStackEvaluator();
 
         ModelConnection mc = model.createConnection();
@@ -92,9 +159,7 @@ public class RippleSailTest extends TestCase {
             RippleList stack = mc.list().push(mc.numericValue(2)).push(mc.numericValue(3))
                     .push(mc.canonicalValue(new RDFValue(new URIImpl("http://fortytwo.net/2011/04/ripple/math#add")))).push(Operator.OP);
             //*/
-            System.out.println("asynch: " + Ripple.asynchronousQueries());
             eval.apply(new StackContext(stack, mc), solutions);
-            System.out.println("solutions.size() = " + solutions.size());
             for (StackContext c : solutions) {
                 System.out.println("solution: " + c.getStack());
             }

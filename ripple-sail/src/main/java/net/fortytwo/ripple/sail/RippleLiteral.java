@@ -1,6 +1,7 @@
 package net.fortytwo.ripple.sail;
 
 import net.fortytwo.ripple.model.RippleList;
+import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.LiteralImpl;
 
@@ -9,7 +10,7 @@ import org.openrdf.model.impl.LiteralImpl;
  * Date: 6/2/11
  * Time: 1:06 PM
  */
-public class RippleLiteral extends LiteralImpl implements RippleSesameValue {
+public class RippleLiteral extends LiteralImpl implements RippleSesameValue, Resource {
     private RippleList list = null;
 
     public RippleLiteral(String label) {

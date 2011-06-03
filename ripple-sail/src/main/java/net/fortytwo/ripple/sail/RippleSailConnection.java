@@ -48,7 +48,11 @@ public class RippleSailConnection extends SailConnectionWrapper {
     }
 
     @Override
-    public CloseableIteration<? extends BindingSet, QueryEvaluationException> evaluate(final TupleExpr query, final Dataset dataset, final BindingSet bindings, final boolean includeInferred) throws SailException {
+    public CloseableIteration<? extends BindingSet, QueryEvaluationException> evaluate(
+            final TupleExpr query,
+            final Dataset dataset,
+            final BindingSet bindings,
+            final boolean includeInferred) throws SailException {
         try {
             TripleSource tripleSource = new SailConnectionTripleSource(this, valueFactory, includeInferred);
             EvaluationStrategyImpl strategy = new EvaluationStrategyImpl(tripleSource, dataset);
@@ -84,18 +88,22 @@ public class RippleSailConnection extends SailConnectionWrapper {
 
     @Override
     public CloseableIteration<? extends Statement, SailException> getStatements(
-            final Resource subject,
+             Resource subject,
             final URI predicate,
             final Value object,
             final boolean includeInferred,
             final Resource... contexts) throws SailException {
+        //System.out.println("getStatements(" + subject + ", " + predicate + ", " + object + " [, ...])");
+
         try {
             if (null == predicate || (null == subject && null == object)) {
                 return getWrappedConnection().getStatements(subject, predicate, object, includeInferred, contexts);
             } else if (null != subject && null == object) {
+                if (!(subject instanceof RippleSesameValue)) {
+                    subject = (Resource) valueFactory.nativize(subject);
+                }
                 RippleList stack = ((RippleSesameValue) subject).getStack();
                 if (null == stack) {
-                    //System.out.println("m = " + modelConnection);
                     stack = modelConnection.list().push(modelConnection.canonicalValue(new RDFValue(subject)));
 
                     // Note: this may or may not be worth the extra CPU cycles.
@@ -103,14 +111,14 @@ public class RippleSailConnection extends SailConnectionWrapper {
                 }
 
                 stack = stack.push(modelConnection.canonicalValue(new RDFValue(predicate))).push(Operator.OP);
-                System.out.println("stack = " + stack);
+                //System.out.println("stack = " + stack);
 
                 Collector<StackContext, RippleException> solutions = new Collector<StackContext, RippleException>();
                 evaluator.apply(new StackContext(stack, modelConnection), solutions);
 
                 Collection<RippleList> stacks = new LinkedList<RippleList>();
                 for (StackContext c : solutions) {
-                    System.out.println("solution: " + c);
+                    //System.out.println("solution: " + c);
                     RippleList s = c.getStack();
                     if (!s.isNil()) {
                         stacks.add(s);
