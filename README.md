@@ -15,6 +15,7 @@ This implementation is written in Java and includes an interactive command-line 
 * Examples
     * Ripple on [Linked Data](https://github.com/joshsh/ripple/wiki/ripple-on-linked-data)
     * Ripple on [JSON](https://github.com/joshsh/ripple/wiki/ripple-on-json)
+    * [The Web of Programs](https://github.com/joshsh/ripple/wiki/The-Web-of-Programs): publishing Ripple programs as Linked Data
 * Language reference
     * [Syntax](https://github.com/joshsh/ripple/wiki/Syntax): Ripple's RDF-oriented syntax for commands and queries
     * [Commands](https://github.com/joshsh/ripple/wiki/Commands): how to define programs and inspect the scripting environment
