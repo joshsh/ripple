@@ -69,6 +69,8 @@ public class SesameModelConnection implements ModelConnection {
 
     protected final SesameModel model;
     protected SailConnection sailConnection;
+    // TODO: this is a bit of a hack
+    //protected SailConnection rippleSailConnection;
     protected final RDFDiffSink listenerSink;
     protected final ValueFactory valueFactory;
     private final TaskSet taskSet = new TaskSet();
@@ -170,6 +172,8 @@ public class SesameModelConnection implements ModelConnection {
     private synchronized void openSailConnection()
             throws RippleException {
         try {
+            //rippleSailConnection = model.rippleSail.getConnection();
+
             sailConnection = model.sail.getConnection();
 
 // FIXME: this doesn't give the LexiconUpdater any information about namespaces
@@ -195,6 +199,8 @@ public class SesameModelConnection implements ModelConnection {
                 }
 
                 sailConnection.close();
+
+                //rippleSailConnection.close();
             } else {
                 // Don't throw an exception: we could easily end up in a loop.
                 LOGGER.error("tried to close an already-closed connection");

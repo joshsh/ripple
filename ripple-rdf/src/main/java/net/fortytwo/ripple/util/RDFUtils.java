@@ -32,6 +32,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 
 public final class RDFUtils
@@ -427,21 +428,7 @@ System.out.println( RDFFormat.TURTLE.getName() + ": " + RDFFormat.TURTLE.getMIME
 
 	public static URI createRandomUri( final ValueFactory vf ) throws RippleException
 	{
-		// Local name will be a UUID (without the dashes).
-		byte[] bytes = new byte[32];
-
-		// Artificially constrain the fist character to be a letter, so the
-		// local part of the URI is N3-friendly.
-		bytes[0] = (byte) ( 'a' + RANDOM.nextInt( 5 ) );
-
-		// Remaining characters are hexadecimal digits.
-		for ( int i = 1; i < 32; i++ )
-		{
-			int c = RANDOM.nextInt( 16 );
-			bytes[i] = (byte) ( ( c > 9 ) ? c - 10 + 'a' : c + '0' );
-		}
-
-		return createRandomUri( new String( bytes ), vf );
+		return createRandomUri( UUID.randomUUID().toString(), vf );
 	}
 
     public static void main(final String[] args) throws RippleException {

@@ -9,12 +9,11 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StatementPatternQuery;
-import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.Value;
-import org.openrdf.model.ValueFactory;
 
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * User: josh
@@ -65,19 +64,6 @@ public class ModelConnectionHelper {
     }
 
     public RDFValue createRandomURI() throws RippleException {
-        // Local name will be a UUID (without the dashes).
-        byte[] bytes = new byte[32];
-
-        // Artificially constrain the fist character to be a letter, so the
-        // local part of the URI is N3-friendly.
-        bytes[0] = (byte) ('a' + RANDOM.nextInt(5));
-
-        // Remaining characters are hexadecimal digits.
-        for (int i = 1; i < 32; i++) {
-            int c = RANDOM.nextInt(16);
-            bytes[i] = (byte) ((c > 9) ? c - 10 + 'a' : c + '0');
-        }
-
-        return connection.uriValue(Ripple.RANDOM_URN_PREFIX + new String(bytes));
+        return connection.uriValue(Ripple.RANDOM_URN_PREFIX + UUID.randomUUID());
     }
 }

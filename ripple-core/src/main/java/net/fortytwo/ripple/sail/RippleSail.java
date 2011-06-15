@@ -28,6 +28,10 @@ public class RippleSail implements Sail {
     // TODO: write a custom, evaluator which plays well with Sesame's iterators
     private final StackEvaluator evaluator = new LazyStackEvaluator();
 
+    public RippleSail(final Model model) {
+        this.model = model;
+    }
+
     public RippleSail(final Sail base) throws RippleException {
         model = new SesameModel(base);
     }

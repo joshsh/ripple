@@ -41,6 +41,10 @@ public class SailConfiguration {
     private Sail persistSail;
     private Sail linkedDataSailBaseSail;
 
+    public SailConfiguration() throws RippleException {
+        this(new URIMap());
+    }
+
     public SailConfiguration(final URIMap uriMap) throws RippleException {
         this.uriMap = uriMap;
         RippleProperties props = Ripple.getConfiguration();

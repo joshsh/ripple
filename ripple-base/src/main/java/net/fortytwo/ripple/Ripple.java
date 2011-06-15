@@ -19,7 +19,7 @@ import java.util.Properties;
  */
 public final class Ripple
 {
-	public static final String RANDOM_URN_PREFIX = "urn:random:";
+	public static final String RANDOM_URN_PREFIX = "urn:uuid:";
 
     public static final String
             BUFFER_QUERY_RESULTS                = "net.fortytwo.ripple.cli.bufferQueryResults",

@@ -170,7 +170,7 @@ public class WebCache {
     }
 
     public static String uuidToUri(final UUID memoUuid) {
-        return "urn:uuid:" + memoUuid;
+        return Ripple.RANDOM_URN_PREFIX + memoUuid;
     }
 
     public static UUID stringToUuid(final String s) {

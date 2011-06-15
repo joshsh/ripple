@@ -10,17 +10,14 @@
 package net.fortytwo.ripple.libs.graph;
 
 import info.aduna.iteration.CloseableIteration;
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.keyval.KeyValueValue;
 import org.apache.log4j.Logger;
-import org.openrdf.model.Value;
-import org.openrdf.query.Binding;
 import org.openrdf.query.BindingSet;
 import org.openrdf.query.QueryEvaluationException;
 
@@ -51,7 +48,7 @@ public class Sparql extends PrimitiveStackMapping {
     }
 
     public String getComment() {
-        return "evaluates a SPARQL eury";
+        return "evaluates a SPARQL query";
     }
 
     public void apply(final StackContext arg,
