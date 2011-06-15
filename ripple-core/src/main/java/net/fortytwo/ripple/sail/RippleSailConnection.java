@@ -165,9 +165,9 @@ public class RippleSailConnection extends SailConnectionWrapper {
 
                 return new SolutionIteration(stacks, true, subject, predicate, object, contexts);
             } else if (null != predicate && null != subject && null != object) {
-                throw new IllegalStateException("this pattern is not yet implemented!");
+                return getWrappedConnection().getStatements(subject, predicate, object, includeInferred, contexts);
             } else {
-                throw new IllegalStateException();
+                throw new IllegalStateException("this pattern is not yet implemented!");
             }
         } catch (RippleException e) {
             throw new SailException(e);

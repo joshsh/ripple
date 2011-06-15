@@ -4,9 +4,7 @@ import info.aduna.iteration.CloseableIteration;
 import junit.framework.TestCase;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
-import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.query.BindingSet;
 import org.openrdf.query.QueryEvaluationException;
 import org.openrdf.query.impl.EmptyBindingSet;
@@ -56,6 +54,7 @@ public class RippleSailTest extends TestCase {
         baseSail.shutDown();
     }
 
+    /*
     public void testAll() throws Exception {
         URI foo = vf.createURI("http://example.org/foo");
 
@@ -70,7 +69,7 @@ public class RippleSailTest extends TestCase {
         for (Statement st : set) {
             System.out.println(st);
         }
-    }
+    }*/
 
     private Collection<BindingSet> evaluate(final String queryStr) throws Exception {
         BindingSet bindings = new EmptyBindingSet();
@@ -221,8 +220,18 @@ public class RippleSailTest extends TestCase {
         assertEquals(2, results.size());
     }
 
+    // Comparison follows SPARQL semantics.
     public void testComparison() throws Exception {
-        // TODO
+        Collection<BindingSet> results;
+
+        results = evaluate("PREFIX : <http://example.org/>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "PREFIX math: <http://fortytwo.net/2011/04/ripple/math#>\n" +
+                "SELECT ?n WHERE {\n" +
+                "    :foo rdf:first/math:sqrt ?n.\n" +
+                "    FILTER(?n > 0)\n" +
+                "}");
+        assertEquals(1, results.size());
     }
 
     /*
