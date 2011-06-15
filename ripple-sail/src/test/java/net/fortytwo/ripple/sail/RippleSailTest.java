@@ -58,14 +58,7 @@ public class RippleSailTest extends TestCase {
         sail.initialize();
         vf = sail.getValueFactory();
 
-        Repository repo = new SailRepository(baseSail);
-        RepositoryConnection rc = repo.getConnection();
-        try {
-            rc.add(RippleSail.class.getResource("rippleSailTest.trig"), "", RDFFormat.TRIG);
-            rc.commit();
-        } finally {
-            rc.close();
-        }
+        addDummyData(baseSail);
 
         sc = sail.getConnection();
     }
@@ -110,7 +103,7 @@ public class RippleSailTest extends TestCase {
         return coll;
     }
 
-    public void testSparql() throws Exception {
+    public void testSparqlForward() throws Exception {
         Collection<BindingSet> results;
 
         results = evaluate("PREFIX : <http://example.org/>\n" +
@@ -119,7 +112,7 @@ public class RippleSailTest extends TestCase {
                 "    :foo rdf:first ?f.\n" +
                 "}");
         assertEquals(1, results.size());
-        assertEquals("2", ((Literal) results.iterator().next().getValue("f")).getLabel());
+        assertEquals("1", ((Literal) results.iterator().next().getValue("f")).getLabel());
 
         results = evaluate("PREFIX : <http://example.org/>\n" +
                 "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
@@ -128,7 +121,11 @@ public class RippleSailTest extends TestCase {
                 "    ?l rdf:first ?f.\n" +
                 "}");
         assertEquals(1, results.size());
-        assertEquals("3", ((Literal) results.iterator().next().getValue("f")).getLabel());
+        assertEquals("2", ((Literal) results.iterator().next().getValue("f")).getLabel());
+    }
+
+    public void testLiteralIntermediates() throws Exception {
+        Collection<BindingSet> results;
 
         results = evaluate("PREFIX : <http://example.org/>\n" +
                 "PREFIX control: <http://fortytwo.net/2011/04/ripple/control#>\n" +
@@ -139,6 +136,83 @@ public class RippleSailTest extends TestCase {
                 "}");
         assertEquals(1, results.size());
         assertEquals("5", ((Literal) results.iterator().next().getValue("sum")).getLabel());
+    }
+
+    public void testSparqlPropertyPaths() throws Exception {
+        Collection<BindingSet> results;
+
+        results = evaluate("PREFIX : <http://example.org/>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "SELECT ?f WHERE {\n" +
+                "    :foo rdf:rest/rdf:first ?f.\n" +
+                "}");
+        assertEquals(1, results.size());
+        assertEquals("2", ((Literal) results.iterator().next().getValue("f")).getLabel());
+
+        results = evaluate("PREFIX : <http://example.org/>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "SELECT ?f WHERE {\n" +
+                "    :foo rdf:rest*/rdf:first ?f.\n" +
+                "}");
+        assertEquals(3, results.size());
+
+        results = evaluate("PREFIX : <http://example.org/>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "PREFIX math: <http://fortytwo.net/2011/04/ripple/math#>\n" +
+                "SELECT ?n WHERE {\n" +
+                "    :foo rdf:rest/rdf:first/math:neg ?n.\n" +
+                "}");
+        assertEquals(1, results.size());
+        assertEquals("-2", ((Literal) results.iterator().next().getValue("n")).getLabel());
+    }
+
+    public void testListDequotation() throws Exception {
+        Collection<BindingSet> results;
+
+        results = evaluate("PREFIX : <http://example.org/>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "PREFIX math: <http://fortytwo.net/2011/04/ripple/math#>\n" +
+                "SELECT ?n WHERE {\n" +
+                "    rdf:nil :foo/math:add ?n.\n" +
+                "}");
+        assertEquals(1, results.size());
+        assertEquals("5", ((Literal) results.iterator().next().getValue("n")).getLabel());
+    }
+
+    public void testSparqlInverseProperties() throws Exception {
+        Collection<BindingSet> results;
+
+        results = evaluate("PREFIX : <http://example.org/>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "PREFIX math: <http://fortytwo.net/2011/04/ripple/math#>\n" +
+                "SELECT ?n WHERE {\n" +
+                "    :foo rdf:rest/rdf:rest/rdf:first/^math:sqrt ?n.\n" +
+                "}");
+        assertEquals(1, results.size());
+        assertEquals("9", ((Literal) results.iterator().next().getValue("n")).getLabel());
+    }
+
+    public void testSparqlFilterEquals() throws Exception {
+        Collection<BindingSet> results;
+
+        results = evaluate("PREFIX : <http://example.org/>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "PREFIX math: <http://fortytwo.net/2011/04/ripple/math#>\n" +
+                "SELECT ?n2 WHERE {\n" +
+                "    :foo rdf:first ?n1 ." +
+                "    ?n1 math:sqrt ?n2.\n" +
+                "}");
+        assertEquals(2, results.size());
+
+        results = evaluate("PREFIX : <http://example.org/>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "PREFIX math: <http://fortytwo.net/2011/04/ripple/math#>\n" +
+                "SELECT ?n2 WHERE {\n" +
+                "    :foo rdf:first ?n1 ." +
+                "    ?n1 math:sqrt ?n2.\n" +
+                "    FILTER(?n1 != ?n2)\n" +
+                "}");
+        assertEquals(1, results.size());
     }
 
     public void testNothing() throws Exception {

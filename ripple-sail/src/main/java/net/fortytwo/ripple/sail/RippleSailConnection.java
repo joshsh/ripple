@@ -4,6 +4,7 @@ import info.aduna.iteration.CloseableIteration;
 import net.fortytwo.flow.Collector;
 import net.fortytwo.linkeddata.sail.SailConnectionTripleSource;
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.libs.control.ControlLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.RDFValue;
@@ -88,17 +89,21 @@ public class RippleSailConnection extends SailConnectionWrapper {
 
     @Override
     public CloseableIteration<? extends Statement, SailException> getStatements(
-             Resource subject,
+            Resource subject,
             final URI predicate,
-            final Value object,
+            Value object,
             final boolean includeInferred,
             final Resource... contexts) throws SailException {
         //System.out.println("getStatements(" + subject + ", " + predicate + ", " + object + " [, ...])");
 
         try {
+            // An "all wildcards" query, or a query with a wildcard predicate, just goes to the base SailConnection
             if (null == predicate || (null == subject && null == object)) {
                 return getWrappedConnection().getStatements(subject, predicate, object, includeInferred, contexts);
-            } else if (null != subject && null == object) {
+            }
+
+            // Forward traversal
+            else if (null != subject && null == object) {
                 if (!(subject instanceof RippleSesameValue)) {
                     subject = (Resource) valueFactory.nativize(subject);
                 }
@@ -126,8 +131,44 @@ public class RippleSailConnection extends SailConnectionWrapper {
                 }
 
                 return new SolutionIteration(stacks, false, subject, predicate, object, contexts);
-            } else {
+            }
+
+            // Backward traversal
+            else if (null == subject && null != object) {
+                if (!(object instanceof RippleSesameValue)) {
+                    object = valueFactory.nativize(object);
+                }
+                RippleList stack = ((RippleSesameValue) object).getStack();
+                if (null == stack) {
+                    stack = modelConnection.list().push(modelConnection.canonicalValue(new RDFValue(object)));
+
+                    // Note: this may or may not be worth the extra CPU cycles.
+                    ((RippleSesameValue) object).setStack(stack);
+                }
+
+                stack = stack.push(modelConnection.canonicalValue(new RDFValue(predicate)))
+                        .push(ControlLibrary.getInverseValue())
+                        .push(Operator.OP)
+                        .push(Operator.OP);
+                //System.out.println("stack = " + stack);
+
+                Collector<StackContext, RippleException> solutions = new Collector<StackContext, RippleException>();
+                evaluator.apply(new StackContext(stack, modelConnection), solutions);
+
+                Collection<RippleList> stacks = new LinkedList<RippleList>();
+                for (StackContext c : solutions) {
+                    //System.out.println("solution: " + c);
+                    RippleList s = c.getStack();
+                    if (!s.isNil()) {
+                        stacks.add(s);
+                    }
+                }
+
+                return new SolutionIteration(stacks, true, subject, predicate, object, contexts);
+            } else if (null != predicate && null != subject && null != object) {
                 throw new IllegalStateException("this pattern is not yet implemented!");
+            } else {
+                throw new IllegalStateException();
             }
         } catch (RippleException e) {
             throw new SailException(e);
@@ -171,11 +212,20 @@ public class RippleSailConnection extends SailConnectionWrapper {
         public Statement next() throws SailException {
             try {
                 RippleList stack = iter.next();
-                Value obj = stack.getFirst().toRDF(modelConnection).sesameValue();
-                RippleSesameValue o = (RippleSesameValue) valueFactory.nativize(obj);
-                o.setStack(stack);
 
-                return valueFactory.createStatement(subject, predicate, (Value) o);
+                if (inverse) {
+                    Value subj = stack.getFirst().toRDF(modelConnection).sesameValue();
+                    RippleSesameValue s = (RippleSesameValue) valueFactory.nativize(subj);
+                    s.setStack(stack);
+
+                    return valueFactory.createStatement((Resource) s, predicate, object);
+                } else {
+                    Value obj = stack.getFirst().toRDF(modelConnection).sesameValue();
+                    RippleSesameValue o = (RippleSesameValue) valueFactory.nativize(obj);
+                    o.setStack(stack);
+
+                    return valueFactory.createStatement(subject, predicate, (Value) o);
+                }
             } catch (RippleException e) {
                 throw new SailException(e);
             }

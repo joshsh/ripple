@@ -76,7 +76,7 @@ public class ControlLibrary extends Library {
         return rangeApply;
     }
 
-    public static PrimitiveStackMapping getInvertValue() {
+    public static PrimitiveStackMapping getInverseValue() {
         return inverse;
     }
 }

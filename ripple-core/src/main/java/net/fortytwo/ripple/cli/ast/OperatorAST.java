@@ -63,7 +63,7 @@ public class OperatorAST implements AST<RippleList> {
             case Inverse:
                 // Note: only one "op" here.  This merely finds the inverse; it doesn't automatically apply the inverse.
                 l = mc.list().push(Operator.OP)
-                        .push(ControlLibrary.getInvertValue());
+                        .push(ControlLibrary.getInverseValue());
                 break;
             case Option:
                 l = mc.list().push(Operator.OP)
