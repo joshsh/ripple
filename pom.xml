@@ -34,8 +34,8 @@
         <name>Joshua Shinavier</name>
     </organization>
     <issueManagement>
-        <system>GForge Tracker</system>
-        <url>http://code.google.com/p/ripple/issues/list</url>
+        <system>GitHub Issues</system>
+        <url>https://github.com/joshsh/ripple/issues</url>
     </issueManagement>
 
     <modules>
