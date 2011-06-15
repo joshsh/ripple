@@ -30,6 +30,7 @@ public class Operator implements RippleValue {
         mapping = new KeyValueMapping(key);
     }
 
+    // Note: only for URI values (Literals are handled in createOperator)
     private Operator(final RDFValue pred) throws RippleException {
         mapping = new RDFPredicateMapping(StatementPatternQuery.Pattern.SP_O, pred, null);
     }
@@ -80,6 +81,8 @@ public class Operator implements RippleValue {
                                       final Sink<Operator, RippleException> opSink,
                                       final ModelConnection mc)
             throws RippleException {
+        //System.out.println("creating operator from: " + v);
+        //System.out.println("\tsesameValue: " + v.toRDF(mc).sesameValue());
         // A function becomes active.
         if (v instanceof StackMapping) {
             opSink.put(new Operator((StackMapping) v));
@@ -95,7 +98,9 @@ public class Operator implements RippleValue {
         // This is the messy part.  Attempt to guess the type of the object from
         // the available RDF statements, and create the appropriate object.
         if (v instanceof RDFValue) {
+            //System.out.println("it's RDF");
             if (isRDFList((RDFValue) v, mc)) {
+                //System.out.println("it IS a list");
                 Sink<RippleList, RippleException> listSink = new Sink<RippleList, RippleException>() {
                     public void put(final RippleList list)
                             throws RippleException {
@@ -106,9 +111,11 @@ public class Operator implements RippleValue {
                 mc.toList(v, listSink);
                 return;
             } else {
+                //System.out.println("not a list");
                 Value sv = ((RDFValue) v).sesameValue();
 
                 if (sv instanceof Literal) {
+                    //System.out.println("literal predicate: " + sv);
                     opSink.put(new Operator(((Literal) sv).getLabel()));
                     return;
                 }
@@ -128,6 +135,11 @@ public class Operator implements RippleValue {
     // TODO: replace this with something a little more clever
     public static boolean isRDFList(final RDFValue v, final ModelConnection mc)
             throws RippleException {
+        // TODO: this is a bit of a hack
+        if (v.sesameValue() instanceof Literal) {
+            return false;
+        }
+
         ModelConnectionHelper h = new ModelConnectionHelper(mc);
         return (v.sesameValue().equals(RDF.NIL)
                 || null != h.findSingleObject(v, RDF_FIRST));

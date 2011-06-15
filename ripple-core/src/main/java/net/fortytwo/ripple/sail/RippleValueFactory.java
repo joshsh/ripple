@@ -1,5 +1,7 @@
 package net.fortytwo.ripple.sail;
 
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.StringUtils;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
@@ -7,6 +9,7 @@ import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.ValueFactory;
+import org.openrdf.sail.SailException;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -16,15 +19,26 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * Time: 1:03 PM
  */
 public class RippleValueFactory implements ValueFactory {
+    public static final String STRING_NAMESPACE = "urn:string:";
+
     private final ValueFactory base;
 
-    public RippleValueFactory(ValueFactory base) {
+    public RippleValueFactory(final ValueFactory base) {
         this.base = base;
     }
 
-    public Value nativize(Value other) {
+    public Value nativize(final Value other) throws SailException {
         if (other instanceof URI) {
-            return createURI(((URI) other).stringValue());
+            String s = other.stringValue();
+            if (s.startsWith(STRING_NAMESPACE)) {
+                try {
+                    return createLiteral(StringUtils.percentDecode(s.substring(STRING_NAMESPACE.length())));
+                } catch (RippleException e) {
+                    throw new SailException(e);
+                }
+            } else {
+                return createURI(other.stringValue());
+            }
         } else if (other instanceof Literal) {
             Literal l = (Literal) other;
             if (null != l.getDatatype()) {

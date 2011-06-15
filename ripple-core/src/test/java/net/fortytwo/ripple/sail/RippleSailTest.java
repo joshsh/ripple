@@ -4,7 +4,6 @@ import info.aduna.iteration.CloseableIteration;
 import junit.framework.TestCase;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Statement;
-import org.openrdf.model.ValueFactory;
 import org.openrdf.query.BindingSet;
 import org.openrdf.query.QueryEvaluationException;
 import org.openrdf.query.impl.EmptyBindingSet;
@@ -32,7 +31,6 @@ import java.util.Set;
 public class RippleSailTest extends TestCase {
     private Sail baseSail;
     private Sail sail;
-    private ValueFactory vf;
     private SailConnection sc;
     private SPARQLParser parser = new SPARQLParser();
 
@@ -41,7 +39,6 @@ public class RippleSailTest extends TestCase {
         baseSail.initialize();
         sail = new RippleSail(baseSail);
         sail.initialize();
-        vf = sail.getValueFactory();
 
         addDummyData(baseSail);
 
@@ -124,6 +121,33 @@ public class RippleSailTest extends TestCase {
         assertEquals("5", ((Literal) results.iterator().next().getValue("sum")).getLabel());
     }
 
+    public void testLiteralSubjects() throws Exception {
+        Collection<BindingSet> results;
+
+        results = evaluate("PREFIX math: <http://fortytwo.net/2011/04/ripple/math#>\n" +
+                "PREFIX stack: <http://fortytwo.net/2011/04/ripple/stack#>\n" +
+                "SELECT DISTINCT ?result WHERE {\n" +
+                "   ?x stack:self 100 .\n" +
+                "   ?x math:sqrt/math:abs ?result .\n" +
+                "}");
+        assertEquals(1, results.size());
+        assertEquals("10.0", ((Literal) results.iterator().next().getValue("result")).getLabel());
+    }
+
+    public void testLiteralPredicates() throws Exception {
+        Collection<BindingSet> results;
+
+        results = evaluate("PREFIX graph: <http://fortytwo.net/2011/04/ripple/graph#>\n" +
+                "PREFIX stack: <http://fortytwo.net/2011/04/ripple/stack#>\n" +
+                "PREFIX s: <urn:string:>\n" +
+                "SELECT ?result WHERE {\n" +
+                "   ?x stack:self \"{\\\"foo\\\": true, \\\"bar\\\": [6, 9, 42]}\" .\n" +
+                "   ?x graph:to-json/s:foo ?result .\n" +
+                "}");
+        assertEquals(1, results.size());
+        assertEquals("true", ((Literal) results.iterator().next().getValue("result")).getLabel());
+    }
+
     public void testSparqlPropertyPaths() throws Exception {
         Collection<BindingSet> results;
 
@@ -160,6 +184,16 @@ public class RippleSailTest extends TestCase {
                 "PREFIX math: <http://fortytwo.net/2011/04/ripple/math#>\n" +
                 "SELECT ?n WHERE {\n" +
                 "    rdf:nil :foo/math:add ?n.\n" +
+                "}");
+        assertEquals(1, results.size());
+        assertEquals("5", ((Literal) results.iterator().next().getValue("n")).getLabel());
+
+        results = evaluate("PREFIX : <http://example.org/>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "PREFIX control: <http://fortytwo.net/2011/04/ripple/control#>\n" +
+                "PREFIX math: <http://fortytwo.net/2011/04/ripple/math#>\n" +
+                "SELECT ?n WHERE {\n" +
+                "    :foo control:apply/math:add ?n.\n" +
                 "}");
         assertEquals(1, results.size());
         assertEquals("5", ((Literal) results.iterator().next().getValue("n")).getLabel());

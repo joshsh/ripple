@@ -224,7 +224,7 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
         }
     }
 
-    // Note: not sychronized, on account of URI dereferencing
+    // Note: not synchronized, on account of URI dereferencing
     public CloseableIteration<? extends Statement, SailException> getStatements(
             final Resource subj,
             final URI pred,

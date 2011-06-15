@@ -4,6 +4,8 @@ import net.fortytwo.ripple.model.RippleList;
 import org.openrdf.model.Value;
 import org.openrdf.model.impl.BNodeImpl;
 
+import java.util.UUID;
+
 /**
  * User: josh
  * Date: 6/2/11
@@ -13,7 +15,7 @@ public class RippleBNode extends BNodeImpl implements RippleSesameValue {
     private RippleList list = null;
 
     public RippleBNode() {
-        super();
+        super(UUID.randomUUID().toString());
     }
 
     public RippleBNode(String id) {
