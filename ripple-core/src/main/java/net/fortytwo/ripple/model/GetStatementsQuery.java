@@ -150,10 +150,14 @@ public class GetStatementsQuery
 
     private void getStatementsPrivate( final Sink<Statement, RippleException> results,
                                               final SailConnection sc,
-                                              final Resource subject,
-                                              final URI predicate,
-                                              final Value object ) throws RippleException
+                                               Resource subject,
+                                               URI predicate,
+                                               Value object ) throws RippleException
     {
+        if (null != object && object instanceof RippleSesameValue) {
+
+        }
+
 		// Note: we must collect results in a buffer before putting anything
 		//       into the sink, as inefficient as that is, because otherwise
 		//       we might end up opening another RepositoryResult before

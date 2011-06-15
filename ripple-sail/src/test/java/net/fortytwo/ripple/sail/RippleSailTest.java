@@ -215,6 +215,21 @@ public class RippleSailTest extends TestCase {
         assertEquals(1, results.size());
     }
 
+    public void testEquality() throws Exception {
+        Collection<BindingSet> results;
+
+        results = evaluate("PREFIX : <http://example.org/>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "SELECT ?l WHERE {\n" +
+                "    ?l rdf:first \"1\" ." +
+                "}");
+        assertEquals(1, results.size());
+    }
+
+    public void testComparison() throws Exception {
+        // TODO
+    }
+
     public void testNothing() throws Exception {
         // This is necessary in order to avoid race conditions.
         Ripple.enableAsynchronousQueries(false);

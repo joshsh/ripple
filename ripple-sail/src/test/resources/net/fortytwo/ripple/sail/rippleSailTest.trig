@@ -5,4 +5,8 @@
 :foo a rdf:List ;
     rdf:first 1 ;
     rdf:rest [rdf:first 2; rdf:rest [rdf:first 3; rdf:rest rdf:nil]] .
+
+:fooClone a rdf:List ;
+    rdf:first 1 ;
+    rdf:rest [rdf:first 2; rdf:rest [rdf:first 3; rdf:rest rdf:nil]] .
 }
