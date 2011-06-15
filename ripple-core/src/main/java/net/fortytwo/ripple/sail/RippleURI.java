@@ -1,22 +1,19 @@
 package net.fortytwo.ripple.sail;
 
 import net.fortytwo.ripple.model.RippleList;
-import org.openrdf.model.impl.BNodeImpl;
+import org.openrdf.model.Value;
+import org.openrdf.model.impl.URIImpl;
 
 /**
  * User: josh
  * Date: 6/2/11
- * Time: 1:07 PM
+ * Time: 1:06 PM
  */
-public class RippleBNode extends BNodeImpl implements RippleSesameValue {
+public class RippleURI extends URIImpl implements RippleSesameValue {
     private RippleList list = null;
 
-    public RippleBNode() {
-        super();
-    }
-
-    public RippleBNode(String id) {
-        super(id);
+    public RippleURI(String uriString) {
+        super(uriString);
     }
 
     @Override
@@ -27,5 +24,10 @@ public class RippleBNode extends BNodeImpl implements RippleSesameValue {
     @Override
     public void setStack(final RippleList list) {
         this.list = list;
+    }
+
+    @Override
+    public Value getNativeValue() {
+        return this;
     }
 }

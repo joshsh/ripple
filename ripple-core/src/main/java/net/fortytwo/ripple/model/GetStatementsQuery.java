@@ -9,22 +9,22 @@
 
 package net.fortytwo.ripple.model;
 
+import info.aduna.iteration.CloseableIteration;
+import net.fortytwo.flow.Buffer;
 import net.fortytwo.flow.Sink;
-
-import org.openrdf.model.Value;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.Statement;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.sail.RippleSesameValue;
 import org.openrdf.model.Literal;
+import org.openrdf.model.Resource;
+import org.openrdf.model.Statement;
+import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.ValueFactoryImpl;
-import org.openrdf.model.vocabulary.XMLSchema;
 import org.openrdf.model.vocabulary.RDF;
+import org.openrdf.model.vocabulary.XMLSchema;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
-import net.fortytwo.flow.Buffer;
-import net.fortytwo.ripple.RippleException;
-import info.aduna.iteration.CloseableIteration;
 
 /**
  * Author: josh
@@ -149,13 +149,13 @@ public class GetStatementsQuery
     }
 
     private void getStatementsPrivate( final Sink<Statement, RippleException> results,
-                                              final SailConnection sc,
+                                               final SailConnection sc,
                                                Resource subject,
                                                URI predicate,
                                                Value object ) throws RippleException
     {
         if (null != object && object instanceof RippleSesameValue) {
-
+            object = ((RippleSesameValue) object).getNativeValue();
         }
 
 		// Note: we must collect results in a buffer before putting anything

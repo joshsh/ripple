@@ -3,6 +3,7 @@ package net.fortytwo.ripple.sail;
 import net.fortytwo.ripple.model.RippleList;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 import org.openrdf.model.impl.LiteralImpl;
 
 /**
@@ -33,5 +34,14 @@ public class RippleLiteral extends LiteralImpl implements RippleSesameValue, Res
     @Override
     public void setStack(final RippleList list) {
         this.list = list;
+    }
+
+    @Override
+    public Value getNativeValue() {
+        return null != this.getLanguage()
+                ? new LiteralImpl(this.getLabel(), this.getLanguage())
+                : null != this.getDatatype()
+                ? new LiteralImpl(this.getLabel(), this.getDatatype())
+                : new LiteralImpl(this.getLabel());
     }
 }

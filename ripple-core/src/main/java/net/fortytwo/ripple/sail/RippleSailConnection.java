@@ -2,7 +2,6 @@ package net.fortytwo.ripple.sail;
 
 import info.aduna.iteration.CloseableIteration;
 import net.fortytwo.flow.Collector;
-import net.fortytwo.linkeddata.sail.SailConnectionTripleSource;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.control.ControlLibrary;
 import net.fortytwo.ripple.model.ModelConnection;

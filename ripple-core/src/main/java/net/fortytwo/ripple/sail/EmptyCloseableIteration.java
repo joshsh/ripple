@@ -1,0 +1,28 @@
+/*
+ * $URL$
+ * $Revision$
+ * $Author$
+ *
+ * Copyright (C) 2007-2011 Joshua Shinavier
+ */
+
+
+package net.fortytwo.ripple.sail;
+
+import info.aduna.iteration.CloseableIteration;
+
+public class EmptyCloseableIteration<T, E extends Exception> implements CloseableIteration<T, E> {
+    public void close() throws E {
+    }
+
+    public boolean hasNext() throws E {
+        return false;
+    }
+
+    public T next() throws E {
+        return null;
+    }
+
+    public void remove() throws E {
+    }
+}

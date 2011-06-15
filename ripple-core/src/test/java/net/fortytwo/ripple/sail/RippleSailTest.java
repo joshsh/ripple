@@ -2,23 +2,10 @@ package net.fortytwo.ripple.sail;
 
 import info.aduna.iteration.CloseableIteration;
 import junit.framework.TestCase;
-import net.fortytwo.flow.Collector;
-import net.fortytwo.ripple.Ripple;
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.model.Model;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.Operator;
-import net.fortytwo.ripple.model.RDFValue;
-import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.model.impl.sesame.SesameModel;
-import net.fortytwo.ripple.query.LazyStackEvaluator;
-import net.fortytwo.ripple.query.StackEvaluator;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
-import org.openrdf.model.impl.URIImpl;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.query.BindingSet;
 import org.openrdf.query.QueryEvaluationException;
@@ -221,15 +208,24 @@ public class RippleSailTest extends TestCase {
         results = evaluate("PREFIX : <http://example.org/>\n" +
                 "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
                 "SELECT ?l WHERE {\n" +
-                "    ?l rdf:first \"1\" ." +
+                "    ?l rdf:first 2 ." +
                 "}");
-        assertEquals(1, results.size());
+        assertEquals(2, results.size());
+
+        // There are still two results, because resources are distinct by reference, not value.
+        results = evaluate("PREFIX : <http://example.org/>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "SELECT DISTINCT ?l WHERE {\n" +
+                "    ?l rdf:first 2 ." +
+                "}");
+        assertEquals(2, results.size());
     }
 
     public void testComparison() throws Exception {
         // TODO
     }
 
+    /*
     public void testNothing() throws Exception {
         // This is necessary in order to avoid race conditions.
         Ripple.enableAsynchronousQueries(false);
@@ -240,14 +236,9 @@ public class RippleSailTest extends TestCase {
         ModelConnection mc = model.createConnection();
         try {
             Collector<StackContext, RippleException> solutions = new Collector<StackContext, RippleException>();
-            //*
             RippleList stack = mc.list().push(mc.canonicalValue(new RDFValue(new URIImpl("http://example.org/foo"))))
                     .push(mc.canonicalValue(new RDFValue(RDF.FIRST))).push(Operator.OP);
-            //*/
-            /*
-            RippleList stack = mc.list().push(mc.numericValue(2)).push(mc.numericValue(3))
-                    .push(mc.canonicalValue(new RDFValue(new URIImpl("http://fortytwo.net/2011/04/ripple/math#add")))).push(Operator.OP);
-            //*/
+
             eval.apply(new StackContext(stack, mc), solutions);
             for (StackContext c : solutions) {
                 System.out.println("solution: " + c.getStack());
@@ -258,7 +249,7 @@ public class RippleSailTest extends TestCase {
 
         model.shutDown();
         sail.shutDown();
-    }
+    }*/
 
     private void addDummyData(final Sail sail) throws Exception {
         Repository repo = new SailRepository(sail);

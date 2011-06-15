@@ -1,6 +1,7 @@
 package net.fortytwo.ripple.sail;
 
 import net.fortytwo.ripple.model.RippleList;
+import org.openrdf.model.Value;
 
 /**
  * User: josh
@@ -11,4 +12,6 @@ public interface RippleSesameValue {
     RippleList getStack();
 
     void setStack(RippleList list);
+
+    Value getNativeValue();
 }
