@@ -11,7 +11,7 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
-import net.fortytwo.ripple.query.LazyStackEvaluator;
+import net.fortytwo.ripple.query.LazyEvaluatingIterator;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.QueryPipe;
 import net.fortytwo.ripple.query.StackEvaluator;
@@ -116,7 +116,8 @@ public abstract class RippleTestCase extends TestCase {
 
     protected QueryEngine getTestQueryEngine() throws RippleException {
         if (null == queryEngine) {
-            StackEvaluator eval = new LazyStackEvaluator();
+            StackEvaluator eval = new LazyEvaluatingIterator.WrappingEvaluator();
+            //StackEvaluator eval = new LazyStackEvaluator();
             queryEngine = new QueryEngine(getTestModel(), eval, System.out, System.err);
         }
 
@@ -232,6 +233,17 @@ while (!l.isNil()) {
         return c;
     }
 
+    protected void assertLegal(final String from) throws Exception {
+        Collection<RippleList> result = reduce("(" + from + ")");
+        assertTrue("expression is illegal: " + from, 1 == result.size());
+    }
+
+    protected void assertIllegal(final String from) throws Exception {
+        Collection<RippleList> result = reduce("(" + from + ")");
+        assertTrue("expression is legal: " + from, 0 == result.size());
+    }
+
+
     protected Collection<RippleList> reduce(final String from) throws RippleException {
         Collector<RippleList, RippleException>
                 results = new Collector<RippleList, RippleException>();
@@ -248,16 +260,6 @@ while (!l.isNil()) {
         }
 
         return c;
-    }
-
-    protected void assertLegal(final String from) throws Exception {
-        Collection<RippleList> result = reduce("(" + from + ")");
-        assertTrue("expression is illegal: " + from, 1 == result.size());
-    }
-
-    protected void assertIllegal(final String from) throws Exception {
-        Collection<RippleList> result = reduce("(" + from + ")");
-        assertTrue("expression is legal: " + from, 0 == result.size());
     }
 
     protected void assertReducesTo(final String from, final String... to) throws Exception {

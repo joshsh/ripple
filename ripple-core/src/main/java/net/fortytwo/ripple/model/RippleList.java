@@ -133,7 +133,7 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
             }
 
             if (Operator.OP == val) {
-                sb.append(">>");
+                sb.append("op");
             } else {
                 sb.append(val);
             }

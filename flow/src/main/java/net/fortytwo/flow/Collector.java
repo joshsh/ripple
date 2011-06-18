@@ -66,17 +66,6 @@ public class Collector<T, E extends Exception> extends SimpleReadOnlyCollection<
 		return count;
 	}
 
-    public Collection<T> asCollection() {
-        Collection<T> c = new LinkedList<T>();
-        Node cur = first;
-        while (null != cur) {
-            c.add(cur.value);
-            cur = cur.next;
-        }
-
-        return c;
-    }
-
 	public Iterator<T> iterator()
 	{
 		return new NodeIterator( first );

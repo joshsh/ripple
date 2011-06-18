@@ -25,9 +25,6 @@ public class RippleSail implements Sail {
     private final RippleValueFactory valueFactory = new RippleValueFactory(new ValueFactoryImpl());
     private final Model model;
 
-    // TODO: write a custom, evaluator which plays well with Sesame's iterators
-    private final StackEvaluator evaluator = new LazyStackEvaluator();
-
     public RippleSail(final Model model) {
         this.model = model;
     }
@@ -65,7 +62,7 @@ public class RippleSail implements Sail {
         } catch (RippleException e) {
             throw new SailException(e);
         }
-        return new RippleSailConnection(mc, evaluator, valueFactory);
+        return new RippleSailConnection(mc, valueFactory);
     }
 
     @Override

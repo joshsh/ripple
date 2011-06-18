@@ -1,16 +1,14 @@
 package net.fortytwo.ripple.sail;
 
 import info.aduna.iteration.CloseableIteration;
-import net.fortytwo.flow.Collector;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.control.ControlLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.impl.sesame.SesameModelConnection;
-import net.fortytwo.ripple.query.StackEvaluator;
+import net.fortytwo.ripple.query.LazyEvaluatingIterator;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
@@ -24,10 +22,6 @@ import org.openrdf.query.algebra.evaluation.impl.EvaluationStrategyImpl;
 import org.openrdf.sail.SailException;
 import org.openrdf.sail.helpers.SailConnectionWrapper;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-
 /**
  * User: josh
  * Date: 6/2/11
@@ -35,15 +29,12 @@ import java.util.LinkedList;
  */
 public class RippleSailConnection extends SailConnectionWrapper {
     private final ModelConnection modelConnection;
-    private final StackEvaluator evaluator;
     private final RippleValueFactory valueFactory;
 
     public RippleSailConnection(final ModelConnection modelConnection,
-                                final StackEvaluator evaluator,
                                 final RippleValueFactory valueFactory) {
         super(((SesameModelConnection) modelConnection).getSailConnection());
         this.modelConnection = modelConnection;
-        this.evaluator = evaluator;
         this.valueFactory = valueFactory;
     }
 
@@ -123,6 +114,9 @@ public class RippleSailConnection extends SailConnectionWrapper {
                         new RDFValue(valueFactory.nativize(predicate)))).push(Operator.OP);
                 //System.out.println("\t\tstack (new) = " + stack);
 
+                CloseableIteration<RippleList, RippleException> solutions
+                        = new LazyEvaluatingIterator(stack, modelConnection);
+                /*
                 Collector<StackContext, RippleException> solutions = new Collector<StackContext, RippleException>();
                 evaluator.apply(new StackContext(stack, modelConnection), solutions);
 
@@ -135,11 +129,14 @@ public class RippleSailConnection extends SailConnectionWrapper {
                     }
                 }
 
-                return new SolutionIteration(stacks, false, subject, predicate, object, contexts);
+                return new SolutionIteration(stacks.iterator(), false, subject, predicate, object, contexts);
+                */
+
+                return new SolutionIteration(solutions, false, subject, predicate, object, contexts);
             }
 
             // Backward traversal
-            else if (null == subject && null != object) {
+            else if (null == subject) {
                 if (!(object instanceof RippleSesameValue)) {
                     object = valueFactory.nativize(object);
                 }
@@ -157,23 +154,27 @@ public class RippleSailConnection extends SailConnectionWrapper {
                         .push(Operator.OP);
                 //System.out.println("stack = " + stack);
 
+                CloseableIteration<RippleList, RippleException> solutions
+                        = new LazyEvaluatingIterator(stack, modelConnection);
+                /*
                 Collector<StackContext, RippleException> solutions = new Collector<StackContext, RippleException>();
                 evaluator.apply(new StackContext(stack, modelConnection), solutions);
 
                 Collection<RippleList> stacks = new LinkedList<RippleList>();
                 for (StackContext c : solutions) {
-                    //System.out.println("solution: " + c);
+                    //System.out.println("\tsolution: " + c);
                     RippleList s = c.getStack();
                     if (!s.isNil()) {
                         stacks.add(s);
                     }
                 }
 
-                return new SolutionIteration(stacks, true, subject, predicate, object, contexts);
-            } else if (null != predicate && null != subject && null != object) {
-                return getWrappedConnection().getStatements(subject, predicate, object, includeInferred, contexts);
+                return new SolutionIteration(stacks.iterator(), false, subject, predicate, object, contexts);
+                */
+
+                return new SolutionIteration(solutions, true, subject, predicate, object, contexts);
             } else {
-                throw new IllegalStateException("this pattern is not yet implemented!");
+                return getWrappedConnection().getStatements(subject, predicate, object, includeInferred, contexts);
             }
         } catch (RippleException e) {
             throw new SailException(e);
@@ -181,22 +182,23 @@ public class RippleSailConnection extends SailConnectionWrapper {
     }
 
     private class SolutionIteration implements CloseableIteration<Statement, SailException> {
-        private final Iterator<RippleList> iter;
+        private final CloseableIteration<RippleList, RippleException> iter;
         private final boolean inverse;
         private final Resource subject;
         private final URI predicate;
         private final Value object;
+        // TODO: use contexts?
         private final Resource[] contexts;
 
         private Statement nextStatement;
 
-        public SolutionIteration(Collection<RippleList> coll,
+        public SolutionIteration(CloseableIteration<RippleList, RippleException> iter,
                                  boolean inverse,
                                  Resource subject,
                                  URI predicate,
                                  Value object,
                                  Resource... contexts) throws SailException {
-            this.iter = coll.iterator();
+            this.iter = iter;
             this.inverse = inverse;
             this.subject = subject;
             this.predicate = predicate;
@@ -209,7 +211,11 @@ public class RippleSailConnection extends SailConnectionWrapper {
 
         @Override
         public void close() throws SailException {
-            // Do nothing.
+            try {
+                iter.close();
+            } catch (RippleException e) {
+                throw new SailException(e);
+            }
         }
 
         @Override
@@ -220,7 +226,7 @@ public class RippleSailConnection extends SailConnectionWrapper {
         private void advanceToNext() throws SailException {
             try {
                 nextStatement = null;
-                while (iter.hasNext()) {
+                if (iter.hasNext()) {
                     RippleList stack = iter.next();
 
                     if (inverse) {
@@ -229,7 +235,7 @@ public class RippleSailConnection extends SailConnectionWrapper {
                         s.setStack(stack);
 
                         nextStatement = valueFactory.createStatement((Resource) s, predicate, object);
-                        break;
+                        //System.out.println("nextStatement(1): " + nextStatement);
                     } else {
                         RDFValue r = stack.getFirst().toRDF(modelConnection);
                         Value obj;
@@ -250,7 +256,7 @@ public class RippleSailConnection extends SailConnectionWrapper {
                         }
 
                         nextStatement = valueFactory.createStatement(subject, predicate, (Value) o);
-                        break;
+                        //System.out.println("nextStatement(2): " + nextStatement);
                     }
                 }
             } catch (RippleException e) {
@@ -269,8 +275,7 @@ public class RippleSailConnection extends SailConnectionWrapper {
         }
 
         @Override
-        public void remove
-                () throws SailException {
+        public void remove() throws SailException {
             throw new UnsupportedOperationException();
         }
     }

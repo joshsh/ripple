@@ -90,6 +90,7 @@ public class RDFPredicateMapping implements StackMapping {
 
         Sink<RippleValue, RippleException> resultSink = new ValueSink(arg, solutions);
 
+        //System.out.println("asynch: " + Ripple.asynchronousQueries());
         if (Ripple.asynchronousQueries()) {
             mc.query(query, resultSink, true);
         } else {
