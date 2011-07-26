@@ -31,6 +31,11 @@ public class IntegerAST extends NumberAST
 
 	private final BigInteger value;
 
+    public IntegerAST( final int value )
+    {
+        this.value =  BigInteger.valueOf(value);
+    }
+
 	public IntegerAST( final BigInteger value )
 	{
 		this.value = value;

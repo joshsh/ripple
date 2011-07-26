@@ -17,7 +17,6 @@ import net.fortytwo.ripple.RippleProperties;
 import net.fortytwo.ripple.URIMap;
 import org.apache.log4j.Logger;
 import org.openrdf.model.ValueFactory;
-import org.openrdf.rio.RDFFormat;
 import org.openrdf.sail.NotifyingSail;
 import org.openrdf.sail.NotifyingSailConnection;
 import org.openrdf.sail.Sail;
