@@ -15,6 +15,7 @@
         <groupId>net.fortytwo.ripple</groupId>
         <artifactId>ripple</artifactId>
         <version>0.7-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <repositories>
@@ -43,7 +44,7 @@
         <dependency>
             <groupId>net.fortytwo.ripple</groupId>
             <artifactId>ripple-demo</artifactId>
-            <version>0.7-SNAPSHOT</version>
+            <version>${ripple.version}</version>
         </dependency>
         <!--<dependency>
             <groupId>com.tinkerpop.blueprints</groupId>
