@@ -20,18 +20,10 @@
             <name>Joshua Shinavier</name>
             <email>josh@fortytwo.net</email>
             <url>http://fortytwo.net</url>
-            <roles>
-                <role>architect</role>
-                <role>developer</role>
-            </roles>
-            <timezone>-8</timezone>
-            <properties>
-                <!--<picUrl>...</picUrl>-->
-            </properties>
         </developer>
     </developers>
     <organization>
-        <name>Joshua Shinavier</name>
+        <name>fortytwo.net</name>
     </organization>
     <issueManagement>
         <system>GitHub Issues</system>
@@ -93,5 +85,21 @@
             </plugin>
         </plugins>
     </reporting>
+
+    <repositories>
+        <repository>
+            <id>fortytwo</id>
+            <name>fortytwo.net Maven repository</name>
+            <url>http://fortytwo.net/maven2</url>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>fortytwo</id>
+            <name>fortytwo.net Maven repository</name>
+            <url>file:///mnt/repository</url>
+        </repository>
+    </distributionManagement>
 
 </project>
