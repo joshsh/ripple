@@ -13,7 +13,12 @@
 
     <url>http://ripple.fortytwo.net/</url>
     <inceptionYear>2007</inceptionYear>
-    <licenses></licenses>
+    <licenses>
+        <license>
+            <name>MIT license</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
     <developers>
         <developer>
             <id>josh</id>
@@ -46,12 +51,54 @@
     <properties>
         <ripple.version>0.7-SNAPSHOT</ripple.version>
         <sesame.version>2.4.2</sesame.version>
+        <sesametools.version>1.4-SNAPSHOT</sesametools.version>
+        <junit.version>3.8.1</junit.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <build>
-        <directory>${basedir}/target</directory>
+        <directory>target</directory>
+        <!--<plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.1.2</version>
+                <executions>
+                    <execution>
+                        <id>attach-source</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.8</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadoc</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>-->
     </build>
 
     <!-- Note: plugin versions are the most recent (in repo1.maven.org) as of 2011-04-05 -->

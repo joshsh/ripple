@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.fortytwo.ripple</groupId>
     <artifactId>ripple-media</artifactId>
-    <version>${ripple.version}</version>
+    <version>0.7-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Ripple Media Extension</name>
     <description>media and speech extension</description>
@@ -24,18 +24,13 @@
             <name>fortytwo.net Maven repository</name>
             <url>http://fortytwo.net/maven2</url>
         </repository>
-        <!--<repository>
-              <id>scriptlandia-repo</id>
-              <name>Scriptlandia Maven2 repository</name>
-              <url>http://scriptlandia-repository.googlecode.com/svn/trunk/tools</url>
-          </repository>-->
     </repositories>
 
     <dependencies>
         <dependency>
             <groupId>net.fortytwo.ripple</groupId>
             <artifactId>ripple-demo</artifactId>
-            <version>0.7-SNAPSHOT</version>
+            <version>${ripple.version}</version>
         </dependency>
 
         <!--<dependency>
@@ -103,21 +98,24 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.3.1</version>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
-        <directory>${basedir}/target</directory>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+        <directory>target</directory>
         <finalName>${project.artifactId}-${project.version}</finalName>
         <resources>
             <resource>
-                <directory>${basedir}/src/main/resources</directory>
+                <directory>src/main/resources</directory>
             </resource>
         </resources>
         <testResources>
             <testResource>
-                <directory>${basedir}/src/test/resources</directory>
+                <directory>src/test/resources</directory>
             </testResource>
         </testResources>
         <plugins>
@@ -158,5 +156,5 @@
             </plugin>
         </plugins>
     </build>
-    
+
 </project>
