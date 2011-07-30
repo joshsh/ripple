@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.fortytwo.ripple</groupId>
     <artifactId>ripple-media</artifactId>
-    <version>0.7-SNAPSHOT</version>
+    <version>${ripple.version}</version>
     <packaging>jar</packaging>
     <name>Ripple Media Extension</name>
     <description>media and speech extension</description>

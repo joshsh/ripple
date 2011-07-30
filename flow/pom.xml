@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.fortytwo</groupId>
     <artifactId>flow</artifactId>
-    <version>0.7-SNAPSHOT</version>
+    <version>${ripple.version}</version>
     <packaging>jar</packaging>
     <name>42Flow</name>
     <description>42Flow dataflow utilities</description>

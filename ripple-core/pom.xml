@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.fortytwo.ripple</groupId>
     <artifactId>ripple-core</artifactId>
-    <version>0.7-SNAPSHOT</version>
+    <version>${ripple.version}</version>
     <packaging>jar</packaging>
     <name>Ripple Core</name>
     <description>core API and utilities</description>
