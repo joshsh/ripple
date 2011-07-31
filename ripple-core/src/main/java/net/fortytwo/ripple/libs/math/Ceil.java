@@ -26,7 +26,7 @@ import net.fortytwo.flow.Sink;
 public class Ceil extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2011_04 + "ceil",
+            MathLibrary.NS_2011_08 + "ceil",
             MathLibrary.NS_2008_08 + "ceil"};
 
     public String[] getIdentifiers()

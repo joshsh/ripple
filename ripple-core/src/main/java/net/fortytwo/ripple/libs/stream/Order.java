@@ -14,7 +14,6 @@ import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackContext;
@@ -31,7 +30,7 @@ import java.util.List;
 // FIXME: total hack
 public class Order extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
-            StreamLibrary.NS_2011_04 + "order"};
+            StreamLibrary.NS_2011_08 + "order"};
 
     public String[] getIdentifiers() {
         return IDENTIFIERS;

@@ -26,7 +26,7 @@ import net.fortytwo.ripple.model.ModelConnection;
 public class Lt extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            DataLibrary.NS_2011_04 + "lt",
+            DataLibrary.NS_2011_08 + "lt",
             MathLibrary.NS_2008_08 + "lt",
             MathLibrary.NS_2007_08 + "lt",
             MathLibrary.NS_2007_05 + "lt"};

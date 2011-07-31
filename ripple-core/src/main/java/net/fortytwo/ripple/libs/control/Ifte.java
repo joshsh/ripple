@@ -11,7 +11,6 @@ package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
-import net.fortytwo.ripple.libs.logic.LogicLibrary;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleValue;
@@ -30,7 +29,7 @@ import net.fortytwo.ripple.model.ModelConnection;
 public class Ifte extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            ControlLibrary.NS_2011_04 + "ifte",
+            ControlLibrary.NS_2011_08 + "ifte",
             // Note: the previous implementation of ifte had different semantics
             // (rather than the current, Joy semantics).
             };

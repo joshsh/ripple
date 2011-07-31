@@ -29,7 +29,7 @@ import org.openrdf.model.vocabulary.XMLSchema;
 public class ToString extends PrimitiveStackMapping {
     public String[] getIdentifiers() {
         return new String[]{
-                DataLibrary.NS_2011_04 + "to-string",
+                DataLibrary.NS_2011_08 + "to-string",
                 GraphLibrary.NS_2008_08 + "toString",
                 GraphLibrary.NS_2007_08 + "toString",
                 GraphLibrary.NS_2007_05 + "toString"};

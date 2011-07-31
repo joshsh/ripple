@@ -28,7 +28,7 @@ import net.fortytwo.flow.Sink;
 public class Fold extends PrimitiveStackMapping {
     public String[] getIdentifiers() {
         return new String[]{
-                ControlLibrary.NS_2011_04 + "fold",
+                ControlLibrary.NS_2011_08 + "fold",
                 StackLibrary.NS_2008_08 + "fold",
                 StackLibrary.NS_2007_08 + "fold",
                 StackLibrary.NS_2007_05 + "fold"};

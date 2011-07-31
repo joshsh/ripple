@@ -19,7 +19,7 @@ public class Head extends PrimitiveStackMapping {
     @Override
     public String[] getIdentifiers() {
         return new String[]{
-                BlueprintsLibrary.NS_2011_04 + "head"
+                BlueprintsLibrary.NS_2011_08 + "head"
         };
     }
 

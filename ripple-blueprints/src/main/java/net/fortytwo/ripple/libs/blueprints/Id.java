@@ -1,7 +1,6 @@
 package net.fortytwo.ripple.libs.blueprints;
 
 import com.tinkerpop.blueprints.pgm.Element;
-import com.tinkerpop.blueprints.pgm.Vertex;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
@@ -19,7 +18,7 @@ public class Id extends PrimitiveStackMapping {
     @Override
     public String[] getIdentifiers() {
         return new String[]{
-                BlueprintsLibrary.NS_2011_04 + "id"
+                BlueprintsLibrary.NS_2011_08 + "id"
         };
     }
 

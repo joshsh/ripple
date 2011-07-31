@@ -11,7 +11,6 @@ package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.libs.graph.GraphLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
@@ -28,7 +27,7 @@ import org.json.JSONObject;
  */
 public class ToJson extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_2011_04 + "to-json",
+            GraphLibrary.NS_2011_08 + "to-json",
             GraphLibrary.NS_2010_08 + "toJson"};
 
     public String[] getIdentifiers() {

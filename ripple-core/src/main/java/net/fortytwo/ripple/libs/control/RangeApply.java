@@ -11,7 +11,6 @@ package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
-import net.fortytwo.ripple.libs.stack.StackLibrary;
 import net.fortytwo.ripple.model.*;
 import net.fortytwo.ripple.model.regex.TimesQuantifier;
 
@@ -24,7 +23,7 @@ public class RangeApply extends PrimitiveStackMapping {
     public String[] getIdentifiers() {
         return new String[]{
                 // Note: this primitive has different semantics than its predecessor, stack:rangeApply
-                ControlLibrary.NS_2011_04 + "range-apply"};
+                ControlLibrary.NS_2011_08 + "range-apply"};
     }
 
     public RangeApply() throws RippleException {

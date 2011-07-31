@@ -10,7 +10,6 @@
 package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.flow.Sink;
-import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
@@ -30,7 +29,7 @@ import org.openrdf.model.Statement;
  */
 public class Inlinks extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_2011_04 + "inlinks",
+            GraphLibrary.NS_2011_08 + "inlinks",
             GraphLibrary.NS_2008_08 + "inlinks"};
 
     private static final Logger LOGGER = Logger.getLogger(Inlinks.class);

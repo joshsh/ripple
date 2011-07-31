@@ -23,7 +23,7 @@ import net.fortytwo.flow.Sink;
 public class Rollupd extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2011_04 + "rollupd",
+            StackLibrary.NS_2011_08 + "rollupd",
             StackLibrary.NS_2008_08 + "rollupd",
             StackLibrary.NS_2007_08 + "rollupd",
             StackLibrary.NS_2007_05 + "rollupd"};

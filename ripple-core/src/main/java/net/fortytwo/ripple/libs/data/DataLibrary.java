@@ -14,7 +14,7 @@ import net.fortytwo.ripple.model.LibraryLoader;
  */
 public class DataLibrary extends Library {
     public static final String
-            NS_2011_04 = "http://fortytwo.net/2011/04/ripple/data#";
+            NS_2011_08 = "http://fortytwo.net/2011/08/ripple/data#";
     public static final String
             NS_XML = "http://www.w3.org/XML/1998/namespace#",
             NS_XSD = "http://www.w3.org/2001/XMLSchema#";

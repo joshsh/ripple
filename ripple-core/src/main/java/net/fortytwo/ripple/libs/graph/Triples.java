@@ -34,7 +34,7 @@ import org.openrdf.model.Statement;
 public class Triples extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_2011_04 + "triples",
+            GraphLibrary.NS_2011_08 + "triples",
             GraphLibrary.NS_2008_08 + "triples",
             GraphLibrary.NS_2007_08 + "triples"};
 

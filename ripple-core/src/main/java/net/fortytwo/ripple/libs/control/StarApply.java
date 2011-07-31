@@ -11,7 +11,6 @@ package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
-import net.fortytwo.ripple.libs.stack.StackLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
@@ -36,7 +35,7 @@ public class StarApply extends PrimitiveStackMapping {
     public String[] getIdentifiers() {
         return new String[]{
                 // Note: this primitive has different semantics than its predecessor, stack:starApply
-                ControlLibrary.NS_2011_04 + "star-apply"};
+                ControlLibrary.NS_2011_08 + "star-apply"};
     }
 
     public StarApply() throws RippleException {

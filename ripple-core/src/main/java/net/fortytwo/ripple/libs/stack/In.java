@@ -24,7 +24,7 @@ import net.fortytwo.ripple.model.StackContext;
 public class In extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2011_04 + "in",
+            StackLibrary.NS_2011_08 + "in",
             StackLibrary.NS_2008_08 + "in",
             StackLibrary.NS_2007_08 + "in",
             StackLibrary.NS_2007_05 + "in"};

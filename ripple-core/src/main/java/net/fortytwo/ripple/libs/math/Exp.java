@@ -25,7 +25,7 @@ import net.fortytwo.ripple.model.StackMapping;
 public class Exp extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2011_04 + "exp",
+            MathLibrary.NS_2011_08 + "exp",
             MathLibrary.NS_2008_08 + "exp",
             MathLibrary.NS_2007_08 + "exp"};
 

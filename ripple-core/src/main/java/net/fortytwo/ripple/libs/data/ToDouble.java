@@ -29,7 +29,7 @@ public class ToDouble extends PrimitiveStackMapping {
 
     public String[] getIdentifiers() {
         return new String[]{
-                DataLibrary.NS_2011_04 + "to-double",
+                DataLibrary.NS_2011_08 + "to-double",
                 GraphLibrary.NS_2008_08 + "toDouble",
                 GraphLibrary.NS_2007_08 + "toDouble",
                 GraphLibrary.NS_2007_05 + "toDouble"};

@@ -14,14 +14,10 @@ import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.NullStackMapping;
-import net.fortytwo.ripple.model.Op;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.model.StackMapping;
 import net.fortytwo.ripple.query.LazyStackEvaluator;
 import net.fortytwo.ripple.query.StackEvaluator;
 
@@ -32,7 +28,7 @@ import net.fortytwo.ripple.query.StackEvaluator;
 public class Count extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             // Note: this "count" has different semantics than the 2008-08 version
-            StreamLibrary.NS_2011_04 + "count"};
+            StreamLibrary.NS_2011_08 + "count"};
 
     public String[] getIdentifiers() {
         return IDENTIFIERS;

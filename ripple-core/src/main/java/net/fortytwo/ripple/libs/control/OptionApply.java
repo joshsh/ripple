@@ -10,7 +10,6 @@
 package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.libs.stack.StackLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.StackMappingWrapper;
@@ -30,7 +29,7 @@ public class OptionApply extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
             // Note: this primitive different semantics than its predecessor, stack:optApply
-            ControlLibrary.NS_2011_04 + "option-apply"};
+            ControlLibrary.NS_2011_08 + "option-apply"};
 
     public String[] getIdentifiers()
     {

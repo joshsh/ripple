@@ -24,7 +24,7 @@ import net.fortytwo.ripple.model.StackContext;
 public class Unswons extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2011_04 + "unswons",
+            StackLibrary.NS_2011_08 + "unswons",
             StackLibrary.NS_2008_08 + "unswons",
             StackLibrary.NS_2007_08 + "unswons",
             StackLibrary.NS_2007_05 + "unswons"};

@@ -29,7 +29,7 @@ public class TimesApply extends PrimitiveStackMapping {
     public String[] getIdentifiers() {
         return new String[]{
                 // Note: this primitive has different semantics than its predecessors, stack:times and stack:timesApply
-                ControlLibrary.NS_2011_04 + "times-apply"};
+                ControlLibrary.NS_2011_08 + "times-apply"};
     }
 
     public TimesApply() throws RippleException {

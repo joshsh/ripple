@@ -24,7 +24,7 @@ import net.fortytwo.flow.Sink;
 public class Neg extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2011_04 + "neg",
+            MathLibrary.NS_2011_08 + "neg",
             MathLibrary.NS_2008_08 + "neg",
             MathLibrary.NS_2007_08 + "neg",
             MathLibrary.NS_2007_05 + "neg"};

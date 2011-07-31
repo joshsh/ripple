@@ -26,7 +26,7 @@ import net.fortytwo.ripple.model.NullStackMapping;
 public class Limit extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StreamLibrary.NS_2011_04 + "limit",
+            StreamLibrary.NS_2011_08 + "limit",
             StreamLibrary.NS_2008_08 + "limit",
             StreamLibrary.NS_2007_08 + "limit",
             StreamLibrary.NS_2007_05 + "limit"};

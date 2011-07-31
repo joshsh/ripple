@@ -62,7 +62,7 @@ public class RippleSailTest extends TestCase {
             System.out.println(st);
         }
 
-        set = toSet(sc.getStatements(foo, sail.getValueFactory().createURI("http://fortytwo.net/2011/04/ripple/control#apply"), null, false));
+        set = toSet(sc.getStatements(foo, sail.getValueFactory().createURI("http://fortytwo.net/2011/08/ripple/control#apply"), null, false));
         for (Statement st : set) {
             System.out.println(st);
         }
@@ -111,8 +111,8 @@ public class RippleSailTest extends TestCase {
         Collection<BindingSet> results;
 
         results = evaluate("PREFIX : <http://example.org/>\n" +
-                "PREFIX control: <http://fortytwo.net/2011/04/ripple/control#>\n" +
-                "PREFIX math: <http://fortytwo.net/2011/04/ripple/math#>\n" +
+                "PREFIX control: <http://fortytwo.net/2011/08/ripple/control#>\n" +
+                "PREFIX math: <http://fortytwo.net/2011/08/ripple/math#>\n" +
                 "SELECT ?sum WHERE {\n" +
                 "    :foo control:apply ?stack.\n" +
                 "    ?stack math:add ?sum.\n" +
@@ -124,8 +124,8 @@ public class RippleSailTest extends TestCase {
     public void testLiteralSubjects() throws Exception {
         Collection<BindingSet> results;
 
-        results = evaluate("PREFIX math: <http://fortytwo.net/2011/04/ripple/math#>\n" +
-                "PREFIX stack: <http://fortytwo.net/2011/04/ripple/stack#>\n" +
+        results = evaluate("PREFIX math: <http://fortytwo.net/2011/08/ripple/math#>\n" +
+                "PREFIX stack: <http://fortytwo.net/2011/08/ripple/stack#>\n" +
                 "SELECT DISTINCT ?result WHERE {\n" +
                 "   ?x stack:self 100 .\n" +
                 "   ?x math:sqrt/math:abs ?result .\n" +
@@ -137,8 +137,8 @@ public class RippleSailTest extends TestCase {
     public void testLiteralPredicates() throws Exception {
         Collection<BindingSet> results;
 
-        results = evaluate("PREFIX graph: <http://fortytwo.net/2011/04/ripple/graph#>\n" +
-                "PREFIX stack: <http://fortytwo.net/2011/04/ripple/stack#>\n" +
+        results = evaluate("PREFIX graph: <http://fortytwo.net/2011/08/ripple/graph#>\n" +
+                "PREFIX stack: <http://fortytwo.net/2011/08/ripple/stack#>\n" +
                 "PREFIX s: <urn:string:>\n" +
                 "SELECT ?result WHERE {\n" +
                 "   ?x stack:self \"{\\\"foo\\\": true, \\\"bar\\\": [6, 9, 42]}\" .\n" +
@@ -168,7 +168,7 @@ public class RippleSailTest extends TestCase {
 
         results = evaluate("PREFIX : <http://example.org/>\n" +
                 "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
-                "PREFIX math: <http://fortytwo.net/2011/04/ripple/math#>\n" +
+                "PREFIX math: <http://fortytwo.net/2011/08/ripple/math#>\n" +
                 "SELECT ?n WHERE {\n" +
                 "    :foo rdf:rest/rdf:first/math:neg ?n.\n" +
                 "}");
@@ -181,7 +181,7 @@ public class RippleSailTest extends TestCase {
 
         results = evaluate("PREFIX : <http://example.org/>\n" +
                 "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
-                "PREFIX math: <http://fortytwo.net/2011/04/ripple/math#>\n" +
+                "PREFIX math: <http://fortytwo.net/2011/08/ripple/math#>\n" +
                 "SELECT ?n WHERE {\n" +
                 "    rdf:nil :foo/math:add ?n.\n" +
                 "}");
@@ -190,8 +190,8 @@ public class RippleSailTest extends TestCase {
 
         results = evaluate("PREFIX : <http://example.org/>\n" +
                 "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
-                "PREFIX control: <http://fortytwo.net/2011/04/ripple/control#>\n" +
-                "PREFIX math: <http://fortytwo.net/2011/04/ripple/math#>\n" +
+                "PREFIX control: <http://fortytwo.net/2011/08/ripple/control#>\n" +
+                "PREFIX math: <http://fortytwo.net/2011/08/ripple/math#>\n" +
                 "SELECT ?n WHERE {\n" +
                 "    :foo control:apply/math:add ?n.\n" +
                 "}");
@@ -204,7 +204,7 @@ public class RippleSailTest extends TestCase {
 
         results = evaluate("PREFIX : <http://example.org/>\n" +
                 "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
-                "PREFIX math: <http://fortytwo.net/2011/04/ripple/math#>\n" +
+                "PREFIX math: <http://fortytwo.net/2011/08/ripple/math#>\n" +
                 "SELECT ?n WHERE {\n" +
                 "    :foo rdf:rest/rdf:rest/rdf:first/^math:sqrt ?n.\n" +
                 "}");
@@ -217,7 +217,7 @@ public class RippleSailTest extends TestCase {
 
         results = evaluate("PREFIX : <http://example.org/>\n" +
                 "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
-                "PREFIX math: <http://fortytwo.net/2011/04/ripple/math#>\n" +
+                "PREFIX math: <http://fortytwo.net/2011/08/ripple/math#>\n" +
                 "SELECT ?n2 WHERE {\n" +
                 "    :foo rdf:first ?n1 ." +
                 "    ?n1 math:sqrt ?n2.\n" +
@@ -226,7 +226,7 @@ public class RippleSailTest extends TestCase {
 
         results = evaluate("PREFIX : <http://example.org/>\n" +
                 "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
-                "PREFIX math: <http://fortytwo.net/2011/04/ripple/math#>\n" +
+                "PREFIX math: <http://fortytwo.net/2011/08/ripple/math#>\n" +
                 "SELECT ?n2 WHERE {\n" +
                 "    :foo rdf:first ?n1 ." +
                 "    ?n1 math:sqrt ?n2.\n" +
@@ -260,7 +260,7 @@ public class RippleSailTest extends TestCase {
 
         results = evaluate("PREFIX : <http://example.org/>\n" +
                 "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
-                "PREFIX math: <http://fortytwo.net/2011/04/ripple/math#>\n" +
+                "PREFIX math: <http://fortytwo.net/2011/08/ripple/math#>\n" +
                 "SELECT ?n WHERE {\n" +
                 "    :foo rdf:first/math:sqrt ?n.\n" +
                 "    FILTER(?n > 0)\n" +

@@ -21,7 +21,7 @@ import net.fortytwo.ripple.model.StackMapping;
 public class InContext extends RDFPredicateStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_2011_04 + "in-context",
+            GraphLibrary.NS_2011_08 + "in-context",
             GraphLibrary.NS_2007_08 + "inContext"};
 
     public String[] getIdentifiers()

@@ -25,7 +25,7 @@ import net.fortytwo.ripple.model.StackMapping;
  */
 public class Xor extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
-            LogicLibrary.NS_2011_04 + "xor",
+            LogicLibrary.NS_2011_08 + "xor",
             LogicLibrary.NS_2008_08 + "xor",
             StackLibrary.NS_2007_08 + "xor",
             StackLibrary.NS_2007_05 + "xor"};

@@ -12,7 +12,6 @@ package net.fortytwo.ripple.libs.math;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackContext;
@@ -23,7 +22,7 @@ import net.fortytwo.ripple.model.StackMapping;
  */
 public class Atan2 extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2011_04 + "atan2"};
+            MathLibrary.NS_2011_08 + "atan2"};
 
     public String[] getIdentifiers() {
         return IDENTIFIERS;

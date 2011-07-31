@@ -26,7 +26,7 @@ public class Each extends PrimitiveStackMapping
 	private static final int ARITY = 1;
 
     private static final String[] IDENTIFIERS = {
-            StreamLibrary.NS_2011_04 + "each",
+            StreamLibrary.NS_2011_08 + "each",
             StreamLibrary.NS_2008_08 + "each",
             StreamLibrary.NS_2007_08 + "each",
             StreamLibrary.NS_2007_05 + "each"};

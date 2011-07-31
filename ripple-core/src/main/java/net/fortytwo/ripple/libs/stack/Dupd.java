@@ -23,7 +23,7 @@ import net.fortytwo.ripple.model.RippleList;
 public class Dupd extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2011_04 + "dupd",
+            StackLibrary.NS_2011_08 + "dupd",
             StackLibrary.NS_2008_08 + "dupd",
             StackLibrary.NS_2007_08 + "dupd",
             StackLibrary.NS_2007_05 + "dupd"};

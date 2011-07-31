@@ -15,7 +15,7 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
  */
 public class ControlLibrary extends Library {
     public static final String
-            NS_2011_04 = "http://fortytwo.net/2011/04/ripple/control#";
+            NS_2011_08 = "http://fortytwo.net/2011/08/ripple/control#";
 
     // Special values.
     private static PrimitiveStackMapping

@@ -22,8 +22,6 @@ import net.fortytwo.ripple.model.StackMapping;
 import net.fortytwo.ripple.model.NullStackMapping;
 import net.fortytwo.ripple.model.ModelConnection;
 
-import java.util.Iterator;
-
 /**
  * A primitive which consumes a Boolean filter b, a filter t, and a filter t,
  * then applies an active copy of b to the stack.  If b yields a value of
@@ -33,7 +31,7 @@ import java.util.Iterator;
 public class While extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            ControlLibrary.NS_2011_04 + "while",
+            ControlLibrary.NS_2011_08 + "while",
             LogicLibrary.NS_2008_08 + "while"};
 
     public String[] getIdentifiers()

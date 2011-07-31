@@ -32,7 +32,7 @@ public class Intersect extends PrimitiveStackMapping
 	private static final String MEMO = "memo";
 
     private static final String[] IDENTIFIERS = {
-            StreamLibrary.NS_2011_04 + "intersect",
+            StreamLibrary.NS_2011_08 + "intersect",
             StreamLibrary.NS_2008_08 + "intersect"};
 
     public String[] getIdentifiers()

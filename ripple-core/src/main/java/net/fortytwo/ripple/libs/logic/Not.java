@@ -24,7 +24,7 @@ import net.fortytwo.ripple.model.StackMapping;
  */
 public class Not extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
-            LogicLibrary.NS_2011_04 + "not",
+            LogicLibrary.NS_2011_08 + "not",
             LogicLibrary.NS_2008_08 + "not",
             StackLibrary.NS_2007_08 + "not",
             StackLibrary.NS_2007_05 + "not"};

@@ -25,7 +25,7 @@ import net.fortytwo.flow.Sink;
 public class Cos extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2011_04 + "cos",
+            MathLibrary.NS_2011_08 + "cos",
             MathLibrary.NS_2008_08 + "cos",
             MathLibrary.NS_2007_08 + "cos"};
 

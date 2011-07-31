@@ -25,7 +25,7 @@ import net.fortytwo.ripple.model.StackMapping;
  */
 public class Or extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
-            LogicLibrary.NS_2011_04 + "or",
+            LogicLibrary.NS_2011_08 + "or",
             LogicLibrary.NS_2008_08 + "or",
             StackLibrary.NS_2007_08 + "or",
             StackLibrary.NS_2007_05 + "or"};

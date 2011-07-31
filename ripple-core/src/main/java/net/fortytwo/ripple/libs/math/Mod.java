@@ -24,7 +24,7 @@ import net.fortytwo.flow.Sink;
 public class Mod extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2011_04 + "mod",
+            MathLibrary.NS_2011_08 + "mod",
             MathLibrary.NS_2008_08 + "mod",
             MathLibrary.NS_2007_08 + "mod",
             MathLibrary.NS_2007_05 + "mod"};

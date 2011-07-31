@@ -26,7 +26,7 @@ import net.fortytwo.ripple.StringUtils;
 public class PercentEncoded extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StringLibrary.NS_2011_04 + "percent-encoded",
+            StringLibrary.NS_2011_08 + "percent-encoded",
             StringLibrary.NS_2008_08 + "percentEncode",
             StringLibrary.NS_2007_08 + "percentEncode",
             SystemLibrary.NS_2007_05 + "urlEncoding"};

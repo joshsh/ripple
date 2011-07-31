@@ -31,7 +31,7 @@ public class Script extends PrimitiveStackMapping {
     @Override
     public String[] getIdentifiers() {
         return new String[]{
-                SystemLibrary.NS_2011_04 + "script"
+                SystemLibrary.NS_2011_08 + "script"
         };
     }
 

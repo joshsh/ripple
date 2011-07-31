@@ -29,7 +29,7 @@ import org.openrdf.model.Statement;
  */
 public class Links extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_2011_04 + "links",
+            GraphLibrary.NS_2011_08 + "links",
             GraphLibrary.NS_2008_08 + "links"};
 
     private static final Logger LOGGER = Logger.getLogger(Links.class);

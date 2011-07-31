@@ -18,7 +18,7 @@ public class KeyValues extends PrimitiveStackMapping {
     @Override
     public String[] getIdentifiers() {
         return new String[]{
-                GraphLibrary.NS_2011_04 + "key-values"
+                GraphLibrary.NS_2011_08 + "key-values"
         };
     }
 

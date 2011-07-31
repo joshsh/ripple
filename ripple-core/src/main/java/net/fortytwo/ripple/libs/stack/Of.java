@@ -24,7 +24,7 @@ import net.fortytwo.ripple.model.StackContext;
 public class Of extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2011_04 + "of",
+            StackLibrary.NS_2011_08 + "of",
             StackLibrary.NS_2008_08 + "of",
             StackLibrary.NS_2007_08 + "of",
             StackLibrary.NS_2007_05 + "of"};

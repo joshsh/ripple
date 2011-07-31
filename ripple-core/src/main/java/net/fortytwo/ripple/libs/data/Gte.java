@@ -11,7 +11,6 @@ package net.fortytwo.ripple.libs.data;
 
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.libs.math.MathLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
@@ -26,7 +25,7 @@ import net.fortytwo.ripple.model.StackContext;
 public class Gte extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            DataLibrary.NS_2011_04 + "gte"};
+            DataLibrary.NS_2011_08 + "gte"};
 
     public String[] getIdentifiers()
     {

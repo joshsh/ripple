@@ -25,7 +25,7 @@ import net.fortytwo.flow.Sink;
 public class ReplaceAll extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StringLibrary.NS_2011_04 + "replace-all",
+            StringLibrary.NS_2011_08 + "replace-all",
             StringLibrary.NS_2008_08 + "replaceAll",
             StringLibrary.NS_2007_08 + "replaceAll"};
 

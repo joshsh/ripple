@@ -25,7 +25,7 @@ import net.fortytwo.ripple.model.StackContext;
 public class AssertInContext extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_2011_04 + "assert-in-context",
+            GraphLibrary.NS_2011_08 + "assert-in-context",
             GraphLibrary.NS_2008_08 + "assertInContext"};
 
     public String[] getIdentifiers()

@@ -10,19 +10,9 @@
 package net.fortytwo.ripple.libs.stack;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.libs.control.Apply;
-import net.fortytwo.ripple.libs.control.Ary;
-import net.fortytwo.ripple.libs.control.Dip;
-import net.fortytwo.ripple.libs.control.Dipd;
 import net.fortytwo.ripple.libs.control.Fold;
 import net.fortytwo.ripple.libs.control.Map;
-import net.fortytwo.ripple.libs.control.OptionApply;
-import net.fortytwo.ripple.libs.control.PlusApply;
-import net.fortytwo.ripple.libs.control.RangeApply;
-import net.fortytwo.ripple.libs.control.StarApply;
-import net.fortytwo.ripple.libs.control.TimesApply;
 import net.fortytwo.ripple.model.Library;
-import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.LibraryLoader;
 
 /**
@@ -32,7 +22,7 @@ import net.fortytwo.ripple.model.LibraryLoader;
 public class StackLibrary extends Library
 {
     public static final String
-            NS_2011_04 = "http://fortytwo.net/2011/04/ripple/stack#",
+            NS_2011_08 = "http://fortytwo.net/2011/08/ripple/stack#",
             NS_2008_08 = "http://fortytwo.net/2008/08/ripple/stack#",
             NS_2007_08 = "http://fortytwo.net/2007/08/ripple/stack#",
             NS_2007_05 = "http://fortytwo.net/2007/05/ripple/stack#";

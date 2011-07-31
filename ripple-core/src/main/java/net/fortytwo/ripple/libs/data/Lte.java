@@ -25,7 +25,7 @@ import net.fortytwo.ripple.model.StackContext;
 public class Lte extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            DataLibrary.NS_2011_04 + "lte"};
+            DataLibrary.NS_2011_08 + "lte"};
 
     public String[] getIdentifiers()
     {

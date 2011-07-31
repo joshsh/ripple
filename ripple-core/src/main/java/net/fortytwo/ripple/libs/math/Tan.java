@@ -25,7 +25,7 @@ import net.fortytwo.ripple.model.StackMapping;
 public class Tan extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2011_04 + "tan",
+            MathLibrary.NS_2011_08 + "tan",
             MathLibrary.NS_2008_08 + "tan",
             MathLibrary.NS_2007_08 + "tan"};
 

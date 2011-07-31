@@ -24,7 +24,7 @@ import net.fortytwo.flow.Sink;
 public class Dipd extends PrimitiveStackMapping {
     public String[] getIdentifiers() {
         return new String[]{
-                ControlLibrary.NS_2011_04 + "dipd",
+                ControlLibrary.NS_2011_08 + "dipd",
                 StackLibrary.NS_2008_08 + "dipd",
                 StackLibrary.NS_2007_08 + "dipd",
                 StackLibrary.NS_2007_05 + "dipd"};
