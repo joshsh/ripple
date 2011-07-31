@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2011 Joshua Shinavier
- */
-
-
 package net.fortytwo.linkeddata;
 
 import net.fortytwo.ripple.RippleException;
@@ -20,9 +11,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 /**
- * Author: josh
- * Date: Jan 18, 2008
- * Time: 3:47:59 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class ContextMemo
 {

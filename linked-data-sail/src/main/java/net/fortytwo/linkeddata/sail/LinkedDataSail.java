@@ -1,12 +1,3 @@
-/*
- * $URL: https://ripple.googlecode.com/svn/trunk/linked-data-sail/src/main/java/net/fortytwo/linkeddata/sail/LinkedDataSail.java $
- * $Revision: 212 $
- * $Author: parcour $
- *
- * Copyright (C) 2007-2011 Joshua Shinavier
- */
-
-
 package net.fortytwo.linkeddata.sail;
 
 import net.fortytwo.flow.rdf.diff.RDFDiffSink;
@@ -29,6 +20,8 @@ import java.io.File;
 /**
  * A thread-safe Sail which treats the Semantic Web as a single global graph of
  * linked data.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class LinkedDataSail implements StackableSail, NotifyingSail {
     public static final String
@@ -46,7 +39,7 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
     private boolean initialized = false;
 
     /**
-     * @param baseSail base Sail which provides a storage layer for aggregated RDF data (Note: the base Sail should be initialized before this Sail is used)
+     * @param baseSail   base Sail which provides a storage layer for aggregated RDF data (Note: the base Sail should be initialized before this Sail is used)
      * @param webClosure a custom WebClosure providing an RDF-document-level view of the Web
      */
     public LinkedDataSail(final Sail baseSail,

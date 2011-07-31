@@ -1,40 +1,28 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2011 Joshua Shinavier
- */
-
-
 package net.fortytwo.linkeddata.rdfizers;
 
-import org.openrdf.rio.RDFHandler;
+import net.fortytwo.linkeddata.ContextMemo;
+import net.fortytwo.linkeddata.Rdfizer;
+import net.fortytwo.ripple.RippleException;
 import org.openrdf.model.URI;
-import org.w3c.dom.Node;
+import org.openrdf.rio.RDFHandler;
 import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import javax.imageio.ImageReader;
 import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
+import javax.imageio.ImageReader;
 import javax.imageio.metadata.IIOMetadata;
-import java.io.InputStream;
+import javax.imageio.stream.ImageInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
-
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.linkeddata.Rdfizer;
-import net.fortytwo.linkeddata.ContextMemo;
 
 // TODO: follow instructions at http://www.barregren.se/blog/how-query-exif-and-iptc-java-image-i-o-api
 // example images: http://www.exif.org/samples/
 // EXIF RDF vocabulary: http://www.w3.org/2003/12/exif/
 
 /**
- * Author: josh
- * Date: Mar 24, 2008
- * Time: 1:43:02 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class ImageRdfizer implements Rdfizer
 {

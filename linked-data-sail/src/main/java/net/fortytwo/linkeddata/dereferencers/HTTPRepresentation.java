@@ -1,12 +1,3 @@
-/*
- * $URL: https://ripple.googlecode.com/svn/trunk/ripple-linkeddata/src/main/java/net/fortytwo/linkeddata/sail/HTTPRepresentation.java $
- * $Revision: 6 $
- * $Author: parcour $
- *
- * Copyright (C) 2007-2011 Joshua Shinavier
- */
-
-
 package net.fortytwo.linkeddata.dereferencers;
 
 import net.fortytwo.ripple.RippleException;
@@ -26,9 +17,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 
 /**
- * Author: josh
- * Date: Jan 16, 2008
- * Time: 3:46:20 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class HTTPRepresentation extends Representation
 {

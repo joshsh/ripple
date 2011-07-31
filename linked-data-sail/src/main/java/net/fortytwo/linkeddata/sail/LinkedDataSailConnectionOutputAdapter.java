@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2011 Joshua Shinavier
- */
-
-
 package net.fortytwo.linkeddata.sail;
 
 import net.fortytwo.ripple.RippleException;
@@ -19,6 +10,9 @@ import net.fortytwo.flow.rdf.diff.RDFDiffSink;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class LinkedDataSailConnectionOutputAdapter implements RDFDiffSink<RippleException>
 {
 	private final LinkedDataSailConnection sailConnection;

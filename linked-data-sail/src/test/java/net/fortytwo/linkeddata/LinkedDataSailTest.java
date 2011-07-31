@@ -1,12 +1,3 @@
-/*
- * $URL: https://ripple.googlecode.com/svn/trunk/linked-data-sail/src/test/java/net/fortytwo/linkeddata/LinkedDataSailTest.java $
- * $Revision: 212 $
- * $Author: parcour $
- *
- * Copyright (C) 2007-2011 Joshua Shinavier
- */
-
-
 package net.fortytwo.linkeddata;
 
 import info.aduna.iteration.CloseableIteration;
@@ -30,6 +21,9 @@ import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
 import org.openrdf.sail.memory.MemoryStore;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class LinkedDataSailTest extends TestCase {
     private Sail baseSail;
     private LinkedDataSail sail;

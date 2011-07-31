@@ -1,12 +1,3 @@
-/*
- * $URL: https://ripple.googlecode.com/svn/trunk/ripple-linkeddata/src/main/java/net/fortytwo/linkeddata/sail/JarURIDereferencer.java $
- * $Revision: 6 $
- * $Author: parcour $
- *
- * Copyright (C) 2007-2011 Joshua Shinavier
- */
-
-
 package net.fortytwo.linkeddata.dereferencers;
 
 import net.fortytwo.linkeddata.Dereferencer;
@@ -23,7 +14,9 @@ import java.net.URL;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 
-public class JarURIDereferencer implements Dereferencer
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */public class JarURIDereferencer implements Dereferencer
 {
 	public Representation dereference( final String uri ) throws RippleException
 	{

@@ -1,19 +1,9 @@
-/*
- * $URL: https://ripple.googlecode.com/svn/trunk/ripple-linkeddata/src/main/java/net/fortytwo/linkeddata/sail/HTTPURIDereferencer.java $
- * $Revision: 6 $
- * $Author: parcour $
- *
- * Copyright (C) 2007-2011 Joshua Shinavier
- */
-
-
 package net.fortytwo.linkeddata.dereferencers;
 
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.StringUtils;
 import net.fortytwo.linkeddata.Dereferencer;
 import net.fortytwo.linkeddata.WebClosure;
-import net.fortytwo.linkeddata.dereferencers.HTTPRepresentation;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.StringUtils;
 import org.apache.log4j.Logger;
 import org.restlet.resource.Representation;
 
@@ -22,6 +12,9 @@ import java.util.Set;
 
 // Note: throughout this implementation, both the caching context of a URI and
 //       its associated web location are the same as its success or failure 'memo'.
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class HTTPURIDereferencer implements Dereferencer
 {
 	private static final Logger LOGGER = Logger.getLogger( HTTPURIDereferencer.class );

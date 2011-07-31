@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2011 Joshua Shinavier
- */
-
-
 package net.fortytwo.linkeddata;
 
 import org.openrdf.model.URI;
@@ -14,12 +5,8 @@ import org.openrdf.rio.RDFHandler;
 
 import java.io.InputStream;
 
-import net.fortytwo.linkeddata.ContextMemo;
-
 /**
- * Author: josh
- * Date: Jan 16, 2008
- * Time: 12:07:22 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public interface Rdfizer
 {

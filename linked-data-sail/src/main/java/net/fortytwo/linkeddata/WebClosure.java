@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2011 Joshua Shinavier
- */
-
-
 package net.fortytwo.linkeddata;
 
 import net.fortytwo.flow.rdf.RDFBuffer;
@@ -50,10 +41,8 @@ import java.util.UUID;
  * <p/>
  * Note: this tool stores metadata about web activity; if a suitable
  * dereferencer cannot be found for a URI, no metadata will be stored.
- * <p/>
- * Author: josh
- * Date: Jan 16, 2008
- * Time: 12:25:29 PM
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class WebClosure {
     // TODO: these should probably not be HTTP URIs

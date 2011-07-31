@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2011 Joshua Shinavier
- */
-
-
 package net.fortytwo.linkeddata;
 
 import net.fortytwo.flow.rdf.SesameOutputAdapter;
@@ -33,22 +24,21 @@ import java.util.Iterator;
 
 /**
  * Note: this class is not thread-safe.
- * @author josh
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class SparqlUpdater<E extends Exception>
-{
-	private final RDFDiffContextFilter<RDFHandlerException> contextFilter;
-	private final RDFDiffSink<E> sink;
-	private final URIMap uriMap;
+public class SparqlUpdater<E extends Exception> {
+    private final RDFDiffContextFilter<RDFHandlerException> contextFilter;
+    private final RDFDiffSink<E> sink;
+    private final URIMap uriMap;
     private final AdapterSink.ExceptionAdapter<RippleException> exAdapter;
     private final AdapterSink.ExceptionAdapter<RDFHandlerException> exAdapter2;
 
-    public SparqlUpdater( final URIMap uriMap, final RDFDiffSink<E> sink )
-	{
-		this.uriMap = uriMap;
-		this.sink = sink;
+    public SparqlUpdater(final URIMap uriMap, final RDFDiffSink<E> sink) {
+        this.uriMap = uriMap;
+        this.sink = sink;
 
-		contextFilter = new RDFDiffContextFilter<RDFHandlerException>();
+        contextFilter = new RDFDiffContextFilter<RDFHandlerException>();
 
         exAdapter = new AdapterSink.ExceptionAdapter<RippleException>() {
             public void doThrow(Exception e) throws RippleException {
@@ -61,101 +51,91 @@ public class SparqlUpdater<E extends Exception>
                 throw new RDFHandlerException(e);
             }
         };
-	}
+    }
 
-	public RDFDiffSink<RippleException> getSink()
-	{
-		return new AdapterRDFDiffSink<RDFHandlerException, RippleException>(contextFilter, exAdapter);
-	}
+    public RDFDiffSink<RippleException> getSink() {
+        return new AdapterRDFDiffSink<RDFHandlerException, RippleException>(contextFilter, exAdapter);
+    }
 
-	public void flush() throws RDFHandlerException, RippleException
-	{
-		Iterator<Resource> contexts = contextFilter.contextIterator();
-		while ( contexts.hasNext() )
-		{
-			Resource context = contexts.next();
-			RDFDiffSource<RDFHandlerException> source = contextFilter.sourceForContext( context );
+    public void flush() throws RDFHandlerException, RippleException {
+        Iterator<Resource> contexts = contextFilter.contextIterator();
+        while (contexts.hasNext()) {
+            Resource context = contexts.next();
+            RDFDiffSource<RDFHandlerException> source = contextFilter.sourceForContext(context);
 
-			// Some statements cannot be written to the Semantic Web.
-			if ( null != context
-					&& context instanceof URI
-					&& RDFUtils.isHttpUri( (URI) context ) )
-			{
-				String url = uriMap.get( context.toString() );
+            // Some statements cannot be written to the Semantic Web.
+            if (null != context
+                    && context instanceof URI
+                    && RDFUtils.isHttpUri((URI) context)) {
+                String url = uriMap.get(context.toString());
 
-				postUpdate( url, source );
-			}
+                postUpdate(url, source);
+            }
 
 // The statements written to the triple store should depend on the outcome of
 // the update operation (if any).
             RDFDiffSink<RDFHandlerException> newSink = new AdapterRDFDiffSink<E, RDFHandlerException>(sink, exAdapter2);
-            source.writeTo( newSink );
+            source.writeTo(newSink);
         }
 
-		contextFilter.clear();
-	}
+        contextFilter.clear();
+    }
 
-	private void postUpdate( final String url, final RDFDiffSource<RDFHandlerException> source )
-		throws RDFHandlerException, RippleException
-	{
-        String postData = createPostData( source );
-System.out.println( "posting update to url <" + url + ">: " + postData );
+    private void postUpdate(final String url, final RDFDiffSource<RDFHandlerException> source)
+            throws RDFHandlerException, RippleException {
+        String postData = createPostData(source);
+        System.out.println("posting update to url <" + url + ">: " + postData);
 
-		PostMethod method = HTTPUtils.createSparqlUpdateMethod( url );
+        PostMethod method = HTTPUtils.createSparqlUpdateMethod(url);
         NameValuePair[] data = {   // FIXME: is this correct?
-                new NameValuePair( HTTPUtils.BODY, postData )
-              };
-		method.setRequestBody(data);
-		HTTPUtils.registerMethod( method );
+                new NameValuePair(HTTPUtils.BODY, postData)
+        };
+        method.setRequestBody(data);
+        HTTPUtils.registerMethod(method);
 
-		HttpClient client = HTTPUtils.createClient();
+        HttpClient client = HTTPUtils.createClient();
 
-		int responseCode;
+        int responseCode;
 
-		try
-		{
-			client.executeMethod( method );
+        try {
+            client.executeMethod(method);
 
-			// ...do something with the response..
+            // ...do something with the response..
 
-			responseCode = method.getStatusCode();
-			method.releaseConnection();
-		}
+            responseCode = method.getStatusCode();
+            method.releaseConnection();
+        } catch (Throwable t) {
+            throw new RippleException(t);
+        }
 
-		catch ( Throwable t )
-		{
-			throw new RippleException( t );
-		}
+        System.out.println("response code = " + responseCode);
+    }
 
-System.out.println( "response code = " + responseCode );
-	}
+    private String createPostData(final RDFDiffSource<RDFHandlerException> source) throws RDFHandlerException, RippleException {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(bos);
 
-	private String createPostData( final RDFDiffSource<RDFHandlerException> source ) throws RDFHandlerException, RippleException
-	{
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		PrintStream ps = new PrintStream( bos );
+        SesameOutputAdapter adapter
+                = RDFUtils.createOutputAdapter(bos, RDFFormat.TURTLE);
 
-		SesameOutputAdapter adapter
-			= RDFUtils.createOutputAdapter( bos, RDFFormat.TURTLE );
+        ps.println("INSERT {");
+        adapter.startRDF();
+        source.adderSource().namespaceSource().writeTo(adapter.namespaceSink());
+        source.adderSource().statementSource().writeTo(adapter.statementSink());
+        adapter.endRDF();
+        ps.println("}");
 
-            ps.println( "INSERT {" );
-            adapter.startRDF();
-            source.adderSource().namespaceSource().writeTo( adapter.namespaceSink() );
-            source.adderSource().statementSource().writeTo( adapter.statementSink() );
-            adapter.endRDF();
-            ps.println( "}" );
-
-            // Note: since some statements are rejected, we will sometimes end up
-            // with an empty DELETE analysis.
-            ps.println( "DELETE {" );
-            adapter.startRDF();
+        // Note: since some statements are rejected, we will sometimes end up
+        // with an empty DELETE analysis.
+        ps.println("DELETE {");
+        adapter.startRDF();
 // TODO: ignore statements with blank nodes as subject or object... UNLESS they're found to serve some purpose
-            source.subtractorSource().namespaceSource().writeTo( adapter.namespaceSink() );
-            source.subtractorSource().statementSource().writeTo( adapter.statementSink() );
-            adapter.endRDF();
-            ps.println( "}" );
+        source.subtractorSource().namespaceSource().writeTo(adapter.namespaceSink());
+        source.subtractorSource().statementSource().writeTo(adapter.statementSink());
+        adapter.endRDF();
+        ps.println("}");
 
-		return bos.toString();
-	}
+        return bos.toString();
+    }
 }
 

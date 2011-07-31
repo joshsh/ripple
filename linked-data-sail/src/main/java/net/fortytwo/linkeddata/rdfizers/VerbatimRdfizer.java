@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2011 Joshua Shinavier
- */
-
-
 package net.fortytwo.linkeddata.rdfizers;
 
 import net.fortytwo.ripple.RippleException;
@@ -19,9 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Author: josh
- * Date: Jan 16, 2008
- * Time: 12:15:21 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class VerbatimRdfizer implements Rdfizer
 {

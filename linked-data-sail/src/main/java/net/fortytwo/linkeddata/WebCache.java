@@ -21,10 +21,8 @@ import java.util.UUID;
 
 /**
  * A collection of caching metadata for aggregated Linked Data
- * <p/>
- * User: josh
- * Date: Feb 17, 2010
- * Time: 7:04:08 PM
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class WebCache {
     private final MemoMap memos;
