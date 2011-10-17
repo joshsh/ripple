@@ -54,8 +54,8 @@ public class Each extends PrimitiveStackMapping
     }
 
 	public void apply( final StackContext arg,
-						 final Sink<StackContext, RippleException> solutions	)
-		throws RippleException
+						 final Sink<StackContext> solutions	)
+            throws RippleException
 	{
 		final ModelConnection mc = arg.getModelConnection();
 		RippleList stack = arg.getStack();
@@ -65,7 +65,7 @@ public class Each extends PrimitiveStackMapping
 		l = stack.getFirst();
 		final RippleList rest = stack.getRest();
 
-		Sink<RippleList, RippleException> listSink = new Sink<RippleList, RippleException>()
+		Sink<RippleList> listSink = new Sink<RippleList>()
 		{
 			public void put( RippleList list ) throws RippleException
 			{

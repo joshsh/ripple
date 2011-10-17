@@ -33,7 +33,7 @@ public class PlainLiteralAST implements AST<RippleList>
         this.language = language;
 	}
 
-	public void evaluate( final Sink<RippleList, RippleException> sink,
+	public void evaluate( final Sink<RippleList> sink,
 						final QueryEngine qe,
 						final ModelConnection mc )
 		throws RippleException

@@ -4,8 +4,6 @@ import net.fortytwo.flow.rdf.SesameOutputAdapter;
 import net.fortytwo.flow.rdf.diff.RDFDiffContextFilter;
 import net.fortytwo.flow.rdf.diff.RDFDiffSink;
 import net.fortytwo.flow.rdf.diff.RDFDiffSource;
-import net.fortytwo.flow.AdapterSink;
-import net.fortytwo.flow.rdf.diff.AdapterRDFDiffSink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.URIMap;
 import net.fortytwo.ripple.util.HTTPUtils;
@@ -28,40 +26,26 @@ import java.util.Iterator;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SparqlUpdater<E extends Exception> {
-    private final RDFDiffContextFilter<RDFHandlerException> contextFilter;
-    private final RDFDiffSink<E> sink;
+    private final RDFDiffContextFilter contextFilter;
+    private final RDFDiffSink sink;
     private final URIMap uriMap;
-    private final AdapterSink.ExceptionAdapter<RippleException> exAdapter;
-    private final AdapterSink.ExceptionAdapter<RDFHandlerException> exAdapter2;
 
-    public SparqlUpdater(final URIMap uriMap, final RDFDiffSink<E> sink) {
+    public SparqlUpdater(final URIMap uriMap, final RDFDiffSink sink) {
         this.uriMap = uriMap;
         this.sink = sink;
 
-        contextFilter = new RDFDiffContextFilter<RDFHandlerException>();
-
-        exAdapter = new AdapterSink.ExceptionAdapter<RippleException>() {
-            public void doThrow(Exception e) throws RippleException {
-                throw new RippleException(e);
-            }
-        };
-
-        exAdapter2 = new AdapterSink.ExceptionAdapter<RDFHandlerException>() {
-            public void doThrow(Exception e) throws RDFHandlerException {
-                throw new RDFHandlerException(e);
-            }
-        };
+        contextFilter = new RDFDiffContextFilter();
     }
 
-    public RDFDiffSink<RippleException> getSink() {
-        return new AdapterRDFDiffSink<RDFHandlerException, RippleException>(contextFilter, exAdapter);
+    public RDFDiffSink getSink() {
+        return contextFilter;
     }
 
     public void flush() throws RDFHandlerException, RippleException {
         Iterator<Resource> contexts = contextFilter.contextIterator();
         while (contexts.hasNext()) {
             Resource context = contexts.next();
-            RDFDiffSource<RDFHandlerException> source = contextFilter.sourceForContext(context);
+            RDFDiffSource source = contextFilter.sourceForContext(context);
 
             // Some statements cannot be written to the Semantic Web.
             if (null != context
@@ -74,14 +58,13 @@ public class SparqlUpdater<E extends Exception> {
 
 // The statements written to the triple store should depend on the outcome of
 // the update operation (if any).
-            RDFDiffSink<RDFHandlerException> newSink = new AdapterRDFDiffSink<E, RDFHandlerException>(sink, exAdapter2);
-            source.writeTo(newSink);
+            source.writeTo(sink);
         }
 
         contextFilter.clear();
     }
 
-    private void postUpdate(final String url, final RDFDiffSource<RDFHandlerException> source)
+    private void postUpdate(final String url, final RDFDiffSource source)
             throws RDFHandlerException, RippleException {
         String postData = createPostData(source);
         System.out.println("posting update to url <" + url + ">: " + postData);
@@ -111,7 +94,7 @@ public class SparqlUpdater<E extends Exception> {
         System.out.println("response code = " + responseCode);
     }
 
-    private String createPostData(final RDFDiffSource<RDFHandlerException> source) throws RDFHandlerException, RippleException {
+    private String createPostData(final RDFDiffSource source) throws RDFHandlerException, RippleException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(bos);
 

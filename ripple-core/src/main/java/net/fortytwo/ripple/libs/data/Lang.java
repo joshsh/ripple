@@ -10,7 +10,6 @@
 package net.fortytwo.ripple.libs.data;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.libs.graph.GraphLibrary;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackContext;
@@ -45,7 +44,7 @@ public class Lang extends PrimitiveStackMapping {
     }
 
     public void apply(final StackContext arg,
-                      final Sink<StackContext, RippleException> solutions)
+                      final Sink<StackContext> solutions)
             throws RippleException {
         final ModelConnection mc = arg.getModelConnection();
         RippleList stack = arg.getStack();

@@ -24,7 +24,7 @@ public class ShowContextsCmd extends Command
 	{
 		final RipplePrintStream ps = qe.getPrintStream();
 
-		Sink<RippleValue, RippleException> printSink = new Sink<RippleValue, RippleException>()
+		Sink<RippleValue> printSink = new Sink<RippleValue>()
 		{
 			private int i = 0;
 

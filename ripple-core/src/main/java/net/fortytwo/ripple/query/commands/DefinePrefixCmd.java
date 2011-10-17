@@ -16,7 +16,6 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
-import org.openrdf.model.impl.NamespaceImpl;
 
 public class DefinePrefixCmd extends Command
 {
@@ -42,7 +41,7 @@ public class DefinePrefixCmd extends Command
     public void execute( final QueryEngine qe, final ModelConnection mc )
 		throws RippleException
 	{
-		Collector<RippleList, RippleException> sink = new Collector<RippleList, RippleException>();
+		Collector<RippleList> sink = new Collector<RippleList>();
 		uri.evaluate( sink, qe, mc );
 
 		if ( sink.size() == 0 )

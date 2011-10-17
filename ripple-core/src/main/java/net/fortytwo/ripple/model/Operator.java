@@ -78,7 +78,7 @@ public class Operator implements RippleValue {
      * Finds the type of a value and creates an appropriate "active" wrapper.
      */
     public static void createOperator(final RippleValue v,
-                                      final Sink<Operator, RippleException> opSink,
+                                      final Sink<Operator> opSink,
                                       final ModelConnection mc)
             throws RippleException {
         //System.out.println("creating operator from: " + v);
@@ -101,7 +101,7 @@ public class Operator implements RippleValue {
             //System.out.println("it's RDF");
             if (isRDFList((RDFValue) v, mc)) {
                 //System.out.println("it IS a list");
-                Sink<RippleList, RippleException> listSink = new Sink<RippleList, RippleException>() {
+                Sink<RippleList> listSink = new Sink<RippleList>() {
                     public void put(final RippleList list)
                             throws RippleException {
                         opSink.put(new Operator(list));

@@ -28,7 +28,7 @@ public class AnnotatedAST implements AST<RippleList>
 		this.props = props;
 	}
 	
-	public void evaluate( Sink<RippleList, RippleException> sink,
+	public void evaluate( Sink<RippleList> sink,
 					QueryEngine qe,
 					ModelConnection mc )
 		throws RippleException

@@ -52,10 +52,10 @@ public class RippleListTest extends RippleTestCase
         is.close();
 
         RDFValue head;
-        Collector<RippleList, RippleException> created = new Collector<RippleList, RippleException>();
-        final Collector<RippleList, RippleException> allowed = new Collector<RippleList, RippleException>();
+        Collector<RippleList> created = new Collector<RippleList>();
+        final Collector<RippleList> allowed = new Collector<RippleList>();
 
-        Sink<RippleList, RippleException> verifySink = new Sink<RippleList, RippleException>()
+        Sink<RippleList> verifySink = new Sink<RippleList>()
         {
             public void put( final RippleList list ) throws RippleException
             {

@@ -60,15 +60,15 @@ public class Require extends PrimitiveStackMapping
     }
 
 	public void apply( final StackContext arg,
-						 final Sink<StackContext, RippleException> solutions )
-		throws RippleException
+						 final Sink<StackContext> solutions )
+            throws RippleException
 	{
         ModelConnection mc = arg.getModelConnection();
         RippleList stack = arg.getStack();
         RippleValue mapping = stack.getFirst();
         final RippleList rest = stack.getRest();
 
-        Sink<Operator, RippleException> opSink = new Sink<Operator, RippleException>()
+        Sink<Operator> opSink = new Sink<Operator>()
         {
             public void put( final Operator op ) throws RippleException
             {
@@ -106,7 +106,7 @@ public class Require extends PrimitiveStackMapping
         }
 
         public void apply( final StackContext arg,
-                             final Sink<StackContext, RippleException> solutions ) throws RippleException
+                             final Sink<StackContext> solutions ) throws RippleException
         {
             RippleList stack = arg.getStack();
             Decider decider = new Decider( stack );
@@ -141,7 +141,7 @@ public class Require extends PrimitiveStackMapping
         }
 
         public void apply( final StackContext arg,
-                             final Sink<StackContext, RippleException> solutions ) throws RippleException
+                             final Sink<StackContext> solutions ) throws RippleException
         {
             RippleValue b;
             ModelConnection mc = arg.getModelConnection();

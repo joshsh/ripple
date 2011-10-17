@@ -39,18 +39,18 @@ import java.io.InputStream;
  * and the results flow from the other end of the pipe into the specified sink.
  * Results arrive at any time and in any order, depending on the intermediate components of the pipe.
  */
-public class QueryPipe implements Sink<String, RippleException> {
+public class QueryPipe implements Sink<String> {
     private final RecognizerAdapter recognizerAdapter;
-    private final Sink<Exception, RippleException> parserExceptionSink;
-    private final Buffer<RippleList, RippleException> resultBuffer;
-    private final HistorySink<RippleList, RippleException> queryResultHistory
-            = new HistorySink<RippleList, RippleException>(1);
+    private final Sink<Exception> parserExceptionSink;
+    private final Buffer<RippleList> resultBuffer;
+    private final HistorySink<RippleList> queryResultHistory
+            = new HistorySink<RippleList>(1);
 
-    public QueryPipe(final QueryEngine queryEngine, final Sink<RippleList, RippleException> resultSink) throws RippleException {
-        resultBuffer = new Buffer<RippleList, RippleException>(resultSink);
+    public QueryPipe(final QueryEngine queryEngine, final Sink<RippleList> resultSink) throws RippleException {
+        resultBuffer = new Buffer<RippleList>(resultSink);
         final Object mutex = "";
 
-        final Sink<RippleList, RippleException> resultTee = new Tee<RippleList, RippleException>
+        final Sink<RippleList> resultTee = new Tee<RippleList>
                 (resultBuffer, queryResultHistory);
 
         recognizerAdapter = new RecognizerAdapter(queryEngine.getErrorPrintStream()) {
@@ -62,6 +62,7 @@ public class QueryPipe implements Sink<String, RippleException> {
                     ModelConnection mc = queryEngine.getConnection();
                     try {
                         new RippleQueryCmd(ast, resultTee).execute(queryEngine, mc);
+                        mc.commit();
                     } finally {
                         mc.close();
                     }
@@ -73,6 +74,7 @@ public class QueryPipe implements Sink<String, RippleException> {
                 ModelConnection mc = queryEngine.getConnection();
                 try {
                     command.execute(queryEngine, mc);
+                    mc.commit();
                 } finally {
                     mc.close();
                 }
@@ -85,14 +87,15 @@ public class QueryPipe implements Sink<String, RippleException> {
 
             @Override
             protected void handleAssignment(KeywordAST name) throws RippleException {
-                Source<RippleList, RippleException> source = queryResultHistory.get(0);
+                Source<RippleList> source = queryResultHistory.get(0);
                 if (null == source) {
-                    source = new Collector<RippleList, RippleException>();
+                    source = new Collector<RippleList>();
                 }
 
                 ModelConnection mc = queryEngine.getConnection();
                 try {
                     new DefineKeywordCmd(name, new ListGenerator(source)).execute(queryEngine, mc);
+                    mc.commit();
                 } finally {
                     mc.close();
                 }
@@ -121,7 +124,8 @@ public class QueryPipe implements Sink<String, RippleException> {
     }
 
     public void put(final String expr) throws RippleException {
-//System.out.println("interpreting query: " + expr);
+System.out.println("interpreting query: " + expr);
+//System.exit(1);
         InputStream input = new ByteArrayInputStream((expr + "\n").getBytes());
 
         try {

@@ -55,8 +55,8 @@ public class Lt extends PrimitiveStackMapping
     }
 
 	public void apply( final StackContext arg,
-						 final Sink<StackContext, RippleException> solutions )
-		throws RippleException
+						 final Sink<StackContext> solutions )
+            throws RippleException
 	{
 		RippleValue a, b, result;
         ModelConnection mc = arg.getModelConnection();

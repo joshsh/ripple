@@ -10,7 +10,6 @@
 package net.fortytwo.ripple.model.impl.sesame;
 
 import info.aduna.iteration.CloseableIteration;
-import net.fortytwo.flow.AdapterSink;
 import net.fortytwo.flow.Buffer;
 import net.fortytwo.flow.Collector;
 import net.fortytwo.flow.NullSink;
@@ -102,7 +101,7 @@ public class SesameModelConnection implements ModelConnection {
     }
 
     public void toList(final RippleValue v,
-                       final Sink<RippleList, RippleException> sink) throws RippleException {
+                       final Sink<RippleList> sink) throws RippleException {
         SesameList.from(v, sink, this);
     }
 
@@ -380,14 +379,6 @@ public class SesameModelConnection implements ModelConnection {
 
     ////////////////////////////////////////////////////////////////////////////
 
-    private class SailExceptionAdapter implements AdapterSink.ExceptionAdapter<SailException> {
-        public void doThrow(Exception e) throws SailException {
-            throw new SailException(e);
-        }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
-
     public Comparator<RippleValue> getComparator() {
         return comparator;
     }
@@ -498,9 +489,9 @@ public class SesameModelConnection implements ModelConnection {
 
     private class QueryTask extends Task {
         private final StatementPatternQuery query;
-        private Sink<RippleValue, RippleException> sink;
+        private Sink<RippleValue> sink;
 
-        public QueryTask(final StatementPatternQuery query, final Sink<RippleValue, RippleException> sink) {
+        public QueryTask(final StatementPatternQuery query, final Sink<RippleValue> sink) {
             this.query = query;
             this.sink = sink;
         }
@@ -511,13 +502,13 @@ public class SesameModelConnection implements ModelConnection {
 
         protected void stopProtected() {
             synchronized (query) {
-                sink = new NullSink<RippleValue, RippleException>();
+                sink = new NullSink<RippleValue>();
             }
         }
     }
 
     public void query(final StatementPatternQuery query,
-                      final Sink<RippleValue, RippleException> sink,
+                      final Sink<RippleValue> sink,
                       final boolean asynchronous) throws RippleException {
         if (asynchronous) {
             QueryTask task = new QueryTask(query, sink);
@@ -532,7 +523,7 @@ public class SesameModelConnection implements ModelConnection {
                 return;
             }
 
-            Sink<Value, RippleException> valueSink = new Sink<Value, RippleException>() {
+            Sink<Value> valueSink = new Sink<Value>() {
                 public void put(final Value val) throws RippleException {
                     sink.put(canonicalValue(new RDFValue(val)));
                 }
@@ -548,9 +539,9 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
-    public Source<Namespace, RippleException> getNamespaces() throws RippleException {
-        Collector<Namespace, RippleException> results = new Collector<Namespace, RippleException>();
-        Source<Namespace, SailException> source;
+    public Source<Namespace> getNamespaces() throws RippleException {
+        Collector<Namespace> results = new Collector<Namespace>();
+        Source<Namespace> source;
 
         try {
             source = new CloseableIterationSource<Namespace, SailException>(
@@ -559,13 +550,8 @@ public class SesameModelConnection implements ModelConnection {
             throw new RippleException(e);
         }
 
-        Sink<Namespace, SailException> nsSink = new AdapterSink<Namespace, RippleException, SailException>
-                (results, new SailExceptionAdapter());
-        try {
-            source.writeTo(nsSink);
-        } catch (SailException e) {
-            throw new RippleException(e);
-        }
+        source.writeTo(results);
+
         return results;
     }
 
@@ -573,7 +559,7 @@ public class SesameModelConnection implements ModelConnection {
     public void getStatements(final RDFValue subj,
                               final RDFValue pred,
                               final RDFValue obj,
-                              final Sink<Statement, RippleException> sink)
+                              final Sink<Statement> sink)
             throws RippleException {
         Value rdfSubj = (null == subj) ? null : subj.sesameValue();
         Value rdfPred = (null == pred) ? null : pred.sesameValue();
@@ -587,7 +573,7 @@ public class SesameModelConnection implements ModelConnection {
             //       the one below closes, which currently causes Sesame to
             //       deadlock.  Even using a separate RepositoryConnection for
             //       each RepositoryResult doesn't seem to help.
-            Buffer<Statement, RippleException> buffer = new Buffer<Statement, RippleException>(sink);
+            Buffer<Statement> buffer = new Buffer<Statement>(sink);
             CloseableIteration<? extends Statement, SailException> stmtIter = null;
 
             //TODO: use CloseableIterationSource
@@ -656,10 +642,10 @@ public class SesameModelConnection implements ModelConnection {
 
     ////////////////////////////////////////////////////////////////////////////
 
-    public Source<RippleValue, RippleException> getContexts()
+    public Source<RippleValue> getContexts()
             throws RippleException {
-        return new Source<RippleValue, RippleException>() {
-            public void writeTo(Sink<RippleValue, RippleException> sink) throws RippleException {
+        return new Source<RippleValue>() {
+            public void writeTo(Sink<RippleValue> sink) throws RippleException {
                 try {
                     CloseableIteration<? extends Resource, SailException> iter
                             = sailConnection.getContextIDs();
@@ -681,7 +667,7 @@ public class SesameModelConnection implements ModelConnection {
     }
 
     public boolean internalize(final RippleList list) throws RippleException {
-        Collector<Statement, RippleException> buffer = new Collector<Statement, RippleException>();
+        Collector<Statement> buffer = new Collector<Statement>();
 
         // Handle circular lists (in the unlikely event that some implementation allows them) sanely.
         // TODO: handle list containment cycles (e.g. list containing a list containing the original list) as well.  These are actually more likely than circular lists.

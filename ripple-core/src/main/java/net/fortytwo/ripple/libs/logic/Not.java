@@ -48,7 +48,7 @@ public class Not extends PrimitiveStackMapping {
     }
 
     public void apply(final StackContext arg,
-                      final Sink<StackContext, RippleException> solutions)
+                      final Sink<StackContext> solutions)
             throws RippleException {
         ModelConnection mc = arg.getModelConnection();
         RippleList stack = arg.getStack();

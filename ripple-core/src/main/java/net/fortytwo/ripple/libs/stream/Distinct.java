@@ -58,8 +58,8 @@ public class Distinct extends PrimitiveStackMapping
     }
 
 	public void apply( final StackContext arg,
-						 final Sink<StackContext, RippleException> solutions )
-		throws RippleException
+						 final Sink<StackContext> solutions )
+            throws RippleException
 	{
 		RippleList stack = arg.getStack();
 
@@ -82,8 +82,8 @@ public class Distinct extends PrimitiveStackMapping
 	
         // Note: consecutive calls to applyTo should reference the same Model.
 		public void apply( final StackContext arg,
-							 final Sink<StackContext, RippleException> sink )
-			throws RippleException
+							 final Sink<StackContext> sink )
+                throws RippleException
 		{
             if ( null == memoizer )
             {

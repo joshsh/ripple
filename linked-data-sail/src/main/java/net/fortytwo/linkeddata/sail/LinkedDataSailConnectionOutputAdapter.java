@@ -13,19 +13,18 @@ import org.openrdf.model.Statement;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class LinkedDataSailConnectionOutputAdapter implements RDFDiffSink<RippleException>
-{
+public class LinkedDataSailConnectionOutputAdapter implements RDFDiffSink {
 	private final LinkedDataSailConnection sailConnection;
-	private final RDFSink<RippleException> addSink, subSink;
-    private final DiffSink<Statement, RippleException> stSink;
-    private final DiffSink<Namespace, RippleException> nsSink;
-    private final DiffSink<String, RippleException> cmtSink;
+	private final RDFSink addSink, subSink;
+    private final DiffSink<Statement> stSink;
+    private final DiffSink<Namespace> nsSink;
+    private final DiffSink<String> cmtSink;
 
     public LinkedDataSailConnectionOutputAdapter( final LinkedDataSailConnection sc )
 	{
 		sailConnection = sc;
 
-        final Sink<Statement, RippleException> stAddSink = new Sink<Statement, RippleException>()
+        final Sink<Statement> stAddSink = new Sink<Statement>()
         {
             public void put( final Statement st ) throws RippleException
             {
@@ -34,7 +33,7 @@ public class LinkedDataSailConnectionOutputAdapter implements RDFDiffSink<Ripple
             }
         };
 
-        final Sink<Statement, RippleException> stSubSink = new Sink<Statement, RippleException>()
+        final Sink<Statement> stSubSink = new Sink<Statement>()
         {
             public void put( final Statement st ) throws RippleException
             {
@@ -42,7 +41,7 @@ public class LinkedDataSailConnectionOutputAdapter implements RDFDiffSink<Ripple
             }
         };
 
-        final Sink<Namespace, RippleException> nsAddSink = new Sink<Namespace, RippleException>()
+        final Sink<Namespace> nsAddSink = new Sink<Namespace>()
         {
             public void put( final Namespace ns ) throws RippleException
             {
@@ -51,7 +50,7 @@ public class LinkedDataSailConnectionOutputAdapter implements RDFDiffSink<Ripple
             }
         };
 
-        final Sink<Namespace, RippleException> nsSubSink = new Sink<Namespace, RippleException>()
+        final Sink<Namespace> nsSubSink = new Sink<Namespace>()
         {
             public void put( final Namespace ns ) throws RippleException
             {
@@ -59,80 +58,80 @@ public class LinkedDataSailConnectionOutputAdapter implements RDFDiffSink<Ripple
             }
         };
 
-        final Sink<String, RippleException> cmtAddSink = new NullSink<String, RippleException>();
+        final Sink<String> cmtAddSink = new NullSink<String>();
 
-        final Sink<String, RippleException> cmtSubSink = new NullSink<String, RippleException>();
+        final Sink<String> cmtSubSink = new NullSink<String>();
 
-        addSink = new RDFSink<RippleException>()
+        addSink = new RDFSink()
 		{
-            public Sink<Statement, RippleException> statementSink()
+            public Sink<Statement> statementSink()
 			{
 				return stAddSink;
 			}
 		
-			public Sink<Namespace, RippleException> namespaceSink()
+			public Sink<Namespace> namespaceSink()
 			{
 				return nsAddSink;
 			}
 		
-			public Sink<String, RippleException> commentSink()
+			public Sink<String> commentSink()
 			{
 				return cmtAddSink;
 			}
 		};
 
-		subSink = new RDFSink<RippleException>()
+		subSink = new RDFSink()
 		{
-			public Sink<Statement, RippleException> statementSink()
+			public Sink<Statement> statementSink()
 			{
 				return stSubSink;
 			}
 		
-			public Sink<Namespace, RippleException> namespaceSink()
+			public Sink<Namespace> namespaceSink()
 			{
 				return nsSubSink;
 			}
 		
-			public Sink<String, RippleException> commentSink()
+			public Sink<String> commentSink()
 			{
 				return cmtSubSink;
 			}
 		};
 
-        stSink = new DiffSink<Statement, RippleException>()
+        stSink = new DiffSink<Statement>()
         {
-            public Sink<Statement, RippleException> getPlus()
+            public Sink<Statement> getPlus()
             {
                 return addSink.statementSink();
             }
 
-            public Sink<Statement, RippleException> getMinus()
+            public Sink<Statement> getMinus()
             {
                 return subSink.statementSink();
             }
         };
 
-        nsSink = new DiffSink<Namespace, RippleException>()
+        nsSink = new DiffSink<Namespace>()
         {
-            public Sink<Namespace, RippleException> getPlus()
+            public Sink<Namespace> getPlus()
             {
                 return addSink.namespaceSink();
             }
 
-            public Sink<Namespace, RippleException> getMinus()
+            public Sink<Namespace> getMinus()
             {
                 return subSink.namespaceSink();
             }
         };
 
-        cmtSink = new DiffSink<String, RippleException>()
+        cmtSink = new DiffSink<String>()
         {
-            public Sink<String, RippleException> getPlus()
+            public Sink<String> getPlus()
             {
                 return addSink.commentSink();
             }
 
-            public Sink<String, RippleException> getMinus()
+            public Sink<String> getMinus()
             {
                 return subSink.commentSink();
             }
@@ -149,17 +148,17 @@ public class LinkedDataSailConnectionOutputAdapter implements RDFDiffSink<Ripple
 		return subSink;
 	}
 
-    public DiffSink<Statement, RippleException> statementSink()
+    public DiffSink<Statement> statementSink()
     {
         return stSink;
     }
 
-    public DiffSink<Namespace, RippleException> namespaceSink()
+    public DiffSink<Namespace> namespaceSink()
     {
         return nsSink;
     }
 
-    public DiffSink<String, RippleException> commentSink()
+    public DiffSink<String> commentSink()
     {
         return cmtSink;
     }

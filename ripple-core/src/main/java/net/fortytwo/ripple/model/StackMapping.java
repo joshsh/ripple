@@ -15,7 +15,7 @@ import net.fortytwo.flow.Mapping;
 /**
  * A streaming filter which maps stacks to stacks.
  */
-public interface StackMapping extends Mapping<StackContext, StackContext, RippleException> {
+public interface StackMapping extends Mapping<StackContext, StackContext> {
     /**
      * @return the fixed number of arguments which this function consumes before computing a result.
      */

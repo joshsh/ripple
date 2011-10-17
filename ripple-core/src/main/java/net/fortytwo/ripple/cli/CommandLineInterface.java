@@ -28,7 +28,6 @@ import net.fortytwo.ripple.model.Lexicon;
 import net.fortytwo.ripple.model.ListGenerator;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.PipedIOStream;
 import net.fortytwo.ripple.query.QueryEngine;
@@ -58,8 +57,8 @@ public class CommandLineInterface {
     private final Interpreter interpreter;
     private final ConsoleReader reader;
     private final QueryEngine queryEngine;
-    private final HistorySink<RippleList, RippleException> queryResultHistory
-            = new HistorySink<RippleList, RippleException>(2);
+    private final HistorySink<RippleList> queryResultHistory
+            = new HistorySink<RippleList>(2);
     private final TaskQueue taskQueue = new TaskQueue();
 
     private int lineNumber;
@@ -118,16 +117,16 @@ public class CommandLineInterface {
 
             @Override
             protected void handleAssignment(KeywordAST name) throws RippleException {
-                Source<RippleList, RippleException> source = queryResultHistory.get(0);
+                Source<RippleList> source = queryResultHistory.get(0);
                 if (null == source) {
-                    source = new Collector<RippleList, RippleException>();
+                    source = new Collector<RippleList>();
                 }
 
                 addCommand(new DefineKeywordCmd(name, new ListGenerator(source)));
             }
         };
 
-        Sink<Exception, RippleException> parserExceptionSink = new ParserExceptionSink(
+        Sink<Exception> parserExceptionSink = new ParserExceptionSink(
                 qe.getErrorPrintStream());
 
         // Pass input through a filter to watch for special byte sequences, and

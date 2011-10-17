@@ -26,7 +26,7 @@ public class RankingEvaluator extends StackEvaluator {
     }
 
     public void apply(final StackContext arg,
-                      final Sink<StackContext, RippleException> solutions) throws RippleException {
+                      final Sink<StackContext> solutions) throws RippleException {
         RankingEvaluatorHelper h = new RankingEvaluatorHelper(arg.with(arg.getStack().push(Operator.OP)));
         ModelConnection mc = arg.getModelConnection();
 

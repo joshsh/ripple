@@ -11,7 +11,6 @@ package net.fortytwo.ripple.cli;
 
 import junit.framework.TestCase;
 import net.fortytwo.flow.Collector;
-import net.fortytwo.flow.NullSink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.cli.ast.KeywordAST;
 import net.fortytwo.ripple.cli.ast.ListAST;
@@ -40,7 +39,7 @@ public class InterpreterTest extends TestCase
 
 		final PipedIOStream pio = new PipedIOStream();
 
-		Collector<Exception, RippleException> exceptions = new Collector<Exception, RippleException>();
+		Collector<Exception> exceptions = new Collector<Exception>();
 		RecognizerAdapter ra = new RecognizerAdapter(System.err ){
             @Override
             protected void handleQuery(ListAST query) throws RippleException {

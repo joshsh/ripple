@@ -10,6 +10,7 @@
 package net.fortytwo.flow.diff;
 
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
 
 import java.util.LinkedList;
 
@@ -19,11 +20,10 @@ import java.util.LinkedList;
  * Time: 1:39:10 PM
  */
 // TODO: add a concept of Source
-public class Diff<T, E extends Exception> implements DiffSink<T, E>, DiffSource<T, E>
-{
-    private enum Action { Add, Remove }
-    private class Change
-    {
+public class Diff<T> implements DiffSink<T>, DiffSource<T> {
+    private enum Action {Add, Remove}
+
+    private class Change {
         public T value;
         public Action action;
     }
@@ -31,17 +31,14 @@ public class Diff<T, E extends Exception> implements DiffSink<T, E>, DiffSource<
     // An order-preserving list of changes.
     private final LinkedList<Change> changes;
 
-    private final Sink<T, E> plusSink;
-    private final Sink<T, E> minusSink;
+    private final Sink<T> plusSink;
+    private final Sink<T> minusSink;
 
-    public Diff()
-    {
+    public Diff() {
         changes = new LinkedList<Change>();
 
-        plusSink = new Sink<T, E>()
-        {
-            public void put(final T t) throws E
-            {
+        plusSink = new Sink<T>() {
+            public void put(final T t) throws RippleException {
                 Change ch = new Change();
                 ch.value = t;
                 ch.action = Action.Add;
@@ -49,10 +46,8 @@ public class Diff<T, E extends Exception> implements DiffSink<T, E>, DiffSource<
             }
         };
 
-        minusSink = new Sink<T, E>()
-        {
-            public void put(final T t) throws E
-            {
+        minusSink = new Sink<T>() {
+            public void put(final T t) throws RippleException {
                 Change ch = new Change();
                 ch.value = t;
                 ch.action = Action.Remove;
@@ -61,48 +56,39 @@ public class Diff<T, E extends Exception> implements DiffSink<T, E>, DiffSource<
         };
     }
 
-    public Sink<T, E> getPlus()
-    {
+    public Sink<T> getPlus() {
         return plusSink;
     }
 
-    public Sink<T, E> getMinus()
-    {
+    public Sink<T> getMinus() {
         return minusSink;
     }
 
 
-    public void clear()
-    {
+    public void clear() {
         changes.clear();
     }
 
-    public int size()
-    {
+    public int size() {
         return changes.size();
     }
-    
-    public void writeTo(final DiffSink<T, E> sink) throws E
-    {
-        Sink<T, E> otherPlusSink = sink.getPlus();
-        Sink<T, E> otherMinusSink = sink.getMinus();
 
-        try {
-            for (Change ch : changes) {
-                switch (ch.action) {
-                    case Add:
-                        otherPlusSink.put(ch.value);
-                        break;
-                    case Remove:
-                        otherMinusSink.put(ch.value);
-                        break;
-                    default:
-                        // FIXME
-                        System.err.println("unsupported Action: " + ch.action);
-                }
+    public void writeTo(final DiffSink<T> sink) throws RippleException {
+        Sink<T> otherPlusSink = sink.getPlus();
+        Sink<T> otherMinusSink = sink.getMinus();
+
+        for (Change ch : changes) {
+            switch (ch.action) {
+                case Add:
+                    otherPlusSink.put(ch.value);
+                    break;
+                case Remove:
+                    otherMinusSink.put(ch.value);
+                    break;
+                default:
+                    // FIXME
+                    System.err.println("unsupported Action: " + ch.action);
             }
-        } catch (Exception e) {
-            throw (E) e;
         }
     }
 }

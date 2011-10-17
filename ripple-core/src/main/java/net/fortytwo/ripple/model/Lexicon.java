@@ -122,6 +122,8 @@ public class Lexicon {
                     uriToKeyword.put(uri, keyword);
                 }
             }
+
+            mc.commit();
         } finally {
             mc.close();
         }
@@ -207,7 +209,7 @@ public class Lexicon {
     }
 
     public void resolveKeyword(final String keyword,
-                               final Sink<RippleValue, RippleException> solutions,
+                               final Sink<RippleValue> solutions,
                                final ModelConnection mc,
                                final PrintStream errors)
             throws RippleException {
@@ -240,7 +242,7 @@ public class Lexicon {
 
     public void uriForQName(final String nsPrefix,
                             final String localName,
-                            final Sink<RippleValue, RippleException> sink,
+                            final Sink<RippleValue> sink,
                             final ModelConnection mc,
                             final PrintStream errors) throws RippleException {
         String ns = getNamespaceUri(nsPrefix);

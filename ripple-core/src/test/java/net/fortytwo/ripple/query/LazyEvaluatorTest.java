@@ -28,11 +28,11 @@ public class LazyEvaluatorTest extends RippleTestCase
     {
         ModelConnection mc = getTestModel().createConnection( );
         Evaluator eval = new LazyStackEvaluator();
-        Collector<RippleList, RippleException> expected = new Collector<RippleList, RippleException>();
-        final Collector<RippleList, RippleException> actual = new Collector<RippleList, RippleException>();
+        Collector<RippleList> expected = new Collector<RippleList>();
+        final Collector<RippleList> actual = new Collector<RippleList>();
         RippleList input;
 
-        Sink<StackContext, RippleException> actualSink = new Sink<StackContext, RippleException>() {
+        Sink<StackContext> actualSink = new Sink<StackContext>() {
 
             public void put( final StackContext arg ) throws RippleException
             {

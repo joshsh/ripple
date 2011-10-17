@@ -46,7 +46,7 @@ public class Dip extends PrimitiveStackMapping {
     }
 
     public void apply(final StackContext arg,
-                      final Sink<StackContext, RippleException> solutions)
+                      final Sink<StackContext> solutions)
             throws RippleException {
         RippleValue y, x;
         RippleList stack = arg.getStack();

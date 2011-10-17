@@ -102,7 +102,7 @@ public class RankingEvaluatorHelper {
         }
     };
 
-    private final Sink<StackContext, RippleException> outputSink = new Sink<StackContext, RippleException>() {
+    private final Sink<StackContext> outputSink = new Sink<StackContext>() {
         public void put(final StackContext c) throws RippleException {
             //System.out.println("got this output: " + c.getStack());
             if (c instanceof RankingContext) {
@@ -152,7 +152,7 @@ public class RankingEvaluatorHelper {
         }
     }
 
-    private class SpecialSink implements Sink<StackContext, RippleException> {
+    private class SpecialSink implements Sink<StackContext> {
         private final RippleList ops;
 
         public SpecialSink(final RippleList ops) {

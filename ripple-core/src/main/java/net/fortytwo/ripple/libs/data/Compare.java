@@ -47,7 +47,7 @@ public class Compare extends PrimitiveStackMapping {
     }
 
     public void apply(final StackContext arg,
-                      final Sink<StackContext, RippleException> solutions)
+                      final Sink<StackContext> solutions)
             throws RippleException {
         final ModelConnection mc = arg.getModelConnection();
         RippleList stack = arg.getStack();

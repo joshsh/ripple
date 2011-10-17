@@ -125,7 +125,7 @@ public class GetStatementsQuery
         return rv.toRDF( mc ).sesameValue();
     }
 
-    public void getStatements( final SailConnection sc, final Sink<Statement, RippleException> results ) throws RippleException
+    public void getStatements( final SailConnection sc, final Sink<Statement> results ) throws RippleException
 	{
         getStatementsPrivate( results, sc, subject, predicate, object );
 
@@ -148,7 +148,7 @@ public class GetStatementsQuery
         }
     }
 
-    private void getStatementsPrivate( final Sink<Statement, RippleException> results,
+    private void getStatementsPrivate( final Sink<Statement> results,
                                                final SailConnection sc,
                                                Resource subject,
                                                URI predicate,
@@ -164,7 +164,7 @@ public class GetStatementsQuery
 		//       the one below closes, which currently causes Sesame to
 		//       deadlock.  Even using a separate RepositoryConnection for
 		//       each RepositoryResult doesn't seem to help.
-		Buffer<Statement, RippleException> buffer = new Buffer<Statement, RippleException>( results );
+		Buffer<Statement> buffer = new Buffer<Statement>( results );
 		CloseableIteration<? extends Statement, SailException> stmtIter;
 
 //TODO: use CloseableIterationSource
@@ -196,9 +196,9 @@ public class GetStatementsQuery
 		buffer.flush();
     }
 
-    public void getValues( final SailConnection sc, final Sink<Value, RippleException> results ) throws RippleException
+    public void getValues( final SailConnection sc, final Sink<Value> results ) throws RippleException
 	{
-		Sink<Statement, RippleException> stSink = new Sink<Statement, RippleException>()
+		Sink<Statement> stSink = new Sink<Statement>()
 		{
 			public void put( final Statement st ) throws RippleException
 			{

@@ -224,7 +224,7 @@ public class WebClosure {
     }
 
     public ContextMemo.Status extendTo(final URI nonInfoURI,
-                                       final RDFSink<RippleException> resultSink,
+                                       final RDFSink resultSink,
                                        final SailConnection sc) throws RippleException {
         String nofrag = RDFUtils.removeFragmentIdentifier(nonInfoURI.toString());
 
@@ -325,9 +325,9 @@ public class WebClosure {
         }
 
         // Note: any pre-existing context information is discarded.
-        RDFSink<RippleException> scp = new SingleContextPipe(resultSink, context, valueFactory);
+        RDFSink scp = new SingleContextPipe(resultSink, context, valueFactory);
 
-        RDFBuffer<RippleException> results = new RDFBuffer<RippleException>(scp);
+        RDFBuffer results = new RDFBuffer(scp);
         RDFHandler hdlr = new SesameInputAdapter(useBlankNodes
                 ? results
                 : new BNodeToURIFilter(results, valueFactory));

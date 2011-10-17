@@ -13,12 +13,11 @@ import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.io.RipplePrintStream;
-import org.openrdf.model.impl.URIImpl;
 
 public class Op implements RippleValue {
     private final StackMapping inverseMapping = new StackMapping() {
         public void apply(final StackContext arg,
-                          final Sink<StackContext, RippleException> sink)
+                          final Sink<StackContext> sink)
                 throws RippleException {
             RippleValue v;
             RippleList stack = arg.getStack();
@@ -26,7 +25,7 @@ public class Op implements RippleValue {
             v = stack.getFirst();
             final RippleList rest = stack.getRest();
 
-            Sink<Operator, RippleException> opSink = new Sink<Operator, RippleException>() {
+            Sink<Operator> opSink = new Sink<Operator>() {
                 public void put(final Operator oper)
                         throws RippleException {
                     Operator inv = new Operator(oper.getMapping().getInverse());
@@ -58,7 +57,7 @@ public class Op implements RippleValue {
 
     private final StackMapping mapping = new StackMapping() {
         public void apply(final StackContext arg,
-                          final Sink<StackContext, RippleException> sink)
+                          final Sink<StackContext> sink)
                 throws RippleException {
             RippleValue v;
             RippleList stack = arg.getStack();
@@ -66,7 +65,7 @@ public class Op implements RippleValue {
             v = stack.getFirst();
             final RippleList rest = stack.getRest();
 
-            Sink<Operator, RippleException> opSink = new Sink<Operator, RippleException>() {
+            Sink<Operator> opSink = new Sink<Operator>() {
                 public void put(final Operator oper)
                         throws RippleException {
                     sink.put(arg.with(rest.push(oper)));

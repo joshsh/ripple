@@ -114,6 +114,7 @@ public class QueryEngine
 
         try {
             cmd.execute( this, mc );
+            mc.commit();
 		} finally {
             mc.close();
 		}
@@ -129,6 +130,7 @@ public class QueryEngine
 
         try {
             mc.getNamespaces().writeTo( updater.adderSink().namespaceSink() );
+            mc.commit();
         } finally {
             mc.close();
         }

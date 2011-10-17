@@ -9,24 +9,21 @@
 
 package net.fortytwo.flow.rdf.diff;
 
-public class RDFDiffBuffer<E extends Exception> extends RDFDiffCollector<E>
-{
-	private final RDFDiffSink<E> sink;
+import net.fortytwo.ripple.RippleException;
 
-	public RDFDiffBuffer( final RDFDiffSink<E> sink )
+public class RDFDiffBuffer extends RDFDiffCollector {
+	private final RDFDiffSink sink;
+
+	public RDFDiffBuffer( final RDFDiffSink sink )
 	{
 		super();
 		this.sink = sink;
 	}
 
-	public void flush() throws E
+	public void flush() throws RippleException
 	{
-        try {
-            writeTo( sink );
+        writeTo( sink );
 		clear();
-        } catch (Exception e) {
-            throw (E) e;
-        }
     }
 }
 

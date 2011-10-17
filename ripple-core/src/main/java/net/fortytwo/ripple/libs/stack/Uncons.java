@@ -52,8 +52,8 @@ public class Uncons extends PrimitiveStackMapping
     }
 
 	public void apply( final StackContext arg,
-						 final Sink<StackContext, RippleException> solutions )
-		throws RippleException
+						 final Sink<StackContext> solutions )
+            throws RippleException
 	{
 		RippleList stack = arg.getStack();
 		final ModelConnection mc = arg.getModelConnection();
@@ -63,7 +63,7 @@ public class Uncons extends PrimitiveStackMapping
 		l = stack.getFirst();
 		final RippleList rest = stack.getRest();
 
-		Sink<RippleList, RippleException> listSink = new Sink<RippleList, RippleException>()
+		Sink<RippleList> listSink = new Sink<RippleList>()
 		{
 			public void put( final RippleList list ) throws RippleException
 			{

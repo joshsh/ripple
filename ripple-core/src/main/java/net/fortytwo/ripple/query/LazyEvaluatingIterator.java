@@ -99,7 +99,7 @@ public class LazyEvaluatingIterator implements CloseableIteration<RippleList, Ri
                 }
             } else {
                 if (0 == f.arity()) {
-                    Collector<StackContext, RippleException> results = new Collector<StackContext, RippleException>();
+                    Collector<StackContext> results = new Collector<StackContext>();
                     // Note: synchronous evaluation is required
                     // Note: stack context is trivial
                     f.apply(new StackContext(left.getRest(), mc), results);
@@ -138,7 +138,7 @@ public class LazyEvaluatingIterator implements CloseableIteration<RippleList, Ri
 
         @Override
         public void apply(final StackContext arg,
-                          final Sink<StackContext, RippleException> solutions) throws RippleException {
+                          final Sink<StackContext> solutions) throws RippleException {
             try {
                 CloseableIteration<RippleList, RippleException> iter
                         = new LazyEvaluatingIterator(arg.getStack(), arg.getModelConnection());

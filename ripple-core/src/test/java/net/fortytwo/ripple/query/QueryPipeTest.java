@@ -15,7 +15,6 @@ import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.flow.Collector;
-import net.fortytwo.ripple.RippleException;
 
 import java.util.Random;
 import java.io.PrintStream;
@@ -33,8 +32,8 @@ public class QueryPipeTest extends RippleTestCase
         Model model = getTestModel();
         StackEvaluator eval = new LazyStackEvaluator();
         QueryEngine qe = new QueryEngine( model, eval, System.out, System.err );
-        Collector<RippleList, RippleException> expected = new Collector<RippleList, RippleException>();
-        Collector<RippleList, RippleException> results = new Collector<RippleList, RippleException>();
+        Collector<RippleList> expected = new Collector<RippleList>();
+        Collector<RippleList> results = new Collector<RippleList>();
         QueryPipe qp = new QueryPipe( qe, results );
         ModelConnection mc = qe.getConnection();
 
@@ -80,8 +79,8 @@ public class QueryPipeTest extends RippleTestCase
         PrintStream errStream = new PrintStream( new NullOutputStream() );
 
         QueryEngine qe = new QueryEngine( model, eval, System.out, errStream );
-        Collector<RippleList, RippleException> expected = new Collector<RippleList, RippleException>();
-        Collector<RippleList, RippleException> results = new Collector<RippleList, RippleException>();
+        Collector<RippleList> expected = new Collector<RippleList>();
+        Collector<RippleList> results = new Collector<RippleList>();
         QueryPipe qp = new QueryPipe( qe, results );
         ModelConnection mc = qe.getConnection();
 

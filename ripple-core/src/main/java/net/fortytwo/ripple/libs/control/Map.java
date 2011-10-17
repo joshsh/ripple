@@ -52,7 +52,7 @@ public class Map extends PrimitiveStackMapping {
     }
 
     public void apply(final StackContext arg,
-                      final Sink<StackContext, RippleException> solutions)
+                      final Sink<StackContext> solutions)
             throws RippleException {
         final ModelConnection mc = arg.getModelConnection();
         RippleList stack = arg.getStack();
@@ -64,10 +64,10 @@ public class Map extends PrimitiveStackMapping {
 
         // Note: it is simply assumed that these mappings have a production of
         // exactly one item.
-        final Collector<Operator, RippleException> operators = new Collector<Operator, RippleException>();
+        final Collector<Operator> operators = new Collector<Operator>();
         Operator.createOperator(mappingVal, operators, mc);
 
-        Sink<RippleList, RippleException> listSink = new Sink<RippleList, RippleException>() {
+        Sink<RippleList> listSink = new Sink<RippleList>() {
             public void put(final RippleList list) throws RippleException {
                 if (list.isNil()) {
                     solutions.put(arg.with(rest.push(list)));
@@ -112,7 +112,7 @@ public class Map extends PrimitiveStackMapping {
             return true;
         }
 
-        public void apply(final StackContext arg, final Sink<StackContext, RippleException> solutions) throws RippleException {
+        public void apply(final StackContext arg, final Sink<StackContext> solutions) throws RippleException {
             RippleList stack = arg.getStack();
             RippleValue first = stack.getFirst();
             stack = stack.getRest();

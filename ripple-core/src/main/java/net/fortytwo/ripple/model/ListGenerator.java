@@ -3,7 +3,6 @@ package net.fortytwo.ripple.model;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.Source;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.io.RipplePrintStream;
 
 /**
  * User: josh
@@ -11,11 +10,11 @@ import net.fortytwo.ripple.io.RipplePrintStream;
  * Time: 4:00 PM
  */
 public class ListGenerator extends Operator {
-    public ListGenerator(final Source<RippleList, RippleException> source) {
+    public ListGenerator(final Source<RippleList> source) {
         super(createMapping(source));
     }
 
-    private static StackMapping createMapping(final Source<RippleList, RippleException> source) {
+    private static StackMapping createMapping(final Source<RippleList> source) {
         return new StackMapping(){
             public int arity() {
                 return 0;
@@ -30,8 +29,8 @@ public class ListGenerator extends Operator {
             }
 
             public void apply(final StackContext arg,
-                              final Sink<StackContext, RippleException> solutions) throws RippleException {
-                Sink<RippleList, RippleException> s = new Sink<RippleList, RippleException>() {
+                              final Sink<StackContext> solutions) throws RippleException {
+                Sink<RippleList> s = new Sink<RippleList>() {
                     public void put(final RippleList l) throws RippleException {
                         solutions.put(arg.with(arg.getStack().push(l.invert())));
                     }

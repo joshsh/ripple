@@ -28,6 +28,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>net.fortytwo.ripple</groupId>
+            <artifactId>ripple-base</artifactId>
+            <version>${ripple.version}</version>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>

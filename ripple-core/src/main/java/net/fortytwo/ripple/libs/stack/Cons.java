@@ -53,8 +53,8 @@ public class Cons extends PrimitiveStackMapping
     }
 
 	public void apply( final StackContext arg,
-						 final Sink<StackContext, RippleException> solutions )
-		throws RippleException
+						 final Sink<StackContext> solutions )
+            throws RippleException
 	{
 		final ModelConnection mc = arg.getModelConnection();
 		RippleList stack = arg.getStack();
@@ -66,7 +66,7 @@ public class Cons extends PrimitiveStackMapping
 		final RippleValue x = stack.getFirst();
 		final RippleList rest = stack.getRest();
 
-		Sink<RippleList, RippleException> listSink = new Sink<RippleList, RippleException>()
+		Sink<RippleList> listSink = new Sink<RippleList>()
 		{
 			public void put( final RippleList list ) throws RippleException
 			{

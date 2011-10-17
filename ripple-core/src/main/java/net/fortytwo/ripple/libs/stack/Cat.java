@@ -54,8 +54,8 @@ public class Cat extends PrimitiveStackMapping
     }
 
 	public void apply( final StackContext arg,
-					   final Sink<StackContext, RippleException> solutions )
-		throws RippleException
+					   final Sink<StackContext> solutions )
+            throws RippleException
 	{
 		final ModelConnection mc = arg.getModelConnection();
 		RippleList stack = arg.getStack();
@@ -68,13 +68,13 @@ public class Cat extends PrimitiveStackMapping
 		final RippleList rest = stack.getRest();
 //System.out.println("l1 = " + l1 + ", l2 = " + l2);
 
-		final Collector<RippleList, RippleException> firstLists = new Collector<RippleList, RippleException>();
+		final Collector<RippleList> firstLists = new Collector<RippleList>();
 
-		Sink<RippleList, RippleException> listSink = new Sink<RippleList, RippleException>()
+		Sink<RippleList> listSink = new Sink<RippleList>()
 		{
 			public void put( final RippleList list2 ) throws RippleException
 			{
-				Sink<RippleList, RippleException> catSink = new Sink<RippleList, RippleException>()
+				Sink<RippleList> catSink = new Sink<RippleList>()
 				{
 					public void put( final RippleList list1 ) throws RippleException
 					{

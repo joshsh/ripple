@@ -11,7 +11,6 @@ package net.fortytwo.ripple.model.impl.sesame;
 
 import net.fortytwo.flow.Collector;
 import net.fortytwo.flow.rdf.SesameInputAdapter;
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RDFImporter;
 import net.fortytwo.ripple.libs.stack.Dup;
 import net.fortytwo.ripple.model.ListDequotation;
@@ -62,7 +61,7 @@ public class OperatorTest extends RippleTestCase
         mc.commit();
         is.close();
 
-        Collector<Operator, RippleException> ops = new Collector<Operator, RippleException>();
+        Collector<Operator> ops = new Collector<Operator>();
         RippleValue arg;
         RippleValue a1 = mc.plainValue("1");
         RippleValue a2 = mc.plainValue("2");

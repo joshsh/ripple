@@ -32,7 +32,7 @@ public final class Scheduler
 
 	////////////////////////////////////////////////////////////////////////////
 
-	public static void add( final Task task, final Sink<Task, RippleException> completedTaskSink ) throws RippleException
+	public static void add( final Task task, final Sink<Task> completedTaskSink ) throws RippleException
 	{
 		if ( null == singleInstance )
 		{
@@ -44,7 +44,7 @@ public final class Scheduler
 
 	public static void add( final Task task ) throws RippleException
 	{
-		add( task, new NullSink<Task, RippleException>() );
+		add( task, new NullSink<Task>() );
 	}
 
     private synchronized static long nextWorkerId()
@@ -63,7 +63,7 @@ public final class Scheduler
 		maxThreads = Ripple.getConfiguration().getInt(Ripple.MAX_WORKER_THREADS);
 	}
 
-	private void addPrivate( final Task task, final Sink<Task, RippleException> completedTaskSink )
+	private void addPrivate( final Task task, final Sink<Task> completedTaskSink )
 	{
 		// Initialize the task immediately.  It may not begin executing for
 		// some time.
@@ -144,9 +144,9 @@ public final class Scheduler
 	private class TaskItem
 	{
 		public Task task;
-		public Sink<Task, RippleException> sink;
+		public Sink<Task> sink;
 
-		public TaskItem( final Task task, final Sink<Task, RippleException> sink )
+		public TaskItem( final Task task, final Sink<Task> sink )
 		{
 			this.task = task;
 			this.sink = sink;

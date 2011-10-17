@@ -20,7 +20,7 @@ public abstract class NumberAST implements AST<RippleList>
 {
 	public abstract NumericValue getValue( ModelConnection mc ) throws RippleException;
 
-    public void evaluate( final Sink<RippleList, RippleException> sink,
+    public void evaluate( final Sink<RippleList> sink,
 						final QueryEngine qe,
 						final ModelConnection mc )
 		throws RippleException

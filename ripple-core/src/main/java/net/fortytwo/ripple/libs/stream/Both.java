@@ -46,7 +46,7 @@ public class Both extends PrimitiveStackMapping {
     }
 
     public void apply(final StackContext arg,
-                      final Sink<StackContext, RippleException> solutions)
+                      final Sink<StackContext> solutions)
             throws RippleException {
         RippleList stack = arg.getStack();
         RippleValue x, y;

@@ -38,7 +38,7 @@ public class Head extends PrimitiveStackMapping {
 
     @Override
     public void apply(final StackContext arg,
-                      final Sink<StackContext, RippleException> solutions) throws RippleException {
+                      final Sink<StackContext> solutions) throws RippleException {
         RippleList stack = arg.getStack();
         RippleValue first = stack.getFirst();
         stack = stack.getRest();
@@ -74,7 +74,7 @@ public class Head extends PrimitiveStackMapping {
 
         @Override
         public void apply(final StackContext arg,
-                          final Sink<StackContext, RippleException> solutions) throws RippleException {
+                          final Sink<StackContext> solutions) throws RippleException {
             RippleList stack = arg.getStack();
             RippleValue first = stack.getFirst();
             stack = stack.getRest();

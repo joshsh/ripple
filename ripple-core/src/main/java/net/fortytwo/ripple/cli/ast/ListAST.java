@@ -84,12 +84,12 @@ public class ListAST extends ListNode<AST> implements AST<RippleList>
         return null == getFirst();
     }
 
-	public void evaluate( final Sink<RippleList, RippleException> sink,
+	public void evaluate( final Sink<RippleList> sink,
 						final QueryEngine qe,
 						final ModelConnection mc )
 		throws RippleException
 	{
-		Sink<RippleList, RippleException> listSink = new Sink<RippleList, RippleException>()
+		Sink<RippleList> listSink = new Sink<RippleList>()
 		{
 			public void put(final RippleList l) throws RippleException
 			{
@@ -128,7 +128,7 @@ public class ListAST extends ListNode<AST> implements AST<RippleList>
 	}
 
 	private void createLists( final ListNode<AST> astList,
-							final Sink<RippleList, RippleException> sink,
+							final Sink<RippleList> sink,
 							final QueryEngine qe,
 							final ModelConnection mc )
 		throws RippleException
@@ -140,14 +140,14 @@ public class ListAST extends ListNode<AST> implements AST<RippleList>
 
 		else
 		{
-			final Collector<RippleList, RippleException> firstValues = new Collector<RippleList, RippleException>();
+			final Collector<RippleList> firstValues = new Collector<RippleList>();
 			astList.getFirst().evaluate( firstValues, qe, mc );
 	
-			Sink<RippleList, RippleException> restSink = new Sink<RippleList, RippleException>()
+			Sink<RippleList> restSink = new Sink<RippleList>()
 			{
 				public void put( final RippleList rest ) throws RippleException
 				{
-					Sink<RippleList, RippleException> firstSink = new Sink<RippleList, RippleException>()
+					Sink<RippleList> firstSink = new Sink<RippleList>()
 					{
 						public void put( final RippleList f ) throws RippleException
 						{

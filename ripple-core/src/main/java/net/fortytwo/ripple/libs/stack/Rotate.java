@@ -53,8 +53,8 @@ public class Rotate extends PrimitiveStackMapping
     }
 
 	public void apply( final StackContext arg,
-						 final Sink<StackContext, RippleException> solutions )
-		throws RippleException
+						 final Sink<StackContext> solutions )
+            throws RippleException
 	{
 		RippleList stack = arg.getStack();
 		RippleValue z, y, x;

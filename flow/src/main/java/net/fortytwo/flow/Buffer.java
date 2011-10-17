@@ -9,18 +9,20 @@
 
 package net.fortytwo.flow;
 
-public class Buffer<T, E extends Exception> extends Collector<T, E>
-{
-	private final Sink<T, E> sink;
+import net.fortytwo.ripple.RippleException;
 
-	public Buffer( final Sink<T, E> sink )
+public class Buffer<T> extends Collector<T>
+{
+	private final Sink<T> sink;
+
+	public Buffer( final Sink<T> sink )
 	{
 		super();
 
 		this.sink = sink;
 	}
 
-	public void flush() throws E
+	public void flush() throws RippleException
 	{
 		writeTo( sink );
 

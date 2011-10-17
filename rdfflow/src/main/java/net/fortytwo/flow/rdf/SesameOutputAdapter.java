@@ -10,6 +10,7 @@
 package net.fortytwo.flow.rdf;
 
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;
 import org.openrdf.rio.RDFHandler;
@@ -18,40 +19,51 @@ import org.openrdf.rio.RDFHandlerException;
 /**
  * An RdfSink which passes its input into an RDFHandler.
  */
-public class SesameOutputAdapter implements RDFSink<RDFHandlerException>
-{
+public class SesameOutputAdapter implements RDFSink {
 	private RDFHandler handler;
 
-	private final Sink<Statement, RDFHandlerException> stSink;
-	private final Sink<Namespace, RDFHandlerException> nsSink;
-	private final Sink<String, RDFHandlerException> cmtSink;
+	private final Sink<Statement> stSink;
+	private final Sink<Namespace> nsSink;
+	private final Sink<String> cmtSink;
 
 	public SesameOutputAdapter( final RDFHandler handler )
 	{
 		this.handler = handler;
 
-		stSink = new Sink<Statement, RDFHandlerException>()
+		stSink = new Sink<Statement>()
 		{
-			public void put( final Statement st ) throws RDFHandlerException
+			public void put( final Statement st ) throws RippleException
 			{
-				handler.handleStatement( st );
-			}
+                try {
+                    handler.handleStatement( st );
+                } catch (RDFHandlerException e) {
+                    throw new RippleException(e);
+                }
+            }
 		};
 
-		nsSink = new Sink<Namespace, RDFHandlerException>()
+		nsSink = new Sink<Namespace>()
 		{
-			public void put( final Namespace ns ) throws RDFHandlerException
+			public void put( final Namespace ns ) throws RippleException
 			{
-				handler.handleNamespace( ns.getPrefix(), ns.getName() );
-			}
+                try {
+                    handler.handleNamespace( ns.getPrefix(), ns.getName() );
+                } catch (RDFHandlerException e) {
+                    throw new RippleException(e);
+                }
+            }
 		};
 
-		cmtSink = new Sink<String, RDFHandlerException>()
+		cmtSink = new Sink<String>()
 		{
-			public void put( final String comment ) throws RDFHandlerException
+			public void put( final String comment ) throws RippleException
 			{
-				handler.handleComment( comment );
-			}
+                try {
+                    handler.handleComment( comment );
+                } catch (RDFHandlerException e) {
+                    throw new RippleException(e);
+                }
+            }
 		};
 	}
 
@@ -65,17 +77,17 @@ public class SesameOutputAdapter implements RDFSink<RDFHandlerException>
 		handler.endRDF();
 	}
 
-	public Sink<Statement, RDFHandlerException> statementSink()
+	public Sink<Statement> statementSink()
 	{
 		return stSink;
 	}
 
-	public Sink<Namespace, RDFHandlerException> namespaceSink()
+	public Sink<Namespace> namespaceSink()
 	{
 		return nsSink;
 	}
 
-	public Sink<String, RDFHandlerException> commentSink()
+	public Sink<String> commentSink()
 	{
 		return cmtSink;
 	}

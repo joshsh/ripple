@@ -16,7 +16,7 @@ import net.fortytwo.flow.Sink;
 
 public interface AST<T>
 {
-	void evaluate( Sink<T, RippleException> sink,
+	void evaluate( Sink<T> sink,
 					QueryEngine qe,
 					ModelConnection mc )
 		throws RippleException;

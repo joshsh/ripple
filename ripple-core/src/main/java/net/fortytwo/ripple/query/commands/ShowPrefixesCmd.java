@@ -19,7 +19,6 @@ import org.openrdf.model.Namespace;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class ShowPrefixesCmd extends Command
@@ -31,7 +30,7 @@ public class ShowPrefixesCmd extends Command
 
         // Create a map of prefixes to names and find the longest prefix.
         Map<String, String> prefixesToNames = new HashMap<String, String>();
-        Collector<Namespace, RippleException> coll = new Collector<Namespace, RippleException>();
+        Collector<Namespace> coll = new Collector<Namespace>();
 		mc.getNamespaces().writeTo(coll);
 		int max = 0;
         int j = 0;

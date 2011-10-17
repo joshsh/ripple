@@ -53,7 +53,7 @@ public class Sqrt extends PrimitiveStackMapping {
     }
 
     public void apply(final StackContext arg,
-                      final Sink<StackContext, RippleException> solutions)
+                      final Sink<StackContext> solutions)
             throws RippleException {
         final ModelConnection mc = arg.getModelConnection();
         RippleList stack = arg.getStack();
@@ -100,7 +100,7 @@ public class Sqrt extends PrimitiveStackMapping {
             return true;
         }
 
-        public void apply(StackContext arg, Sink<StackContext, RippleException> solutions) throws RippleException {
+        public void apply(StackContext arg, Sink<StackContext> solutions) throws RippleException {
             final ModelConnection mc = arg.getModelConnection();
             RippleList stack = arg.getStack();
 

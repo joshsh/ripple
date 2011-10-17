@@ -16,7 +16,7 @@ import net.fortytwo.flow.Sink;
 
 import java.io.PrintStream;
 
-public class ParserExceptionSink implements Sink<Exception, RippleException>
+public class ParserExceptionSink implements Sink<Exception>
 {
 	private final PrintStream errorPrintStream;
 	
@@ -25,7 +25,7 @@ public class ParserExceptionSink implements Sink<Exception, RippleException>
 		errorPrintStream = ps;
 	}
 	
-	public void put( final Exception e )
+	public void put( final Exception e ) throws RippleException
 	{
 		// This happens, for instance, when the parser receives a value
 		// which is too large for the target data type.  Non-fatal.

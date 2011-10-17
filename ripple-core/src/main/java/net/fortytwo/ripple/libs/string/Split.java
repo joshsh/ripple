@@ -49,7 +49,7 @@ public class Split extends PrimitiveStackMapping {
     }
 
     public void apply(final StackContext arg,
-                      final Sink<StackContext, RippleException> solutions)
+                      final Sink<StackContext> solutions)
             throws RippleException {
         RippleList stack = arg.getStack();
         final ModelConnection mc = arg.getModelConnection();

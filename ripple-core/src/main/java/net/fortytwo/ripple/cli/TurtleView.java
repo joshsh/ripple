@@ -30,7 +30,7 @@ import java.util.Iterator;
  * specified stream in LIFO order, including a Turtle-styled tree view for the
  * topmost item in the stack.
  */
-public class TurtleView implements Sink<RippleList, RippleException>
+public class TurtleView implements Sink<RippleList>
 {
 	// A three-space-indented tree seems to be the most readable.
 	private static final String INDENT = "   ";
@@ -78,11 +78,11 @@ public class TurtleView implements Sink<RippleList, RippleException>
 
     /**
      * Accepts a stack, printing it to the specified stream.
+     *
      * @param stack  the stack to print.  May not be a nil list.
      * @throws RippleException  if something goes awry
      */
-    public void put( final RippleList stack ) throws RippleException
-	{
+    public void put( final RippleList stack ) throws RippleException {
 		// Grab the topmost item on the stack.
 		RippleValue subject = stack.getFirst();
 
@@ -109,7 +109,7 @@ public class TurtleView implements Sink<RippleList, RippleException>
 
 		if ( showEdges && !stack.isNil() )
 		{
-			Collector<RippleValue, RippleException> predicates = new Collector<RippleValue, RippleException>();
+			Collector<RippleValue> predicates = new Collector<RippleValue>();
 			helper.findPredicates( subject, predicates );
 	
 			int predCount = 0;
@@ -133,7 +133,7 @@ public class TurtleView implements Sink<RippleList, RippleException>
 				printStream.print( predicate );
 				printStream.print( "\n" );
 	
-				Collector<RippleValue, RippleException> objects = new Collector<RippleValue, RippleException>();
+				Collector<RippleValue> objects = new Collector<RippleValue>();
                 StatementPatternQuery query = new StatementPatternQuery( subject, predicate, null );
                 modelConnection.query( query, objects, false );
 

@@ -9,9 +9,11 @@
 
 package net.fortytwo.flow;
 
-public class NullSource<T, E extends Exception> implements Source<T, E>
+import net.fortytwo.ripple.RippleException;
+
+public class NullSource<T> implements Source<T>
 {
-	public void writeTo( Sink<T, E> sink ) throws E
+	public void writeTo( Sink<T> sink ) throws RippleException
 	{
 	}
 }

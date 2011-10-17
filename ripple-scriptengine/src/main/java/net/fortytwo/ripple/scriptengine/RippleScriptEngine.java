@@ -1,7 +1,6 @@
 package net.fortytwo.ripple.scriptengine;
 
 import net.fortytwo.flow.Collector;
-import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.SailConfiguration;
 import net.fortytwo.ripple.URIMap;
@@ -46,13 +45,13 @@ public class RippleScriptEngine implements ScriptEngine {
     private final Model model;
     //private final QueryEngine queryEngine;
     private final QueryPipe queryPipe;
-    private final Collector<RippleList, RippleException> results;
+    private final Collector<RippleList> results;
     private ScriptContext context;
 
     public RippleScriptEngine(final ScriptEngineFactory factory) throws RippleException {
         this.factory = factory;
 
-        results = new Collector<RippleList, RippleException>();
+        results = new Collector<RippleList>();
 
         URIMap uriMap = new URIMap();
         sailConfig = new SailConfiguration(uriMap);

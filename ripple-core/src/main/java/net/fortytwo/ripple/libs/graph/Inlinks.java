@@ -53,7 +53,7 @@ public class Inlinks extends PrimitiveStackMapping {
     }
 
     public void apply(final StackContext arg,
-                      final Sink<StackContext, RippleException> solutions)
+                      final Sink<StackContext> solutions)
             throws RippleException {
         final ModelConnection mc = arg.getModelConnection();
 
@@ -64,7 +64,7 @@ public class Inlinks extends PrimitiveStackMapping {
             final RippleValue obj = stack.getFirst();
             final RippleList rest = stack.getRest();
 
-            Sink<Statement, RippleException> stSink = new Sink<Statement, RippleException>() {
+            Sink<Statement> stSink = new Sink<Statement>() {
                 public void put(final Statement st) throws RippleException {
                     Resource context = st.getContext();
 

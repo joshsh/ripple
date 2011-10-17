@@ -43,7 +43,7 @@ public class Rank extends PrimitiveStackMapping {
     }
 
     public void apply(final StackContext arg,
-                      final Sink<StackContext, RippleException> solutions) throws RippleException {
+                      final Sink<StackContext> solutions) throws RippleException {
         // FIXME: cheat to temporarily disable asynchronous query answering
         boolean a = Ripple.asynchronousQueries();
         Ripple.enableAsynchronousQueries(false);

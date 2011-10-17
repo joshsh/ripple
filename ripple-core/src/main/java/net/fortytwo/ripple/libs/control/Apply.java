@@ -43,7 +43,7 @@ public class Apply extends PrimitiveStackMapping {
     }
 
     public void apply(final StackContext arg,
-                      final Sink<StackContext, RippleException> solutions)
+                      final Sink<StackContext> solutions)
             throws RippleException {
 // hack...
         RippleList stack = arg.getStack();

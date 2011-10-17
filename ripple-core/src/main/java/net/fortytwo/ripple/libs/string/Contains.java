@@ -50,8 +50,8 @@ public class Contains extends PrimitiveStackMapping
     }
 
 	public void apply( final StackContext arg,
-                       final Sink<StackContext, RippleException> solutions )
-		throws RippleException
+                       final Sink<StackContext> solutions )
+            throws RippleException
 	{
 		RippleList stack = arg.getStack();
 		final ModelConnection mc = arg.getModelConnection();

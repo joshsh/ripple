@@ -57,8 +57,8 @@ public class While extends PrimitiveStackMapping
     }
 
 	public void apply( final StackContext arg,
-                       final Sink<StackContext, RippleException> solutions	)
-		throws RippleException
+                       final Sink<StackContext> solutions	)
+            throws RippleException
 	{
         final ModelConnection mc = arg.getModelConnection();
         RippleList stack = arg.getStack();
@@ -68,11 +68,11 @@ public class While extends PrimitiveStackMapping
 		RippleValue criterion = stack.getFirst();
 		stack = stack.getRest();
 
-        Collector<Operator, RippleException> programOps
-                = new Collector<Operator, RippleException>();
+        Collector<Operator> programOps
+                = new Collector<Operator>();
         Operator.createOperator( program, programOps, mc );
-        Collector<Operator, RippleException> criterionOps
-                = new Collector<Operator, RippleException>();
+        Collector<Operator> criterionOps
+                = new Collector<Operator>();
         Operator.createOperator( criterion, criterionOps, mc );
 
         for (Operator programOp : programOps) {
@@ -115,7 +115,7 @@ public class While extends PrimitiveStackMapping
         }
 
         public void apply( final StackContext arg,
-                           final Sink<StackContext, RippleException> solutions ) throws RippleException
+                           final Sink<StackContext> solutions ) throws RippleException
         {
             ModelConnection mc = arg.getModelConnection();
             boolean b = mc.toBoolean( arg.getStack().getFirst() );
@@ -163,7 +163,7 @@ public class While extends PrimitiveStackMapping
         }
 
         public void apply( final StackContext arg,
-                           final Sink<StackContext, RippleException> solutions ) throws RippleException
+                           final Sink<StackContext> solutions ) throws RippleException
         {
             RippleList stack = arg.getStack();
             StackMapping d = new WhileDecider( stack, program, criterion );

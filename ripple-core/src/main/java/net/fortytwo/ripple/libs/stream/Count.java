@@ -52,7 +52,7 @@ public class Count extends PrimitiveStackMapping {
     }
 
     public void apply(final StackContext arg,
-                      final Sink<StackContext, RippleException> solutions)
+                      final Sink<StackContext> solutions)
             throws RippleException {
         // FIXME: cheat to temporarily disable asynchronous query answering
         boolean a = Ripple.asynchronousQueries();
@@ -62,7 +62,7 @@ public class Count extends PrimitiveStackMapping {
 
             RippleList stack = arg.getStack();
 
-            Collector<StackContext, RippleException> s = new Collector<StackContext, RippleException>();
+            Collector<StackContext> s = new Collector<StackContext>();
             StackEvaluator e = new LazyStackEvaluator();
             e.apply(arg.with(stack.push(Operator.OP)), s);
             int count = s.size();

@@ -11,18 +11,17 @@ package net.fortytwo.flow.rdf;
 
 import net.fortytwo.flow.Source;
 
+import net.fortytwo.ripple.RippleException;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;
 
-public abstract class RDFSource<E extends Exception>
-{
-	public abstract Source<Statement, E> statementSource() throws E;
-	public abstract Source<Namespace, E> namespaceSource() throws E;
-	public abstract Source<String, E> commentSource() throws E;
+public abstract class RDFSource {
+	public abstract Source<Statement> statementSource();
+	public abstract Source<Namespace> namespaceSource();
+	public abstract Source<String> commentSource();
 
-	public void writeTo( final RDFSink<E> sink ) throws E
+	public void writeTo( final RDFSink sink ) throws RippleException
 	{
-        try {
             commentSource().writeTo( sink.commentSink() );
 
             // Note: it's often important that namespaces are written before
@@ -30,8 +29,5 @@ public abstract class RDFSource<E extends Exception>
             namespaceSource().writeTo( sink.namespaceSink() );
 
             statementSource().writeTo( sink.statementSink() );
-        } catch (Exception e) {
-            throw (E) e;
-        }
 	}
 }

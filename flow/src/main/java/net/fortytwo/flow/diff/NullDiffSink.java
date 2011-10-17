@@ -8,16 +8,16 @@ import net.fortytwo.flow.NullSink;
  * Date: Jul 23, 2008
  * Time: 3:06:09 PM
  */
-public class NullDiffSink<T, E extends Exception> implements DiffSink<T, E>
+public class NullDiffSink<T> implements DiffSink<T>
 {
-    private final Sink<T, E> nullSink = new NullSink<T, E>();
+    private final Sink<T> nullSink = new NullSink<T>();
 
-    public Sink<T, E> getPlus()
+    public Sink<T> getPlus()
     {
         return nullSink;
     }
 
-    public Sink<T, E> getMinus()
+    public Sink<T> getMinus()
     {
         return nullSink;
     }

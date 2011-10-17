@@ -42,7 +42,7 @@ public class OptionalQuantifier implements StackMapping
 	}
 
 	public void apply( final StackContext arg,
-                       final Sink<StackContext, RippleException> sink ) throws RippleException
+                       final Sink<StackContext> sink ) throws RippleException
 	{
 		sink.put( arg );
 

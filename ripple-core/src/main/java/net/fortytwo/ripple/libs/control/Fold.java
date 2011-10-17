@@ -51,7 +51,7 @@ public class Fold extends PrimitiveStackMapping {
     }
 
     public void apply(final StackContext arg,
-                      final Sink<StackContext, RippleException> solutions)
+                      final Sink<StackContext> solutions)
             throws RippleException {
         final ModelConnection mc = arg.getModelConnection();
         RippleList stack = arg.getStack();
@@ -65,7 +65,7 @@ public class Fold extends PrimitiveStackMapping {
         l = stack.getFirst();
         final RippleList rest = stack.getRest();
 
-        Sink<RippleList, RippleException> listSink = new Sink<RippleList, RippleException>() {
+        Sink<RippleList> listSink = new Sink<RippleList>() {
             public void put(final RippleList list) throws RippleException {
                 //RippleList lList = list.invert();
                 RippleList lList = list;

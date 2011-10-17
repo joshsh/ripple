@@ -24,18 +24,18 @@ import org.openrdf.sail.SailException;
 import java.util.HashSet;
 import java.util.Set;
 
-public class BNodeClosureFilter implements Sink<Resource, RippleException>
+public class BNodeClosureFilter implements Sink<Resource>
 {
 	private final Set<Resource> visited;
-	private final Sink<Statement, RippleException> sink;
+	private final Sink<Statement> sink;
 	private final SailConnection sailConnection;
-	private final Buffer<Resource, RippleException> buffer;
+	private final Buffer<Resource> buffer;
 
-	public BNodeClosureFilter( final Sink<Statement, RippleException> sink, final SailConnection sc )
+	public BNodeClosureFilter( final Sink<Statement> sink, final SailConnection sc )
 	{
 		this.sink = sink;
 		sailConnection = sc;
-		buffer = new Buffer<Resource, RippleException>( this );
+		buffer = new Buffer<Resource>( this );
 		visited = new HashSet<Resource>();
 	}
 

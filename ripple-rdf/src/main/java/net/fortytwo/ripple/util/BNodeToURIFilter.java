@@ -12,6 +12,7 @@ package net.fortytwo.ripple.util;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.rdf.RDFSink;
 import net.fortytwo.ripple.Ripple;
+import net.fortytwo.ripple.RippleException;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Resource;
@@ -25,23 +26,22 @@ import org.openrdf.model.ValueFactory;
  * Date: Jan 18, 2008
  * Time: 12:52:56 PM
  */
-public class BNodeToURIFilter<E extends Exception> implements RDFSink<E>
-{
-	private final Sink<Statement, E> stSink;
-	private final Sink<Namespace, E> nsSink;
-	private final Sink<String, E> cmtSink;
+public class BNodeToURIFilter<E extends Exception> implements RDFSink {
+	private final Sink<Statement> stSink;
+	private final Sink<Namespace> nsSink;
+	private final Sink<String> cmtSink;
 
 	private ValueFactory valueFactory;
 
-	public BNodeToURIFilter( final RDFSink<E> sink, final ValueFactory vf )
+	public BNodeToURIFilter( final RDFSink sink, final ValueFactory vf )
 	{
 		valueFactory = vf;
 
-		final Sink<Statement, E> destStSink = sink.statementSink();
+		final Sink<Statement> destStSink = sink.statementSink();
 
-		stSink = new Sink<Statement, E>()
+		stSink = new Sink<Statement>()
 		{
-			public void put( final Statement st ) throws E
+			public void put( final Statement st ) throws RippleException
 			{
 				boolean s = st.getSubject() instanceof BNode;
 				boolean o = st.getObject() instanceof BNode;
@@ -78,17 +78,17 @@ public class BNodeToURIFilter<E extends Exception> implements RDFSink<E>
 		return valueFactory.createURI( Ripple.RANDOM_URN_PREFIX + bnode.getID() );
 	}
 	
-	public Sink<Statement, E> statementSink()
+	public Sink<Statement> statementSink()
 	{
 		return stSink;
 	}
 
-	public Sink<Namespace, E> namespaceSink()
+	public Sink<Namespace> namespaceSink()
 	{
 		return nsSink;
 	}
 
-	public Sink<String, E> commentSink()
+	public Sink<String> commentSink()
 	{
 		return cmtSink;
 	}

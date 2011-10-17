@@ -24,7 +24,7 @@ public class BooleanAST implements AST<RippleList>
 		this.value = value;
 	}
 
-	public void evaluate( final Sink<RippleList, RippleException> sink,
+	public void evaluate( final Sink<RippleList> sink,
 						final QueryEngine qe,
 						final ModelConnection mc )
 		throws RippleException

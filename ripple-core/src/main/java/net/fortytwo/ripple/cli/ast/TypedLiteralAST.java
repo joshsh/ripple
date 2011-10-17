@@ -27,11 +27,11 @@ public class TypedLiteralAST implements AST<RippleList> {
         this.type = type;
     }
 
-    public void evaluate(final Sink<RippleList, RippleException> sink,
+    public void evaluate(final Sink<RippleList> sink,
                          final QueryEngine qe,
                          final ModelConnection mc)
             throws RippleException {
-        Sink<RippleList, RippleException> typeSink = new Sink<RippleList, RippleException>() {
+        Sink<RippleList> typeSink = new Sink<RippleList>() {
             public void put(final RippleList l) throws RippleException {
                 RippleValue type = l.getFirst();
                 Value t = (URI) type.toRDF(mc).sesameValue();

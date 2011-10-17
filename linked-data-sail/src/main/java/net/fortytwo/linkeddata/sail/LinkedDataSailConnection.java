@@ -67,10 +67,10 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
     // Note: SparqlUpdater is not thread-safe, so we must synchronize all
     //       operations involving it.
     private final SparqlUpdater<RippleException> sparqlUpdater;
-    private final RDFDiffSink<RippleException> apiInputSink;
+    private final RDFDiffSink apiInputSink;
     // Buffering input to the wrapped SailConnection avoids deadlocks.
-    private final RDFDiffBuffer<RippleException> baseSailWriteBuffer;
-    private final RDFDiffSink<RippleException> baseSailWriteSink;
+    private final RDFDiffBuffer baseSailWriteBuffer;
+    private final RDFDiffSink baseSailWriteSink;
     private final boolean useSparqlUpdate = false;
 
     private boolean open = false;
@@ -93,7 +93,7 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
                              final Value obj,
                              final Resource... contexts)
             throws SailException {
-        Sink<Statement, RippleException> adderSink = apiInputSink.adderSink().statementSink();
+        Sink<Statement> adderSink = apiInputSink.adderSink().statementSink();
 
         try {
             synchronized (this) {
@@ -265,7 +265,7 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
     // Note: only committed namespaces will be affected.
     public void removeNamespace(final String prefix)
             throws SailException {
-        Sink<Namespace, RippleException> sink = apiInputSink.subtractorSink().namespaceSink();
+        Sink<Namespace> sink = apiInputSink.subtractorSink().namespaceSink();
 
         try {
             synchronized (this) {
@@ -283,7 +283,7 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
                                  final Value obj,
                                  final Resource... context)
             throws SailException {
-        Sink<Statement, RippleException> sink = apiInputSink.subtractorSink().statementSink();
+        Sink<Statement> sink = apiInputSink.subtractorSink().statementSink();
 
         try {
 // FIXME: both of these conditions are probably not necessary
@@ -313,7 +313,7 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
 
     public void setNamespace(final String prefix, final String name)
             throws SailException {
-        Sink<Namespace, RippleException> sink = apiInputSink.adderSink().namespaceSink();
+        Sink<Namespace> sink = apiInputSink.adderSink().namespaceSink();
 
         try {
             synchronized (this) {
@@ -340,7 +340,7 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
 
     LinkedDataSailConnection(final Sail baseSail,
                              final WebClosure webClosure,
-                             final RDFDiffSink<RippleException> listenerSink)
+                             final RDFDiffSink listenerSink)
             throws SailException {
         this.baseSail = baseSail;
         this.webClosure = webClosure;
@@ -352,12 +352,12 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
 
         LinkedDataSailConnectionOutputAdapter adapter
                 = new LinkedDataSailConnectionOutputAdapter(this);
-        baseSailWriteBuffer = new RDFDiffBuffer<RippleException>(
+        baseSailWriteBuffer = new RDFDiffBuffer(
                 (null == listenerSink)
                         ? adapter
-                        : new RDFDiffTee<RippleException>(adapter, listenerSink));
+                        : new RDFDiffTee(adapter, listenerSink));
         Object mutex = baseSailWriteBuffer;
-        baseSailWriteSink = new SynchronizedRDFDiffSink<RippleException>(baseSailWriteBuffer, mutex);
+        baseSailWriteSink = new SynchronizedRDFDiffSink(baseSailWriteBuffer, mutex);
 
         if (useSparqlUpdate) {
             sparqlUpdater = new SparqlUpdater<RippleException>(webClosure.getURIMap(), baseSailWriteSink);

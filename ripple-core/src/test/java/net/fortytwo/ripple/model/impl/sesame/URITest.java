@@ -29,7 +29,6 @@ import org.openrdf.rio.RDFFormat;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Iterator;
 
 public class URITest extends RippleTestCase
 {
@@ -185,7 +184,7 @@ System.out.println( "unhandled test case!" );
         RDFUtils.read( is, sc, "", RDFFormat.N3 );
         mc.commit();
 
-        Collector<RippleValue, RippleException> cases = new Collector<RippleValue, RippleException>();
+        Collector<RippleValue> cases = new Collector<RippleValue>();
         StatementPatternQuery query = new StatementPatternQuery( null, TYPE, URITEST );
         mc.query( query, cases, false );
 

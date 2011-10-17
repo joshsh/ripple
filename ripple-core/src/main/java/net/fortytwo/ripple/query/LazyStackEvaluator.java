@@ -25,10 +25,10 @@ public class LazyStackEvaluator extends StackEvaluator {
 
     private boolean stopped = true;
 
-    protected class EvaluatorSink implements Sink<StackContext, RippleException> {
-        private Sink<StackContext, RippleException> sink;
+    protected class EvaluatorSink implements Sink<StackContext> {
+        private Sink<StackContext> sink;
 
-        public EvaluatorSink(final Sink<StackContext, RippleException> sink) {
+        public EvaluatorSink(final Sink<StackContext> sink) {
             this.sink = sink;
             //System.out.println(this + "( " + sink + ")");
         }
@@ -68,8 +68,8 @@ public class LazyStackEvaluator extends StackEvaluator {
                         return;
 //						sink.put( stack );
                     } else {
-                        final Sink<StackContext, RippleException> thisEval = this;
-                        Sink<StackContext, RippleException> argSink = new Sink<StackContext, RippleException>() {
+                        final Sink<StackContext> thisEval = this;
+                        Sink<StackContext> argSink = new Sink<StackContext>() {
                             public void put(final StackContext arg) throws RippleException {
                                 RippleList stack = arg.getStack();
                                 Closure c = new Closure(f, stack.getFirst());
@@ -90,7 +90,7 @@ public class LazyStackEvaluator extends StackEvaluator {
     ////////////////////////////////////////////////////////////////////////////
 
     public void apply(final StackContext arg,
-                      final Sink<StackContext, RippleException> solutions)
+                      final Sink<StackContext> solutions)
             throws RippleException {
         if (arg.getStack().isNil()) {
             return;

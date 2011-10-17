@@ -9,13 +9,8 @@
 
 package net.fortytwo.ripple.util;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
-
 import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
@@ -23,6 +18,10 @@ import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 //To consider at some point: caching, authorization
 public class HTTPUtils
@@ -372,6 +371,10 @@ public class HTTPUtils
 
 	private static void setAgent( final HttpMethod method )
 	{
+        // TODO: remove me
+        System.out.println("setting agent");
+        new Exception().printStackTrace(System.out);
+
 		method.setRequestHeader( USER_AGENT, Ripple.getName() + "/" + Ripple.getVersion() );
 	}
 }

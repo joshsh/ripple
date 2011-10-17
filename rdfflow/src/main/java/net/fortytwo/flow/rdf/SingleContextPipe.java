@@ -9,6 +9,7 @@
 
 package net.fortytwo.flow.rdf;
 
+import net.fortytwo.ripple.RippleException;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;
 import org.openrdf.model.Resource;
@@ -16,21 +17,20 @@ import org.openrdf.model.ValueFactory;
 
 import net.fortytwo.flow.Sink;
 
-public class SingleContextPipe<E extends Exception> implements RDFSink<E>
-{
-	private final Sink<Statement, E> stSink;
-	private final Sink<Namespace, E> nsSink;
-	private final Sink<String, E> cmtSink;
+public class SingleContextPipe implements RDFSink {
+	private final Sink<Statement> stSink;
+	private final Sink<Namespace> nsSink;
+	private final Sink<String> cmtSink;
 
-	public SingleContextPipe( final RDFSink<E> sink,
+	public SingleContextPipe( final RDFSink sink,
                               final Resource context,
                               final ValueFactory valueFactory )
 	{
-		final Sink<Statement, E> otherStSink = sink.statementSink();
+		final Sink<Statement> otherStSink = sink.statementSink();
 
-		stSink = new Sink<Statement, E>()
+		stSink = new Sink<Statement>()
 		{
-			public void put( final Statement st ) throws E
+			public void put( final Statement st ) throws RippleException
 			{
 				Statement newSt;
 
@@ -45,17 +45,17 @@ public class SingleContextPipe<E extends Exception> implements RDFSink<E>
 		cmtSink = sink.commentSink();
 	}
 
-	public Sink<Statement, E> statementSink()
+	public Sink<Statement> statementSink()
 	{
 		return stSink;
 	}
 
-	public Sink<Namespace, E> namespaceSink()
+	public Sink<Namespace> namespaceSink()
 	{
 		return nsSink;
 	}
 
-	public Sink<String, E> commentSink()
+	public Sink<String> commentSink()
 	{
 		return cmtSink;
 	}

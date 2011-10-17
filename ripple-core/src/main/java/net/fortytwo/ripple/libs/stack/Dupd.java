@@ -52,8 +52,8 @@ public class Dupd extends PrimitiveStackMapping
     }
 
 	public void apply( final StackContext arg,
-						 final Sink<StackContext, RippleException> solutions )
-		throws RippleException
+						 final Sink<StackContext> solutions )
+            throws RippleException
 	{
 		RippleValue y, x;
 		RippleList stack = arg.getStack();

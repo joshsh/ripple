@@ -43,7 +43,7 @@ public class DefineListCmd extends Command
     public void execute( final QueryEngine qe, final ModelConnection mc )
 		throws RippleException
 	{
-		Collector<RippleList, RippleException> expressions = new Collector<RippleList, RippleException>();
+		Collector<RippleList> expressions = new Collector<RippleList>();
 		list.evaluate( expressions, qe, mc );
 
 		if ( expressions.size() == 0 )

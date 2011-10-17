@@ -33,12 +33,12 @@ public class QNameAST implements AST<RippleList>
 			+ ( ( null == localName ) ? "" : localName );
 	}
 
-	public void evaluate( final Sink<RippleList, RippleException> sink,
+	public void evaluate( final Sink<RippleList> sink,
 						final QueryEngine qe,
 						final ModelConnection mc )
 		throws RippleException
 	{
-		Sink<RippleValue, RippleException> uriSink = new Sink<RippleValue, RippleException>()
+		Sink<RippleValue> uriSink = new Sink<RippleValue>()
 		{
 			public void put(final RippleValue v) throws RippleException
 			{

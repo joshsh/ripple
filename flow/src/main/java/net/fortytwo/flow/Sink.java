@@ -9,7 +9,9 @@
 
 package net.fortytwo.flow;
 
-public interface Sink<T, E extends Exception>
+import net.fortytwo.ripple.RippleException;
+
+public interface Sink<T>
 {
-	void put( T t ) throws E;
+	void put( T t ) throws RippleException;
 }

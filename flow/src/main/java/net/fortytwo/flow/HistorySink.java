@@ -9,6 +9,8 @@
 
 package net.fortytwo.flow;
 
+import net.fortytwo.ripple.RippleException;
+
 import java.util.LinkedList;
 
 /**
@@ -19,13 +21,13 @@ import java.util.LinkedList;
  * @param <T> the class of pipeline items
  * @param <E> the class of exceptions thrown
  */
-public class HistorySink<T, E extends Exception> implements Sink<T, E>
+public class HistorySink<T> implements Sink<T>
 {
     private final int capacity;
-    private final LinkedList<Collector<T, E>> history;
+    private final LinkedList<Collector<T>> history;
 
     private int len;
-	private Collector<T, E> current;
+	private Collector<T> current;
 
 	public HistorySink( final int capacity )
 	{
@@ -35,14 +37,14 @@ public class HistorySink<T, E extends Exception> implements Sink<T, E>
 		}
 
         this.capacity = capacity;
-        history = new LinkedList<Collector<T, E>>();
+        history = new LinkedList<Collector<T>>();
 
 		len = 0;
 	}
 
 	public void advance()
 	{
-		current = new Collector<T, E>();
+		current = new Collector<T>();
 		history.addFirst( current );
 
 		len++;
@@ -52,12 +54,12 @@ public class HistorySink<T, E extends Exception> implements Sink<T, E>
 		}
 	}
 
-	public void put( final T t ) throws E
+	public void put( final T t ) throws RippleException
 	{
 		current.put( t );
 	}
 
-	public Source<T, E> get(final int index) throws E
+	public Source<T> get(final int index)
 	{
         if (index < 0) {
             throw new IllegalArgumentException();

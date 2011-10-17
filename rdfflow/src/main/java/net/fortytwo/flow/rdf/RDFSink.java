@@ -14,10 +14,9 @@ import net.fortytwo.flow.Sink;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;
 
-public interface RDFSink<E extends Exception>
-{
-	Sink<Statement, E> statementSink();
-	Sink<Namespace, E> namespaceSink();
-	Sink<String, E> commentSink();
+public interface RDFSink {
+	Sink<Statement> statementSink();
+	Sink<Namespace> namespaceSink();
+	Sink<String> commentSink();
 }
 

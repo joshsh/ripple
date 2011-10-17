@@ -46,14 +46,14 @@ public class PlusApply extends PrimitiveStackMapping {
     }
 
     public void apply(final StackContext arg,
-                      final Sink<StackContext, RippleException> solutions)
+                      final Sink<StackContext> solutions)
             throws RippleException {
         final ModelConnection mc = arg.getModelConnection();
         RippleList stack = arg.getStack();
         RippleValue first = stack.getFirst();
         final RippleList rest = stack.getRest();
 
-        Sink<Operator, RippleException> opSink = new Sink<Operator, RippleException>() {
+        Sink<Operator> opSink = new Sink<Operator>() {
             public void put(final Operator op) throws RippleException {
                 solutions.put(arg.with(rest.push(
                         new StackMappingWrapper(new PlusQuantifier(op), mc))));

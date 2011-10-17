@@ -53,7 +53,7 @@ public class Members extends PrimitiveStackMapping {
     }
 
     public void apply(final StackContext arg,
-                      final Sink<StackContext, RippleException> solutions)
+                      final Sink<StackContext> solutions)
             throws RippleException {
         final ModelConnection mc = arg.getModelConnection();
 
@@ -64,13 +64,13 @@ public class Members extends PrimitiveStackMapping {
             RippleValue head = stack.getFirst();
             final RippleList rest = stack.getRest();
 
-            final Sink<RippleValue, RippleException> pushSink = new Sink<RippleValue, RippleException>() {
+            final Sink<RippleValue> pushSink = new Sink<RippleValue>() {
                 public void put(final RippleValue v) throws RippleException {
                     solutions.put(arg.with(rest.push(v)));
                 }
             };
 
-            Sink<Statement, RippleException> stSink = new Sink<Statement, RippleException>() {
+            Sink<Statement> stSink = new Sink<Statement>() {
                 public void put(final Statement st) throws RippleException {
                     if ('_' == st.getPredicate().getLocalName().charAt(0)) {
                         pushSink.put(new RDFValue(st.getObject()));

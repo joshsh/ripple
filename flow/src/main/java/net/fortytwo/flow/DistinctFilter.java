@@ -9,20 +9,22 @@
 
 package net.fortytwo.flow;
 
+import net.fortytwo.ripple.RippleException;
+
 import java.util.HashSet;
 import java.util.Set;
 
-public class DistinctFilter<T, E extends Exception> implements Sink<T, E>
+public class DistinctFilter<T> implements Sink<T>
 {
 	private final Set<T> set = new HashSet<T>();
-	private final Sink<T, E> sink;
+	private final Sink<T> sink;
 
-	public DistinctFilter( final Sink<T, E> sink )
+	public DistinctFilter( final Sink<T> sink )
 	{
 		this.sink = sink;
 	}
 
-	public void put( final T t ) throws E
+	public void put( final T t ) throws RippleException
 	{
 		if ( set.add( t ) )
 		{

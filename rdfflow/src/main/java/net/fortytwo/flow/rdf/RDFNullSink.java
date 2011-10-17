@@ -15,23 +15,22 @@ import net.fortytwo.flow.Sink;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;
 
-public class RDFNullSink<E extends Exception> implements RDFSink<E>
-{
-	private final Sink<Statement, E> stSink = new NullSink<Statement, E>();
-	private final Sink<Namespace, E> nsSink = new NullSink<Namespace, E>();
-	private final Sink<String, E> cmtSink = new NullSink<String, E>();
+public class RDFNullSink implements RDFSink {
+	private final Sink<Statement> stSink = new NullSink<Statement>();
+	private final Sink<Namespace> nsSink = new NullSink<Namespace>();
+	private final Sink<String> cmtSink = new NullSink<String>();
 
-	public Sink<Statement, E> statementSink()
+	public Sink<Statement> statementSink()
 	{
 		return stSink;
 	}
 
-	public Sink<Namespace, E> namespaceSink()
+	public Sink<Namespace> namespaceSink()
 	{
 		return nsSink;
 	}
 
-	public Sink<String, E> commentSink()
+	public Sink<String> commentSink()
 	{
 		return cmtSink;
 	}

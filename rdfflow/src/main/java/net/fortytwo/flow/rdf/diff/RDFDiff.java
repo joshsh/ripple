@@ -15,91 +15,75 @@ import net.fortytwo.flow.diff.NullDiffSink;
 import net.fortytwo.flow.rdf.RDFCollector;
 import net.fortytwo.flow.rdf.RDFSink;
 import net.fortytwo.flow.rdf.RDFSource;
+import net.fortytwo.ripple.RippleException;
 import org.openrdf.model.Statement;
 import org.openrdf.model.Namespace;
 
-public class RDFDiff<E extends Exception> implements RDFDiffSink<E>, RDFDiffSource<E>
-{
-	private final RDFCollector<E> added, subtracted;
+public class RDFDiff implements RDFDiffSink, RDFDiffSource {
+    private final RDFCollector added, subtracted;
 
-    private final DiffSink<Statement, E> stSink;
-    private final DiffSink<Namespace, E> nsSink;
-    private final DiffSink<String, E> cmtSink;
+    private final DiffSink<Statement> stSink;
+    private final DiffSink<Namespace> nsSink;
+    private final DiffSink<String> cmtSink;
 
-    public RDFDiff()
-	{
-		added = new RDFCollector<E>();
-		subtracted = new RDFCollector<E>();
+    public RDFDiff() {
+        added = new RDFCollector();
+        subtracted = new RDFCollector();
 
-        stSink = new DiffSink<Statement, E>()
-        {
-            public Sink<Statement, E> getPlus()
-            {
+        stSink = new DiffSink<Statement>() {
+            public Sink<Statement> getPlus() {
                 return added.statementSink();
             }
 
-            public Sink<Statement, E> getMinus()
-            {
+            public Sink<Statement> getMinus() {
                 return subtracted.statementSink();
             }
         };
 
-        nsSink = new DiffSink<Namespace, E>()
-        {
-            public Sink<Namespace, E> getPlus()
-            {
+        nsSink = new DiffSink<Namespace>() {
+            public Sink<Namespace> getPlus() {
                 return added.namespaceSink();
             }
 
-            public Sink<Namespace, E> getMinus()
-            {
+            public Sink<Namespace> getMinus() {
                 return subtracted.namespaceSink();
             }
         };
 
-        cmtSink = new NullDiffSink<String, E>();
+        cmtSink = new NullDiffSink<String>();
     }
 
-    public DiffSink<Statement, E> statementSink() {
+    public DiffSink<Statement> statementSink() {
         return stSink;
     }
 
-    public DiffSink<Namespace, E> namespaceSink() {
+    public DiffSink<Namespace> namespaceSink() {
         return nsSink;
     }
 
-    public DiffSink<String, E> commentSink() {
+    public DiffSink<String> commentSink() {
         return cmtSink;
     }
 
-    public RDFSink<E> adderSink()
-	{
-		return added;
-	}
+    public RDFSink adderSink() {
+        return added;
+    }
 
-	public RDFSink<E> subtractorSink()
-	{
-		return subtracted;
-	}
+    public RDFSink subtractorSink() {
+        return subtracted;
+    }
 
-    public RDFSource<E> adderSource()
-	{
-		return added;
-	}
+    public RDFSource adderSource() {
+        return added;
+    }
 
-	public RDFSource<E> subtractorSource()
-	{
-		return subtracted;
-	}
+    public RDFSource subtractorSource() {
+        return subtracted;
+    }
 
-	public void writeTo( final RDFDiffSink<E> sink ) throws E
-	{
-        try {
-            added.writeTo( sink.adderSink() );
-            subtracted.writeTo( sink.subtractorSink() );
-        } catch (Exception e) {
-            throw (E) e;
-        }
+    public void writeTo(final RDFDiffSink sink) throws RippleException {
+        added.writeTo(sink.adderSink());
+        subtracted.writeTo(sink.subtractorSink());
     }
 }
 

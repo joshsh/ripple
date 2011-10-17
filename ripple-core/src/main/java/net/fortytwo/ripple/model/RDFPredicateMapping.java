@@ -47,7 +47,7 @@ public class RDFPredicateMapping implements StackMapping {
     private void findListPredicateSolutions(final RippleValue subject,
                                             final StackContext arg,
                                             final RippleList rest,
-                                            final Sink<StackContext, RippleException> solutions) throws RippleException {
+                                            final Sink<StackContext> solutions) throws RippleException {
         if (subject instanceof RippleList) {
             if (predicate.sesameValue().equals(RDF.TYPE)) {
                 solutions.put(arg.with(rest.push(arg.getModelConnection().uriValue(RDF.LIST.toString()))));
@@ -65,7 +65,7 @@ public class RDFPredicateMapping implements StackMapping {
     }
 
     public void apply(final StackContext arg,
-                      final Sink<StackContext, RippleException> solutions) throws RippleException {
+                      final Sink<StackContext> solutions) throws RippleException {
         final ModelConnection mc = arg.getModelConnection();
         RippleList stack = arg.getStack();
         RippleValue sourceVal = stack.getFirst();
@@ -88,7 +88,7 @@ public class RDFPredicateMapping implements StackMapping {
                 throw new RippleException("unsupported query type: " + type);
         }
 
-        Sink<RippleValue, RippleException> resultSink = new ValueSink(arg, solutions);
+        Sink<RippleValue> resultSink = new ValueSink(arg, solutions);
 
         //System.out.println("asynch: " + Ripple.asynchronousQueries());
         if (Ripple.asynchronousQueries()) {
@@ -120,11 +120,11 @@ public class RDFPredicateMapping implements StackMapping {
         return new RDFPredicateMapping(inverseType, this.predicate, this.context);
     }
 
-    private class ValueSink implements Sink<RippleValue, RippleException> {
-        private Sink<StackContext, RippleException> sink;
+    private class ValueSink implements Sink<RippleValue> {
+        private Sink<StackContext> sink;
         private StackContext arg;
 
-        public ValueSink(final StackContext arg, final Sink<StackContext, RippleException> sink) {
+        public ValueSink(final StackContext arg, final Sink<StackContext> sink) {
             this.arg = arg;
             this.sink = sink;
         }

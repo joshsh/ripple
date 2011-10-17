@@ -9,15 +9,15 @@
 
 package net.fortytwo.flow;
 
-import java.util.Collection;
+import net.fortytwo.ripple.RippleException;
+
 import java.util.Iterator;
-import java.util.LinkedList;
 
 /**
  * Note: while this class is not actually thread-safe, put() may safely be
  * called while writeTo() is in progress.
  */
-public class Collector<T, E extends Exception> extends SimpleReadOnlyCollection<T> implements Sink<T, E>, Source<T, E>
+public class Collector<T> extends SimpleReadOnlyCollection<T> implements Sink<T>, Source<T>
 {
 	private Node first, last;
 	private int count;
@@ -27,7 +27,7 @@ public class Collector<T, E extends Exception> extends SimpleReadOnlyCollection<
 		clear();
 	}
 
-	public void put( final T t ) throws E
+	public void put( final T t ) throws RippleException
 	{
 		Node n = new Node( t, null );
 
@@ -45,7 +45,7 @@ public class Collector<T, E extends Exception> extends SimpleReadOnlyCollection<
 		count++;
 	}
 
-    public void writeTo( final Sink<T, E> sink ) throws E
+    public void writeTo( final Sink<T> sink ) throws RippleException
 	{
 		Node cur = first;
 		while ( null != cur )
@@ -53,7 +53,11 @@ public class Collector<T, E extends Exception> extends SimpleReadOnlyCollection<
             // Any new items which are put() as a result of this call will
             // eventually be passed into the sink as well (even if clear()
             // is called).
-            sink.put( cur.value );
+            try {
+                sink.put( cur.value );
+            } catch (RippleException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
 
             cur = cur.next;
 		}

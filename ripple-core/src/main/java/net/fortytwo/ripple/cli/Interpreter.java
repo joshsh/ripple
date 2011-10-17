@@ -17,8 +17,6 @@ import net.fortytwo.flow.Sink;
 
 import org.apache.log4j.Logger;
 
-import antlr.TokenStreamIOException;
-
 public class Interpreter
 {
 	private static final Logger LOGGER
@@ -26,13 +24,13 @@ public class Interpreter
 
 	private final RecognizerAdapter recognizerAdapter;
 	private final InputStream input;
-	private final Sink<Exception, RippleException> exceptionSink;
+	private final Sink<Exception> exceptionSink;
     
     private boolean active = false;
 
 	public Interpreter( final RecognizerAdapter adapter,
 						final InputStream input,
-						final Sink<Exception, RippleException> exceptionSink )
+						final Sink<Exception> exceptionSink )
 	{
 		recognizerAdapter = adapter;
 		this.input = input;
@@ -81,13 +79,7 @@ public class Interpreter
             // TokenStreamIOException is considered fatal.  Two scenarios in
             // which it occurs are when the Interpreter thread has been
             // interrupted, and when the lexer has reached the end of input.
-            catch ( TokenStreamIOException e )
-			{
-				new RippleException( e ).logError();
-                active = false;
-				break;
-			}
-			
+
             // All other errors are assumed to be non-fatal.
             catch ( Exception e )
 			{

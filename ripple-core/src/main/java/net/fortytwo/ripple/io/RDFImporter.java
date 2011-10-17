@@ -21,15 +21,15 @@ import org.openrdf.model.Statement;
 
 // TODO: change this class to use a SailConnection instead of a ModelConnection
 public class RDFImporter implements RDFSink {
-    private final Sink<Statement, RippleException> stSink;
-    private final Sink<Namespace, RippleException> nsSink;
-    private final Sink<String, RippleException> cmtSink;
+    private final Sink<Statement> stSink;
+    private final Sink<Namespace> nsSink;
+    private final Sink<String> cmtSink;
 
     public RDFImporter(final ModelConnection mc,
                        final Resource... contexts) throws RippleException {
         final boolean override = Ripple.getConfiguration().getBoolean(Ripple.PREFER_NEWEST_NAMESPACE_DEFINITIONS);
 
-        stSink = new Sink<Statement, RippleException>() {
+        stSink = new Sink<Statement>() {
             public void put(final Statement st) throws RippleException {
 //System.out.println( "adding statement: " + st );
                 if (0 == contexts.length) {
@@ -47,27 +47,27 @@ public class RDFImporter implements RDFSink {
             }
         };
 
-        nsSink = new Sink<Namespace, RippleException>() {
+        nsSink = new Sink<Namespace>() {
             public void put(final Namespace ns) throws RippleException {
                 mc.setNamespace(ns.getPrefix(), ns.getName(), override);
             }
         };
 
-        cmtSink = new Sink<String, RippleException>() {
+        cmtSink = new Sink<String>() {
             public void put(final String comment) throws RippleException {
             }
         };
     }
 
-    public Sink<Statement, RippleException> statementSink() {
+    public Sink<Statement> statementSink() {
         return stSink;
     }
 
-    public Sink<Namespace, RippleException> namespaceSink() {
+    public Sink<Namespace> namespaceSink() {
         return nsSink;
     }
 
-    public Sink<String, RippleException> commentSink() {
+    public Sink<String> commentSink() {
         return cmtSink;
     }
 }

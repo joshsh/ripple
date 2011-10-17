@@ -143,8 +143,8 @@ public abstract class RippleTestCase extends TestCase {
         return createStack(mc, values).invert();
     }
 
-    protected void assertCollectorsEqual(final Collector<RippleList, RippleException> expected,
-                                         final Collector<RippleList, RippleException> actual) throws Exception {
+    protected void assertCollectorsEqual(final Collector<RippleList> expected,
+                                         final Collector<RippleList> actual) throws Exception {
 //System.out.println("expected: " + expected + ", actual = " + actual);
         int size = expected.size();
 /*if (actual.size() != expected.size()) {
@@ -216,8 +216,8 @@ while (!l.isNil()) {
     }
 
     protected Collection<RippleList> reduce(final InputStream from) throws RippleException {
-        Collector<RippleList, RippleException>
-                results = new Collector<RippleList, RippleException>();
+        Collector<RippleList>
+                results = new Collector<RippleList>();
 
         QueryEngine qe = getTestQueryEngine();
 
@@ -245,8 +245,8 @@ while (!l.isNil()) {
 
 
     protected Collection<RippleList> reduce(final String from) throws RippleException {
-        Collector<RippleList, RippleException>
-                results = new Collector<RippleList, RippleException>();
+        Collector<RippleList>
+                results = new Collector<RippleList>();
 
         QueryEngine qe = getTestQueryEngine();
 
@@ -263,9 +263,9 @@ while (!l.isNil()) {
     }
 
     protected void assertReducesTo(final String from, final String... to) throws Exception {
-        Collector<RippleList, RippleException>
-                expected = new Collector<RippleList, RippleException>(),
-                actual = new Collector<RippleList, RippleException>();
+        Collector<RippleList>
+                expected = new Collector<RippleList>(),
+                actual = new Collector<RippleList>();
 
         QueryEngine qe = getTestQueryEngine();
 

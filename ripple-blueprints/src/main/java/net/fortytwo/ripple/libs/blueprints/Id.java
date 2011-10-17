@@ -35,7 +35,7 @@ public class Id extends PrimitiveStackMapping {
 
     @Override
     public void apply(final StackContext arg,
-                      final Sink<StackContext, RippleException> solutions) throws RippleException {
+                      final Sink<StackContext> solutions) throws RippleException {
         ModelConnection mc = arg.getModelConnection();
         RippleList stack = arg.getStack();
         RippleValue first = stack.getFirst();

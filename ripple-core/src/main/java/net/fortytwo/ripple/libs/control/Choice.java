@@ -56,8 +56,8 @@ public class Choice extends PrimitiveStackMapping
     }
 
 	public void apply( final StackContext arg,
-						 final Sink<StackContext, RippleException> solutions )
-		throws RippleException
+						 final Sink<StackContext> solutions )
+            throws RippleException
 	{
 		RippleValue f, t, b;
         ModelConnection mc = arg.getModelConnection();

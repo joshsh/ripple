@@ -42,7 +42,7 @@ public class RangeApply extends PrimitiveStackMapping {
     }
 
     public void apply(final StackContext arg,
-                      final Sink<StackContext, RippleException> solutions)
+                      final Sink<StackContext> solutions)
             throws RippleException {
         RippleList stack = arg.getStack();
         final ModelConnection mc = arg.getModelConnection();
@@ -56,7 +56,7 @@ public class RangeApply extends PrimitiveStackMapping {
         RippleValue p = stack.getFirst();
         final RippleList rest = stack.getRest();
 
-        Sink<Operator, RippleException> opSink = new Sink<Operator, RippleException>() {
+        Sink<Operator> opSink = new Sink<Operator>() {
             public void put(final Operator op) throws RippleException {
                 solutions.put(arg.with(rest.push(
                         new StackMappingWrapper(new TimesQuantifier(op, min, max), mc))));

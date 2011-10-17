@@ -15,30 +15,29 @@ import net.fortytwo.flow.SynchronizedSink;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;
 
-public class SynchronizedRDFSink<E extends Exception> implements RDFSink<E>
-{
-	private final SynchronizedSink<Statement, E> stSink;
-	private final SynchronizedSink<Namespace, E> nsSink;
-	private final SynchronizedSink<String, E> comSink;
+public class SynchronizedRDFSink implements RDFSink {
+	private final SynchronizedSink<Statement> stSink;
+	private final SynchronizedSink<Namespace> nsSink;
+	private final SynchronizedSink<String> comSink;
 
-	public SynchronizedRDFSink( final RDFSink<E> sink, final Object mutex )
+	public SynchronizedRDFSink( final RDFSink sink, final Object mutex )
 	{
-		stSink = new SynchronizedSink<Statement, E>( sink.statementSink(), mutex );
-		nsSink = new SynchronizedSink<Namespace, E>( sink.namespaceSink(), mutex );
-		comSink = new SynchronizedSink<String, E>( sink.commentSink(), mutex );
+		stSink = new SynchronizedSink<Statement>( sink.statementSink(), mutex );
+		nsSink = new SynchronizedSink<Namespace>( sink.namespaceSink(), mutex );
+		comSink = new SynchronizedSink<String>( sink.commentSink(), mutex );
 	}
 
-	public Sink<Statement, E> statementSink()
+	public Sink<Statement> statementSink()
 	{
 		return stSink;
 	}
 
-	public Sink<Namespace, E> namespaceSink()
+	public Sink<Namespace> namespaceSink()
 	{
 		return nsSink;
 	}
 
-	public Sink<String, E> commentSink()
+	public Sink<String> commentSink()
 	{
 		return comSink;
 	}

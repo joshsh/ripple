@@ -12,6 +12,7 @@ package net.fortytwo.flow.rdf.diff;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.diff.DiffSink;
 import net.fortytwo.flow.rdf.RDFSink;
+import net.fortytwo.ripple.RippleException;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
@@ -20,29 +21,28 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public final class RDFDiffContextFilter<E extends Exception> implements RDFDiffSink<E>
-{
-	private final Map<Resource, RDFDiffCollector<E>> contextToCollectorMap;
-    private final RDFSink<E> addSink;
-    private final RDFSink<E> subSink;
-    private final DiffSink<Statement, E> stSink;
-    private final DiffSink<Namespace, E> nsSink;
-    private final DiffSink<String, E> cmtSink;
+public final class RDFDiffContextFilter implements RDFDiffSink {
+	private final Map<Resource, RDFDiffCollector> contextToCollectorMap;
+    private final RDFSink addSink;
+    private final RDFSink subSink;
+    private final DiffSink<Statement> stSink;
+    private final DiffSink<Namespace> nsSink;
+    private final DiffSink<String> cmtSink;
 
     public RDFDiffContextFilter()
 	{
-		contextToCollectorMap = new HashMap<Resource, RDFDiffCollector<E>>();
+		contextToCollectorMap = new HashMap<Resource, RDFDiffCollector>();
 
-        final Sink<Statement, E> stAddSink = new Sink<Statement, E>()
+        final Sink<Statement> stAddSink = new Sink<Statement>()
         {
-            public void put( final Statement st ) throws E
+            public void put( final Statement st ) throws RippleException
             {
                 Resource context = st.getContext();
 
-                RDFDiffCollector<E> sink = contextToCollectorMap.get( context );
+                RDFDiffCollector sink = contextToCollectorMap.get( context );
                 if ( null == sink )
                 {
-                    sink = new RDFDiffCollector<E>();
+                    sink = new RDFDiffCollector();
                     contextToCollectorMap.put( context, sink );
                 }
 
@@ -50,16 +50,16 @@ public final class RDFDiffContextFilter<E extends Exception> implements RDFDiffS
             }
         };
 
-        final Sink<Statement, E> stSubSink = new Sink<Statement, E>()
+        final Sink<Statement> stSubSink = new Sink<Statement>()
         {
-            public void put( final Statement st ) throws E
+            public void put( final Statement st ) throws RippleException
             {
                 Resource context = st.getContext();
 
-                RDFDiffCollector<E> sink = contextToCollectorMap.get( context );
+                RDFDiffCollector sink = contextToCollectorMap.get( context );
                 if ( null == sink )
                 {
-                    sink = new RDFDiffCollector<E>();
+                    sink = new RDFDiffCollector();
                     contextToCollectorMap.put( context, sink );
                 }
 
@@ -67,108 +67,108 @@ public final class RDFDiffContextFilter<E extends Exception> implements RDFDiffS
             }
         };
 
-        final Sink<Namespace, E> nsAddSink = new Sink<Namespace, E>()
+        final Sink<Namespace> nsAddSink = new Sink<Namespace>()
         {
-            public void put( final Namespace ns ) throws E
+            public void put( final Namespace ns ) throws RippleException
             {
                 contextToCollectorMap.get( null ).adderSink().namespaceSink().put( ns );
             }
         };
 
-        final Sink<Namespace, E> nsSubSink = new Sink<Namespace, E>()
+        final Sink<Namespace> nsSubSink = new Sink<Namespace>()
         {
-            public void put( final Namespace ns ) throws E
+            public void put( final Namespace ns ) throws RippleException
             {
                 contextToCollectorMap.get( null ).subtractorSink().namespaceSink().put( ns );
             }
         };
 
-        final Sink<String, E> cmtAddSink = new Sink<String, E>()
+        final Sink<String> cmtAddSink = new Sink<String>()
         {
-            public void put( final String comment ) throws E
+            public void put( final String comment ) throws RippleException
             {
                 contextToCollectorMap.get( null ).adderSink().commentSink().put( comment );
             }
         };
 
-        final Sink<String, E> cmtSubSink = new Sink<String, E>()
+        final Sink<String> cmtSubSink = new Sink<String>()
         {
-            public void put( final String comment ) throws E
+            public void put( final String comment ) throws RippleException
             {
                 contextToCollectorMap.get( null ).subtractorSink().commentSink().put( comment );
             }
         };
 
-        addSink = new RDFSink<E>()
+        addSink = new RDFSink()
         {
-            public Sink<Statement, E> statementSink()
+            public Sink<Statement> statementSink()
             {
                 return stAddSink;
             }
 
-            public Sink<Namespace, E> namespaceSink()
+            public Sink<Namespace> namespaceSink()
             {
                 return nsAddSink;
             }
 
-            public Sink<String, E> commentSink()
+            public Sink<String> commentSink()
             {
                 return cmtAddSink;
             }
         };
 
-        subSink = new RDFSink<E>()
+        subSink = new RDFSink()
         {
-            public Sink<Statement, E> statementSink()
+            public Sink<Statement> statementSink()
             {
                 return stSubSink;
             }
 
-            public Sink<Namespace, E> namespaceSink()
+            public Sink<Namespace> namespaceSink()
             {
                 return nsSubSink;
             }
 
-            public Sink<String, E> commentSink()
+            public Sink<String> commentSink()
             {
                 return cmtSubSink;
             }
         };
 
-        stSink = new DiffSink<Statement, E>()
+        stSink = new DiffSink<Statement>()
         {
-            public Sink<Statement, E> getPlus()
+            public Sink<Statement> getPlus()
             {
                 return stAddSink;
             }
 
-            public Sink<Statement, E> getMinus()
+            public Sink<Statement> getMinus()
             {
                 return stSubSink;
             }
         };
 
-        nsSink = new DiffSink<Namespace, E>()
+        nsSink = new DiffSink<Namespace>()
         {
-            public Sink<Namespace, E> getPlus()
+            public Sink<Namespace> getPlus()
             {
                 return nsAddSink;
             }
 
-            public Sink<Namespace, E> getMinus()
+            public Sink<Namespace> getMinus()
             {
                 return nsSubSink;
             }
         };
 
-        cmtSink = new DiffSink<String, E>()
+        cmtSink = new DiffSink<String>()
         {
-            public Sink<String, E> getPlus()
+            public Sink<String> getPlus()
             {
                 return cmtAddSink;
             }
 
-            public Sink<String, E> getMinus()
+            public Sink<String> getMinus()
             {
                 return cmtSubSink;
             }
@@ -182,7 +182,7 @@ public final class RDFDiffContextFilter<E extends Exception> implements RDFDiffS
 		return contextToCollectorMap.keySet().iterator();
 	}
 
-	public RDFDiffSource<E> sourceForContext( final Resource context )
+	public RDFDiffSource sourceForContext( final Resource context )
 	{
 		return contextToCollectorMap.get( context );
 	}
@@ -191,7 +191,7 @@ public final class RDFDiffContextFilter<E extends Exception> implements RDFDiffS
 	{
 		contextToCollectorMap.clear();
 
-		RDFDiffCollector<E> nullCollector = new RDFDiffCollector<E>();
+		RDFDiffCollector nullCollector = new RDFDiffCollector();
 		contextToCollectorMap.put( null, nullCollector );
 	}
 
@@ -200,25 +200,25 @@ public final class RDFDiffContextFilter<E extends Exception> implements RDFDiffS
 		contextToCollectorMap.remove( context );
 	}
 
-	public RDFSink<E> adderSink()
+	public RDFSink adderSink()
 	{
 		return addSink;
 	}
 
-	public RDFSink<E> subtractorSink()
+	public RDFSink subtractorSink()
 	{
 		return subSink;
 	}
 
-    public DiffSink<Statement, E> statementSink() {
+    public DiffSink<Statement> statementSink() {
         return stSink;
     }
 
-    public DiffSink<Namespace, E> namespaceSink() {
+    public DiffSink<Namespace> namespaceSink() {
         return nsSink;
     }
 
-    public DiffSink<String, E> commentSink() {
+    public DiffSink<String> commentSink() {
         return cmtSink;
     }
 }

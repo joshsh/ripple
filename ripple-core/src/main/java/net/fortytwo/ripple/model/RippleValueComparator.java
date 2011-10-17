@@ -171,28 +171,28 @@ public class RippleValueComparator implements Comparator<RippleValue> {
             if (second instanceof RippleList) {
                 return compareNativeLists((RippleList) first, (RippleList) second);
             } else {
-                Collector<RippleList, RippleException> firstLists
-                        = new Collector<RippleList, RippleException>();
-                Collector<RippleList, RippleException> secondLists
-                        = new Collector<RippleList, RippleException>();
+                Collector<RippleList> firstLists
+                        = new Collector<RippleList>();
+                Collector<RippleList> secondLists
+                        = new Collector<RippleList>();
                 firstLists.put((RippleList) first);
                 modelConnection.toList(second, secondLists);
                 return compareListCollectors(firstLists, secondLists);
             }
         } else {
             if (second instanceof RippleList) {
-                Collector<RippleList, RippleException> firstLists
-                        = new Collector<RippleList, RippleException>();
-                Collector<RippleList, RippleException> secondLists
-                        = new Collector<RippleList, RippleException>();
+                Collector<RippleList> firstLists
+                        = new Collector<RippleList>();
+                Collector<RippleList> secondLists
+                        = new Collector<RippleList>();
                 modelConnection.toList(first, firstLists);
                 secondLists.put((RippleList) second);
                 return compareListCollectors(firstLists, secondLists);
             } else {
-                Collector<RippleList, RippleException> firstLists
-                        = new Collector<RippleList, RippleException>();
-                Collector<RippleList, RippleException> secondLists
-                        = new Collector<RippleList, RippleException>();
+                Collector<RippleList> firstLists
+                        = new Collector<RippleList>();
+                Collector<RippleList> secondLists
+                        = new Collector<RippleList>();
                 modelConnection.toList(first, firstLists);
                 modelConnection.toList(second, secondLists);
                 return compareListCollectors(firstLists, secondLists);
@@ -251,8 +251,8 @@ public class RippleValueComparator implements Comparator<RippleValue> {
         }
     }
 
-    private int compareListCollectors(final Collector<RippleList, RippleException> firstLists,
-                                      final Collector<RippleList, RippleException> secondLists) throws RippleException {
+    private int compareListCollectors(final Collector<RippleList> firstLists,
+                                      final Collector<RippleList> secondLists) throws RippleException {
         int firstSize = firstLists.size();
         int secondSize = secondLists.size();
 

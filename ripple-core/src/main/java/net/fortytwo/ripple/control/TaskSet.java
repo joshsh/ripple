@@ -20,7 +20,7 @@ public class TaskSet
 {
 	private int count = 0;
 
-	private final Sink<Task, RippleException> completedTaskSink = new Sink<Task, RippleException>()
+	private final Sink<Task> completedTaskSink = new Sink<Task>()
 	{
 		public synchronized void put( final Task task ) throws RippleException
 		{

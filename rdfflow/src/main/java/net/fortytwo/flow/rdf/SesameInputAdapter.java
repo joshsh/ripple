@@ -18,13 +18,13 @@ import org.openrdf.rio.RDFHandler;
 /**
  * An RDFHandler which passes its input into an RdfSink.
  */
-public class SesameInputAdapter<E extends Exception> implements RDFHandler
+public class SesameInputAdapter implements RDFHandler
 {
-	private final Sink<Statement, E> stSink;
-	private final Sink<Namespace, E> nsSink;
-	private final Sink<String, E> cmtSink;
+	private final Sink<Statement> stSink;
+	private final Sink<Namespace> nsSink;
+	private final Sink<String> cmtSink;
 
-	public SesameInputAdapter( final RDFSink<E> sink )
+	public SesameInputAdapter( final RDFSink sink )
 	{
 		stSink = sink.statementSink();
 		nsSink = sink.namespaceSink();

@@ -9,19 +9,21 @@
 
 package net.fortytwo.flow;
 
+import net.fortytwo.ripple.RippleException;
+
 /**
  * Author: josh
  * Date: Apr 2, 2008
  * Time: 3:43:54 PM
  */
-public class NullMapping<D, R, E extends Exception> implements Mapping<D, R, E>
+public class NullMapping<D, R> implements Mapping<D, R>
 {
     public boolean isTransparent()
     {
         return true;
     }
 
-    public void apply( final D arg, final Sink<R, E> solutions ) throws E
+    public void apply( final D arg, final Sink<R> solutions ) throws RippleException
     {
         // Do nothing
     }

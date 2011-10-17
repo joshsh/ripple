@@ -22,7 +22,7 @@ public class SailConnectionListenerAdapter implements SailConnectionListener
 	private static final Logger LOGGER
 		= Logger.getLogger( SailConnectionListenerAdapter.class );
 	
-	private final Sink<Statement, RippleException> addSink, subSink;
+	private final Sink<Statement> addSink, subSink;
 	
 	public SailConnectionListenerAdapter( final RDFDiffSink diffSink )
 	{

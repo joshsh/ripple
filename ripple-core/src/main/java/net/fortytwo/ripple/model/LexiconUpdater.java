@@ -9,34 +9,32 @@
 
 package net.fortytwo.ripple.model;
 
-import java.util.regex.Pattern;
-
-import net.fortytwo.ripple.Ripple;
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.diff.DiffSink;
 import net.fortytwo.flow.rdf.RDFSink;
 import net.fortytwo.flow.rdf.diff.RDFDiffSink;
-
+import net.fortytwo.ripple.Ripple;
+import net.fortytwo.ripple.RippleException;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 
+import java.util.regex.Pattern;
+
 /**
  * Note: several LexiconUpdaters may safely be attached to a single Lexicon.
  */
-public class LexiconUpdater implements RDFDiffSink<RippleException>
-{
+public class LexiconUpdater implements RDFDiffSink {
 // TODO: Unicode characters supported by the lexer / Turtle grammar
 	private static final Pattern PREFIX_PATTERN
 		= Pattern.compile( "[A-Za-z][-0-9A-Z_a-z]*" );
 
-	private final RDFSink<RippleException> addSink, subSink;
-    private final DiffSink<Statement, RippleException> stSink;
-    private final DiffSink<Namespace, RippleException> nsSink;
-    private final DiffSink<String, RippleException> cmtSink;
+	private final RDFSink addSink, subSink;
+    private final DiffSink<Statement> stSink;
+    private final DiffSink<Namespace> nsSink;
+    private final DiffSink<String> cmtSink;
 
     public LexiconUpdater( final Lexicon lexicon ) throws RippleException
     {
@@ -45,9 +43,9 @@ public class LexiconUpdater implements RDFDiffSink<RippleException>
 		final boolean allowDuplicateNamespaces = Ripple.getConfiguration().getBoolean(
                 Ripple.ALLOW_DUPLICATE_NAMESPACES );
 
-		addSink = new RDFSink<RippleException>()
+		addSink = new RDFSink()
 		{
-			private Sink<Statement, RippleException> stSink = new Sink<Statement, RippleException>()
+			private Sink<Statement> stSink = new Sink<Statement>()
 			{
 				public void put( final Statement st ) throws RippleException
 				{
@@ -73,7 +71,7 @@ public class LexiconUpdater implements RDFDiffSink<RippleException>
 				}
 			};
 
-			private Sink<Namespace, RippleException> nsSink = new Sink<Namespace, RippleException>()
+			private Sink<Namespace> nsSink = new Sink<Namespace>()
 			{
 				public void put( final Namespace ns ) throws RippleException
 				{
@@ -81,130 +79,130 @@ public class LexiconUpdater implements RDFDiffSink<RippleException>
 				}
 			};
 
-			private Sink<String, RippleException> cmtSink = new Sink<String, RippleException>()
+			private Sink<String> cmtSink = new Sink<String>()
 			{
 				public void put( final String comment ) throws RippleException
 				{
 				}
 			};
 
-			public Sink<Statement, RippleException> statementSink()
+			public Sink<Statement> statementSink()
 			{
 				return stSink;
 			}
 		
-			public Sink<Namespace, RippleException> namespaceSink()
+			public Sink<Namespace> namespaceSink()
 			{
 				return nsSink;
 			}
 		
-			public Sink<String, RippleException> commentSink()
+			public Sink<String> commentSink()
 			{
 				return cmtSink;
 			}
 		};
 
 // TODO
-		subSink = new RDFSink<RippleException>()
+		subSink = new RDFSink()
 		{
-			private Sink<Statement, RippleException> stSink = new Sink<Statement, RippleException>()
+			private Sink<Statement> stSink = new Sink<Statement>()
 			{
 				public void put( final Statement st ) throws RippleException
 				{
 				}
 			};
 
-			private Sink<Namespace, RippleException> nsSink = new Sink<Namespace, RippleException>()
+			private Sink<Namespace> nsSink = new Sink<Namespace>()
 			{
 				public void put( final Namespace ns ) throws RippleException
 				{
 				}
 			};
 
-			private Sink<String, RippleException> cmtSink = new Sink<String, RippleException>()
+			private Sink<String> cmtSink = new Sink<String>()
 			{
 				public void put( final String comment ) throws RippleException
 				{
 				}
 			};
 
-			public Sink<Statement, RippleException> statementSink()
+			public Sink<Statement> statementSink()
 			{
 				return stSink;
 			}
 		
-			public Sink<Namespace, RippleException> namespaceSink()
+			public Sink<Namespace> namespaceSink()
 			{
 				return nsSink;
 			}
 		
-			public Sink<String, RippleException> commentSink()
+			public Sink<String> commentSink()
 			{
 				return cmtSink;
 			}
 		};
 
-        stSink = new DiffSink<Statement, RippleException>()
+        stSink = new DiffSink<Statement>()
         {
-            public Sink<Statement, RippleException> getPlus()
+            public Sink<Statement> getPlus()
             {
                 return addSink.statementSink();
             }
 
-            public Sink<Statement, RippleException> getMinus()
+            public Sink<Statement> getMinus()
             {
                 return subSink.statementSink();
             }
         };
 
-        nsSink = new DiffSink<Namespace, RippleException>()
+        nsSink = new DiffSink<Namespace>()
         {
-            public Sink<Namespace, RippleException> getPlus()
+            public Sink<Namespace> getPlus()
             {
                 return addSink.namespaceSink();
             }
 
-            public Sink<Namespace, RippleException> getMinus()
+            public Sink<Namespace> getMinus()
             {
                 return subSink.namespaceSink();
             }
         };
 
-        cmtSink = new DiffSink<String, RippleException>()
+        cmtSink = new DiffSink<String>()
         {
-            public Sink<String, RippleException> getPlus()
+            public Sink<String> getPlus()
             {
                 return addSink.commentSink();
             }
 
-            public Sink<String, RippleException> getMinus()
+            public Sink<String> getMinus()
             {
                 return subSink.commentSink();
             }
         };
 	}
 
-	public RDFSink<RippleException> adderSink()
+	public RDFSink adderSink()
 	{
 		return addSink;
 	}
 
-	public RDFSink<RippleException> subtractorSink()
+	public RDFSink subtractorSink()
 	{
 		return subSink;
 	}
 
-    public DiffSink<Statement, RippleException> statementSink()
+    public DiffSink<Statement> statementSink()
     {
         return stSink;
     }
 
-    public DiffSink<Namespace, RippleException> namespaceSink()
+    public DiffSink<Namespace> namespaceSink()
     {
         return nsSink;
     }
 
-    public DiffSink<String, RippleException> commentSink()
+    public DiffSink<String> commentSink()
     {
         return cmtSink;
     }

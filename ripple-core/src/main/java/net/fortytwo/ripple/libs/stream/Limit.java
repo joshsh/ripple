@@ -54,8 +54,8 @@ public class Limit extends PrimitiveStackMapping
     }
 
 	public void apply( final StackContext arg,
-						 final Sink<StackContext, RippleException> solutions )
-		throws RippleException
+						 final Sink<StackContext> solutions )
+            throws RippleException
 	{
 		RippleList stack = arg.getStack();
 		final ModelConnection mc = arg.getModelConnection();
@@ -89,9 +89,9 @@ public class Limit extends PrimitiveStackMapping
 		}
 	
 		public void apply( final StackContext arg,
-							 final Sink<StackContext, RippleException> sink
+							 final Sink<StackContext> sink
 		)
-			throws RippleException
+                throws RippleException
 		{
 			if ( count < limit )
 			{

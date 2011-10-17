@@ -16,45 +16,44 @@ import net.fortytwo.flow.Source;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;
 
-public class RDFCollector<E extends Exception> extends RDFSource<E> implements RDFSink<E>
-{
-	private final Collector<Statement, E> statements;
-	private final Collector<Namespace, E> namespaces;
-	private final Collector<String, E> comments;
+public class RDFCollector extends RDFSource implements RDFSink {
+	private final Collector<Statement> statements;
+	private final Collector<Namespace> namespaces;
+	private final Collector<String> comments;
 
 	public RDFCollector()
 	{
-		statements = new Collector<Statement, E>();
-		namespaces = new Collector<Namespace, E>();
-		comments = new Collector<String, E>();
+		statements = new Collector<Statement>();
+		namespaces = new Collector<Namespace>();
+		comments = new Collector<String>();
 	}
 
-	public Sink<Statement, E> statementSink()
+	public Sink<Statement> statementSink()
 	{
 		return statements;
 	}
 
-	public Sink<Namespace, E> namespaceSink()
+	public Sink<Namespace> namespaceSink()
 	{
 		return namespaces;
 	}
 
-	public Sink<String, E> commentSink()
+	public Sink<String> commentSink()
 	{
 		return comments;
 	}
 
-	public Source<Statement, E> statementSource()
+	public Source<Statement> statementSource()
 	{
 		return statements;
 	}
 
-	public Source<Namespace, E> namespaceSource()
+	public Source<Namespace> namespaceSource()
 	{
 		return namespaces;
 	}
 
-	public Source<String, E> commentSource()
+	public Source<String> commentSource()
 	{
 		return comments;
 	}

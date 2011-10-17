@@ -14,13 +14,12 @@ import net.fortytwo.flow.diff.DiffSink;
 import org.openrdf.model.Statement;
 import org.openrdf.model.Namespace;
 
-public interface RDFDiffSink<E extends Exception>
-{
-	RDFSink<E> adderSink();
-	RDFSink<E> subtractorSink();
+public interface RDFDiffSink {
+	RDFSink adderSink();
+	RDFSink subtractorSink();
 
-    DiffSink<Statement, E> statementSink();
-    DiffSink<Namespace, E> namespaceSink();
-    DiffSink<String, E> commentSink();
+    DiffSink<Statement> statementSink();
+    DiffSink<Namespace> namespaceSink();
+    DiffSink<String> commentSink();
 }
 

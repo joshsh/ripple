@@ -58,8 +58,8 @@ public class Intersect extends PrimitiveStackMapping
     }
 
 	public void apply( final StackContext arg,
-						 final Sink<StackContext, RippleException> solutions )
-		throws RippleException
+						 final Sink<StackContext> solutions )
+            throws RippleException
 	{
         ModelConnection mc = arg.getModelConnection();
 		RippleList stack = arg.getStack();
@@ -91,9 +91,9 @@ public class Intersect extends PrimitiveStackMapping
 		}
 
 		public void apply( final StackContext arg,
-							 final Sink<StackContext, RippleException> sink
+							 final Sink<StackContext> sink
 		)
-			throws RippleException
+                throws RippleException
 		{
             ModelConnection mc = arg.getModelConnection();
 			RippleList stack = arg.getStack();
@@ -111,7 +111,7 @@ public class Intersect extends PrimitiveStackMapping
 		}
 
 		private void applyTrue( final StackContext arg,
-								final Sink<StackContext, RippleException> sink ) throws RippleException
+								final Sink<StackContext> sink ) throws RippleException
 		{
             final ModelConnection mc = arg.getModelConnection();
             RippleList stack = arg.getStack().getRest();
@@ -130,7 +130,7 @@ public class Intersect extends PrimitiveStackMapping
 		}
 
 		private void applyFalse( final StackContext arg,
-								final Sink<StackContext, RippleException> sink ) throws RippleException
+								final Sink<StackContext> sink ) throws RippleException
 		{
             final ModelConnection mc = arg.getModelConnection();
 			RippleList stack = arg.getStack().getRest();

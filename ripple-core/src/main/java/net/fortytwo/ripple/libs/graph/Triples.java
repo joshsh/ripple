@@ -61,8 +61,8 @@ public class Triples extends PrimitiveStackMapping
     }
 
 	public void apply( final StackContext arg,
-						 final Sink<StackContext, RippleException> solutions )
-		throws RippleException
+						 final Sink<StackContext> solutions )
+            throws RippleException
 	{
 		final ModelConnection mc = arg.getModelConnection();
 		RippleList stack = arg.getStack();
@@ -77,7 +77,7 @@ public class Triples extends PrimitiveStackMapping
 	}
 
 	static SesameInputAdapter createAdapter( final StackContext arg,
-										final Sink<StackContext, RippleException> resultSink )
+										                      final Sink<StackContext> resultSink )
 	{
 		final ModelConnection mc = arg.getModelConnection();
 		final RippleList rest = arg.getStack().getRest();
@@ -85,7 +85,7 @@ public class Triples extends PrimitiveStackMapping
 		RDFSink rdfSink = new RDFSink()
 		{
 			// Push statements.
-			private Sink<Statement, RippleException> stSink = new Sink<Statement, RippleException>()
+			private Sink<Statement> stSink = new Sink<Statement>()
             {
                 public void put( final Statement st ) throws RippleException
                 {
@@ -97,30 +97,28 @@ public class Triples extends PrimitiveStackMapping
             };
 
 			// Discard namespaces.
-			private Sink<Namespace, RippleException> nsSink = new NullSink<Namespace, RippleException>();
+			private Sink<Namespace> nsSink = new NullSink<Namespace>();
 
 			// Discard comments.
-			private Sink<String, RippleException> cmtSink = new NullSink<String, RippleException>();
+			private Sink<String> cmtSink = new NullSink<String>();
 
-			public Sink<Statement, RippleException> statementSink()
+			public Sink<Statement> statementSink()
 			{
 				return stSink;
 			}
 
-			public Sink<Namespace, RippleException> namespaceSink()
+			public Sink<Namespace> namespaceSink()
 			{
 				return nsSink;
 			}
 
-			public Sink<String, RippleException> commentSink()
+			public Sink<String> commentSink()
 			{
 				return cmtSink;
 			}
 		};
 
-		SesameInputAdapter sc = new SesameInputAdapter( rdfSink );
-
-		return sc;
+		return new SesameInputAdapter( rdfSink );
 	}
 }
 

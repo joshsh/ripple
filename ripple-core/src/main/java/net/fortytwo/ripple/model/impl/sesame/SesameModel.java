@@ -17,10 +17,8 @@ import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.SpecialValueMap;
-import net.fortytwo.ripple.sail.RippleSail;
 import org.apache.log4j.Logger;
 import org.openrdf.sail.Sail;
-import org.openrdf.sail.SailException;
 
 import java.net.URL;
 import java.util.LinkedHashSet;
@@ -33,29 +31,19 @@ public class SesameModel implements Model {
     private static final Logger LOGGER = Logger.getLogger(SesameModel.class);
 
     final Sail sail;
-    //final RippleSail rippleSail;
     SpecialValueMap specialValues;
     final Set<ModelConnection> openConnections = new LinkedHashSet<ModelConnection>();
 
-    public SesameModel(final Sail baseSail) throws RippleException {
-        this(baseSail, Ripple.class.getResource("libraries.txt"));
+    public SesameModel(final Sail sail) throws RippleException {
+        this(sail, Ripple.class.getResource("libraries.txt"));
     }
 
-    public SesameModel(final Sail baseSail,
+    public SesameModel(final Sail sail,
                        final URL libraries)
             throws RippleException {
-        LOGGER.debug("Creating new SesameModel");
+        LOGGER.debug("instantiating SesameModel");
 
-        sail = baseSail;
-
-        /*
-        rippleSail = new RippleSail(this);
-        // FIXME: for now, this completely disables asynchronous query answering
-        try {
-            rippleSail.initialize();
-        } catch (SailException e) {
-            throw new RippleException(e);
-        }*/
+        this.sail = sail;
 
         ModelConnection mc = createConnection();
 
@@ -70,6 +58,8 @@ public class SesameModel implements Model {
 
             // The nil list also needs to be special, so "nil" is also incidentally a keyword.
             specialValues.add(mc.list(), mc);
+
+            mc.commit();
         } finally {
             mc.close();
         }
@@ -108,6 +98,7 @@ public class SesameModel implements Model {
                 LOGGER.warn(sb.toString());
 
                 for (ModelConnection mc : openConnections) {
+                    mc.reset(true);
                     mc.close();
                 }
             }

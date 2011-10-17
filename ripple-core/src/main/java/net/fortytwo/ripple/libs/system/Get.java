@@ -59,8 +59,8 @@ public class Get extends PrimitiveStackMapping
 	}
 
 	public void apply( final StackContext arg,
-						 final Sink<StackContext, RippleException> solutions	)
-		throws RippleException
+						 final Sink<StackContext> solutions	)
+            throws RippleException
 	{
 		final ModelConnection mc = arg.getModelConnection();
 		RippleList stack = arg.getStack();

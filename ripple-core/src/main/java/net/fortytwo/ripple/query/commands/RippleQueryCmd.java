@@ -9,38 +9,39 @@
 
 package net.fortytwo.ripple.query.commands;
 
+import net.fortytwo.flow.Collector;
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.cli.ast.ListAST;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackContext;
+import net.fortytwo.ripple.model.impl.sesame.SesameModelConnection;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.StackEvaluator;
-import net.fortytwo.flow.Collector;
-import net.fortytwo.flow.Sink;
-import net.fortytwo.flow.Source;
 
 public class RippleQueryCmd extends Command
 {
-	private final ListAST listAst;
-	private final Sink<RippleList, RippleException> sink;
+	private final ListAST query;
+	private final Sink<RippleList> sink;
 
     private StackEvaluator evaluator;
 
-    public RippleQueryCmd( final ListAST listAst,
-							final Sink<RippleList, RippleException> sink )
+    public RippleQueryCmd( final ListAST query,
+							final Sink<RippleList> sink )
 	{
-		this.listAst = listAst;
+		this.query = query;
 		this.sink = sink;
 	}
 
 	public void execute( final QueryEngine qe, final ModelConnection mc )
 		throws RippleException
 	{
-        final Collector<RippleList, RippleException> expressions = new Collector<RippleList, RippleException>();
+        System.out.println("executing query: " + query + " against " + ((SesameModelConnection) mc).getSailConnection());
+        final Collector<RippleList> expressions = new Collector<RippleList>();
 
-        final Sink<RippleList, RippleException> exprSink = new Sink<RippleList, RippleException>()
+        final Sink<RippleList> exprSink = new Sink<RippleList>()
         {
             public void put( final RippleList l ) throws RippleException
             {
@@ -51,18 +52,18 @@ public class RippleQueryCmd extends Command
             }
         };
 
-        listAst.evaluate( exprSink, qe, mc );
+        query.evaluate( exprSink, qe, mc );
 
 		evaluator = qe.getEvaluator();
 
-		final Sink<StackContext, RippleException> resultSink = new Sink<StackContext, RippleException>() {
+		final Sink<StackContext> resultSink = new Sink<StackContext>() {
 
 			public void put( final StackContext arg ) throws RippleException
 			{
 				sink.put( arg.getStack() );
 			}
 		};
-		final Sink<RippleList, RippleException> evaluatorSink = new Sink<RippleList, RippleException>()
+		final Sink<RippleList> evaluatorSink = new Sink<RippleList>()
 		{
 			// Note: v will always be a list.
 			public void put( final RippleList l ) throws RippleException

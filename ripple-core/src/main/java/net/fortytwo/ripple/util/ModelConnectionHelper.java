@@ -32,23 +32,23 @@ public class ModelConnectionHelper {
     public RippleValue findSingleObject(final RippleValue subj, final RippleValue pred)
             throws RippleException {
         StatementPatternQuery query = new StatementPatternQuery(subj, pred, null);
-        Collector<RippleValue, RippleException> results = new Collector<RippleValue, RippleException>();
+        Collector<RippleValue> results = new Collector<RippleValue>();
         connection.query(query, results, false);
 
         return results.isEmpty() ? null : results.iterator().next();
     }
 
     public void findPredicates(final RippleValue subject,
-                               final Sink<RippleValue, RippleException> sink)
+                               final Sink<RippleValue> sink)
             throws RippleException {
-        final Sink<Value, RippleException> valueSink = new Sink<Value, RippleException>() {
+        final Sink<Value> valueSink = new Sink<Value>() {
             public void put(final Value v) throws RippleException {
                 sink.put(connection.canonicalValue(new RDFValue(v)));
             }
         };
 
-        Sink<Statement, RippleException> predSelector = new Sink<Statement, RippleException>() {
-            Sink<Value, RippleException> predSink = new DistinctFilter<Value, RippleException>(valueSink);
+        Sink<Statement> predSelector = new Sink<Statement>() {
+            Sink<Value> predSink = new DistinctFilter<Value>(valueSink);
 
             public void put(final Statement st) throws RippleException {
                 //TODO: don't create a new RdfValue before checking for uniqueness

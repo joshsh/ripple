@@ -104,7 +104,7 @@ public interface ModelConnection {
      * @param sink a handler for successfully converted lists
      * @throws RippleException if conversion fails
      */
-    void toList(RippleValue v, Sink<RippleList, RippleException> sink) throws RippleException;
+    void toList(RippleValue v, Sink<RippleList> sink) throws RippleException;
 
     /**
      * Construct an RDF URI reference.
@@ -229,7 +229,7 @@ public interface ModelConnection {
      *                     allowing new threads to be spawned in order to compute results in parallel
      * @throws RippleException if the query cannot be evaluated
      */
-    void query(StatementPatternQuery query, Sink<RippleValue, RippleException> sink, boolean asynchronous) throws RippleException;
+    void query(StatementPatternQuery query, Sink<RippleValue> sink, boolean asynchronous) throws RippleException;
 
     /**
      * Retrieves all namespaces defined in this model.
@@ -238,7 +238,7 @@ public interface ModelConnection {
      * @throws RippleException if namespaces cannot be retrieved
      */
     // TODO: Namespaces should not be part of the ModelConnection API
-    Source<Namespace, RippleException> getNamespaces() throws RippleException;
+    Source<Namespace> getNamespaces() throws RippleException;
 
     /**
      * Retrieves all statements in the model matching a given triple pattern.
@@ -250,7 +250,7 @@ public interface ModelConnection {
      * @throws RippleException if statements cannot be retrieved
      */
     // TODO: Statements should not be part of the ModelConnection API
-    void getStatements(RDFValue subj, RDFValue pred, RDFValue obj, Sink<Statement, RippleException> sink) throws RippleException;
+    void getStatements(RDFValue subj, RDFValue pred, RDFValue obj, Sink<Statement> sink) throws RippleException;
 
     /**
      * Evaluates a SPARQL query against the model.
@@ -266,7 +266,7 @@ public interface ModelConnection {
      * @return a source producing all graph contexts in this model
      * @throws RippleException if contexts cannot be retrieved
      */
-    Source<RippleValue, RippleException> getContexts() throws RippleException;
+    Source<RippleValue> getContexts() throws RippleException;
 
     /**
      * Adds one or more RDF statements to the model.

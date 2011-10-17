@@ -16,8 +16,8 @@ import net.fortytwo.flow.Sink;
  * Date: Mar 7, 2008
  * Time: 1:20:34 PM
  */
-public interface DiffSink<T, E extends Exception>
+public interface DiffSink<T>
 {
-    Sink<T, E> getPlus();
-    Sink<T, E> getMinus();
+    Sink<T> getPlus();
+    Sink<T> getMinus();
 }

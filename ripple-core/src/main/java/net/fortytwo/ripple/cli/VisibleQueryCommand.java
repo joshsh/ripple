@@ -12,7 +12,6 @@ package net.fortytwo.ripple.cli;
 import net.fortytwo.flow.HistorySink;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.cli.ast.KeywordAST;
 import net.fortytwo.ripple.cli.ast.ListAST;
 import net.fortytwo.ripple.control.TaskSet;
 import net.fortytwo.ripple.model.ModelConnection;
@@ -39,14 +38,14 @@ public class VisibleQueryCommand extends Command {
     private static RDFValue RDF_FIRST = new RDFValue(RDF.FIRST);
 
     private final ListAST query;
-    private final HistorySink<RippleList, RippleException> resultHistory;
+    private final HistorySink<RippleList> resultHistory;
 
     private TaskSet taskSet;
 
-    private Switch<RippleList, RippleException> results;
+    private Switch<RippleList> results;
 
     public VisibleQueryCommand(final ListAST query,
-                               final HistorySink<RippleList, RippleException> history) {
+                               final HistorySink<RippleList> history) {
         this.query = query;
         resultHistory = history;
     }
@@ -65,18 +64,18 @@ public class VisibleQueryCommand extends Command {
         TurtleView view = new TurtleView(
                 qe.getPrintStream(), mc);
 
-        Buffer<RippleList, RippleException> buffer = doBuffer ? new Buffer<RippleList, RippleException>(view) : null;
+        Buffer<RippleList> buffer = doBuffer ? new Buffer<RippleList>(view) : null;
 
-        Sink<RippleList, RippleException> med = new SynchronizedSink<RippleList, RippleException>(
+        Sink<RippleList> med = new SynchronizedSink<RippleList>(
                 (doBuffer
                         ? buffer
                         : view));
 
-        results = new Switch<RippleList, RippleException>(
-                new Tee<RippleList, RippleException>(med, resultHistory),
-                new NullSink<RippleList, RippleException>());
+        results = new Switch<RippleList>(
+                new Tee<RippleList>(med, resultHistory),
+                new NullSink<RippleList>());
 
-        Sink<RippleList, RippleException> derefSink = new Sink<RippleList, RippleException>() {
+        Sink<RippleList> derefSink = new Sink<RippleList>() {
             public void put(final RippleList list) throws RippleException {
                 dereference(list.getFirst(), mc);
                 results.put(list);
@@ -113,7 +112,7 @@ public class VisibleQueryCommand extends Command {
         try {
             if (null != v.toRDF(mc)) {
                 StatementPatternQuery query = new StatementPatternQuery(v, RDF_FIRST, null);
-                mc.query(query, new NullSink<RippleValue, RippleException>(), false);
+                mc.query(query, new NullSink<RippleValue>(), false);
             }
         } catch (RippleException e) {
             // (soft fail... don't even log the error)

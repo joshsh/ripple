@@ -16,79 +16,78 @@ import net.fortytwo.flow.Sink;
 import org.openrdf.model.Statement;
 import org.openrdf.model.Namespace;
 
-public class RDFDiffTee<E extends Exception> implements RDFDiffSink<E>
-{
-	private final RDFTee<E> adderTee, subtractorTee;
-    private final DiffSink<Statement, E> stSink;
-    private final DiffSink<Namespace, E> nsSink;
-    private final DiffSink<String, E> cmtSink;
+public class RDFDiffTee implements RDFDiffSink {
+	private final RDFTee adderTee, subtractorTee;
+    private final DiffSink<Statement> stSink;
+    private final DiffSink<Namespace> nsSink;
+    private final DiffSink<String> cmtSink;
 
-    public RDFDiffTee( final RDFDiffSink<E> sinkA, final RDFDiffSink<E> sinkB )
+    public RDFDiffTee( final RDFDiffSink sinkA, final RDFDiffSink sinkB )
 	{
-		adderTee = new RDFTee<E>( sinkA.adderSink(), sinkB.adderSink() );
-		subtractorTee = new RDFTee<E>( sinkA.subtractorSink(), sinkB.subtractorSink() );
+		adderTee = new RDFTee( sinkA.adderSink(), sinkB.adderSink() );
+		subtractorTee = new RDFTee( sinkA.subtractorSink(), sinkB.subtractorSink() );
 
-        stSink = new DiffSink<Statement, E>()
+        stSink = new DiffSink<Statement>()
         {
-            public Sink<Statement, E> getPlus()
+            public Sink<Statement> getPlus()
             {
                 return adderTee.statementSink();
             }
 
-            public Sink<Statement, E> getMinus()
+            public Sink<Statement> getMinus()
             {
                 return subtractorTee.statementSink();
             }
         };
 
-        nsSink = new DiffSink<Namespace, E>()
+        nsSink = new DiffSink<Namespace>()
         {
-            public Sink<Namespace, E> getPlus()
+            public Sink<Namespace> getPlus()
             {
                 return adderTee.namespaceSink();
             }
 
-            public Sink<Namespace, E> getMinus()
+            public Sink<Namespace> getMinus()
             {
                 return subtractorTee.namespaceSink();
             }
         };
 
-        cmtSink = new DiffSink<String, E>()
+        cmtSink = new DiffSink<String>()
         {
-            public Sink<String, E> getPlus()
+            public Sink<String> getPlus()
             {
                 return adderTee.commentSink();
             }
 
-            public Sink<String, E> getMinus()
+            public Sink<String> getMinus()
             {
                 return subtractorTee.commentSink();
             }
         };
     }
 
-	public RDFSink<E> adderSink()
+	public RDFSink adderSink()
 	{
 		return adderTee;
 	}
 
-	public RDFSink<E> subtractorSink()
+	public RDFSink subtractorSink()
 	{
 		return subtractorTee;
 	}
 
-    public DiffSink<Statement, E> statementSink()
+    public DiffSink<Statement> statementSink()
     {
         return stSink;
     }
 
-    public DiffSink<Namespace, E> namespaceSink()
+    public DiffSink<Namespace> namespaceSink()
     {
         return nsSink;
     }
 
-    public DiffSink<String, E> commentSink()
+    public DiffSink<String> commentSink()
     {
         return cmtSink;
     }
