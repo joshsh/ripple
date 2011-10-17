@@ -18,7 +18,6 @@ import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.Source;
 import net.fortytwo.flow.rdf.CloseableIterationSource;
 import net.fortytwo.flow.rdf.diff.RDFDiffSink;
-import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.control.Task;
 import net.fortytwo.ripple.control.TaskSet;
@@ -56,8 +55,6 @@ import org.openrdf.sail.SailReadOnlyException;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
@@ -69,19 +66,10 @@ public class SesameModelConnection implements ModelConnection {
 
     protected final SesameModel model;
     protected SailConnection sailConnection;
-    // TODO: this is a bit of a hack
-    //protected SailConnection rippleSailConnection;
     protected final RDFDiffSink listenerSink;
     protected final ValueFactory valueFactory;
     private final TaskSet taskSet = new TaskSet();
     private final Comparator<RippleValue> comparator;
-
-    private boolean useBlankNodes;
-
-    // TODO: For now, this is just a convenience which allows analysis:assert and
-    //       analysis:deny to manipulate the triple store without committing after
-    //       every operation.
-    private boolean uncommittedChanges = false;
 
     ////////////////////////////////////////////////////////////////////////////
 
@@ -101,8 +89,6 @@ public class SesameModelConnection implements ModelConnection {
         synchronized (model.openConnections) {
             model.openConnections.add(this);
         }
-
-        this.useBlankNodes = Ripple.getConfiguration().getBoolean(Ripple.USE_BLANK_NODES);
 
         comparator = new RippleValueComparator(this);
     }
@@ -125,17 +111,10 @@ public class SesameModelConnection implements ModelConnection {
     }
 
     public void close() throws RippleException {
-//System.out.println("closing...");
         // Complete any still-executing tasks.
         taskSet.waitUntilEmpty();
-//System.out.println("    empty.");
-        if (uncommittedChanges) {
-            commit();
-        }
-//System.out.println("    committed");
 
-        closeSailConnection(false);
-//System.out.println("    closed sail connection");
+        closeSailConnection(true);
 
         synchronized (model.openConnections) {
             model.openConnections.remove(this);
@@ -148,21 +127,17 @@ public class SesameModelConnection implements ModelConnection {
      */
     public void reset(final boolean rollback) throws RippleException {
         closeSailConnection(rollback);
-        uncommittedChanges = false;
         openSailConnection();
     }
 
     public void commit() throws RippleException {
-//System.out.println("committing...");
         try {
             sailConnection.commit();
-            uncommittedChanges = false;
         } catch (SailReadOnlyException e) {
             handleSailReadOnlyException(e);
         } catch (Throwable t) {
             throw new RippleException(t);
         }
-//System.out.println("    done.");
     }
 
     public SailConnection getSailConnection() {
@@ -172,8 +147,6 @@ public class SesameModelConnection implements ModelConnection {
     private synchronized void openSailConnection()
             throws RippleException {
         try {
-            //rippleSailConnection = model.rippleSail.getConnection();
-
             sailConnection = model.sail.getConnection();
 
 // FIXME: this doesn't give the LexiconUpdater any information about namespaces
@@ -199,8 +172,6 @@ public class SesameModelConnection implements ModelConnection {
                 }
 
                 sailConnection.close();
-
-                //rippleSailConnection.close();
             } else {
                 // Don't throw an exception: we could easily end up in a loop.
                 LOGGER.error("tried to close an already-closed connection");
@@ -315,8 +286,6 @@ public class SesameModelConnection implements ModelConnection {
             reset(true);
             throw new RippleException(e);
         }
-
-        uncommittedChanges = true;
     }
 
     public void remove(final RippleValue subj, final RippleValue pred, final RippleValue obj, final RippleValue... contexts)
@@ -380,8 +349,6 @@ public class SesameModelConnection implements ModelConnection {
             reset(true);
             throw new RippleException(e);
         }
-
-        uncommittedChanges = true;
     }
 
     // Note: this method is no longer in the ModelConnection API
@@ -511,18 +478,12 @@ public class SesameModelConnection implements ModelConnection {
         try {
             //synchronized ( model )
             {
-//System.out.println("--- z");
                 if (override || null == sailConnection.getNamespace(prefix)) {
-//System.out.println("--- x");
                     if (null == ns) {
                         sailConnection.removeNamespace(prefix);
                     } else {
-//System.out.println("--- c");
                         sailConnection.setNamespace(prefix, ns);
                     }
-
-                    uncommittedChanges = true;
-//System.out.println("--- v");
                 }
             }
         } catch (SailReadOnlyException e) {
@@ -531,39 +492,6 @@ public class SesameModelConnection implements ModelConnection {
             reset(true);
             throw new RippleException(t);
         }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
-
-    // e.g. CONSTRUCT * FROM {x} p {y}
-    //FIXME: Statements should be absent from the ModelConnection API
-
-    public Collection<Statement> serqlQuery(final String queryStr)
-            throws RippleException {
-        Collection<Statement> statements = new ArrayList<Statement>();
-        /* TODO
-          try
-          {
-              synchronized ( sailConnection )
-              {
-                  GraphQueryResult result = sailConnection.prepareGraphQuery(
-                      QueryLanguage.SERQL, queryStr ).evaluate();
-
-                  while ( result.hasNext() )
-                  {
-                      statements.add( result.next() );
-                  }
-
-                  result.close();
-              }
-          }
-
-          catch ( Throwable t )
-          {
-              throw new RippleException( t );
-          }
-      */
-        return statements;
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -647,7 +575,6 @@ public class SesameModelConnection implements ModelConnection {
                               final RDFValue obj,
                               final Sink<Statement, RippleException> sink)
             throws RippleException {
-//System.out.println("getStatements(" + subj + ", " + pred + ", " + obj + ")");
         Value rdfSubj = (null == subj) ? null : subj.sesameValue();
         Value rdfPred = (null == pred) ? null : pred.sesameValue();
         Value rdfObj = (null == obj) ? null : obj.sesameValue();
@@ -675,7 +602,6 @@ public class SesameModelConnection implements ModelConnection {
 
                 while (stmtIter.hasNext()) {
                     Statement st = stmtIter.next();
-//System.out.println("    result: " + st);
                     try {
                         buffer.put(st);
                     } catch (RippleException e) {

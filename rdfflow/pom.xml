@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.fortytwo</groupId>
     <artifactId>rdfflow</artifactId>
-    <version>0.7</version>
+    <version>0.8-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>RDFFlow</name>
     <description>RDF dataflow in Sesame</description>
@@ -14,7 +14,7 @@
     <parent>
         <groupId>net.fortytwo.ripple</groupId>
         <artifactId>ripple</artifactId>
-        <version>0.7</version>
+        <version>0.8-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 

@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.fortytwo</groupId>
     <artifactId>flow</artifactId>
-    <version>0.7</version>
+    <version>0.8-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>42Flow</name>
     <description>42Flow dataflow utilities</description>
@@ -14,7 +14,7 @@
     <parent>
         <groupId>net.fortytwo.ripple</groupId>
         <artifactId>ripple</artifactId>
-        <version>0.7</version>
+        <version>0.8-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 

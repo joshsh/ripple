@@ -168,7 +168,7 @@ public class WeightedVector<T> {
     }
 
     /**
-     * @param other
+     * @param other another vector to add to this one
      * @return sum of this vector with another vector (set union)
      */
     public WeightedVector<T> add(final WeightedVector<T> other) {
@@ -188,7 +188,7 @@ public class WeightedVector<T> {
     }
 
     /**
-     * @param other
+     * @param other another vector to subtract from this one
      * @return result of subtracting another vector from this
      *         vector (set exclusion)
      */
