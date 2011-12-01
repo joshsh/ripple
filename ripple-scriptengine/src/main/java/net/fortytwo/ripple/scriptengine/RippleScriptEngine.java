@@ -2,7 +2,7 @@ package net.fortytwo.ripple.scriptengine;
 
 import net.fortytwo.flow.Collector;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.SailConfiguration;
+import net.fortytwo.ripple.config.SailConfiguration;
 import net.fortytwo.ripple.URIMap;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.NumericValue;
@@ -55,7 +55,6 @@ public class RippleScriptEngine implements ScriptEngine {
 
         URIMap uriMap = new URIMap();
         sailConfig = new SailConfiguration(uriMap);
-        sailConfig.initialize();
 
         // TODO: shutDown on failure
         model = new SesameModel(sailConfig.getSail());
@@ -75,7 +74,6 @@ public class RippleScriptEngine implements ScriptEngine {
 
     private void shutDown() throws RippleException {
         model.shutDown();
-        sailConfig.shutDown();
     }
 
     public Object eval(final String script,

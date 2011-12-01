@@ -12,6 +12,7 @@ package net.fortytwo.ripple;
 import gnu.getopt.Getopt;
 import gnu.getopt.LongOpt;
 import net.fortytwo.ripple.cli.CommandLineInterface;
+import net.fortytwo.ripple.config.SailConfiguration;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
 import net.fortytwo.ripple.query.LazyStackEvaluator;
@@ -41,7 +42,6 @@ public final class Demo {
         // Create a Sesame triple store.
         URIMap uriMap = new URIMap();
         SailConfiguration sailConfig = new SailConfiguration(uriMap);
-        sailConfig.initialize();
         Sail sail = sailConfig.getSail();
 
         // Attach a Ripple model to the repository.
@@ -59,7 +59,6 @@ public final class Demo {
 
         // Shut down.
         model.shutDown();
-        sailConfig.shutDown();
     }
 
     private static void printUsage() {

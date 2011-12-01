@@ -1,0 +1,5 @@
+net.fortytwo.ripple.config.AllegroSailFactory
+net.fortytwo.ripple.config.LinkedDataSailFactory
+net.fortytwo.ripple.config.MemoryStoreFactory
+net.fortytwo.ripple.config.NativeStoreFactory
+net.fortytwo.ripple.config.SPARQLRepositorySailFactory

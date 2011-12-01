@@ -131,6 +131,7 @@ public class RDFPredicateMapping implements StackMapping {
 
         public void put(final RippleValue v) throws RippleException {
             try {
+                //System.out.println("got Ripple value: " + v);
                 // Note: relies on this mapping's arity being equal to 1
                 sink.put(arg.with(arg.getStack().getRest().push(v)));
             } catch (RippleException e) {

@@ -12,9 +12,7 @@ import org.openrdf.sail.SailException;
 import org.openrdf.sail.memory.MemoryStore;
 
 /**
- * User: josh
- * Date: 6/15/11
- * Time: 11:13 AM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RippleSailDemo {
     private RippleSailDemo() {

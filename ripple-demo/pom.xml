@@ -48,6 +48,11 @@
             <version>${sesametools.version}</version>
         </dependency>
         <dependency>
+            <groupId>net.fortytwo.sesametools</groupId>
+            <artifactId>reposail</artifactId>
+            <version>${sesametools.version}</version>
+        </dependency>
+        <dependency>
             <groupId>urbanophile</groupId>
             <artifactId>java-getopt</artifactId>
             <version>1.0.9</version>

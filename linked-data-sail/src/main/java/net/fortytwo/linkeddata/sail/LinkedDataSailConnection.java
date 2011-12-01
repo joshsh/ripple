@@ -31,6 +31,7 @@ import org.openrdf.query.BindingSet;
 import org.openrdf.query.Dataset;
 import org.openrdf.query.QueryEvaluationException;
 import org.openrdf.query.algebra.TupleExpr;
+import org.openrdf.query.algebra.UpdateExpr;
 import org.openrdf.query.algebra.evaluation.TripleSource;
 import org.openrdf.query.algebra.evaluation.impl.EvaluationStrategyImpl;
 import org.openrdf.rio.RDFHandlerException;
@@ -176,6 +177,10 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
         } catch (QueryEvaluationException e) {
             throw new SailException(e);
         }
+    }
+
+    public void executeUpdate(UpdateExpr updateExpr, Dataset dataset, BindingSet bindingSet, boolean b) throws SailException {
+        throw new UnsupportedOperationException();
     }
 
     public CloseableIteration<? extends Resource, SailException> getContextIDs()

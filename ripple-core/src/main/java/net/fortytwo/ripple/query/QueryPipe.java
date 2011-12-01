@@ -45,8 +45,12 @@ public class QueryPipe implements Sink<String> {
     private final Buffer<RippleList> resultBuffer;
     private final HistorySink<RippleList> queryResultHistory
             = new HistorySink<RippleList>(1);
+    private final ModelConnection connection;
 
-    public QueryPipe(final QueryEngine queryEngine, final Sink<RippleList> resultSink) throws RippleException {
+    public QueryPipe(final QueryEngine queryEngine,
+                     final Sink<RippleList> resultSink) throws RippleException {
+        connection = queryEngine.createConnection();
+
         resultBuffer = new Buffer<RippleList>(resultSink);
         final Object mutex = "";
 
@@ -54,51 +58,32 @@ public class QueryPipe implements Sink<String> {
                 (resultBuffer, queryResultHistory);
 
         recognizerAdapter = new RecognizerAdapter(queryEngine.getErrorPrintStream()) {
-            @Override
             protected void handleQuery(ListAST ast) throws RippleException {
                 synchronized (mutex) {
                     queryResultHistory.advance();
 
-                    ModelConnection mc = queryEngine.getConnection();
-                    try {
-                        new RippleQueryCmd(ast, resultTee).execute(queryEngine, mc);
-                        mc.commit();
-                    } finally {
-                        mc.close();
-                    }
+                    new RippleQueryCmd(ast, resultTee).execute(queryEngine, connection);
+                    connection.commit();
                 }
             }
 
-            @Override
             protected void handleCommand(Command command) throws RippleException {
-                ModelConnection mc = queryEngine.getConnection();
-                try {
-                    command.execute(queryEngine, mc);
-                    mc.commit();
-                } finally {
-                    mc.close();
-                }
+                command.execute(queryEngine, connection);
+                connection.commit();
             }
 
-            @Override
             protected void handleEvent(RecognizerEvent event) throws RippleException {
                 // TODO
             }
 
-            @Override
             protected void handleAssignment(KeywordAST name) throws RippleException {
                 Source<RippleList> source = queryResultHistory.get(0);
                 if (null == source) {
                     source = new Collector<RippleList>();
                 }
 
-                ModelConnection mc = queryEngine.getConnection();
-                try {
-                    new DefineKeywordCmd(name, new ListGenerator(source)).execute(queryEngine, mc);
-                    mc.commit();
-                } finally {
-                    mc.close();
-                }
+                new DefineKeywordCmd(name, new ListGenerator(source)).execute(queryEngine, connection);
+                connection.commit();
             }
         };
 
@@ -106,7 +91,12 @@ public class QueryPipe implements Sink<String> {
                 queryEngine.getErrorPrintStream());
     }
 
+    public ModelConnection getConnection() {
+        return connection;
+    }
+
     public void close() throws RippleException {
+        connection.close();
     }
 
     public void put(final InputStream input) throws RippleException {
@@ -120,22 +110,23 @@ public class QueryPipe implements Sink<String> {
             throw new RippleException(e);
         }
 
+        connection.finish();
         resultBuffer.flush();
     }
 
     public void put(final String expr) throws RippleException {
-System.out.println("interpreting query: " + expr);
+//        System.out.println("interpreting query: " + expr);
 //System.exit(1);
         InputStream input = new ByteArrayInputStream((expr + "\n").getBytes());
 
         try {
-            put(input);
-        } finally {
             try {
+                put(input);
+            } finally {
                 input.close();
-            } catch (IOException e) {
-                throw new RippleException(e);
             }
+        } catch (IOException e) {
+            throw new RippleException(e);
         }
     }
 }

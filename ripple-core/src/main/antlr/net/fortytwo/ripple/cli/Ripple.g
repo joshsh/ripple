@@ -606,8 +606,6 @@ nt_QName returns [ AST r ]
 	: ( ( nsPrefix=nt_PrefixName )?
 		COLON
 		( localName=nt_Name )?
-//		( localName=nt_Name
-//		| (~(NAME_OR_PREFIX | NAME_NOT_PREFIX)) => {} )
 	  )
 		{
 			r = new QNameAST( nsPrefix, localName );

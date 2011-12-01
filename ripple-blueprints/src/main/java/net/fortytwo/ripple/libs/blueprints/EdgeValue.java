@@ -27,29 +27,24 @@ public class EdgeValue extends ElementValue {
         return edge;
     }
 
-    @Override
     public RDFValue toRDF(final ModelConnection mc) throws RippleException {
         return null;
     }
 
-    @Override
     public StackMapping getMapping() {
         return null;
     }
 
-    @Override
     public void printTo(final RipplePrintStream p) throws RippleException {
         p.print("[edge " + edge.getId() + "]");
     }
 
-    @Override
     public RippleValue getValue(final String key,
                                 final ModelConnection mc) throws RippleException {
         Object result = edge.getProperty(key);
         return null == result ? null : BlueprintsLibrary.createRippleValue(result, mc);
     }
 
-    @Override
     public Collection<String> getKeys() {
         return edge.getPropertyKeys();
     }

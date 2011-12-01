@@ -27,29 +27,24 @@ public class VertexValue extends ElementValue {
         return vertex;
     }
 
-    @Override
     public RDFValue toRDF(final ModelConnection mc) throws RippleException {
         return null;
     }
 
-    @Override
     public StackMapping getMapping() {
         return null;
     }
 
-    @Override
     public void printTo(final RipplePrintStream p) throws RippleException {
         p.print("[vertex " + vertex.getId() + "]");
     }
 
-    @Override
     public RippleValue getValue(final String key,
                                 final ModelConnection mc) throws RippleException {
         Object result = vertex.getProperty(key);
         return null == result ? null : BlueprintsLibrary.createRippleValue(result, mc);
     }
 
-    @Override
     public Collection<String> getKeys() {
         return vertex.getPropertyKeys();
     }

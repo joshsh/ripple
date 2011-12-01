@@ -308,4 +308,9 @@ public interface ModelConnection {
      * @throws RippleException if internalization fails
      */
     boolean internalize(RippleList list) throws RippleException;
+
+    /**
+     * Complete any still-executing tasks.
+     */
+    void finish() throws RippleException;
 }

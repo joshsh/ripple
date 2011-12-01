@@ -19,51 +19,48 @@ import net.fortytwo.ripple.model.ModelConnection;
 
 import java.io.PrintStream;
 
-public class QueryEngine
-{
-	private final Model model;
-	private final Lexicon lexicon;
-	private final StackEvaluator evaluator;
-	private final RipplePrintStream printStream;
-	private final PrintStream errorPrintStream;
+public class QueryEngine {
+    private final Model model;
+    private final Lexicon lexicon;
+    private final StackEvaluator evaluator;
+    private final RipplePrintStream printStream;
+    private final PrintStream errorPrintStream;
 
     ////////////////////////////////////////////////////////////////////////////
 
-    public QueryEngine( final Model model ) throws RippleException {
+    public QueryEngine(final Model model) throws RippleException {
         this(model, new LazyStackEvaluator(), System.out, System.err);
     }
 
-    public QueryEngine( final Model model,
-                    final PrintStream out,
-                    final PrintStream err ) throws RippleException {
+    public QueryEngine(final Model model,
+                       final PrintStream out,
+                       final PrintStream err) throws RippleException {
         this(model, new LazyStackEvaluator(), out, err);
     }
 
-	public QueryEngine( final Model model,
-						final StackEvaluator evaluator,
-						final PrintStream out,
-						final PrintStream err )
-		throws RippleException
-	{
-		this.model = model;
-		this.evaluator = evaluator;
-		lexicon = new Lexicon( model );
-		printStream = new RipplePrintStream( out, lexicon );
-		errorPrintStream = err;
+    public QueryEngine(final Model model,
+                       final StackEvaluator evaluator,
+                       final PrintStream out,
+                       final PrintStream err) throws RippleException {
+        this.model = model;
+        this.evaluator = evaluator;
+        lexicon = new Lexicon(model);
+        printStream = new RipplePrintStream(out, lexicon);
+        errorPrintStream = err;
 
-		initializeLexicon();
+        initializeLexicon();
 
         String defaultNamespace = Ripple.getConfiguration().getString(
-                Ripple.DEFAULT_NAMESPACE );
+                Ripple.DEFAULT_NAMESPACE);
 
         // Set the default namespace.
-		ModelConnection mc = getConnection();
+        ModelConnection mc = createConnection();
 
         try {
             //mc.setNamespace( "", defaultNamespace, false );
 
             // FIXME: these should not be hard-coded
-            getLexicon().addCommonNamespaces( mc );
+            getLexicon().addCommonNamespaces(mc);
 
             getLexicon().setNamespace("", defaultNamespace, mc);
 
@@ -71,65 +68,56 @@ public class QueryEngine
         } finally {
             mc.close();
         }
-	}
-
-	////////////////////////////////////////////////////////////////////////////
-
-	public ModelConnection getConnection()
-		throws RippleException
-	{
-		return model.createConnection( new LexiconUpdater( lexicon ) );
-	}
-
-	public StackEvaluator getEvaluator()
-	{
-		return evaluator;
-	}
-
-	public Lexicon getLexicon()
-	{
-		return lexicon;
-	}
-
-	public Model getModel()
-	{
-		return model;
-	}
-
-	public RipplePrintStream getPrintStream()
-	{
-		return printStream;
-	}
-
-	public PrintStream getErrorPrintStream()
-	{
-		return errorPrintStream;
-	}
+    }
 
     ////////////////////////////////////////////////////////////////////////////
 
-	public void executeCommand( final Command cmd ) throws RippleException
-	{
-		ModelConnection mc = getConnection();
+    public ModelConnection createConnection() throws RippleException {
+        return model.createConnection(new LexiconUpdater(lexicon));
+    }
+
+    public StackEvaluator getEvaluator() {
+        return evaluator;
+    }
+
+    public Lexicon getLexicon() {
+        return lexicon;
+    }
+
+    public Model getModel() {
+        return model;
+    }
+
+    public RipplePrintStream getPrintStream() {
+        return printStream;
+    }
+
+    public PrintStream getErrorPrintStream() {
+        return errorPrintStream;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    public void executeCommand(final Command cmd) throws RippleException {
+        ModelConnection mc = createConnection();
 
         try {
-            cmd.execute( this, mc );
+            cmd.execute(this, mc);
             mc.commit();
-		} finally {
+        } finally {
             mc.close();
-		}
-	}
+        }
+    }
 
-	////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
 
-	private void initializeLexicon() throws RippleException
-	{
-		LexiconUpdater updater = new LexiconUpdater( lexicon );
+    private void initializeLexicon() throws RippleException {
+        LexiconUpdater updater = new LexiconUpdater(lexicon);
 
-		ModelConnection mc = getConnection();
+        ModelConnection mc = createConnection();
 
         try {
-            mc.getNamespaces().writeTo( updater.adderSink().namespaceSink() );
+            mc.getNamespaces().writeTo(updater.adderSink().namespaceSink());
             mc.commit();
         } finally {
             mc.close();

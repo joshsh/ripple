@@ -35,7 +35,7 @@ public class QueryPipeTest extends RippleTestCase
         Collector<RippleList> expected = new Collector<RippleList>();
         Collector<RippleList> results = new Collector<RippleList>();
         QueryPipe qp = new QueryPipe( qe, results );
-        ModelConnection mc = qe.getConnection();
+        ModelConnection mc = qe.createConnection();
 
         RippleValue
                 zero = mc.numericValue(0),
@@ -82,7 +82,7 @@ public class QueryPipeTest extends RippleTestCase
         Collector<RippleList> expected = new Collector<RippleList>();
         Collector<RippleList> results = new Collector<RippleList>();
         QueryPipe qp = new QueryPipe( qe, results );
-        ModelConnection mc = qe.getConnection();
+        ModelConnection mc = qe.createConnection();
 
         RippleValue
                 five = mc.numericValue(5);

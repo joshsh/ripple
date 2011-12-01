@@ -109,9 +109,12 @@ public class SesameModelConnection implements ModelConnection {
         return SesameList.nilList();
     }
 
-    public void close() throws RippleException {
-        // Complete any still-executing tasks.
+    public void finish() throws RippleException {
         taskSet.waitUntilEmpty();
+    }
+
+    public void close() throws RippleException {
+        finish();
 
         closeSailConnection(true);
 
@@ -525,6 +528,7 @@ public class SesameModelConnection implements ModelConnection {
 
             Sink<Value> valueSink = new Sink<Value>() {
                 public void put(final Value val) throws RippleException {
+                    //System.out.println("got value: " + val);
                     sink.put(canonicalValue(new RDFValue(val)));
                 }
             };
