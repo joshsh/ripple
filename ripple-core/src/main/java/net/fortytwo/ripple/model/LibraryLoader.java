@@ -9,94 +9,29 @@
 
 package net.fortytwo.ripple.model;
 
-import java.io.InputStream;
-
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.net.URL;
-
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.URIMap;
-import net.fortytwo.ripple.util.FileUtils;
 import org.openrdf.model.Value;
 
-public class LibraryLoader extends ClassLoader
-{
-    public LibraryLoader()
-	{
-		super( LibraryLoader.class.getClassLoader() );
-	}
+import java.util.LinkedHashMap;
+import java.util.ServiceLoader;
 
-	public SpecialValueMap load(final URL libraries, final ModelConnection mc)
-		throws RippleException
-	{
-        Context specialValues = new Context( mc );
+public class LibraryLoader extends ClassLoader {
+    public LibraryLoader() {
+        super(LibraryLoader.class.getClassLoader());
+    }
 
-        for ( String className : getNames( libraries ) )
-		{
-			Class c;
-			Library library;
+    public SpecialValueMap load(final ModelConnection mc) throws RippleException {
+        Context specialValues = new Context(mc);
 
-			try
-			{
-				c = loadClass( className );
-			}
-
-			catch ( ClassNotFoundException e )
-			{
-				throw new RippleException( e );
-			}
-
-			try
-			{
-				library = (Library) c.newInstance();
-			}
-
-			catch ( InstantiationException e )
-			{
-				throw new RippleException( e );
-			}
-
-			catch ( IllegalAccessException e )
-			{
-				throw new RippleException( e );
-			}
-
-			library.load( specialValues );
-		}
+        ServiceLoader<Library> loader = ServiceLoader.load(Library.class);
+        for (Library l : loader) {
+            l.load(specialValues);
+        }
 
         return specialValues.createSpecialValueMap();
     }
 
-	private Collection<String> getNames( final URL libraries ) throws RippleException
-	{
-		try
-		{
-            Collection<String> names;
-
-			InputStream is = libraries.openStream();
-
-            try
-            {
-                names = FileUtils.getLines( is );
-            }
-
-            finally
-            {
-                is.close();
-            }
-
-            return names;
-		}
-
-		catch ( java.io.IOException e )
-		{
-			throw new RippleException( e );
-		}
-	}
-
-    public class Context
-    {
+    public class Context {
         // Note: LinkedHashMap is used because the order of added values is
         // significant.
         private final LinkedHashMap<Value, RippleValue>
@@ -105,43 +40,36 @@ public class LibraryLoader extends ClassLoader
 
         private final ModelConnection modelConnection;
 
-        public Context( final ModelConnection mc )
-        {
+        public Context(final ModelConnection mc) {
             this.modelConnection = mc;
             primaryMap = new LinkedHashMap<Value, RippleValue>();
             aliasMap = new LinkedHashMap<Value, RippleValue>();
         }
 
-        public ModelConnection getModelConnection()
-        {
+        public ModelConnection getModelConnection() {
             return modelConnection;
         }
 
-        public void addPrimaryValue( final Value v, final RippleValue rv )
-        {
+        public void addPrimaryValue(final Value v, final RippleValue rv) {
             primaryMap.put(v, rv);
         }
 
-        public void addAlias( final Value v, final RippleValue rv )
-        {
-            aliasMap.put( v, rv );
+        public void addAlias(final Value v, final RippleValue rv) {
+            aliasMap.put(v, rv);
         }
 
-        public SpecialValueMap createSpecialValueMap()
-        {
+        public SpecialValueMap createSpecialValueMap() {
             SpecialValueMap map = new SpecialValueMap();
 
             // Primary values are added first, so that they have priority
             // over aliases.
-            for ( Value key : primaryMap.keySet() )
-            {
-                map.put( key, primaryMap.get( key ) );
+            for (Value key : primaryMap.keySet()) {
+                map.put(key, primaryMap.get(key));
             }
 
             // Aliases are added second.
-            for ( Value key : aliasMap.keySet() )
-            {
-                map.put( key, aliasMap.get( key ) );
+            for (Value key : aliasMap.keySet()) {
+                map.put(key, aliasMap.get(key));
             }
 
             return map;

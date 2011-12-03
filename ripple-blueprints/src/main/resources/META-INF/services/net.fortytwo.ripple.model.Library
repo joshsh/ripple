@@ -1,4 +1,4 @@
-# Note: this list overrides the one in Ripple Sesame.
+# Note: this list overrides the one in Ripple Core.
 
 # Ripple core libraries
 net.fortytwo.ripple.libs.data.DataLibrary

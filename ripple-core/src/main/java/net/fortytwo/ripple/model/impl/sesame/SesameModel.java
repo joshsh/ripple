@@ -10,7 +10,6 @@
 package net.fortytwo.ripple.model.impl.sesame;
 
 import net.fortytwo.flow.rdf.diff.RDFDiffSink;
-import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.LibraryLoader;
 import net.fortytwo.ripple.model.Model;
@@ -20,12 +19,11 @@ import net.fortytwo.ripple.model.SpecialValueMap;
 import org.apache.log4j.Logger;
 import org.openrdf.sail.Sail;
 
-import java.net.URL;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
- * A <code>Model</code> implementation using the Sesame RDF toolkit.
+ * A Ripple <code>Model</code> implementation using the Sesame RDF toolkit.
  */
 public class SesameModel implements Model {
     private static final Logger LOGGER = Logger.getLogger(SesameModel.class);
@@ -34,13 +32,8 @@ public class SesameModel implements Model {
     SpecialValueMap specialValues;
     final Set<ModelConnection> openConnections = new LinkedHashSet<ModelConnection>();
 
-    public SesameModel(final Sail sail) throws RippleException {
-        this(sail, Ripple.class.getResource("libraries.txt"));
-    }
 
-    public SesameModel(final Sail sail,
-                       final URL libraries)
-            throws RippleException {
+    public SesameModel(final Sail sail) throws RippleException {
         LOGGER.debug("instantiating SesameModel");
 
         this.sail = sail;
@@ -50,7 +43,7 @@ public class SesameModel implements Model {
         try {
             // TODO: eliminate this temporary value map
             specialValues = new SpecialValueMap();
-            specialValues = new LibraryLoader().load(libraries, mc);
+            specialValues = new LibraryLoader().load(mc);
 
             // At the moment, op needs to be a special value for the sake of the
             // evaluator.  This has the side-effect of making "op" a keyword.
