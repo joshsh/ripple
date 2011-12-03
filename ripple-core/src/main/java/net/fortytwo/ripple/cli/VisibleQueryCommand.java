@@ -100,6 +100,11 @@ public class VisibleQueryCommand extends Command {
         }
     }
 
+    public String getName() {
+        // Note: never used
+        return "visible-query";
+    }
+
     protected void abort() {
         // Late arrivals should not show up in the view.
         results.flip();

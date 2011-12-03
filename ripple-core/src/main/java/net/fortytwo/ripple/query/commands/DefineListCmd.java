@@ -30,7 +30,7 @@ public class DefineListCmd extends Command
 		this.name = name;
 	}
         
-    public String getName()
+    public String getListName()
     {
         return name;
     }
@@ -74,7 +74,11 @@ public class DefineListCmd extends Command
         }
 	}
 
-	protected void abort()
+    public String getName() {
+        return "list";
+    }
+
+    protected void abort()
 	{
 	}
 }

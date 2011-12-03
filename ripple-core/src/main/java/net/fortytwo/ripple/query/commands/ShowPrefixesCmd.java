@@ -73,7 +73,11 @@ public class ShowPrefixesCmd extends Command
 		ps.println( "" );
 	}
 
-	protected void abort()
+    public String getName() {
+        return "show prefixes";
+    }
+
+    protected void abort()
 	{
 	}
 }

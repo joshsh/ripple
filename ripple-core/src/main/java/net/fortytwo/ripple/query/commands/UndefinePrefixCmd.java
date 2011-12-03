@@ -36,7 +36,11 @@ public class UndefinePrefixCmd extends Command
 		qe.getLexicon().removeNamespace( prefix );
 	}
 
-	protected void abort()
+    public String getName() {
+        return "unprefix";
+    }
+
+    protected void abort()
 	{
 	}
 }

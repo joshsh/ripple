@@ -13,6 +13,8 @@ import jline.Completor;
 import jline.ConsoleReader;
 import jline.MultiCompletor;
 import net.fortytwo.flow.Collector;
+import net.fortytwo.flow.HistorySink;
+import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.Source;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
@@ -22,8 +24,6 @@ import net.fortytwo.ripple.cli.jline.DirectiveCompletor;
 import net.fortytwo.ripple.control.Scheduler;
 import net.fortytwo.ripple.control.TaskQueue;
 import net.fortytwo.ripple.control.ThreadedInputStream;
-import net.fortytwo.flow.HistorySink;
-import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.model.Lexicon;
 import net.fortytwo.ripple.model.ListGenerator;
 import net.fortytwo.ripple.model.ModelConnection;
@@ -42,11 +42,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A command-line interpreter/browser which coordinates user interaction with a Ripple query engine.
+ * A command-line read-eval-print loop which coordinates user interaction with a Ripple query engine.
  */
-public class CommandLineInterface {
+public class RippleCommandLine {
     private static final Logger LOGGER
-            = Logger.getLogger(CommandLineInterface.class);
+            = Logger.getLogger(RippleCommandLine.class);
 
     private static final byte[] EOL = {'\n'};
 
@@ -75,26 +75,23 @@ public class CommandLineInterface {
      * Error output:
      * alert() --> queryEngine.getErrorPrintStream()
      */
-    public CommandLineInterface(final QueryEngine qe, final InputStream is)
+    public RippleCommandLine(final QueryEngine qe, final InputStream is)
             throws RippleException {
         queryEngine = qe;
 
         RecognizerAdapter ra = new RecognizerAdapter(qe.getErrorPrintStream()) {
-            @Override
             protected void handleQuery(final ListAST query) throws RippleException {
                 addCommand(new VisibleQueryCommand(query, queryResultHistory));
                 addCommand(new UpdateCompletorsCmd());
                 executeCommands();
             }
 
-            @Override
             protected void handleCommand(Command command) throws RippleException {
                 addCommand(command);
                 addCommand(new UpdateCompletorsCmd());
                 executeCommands();
             }
 
-            @Override
             protected void handleEvent(RecognizerEvent event) throws RippleException {
                 switch (event) {
                     case NEWLINE:
@@ -115,7 +112,6 @@ public class CommandLineInterface {
                 }
             }
 
-            @Override
             protected void handleAssignment(KeywordAST name) throws RippleException {
                 Source<RippleList> source = queryResultHistory.get(0);
                 if (null == source) {
@@ -198,7 +194,7 @@ public class CommandLineInterface {
 
             // Add a newline character so the lexer will call readLine()
             // again when it gets there.
-     //       writeIn.write(EOL);
+            //       writeIn.write(EOL);
 
             writeIn.flush();
         } catch (java.io.IOException e) {
@@ -252,6 +248,11 @@ public class CommandLineInterface {
         public void execute(final QueryEngine qe, final ModelConnection mc)
                 throws RippleException {
             updateCompletors();
+        }
+
+        public String getName() {
+            // Note: never used
+            return "update-completors";
         }
 
         protected void abort() {

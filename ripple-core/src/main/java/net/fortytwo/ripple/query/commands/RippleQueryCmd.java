@@ -68,6 +68,10 @@ public class RippleQueryCmd extends Command {
         expressions.writeTo(evaluatorSink);
     }
 
+    public String getName() {
+        return "ripple-query";
+    }
+
     protected void abort() {
 //System.out.println( "aborting Ripple query command" );
         if (null != evaluator) {

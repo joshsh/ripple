@@ -31,6 +31,11 @@ public class DefineKeywordCmd extends Command {
         qe.getLexicon().putTemporaryValue(name.getName(), value);
     }
 
+    public String getName() {
+        // Note: never used
+        return "keyword";
+    }
+
     protected void abort() {
     }
 }

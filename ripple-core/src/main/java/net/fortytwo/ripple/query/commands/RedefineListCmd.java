@@ -26,9 +26,9 @@ public class RedefineListCmd extends Command
 		defineCmd = new DefineListCmd( term, ast );
 	}
 
-    public String getName()
+    public String getListName()
     {
-        return defineCmd.getName();
+        return defineCmd.getListName();
     }
 
     public ListAST getList()
@@ -43,7 +43,11 @@ public class RedefineListCmd extends Command
 		defineCmd.execute( qe, mc );
 	}
 
-	protected void abort()
+    public String getName() {
+        return "relist";
+    }
+
+    protected void abort()
 	{
 	}
 }

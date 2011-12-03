@@ -34,7 +34,11 @@ public class UndefineListCmd extends Command
         mc.getModel().getSpecialValues().remove( uri.sesameValue() );
     }
 
-	protected void abort()
+    public String getName() {
+        return "unlist";
+    }
+
+    protected void abort()
 	{
 	}
 }

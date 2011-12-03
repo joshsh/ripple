@@ -13,33 +13,30 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.control.Task;
 import net.fortytwo.ripple.model.ModelConnection;
 
-public abstract class Command extends Task
-{
-	private QueryEngine queryEngine = null;
+public abstract class Command extends Task {
+    private QueryEngine queryEngine = null;
 
-	protected abstract void abort();
+    protected abstract void abort();
 
-	public abstract void execute( QueryEngine qe, ModelConnection mc )
-		throws RippleException;
+    public abstract void execute(QueryEngine qe, ModelConnection mc)
+            throws RippleException;
 
-	public void setQueryEngine( final QueryEngine qe )
-	{
-		queryEngine = qe;
-	}
+    public abstract String getName();
 
-	protected void executeProtected() throws RippleException
-	{
-		if ( null == queryEngine )
-		{
-			throw new RippleException( "null QueryEngine" );
-		}
+    public void setQueryEngine(final QueryEngine qe) {
+        queryEngine = qe;
+    }
 
-		queryEngine.executeCommand( this );
-	}
+    protected void executeProtected() throws RippleException {
+        if (null == queryEngine) {
+            throw new RippleException("null QueryEngine");
+        }
 
-protected void stopProtected()
-{
-	abort();
-}
+        queryEngine.executeCommand(this);
+    }
+
+    protected void stopProtected() {
+        abort();
+    }
 }
 

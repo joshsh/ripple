@@ -11,7 +11,7 @@ package net.fortytwo.ripple;
 
 import gnu.getopt.Getopt;
 import gnu.getopt.LongOpt;
-import net.fortytwo.ripple.cli.CommandLineInterface;
+import net.fortytwo.ripple.cli.RippleCommandLine;
 import net.fortytwo.ripple.config.SailConfiguration;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
@@ -54,7 +54,7 @@ public final class Demo {
 
         // Attach an interpreter to the query engine and let it query from
         // standard input.
-        CommandLineInterface r = new CommandLineInterface(qe, in);
+        RippleCommandLine r = new RippleCommandLine(qe, in);
         r.run();
 
         // Shut down.

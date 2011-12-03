@@ -224,8 +224,8 @@ DRCTV_PREFIX    : DRCTV ( "prefix"        | "p" ) ;
 DRCTV_QUIT      : DRCTV ( "quit"          | "q" | "exit" ) ;
 DRCTV_RELIST    : DRCTV ( "relist"        | "r" ) ;
 DRCTV_SHOW      : DRCTV ( "show"          | "s" ) ;
-DRCTV_UNLIST    : DRCTV ( "unlist"        | "u" ) ;
-DRCTV_UNPREFIX  : DRCTV ( "unprefix"            ) ;
+DRCTV_UNLIST    : DRCTV ( "unlist"        | "ul" ) ;
+DRCTV_UNPREFIX  : DRCTV ( "unprefix"      | "up" ) ;
 
 
 ////////////////////////////////////////////////////////////////////////////////

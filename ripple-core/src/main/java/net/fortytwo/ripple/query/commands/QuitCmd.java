@@ -23,7 +23,11 @@ public class QuitCmd extends Command
 		throw new ParserQuitException();
 	}
 
-	protected void abort()
+    public String getName() {
+        return "quit";
+    }
+
+    protected void abort()
 	{
 	}
 }
