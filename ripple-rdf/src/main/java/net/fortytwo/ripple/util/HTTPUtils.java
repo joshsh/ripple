@@ -372,8 +372,8 @@ public class HTTPUtils
 	private static void setAgent( final HttpMethod method )
 	{
         // TODO: remove me
-        System.out.println("setting agent");
-        new Exception().printStackTrace(System.out);
+        //System.out.println("setting agent");
+        //new Exception().printStackTrace(System.out);
 
 		method.setRequestHeader( USER_AGENT, Ripple.getName() + "/" + Ripple.getVersion() );
 	}

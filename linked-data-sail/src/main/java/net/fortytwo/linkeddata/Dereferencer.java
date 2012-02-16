@@ -10,7 +10,7 @@
 package net.fortytwo.linkeddata;
 
 import net.fortytwo.ripple.RippleException;
-import org.restlet.resource.Representation;
+import org.restlet.representation.Representation;
 
 public interface Dereferencer
 {

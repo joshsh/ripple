@@ -5,7 +5,7 @@ import net.fortytwo.linkeddata.WebClosure;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.StringUtils;
 import org.apache.log4j.Logger;
-import org.restlet.resource.Representation;
+import org.restlet.representation.Representation;
 
 import java.util.HashSet;
 import java.util.Set;

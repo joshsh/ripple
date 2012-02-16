@@ -22,7 +22,7 @@ import org.openrdf.rio.RDFParser;
 import org.openrdf.rio.RDFWriter;
 import org.openrdf.rio.Rio;
 import org.restlet.data.MediaType;
-import org.restlet.resource.Variant;
+import org.restlet.representation.Variant;
 
 import java.io.InputStream;
 import java.io.OutputStream;

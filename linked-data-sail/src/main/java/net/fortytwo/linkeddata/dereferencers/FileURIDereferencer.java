@@ -4,7 +4,9 @@ import net.fortytwo.linkeddata.Dereferencer;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.util.RDFUtils;
 import org.openrdf.rio.RDFFormat;
-import org.restlet.resource.Representation;
+import org.restlet.data.MediaType;
+import org.restlet.representation.Representation;
+import org.restlet.representation.StreamRepresentation;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,51 +17,48 @@ import java.nio.channels.WritableByteChannel;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
- */public class FileURIDereferencer implements Dereferencer
-{
-	public Representation dereference( final String uri ) throws RippleException
-	{
-		return new FileRepresentation( uri );
-	}
+ */
+public class FileURIDereferencer implements Dereferencer {
+    public Representation dereference(final String uri) throws RippleException {
+        return new FileRepresentation(uri);
+    }
 
-	private class FileRepresentation extends Representation
-	{
-		private InputStream inputStream;
+    private static MediaType findMediaType(final String uri) throws RippleException {
+        RDFFormat format = RDFUtils.guessRdfFormat(uri, null);
+        /*if ( null == format )
+              {
+                  throw new RippleException( "could not guess format for URI: " + uri );
+              }*/
+        return RDFUtils.findMediaType(format);
+    }
 
-		public FileRepresentation( final String uri ) throws RippleException
-		{
-			RDFFormat format = RDFUtils.guessRdfFormat( uri, null );
-			/*if ( null == format )
-			{
-				throw new RippleException( "could not guess format for URI: " + uri );
-			}*/
-			setMediaType( RDFUtils.findMediaType( format ) );
- 
-			try
-			{
-				inputStream = new FileInputStream( uri.substring( 5 ) );
-			}
+    private class FileRepresentation extends StreamRepresentation {
+        private InputStream inputStream;
 
-			catch ( IOException e )
-			{
-				throw new RippleException( e );
-			}
-		}
+        public FileRepresentation(final String uri) throws RippleException {
+            super(findMediaType(uri));
 
-		public ReadableByteChannel getChannel() throws IOException {
-			return null;  //To change body of implemented methods use File | Settings | File Templates.
-		}
+            try {
+                inputStream = new FileInputStream(uri.substring(5));
+            } catch (IOException e) {
+                throw new RippleException(e);
+            }
+        }
 
-		public InputStream getStream() throws IOException {
-			return inputStream;
-		}
+        public ReadableByteChannel getChannel() throws IOException {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
 
-		public void write(OutputStream outputStream) throws IOException {
-			//To change body of implemented methods use File | Settings | File Templates.
-		}
+        public InputStream getStream() throws IOException {
+            return inputStream;
+        }
 
-		public void write(WritableByteChannel writableByteChannel) throws IOException {
-			//To change body of implemented methods use File | Settings | File Templates.
-		}
-	}
+        public void write(OutputStream outputStream) throws IOException {
+            //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+        public void write(WritableByteChannel writableByteChannel) throws IOException {
+            //To change body of implemented methods use File | Settings | File Templates.
+        }
+    }
 }
