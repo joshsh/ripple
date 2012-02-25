@@ -12,10 +12,10 @@ if [ "$JAVA_OPTIONS" = "" ] ; then
         JAVA_OPTIONS="-Xms32M -Xmx512M"
 fi
 
-JAR=target/ripple-media*-standalone.jar
+DIR=`dirname $0`
 
 # Launch Ripple.
-$JAVA $JAVA_OPTIONS -jar $JAR $*
+$JAVA $JAVA_OPTIONS -cp $DIR/target/classes:$DIR/"target/dependency/*" net.fortytwo.ripple.Demo $*
 
 # Return the appropriate exit code.
 exit $?

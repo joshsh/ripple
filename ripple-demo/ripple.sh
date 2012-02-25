@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Path to JAR
-JAR=`dirname $0`/target/*-standalone.jar
-
 # Find Java
 if [ "$JAVA_HOME" = "" ] ; then
 	JAVA="java"
@@ -15,8 +12,10 @@ if [ "$JAVA_OPTIONS" = "" ] ; then
 	JAVA_OPTIONS="-Xms32M -Xmx512M"
 fi
 
+DIR=`dirname $0`
+
 # Launch the application
-$JAVA $JAVA_OPTIONS -jar $JAR $*
+$JAVA $JAVA_OPTIONS -cp $DIR/target/classes:$DIR/"target/dependency/*" net.fortytwo.ripple.Demo $*
 
 # Return the program's exit code
 exit $?

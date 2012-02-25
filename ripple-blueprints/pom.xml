@@ -90,30 +90,18 @@
                 </configuration>
             </plugin>
             <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.1</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.4</version>
                 <executions>
                     <execution>
+                        <id>copy-dependencies</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>attached</goal>
+                            <goal>copy-dependencies</goal>
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <descriptors>
-                        <descriptor>src/assembly/standalone.xml</descriptor>
-                    </descriptors>
-                    <finalName>ripple-blueprints-${project.version}</finalName>
-                    <outputDirectory>target</outputDirectory>
-                    <workDirectory>target/assembly/work</workDirectory>
-                    <tarLongFileMode>warn</tarLongFileMode>
-                    <archive>
-                        <manifest>
-                            <mainClass>net.fortytwo.ripple.Demo</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
             </plugin>
         </plugins>
     </build>
