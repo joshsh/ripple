@@ -9,16 +9,15 @@
 
 package net.fortytwo.ripple.libs.control;
 
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
-import net.fortytwo.ripple.model.StackMappingWrapper;
-import net.fortytwo.ripple.model.regex.OptionalQuantifier;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.model.StackMappingWrapper;
+import net.fortytwo.ripple.model.regex.OptionalQuantifier;
 
 
 /**
@@ -52,12 +51,11 @@ public class OptionApply extends PrimitiveStackMapping
         return "p  =>  p?  -- optionally execute the program p";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-        final ModelConnection mc = arg.getModelConnection();
-		RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+
+		RippleList stack = arg;
 		RippleValue first = stack.getFirst();
 		final RippleList rest = stack.getRest();
 
@@ -65,11 +63,11 @@ public class OptionApply extends PrimitiveStackMapping
 		{
 			public void put( final Operator op ) throws RippleException
 			{
-				solutions.put( arg.with( rest.push(
-						new StackMappingWrapper( new OptionalQuantifier( op ), mc ) ) ) );
+				solutions.put( rest.push(
+						new StackMappingWrapper( new OptionalQuantifier( op ), mc ) ) );
 			}
 		};
 
-		Operator.createOperator( first, opSink, arg.getModelConnection() );
+		Operator.createOperator( first, opSink, mc );
 	}
 }

@@ -11,11 +11,11 @@ package net.fortytwo.ripple.model.regex;
 
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.model.StackMapping;
-import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.Operator;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.NullStackMapping;
+import net.fortytwo.ripple.model.Operator;
+import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.StackMapping;
 
 /**
  * Author: josh
@@ -45,30 +45,29 @@ public class TimesQuantifier implements StackMapping
 		return innerOperator.getMapping().isTransparent();
 	}
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> sink ) throws RippleException
-	{
-		RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
 
-		if ( 0 == min )
+        if ( 0 == min )
 		{
-			sink.put( arg );
+			solutions.put( arg );
 		}
 
 		if ( max > 0 )
 		{
 			if ( 1 == max )
 			{
-				sink.put( arg.with( stack.push( innerOperator ) ) );
+				solutions.put( arg.push(innerOperator) );
 			}
 
 			else
 			{
 				int newMin = ( 0 == min) ? 0 : min - 1, newMax = max - 1;
 
-				sink.put( arg.with( stack
-						.push( innerOperator )
-						.push(new Operator( new TimesQuantifier( innerOperator, newMin, newMax ) ) ) ) );
+				solutions.put( arg
+						.push(innerOperator)
+						.push(new Operator(new TimesQuantifier(innerOperator, newMin, newMax))) );
 			}
 		}
 	}

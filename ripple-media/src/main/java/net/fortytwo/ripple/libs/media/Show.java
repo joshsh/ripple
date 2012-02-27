@@ -57,14 +57,11 @@ public class Show extends PrimitiveStackMapping
         return "imgUri => imgUri  -- has the side-effect of displaying the image at URI imgUri";
     }
 
-    public void apply( final StackContext arg,
-                         final Sink<StackContext> solutions )
-            throws RippleException
-	{
-        ModelConnection mc = arg.getModelConnection();
-        RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
 
-        RDFValue uri = mc.uriValue(mc.toString(stack.getFirst()));
+        RDFValue uri = mc.uriValue(mc.toString(arg.getFirst()));
 		//stack = stack.getRest();
 
 		ImagePanel panel;
@@ -91,7 +88,7 @@ public class Show extends PrimitiveStackMapping
 		}
 
 		// Pass the stack along, unaltered.
-		solutions.put( arg.with( stack ) );
+		solutions.put( arg );
 	}
 
 	//panel used to draw image on

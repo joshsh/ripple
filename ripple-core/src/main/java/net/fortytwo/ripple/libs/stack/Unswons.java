@@ -9,13 +9,12 @@
 
 package net.fortytwo.ripple.libs.stack;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.StackContext;
 
 /**
  * A primitive which consumes a list and produces the rest of the list, followed
@@ -51,24 +50,21 @@ public class Unswons extends PrimitiveStackMapping
         return "l  =>  r f  -- where f is the first member of l and r is the rest of l";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		RippleList stack = arg.getStack();
-		final ModelConnection mc = arg.getModelConnection();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
 
-		RippleValue l;
+        RippleValue l;
 
-		l = stack.getFirst();
-		final RippleList rest = stack.getRest();
+		l = arg.getFirst();
+		final RippleList rest = arg.getRest();
 
 		Sink<RippleList> listSink = new Sink<RippleList>()
 		{
 			public void put( final RippleList list ) throws RippleException
 			{
-				solutions.put( arg.with(
-						rest.push( list.getRest() ).push( list.getFirst() ) ) );
+				solutions.put(
+						rest.push( list.getRest() ).push(list.getFirst()) );
 			}
 		};
 

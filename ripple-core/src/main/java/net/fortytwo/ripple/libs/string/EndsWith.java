@@ -9,13 +9,12 @@
 
 package net.fortytwo.ripple.libs.string;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
 
 /**
  * A primitive which consumes a string and suffix, producing a Boolean value of
@@ -51,12 +50,10 @@ public class EndsWith extends PrimitiveStackMapping
         return "s suffix  =>  b -- where b is true if the given string ends with the given suffix, otherwise false";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		RippleList stack = arg.getStack();
-		final ModelConnection mc = arg.getModelConnection();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+		RippleList stack = arg;
 
 		String affix, s;
 		RippleValue result;
@@ -68,8 +65,8 @@ public class EndsWith extends PrimitiveStackMapping
 
 		result = mc.booleanValue(s.endsWith(affix));
         
-        solutions.put( arg.with(
-				stack.push( result ) ) );
+        solutions.put(
+				stack.push( result ) );
 	}
 }
 

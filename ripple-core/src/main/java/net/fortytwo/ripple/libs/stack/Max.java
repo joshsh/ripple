@@ -9,13 +9,12 @@
 
 package net.fortytwo.ripple.libs.stack;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.StackContext;
 
 /**
  * A primitive which consumes a list and produces the greatest item in the list.
@@ -49,17 +48,14 @@ public class Max extends PrimitiveStackMapping
         return "l  =>  x   -- where x is the greatest member of l";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		RippleList stack = arg.getStack();
-		final ModelConnection mc = arg.getModelConnection();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
 
-		RippleValue l;
+        RippleValue l;
 
-		l = stack.getFirst();
-		final RippleList rest = stack.getRest();
+		l = arg.getFirst();
+		final RippleList rest = arg.getRest();
 
 		Sink<RippleList> listSink = new Sink<RippleList>()
 		{
@@ -80,8 +76,8 @@ public class Max extends PrimitiveStackMapping
 		
 				if ( null != result )
 				{
-					solutions.put( arg.with(
-							rest.push( result ) ) );
+					solutions.put(
+							rest.push( result ) );
 				}
 			}
 		};

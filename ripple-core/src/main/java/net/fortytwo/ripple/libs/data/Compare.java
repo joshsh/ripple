@@ -9,14 +9,13 @@
 
 package net.fortytwo.ripple.libs.data;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.graph.GraphLibrary;
-import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.StackContext;
+import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.RippleValue;
 
 /**
  * A primitive which consumes two resources and produces a comparison value
@@ -46,11 +45,11 @@ public class Compare extends PrimitiveStackMapping {
         return "x y  =>  i  -- where i is -1 if x < y, 0 if x = y, and 1 if x > y";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions)
-            throws RippleException {
-        final ModelConnection mc = arg.getModelConnection();
-        RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+
+        RippleList stack = arg;
 
         RippleValue y, x;
 
@@ -64,7 +63,7 @@ public class Compare extends PrimitiveStackMapping {
         // Constrain the result to three possible values.
         result = (result < 0) ? -1 : (result > 0) ? 1 : 0;
 
-        solutions.put(arg.with(stack.push(mc.numericValue(result))));
+        solutions.put(stack.push(mc.numericValue(result)));
     }
 }
 

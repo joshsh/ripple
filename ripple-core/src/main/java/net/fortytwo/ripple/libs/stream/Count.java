@@ -10,14 +10,13 @@
 package net.fortytwo.ripple.libs.stream;
 
 import net.fortytwo.flow.Collector;
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.query.LazyStackEvaluator;
 import net.fortytwo.ripple.query.StackEvaluator;
 
@@ -51,25 +50,21 @@ public class Count extends PrimitiveStackMapping {
         return "m -> m op, for which solutions are found and counted, then the result replaces m on the stack";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions)
-            throws RippleException {
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
         // FIXME: cheat to temporarily disable asynchronous query answering
         boolean a = Ripple.asynchronousQueries();
         Ripple.enableAsynchronousQueries(false);
         try {
-            ModelConnection mc = arg.getModelConnection();
-
-            RippleList stack = arg.getStack();
-
-            Collector<StackContext> s = new Collector<StackContext>();
+            Collector<RippleList> s = new Collector<RippleList>();
             StackEvaluator e = new LazyStackEvaluator();
-            e.apply(arg.with(stack.push(Operator.OP)), s);
+            e.apply(arg.push(Operator.OP), s, mc);
             int count = s.size();
 
-            solutions.put(arg.with(
-                    arg.getStack().getRest().push(
-                            mc.numericValue(count))));
+            solutions.put(
+                    arg.getRest().push(
+                            mc.numericValue(count)));
         } finally {
             Ripple.enableAsynchronousQueries(a);
         }

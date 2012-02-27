@@ -9,15 +9,13 @@
 
 package net.fortytwo.ripple.libs.media;
 
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.flow.Sink;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.StackContext;
-
 import com.sun.speech.freetts.Voice;
 import com.sun.speech.freetts.VoiceManager;
+import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.model.RippleList;
 
 public class Speak extends PrimitiveStackMapping
 {
@@ -50,14 +48,11 @@ public class Speak extends PrimitiveStackMapping
         return "text => text  -- has the side-effect of speaking the text";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-        ModelConnection mc = arg.getModelConnection();
-        RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
 
-        String s = mc.toString( stack.getFirst() );
+        String s = mc.toString( arg.getFirst() );
 		//stack = stack.getRest();
 
 		try
@@ -72,7 +67,7 @@ System.out.println( "error: " + e );
 		}
 
 		// Pass the stack along, unaltered.
-		solutions.put( arg.with( stack ) );
+		solutions.put( arg );
 	}
 
 	// Note: we won't try to speak more than one expression at a time.

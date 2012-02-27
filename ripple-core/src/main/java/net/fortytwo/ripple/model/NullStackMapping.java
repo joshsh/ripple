@@ -22,10 +22,9 @@ public class NullStackMapping implements StackMapping
 		return 0;
 	}
 
-	public void apply( final StackContext arg,
-					   final Sink<StackContext> sink )
-            throws RippleException
-	{
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
         // Do nothing.
     }
 	

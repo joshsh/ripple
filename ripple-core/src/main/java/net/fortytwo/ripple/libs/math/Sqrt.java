@@ -9,14 +9,13 @@
 
 package net.fortytwo.ripple.libs.math;
 
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.StackMapping;
-import net.fortytwo.ripple.model.NumericValue;
-import net.fortytwo.flow.Sink;
 
 /**
  * A primitive which consumes a number and produces all real square roots of the
@@ -52,11 +51,10 @@ public class Sqrt extends PrimitiveStackMapping {
         return "x  =>  real square root(s) of x";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions)
-            throws RippleException {
-        final ModelConnection mc = arg.getModelConnection();
-        RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+        RippleList stack = arg;
 
         double a;
 
@@ -69,11 +67,11 @@ public class Sqrt extends PrimitiveStackMapping {
 
             // Yield both square roots.
             try {
-                solutions.put(arg.with(
-                        stack.push(mc.numericValue(d))));
+                solutions.put(
+                        stack.push(mc.numericValue(d)));
                 if (d > 0) {
-                    solutions.put(arg.with(
-                            stack.push(mc.numericValue(0.0 - d))));
+                    solutions.put(
+                            stack.push(mc.numericValue(0.0 - d)));
                 }
             } catch (RippleException e) {
                 // Soft fail
@@ -100,9 +98,10 @@ public class Sqrt extends PrimitiveStackMapping {
             return true;
         }
 
-        public void apply(StackContext arg, Sink<StackContext> solutions) throws RippleException {
-            final ModelConnection mc = arg.getModelConnection();
-            RippleList stack = arg.getStack();
+        public void apply(final RippleList arg,
+                          final Sink<RippleList> solutions,
+                          final ModelConnection mc) throws RippleException {
+            RippleList stack = arg;
 
             NumericValue a, result;
 
@@ -111,8 +110,8 @@ public class Sqrt extends PrimitiveStackMapping {
 
             result = a.mul(a);
 
-            solutions.put(arg.with(
-                    stack.push(result)));
+            solutions.put(
+                    stack.push(result));
         }
     }
 }

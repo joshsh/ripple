@@ -45,35 +45,34 @@ public class RDFPredicateMapping implements StackMapping {
     }
 
     private void findListPredicateSolutions(final RippleValue subject,
-                                            final StackContext arg,
                                             final RippleList rest,
-                                            final Sink<StackContext> solutions) throws RippleException {
+                                            final Sink<RippleList> solutions,
+                                            final ModelConnection mc) throws RippleException {
         if (subject instanceof RippleList) {
             if (predicate.sesameValue().equals(RDF.TYPE)) {
-                solutions.put(arg.with(rest.push(arg.getModelConnection().uriValue(RDF.LIST.toString()))));
+                solutions.put(rest.push(mc.uriValue(RDF.LIST.toString())));
             } else if (!((RippleList) subject).isNil()) {
                 //System.out.println("" + subject + " " + predicate);
                 if (predicate.sesameValue().equals(RDF.FIRST)) {
                     RippleValue f = ((RippleList) subject).getFirst();
-                    solutions.put(arg.with(rest.push(f)));
+                    solutions.put(rest.push(f));
                 } else if (predicate.sesameValue().equals(RDF.REST)) {
                     RippleList r = ((RippleList) subject).getRest();
-                    solutions.put(arg.with(rest.push(r)));
+                    solutions.put(rest.push(r));
                 }
             }
         }
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions) throws RippleException {
-        final ModelConnection mc = arg.getModelConnection();
-        RippleList stack = arg.getStack();
-        RippleValue sourceVal = stack.getFirst();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+        RippleValue sourceVal = arg.getFirst();
         StatementPatternQuery query;
 
         switch (this.type) {
             case SP_O:
-                findListPredicateSolutions(sourceVal, arg, stack.getRest(), solutions);
+                findListPredicateSolutions(sourceVal, arg.getRest(), solutions, mc);
 
                 query = (null == context)
                         ? new StatementPatternQuery(sourceVal, predicate, null)
@@ -121,10 +120,10 @@ public class RDFPredicateMapping implements StackMapping {
     }
 
     private class ValueSink implements Sink<RippleValue> {
-        private Sink<StackContext> sink;
-        private StackContext arg;
+        private Sink<RippleList> sink;
+        private RippleList arg;
 
-        public ValueSink(final StackContext arg, final Sink<StackContext> sink) {
+        public ValueSink(final RippleList arg, final Sink<RippleList> sink) {
             this.arg = arg;
             this.sink = sink;
         }
@@ -133,7 +132,7 @@ public class RDFPredicateMapping implements StackMapping {
             try {
                 //System.out.println("got Ripple value: " + v);
                 // Note: relies on this mapping's arity being equal to 1
-                sink.put(arg.with(arg.getStack().getRest().push(v)));
+                sink.put(arg.getRest().push(v));
             } catch (RippleException e) {
                 // Soft fail
                 e.logError();

@@ -9,13 +9,12 @@
 
 package net.fortytwo.ripple.libs.stack;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.StackContext;
 
 /**
  * Consumes an index n and a list and produces the nth item in the list, where
@@ -52,12 +51,10 @@ public class Of extends PrimitiveStackMapping
         return "i l  =>  l[i]  -- pushes the member of List l at index i.  Note: lists are 1-indexed";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		RippleList stack = arg.getStack();
-		final ModelConnection mc = arg.getModelConnection();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+		RippleList stack = arg;
 
 		RippleValue l;
 
@@ -84,8 +81,8 @@ public class Of extends PrimitiveStackMapping
 					}
 				}
 		
-				solutions.put( arg.with(
-						rest.push( list.getFirst() ) ) );
+				solutions.put(
+						rest.push( list.getFirst() ) );
 			}
 		};
 

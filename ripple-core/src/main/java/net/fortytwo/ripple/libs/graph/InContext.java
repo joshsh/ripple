@@ -8,14 +8,13 @@
 
 package net.fortytwo.ripple.libs.graph;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
-import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.StackContext;
+import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.RDFPredicateMapping;
 import net.fortytwo.ripple.model.RDFValue;
-import net.fortytwo.ripple.model.Operator;
+import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackMapping;
 
 public class InContext extends RDFPredicateStackMapping
@@ -56,12 +55,11 @@ public class InContext extends RDFPredicateStackMapping
         return "s p g  =>  o";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		final ModelConnection mc = arg.getModelConnection();
-		RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+
+		RippleList stack = arg;
 
         RDFValue context = stack.getFirst().toRDF( mc );
         stack = stack.getRest();
@@ -70,7 +68,7 @@ public class InContext extends RDFPredicateStackMapping
 
         RDFPredicateMapping mapping = getMapping( pred, context );
 
-        solutions.put( arg.with(
-				stack.push( new Operator( mapping ) ) ) );
+        solutions.put(
+				stack.push( new Operator( mapping ) ) );
 	}
 }

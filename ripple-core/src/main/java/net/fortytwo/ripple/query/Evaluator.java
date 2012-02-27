@@ -14,7 +14,7 @@ import net.fortytwo.flow.Mapping;
 /**
 *  A function which reduces arbitrary expressions to a particular normal form.
 */
-public abstract class Evaluator<D, R, E extends Exception> implements Mapping<D, R>
+public abstract class Evaluator<D, R, C> implements Mapping<D, R, C>
 {
 	/*public int arity()
 	{

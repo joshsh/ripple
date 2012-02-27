@@ -9,16 +9,15 @@
 
 package net.fortytwo.ripple.libs.control;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.NullStackMapping;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackMapping;
-import net.fortytwo.ripple.model.NullStackMapping;
-import net.fortytwo.ripple.model.ModelConnection;
 
 /**
  * A primitive which consumes a Boolean filter b, a filter t, and a filter t,
@@ -58,11 +57,10 @@ public class Ifte extends PrimitiveStackMapping
         return "b t f =>  p!  -- where p is t if the application of b evaluates to true, and f if it evaluates to false";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions	)
-            throws RippleException
-	{
-		RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+		RippleList stack = arg;
 
 		RippleValue falseProg = stack.getFirst();
 		stack = stack.getRest();
@@ -75,7 +73,7 @@ public class Ifte extends PrimitiveStackMapping
         RippleList newStack = stack.push( criterion ).push( Operator.OP )
                 .push( new Operator( inner ) );
                
-        solutions.put( arg.with( newStack ) );
+        solutions.put( newStack );
 	}
 
     private class IfteInner implements StackMapping
@@ -107,17 +105,17 @@ public class Ifte extends PrimitiveStackMapping
             return true;
         }
 
-        public void apply( final StackContext arg,
-                             final Sink<StackContext> solutions ) throws RippleException
-        {
-            ModelConnection mc = arg.getModelConnection();
-            RippleValue b = arg.getStack().getFirst();
+        public void apply(final RippleList arg,
+                          final Sink<RippleList> solutions,
+                          final ModelConnection mc) throws RippleException {
+
+            RippleValue b = arg.getFirst();
 
             RippleList stack = mc.toBoolean( b )
                     ? originalStack.push( trueProgram ).push( Operator.OP )
                     : originalStack.push( falseProgram ).push( Operator.OP );
 
-            solutions.put( arg.with( stack ) );
+            solutions.put( stack );
         }
     }
 }

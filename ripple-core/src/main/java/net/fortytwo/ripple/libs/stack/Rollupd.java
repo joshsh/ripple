@@ -9,12 +9,12 @@
 
 package net.fortytwo.ripple.libs.stack;
 
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.RippleValue;
 
 /**
  * A primitive which permutes the second, third and fourth items on the stack
@@ -53,11 +53,10 @@ public class Rollupd extends PrimitiveStackMapping
         return "x y z a  =>  z x y a";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+		RippleList stack = arg;
 		RippleValue w, z, y, x;
 
 		w = stack.getFirst();
@@ -69,8 +68,8 @@ public class Rollupd extends PrimitiveStackMapping
 		x = stack.getFirst();
 		stack = stack.getRest();
 
-		solutions.put( arg.with(
-				stack.push( z ).push( x ).push( y ).push( w ) ) );
+		solutions.put(
+				stack.push( z ).push( x ).push( y ).push( w ) );
 	}
 }
 

@@ -9,16 +9,15 @@
 
 package net.fortytwo.ripple.libs.control;
 
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.StackMappingWrapper;
 import net.fortytwo.ripple.model.regex.TimesQuantifier;
-import net.fortytwo.flow.Sink;
 
 /**
  * A primitive which consumes an item and a number n, then pushes n active
@@ -46,11 +45,11 @@ public class TimesApply extends PrimitiveStackMapping {
         return "p n  =>  p{n}  -- pushes n active copies of the program p, or 'executes p n times'";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions)
-            throws RippleException {
-        RippleList stack = arg.getStack();
-        final ModelConnection mc = arg.getModelConnection();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+
+        RippleList stack = arg;
 
         final int times;
 
@@ -61,8 +60,8 @@ public class TimesApply extends PrimitiveStackMapping {
 
         Sink<Operator> opSink = new Sink<Operator>() {
             public void put(final Operator op) throws RippleException {
-                solutions.put(arg.with(rest.push(
-                        new StackMappingWrapper(new TimesQuantifier(op, times, times), mc))));
+                solutions.put(rest.push(
+                        new StackMappingWrapper(new TimesQuantifier(op, times, times), mc)));
             }
         };
 

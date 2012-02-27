@@ -9,14 +9,13 @@
 
 package net.fortytwo.ripple.libs.logic;
 
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.stack.StackLibrary;
-import net.fortytwo.flow.Sink;
-import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackMapping;
 
 /**
@@ -51,11 +50,11 @@ public class Or extends PrimitiveStackMapping {
         return "x y  =>  z  -- where z is true if x or y is true, otherwise false";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions)
-            throws RippleException {
-        ModelConnection mc = arg.getModelConnection();
-        RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+
+        RippleList stack = arg;
         boolean x, y;
 
         x = mc.toBoolean(stack.getFirst());
@@ -65,8 +64,8 @@ public class Or extends PrimitiveStackMapping {
 
         RippleValue result = mc.booleanValue(x || y);
 
-        solutions.put(arg.with(
-                stack.push(result)));
+        solutions.put(
+                stack.push(result));
     }
 
     @Override
@@ -84,10 +83,11 @@ public class Or extends PrimitiveStackMapping {
                 return true;
             }
 
-            public void apply(final StackContext arg,
-                              final Sink<StackContext> solutions) throws RippleException {
-                ModelConnection mc = arg.getModelConnection();
-                RippleList stack = arg.getStack();
+            public void apply(final RippleList arg,
+                              final Sink<RippleList> solutions,
+                              final ModelConnection mc) throws RippleException {
+
+                RippleList stack = arg;
 
                 boolean x;
 
@@ -97,12 +97,12 @@ public class Or extends PrimitiveStackMapping {
                 if (x) {
                     RippleValue t = mc.booleanValue(true);
                     RippleValue f = mc.booleanValue(false);
-                    solutions.put(arg.with(stack.push(t).push(t)));
-                    solutions.put(arg.with(stack.push(t).push(f)));
-                    solutions.put(arg.with(stack.push(f).push(t)));
+                    solutions.put(stack.push(t).push(t));
+                    solutions.put(stack.push(t).push(f));
+                    solutions.put(stack.push(f).push(t));
                 } else {
                     RippleValue f = mc.booleanValue(false);
-                    solutions.put(arg.with(stack.push(f).push(f)));
+                    solutions.put(stack.push(f).push(f));
                 }
             }
         };

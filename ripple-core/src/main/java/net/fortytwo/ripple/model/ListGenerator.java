@@ -28,11 +28,12 @@ public class ListGenerator extends Operator {
                 return true;
             }
 
-            public void apply(final StackContext arg,
-                              final Sink<StackContext> solutions) throws RippleException {
+            public void apply(final RippleList arg,
+                              final Sink<RippleList> solutions,
+                              final ModelConnection mc) throws RippleException {
                 Sink<RippleList> s = new Sink<RippleList>() {
                     public void put(final RippleList l) throws RippleException {
-                        solutions.put(arg.with(arg.getStack().push(l.invert())));
+                        solutions.put(arg.push(l.invert()));
                     }
                 };
 

@@ -9,13 +9,12 @@
 
 package net.fortytwo.ripple.libs.string;
 
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.StackContext;
+import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.flow.Sink;
 
 /**
  * A primitive which consumes a string, a regular expression and a replacement
@@ -53,12 +52,10 @@ public class ReplaceAll extends PrimitiveStackMapping
         return "s regex replacement  =>  s2 -- in which each occurrence of the given regular expression in s has been substituted with the given replacement";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		RippleList stack = arg.getStack();
-		final ModelConnection mc = arg.getModelConnection();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+		RippleList stack = arg;
 
 		RippleValue regex, replacement, s;
         String result;
@@ -81,8 +78,8 @@ public class ReplaceAll extends PrimitiveStackMapping
 			throw new RippleException( e );
 		}
 
-        solutions.put( arg.with(
-                stack.push( StringLibrary.value( result, mc, replacement, regex, s ) ) ) );
+        solutions.put(
+                stack.push( StringLibrary.value( result, mc, replacement, regex, s ) ) );
 
 	}
 }

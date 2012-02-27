@@ -9,20 +9,17 @@
 
 package net.fortytwo.ripple.libs.control;
 
+import net.fortytwo.flow.Collector;
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.stack.StackLibrary;
+import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.NullStackMapping;
+import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.StackMapping;
-import net.fortytwo.ripple.model.NullStackMapping;
-import net.fortytwo.flow.Sink;
-import net.fortytwo.flow.Collector;
-
-import java.util.Iterator;
 
 /**
  * A primitive which consumes a list and a mapping, then applies the mapping to
@@ -51,11 +48,10 @@ public class Map extends PrimitiveStackMapping {
         return "l m  =>  l mapped through m";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions)
-            throws RippleException {
-        final ModelConnection mc = arg.getModelConnection();
-        RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+        RippleList stack = arg;
 
         final RippleValue mappingVal = stack.getFirst();
         stack = stack.getRest();
@@ -70,7 +66,7 @@ public class Map extends PrimitiveStackMapping {
         Sink<RippleList> listSink = new Sink<RippleList>() {
             public void put(final RippleList list) throws RippleException {
                 if (list.isNil()) {
-                    solutions.put(arg.with(rest.push(list)));
+                    solutions.put(rest.push(list));
                 }
 
                 // TODO: this is probably a little more complicated than it needs to be
@@ -78,9 +74,9 @@ public class Map extends PrimitiveStackMapping {
                     RippleList inverted = list.invert();
                     RippleValue f = inverted.getFirst();
 
-                    for (Iterator<Operator> iter = operators.iterator(); iter.hasNext();) {
-                        StackMapping inner = new InnerMapping(mc.list(), inverted.getRest(), iter.next());
-                        solutions.put(arg.with(rest.push(f).push(mappingVal).push(Operator.OP).push(new Operator(inner))));
+                    for (Operator operator : operators) {
+                        StackMapping inner = new InnerMapping(mc.list(), inverted.getRest(), operator);
+                        solutions.put(rest.push(f).push(mappingVal).push(Operator.OP).push(new Operator(inner)));
                     }
                 }
             }
@@ -112,21 +108,24 @@ public class Map extends PrimitiveStackMapping {
             return true;
         }
 
-        public void apply(final StackContext arg, final Sink<StackContext> solutions) throws RippleException {
-            RippleList stack = arg.getStack();
+        public void apply(final RippleList arg,
+                          final Sink<RippleList> solutions,
+                          final ModelConnection mc) throws RippleException {
+
+            RippleList stack = arg;
             RippleValue first = stack.getFirst();
             stack = stack.getRest();
 
             RippleList newListRest = constructedList.push(first);
 
             if (invertedListHead.isNil()) {
-                solutions.put(arg.with(stack.push(newListRest)));
+                solutions.put(stack.push(newListRest));
             } else {
                 // The stack to operate on
                 RippleList restStack = stack.push(invertedListHead.getFirst()).push(operator);
 
                 StackMapping restMapping = new InnerMapping(newListRest, invertedListHead.getRest(), operator);
-                solutions.put(arg.with(restStack.push(new Operator(restMapping))));
+                solutions.put(restStack.push(new Operator(restMapping)));
             }
         }
     }

@@ -35,11 +35,10 @@ public class Closure implements StackMapping
 		return calculatedArity;
 	}
 
-	public void apply( final StackContext arg,
-						final Sink<StackContext> solutions )
-            throws RippleException
-	{
-        innerMapping.apply( arg.with( arg.getStack().push( argument ) ), solutions );
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+        innerMapping.apply( arg.push( argument ), solutions, mc );
 	}
 	
 	public boolean isTransparent()

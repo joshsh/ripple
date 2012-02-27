@@ -17,7 +17,6 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
 import org.apache.log4j.Logger;
 import org.openrdf.model.Resource;
@@ -52,14 +51,13 @@ public class Links extends PrimitiveStackMapping {
         return "s  =>  s p o g";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions)
-            throws RippleException {
-        final ModelConnection mc = arg.getModelConnection();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
 
         Model model = mc.getModel();
         if (model instanceof SesameModel) {
-            final RippleList stack = arg.getStack();
+            final RippleList stack = arg;
 
             RippleValue subj;
 
@@ -78,7 +76,7 @@ public class Links extends PrimitiveStackMapping {
 
                     //sink.put( arg.with(
                     //	rest.push( triple ) ) );
-                    solutions.put(arg.with(stack.push(pred).push(obj).push(ctx)));
+                    solutions.put(stack.push(pred).push(obj).push(ctx));
                 }
             };
 

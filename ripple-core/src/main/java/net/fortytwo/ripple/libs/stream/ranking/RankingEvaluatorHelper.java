@@ -4,11 +4,11 @@ import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.ListMemoizer;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.Closure;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.RippleValueComparator;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.StackMapping;
 import org.apache.log4j.Logger;
 
@@ -37,14 +37,15 @@ public class RankingEvaluatorHelper {
     // A set of intermediate results.
     private final ListMemoizer<RippleValue, RankingContext> resultMemos;
 
-    public RankingEvaluatorHelper(final StackContext arg) {
+    public RankingEvaluatorHelper(final RippleList arg,
+                                  final ModelConnection mc) {
         queue = new PriorityQueue<RankingContext>(1, comparator);
 
         resultList = new LinkedList<RankingContext>();
         resultMemos = new ListMemoizer<RippleValue, RankingContext>(
-                new RippleValueComparator(arg.getModelConnection()));
+                new RippleValueComparator(mc));
 
-        handleOutput(new RankingContext(arg.getStack(), arg.getModelConnection()));
+        handleOutput(new RankingContext(arg, mc));
     }
 
     /**
@@ -53,12 +54,12 @@ public class RankingEvaluatorHelper {
      * @return whether it is possible to take further steps
      * @throws RippleException if the ranking can't be computed
      */
-    public boolean reduceOnce() throws RippleException {
+    public boolean reduceOnce(final ModelConnection mc) throws RippleException {
         //System.out.println("\treduceOnce()");
         if (!queue.isEmpty()) {
             //System.out.println("\t\tqueue NOT empty");
             //inputSink.put(queue.poll());
-            reduce(queue.poll());
+            reduce(queue.poll().getStack(), mc);
 
             return !queue.isEmpty();
         } else {
@@ -102,27 +103,30 @@ public class RankingEvaluatorHelper {
         }
     };
 
-    private final Sink<StackContext> outputSink = new Sink<StackContext>() {
-        public void put(final StackContext c) throws RippleException {
+    private final Sink<RippleList> outputSink = new Sink<RippleList>() {
+        public void put(final RippleList c) throws RippleException {
             //System.out.println("got this output: " + c.getStack());
+            // TODO
+            /*
             if (c instanceof RankingContext) {
                 handleOutput((RankingContext) c);
-            }
+            } */
         }
     };
 
     ////////////////////////////////////////////////////////////////////////////
 
-    private void reduce(final StackContext arg) throws RippleException {
-        RippleList stack = arg.getStack();
-        RippleList ops = arg.getModelConnection().list();
+    private void reduce(final RippleList arg,
+                        final ModelConnection mc) throws RippleException {
+        RippleList stack = arg;
+        RippleList ops = mc.list();
 
         while (true) {
             RippleValue first = stack.getFirst();
 
             if (stack.isNil() || null == first.getMapping()) {
                 if (ops.isNil()) {
-                    outputSink.put(arg.with(stack));
+                    outputSink.put(stack);
                     return;
                 } else {
                     Closure c = new Closure(ops.getFirst().getMapping(), first);
@@ -135,9 +139,9 @@ public class RankingEvaluatorHelper {
                 if (0 == f.arity()) {
                     try {
                         if (ops.isNil()) {
-                            f.apply(arg.with(stack.getRest()), outputSink);
+                            f.apply(stack.getRest(), outputSink, mc);
                         } else {
-                            f.apply(arg.with(stack.getRest()), new SpecialSink(ops));
+                            f.apply(stack.getRest(), new SpecialSink(ops, mc), mc);
                         }
                     } catch (Throwable t) {
                         // To keep things simple, just eat any errors.
@@ -152,15 +156,18 @@ public class RankingEvaluatorHelper {
         }
     }
 
-    private class SpecialSink implements Sink<StackContext> {
+    private class SpecialSink implements Sink<RippleList> {
         private final RippleList ops;
+        private final ModelConnection mc;
 
-        public SpecialSink(final RippleList ops) {
+        public SpecialSink(final RippleList ops,
+                           final ModelConnection mc) {
             this.ops = ops;
+            this.mc = mc;
         }
 
-        public void put(final StackContext arg) throws RippleException {
-            RippleList stack = arg.getStack();
+        public void put(final RippleList arg) throws RippleException {
+            RippleList stack = arg;
 
             RippleList cur = ops;
             while (!cur.isNil()) {
@@ -168,7 +175,7 @@ public class RankingEvaluatorHelper {
                 cur = cur.getRest();
             }
 
-            reduce(arg.with(stack));
+            reduce(stack, mc);
         }
     }
 }

@@ -31,94 +31,81 @@ import org.openrdf.model.Statement;
  * (subject, predicate, object) for each RDF triple in the corresponding
  * Semantic Web document.
  */
-public class Triples extends PrimitiveStackMapping
-{
+public class Triples extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             GraphLibrary.NS_2011_08 + "triples",
             GraphLibrary.NS_2008_08 + "triples",
             GraphLibrary.NS_2007_08 + "triples"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-	public Triples()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "doc", "a Semantic Web document", true )};
+    public Triples()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("doc", "a Semantic Web document", true)};
+    }
+
+    public String getComment() {
         return "doc  =>  s p o  -- for each triple (s p o) in document doc";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		final ModelConnection mc = arg.getModelConnection();
-		RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
 
-		String uri = stack.getFirst().toString();
+        RippleList stack = arg;
 
-		SesameInputAdapter sc = createAdapter( arg, solutions );
+        String uri = stack.getFirst().toString();
 
-		HttpMethod method = HTTPUtils.createGetMethod( uri );
-		HTTPUtils.setRdfAcceptHeader( method );
-		RDFHTTPUtils.read( method, sc, uri, null );
-	}
+        SesameInputAdapter sc = createAdapter(arg, solutions, mc);
 
-	static SesameInputAdapter createAdapter( final StackContext arg,
-										                      final Sink<StackContext> resultSink )
-	{
-		final ModelConnection mc = arg.getModelConnection();
-		final RippleList rest = arg.getStack().getRest();
+        HttpMethod method = HTTPUtils.createGetMethod(uri);
+        HTTPUtils.setRdfAcceptHeader(method);
+        RDFHTTPUtils.read(method, sc, uri, null);
+    }
 
-		RDFSink rdfSink = new RDFSink()
-		{
-			// Push statements.
-			private Sink<Statement> stSink = new Sink<Statement>()
-            {
-                public void put( final Statement st ) throws RippleException
-                {
-                    resultSink.put( arg.with(
+    static SesameInputAdapter createAdapter(final RippleList arg,
+                                            final Sink<RippleList> resultSink,
+                                            final ModelConnection mc) {
+        final RippleList rest = arg.getRest();
+
+        RDFSink rdfSink = new RDFSink() {
+            // Push statements.
+            private Sink<Statement> stSink = new Sink<Statement>() {
+                public void put(final Statement st) throws RippleException {
+                    resultSink.put(
                             rest.push(mc.canonicalValue(new RDFValue(st.getSubject())))
                                     .push(mc.canonicalValue(new RDFValue(st.getPredicate())))
-                                    .push(mc.canonicalValue(new RDFValue(st.getObject())))) );
+                                    .push(mc.canonicalValue(new RDFValue(st.getObject()))));
                 }
             };
 
-			// Discard namespaces.
-			private Sink<Namespace> nsSink = new NullSink<Namespace>();
+            // Discard namespaces.
+            private Sink<Namespace> nsSink = new NullSink<Namespace>();
 
-			// Discard comments.
-			private Sink<String> cmtSink = new NullSink<String>();
+            // Discard comments.
+            private Sink<String> cmtSink = new NullSink<String>();
 
-			public Sink<Statement> statementSink()
-			{
-				return stSink;
-			}
+            public Sink<Statement> statementSink() {
+                return stSink;
+            }
 
-			public Sink<Namespace> namespaceSink()
-			{
-				return nsSink;
-			}
+            public Sink<Namespace> namespaceSink() {
+                return nsSink;
+            }
 
-			public Sink<String> commentSink()
-			{
-				return cmtSink;
-			}
-		};
+            public Sink<String> commentSink() {
+                return cmtSink;
+            }
+        };
 
-		return new SesameInputAdapter( rdfSink );
-	}
+        return new SesameInputAdapter(rdfSink);
+    }
 }
 

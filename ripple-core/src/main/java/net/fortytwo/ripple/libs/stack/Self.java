@@ -9,10 +9,11 @@
 
 package net.fortytwo.ripple.libs.stack;
 
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackMapping;
 
 /**
@@ -47,10 +48,9 @@ public class Self extends PrimitiveStackMapping
         return " =>  (identity function, does nothing)";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
 		solutions.put( arg );
 	}
 

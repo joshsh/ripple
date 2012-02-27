@@ -9,12 +9,11 @@
 
 package net.fortytwo.ripple.libs.system;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.StackContext;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,11 +46,10 @@ public class System extends PrimitiveStackMapping {
         super();
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions)
-            throws RippleException {
-        final ModelConnection mc = arg.getModelConnection();
-        RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+        RippleList stack = arg;
 
         String command = mc.toString(stack.getFirst());
         stack = stack.getRest();
@@ -73,10 +71,10 @@ public class System extends PrimitiveStackMapping {
             throw new RippleException(e);
         }
 
-        solutions.put(arg.with(
+        solutions.put(
                 stack.push(mc.numericValue(exitCode))
                         .push(mc.plainValue(normalOutput))
-                        .push(mc.plainValue(errorOutput))));
+                        .push(mc.plainValue(errorOutput)));
     }
 
     private String readInputStream(final InputStream is,

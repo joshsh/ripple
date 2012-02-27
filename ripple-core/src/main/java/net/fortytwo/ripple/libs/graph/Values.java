@@ -6,7 +6,6 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.keyval.KeyValueValue;
 
 /**
@@ -33,17 +32,18 @@ public class Values extends PrimitiveStackMapping {
         return "finds all values of key/value pairs attached to a given object";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions) throws RippleException {
-                final ModelConnection mc = arg.getModelConnection();
-        RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+
+        RippleList stack = arg;
         RippleValue first = stack.getFirst();
         stack = stack.getRest();
 
         if (first instanceof KeyValueValue) {
             for (String key : ((KeyValueValue) first).getKeys()) {
                 RippleValue value = ((KeyValueValue) first).getValue(key, mc);
-                solutions.put(arg.with(stack.push(value)));
+                solutions.put(stack.push(value));
             }
         }
     }

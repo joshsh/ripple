@@ -9,14 +9,13 @@
 
 package net.fortytwo.ripple.libs.data;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.math.MathLibrary;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.model.ModelConnection;
 
 /**
  * A primitive which consumes two items x and y and produces a Boolean value of
@@ -54,13 +53,12 @@ public class Lt extends PrimitiveStackMapping
         return "x y  =>  b  -- where b is true if x < y, otherwise false";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+
 		RippleValue a, b, result;
-        ModelConnection mc = arg.getModelConnection();
-		RippleList stack = arg.getStack();
+		RippleList stack = arg;
 
 		b = stack.getFirst();
 		stack = stack.getRest();
@@ -69,8 +67,8 @@ public class Lt extends PrimitiveStackMapping
 
 		result = mc.booleanValue(mc.getComparator().compare(a, b) < 0);
 
-		solutions.put( arg.with(
-				stack.push( result ) ) );
+		solutions.put(
+				stack.push( result ) );
 	}
 }
 

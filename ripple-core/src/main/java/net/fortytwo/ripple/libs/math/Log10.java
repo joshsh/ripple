@@ -9,13 +9,12 @@
 
 package net.fortytwo.ripple.libs.math;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.StackMapping;
 
 /**
@@ -55,12 +54,10 @@ public class Log10 extends PrimitiveStackMapping
         return "x  =>  base-10 logarithm of x";
     }
 
-    public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		final ModelConnection mc = arg.getModelConnection();
-		RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+		RippleList stack = arg;
 
 		double a;
 		NumericValue result;
@@ -73,8 +70,8 @@ public class Log10 extends PrimitiveStackMapping
 		{
 			result = mc.numericValue(Math.log10(a));
 
-			solutions.put( arg.with(
-					stack.push( result ) ) );
+			solutions.put(
+					stack.push( result ) );
 		}
 	}
 
@@ -101,13 +98,10 @@ public class Log10 extends PrimitiveStackMapping
             return true;
         }
 
-        public void apply( final StackContext arg,
-                             final Sink<StackContext> solutions )
-                throws RippleException
-        {
-            final ModelConnection mc = arg.getModelConnection();
-            RippleList stack = arg.getStack();
-
+        public void apply(final RippleList arg,
+                          final Sink<RippleList> solutions,
+                          final ModelConnection mc) throws RippleException {
+            RippleList stack = arg;
             NumericValue x, result;
 
             x = mc.toNumericValue( stack.getFirst() );
@@ -115,8 +109,8 @@ public class Log10 extends PrimitiveStackMapping
 
             result = mc.numericValue(10).pow( x );
 
-            solutions.put( arg.with(
-                    stack.push( result ) ) );
+            solutions.put(
+                    stack.push( result ) );
         }
     }
 }

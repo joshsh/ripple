@@ -9,13 +9,12 @@
 
 package net.fortytwo.ripple.libs.math;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.StackContext;
 
 /**
  * A primitive which consumes a number and produces its hyperbolic sine.
@@ -49,12 +48,10 @@ public class Sinh extends PrimitiveStackMapping
         return "x  =>  sinh(x)";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		final ModelConnection mc = arg.getModelConnection();
-		RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+		RippleList stack = arg;
 
 		NumericValue a, result;
 
@@ -63,7 +60,8 @@ public class Sinh extends PrimitiveStackMapping
 
 		result = mc.numericValue(Math.sinh(a.doubleValue()));
 
-		solutions.put( arg.with(
-				stack.push( result ) ) );	}
+		solutions.put(
+				stack.push( result ) );
+    }
 }
 

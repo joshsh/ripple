@@ -28,11 +28,10 @@ public class ListDequotation implements StackMapping
 		return 0;
 	}
 
-	public void apply( final StackContext arg,
-						final Sink<StackContext> sink )
-            throws RippleException
-	{
-		RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+		RippleList stack = arg;
 
 		RippleList in = list;
 		RippleList out = stack;
@@ -53,13 +52,13 @@ public class ListDequotation implements StackMapping
                 {
                     StackMapping inverse = v.getMapping().getInverse();
                     out = out.getRest().push( new Operator( inverse ) );
-                    sink.put( arg.with( out ) );
+                    solutions.put( out );
                 }
             }
 
             else
             {
-                sink.put( arg.with( out ) );
+                solutions.put( out );
             }
         }
 	}

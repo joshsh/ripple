@@ -9,16 +9,16 @@
 
 package net.fortytwo.ripple.libs.stream;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
-import net.fortytwo.ripple.model.StackMapping;
+import net.fortytwo.ripple.ListMemoizer;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.NullStackMapping;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.NullStackMapping;
-import net.fortytwo.ripple.ListMemoizer;
+import net.fortytwo.ripple.model.RippleValue;
+import net.fortytwo.ripple.model.StackMapping;
 
 /**
  * A filter which drops any stack which has already been transmitted and behaves
@@ -57,16 +57,14 @@ public class Distinct extends PrimitiveStackMapping
         return "transmits stacks at most once, as determined by list comparison";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
 
-		solutions.put( arg.with(
-			stack.push(
-				new Operator(
-					new DistinctInner() ) ) ) );
+        solutions.put(
+			arg.push(
+                    new Operator(
+                            new DistinctInner())) );
 	}
 
 	////////////////////////////////////////////////////////////////////////////
@@ -81,18 +79,17 @@ public class Distinct extends PrimitiveStackMapping
 		}
 	
         // Note: consecutive calls to applyTo should reference the same Model.
-		public void apply( final StackContext arg,
-							 final Sink<StackContext> sink )
-                throws RippleException
-		{
+        public void apply(final RippleList arg,
+                          final Sink<RippleList> solutions,
+                          final ModelConnection mc) throws RippleException {
             if ( null == memoizer )
             {
-                memoizer = new ListMemoizer<RippleValue, String>( arg.getModelConnection().getComparator() );
+                memoizer = new ListMemoizer<RippleValue, String>( mc.getComparator() );
             }
 
-			if ( memoizer.put( arg.getStack(), MEMO ) )
+			if ( memoizer.put( arg, MEMO ) )
 			{
-				sink.put( arg );
+				solutions.put( arg );
 			}
 		}
 		

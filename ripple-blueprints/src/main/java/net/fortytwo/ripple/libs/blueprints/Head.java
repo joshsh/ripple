@@ -4,10 +4,10 @@ import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.StackMapping;
 
 /**
@@ -33,15 +33,16 @@ public class Head extends PrimitiveStackMapping {
                 " The inverse mapping finds the incoming edges of a vertex.";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions) throws RippleException {
-        RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+        RippleList stack = arg;
         RippleValue first = stack.getFirst();
         stack = stack.getRest();
 
         if (first instanceof EdgeValue) {
             Edge edge = ((EdgeValue) first).getElement();
-            solutions.put(arg.with(stack.push(new VertexValue(edge.getInVertex()))));
+            solutions.put(stack.push(new VertexValue(edge.getInVertex())));
         }
     }
 
@@ -64,9 +65,10 @@ public class Head extends PrimitiveStackMapping {
             return true;
         }
 
-        public void apply(final StackContext arg,
-                          final Sink<StackContext> solutions) throws RippleException {
-            RippleList stack = arg.getStack();
+        public void apply(final RippleList arg,
+                          final Sink<RippleList> solutions,
+                          final ModelConnection mc) throws RippleException {
+            RippleList stack = arg;
             RippleValue first = stack.getFirst();
             stack = stack.getRest();
 
@@ -74,7 +76,7 @@ public class Head extends PrimitiveStackMapping {
                 Vertex vertex = ((VertexValue) first).getElement();
 
                 for (Edge edge : vertex.getInEdges()) {
-                    solutions.put(arg.with(stack.push(new EdgeValue(edge))));
+                    solutions.put(stack.push(new EdgeValue(edge)));
                 }
             }
         }

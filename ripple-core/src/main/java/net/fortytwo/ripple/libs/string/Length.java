@@ -9,12 +9,11 @@
 
 package net.fortytwo.ripple.libs.string;
 
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.model.RippleList;
 
 /**
  * A primitive which consumes a string and produces its length.
@@ -48,20 +47,18 @@ public class Length extends PrimitiveStackMapping
         return "s  =>  l -- where l is the length of string s";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		RippleList stack = arg.getStack();
-		final ModelConnection mc = arg.getModelConnection();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+		RippleList stack = arg;
 
 		String s;
 
 		s = mc.toString( stack.getFirst() );
 		stack = stack.getRest();
 
-		solutions.put( arg.with(
-				stack.push( mc.numericValue(s.length()) ) ) );
+		solutions.put(
+				stack.push( mc.numericValue(s.length()) ) );
 	}
 }
 

@@ -9,14 +9,14 @@
 
 package net.fortytwo.ripple.libs.control;
 
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.stack.StackLibrary;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.model.RippleValue;
 
 /**
  * A primitive which activates the second-to-topmost item on the stack.
@@ -45,11 +45,11 @@ public class Dip extends PrimitiveStackMapping {
         return "x y  =>  y! x";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions)
-            throws RippleException {
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
         RippleValue y, x;
-        RippleList stack = arg.getStack();
+        RippleList stack = arg;
 
 // hack...
         y = stack.getFirst();
@@ -57,8 +57,8 @@ public class Dip extends PrimitiveStackMapping {
         x = stack.getFirst();
         stack = stack.getRest();
 
-        solutions.put(arg.with(
-                stack.push(y).push(Operator.OP).push(x)));
+        solutions.put(
+                stack.push(y).push(Operator.OP).push(x));
     }
 }
 

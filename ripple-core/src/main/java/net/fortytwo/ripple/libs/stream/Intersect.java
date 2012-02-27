@@ -9,17 +9,16 @@
 
 package net.fortytwo.ripple.libs.stream;
 
+import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.ListMemoizer;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.model.StackMapping;
+import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.NullStackMapping;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.model.NullStackMapping;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.ListMemoizer;
-import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.model.StackMapping;
 
 
 /**
@@ -57,12 +56,10 @@ public class Intersect extends PrimitiveStackMapping
         return "r1 r2 => applied intersection of relations r1 and r2";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-        ModelConnection mc = arg.getModelConnection();
-		RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+		RippleList stack = arg;
 
 		RippleValue rtrue = stack.getFirst();
 		stack = stack.getRest();
@@ -70,10 +67,10 @@ public class Intersect extends PrimitiveStackMapping
 		stack = stack.getRest();
 
 		Operator inner = new Operator( new IntersectInner() );
-		solutions.put( arg.with(
-				stack.push( rtrue ).push( Operator.OP ).push( mc.booleanValue(true) ).push( inner ) ) );
-		solutions.put( arg.with(
-				stack.push( rfalse ).push( Operator.OP ).push( mc.booleanValue(false) ).push( inner ) ) );
+		solutions.put(
+				stack.push( rtrue ).push( Operator.OP ).push( mc.booleanValue(true) ).push( inner ) );
+		solutions.put(
+				stack.push( rfalse ).push( Operator.OP ).push( mc.booleanValue(false) ).push( inner ) );
 	}
 
 	////////////////////////////////////////////////////////////////////////////
@@ -90,31 +87,27 @@ public class Intersect extends PrimitiveStackMapping
 			return 2;
 		}
 
-		public void apply( final StackContext arg,
-							 final Sink<StackContext> sink
-		)
-                throws RippleException
-		{
-            ModelConnection mc = arg.getModelConnection();
-			RippleList stack = arg.getStack();
-			RippleValue marker = stack.getFirst();
+        public void apply(final RippleList arg,
+                          final Sink<RippleList> solutions,
+                          final ModelConnection mc) throws RippleException {
+            RippleValue marker = arg.getFirst();
 
             if ( mc.toBoolean( marker ) )
 			{
-				applyTrue( arg, sink );
+				applyTrue( arg, solutions, mc );
 			}
 
 			else
 			{
-				applyFalse( arg, sink );
+				applyFalse( arg, solutions, mc );
 			}
 		}
 
-		private void applyTrue( final StackContext arg,
-								final Sink<StackContext> sink ) throws RippleException
+		private void applyTrue( final RippleList arg,
+								final Sink<RippleList> sink,
+                                final ModelConnection mc) throws RippleException
 		{
-            final ModelConnection mc = arg.getModelConnection();
-            RippleList stack = arg.getStack().getRest();
+            RippleList stack = arg.getRest();
 
 			if ( null == trueMemoizer )
 			{
@@ -125,15 +118,15 @@ public class Intersect extends PrimitiveStackMapping
 
 			if ( null != falseMemoizer && null != falseMemoizer.get( stack ) )
 			{
-				sink.put( arg.with( stack ) );
+				sink.put( stack );
 			}
 		}
 
-		private void applyFalse( final StackContext arg,
-								final Sink<StackContext> sink ) throws RippleException
+		private void applyFalse( final RippleList arg,
+								final Sink<RippleList> sink,
+                                final ModelConnection mc) throws RippleException
 		{
-            final ModelConnection mc = arg.getModelConnection();
-			RippleList stack = arg.getStack().getRest();
+			RippleList stack = arg.getRest();
 
 			if ( null == falseMemoizer )
 			{
@@ -144,7 +137,7 @@ public class Intersect extends PrimitiveStackMapping
 
 			if ( null != trueMemoizer && null != trueMemoizer.get( stack ) )
 			{
-				sink.put( arg.with( stack ) );
+				sink.put( stack );
 			}
 		}
 

@@ -16,24 +16,23 @@ import net.fortytwo.ripple.io.RipplePrintStream;
 
 public class Op implements RippleValue {
     private final StackMapping inverseMapping = new StackMapping() {
-        public void apply(final StackContext arg,
-                          final Sink<StackContext> sink)
-                throws RippleException {
+        public void apply(final RippleList arg,
+                          final Sink<RippleList> solutions,
+                          final ModelConnection mc) throws RippleException {
             RippleValue v;
-            RippleList stack = arg.getStack();
 
-            v = stack.getFirst();
-            final RippleList rest = stack.getRest();
+            v = arg.getFirst();
+            final RippleList rest = arg.getRest();
 
             Sink<Operator> opSink = new Sink<Operator>() {
                 public void put(final Operator oper)
                         throws RippleException {
                     Operator inv = new Operator(oper.getMapping().getInverse());
-                    sink.put(arg.with(rest.push(inv)));
+                    solutions.put(rest.push(inv));
                 }
             };
 
-            Operator.createOperator(v, opSink, arg.getModelConnection());
+            Operator.createOperator(v, opSink, mc);
         }
 
         public StackMapping getInverse() throws RippleException {
@@ -56,23 +55,22 @@ public class Op implements RippleValue {
     };
 
     private final StackMapping mapping = new StackMapping() {
-        public void apply(final StackContext arg,
-                          final Sink<StackContext> sink)
-                throws RippleException {
+        public void apply(final RippleList arg,
+                          final Sink<RippleList> solutions,
+                          final ModelConnection mc) throws RippleException {
             RippleValue v;
-            RippleList stack = arg.getStack();
 
-            v = stack.getFirst();
-            final RippleList rest = stack.getRest();
+            v = arg.getFirst();
+            final RippleList rest = arg.getRest();
 
             Sink<Operator> opSink = new Sink<Operator>() {
                 public void put(final Operator oper)
                         throws RippleException {
-                    sink.put(arg.with(rest.push(oper)));
+                    solutions.put(rest.push(oper));
                 }
             };
 
-            Operator.createOperator(v, opSink, arg.getModelConnection());
+            Operator.createOperator(v, opSink, mc);
         }
 
         public int arity() {

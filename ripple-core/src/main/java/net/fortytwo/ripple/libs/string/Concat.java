@@ -9,14 +9,13 @@
 
 package net.fortytwo.ripple.libs.string;
 
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.system.SystemLibrary;
-import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.StackContext;
+import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.flow.Sink;
 
 /**
  * A primitive which consumes two strings and produces their
@@ -53,12 +52,10 @@ public class Concat extends PrimitiveStackMapping
         return "s1 s2  =>  s3  -- where s3 is the concatenation of s1 and s2";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		RippleList stack = arg.getStack();
-		final ModelConnection mc = arg.getModelConnection();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+		RippleList stack = arg;
 
 		RippleValue strA, strB;
         String result;
@@ -70,8 +67,8 @@ public class Concat extends PrimitiveStackMapping
 
 		result = mc.toString( strB ) + mc.toString( strA );
 
-		solutions.put( arg.with(
-				stack.push( StringLibrary.value( result, mc, strA, strB ) ) ) );
+		solutions.put(
+				stack.push( StringLibrary.value( result, mc, strA, strB ) ) );
 	}
 }
 

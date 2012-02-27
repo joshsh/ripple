@@ -9,12 +9,12 @@
 
 package net.fortytwo.ripple.libs.stack;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.RippleValue;
 
 /**
  * A primitive which pushes a copy of the topmost item on the stack to the
@@ -50,18 +50,17 @@ public class Dup extends PrimitiveStackMapping
         return "x  =>  x x";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
 		RippleValue x;
-		RippleList stack = arg.getStack();
+		RippleList stack = arg;
 
 		x = stack.getFirst();
 		stack = stack.getRest();
 
-		solutions.put( arg.with(
-				stack.push( x ).push( x ) ) );
+		solutions.put(
+				stack.push( x ).push( x ) );
 	}
 }
 

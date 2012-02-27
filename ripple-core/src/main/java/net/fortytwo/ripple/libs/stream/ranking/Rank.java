@@ -7,7 +7,6 @@ import net.fortytwo.ripple.libs.stream.StreamLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.StackContext;
 
 /*
 (("one" "two" 0.5 amp.)
@@ -42,19 +41,19 @@ public class Rank extends PrimitiveStackMapping {
         return "a closed-world ranking evaluator which aggregates weights of traversed paths.  Use in conjunction with etc:amp.";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions) throws RippleException {
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
         // FIXME: cheat to temporarily disable asynchronous query answering
         boolean a = Ripple.asynchronousQueries();
         Ripple.enableAsynchronousQueries(false);
         try {
-            final ModelConnection mc = arg.getModelConnection();
-            RippleList stack = arg.getStack();
+            RippleList stack = arg;
             int steps = mc.toNumericValue(stack.getFirst()).intValue();
             stack = stack.getRest();
 
             //System.out.println("ranking on: " + stack);
-            new RankingEvaluator(steps).apply(arg.with(stack), solutions);
+            new RankingEvaluator(steps).apply(stack, solutions, mc);
         } finally {
             Ripple.enableAsynchronousQueries(a);
         }

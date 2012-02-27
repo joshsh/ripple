@@ -9,15 +9,14 @@
 
 package net.fortytwo.ripple.libs.stream;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
-import net.fortytwo.ripple.model.StackMapping;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.NullStackMapping;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.NullStackMapping;
+import net.fortytwo.ripple.model.StackMapping;
 
 /**
  * A primitive which consumes a number n and produces a filter which transmits
@@ -53,22 +52,20 @@ public class Limit extends PrimitiveStackMapping
         return "transmits at most lim stacks";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		RippleList stack = arg.getStack();
-		final ModelConnection mc = arg.getModelConnection();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+		RippleList stack = arg;
 
 		int lim;
 
 		lim = mc.toNumericValue( stack.getFirst() ).intValue();
 		stack = stack.getRest();
 
-		solutions.put( arg.with(
+		solutions.put(
 			stack.push(
 				new Operator(
-					new LimitInner( (long) lim ) ) ) ) );
+					new LimitInner( (long) lim ) ) ) );
 	}
 
 	////////////////////////////////////////////////////////////////////////////
@@ -87,16 +84,14 @@ public class Limit extends PrimitiveStackMapping
 			limit = lim;
 			count = 0;
 		}
-	
-		public void apply( final StackContext arg,
-							 final Sink<StackContext> sink
-		)
-                throws RippleException
-		{
+
+        public void apply(final RippleList arg,
+                          final Sink<RippleList> solutions,
+                          final ModelConnection mc) throws RippleException {
 			if ( count < limit )
 			{
 				count++;
-				sink.put( arg );
+				solutions.put( arg );
 			}
 		}
 		

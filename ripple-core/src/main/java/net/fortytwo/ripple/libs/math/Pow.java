@@ -9,13 +9,12 @@
 
 package net.fortytwo.ripple.libs.math;
 
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.model.StackMapping;
 
 /**
@@ -50,11 +49,10 @@ public class Pow extends PrimitiveStackMapping {
         return "x p  =>  x^p";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions)
-            throws RippleException {
-        final ModelConnection mc = arg.getModelConnection();
-        RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+        RippleList stack = arg;
 
         NumericValue p, x, result;
 
@@ -65,8 +63,8 @@ public class Pow extends PrimitiveStackMapping {
 
         result = x.pow(p);
 
-        solutions.put(arg.with(
-                stack.push(result)));
+        solutions.put(
+                stack.push(result));
     }
 
     @Override
@@ -84,10 +82,10 @@ public class Pow extends PrimitiveStackMapping {
                 return true;
             }
 
-            public void apply(final StackContext arg,
-                              final Sink<StackContext> solutions) throws RippleException {
-                final ModelConnection mc = arg.getModelConnection();
-                RippleList stack = arg.getStack();
+            public void apply(final RippleList arg,
+                              final Sink<RippleList> solutions,
+                              final ModelConnection mc) throws RippleException {
+                RippleList stack = arg;
 
                 NumericValue a, c, result;
                 c = mc.toNumericValue(stack.getFirst());
@@ -97,7 +95,7 @@ public class Pow extends PrimitiveStackMapping {
 
                 if (a.doubleValue() > 0 && c.doubleValue() > 0) {
                     result = mc.numericValue(Math.log(c.doubleValue()) / Math.log(a.doubleValue()));
-                    solutions.put(arg.with(stack.push(result)));
+                    solutions.put(stack.push(result));
                 }
             }
         };

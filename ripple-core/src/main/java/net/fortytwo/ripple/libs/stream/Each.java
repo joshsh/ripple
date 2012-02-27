@@ -9,13 +9,12 @@
 
 package net.fortytwo.ripple.libs.stream;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.StackContext;
 
 /**
  * A primitive which consumes a list and produces each item in the list in a
@@ -23,8 +22,6 @@ import net.fortytwo.ripple.model.StackContext;
  */
 public class Each extends PrimitiveStackMapping
 {
-	private static final int ARITY = 1;
-
     private static final String[] IDENTIFIERS = {
             StreamLibrary.NS_2011_08 + "each",
             StreamLibrary.NS_2008_08 + "each",
@@ -53,17 +50,14 @@ public class Each extends PrimitiveStackMapping
         return "l => each item in l";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions	)
-            throws RippleException
-	{
-		final ModelConnection mc = arg.getModelConnection();
-		RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
 
-		RippleValue l;
+        RippleValue l;
 
-		l = stack.getFirst();
-		final RippleList rest = stack.getRest();
+		l = arg.getFirst();
+		final RippleList rest = arg.getRest();
 
 		Sink<RippleList> listSink = new Sink<RippleList>()
 		{
@@ -72,8 +66,8 @@ public class Each extends PrimitiveStackMapping
 				while ( !list.isNil() )
 				{
                     try {
-                        solutions.put( arg.with(
-                                rest.push( list.getFirst() ) ) );
+                        solutions.put(
+                                rest.push(list.getFirst()) );
                     } catch (RippleException e) {
                         // Soft fail
                         e.logError();

@@ -9,14 +9,13 @@
 
 package net.fortytwo.ripple.libs.logic;
 
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.stack.StackLibrary;
-import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackMapping;
 
 /**
@@ -47,11 +46,11 @@ public class Not extends PrimitiveStackMapping {
         return "x  =>  y  -- where y is true if x is false, otherwise false";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions)
-            throws RippleException {
-        ModelConnection mc = arg.getModelConnection();
-        RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+
+        RippleList stack = arg;
         boolean x;
 
         x = mc.toBoolean(stack.getFirst());
@@ -59,8 +58,8 @@ public class Not extends PrimitiveStackMapping {
 
         RippleValue result = mc.booleanValue(!x);
 
-        solutions.put(arg.with(
-                stack.push(result)));
+        solutions.put(
+                stack.push(result));
     }
 
     @Override

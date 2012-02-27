@@ -9,14 +9,13 @@
 
 package net.fortytwo.ripple.libs.data;
 
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.graph.GraphLibrary;
-import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.RippleValue;
 
 /**
  * A primitive which consumes two items and produces a Boolean value of true if
@@ -45,11 +44,11 @@ public class Equal extends PrimitiveStackMapping {
         return "x y  =>  b  -- where b is true if x and y are equal, otherwise false";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions)
-            throws RippleException {
-        ModelConnection mc = arg.getModelConnection();
-        RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+
+        RippleList stack = arg;
 
         RippleValue a, b, result;
 
@@ -63,6 +62,6 @@ public class Equal extends PrimitiveStackMapping {
         //       Literals).
         result = mc.booleanValue(0 == mc.getComparator().compare(a, b));
 
-        solutions.put(arg.with(stack.push(result)));
+        solutions.put(stack.push(result));
     }
 }

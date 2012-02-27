@@ -14,7 +14,6 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.StackMapping;
 
 /**
@@ -43,11 +42,11 @@ public class Atan2 extends PrimitiveStackMapping {
         return "x y  =>  atan2(x, y)";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions)
-            throws RippleException {
-        final ModelConnection mc = arg.getModelConnection();
-        RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+
+        RippleList stack = arg;
 
         double x, y, result;
 
@@ -59,8 +58,8 @@ public class Atan2 extends PrimitiveStackMapping {
         if (x != 0 || y != 0) {
             result = Math.atan2(x, y);
 
-            solutions.put(arg.with(
-                    stack.push(mc.numericValue(result))));
+            solutions.put(
+                    stack.push(mc.numericValue(result)));
         }
     }
 

@@ -11,16 +11,15 @@ package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.model.RDFValue;
-import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
-import org.openrdf.model.Statement;
 import org.apache.log4j.Logger;
+import org.openrdf.model.Statement;
 
 /**
  * A primitive which consumes an RDF container and produces all items in the
@@ -52,21 +51,20 @@ public class Members extends PrimitiveStackMapping {
         return "c  =>  x  -- for each member x of Container c";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions)
-            throws RippleException {
-        final ModelConnection mc = arg.getModelConnection();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
 
         Model model = mc.getModel();
         if (model instanceof SesameModel) {
-            RippleList stack = arg.getStack();
+            RippleList stack = arg;
 
             RippleValue head = stack.getFirst();
             final RippleList rest = stack.getRest();
 
             final Sink<RippleValue> pushSink = new Sink<RippleValue>() {
                 public void put(final RippleValue v) throws RippleException {
-                    solutions.put(arg.with(rest.push(v)));
+                    solutions.put(rest.push(v));
                 }
             };
 

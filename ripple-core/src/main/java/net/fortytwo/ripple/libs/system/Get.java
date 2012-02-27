@@ -58,12 +58,10 @@ public class Get extends PrimitiveStackMapping
 		super();
 	}
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions	)
-            throws RippleException
-	{
-		final ModelConnection mc = arg.getModelConnection();
-		RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+		RippleList stack = arg;
 
 		String result;
 
@@ -130,7 +128,7 @@ public class Get extends PrimitiveStackMapping
 			throw new RippleException( t );
 		}
 
-		solutions.put( arg.with( stack.push( mc.typedValue(result, XMLSchema.STRING) ) ) );
+		solutions.put( stack.push( mc.typedValue(result, XMLSchema.STRING) ) );
 	}
 }
 

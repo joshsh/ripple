@@ -9,13 +9,12 @@
 
 package net.fortytwo.ripple.libs.graph;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
-import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RippleValue;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.StackContext;
+import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.RippleValue;
 
 
 /**
@@ -53,12 +52,11 @@ public class DenyInContext extends PrimitiveStackMapping
         return "s p o g  =>  s  -- has the side-effect of revoking the statement (s, p, o, g)";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		final ModelConnection mc = arg.getModelConnection();
-		RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+
+		RippleList stack = arg;
 
 		RippleValue subj, pred, obj, ctx;
 
@@ -81,6 +79,6 @@ public class DenyInContext extends PrimitiveStackMapping
 		// Sail.
 		mc.commit();
 
-		solutions.put( arg.with( stack.push( subj ) ) );
+		solutions.put( stack.push( subj ) );
 	}
 }

@@ -4,7 +4,7 @@ import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
-import net.fortytwo.ripple.model.StackContext;
+import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.query.StackEvaluator;
 
 /**
@@ -25,14 +25,14 @@ public class RankingEvaluator extends StackEvaluator {
         stopped = true;
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions) throws RippleException {
-        RankingEvaluatorHelper h = new RankingEvaluatorHelper(arg.with(arg.getStack().push(Operator.OP)));
-        ModelConnection mc = arg.getModelConnection();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+        RankingEvaluatorHelper h = new RankingEvaluatorHelper(arg.push(Operator.OP), mc);
 
         for (int i = 0; i < steps; i++) {
             if (!stopped) {
-                if (!h.reduceOnce()) {
+                if (!h.reduceOnce(mc)) {
                     break;
                 }
             }
@@ -40,7 +40,7 @@ public class RankingEvaluator extends StackEvaluator {
 
         for (RankingContext c : h.getResults()) {
             //System.out.println("solution: " + c.getStack());
-            solutions.put(arg.with(c.getStack().getRest().push(mc.numericValue(c.getPriority()))));
+            solutions.put(c.getStack().getRest().push(mc.numericValue(c.getPriority())));
         }
     }
 }

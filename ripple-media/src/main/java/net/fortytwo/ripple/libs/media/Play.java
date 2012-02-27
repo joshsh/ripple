@@ -54,14 +54,11 @@ public class Play extends PrimitiveStackMapping
         return "midiUri => midiUri  -- has the side-effect of playing the MIDI file";
     }
 
-    public void apply( final StackContext arg,
-                         final Sink<StackContext> solutions )
-            throws RippleException
-	{
-        ModelConnection mc = arg.getModelConnection();
-        RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
 
-        RDFValue uri = mc.uriValue(mc.toString(stack.getFirst()));
+        RDFValue uri = mc.uriValue(mc.toString(arg.getFirst()));
 		//stack = stack.getRest();
 
 		try
@@ -76,7 +73,7 @@ System.out.println( "error: " + e );
 		}
 
 		// Pass the stack along, unaltered.
-		solutions.put( arg.with( stack ) );
+		solutions.put(arg);
 	}
 
 	private void play( final RDFValue uri ) throws RippleException

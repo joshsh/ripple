@@ -6,7 +6,6 @@ import net.fortytwo.ripple.libs.stream.StreamLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.StackContext;
 
 /**
  * User: josh
@@ -32,15 +31,18 @@ public class Amp extends PrimitiveStackMapping {
         return "amplifies or attenuates the weight (strength or priority) of a given path by a real-valued factor.  Use in conjunction with etc:rank.";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions) throws RippleException {
-        final ModelConnection mc = arg.getModelConnection();
-        RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+        // TODO: come up with a new solution for ranking which does not require StackContext
+        /*
+        RippleList stack = arg;
         double factor = mc.toNumericValue(stack.getFirst()).doubleValue();
         if (arg instanceof RankingContext) {
             ((RankingContext) arg).setPriority(((RankingContext) arg).getPriority() * factor);
         }
 
         solutions.put(arg.with(stack.getRest()));
+        */
     }
 }

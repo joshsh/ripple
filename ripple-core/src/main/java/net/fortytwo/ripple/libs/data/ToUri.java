@@ -16,7 +16,6 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.StackContext;
 
 /**
  * A primitive which consumes a literal value and produces the resource
@@ -44,11 +43,11 @@ public class ToUri extends PrimitiveStackMapping {
         return "s  =>  uri -- where uri is the URI whose string representation is s";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions)
-            throws RippleException {
-        final ModelConnection mc = arg.getModelConnection();
-        RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+
+        RippleList stack = arg;
 
         String s;
 
@@ -57,8 +56,8 @@ public class ToUri extends PrimitiveStackMapping {
 
         RDFValue uri = mc.uriValue(s);
 
-        solutions.put(arg.with(
-                stack.push(uri)));
+        solutions.put(
+                stack.push(uri));
     }
 }
 

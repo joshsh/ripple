@@ -9,13 +9,12 @@
 
 package net.fortytwo.ripple.libs.math;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.StackMapping;
 
 /**
@@ -54,12 +53,10 @@ public class Cbrt extends PrimitiveStackMapping
         return "x  =>  real cube root of x";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		final ModelConnection mc = arg.getModelConnection();
-		RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+		RippleList stack = arg;
 
 		NumericValue a, result;
 
@@ -68,8 +65,8 @@ public class Cbrt extends PrimitiveStackMapping
 
 		result = mc.numericValue(Math.cbrt(a.doubleValue()));
 
-		solutions.put( arg.with(
-				stack.push( result ) ) );
+		solutions.put(
+				stack.push( result ) );
     }
 
     @Override
@@ -95,10 +92,10 @@ public class Cbrt extends PrimitiveStackMapping
             return true;
         }
 
-        public void apply(StackContext arg, Sink<StackContext> solutions) throws RippleException
-        {
-            final ModelConnection mc = arg.getModelConnection();
-            RippleList stack = arg.getStack();
+        public void apply(final RippleList arg,
+                          final Sink<RippleList> solutions,
+                          final ModelConnection mc) throws RippleException {
+            RippleList stack = arg;
 
             NumericValue a, result;
 
@@ -107,8 +104,8 @@ public class Cbrt extends PrimitiveStackMapping
 
             result = a.mul( a ).mul( a );
 
-            solutions.put( arg.with(
-                    stack.push( result ) ) );
+            solutions.put(
+                    stack.push( result ) );
         }
     }
 }

@@ -9,13 +9,12 @@
 
 package net.fortytwo.ripple.libs.math;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.StackMapping;
 
 /**
@@ -55,12 +54,11 @@ public class Abs extends PrimitiveStackMapping
     }
 
 
-	public void apply( final StackContext arg,
-					   final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		final ModelConnection mc = arg.getModelConnection();
-		RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+
+		RippleList stack = arg;
 
 		NumericValue a, result;
 
@@ -69,8 +67,8 @@ public class Abs extends PrimitiveStackMapping
 
 		result = a.abs();
 
-		solutions.put( arg.with(
-				stack.push( result ) ) );
+		solutions.put(
+				stack.push( result ) );
 	}
 
     @Override
@@ -96,11 +94,11 @@ public class Abs extends PrimitiveStackMapping
             return true;
         }
 
-        public void apply( final StackContext arg,
-                           final Sink<StackContext> solutions ) throws RippleException
-        {
-            final ModelConnection mc = arg.getModelConnection();
-            RippleList stack = arg.getStack();
+        public void apply(final RippleList arg,
+                          final Sink<RippleList> solutions,
+                          final ModelConnection mc) throws RippleException {
+
+            RippleList stack = arg;
 
             NumericValue a;
 
@@ -111,14 +109,14 @@ public class Abs extends PrimitiveStackMapping
             if ( a.doubleValue() >= 0 )
             {
                 // Push the number itself.
-                solutions.put( arg.with(
-                        stack.push( a ) ) );
+                solutions.put(
+                        stack.push( a ) );
 
                 // If the number is nonzero, also push its negation.
                 if ( a.doubleValue() > 0 )
                 {
-                    solutions.put( arg.with(
-                            stack.push( a.neg() ) ) );
+                    solutions.put(
+                            stack.push( a.neg() ) );
                 }
             }
         }

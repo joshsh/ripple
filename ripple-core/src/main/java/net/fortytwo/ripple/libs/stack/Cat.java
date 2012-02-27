@@ -9,14 +9,13 @@
 
 package net.fortytwo.ripple.libs.stack;
 
+import net.fortytwo.flow.Collector;
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.flow.Collector;
-import net.fortytwo.flow.Sink;
 
 /**
  * A primitive function which consumes two lists and produces the concatenation
@@ -53,12 +52,10 @@ public class Cat extends PrimitiveStackMapping
         return "l1 l2  =>  l3  -- where l3 is the concatenation of Lists l1 and l2";
     }
 
-	public void apply( final StackContext arg,
-					   final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		final ModelConnection mc = arg.getModelConnection();
-		RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+		RippleList stack = arg;
 
 		RippleValue l1, l2;
 
@@ -79,8 +76,8 @@ public class Cat extends PrimitiveStackMapping
 					public void put( final RippleList list1 ) throws RippleException
 					{
 						RippleList result = list2.concat( list1 );
-						solutions.put( arg.with(
-								rest.push( result ) ) );
+						solutions.put(
+								rest.push( result ) );
 					}
 				};
 

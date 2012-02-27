@@ -9,14 +9,13 @@
 
 package net.fortytwo.ripple.libs.math;
 
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.StackMapping;
-import net.fortytwo.flow.Sink;
 
 /**
  * A primitive which consumes a number representing an angle in radians and
@@ -51,12 +50,10 @@ public class Cos extends PrimitiveStackMapping
         return "x  =>  cos(x)";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		final ModelConnection mc = arg.getModelConnection();
-		RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+		RippleList stack = arg;
 
 		NumericValue a, result;
 
@@ -65,8 +62,8 @@ public class Cos extends PrimitiveStackMapping
 
 		result = mc.numericValue(Math.cos(a.doubleValue()));
 
-		solutions.put( arg.with(
-				stack.push( result ) ) );
+		solutions.put(
+				stack.push( result ) );
 	}
 
     @Override

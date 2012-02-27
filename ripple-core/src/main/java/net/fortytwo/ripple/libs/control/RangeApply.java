@@ -41,11 +41,11 @@ public class RangeApply extends PrimitiveStackMapping {
         return "p min max  =>  ... p{min, max}!  -- pushes between min (inclusive) and max (inclusive) active copies of the program p, or 'executes p min times to max times'";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions)
-            throws RippleException {
-        RippleList stack = arg.getStack();
-        final ModelConnection mc = arg.getModelConnection();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+
+        RippleList stack = arg;
 
         final int min, max;
 
@@ -58,8 +58,8 @@ public class RangeApply extends PrimitiveStackMapping {
 
         Sink<Operator> opSink = new Sink<Operator>() {
             public void put(final Operator op) throws RippleException {
-                solutions.put(arg.with(rest.push(
-                        new StackMappingWrapper(new TimesQuantifier(op, min, max), mc))));
+                solutions.put(rest.push(
+                        new StackMappingWrapper(new TimesQuantifier(op, min, max), mc)));
             }
         };
 

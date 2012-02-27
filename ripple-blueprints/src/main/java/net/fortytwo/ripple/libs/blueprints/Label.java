@@ -7,7 +7,6 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
 
 /**
  * User: josh
@@ -34,16 +33,16 @@ public class Label extends PrimitiveStackMapping {
     }
 
     @Override
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions) throws RippleException {
-        ModelConnection mc = arg.getModelConnection();
-        RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+        RippleList stack = arg;
         RippleValue first = stack.getFirst();
         stack = stack.getRest();
 
         if (first instanceof EdgeValue) {
             Edge el = ((EdgeValue) first).getElement();
-            solutions.put(arg.with(stack.push(mc.plainValue(el.getLabel()))));
+            solutions.put(stack.push(mc.plainValue(el.getLabel())));
         }
     }
 }

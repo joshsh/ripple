@@ -9,12 +9,12 @@
 
 package net.fortytwo.ripple.libs.stream;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.RippleValue;
 
 /**
  * A filter which consumes two items and produces each item in its own stack.
@@ -45,10 +45,10 @@ public class Both extends PrimitiveStackMapping {
         return "x y -> x, y";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions)
-            throws RippleException {
-        RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+        RippleList stack = arg;
         RippleValue x, y;
 
         x = stack.getFirst();
@@ -57,8 +57,8 @@ public class Both extends PrimitiveStackMapping {
         stack = stack.getRest();
 
         try {
-            solutions.put(arg.with(stack.push(x)));
-            solutions.put(arg.with(stack.push(y)));
+            solutions.put(stack.push(x));
+            solutions.put(stack.push(y));
         } catch (RippleException e) {
             // Soft fail
             e.logError();

@@ -9,17 +9,16 @@
 
 package net.fortytwo.ripple.libs.control;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.stream.StreamLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.NullStackMapping;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.StackMapping;
-import net.fortytwo.ripple.model.NullStackMapping;
 
 /**
  * A filter which discards the stack unless the topmost item is the boolean
@@ -59,12 +58,11 @@ public class Require extends PrimitiveStackMapping
         return "transmits the rest of a stack only if applying the topmost item to the rest of the stack yields stack:true";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-        ModelConnection mc = arg.getModelConnection();
-        RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+
+        RippleList stack = arg;
         RippleValue mapping = stack.getFirst();
         final RippleList rest = stack.getRest();
 
@@ -73,7 +71,7 @@ public class Require extends PrimitiveStackMapping
             public void put( final Operator op ) throws RippleException
             {
                 CriterionApplicator applicator = new CriterionApplicator( op );
-                solutions.put( arg.with( rest.push( new Operator( applicator ) ) ) );
+                solutions.put( rest.push( new Operator( applicator ) ) );
             }
         };
         
@@ -105,14 +103,15 @@ public class Require extends PrimitiveStackMapping
             return criterion.getMapping().isTransparent();
         }
 
-        public void apply( final StackContext arg,
-                             final Sink<StackContext> solutions ) throws RippleException
-        {
-            RippleList stack = arg.getStack();
+        public void apply(final RippleList arg,
+                          final Sink<RippleList> solutions,
+                          final ModelConnection mc) throws RippleException {
+
+            RippleList stack = arg;
             Decider decider = new Decider( stack );
 
             // Apply the criterion, sending the result into the Decider.
-            solutions.put( arg.with( stack.push( criterion ).push( new Operator( decider ) ) ) );
+            solutions.put( stack.push( criterion ).push( new Operator( decider ) ) );
         }
     }
 
@@ -140,19 +139,19 @@ public class Require extends PrimitiveStackMapping
             return true;
         }
 
-        public void apply( final StackContext arg,
-                             final Sink<StackContext> solutions ) throws RippleException
-        {
+        public void apply(final RippleList arg,
+                          final Sink<RippleList> solutions,
+                          final ModelConnection mc) throws RippleException {
+
             RippleValue b;
-            ModelConnection mc = arg.getModelConnection();
-            RippleList stack = arg.getStack();
+            RippleList stack = arg;
 
             b = stack.getFirst();
             stack = stack.getRest();
 
             if ( mc.toBoolean( b ) )
             {
-                solutions.put( arg.with( rest ) );
+                solutions.put( rest );
             }
         }
     }

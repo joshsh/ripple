@@ -9,18 +9,17 @@
 
 package net.fortytwo.ripple.libs.control;
 
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.Collector;
+import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.logic.LogicLibrary;
+import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.NullStackMapping;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackMapping;
-import net.fortytwo.ripple.model.NullStackMapping;
-import net.fortytwo.ripple.model.ModelConnection;
 
 /**
  * A primitive which consumes a Boolean filter b, a filter t, and a filter t,
@@ -56,12 +55,11 @@ public class While extends PrimitiveStackMapping
         return "b p =>  p! p! p! ...  -- where p is executed as long as executing b yields true";
     }
 
-	public void apply( final StackContext arg,
-                       final Sink<StackContext> solutions	)
-            throws RippleException
-	{
-        final ModelConnection mc = arg.getModelConnection();
-        RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+
+        RippleList stack = arg;
 
 		RippleValue program = stack.getFirst();
 		stack = stack.getRest();
@@ -79,7 +77,7 @@ public class While extends PrimitiveStackMapping
             for (Operator criterionOp : criterionOps) {
                 StackMapping a = new WhileApplicator(programOp, criterionOp);
 
-                solutions.put(arg.with(stack.push(new Operator(a))));
+                solutions.put(stack.push(new Operator(a)));
             }
         }
 	}
@@ -114,22 +112,22 @@ public class While extends PrimitiveStackMapping
             return true;
         }
 
-        public void apply( final StackContext arg,
-                           final Sink<StackContext> solutions ) throws RippleException
-        {
-            ModelConnection mc = arg.getModelConnection();
-            boolean b = mc.toBoolean( arg.getStack().getFirst() );
+        public void apply(final RippleList arg,
+                          final Sink<RippleList> solutions,
+                          final ModelConnection mc) throws RippleException {
+
+            boolean b = mc.toBoolean( arg.getFirst() );
 
             if ( b )
             {
                 StackMapping a = new WhileApplicator( program, criterion );
                 RippleList stack = originalStack.push( program ).push( new Operator( a ) );
-                solutions.put( arg.with( stack ) );
+                solutions.put( stack );
             }
 
             else
             {
-                solutions.put( arg.with( originalStack ) );
+                solutions.put( originalStack );
             }
         }
     }
@@ -162,13 +160,14 @@ public class While extends PrimitiveStackMapping
             return true;
         }
 
-        public void apply( final StackContext arg,
-                           final Sink<StackContext> solutions ) throws RippleException
-        {
-            RippleList stack = arg.getStack();
+        public void apply(final RippleList arg,
+                          final Sink<RippleList> solutions,
+                          final ModelConnection mc) throws RippleException {
+
+            RippleList stack = arg;
             StackMapping d = new WhileDecider( stack, program, criterion );
 
-            solutions.put( arg.with( stack.push( criterion ).push( new Operator( d ) ) ) );
+            solutions.put( stack.push( criterion ).push( new Operator( d ) ) );
         }
     }
 }

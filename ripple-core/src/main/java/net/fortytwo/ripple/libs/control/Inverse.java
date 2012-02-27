@@ -9,15 +9,14 @@
 
 package net.fortytwo.ripple.libs.control;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.system.SystemLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.StackMappingWrapper;
 
 /**
@@ -42,10 +41,11 @@ public class Inverse extends PrimitiveStackMapping {
         return "consumes a mapping and produces the inverse of that mapping (or a null mapping if the inverse is not otherwise defined)";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions) throws RippleException {
-        RippleList stack = arg.getStack();
-        final ModelConnection mc = arg.getModelConnection();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+
+        RippleList stack = arg;
 
         final RippleList rest = stack.getRest();
         RippleValue f = stack.getFirst();
@@ -53,7 +53,7 @@ public class Inverse extends PrimitiveStackMapping {
         Sink<Operator> opSink = new Sink<Operator>() {
             public void put(final Operator op) throws RippleException {
                 RippleValue inverse = new StackMappingWrapper(op.getMapping().getInverse(), mc);
-                solutions.put(arg.with(rest.push(inverse)));
+                solutions.put(rest.push(inverse));
             }
         };
 

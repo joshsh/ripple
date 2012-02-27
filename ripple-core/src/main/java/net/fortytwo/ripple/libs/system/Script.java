@@ -6,7 +6,6 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -47,10 +46,10 @@ public class Script extends PrimitiveStackMapping {
         return "evaluates an expression in the attached scripting environment, yielding the result as a native value";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions) throws RippleException {
-        final ModelConnection mc = arg.getModelConnection();
-        RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+        RippleList stack = arg;
 
         String name = mc.toString(stack.getFirst());
         stack = stack.getRest();
@@ -65,7 +64,7 @@ public class Script extends PrimitiveStackMapping {
             RippleValue result = w.evaluate(script, mc);
 
             if (null != result) {
-                solutions.put(arg.with(stack.push(result)));
+                solutions.put(stack.push(result));
             }
         }
     }

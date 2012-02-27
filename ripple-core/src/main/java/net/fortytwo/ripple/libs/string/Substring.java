@@ -9,11 +9,10 @@
 
 package net.fortytwo.ripple.libs.string;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
-import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.StackContext;
+import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 
@@ -53,12 +52,10 @@ public class Substring extends PrimitiveStackMapping
         return "s beginIndex endIndex  =>  s2 -- where s2 is the substring of s which begins at the specified beginIndex and extends to the character at index endIndex - 1";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		RippleList stack = arg.getStack();
-		final ModelConnection mc = arg.getModelConnection();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+		RippleList stack = arg;
 
 		int begin, end;
 		RippleValue s;
@@ -74,14 +71,13 @@ public class Substring extends PrimitiveStackMapping
 		try
 		{
 			result = mc.toString( s ).substring( begin, end );
-			solutions.put( arg.with(
-					stack.push( StringLibrary.value( result, mc, s ) ) ) );
+			solutions.put(
+					stack.push( StringLibrary.value( result, mc, s ) ) );
 		}
 
 		catch ( IndexOutOfBoundsException e )
 		{
 			// Silent fail.
-			return;
 		}
 	}
 }

@@ -9,11 +9,10 @@
 
 package net.fortytwo.ripple.libs.system;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
-import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.StackContext;
+import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 
 import java.lang.System;
@@ -50,14 +49,11 @@ public class Time extends PrimitiveStackMapping
 		super();
 	}
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions	)
-            throws RippleException
-	{
-		final ModelConnection mc = arg.getModelConnection();
-		RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
 
-		solutions.put( arg.with( stack.push(
-			mc.numericValue(System.currentTimeMillis()) ) ) );
+        solutions.put(arg.push(
+                mc.numericValue(System.currentTimeMillis())) );
 	}
 }

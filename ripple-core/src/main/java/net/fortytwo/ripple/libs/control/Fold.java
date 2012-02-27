@@ -9,15 +9,14 @@
 
 package net.fortytwo.ripple.libs.control;
 
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.stack.StackLibrary;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.flow.Sink;
 
 /**
  * A primitive which consumes a list, an "initial value" and a filter, then
@@ -50,11 +49,11 @@ public class Fold extends PrimitiveStackMapping {
         return "l v0 p  =>  v  -- starting with value v0, sequentially push members of List l and combine with binary operator p";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions)
-            throws RippleException {
-        final ModelConnection mc = arg.getModelConnection();
-        RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+
+        RippleList stack = arg;
 
         RippleValue l;
 
@@ -78,7 +77,7 @@ public class Fold extends PrimitiveStackMapping {
                     lList = lList.getRest();
                 }
 
-                solutions.put(arg.with(result));
+                solutions.put(result);
             }
         };
 

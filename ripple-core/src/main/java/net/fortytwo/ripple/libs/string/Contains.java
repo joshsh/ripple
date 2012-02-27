@@ -9,13 +9,12 @@
 
 package net.fortytwo.ripple.libs.string;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.StackContext;
 
 /**
  * A primitive which tells whether a string contains another string as a
@@ -49,12 +48,10 @@ public class Contains extends PrimitiveStackMapping
         return "s1 s2  =>  b  -- where b is true/false if s1 contains s2 as a substring";
     }
 
-	public void apply( final StackContext arg,
-                       final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		RippleList stack = arg.getStack();
-		final ModelConnection mc = arg.getModelConnection();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+		RippleList stack = arg;
 
 		String b = mc.toString( stack.getFirst() );
 		stack = stack.getRest();
@@ -63,7 +60,7 @@ public class Contains extends PrimitiveStackMapping
 
 		RDFValue result = mc.booleanValue(a.contains(b));
 
-		solutions.put( arg.with(
-				stack.push( result ) ) );
+		solutions.put(
+				stack.push( result ) );
 	}
 }

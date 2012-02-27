@@ -9,7 +9,6 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.StackMapping;
 
 import java.util.LinkedList;
@@ -99,12 +98,12 @@ public class LazyEvaluatingIterator implements CloseableIteration<RippleList, Ri
                 }
             } else {
                 if (0 == f.arity()) {
-                    Collector<StackContext> results = new Collector<StackContext>();
+                    Collector<RippleList> results = new Collector<RippleList>();
                     // Note: synchronous evaluation is required
                     // Note: stack context is trivial
-                    f.apply(new StackContext(left.getRest(), mc), results);
-                    for (StackContext s : results) {
-                        RippleList i = s.getStack();
+                    f.apply(left.getRest(), results, mc);
+                    for (RippleList s : results) {
+                        RippleList i = s;
                         RippleList cur = right;
                         while (!cur.isNil()) {
                             i = i.push(cur.getFirst());
@@ -137,14 +136,15 @@ public class LazyEvaluatingIterator implements CloseableIteration<RippleList, Ri
         }
 
         @Override
-        public void apply(final StackContext arg,
-                          final Sink<StackContext> solutions) throws RippleException {
+        public void apply(final RippleList arg,
+                          final Sink<RippleList> solutions,
+                          final ModelConnection mc) throws RippleException {
             try {
                 CloseableIteration<RippleList, RippleException> iter
-                        = new LazyEvaluatingIterator(arg.getStack(), arg.getModelConnection());
+                        = new LazyEvaluatingIterator(arg, mc);
                 try {
                     while (iter.hasNext() && !stopped) {
-                        solutions.put(new StackContext(iter.next(), arg.getModelConnection()));
+                        solutions.put(iter.next());
                     }
                 } finally {
                     iter.close();

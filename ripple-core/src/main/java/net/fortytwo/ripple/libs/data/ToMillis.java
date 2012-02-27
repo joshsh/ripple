@@ -9,13 +9,12 @@
 
 package net.fortytwo.ripple.libs.data;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.system.SystemLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.StackContext;
 
 import java.util.Date;
 
@@ -44,15 +43,15 @@ public class ToMillis extends PrimitiveStackMapping {
         super();
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions)
-            throws RippleException {
-        final ModelConnection mc = arg.getModelConnection();
-        RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+
+        RippleList stack = arg;
         Date d = mc.toDateValue(stack.getFirst());
         stack = stack.getRest();
 
-        solutions.put(arg.with(stack.push(
-                mc.numericValue(d.getTime()))));
+        solutions.put(stack.push(
+                mc.numericValue(d.getTime())));
     }
 }

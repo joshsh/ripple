@@ -9,13 +9,12 @@
 
 package net.fortytwo.ripple.libs.stack;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.StackContext;
 
 /**
  * A primitive which consumes a list an an item, prepends the item to the list,
@@ -52,12 +51,10 @@ public class Swons extends PrimitiveStackMapping
         return "l x  =>  l2  -- where the first member of l2 is x and the rest of l2 is l";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		RippleList stack = arg.getStack();
-		final ModelConnection mc = arg.getModelConnection();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+		RippleList stack = arg;
 
 		RippleValue l;
 
@@ -70,8 +67,8 @@ public class Swons extends PrimitiveStackMapping
 		{
 			public void put( final RippleList list ) throws RippleException
 			{
-				solutions.put( arg.with(
-						rest.push( list.push( x ) ) ) );
+				solutions.put(
+						rest.push( list.push( x ) ) );
 			}
 		};
 

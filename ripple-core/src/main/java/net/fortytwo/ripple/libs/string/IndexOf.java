@@ -9,12 +9,11 @@
 
 package net.fortytwo.ripple.libs.string;
 
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.model.RippleList;
 
 /**
  * A primitive which consumes a string and a substring and produces the index of
@@ -50,13 +49,10 @@ public class IndexOf extends PrimitiveStackMapping
         return "str substr  =>  i -- where i is the index of the first occurrence of substr in str, or -1 if it does not occur";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		RippleList stack = arg.getStack();
-		final ModelConnection mc = arg.getModelConnection();
-
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+		RippleList stack = arg;
 		String str, substr;
 		int result;
 
@@ -66,8 +62,8 @@ public class IndexOf extends PrimitiveStackMapping
 		stack = stack.getRest();
 
 		result = str.indexOf( substr );
-		solutions.put( arg.with(
-				stack.push( mc.numericValue(result) ) ) );
+		solutions.put(
+				stack.push( mc.numericValue(result) ) );
 	}
 }
 

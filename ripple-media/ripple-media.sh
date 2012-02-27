@@ -19,4 +19,3 @@ $JAVA $JAVA_OPTIONS -cp $DIR/target/classes:$DIR/"target/dependency/*" net.forty
 
 # Return the appropriate exit code.
 exit $?
-

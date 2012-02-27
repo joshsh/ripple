@@ -61,27 +61,24 @@ public class Quads extends PrimitiveStackMapping
         return "doc  =>  s p o g  -- for each statement (s p o g) in document doc";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		final ModelConnection mc = arg.getModelConnection();
-		RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
 
-		String uri = stack.getFirst().toString();
+        String uri = arg.getFirst().toString();
 
-		SesameInputAdapter sc = createAdapter( arg, solutions  );
+		SesameInputAdapter sc = createAdapter( arg, solutions, mc );
 
 		HttpMethod method = HTTPUtils.createGetMethod( uri );
 		HTTPUtils.setRdfAcceptHeader( method );
 		RDFHTTPUtils.read( method, sc, uri, null );
 	}
 
-	static SesameInputAdapter createAdapter( final StackContext arg,
-										final Sink<StackContext> resultSink )
+	static SesameInputAdapter createAdapter( final RippleList arg,
+										final Sink<RippleList> resultSink,
+                                        final ModelConnection mc)
 	{
-		final ModelConnection mc = arg.getModelConnection();
-		final RippleList rest = arg.getStack().getRest();
+		final RippleList rest = arg.getRest();
 
 		RDFSink rdfSink = new RDFSink()
 		{
@@ -91,11 +88,11 @@ public class Quads extends PrimitiveStackMapping
                 public void put( final Statement st ) throws RippleException
                 {
                     Resource context = st.getContext();
-                    resultSink.put( arg.with(
+                    resultSink.put(
                             rest.push(mc.canonicalValue(new RDFValue(st.getSubject())))
                                     .push(mc.canonicalValue(new RDFValue(st.getPredicate())))
                                     .push(mc.canonicalValue(new RDFValue(st.getObject())))
-                                    .push((null == context) ? mc.list() : mc.canonicalValue(new RDFValue(context)))) );
+                                    .push((null == context) ? mc.list() : mc.canonicalValue(new RDFValue(context))) );
                 }
             };
 

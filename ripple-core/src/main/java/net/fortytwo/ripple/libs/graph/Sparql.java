@@ -15,7 +15,6 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.keyval.KeyValueValue;
 import org.apache.log4j.Logger;
 import org.openrdf.query.BindingSet;
@@ -51,11 +50,11 @@ public class Sparql extends PrimitiveStackMapping {
         return "evaluates a SPARQL query";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions)
-            throws RippleException {
-        final ModelConnection mc = arg.getModelConnection();
-        RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+
+        RippleList stack = arg;
 
         String query = mc.toString(stack.getFirst());
         stack = stack.getRest();
@@ -69,7 +68,7 @@ public class Sparql extends PrimitiveStackMapping {
                     KeyValueValue kv = new SPARQLValue(results.next());
 
                     try {
-                        solutions.put(arg.with(stack.push(kv)));
+                        solutions.put(stack.push(kv));
                     } catch (RippleException e) {
                         // Soft fail
                         e.logError();

@@ -16,7 +16,6 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.query.LazyStackEvaluator;
 import net.fortytwo.ripple.query.StackEvaluator;
 
@@ -49,27 +48,25 @@ public class Order extends PrimitiveStackMapping {
         return "orders solutions according to Ripple's total order (closed world operation)";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions)
-            throws RippleException {
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
         // FIXME: cheat to temporarily disable asynchronous query answering
         boolean a = Ripple.asynchronousQueries();
         Ripple.enableAsynchronousQueries(false);
         try {
-            ModelConnection mc = arg.getModelConnection();
-
-            Collector<StackContext> s = new Collector<StackContext>();
+            Collector<RippleList> s = new Collector<RippleList>();
             StackEvaluator e = new LazyStackEvaluator();
-            e.apply(arg, s);
+            e.apply(arg, s, mc);
 
             List<RippleList> all = new LinkedList<RippleList>();
-            for (StackContext c : s) {
-                all.add(c.getStack());
+            for (RippleList c : s) {
+                all.add(c);
             }
             Collections.sort(all, mc.getComparator());
 
             for (RippleList l : all) {
-                solutions.put(arg.with(l));
+                solutions.put(l);
             }
         } finally {
             Ripple.enableAsynchronousQueries(a);

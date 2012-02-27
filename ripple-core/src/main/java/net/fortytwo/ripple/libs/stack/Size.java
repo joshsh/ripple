@@ -9,13 +9,12 @@
 
 package net.fortytwo.ripple.libs.stack;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.StackContext;
 
 /**
  * A primitive which consumes a list and produces the length of the list as
@@ -51,12 +50,10 @@ public class Size extends PrimitiveStackMapping
         return "l  =>  n   -- where n is the number of members of l";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		RippleList stack = arg.getStack();
-		final ModelConnection mc = arg.getModelConnection();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+		RippleList stack = arg;
 
 		RippleValue l;
 
@@ -68,8 +65,8 @@ public class Size extends PrimitiveStackMapping
 			public void put( final RippleList list ) throws RippleException
 			{
 				int result = list.length();
-				solutions.put( arg.with(
-						rest.push( mc.numericValue(result) ) ) );
+				solutions.put(
+						rest.push( mc.numericValue(result) ) );
 			}
 		};
 

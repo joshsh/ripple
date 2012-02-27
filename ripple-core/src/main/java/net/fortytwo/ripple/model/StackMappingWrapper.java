@@ -47,9 +47,10 @@ public class StackMappingWrapper implements StackMapping, RippleValue
         return innerMapping.isTransparent();
     }
 
-    public void apply( final StackContext arg, final Sink<StackContext> solutions ) throws RippleException
-    {
-        innerMapping.apply( arg, solutions );
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+        innerMapping.apply( arg, solutions, mc );
     }
 
     public StackMapping getInverse() throws RippleException

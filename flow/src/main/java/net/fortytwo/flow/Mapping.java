@@ -12,7 +12,7 @@ package net.fortytwo.flow;
 
 import net.fortytwo.ripple.RippleException;
 
-public interface Mapping<D, R>
+public interface Mapping<D, R, C>
 {
 	/**
 	 * @return whether this function is referentially transparent w.r.t. all of its
@@ -21,7 +21,7 @@ public interface Mapping<D, R>
 	boolean isTransparent();
 
     // Open-world, push-based
-    void apply( D arg, Sink<R> solutions ) throws RippleException;
+    void apply( D arg, Sink<R> solutions, C context ) throws RippleException;
 
     /*
     // Open-world, pull-based

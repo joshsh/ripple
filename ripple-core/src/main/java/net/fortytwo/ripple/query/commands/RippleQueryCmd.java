@@ -15,7 +15,6 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.cli.ast.ListAST;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.StackEvaluator;
@@ -50,17 +49,10 @@ public class RippleQueryCmd extends Command {
 
         evaluator = qe.getEvaluator();
 
-        final Sink<StackContext> resultSink = new Sink<StackContext>() {
-            public void put(final StackContext arg) throws RippleException {
-                sink.put(arg.getStack());
-            }
-        };
-
         final Sink<RippleList> evaluatorSink = new Sink<RippleList>() {
             // Note: v will always be a list.
             public void put(final RippleList l) throws RippleException {
-                StackContext arg = new StackContext(l, mc);
-                evaluator.apply(arg, resultSink);
+                evaluator.apply(l, sink, mc);
             }
         };
 

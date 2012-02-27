@@ -15,7 +15,6 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.keyval.JSONValue;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,11 +47,11 @@ public class ToJson extends PrimitiveStackMapping {
         return "s  =>  json -- where json is the JSON object whose string representation is s";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions)
-            throws RippleException {
-        final ModelConnection mc = arg.getModelConnection();
-        RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+
+        RippleList stack = arg;
 
         String s;
 
@@ -61,8 +60,8 @@ public class ToJson extends PrimitiveStackMapping {
 
         RippleValue json = toJson(s, mc);
 
-        solutions.put(arg.with(
-                stack.push(json)));
+        solutions.put(
+                stack.push(json));
     }
 
     private RippleValue toJson(final String s,

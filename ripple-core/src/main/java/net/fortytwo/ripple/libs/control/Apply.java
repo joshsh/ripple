@@ -9,12 +9,12 @@
 
 package net.fortytwo.ripple.libs.control;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.stack.StackLibrary;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.ripple.model.RippleList;
 
 /**
@@ -42,13 +42,12 @@ public class Apply extends PrimitiveStackMapping {
         return "p  => p!  -- push an active copy of p, or 'execute p'";
     }
 
-    public void apply(final StackContext arg,
-                      final Sink<StackContext> solutions)
-            throws RippleException {
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+
 // hack...
-        RippleList stack = arg.getStack();
-        solutions.put(arg.with(
-                stack.push(Operator.OP)));
+        solutions.put(arg.push(Operator.OP));
     }
 }
 

@@ -9,12 +9,12 @@
 
 package net.fortytwo.ripple.libs.stack;
 
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.RippleValue;
 
 /**
  * A primitive which swaps the two topmost items on the stack.
@@ -50,11 +50,10 @@ public class Swap extends PrimitiveStackMapping
         return "x y  =>  y x";
     }
 
-	public void apply( final StackContext arg,
-						 final Sink<StackContext> solutions )
-            throws RippleException
-	{
-		RippleList stack = arg.getStack();
+    public void apply(final RippleList arg,
+                      final Sink<RippleList> solutions,
+                      final ModelConnection mc) throws RippleException {
+		RippleList stack = arg;
 		RippleValue y, x;
 
 		y = stack.getFirst();
@@ -62,8 +61,8 @@ public class Swap extends PrimitiveStackMapping
 		x = stack.getFirst();
 		stack = stack.getRest();
 
-		solutions.put( arg.with(
-				stack.push( y ).push( x ) ) );
+		solutions.put(
+				stack.push( y ).push( x ) );
 	}
 }
 
