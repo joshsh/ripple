@@ -21,17 +21,9 @@ import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFParser;
 import org.openrdf.rio.RDFWriter;
 import org.openrdf.rio.Rio;
-import org.restlet.data.MediaType;
-import org.restlet.representation.Variant;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
 
 
@@ -39,89 +31,9 @@ public final class RDFUtils
 {
 	private static final Logger LOGGER = Logger.getLogger( RDFUtils.class );
 
-    private static final Random RANDOM = new Random();
-    
-    private static Map<RDFFormat, MediaType> MEDIATYPE_BY_RDFFORMAT;
-	private static Map<MediaType, RDFFormat> RDFFORMAT_BY_MEDIATYPE;
-	private static List<Variant> RDF_VARIANTS;
-
     private RDFUtils()
 	{
 	}
-
-    static
-    {
-        MEDIATYPE_BY_RDFFORMAT = new HashMap<RDFFormat, MediaType>();
-
-		// Note: preserves order of insertion
-		RDFFORMAT_BY_MEDIATYPE = new LinkedHashMap<MediaType, RDFFormat>();
-
-		// Note: the first format registered becomes the default format.
-		registerRdfFormat( RDFFormat.RDFXML );
-		registerRdfFormat( RDFFormat.TURTLE );
-		registerRdfFormat( RDFFormat.N3 );
-		registerRdfFormat( RDFFormat.NTRIPLES );
-		registerRdfFormat( RDFFormat.TRIG );
-		registerRdfFormat( RDFFormat.TRIX );
-
-        RDF_VARIANTS = new LinkedList<Variant>();
-        for ( MediaType mediaType : RDFFORMAT_BY_MEDIATYPE.keySet() )
-        {
-            RDF_VARIANTS.add( new Variant( mediaType ) );
-        }
-    }
-
-   	private static void registerRdfFormat( final RDFFormat format )
-	{
-		MediaType t = RDFFormat.TURTLE == format
-                ? new MediaType( "text/turtle")
-                : new MediaType( format.getDefaultMIMEType() );
-
-		MEDIATYPE_BY_RDFFORMAT.put( format, t );
-		RDFFORMAT_BY_MEDIATYPE.put( t, format );
-        for ( String s : format.getMIMETypes() )
-        {
-            RDFFORMAT_BY_MEDIATYPE.put( new MediaType( s ), format );
-        }
-	}
-
-	public static List<Variant> getRdfVariants() throws RippleException
-	{
-/*
-System.out.println( "getRdfVariants() --> " + rdfVariants );
-Iterator<Variant> iter = rdfVariants.iterator();
-while(iter.hasNext()){
-Variant v = iter.next();
-System.out.println( "    " + v + " -- " + v.getMediaType().getName() + " -- " + v.getMediaType().getMainType() + "/" + v.getMediaType().getSubType() );
-}*/
-		return RDF_VARIANTS;
-	}
-
-	public static MediaType findMediaType( final RDFFormat format ) throws RippleException
-	{
-        return MEDIATYPE_BY_RDFFORMAT.get( format );
-	}
-
-	public static RDFFormat findRdfFormat( final MediaType mediaType ) throws RippleException
-	{
-        return RDFFORMAT_BY_MEDIATYPE.get( mediaType );
-	}
-
-	/*public static Sail createMemoryStoreSail()
-		throws RippleException
-	{
-		try
-		{
-			Sail sail = new MemoryStore();
-			sail.initialize();
-			return sail;
-		}
-
-		catch ( Throwable t )
-		{
-			throw new RippleException( t );
-		}
-	}*/
 
 	public static RDFFormat read( final InputStream is,
 								final SesameInputAdapter sa,
@@ -430,18 +342,4 @@ System.out.println( RDFFormat.TURTLE.getName() + ": " + RDFFormat.TURTLE.getMIME
 	{
 		return createRandomUri( UUID.randomUUID().toString(), vf );
 	}
-
-    public static void main(final String[] args) throws RippleException {
-        System.out.println("media types by RDF format:");
-        for (RDFFormat f : MEDIATYPE_BY_RDFFORMAT.keySet()) {
-            MediaType m = MEDIATYPE_BY_RDFFORMAT.get(f);
-            System.out.println("\t" + f + " --> " + m);
-        }
-
-        System.out.println("RDF formats by media type:");
-        for (MediaType m : RDFFORMAT_BY_MEDIATYPE.keySet()) {
-            RDFFormat f  = RDFFORMAT_BY_MEDIATYPE.get(m);
-            System.out.println("\t" + m + " --> " + f);
-        }
-    }
 }

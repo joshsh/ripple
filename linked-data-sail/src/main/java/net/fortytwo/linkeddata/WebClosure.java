@@ -10,11 +10,11 @@ import net.fortytwo.linkeddata.dereferencers.JarURIDereferencer;
 import net.fortytwo.linkeddata.rdfizers.ImageRdfizer;
 import net.fortytwo.linkeddata.rdfizers.VerbatimRdfizer;
 import net.fortytwo.linkeddata.sail.LinkedDataSail;
+import net.fortytwo.linkeddata.util.BNodeToURIFilter;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.StringUtils;
 import net.fortytwo.ripple.URIMap;
-import net.fortytwo.ripple.util.BNodeToURIFilter;
 import net.fortytwo.ripple.util.RDFUtils;
 import org.apache.log4j.Logger;
 import org.openrdf.model.URI;
@@ -106,13 +106,12 @@ public class WebClosure {
                 wc.addDereferencer("jar", new JarURIDereferencer());
                 wc.addDereferencer("file", new FileURIDereferencer());
 
-                // Add rdfizers.
-                wc.addRdfizer(RDFUtils.findMediaType(RDFFormat.RDFXML), new VerbatimRdfizer(RDFFormat.RDFXML));
-                wc.addRdfizer(RDFUtils.findMediaType(RDFFormat.TURTLE), new VerbatimRdfizer(RDFFormat.TURTLE));
-                wc.addRdfizer(RDFUtils.findMediaType(RDFFormat.N3), new VerbatimRdfizer(RDFFormat.N3), 0.9);
-                wc.addRdfizer(RDFUtils.findMediaType(RDFFormat.TRIG), new VerbatimRdfizer(RDFFormat.TRIG), 0.8);
-                wc.addRdfizer(RDFUtils.findMediaType(RDFFormat.TRIX), new VerbatimRdfizer(RDFFormat.TRIX), 0.8);
-                wc.addRdfizer(RDFUtils.findMediaType(RDFFormat.NTRIPLES), new VerbatimRdfizer(RDFFormat.NTRIPLES), 0.5);
+                // Rdfizers for registered RDF formats
+                for (RDFFormat f : RDFFormat.values()) {
+                    wc.addRdfizer(new MediaType(f.getDefaultMIMEType()), new VerbatimRdfizer(f));
+                }
+                
+                // Additional rdfizers
                 Rdfizer imageRdfizer = new ImageRdfizer();
                 // Mainstream EXIF-compatible image types: JPEG, TIFF
                 wc.addRdfizer(MediaType.IMAGE_JPEG, imageRdfizer, 0.4);

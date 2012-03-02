@@ -2,9 +2,6 @@ package net.fortytwo.linkeddata.dereferencers;
 
 import net.fortytwo.linkeddata.Dereferencer;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.util.RDFUtils;
-import org.openrdf.rio.RDFFormat;
-import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StreamRepresentation;
 
@@ -24,20 +21,11 @@ public class JarURIDereferencer implements Dereferencer {
         return new JarRepresentation(uri);
     }
 
-    private static MediaType findMediaType(final String uri) throws RippleException {
-        RDFFormat format = RDFUtils.guessRdfFormat(uri, null);
-        /*if ( null == format )
-        {
-            throw new RippleException( "could not guess format for URI: " + uri );
-        }*/
-        return RDFUtils.findMediaType(format);
-    }
-
     private class JarRepresentation extends StreamRepresentation {
         private InputStream inputStream;
 
         public JarRepresentation(final String uri) throws RippleException {
-            super(findMediaType(uri));
+            super(FileURIDereferencer.findMediaType(uri));
 
             JarURLConnection jc;
 
