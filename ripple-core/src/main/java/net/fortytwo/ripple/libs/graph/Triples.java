@@ -3,7 +3,7 @@
  * $Revision$
  * $Author$
  *
- * Copyright (C) 2007-2011 Joshua Shinavier
+ * Copyright (C) 2007-1012 Joshua Shinavier
  */
 
 
@@ -16,7 +16,6 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.StackContext;
 import net.fortytwo.flow.rdf.RDFSink;
 import net.fortytwo.flow.rdf.SesameInputAdapter;
 import net.fortytwo.ripple.util.HTTPUtils;
@@ -59,9 +58,7 @@ public class Triples extends PrimitiveStackMapping {
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
 
-        RippleList stack = arg;
-
-        String uri = stack.getFirst().toString();
+        String uri = arg.getFirst().toString();
 
         SesameInputAdapter sc = createAdapter(arg, solutions, mc);
 
