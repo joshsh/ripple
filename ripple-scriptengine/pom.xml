@@ -33,8 +33,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>net.fortytwo</groupId>
-            <artifactId>flow</artifactId>
+            <groupId>net.fortytwo.ripple</groupId>
+            <artifactId>ripple-flow</artifactId>
             <version>${ripple.version}</version>
         </dependency>
         <dependency>

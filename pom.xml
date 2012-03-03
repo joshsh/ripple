@@ -36,13 +36,13 @@
     </issueManagement>
 
     <modules>
-        <module>flow</module>
         <module>linked-data-sail</module>
-        <module>rdfflow</module>
         <module>ripple-base</module>
         <module>ripple-blueprints</module>
         <module>ripple-core</module>
         <module>ripple-demo</module>
+        <module>ripple-flow</module>
+        <module>ripple-flow-rdf</module>
         <module>ripple-media</module>
         <module>ripple-scriptengine</module>
     </modules>
