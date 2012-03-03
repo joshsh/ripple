@@ -1,0 +1,391 @@
+package net.fortytwo.linkeddata;
+
+import net.fortytwo.flow.rdf.RDFBuffer;
+import net.fortytwo.flow.rdf.RDFSink;
+import net.fortytwo.flow.rdf.SailInserter;
+import net.fortytwo.flow.rdf.SesameInputAdapter;
+import net.fortytwo.flow.rdf.SesameOutputAdapter;
+import net.fortytwo.flow.rdf.SingleContextPipe;
+import net.fortytwo.linkeddata.dereferencers.FileURIDereferencer;
+import net.fortytwo.linkeddata.dereferencers.HTTPURIDereferencer;
+import net.fortytwo.linkeddata.dereferencers.JarURIDereferencer;
+import net.fortytwo.linkeddata.rdfizers.ImageRdfizer;
+import net.fortytwo.linkeddata.rdfizers.VerbatimRdfizer;
+import net.fortytwo.linkeddata.sail.LinkedDataSail;
+import net.fortytwo.ripple.Ripple;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.StringUtils;
+import net.fortytwo.ripple.URIMap;
+import org.apache.log4j.Logger;
+import org.openrdf.model.URI;
+import org.openrdf.model.ValueFactory;
+import org.openrdf.model.impl.URIImpl;
+import org.openrdf.rio.RDFFormat;
+import org.openrdf.rio.RDFHandler;
+import org.openrdf.rio.rdfa.RDFaFormat;
+import org.openrdf.sail.Sail;
+import org.openrdf.sail.SailConnection;
+import org.openrdf.sail.SailException;
+import org.restlet.data.MediaType;
+import org.restlet.representation.Representation;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * A configurable container of URI dereferencers and RDFizers which provides a unified view of the Semantic Web
+ * as a collection of interlinked RDF documents.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
+public class LinkedDataCache {
+    private static final Logger LOGGER = Logger.getLogger(LinkedDataCache.class);
+
+    public static final String
+            CACHE_NS = "http://fortytwo.net/2012/02/linkeddata#";
+    public static final URI
+            CACHE_MEMO = new URIImpl(CACHE_NS + "memo"),
+            CACHE_GRAPH = null;  // the default context is used for caching metadata
+
+    private static final String[] NON_RDF_EXTENSIONS = {
+            "123", "3dm", "3dmf", "3gp", "8bi", "aac", "ai", "aif", "app", "asf",
+            "asp", "asx", "avi", "bat", "bin", "bmp", "c", "cab", "cfg", "cgi",
+            "com", "cpl", "cpp", "css", "csv", "dat", "db", "dll", "dmg", "dmp",
+            "doc", "drv", "drw", "dxf", "eps", "exe", "fnt", "fon", "gif", "gz",
+            "h", "hqx", /*"htm", "html",*/ "iff", "indd", "ini", "iso", "java", /*"jpeg",*/
+            /*"jpg",*/ "js", "jsp", "key", "log", "m3u", "mdb", "mid", "midi", "mim",
+            "mng", "mov", "mp3", "mp4", "mpa", "mpg", "msg", "msi", "otf", "pct",
+            "pdf", "php", "pif", "pkg", "pl", "plugin", "png", "pps", "ppt", "ps",
+            "psd", "psp", "qt", "qxd", "qxp", "ra", "ram", "rar", "reg", "rm",
+            "rtf", "sea", "sit", "sitx", "sql", "svg", "swf", "sys", "tar", "tif",
+            "ttf", "uue", "vb", "vcd", "wav", "wks", "wma", "wmv", "wpd", "wps",
+            "ws", /*"xhtml",*/ "xll", "xls", "yps", "zip"};
+
+    private final CachingMetadata metadata;
+    private final ValueFactory valueFactory;
+    private final boolean useBlankNodes;
+    private URIMap uriMap;
+
+    private boolean derefSubjects = true;
+    private boolean derefPredicates = false;
+    private boolean derefObjects = true;
+    private boolean derefContexts = false;
+
+    private String acceptHeader = null;
+
+    // Maps media types to Rdfizers
+    private final Map<MediaType, MediaTypeInfo> rdfizers
+            = new HashMap<MediaType, MediaTypeInfo>();
+
+    // Maps URI schemes to Dereferencers
+    private final Map<String, Dereferencer> dereferencers = new HashMap<String, Dereferencer>();
+
+    public static LinkedDataCache createDefault(final Sail sail) throws RippleException {
+        LinkedDataCache cache = new LinkedDataCache(sail);
+
+        // Add URI dereferencers.
+        HTTPURIDereferencer hdref = new HTTPURIDereferencer(cache);
+        for (String x : NON_RDF_EXTENSIONS) {
+            hdref.blackListExtension(x);
+        }
+        cache.addDereferencer("http", hdref);
+
+        cache.addDereferencer("file", new FileURIDereferencer());
+        cache.addDereferencer("jar", new JarURIDereferencer());
+
+        // TODO: this is a hack
+        RDFFormat.register(RDFaFormat.RDFA);
+
+        // Rdfizers for registered RDF formats
+        for (RDFFormat f : RDFFormat.values()) {
+            Rdfizer r = new VerbatimRdfizer(f);
+            for (String type : f.getMIMETypes()) {
+                double qualityFactor = type.equals("application/rdf+xml") ? 1.0 : 0.5;
+                cache.addRdfizer(new MediaType(type), r, qualityFactor);
+            }
+        }
+
+        // Additional rdfizers
+        Rdfizer imageRdfizer = new ImageRdfizer();
+        // Mainstream EXIF-compatible image types: JPEG, TIFF
+        cache.addRdfizer(MediaType.IMAGE_JPEG, imageRdfizer, 0.4);
+        cache.addRdfizer(new MediaType("image/tiff"), imageRdfizer, 0.4);
+        cache.addRdfizer(new MediaType("image/tiff-fx"), imageRdfizer, 0.4);
+        // TODO: add an EXIF-based Rdfizer for RIFF WAV audio files
+
+        return cache;
+    }
+
+    /**
+     * @param sail persistent Sail which will be used for the cache
+     * @throws RippleException if there is a configuration error
+     */
+    public LinkedDataCache(final Sail sail) throws RippleException {
+        int capacity = Ripple.getConfiguration().getInt(LinkedDataSail.MAX_CACHE_CAPACITY);
+        this.metadata = new CachingMetadata(capacity, sail.getValueFactory());
+
+        this.valueFactory = sail.getValueFactory();
+        useBlankNodes = Ripple.getConfiguration().getBoolean(Ripple.USE_BLANK_NODES);
+    }
+
+    public URIMap getURIMap() {
+        return uriMap;
+    }
+
+    public void setURIMap(final URIMap map) {
+        this.uriMap = map;
+    }
+
+    public String getAcceptHeader() {
+        if (null == acceptHeader) {
+            StringBuilder sb = new StringBuilder();
+            boolean first = true;
+
+            // Order from highest quality to lowest.
+            Comparator<MediaTypeInfo> comparator
+                    = new Comparator<MediaTypeInfo>() {
+                public int compare(final MediaTypeInfo first,
+                                   final MediaTypeInfo second) {
+                    return first.quality < second.quality ? 1 : first.quality > second.quality ? -1 : 0;
+                }
+            };
+
+            MediaTypeInfo[] array = new MediaTypeInfo[rdfizers.size()];
+            rdfizers.values().toArray(array);
+            Arrays.sort(array, comparator);
+
+            for (MediaTypeInfo m : array) {
+                if (first) {
+                    first = false;
+                } else {
+                    sb.append(", ");
+                }
+
+                sb.append(m.mediaType.getName());
+                double quality = m.quality;
+                if (1.0 != quality) {
+                    sb.append(";q=").append(quality);
+                }
+            }
+
+            acceptHeader = sb.toString();
+        }
+
+        return acceptHeader;
+    }
+
+    public void addRdfizer(final MediaType mediaType,
+                           final Rdfizer rdfizer,
+                           final double qualityFactor) {
+        LOGGER.info("adding RDFizer for media type " + mediaType + ": " + rdfizer);
+
+        if (qualityFactor <= 0 || qualityFactor > 1) {
+            throw new IllegalArgumentException("quality factor must be between 0 and 1");
+        }
+
+        if (null != rdfizers.get(mediaType)) {
+            LOGGER.warn("overriding already-registered RDFizer for media type " + mediaType);
+        }
+
+        MediaTypeInfo rq = new MediaTypeInfo();
+        rq.mediaType = mediaType;
+        rq.quality = qualityFactor;
+        rq.rdfizer = rdfizer;
+        rdfizers.put(mediaType, rq);
+
+        acceptHeader = null;
+    }
+
+    public void addDereferencer(final String scheme, final Dereferencer dref) {
+        LOGGER.info("adding dereferencer for for URI scheme " + scheme + ": " + dref);
+
+        dereferencers.put(scheme, dref);
+    }
+
+    /**
+     * Retrieves caching metadata for a URI, possibly retrieving a document from the Web first.
+     *
+     * @param uri the URI to dereference
+     * @param sc  a connection to a Sail
+     * @return the result of the dereferencing operation
+     * @throws RippleException if retrieval fails for any reason
+     */
+    public CacheEntry.Status retrieveUri(final URI uri,
+                                         final SailConnection sc) throws RippleException {
+        String graphUri = RDFUtils.findGraphUri(uri.toString());
+
+        // Note: there is potential for a race condition if two threads access URIs with the
+        // same memo concurrently.
+        // However, there are no problematic outcomes for such a race condition (apart from the minor
+        // concern of a document being retrieved twice) as long as the threads use different SailConnections.
+        CacheEntry memo = metadata.getMemo(graphUri, sc);
+
+        if (null != memo) {
+            return memo.getStatus();
+        }
+
+        // This URI should be treated as a "black box" once created;
+        // it need not resemble the URI it was created from.
+        String retrievalUri;
+
+        String mapped = null == uriMap ? uri.toString() : uriMap.get(uri.toString());
+        retrievalUri = RDFUtils.removeFragmentIdentifier(mapped);
+
+        Dereferencer dref;
+
+        try {
+            dref = chooseDereferencer(retrievalUri);
+        } catch (URISyntaxException e) {
+            return CacheEntry.Status.InvalidUri;
+        }
+
+        if (null == dref) {
+            return CacheEntry.Status.BadUriScheme;
+        }
+
+        LOGGER.info("dereferencing URI <"
+                + StringUtils.escapeURIString(uri.toString()) + ">");
+        //+ " at location " + mapped );
+
+        memo = new CacheEntry(CacheEntry.Status.Undetermined);
+        memo.setDereferencer(dref.getClass().getName());
+
+        // Note: from this point on, we are committed to actually dereferencing the URI,
+        // and failures are explicitly stored as caching metadata.
+        try {
+            Representation rep;
+
+            memo.setStatus(CacheEntry.Status.DereferencerError);
+            rep = dref.dereference(retrievalUri);
+
+            // We have the representation, now try to rdfize it.
+
+            memo.setMediaType(rep.getMediaType());
+
+            Rdfizer rfiz = chooseRdfizer(memo.getMediaType());
+            if (null == rfiz) {
+                memo.setStatus(CacheEntry.Status.BadMediaType);
+                return logStatus(uri, memo);
+            }
+
+            memo.setRdfizer(rfiz.getClass().getName());
+
+            SesameOutputAdapter adder = new SesameOutputAdapter(new SailInserter(sc));
+            RDFBuffer buffer = new RDFBuffer(adder);
+
+            // Note: any context information in the source document is discarded.
+            RDFSink pipe = new SingleContextPipe(buffer, valueFactory.createURI(graphUri), valueFactory);
+
+            RDFHandler handler = new SesameInputAdapter(useBlankNodes
+                    ? pipe
+                    : new BNodeToURIFilter(pipe, valueFactory));
+
+            InputStream is;
+            try {
+                is = rep.getStream();
+            } catch (IOException e) {
+                throw new RippleException(e);
+            }
+
+            // Use the namespace portion of the original URI as the base URI for the retrieved RDF document.
+            String baseUri = uri.getNamespace();
+
+            memo.setStatus(rfiz.rdfize(is, handler, baseUri));
+
+            // Only update the graph in the triple store if the operation was successful.
+            if (CacheEntry.Status.Success == memo.getStatus()) {
+                try {
+                    sc.removeStatements(null, null, null, valueFactory.createURI(graphUri));
+                } catch (SailException e) {
+                    throw new RippleException(e);
+                }
+
+                buffer.flush();
+            }
+        } finally {
+            metadata.setMemo(graphUri, memo, sc);
+            try {
+                sc.commit();
+            } catch (SailException e) {
+                throw new RippleException(e);
+            }
+
+            logStatus(uri, memo);
+        }
+
+        return memo.getStatus();
+    }
+
+    public boolean getDereferenceSubjects() {
+        return derefSubjects;
+    }
+
+    public void setDereferenceSubjects(final boolean flag) {
+        this.derefSubjects = flag;
+    }
+
+    public boolean getDereferencePredicates() {
+        return derefPredicates;
+    }
+
+    public void setDereferencePredicates(final boolean flag) {
+        this.derefPredicates = flag;
+    }
+
+    public boolean getDereferenceObjects() {
+        return derefObjects;
+    }
+
+    public void setDereferenceObjects(final boolean flag) {
+        this.derefObjects = flag;
+    }
+
+    public boolean getDereferenceContexts() {
+        return derefContexts;
+    }
+
+    public void setDereferenceContexts(final boolean flag) {
+        this.derefContexts = flag;
+    }
+
+    private CacheEntry.Status logStatus(final URI uri,
+                                        final CacheEntry memo) {
+        CacheEntry.Status status = memo.getStatus();
+
+        if (CacheEntry.Status.Success != status) {
+            StringBuilder msg = new StringBuilder("Failed to dereference URI <"
+                    + StringUtils.escapeURIString(uri.toString()) + "> (");
+
+            msg.append("dereferencer: ").append(memo.getDereferencer());
+            msg.append(", media type: ").append(memo.getMediaType());
+            msg.append(", rdfizer: ").append(memo.getRdfizer());
+            msg.append("): ").append(status);
+
+            LOGGER.info(msg);
+        }
+
+        return status;
+    }
+
+    private Dereferencer chooseDereferencer(final String uri) throws URISyntaxException {
+        String scheme = new java.net.URI(uri).getScheme();
+
+        return dereferencers.get(scheme);
+    }
+
+    private Rdfizer chooseRdfizer(final MediaType mediaType) throws RippleException {
+        MediaTypeInfo rq = rdfizers.get(mediaType);
+        return (null == rq) ? null : rq.rdfizer;
+    }
+
+    private class MediaTypeInfo {
+        MediaType mediaType;
+        public double quality;
+        public Rdfizer rdfizer;
+    }
+}

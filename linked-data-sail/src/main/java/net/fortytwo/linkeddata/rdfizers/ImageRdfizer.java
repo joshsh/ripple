@@ -1,6 +1,6 @@
 package net.fortytwo.linkeddata.rdfizers;
 
-import net.fortytwo.linkeddata.ContextMemo;
+import net.fortytwo.linkeddata.CacheEntry;
 import net.fortytwo.linkeddata.Rdfizer;
 import net.fortytwo.ripple.RippleException;
 import org.openrdf.model.URI;
@@ -35,9 +35,8 @@ public class ImageRdfizer implements Rdfizer
         initialized = true;
     }
     
-    public ContextMemo.Status rdfize(final InputStream is,
+    public CacheEntry.Status rdfize(final InputStream is,
                                      final RDFHandler handler,
-                                     final URI resourceUri,
                                      final String baseUri)
     {
         if ( !initialized )
@@ -103,19 +102,19 @@ public class ImageRdfizer implements Rdfizer
                     }
                 }
 
-                return ContextMemo.Status.Success;
+                return CacheEntry.Status.Success;
             }
 
             else
             {
                 new RippleException( "could not find a reader for image" ).logError( false );
-                return ContextMemo.Status.RdfizerError;
+                return CacheEntry.Status.RdfizerError;
             }
         }
 
         catch ( IOException e ) {
             new RippleException( e ).logError( true );
-            return ContextMemo.Status.RdfizerError;
+            return CacheEntry.Status.RdfizerError;
         }
     }
 

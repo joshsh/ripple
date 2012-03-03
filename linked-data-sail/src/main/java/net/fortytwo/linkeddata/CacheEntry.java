@@ -14,7 +14,7 @@ import java.util.LinkedList;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class ContextMemo
+public class CacheEntry
 {
 	public static enum Status
 	{
@@ -52,12 +52,12 @@ public class ContextMemo
     private String dereferencer;
     private String rdfizer;
 
-	public ContextMemo()
+	public CacheEntry()
 	{
 		this( Status.Undetermined );
 	}
 
-	public ContextMemo( final Status status )
+	public CacheEntry(final Status status)
 	{
 		this.status = status;
 		this.timestamp = new Date();
@@ -68,7 +68,7 @@ public class ContextMemo
      * @param entries
      * @throws RippleException
      */
-    public ContextMemo( final Collection<ContextProperty> entries ) throws RippleException
+    public CacheEntry(final Collection<ContextProperty> entries) throws RippleException
     {
         for ( ContextProperty entry : entries )
         {
@@ -82,7 +82,7 @@ public class ContextMemo
      * @throws RippleException
      */
     // TODO: parse error handling
-	public ContextMemo( final String s ) throws RippleException
+	public CacheEntry(final String s) throws RippleException
 	{
         String[] props = s.split( ";" );
 		for ( int i = 0; i < props.length; i++ )
@@ -155,7 +155,7 @@ public class ContextMemo
             entries.add( entry );
 		}
 
-		if ( null != this.rdfizer )
+		if ( null != this.rdfizer)
 		{
             entry = new ContextProperty();
             entry.key = RDFIZER;
@@ -207,14 +207,14 @@ public class ContextMemo
 		this.mediaType = mt;
 	}
 
-	public void setDereferencer(final Dereferencer dref)
+	public void setDereferencer(final String dref)
 	{
-		this.dereferencer = dref.toString();
+		this.dereferencer = dref;
 	}
 
-	public void setRdfizer( final Rdfizer rfiz )
+	public void setRdfizer(final String rfiz)
 	{
-		this.rdfizer = rfiz.toString();
+		this.rdfizer = rfiz;
 	}
 
     private void addEntry( final ContextProperty entry ) throws RippleException

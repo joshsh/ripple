@@ -15,8 +15,8 @@ import net.fortytwo.flow.rdf.diff.RDFDiffBuffer;
 import net.fortytwo.flow.rdf.diff.RDFDiffSink;
 import net.fortytwo.flow.rdf.diff.RDFDiffTee;
 import net.fortytwo.flow.rdf.diff.SynchronizedRDFDiffSink;
+import net.fortytwo.linkeddata.LinkedDataCache;
 import net.fortytwo.linkeddata.RDFUtils;
-import net.fortytwo.linkeddata.WebClosure;
 import net.fortytwo.ripple.RippleException;
 import org.apache.log4j.Logger;
 import org.openrdf.model.Namespace;
@@ -62,7 +62,7 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
 
     private final Sail baseSail;
     private final ValueFactory valueFactory;
-    private final WebClosure webClosure;
+    private final LinkedDataCache linkedDataCache;
     // Note: SparqlUpdater is not thread-safe, so we must synchronize all
     //       operations involving it.
     private final SparqlUpdater sparqlUpdater;
@@ -342,11 +342,11 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
     ////////////////////////////////////////////////////////////////////////////
 
     LinkedDataSailConnection(final Sail baseSail,
-                             final WebClosure webClosure,
+                             final LinkedDataCache linkedDataCache,
                              final RDFDiffSink listenerSink)
             throws SailException {
         this.baseSail = baseSail;
-        this.webClosure = webClosure;
+        this.linkedDataCache = linkedDataCache;
 
         // Inherit the local store's ValueFactory
         valueFactory = baseSail.getValueFactory();
@@ -363,7 +363,7 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
         baseSailWriteSink = new SynchronizedRDFDiffSink(baseSailWriteBuffer, mutex);
 
         if (useSparqlUpdate) {
-            sparqlUpdater = new SparqlUpdater(webClosure.getURIMap(), baseSailWriteSink);
+            sparqlUpdater = new SparqlUpdater(linkedDataCache.getURIMap(), baseSailWriteSink);
             apiInputSink = sparqlUpdater.getSink();
         } else {
             sparqlUpdater = null;
@@ -374,9 +374,9 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
     }
 
     LinkedDataSailConnection(final Sail localStore,
-                             final WebClosure webClosure)
+                             final LinkedDataCache linkedDataCache)
             throws SailException {
-        this(localStore, webClosure, null);
+        this(localStore, linkedDataCache, null);
     }
 
     void addNamespace(final Namespace ns)
@@ -524,7 +524,7 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
     private void extendClosureTo(final URI uri) {
 //System.out.println( "dereferencing URI: " + uri );
         try {
-            webClosure.extendTo(uri, baseSailWriteSink.adderSink(), baseConnection);
+            linkedDataCache.retrieveUri(uri, baseConnection);
         } catch (RippleException e) {
             //if ( LinkedDataSail.logFailedUris() )
             //{
@@ -539,22 +539,22 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
                                           final Resource... contexts) throws SailException {
         boolean changed = false;
 
-        if (webClosure.getDereferenceStatementSubjects() && null != subj && subj instanceof URI) {
+        if (linkedDataCache.getDereferenceSubjects() && null != subj && subj instanceof URI) {
             extendClosureTo((URI) subj);
             changed = true;
         }
 
-        if (webClosure.getDereferenceStatementPredicates() && null != pred) {
+        if (linkedDataCache.getDereferencePredicates() && null != pred) {
             extendClosureTo(pred);
             changed = true;
         }
 
-        if (webClosure.getDereferenceStatementObjects() && null != obj && obj instanceof URI) {
+        if (linkedDataCache.getDereferenceObjects() && null != obj && obj instanceof URI) {
             extendClosureTo((URI) obj);
             changed = true;
         }
 
-        if (webClosure.getDereferenceStatementContexts()) {
+        if (linkedDataCache.getDereferenceContexts()) {
             for (Resource ctx : contexts) {
                 if (null != ctx && ctx instanceof URI) {
                     extendClosureTo((URI) ctx);

@@ -68,23 +68,19 @@ public final class RDFUtils {
     }
 
     /**
-     * @param uri the URI to be resolved
-     * @return a String representation of the URL to be resolved
+     * Strips the fragment identifier of a (usually) HTTP URI.
+     * @param uri a URI possibly containing a fragment identifier, e.g. http://example.org/foo#bar
+     * @return the URI without a fragment identifier, e.g. http://example.org/foo
      */
     public static String removeFragmentIdentifier(final String uri) {
         int i = uri.lastIndexOf('#');
         return 0 <= i ? uri.substring(0, i) : uri;
     }
 
-    public static URI createRandomUri(final String id, final ValueFactory vf) throws RippleException {
-        try {
-            return vf.createURI(Ripple.RANDOM_URN_PREFIX + id);
-        } catch (Throwable t) {
-            throw new RippleException(t);
-        }
-    }
-
-    public static URI createRandomUri(final ValueFactory vf) throws RippleException {
-        return createRandomUri(UUID.randomUUID().toString(), vf);
+    // Note: using hashed URIs for graph names avoids collision with resource URIs in retrieved descriptions
+   public static String findGraphUri(final String uri) {
+        String docUri = removeFragmentIdentifier(uri);
+        return Ripple.RANDOM_URN_PREFIX
+                + UUID.nameUUIDFromBytes(docUri.getBytes());
     }
 }

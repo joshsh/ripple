@@ -43,7 +43,8 @@ public class LinkedDataSailTest extends TestCase {
         map.put("http://www.holygoat.co.uk/owl/redwood/0.1/tags/Tagging",
                 LinkedDataSailTest.class.getResource("tags.owl").toString());
 
-        WebClosure wc = WebClosure.createDefault(baseSail, map);
+        LinkedDataCache wc = LinkedDataCache.createDefault(baseSail);
+        wc.setURIMap(map);
         sail = new LinkedDataSail(baseSail, wc);
         sail.initialize();
     }

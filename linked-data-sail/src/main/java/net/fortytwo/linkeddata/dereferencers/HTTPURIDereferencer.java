@@ -1,7 +1,7 @@
 package net.fortytwo.linkeddata.dereferencers;
 
 import net.fortytwo.linkeddata.Dereferencer;
-import net.fortytwo.linkeddata.WebClosure;
+import net.fortytwo.linkeddata.LinkedDataCache;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.StringUtils;
 import org.apache.log4j.Logger;
@@ -20,13 +20,13 @@ public class HTTPURIDereferencer implements Dereferencer
 	private static final Logger LOGGER = Logger.getLogger( HTTPURIDereferencer.class );
 
 	// FIXME: temporary
-	private final WebClosure webClosure;
+	private final LinkedDataCache linkedDataCache;
 
 	private final Set<String> badExtensions;
 
-	public HTTPURIDereferencer( final WebClosure webClosure )
+	public HTTPURIDereferencer( final LinkedDataCache linkedDataCache)
 	{
-		this.webClosure = webClosure;
+		this.linkedDataCache = linkedDataCache;
 
 		badExtensions = new HashSet<String>();
 
@@ -44,7 +44,7 @@ public class HTTPURIDereferencer implements Dereferencer
 //			return null;
 		}
 
-        return new HTTPRepresentation( uri, webClosure.getAcceptHeader() );
+        return new HTTPRepresentation( uri, linkedDataCache.getAcceptHeader() );
 	}
 
 	public void blackListExtension( final String ext )

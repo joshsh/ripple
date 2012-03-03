@@ -2,7 +2,7 @@ package net.fortytwo.linkeddata.rdfizers;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.linkeddata.Rdfizer;
-import net.fortytwo.linkeddata.ContextMemo;
+import net.fortytwo.linkeddata.CacheEntry;
 import org.openrdf.model.URI;
 import org.openrdf.rio.*;
 
@@ -21,25 +21,24 @@ public class VerbatimRdfizer implements Rdfizer {
         parser = Rio.createParser(format);
     }
 
-    public ContextMemo.Status rdfize(final InputStream is,
+    public CacheEntry.Status rdfize(final InputStream is,
                                      final RDFHandler handler,
-                                     final URI documentUri,
                                      final String baseUri) {
         try {
             parser.setRDFHandler(handler);
             parser.parse(is, baseUri);
         } catch (IOException e) {
             new RippleException(e).logError(false);
-            return ContextMemo.Status.Failure;
+            return CacheEntry.Status.Failure;
         } catch (RDFParseException e) {
             new RippleException(e).logError(false);
-            return ContextMemo.Status.ParseError;
+            return CacheEntry.Status.ParseError;
         } catch (RDFHandlerException e) {
             new RippleException(e).logError(false);
-            return ContextMemo.Status.Failure;
+            return CacheEntry.Status.Failure;
         }
 
-        return ContextMemo.Status.Success;
+        return CacheEntry.Status.Success;
     }
 
     public String toString() {

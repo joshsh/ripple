@@ -1,11 +1,10 @@
 package net.fortytwo.linkeddata.sail;
 
 import net.fortytwo.flow.rdf.diff.RDFDiffSink;
-import net.fortytwo.linkeddata.WebClosure;
+import net.fortytwo.linkeddata.LinkedDataCache;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.RippleProperties;
-import net.fortytwo.ripple.URIMap;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.sail.NotifyingSail;
 import org.openrdf.sail.NotifyingSailConnection;
@@ -25,30 +24,29 @@ import java.io.File;
 public class LinkedDataSail implements StackableSail, NotifyingSail {
     public static final String
             LOG_FAILED_URIS = "net.fortytwo.linkeddata.logFailedUris",
-            MAX_CACHE_CAPACITY = "net.fortytwo.linkeddata.maxCacheCapacity",
-            USE_COMPACT_MEMO_FORMAT = "net.fortytwo.linkeddata.useCompactMemoFormat";
+            MAX_CACHE_CAPACITY = "net.fortytwo.linkeddata.maxCacheCapacity";
 
     private static boolean logFailedUris;
 
-    private final WebClosure webClosure;
+    private final LinkedDataCache cache;
 
     private Sail baseSail;
     private boolean initialized = false;
 
     /**
      * @param baseSail   base Sail which provides a storage layer for aggregated RDF data (Note: the base Sail should be initialized before this Sail is used)
-     * @param webClosure a custom WebClosure providing an RDF-document-level view of the Web
+     * @param cache a custom WebClosure providing an RDF-document-level view of the Web
      * @throws net.fortytwo.ripple.RippleException if construction fails
      */
     public LinkedDataSail(final Sail baseSail,
-                          final WebClosure webClosure)
+                          final LinkedDataCache cache)
             throws RippleException {
         RippleProperties properties = Ripple.getConfiguration();
         logFailedUris = properties.getBoolean(LOG_FAILED_URIS);
 
         this.baseSail = baseSail;
 
-        this.webClosure = webClosure;
+        this.cache = cache;
     }
 
     /**
@@ -57,7 +55,7 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
      */
     public LinkedDataSail(final Sail baseSail)
             throws RippleException {
-        this(baseSail, WebClosure.createDefault(baseSail, new URIMap()));
+        this(baseSail, LinkedDataCache.createDefault(baseSail));
     }
 
     public void addSailChangedListener(final SailChangedListener listener) {
@@ -69,7 +67,7 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
             throw new SailException("LinkedDataSail has not been initialized");
         }
 
-        return new LinkedDataSailConnection(baseSail, webClosure);
+        return new LinkedDataSailConnection(baseSail, cache);
     }
 
     public File getDataDir() {
@@ -103,11 +101,11 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
 
     public synchronized LinkedDataSailConnection getConnection(final RDFDiffSink listenerSink)
             throws SailException {
-        return new LinkedDataSailConnection(baseSail, webClosure, listenerSink);
+        return new LinkedDataSailConnection(baseSail, cache, listenerSink);
     }
 
-    public WebClosure getWebClosure() {
-        return webClosure;
+    public LinkedDataCache getCache() {
+        return cache;
     }
 
     public Sail getBaseSail() {
@@ -122,11 +120,6 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
 
     public static boolean logFailedUris() {
         return logFailedUris;
-    }
-
-    // For testing/debugging/play only.
-    public static void main(final String[] args) {
-        //System.out.println(RDFFormat.TURTLE.getDefaultMIMEType());
     }
 }
 
