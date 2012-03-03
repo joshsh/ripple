@@ -1,13 +1,12 @@
-package net.fortytwo.linkeddata;
+package net.fortytwo.linkeddata.util;
 
+import net.fortytwo.flow.rdf.HTTPUtils;
 import net.fortytwo.flow.rdf.SesameOutputAdapter;
 import net.fortytwo.flow.rdf.diff.RDFDiffContextFilter;
 import net.fortytwo.flow.rdf.diff.RDFDiffSink;
 import net.fortytwo.flow.rdf.diff.RDFDiffSource;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.URIMap;
-import net.fortytwo.ripple.util.HTTPUtils;
-import net.fortytwo.ripple.util.RDFUtils;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -25,7 +24,7 @@ import java.util.Iterator;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class SparqlUpdater<E extends Exception> {
+public class SparqlUpdater {
     private final RDFDiffContextFilter contextFilter;
     private final RDFDiffSink sink;
     private final URIMap uriMap;
@@ -74,7 +73,7 @@ public class SparqlUpdater<E extends Exception> {
                 new NameValuePair(HTTPUtils.BODY, postData)
         };
         method.setRequestBody(data);
-        HTTPUtils.registerMethod(method);
+        HTTPUtils.throttleHttpRequest(method);
 
         HttpClient client = HTTPUtils.createClient();
 

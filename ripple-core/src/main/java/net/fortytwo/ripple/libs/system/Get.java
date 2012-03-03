@@ -9,13 +9,12 @@
 
 package net.fortytwo.ripple.libs.system;
 
+import net.fortytwo.flow.Sink;
+import net.fortytwo.flow.rdf.HTTPUtils;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.util.HTTPUtils;
-import net.fortytwo.flow.Sink;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.openrdf.model.vocabulary.XMLSchema;
@@ -69,8 +68,8 @@ public class Get extends PrimitiveStackMapping
         //uriStr = mc.getModel().getURIMap().get( uriStr );
         stack = stack.getRest();
 
-		HttpMethod method = HTTPUtils.createGetMethod( uriStr );
-		HTTPUtils.registerMethod( method );
+		HttpMethod method = HTTPUtils.createGetMethod(uriStr);
+		HTTPUtils.throttleHttpRequest(method);
 
 		HttpClient client = HTTPUtils.createClient();
 

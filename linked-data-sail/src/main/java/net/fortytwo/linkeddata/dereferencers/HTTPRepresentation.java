@@ -1,8 +1,8 @@
 package net.fortytwo.linkeddata.dereferencers;
 
+import net.fortytwo.flow.rdf.HTTPUtils;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.StringUtils;
-import net.fortytwo.ripple.util.HTTPUtils;
 import org.apache.commons.httpclient.ConnectTimeoutException;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
@@ -29,7 +29,7 @@ public class HTTPRepresentation extends StreamRepresentation {
 
         method = HTTPUtils.createGetMethod(uri);
         HTTPUtils.setAcceptHeader(method, acceptHeader);
-        HTTPUtils.registerMethod(method);
+        HTTPUtils.throttleHttpRequest(method);
 
         HttpClient client = HTTPUtils.createClient();
 

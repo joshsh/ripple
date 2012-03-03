@@ -53,10 +53,6 @@ public class GraphLibrary extends Library {
                 Links.class,
                 Members.class,
 
-                // Document-centric primitives
-                Triples.class,
-                Quads.class,
-
                 // Tuple queries
                 Sparql.class,
 

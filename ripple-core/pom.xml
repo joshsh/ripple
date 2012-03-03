@@ -15,7 +15,6 @@
         <groupId>net.fortytwo.ripple</groupId>
         <artifactId>ripple</artifactId>
         <version>0.8-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <repositories>
@@ -73,6 +72,25 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20090211</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openrdf.sesame</groupId>
+            <artifactId>sesame-rio-trig</artifactId>
+            <version>${sesame.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openrdf.sesame</groupId>
+            <artifactId>sesame-rio-n3</artifactId>
+            <version>${sesame.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openrdf.sesame</groupId>
+            <artifactId>sesame-rio-turtle</artifactId>
+            <version>${sesame.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>

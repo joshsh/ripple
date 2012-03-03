@@ -44,7 +44,6 @@
         <module>ripple-core</module>
         <module>ripple-demo</module>
         <module>ripple-media</module>
-        <module>ripple-rdf</module>
         <module>ripple-scriptengine</module>
     </modules>
 

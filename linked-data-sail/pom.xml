@@ -33,16 +33,22 @@
 
     <dependencies>
         <dependency>
-            <groupId>net.fortytwo.ripple</groupId>
-            <artifactId>ripple-rdf</artifactId>
+            <groupId>net.fortytwo</groupId>
+            <artifactId>rdfflow</artifactId>
             <version>${ripple.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-queryalgebra-evaluation</artifactId>
             <version>${sesame.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.openrdf.sesame</groupId>
+            <artifactId>sesame-rio-binary</artifactId>
+            <version>${sesame.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-rio-n3</artifactId>

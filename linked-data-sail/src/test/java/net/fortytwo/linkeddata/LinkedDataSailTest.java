@@ -116,7 +116,7 @@ public class LinkedDataSailTest extends TestCase {
         return countStatements(sc.getStatements(null, null, null, false, contexts));
     }
 
-    // For debugging/play
+    // For debugging/experimentation
     public static void main(final String[] args) throws Exception {
         Ripple.initialize();
 

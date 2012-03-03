@@ -2,9 +2,9 @@ package net.fortytwo.linkeddata;
 
 import info.aduna.iteration.CloseableIteration;
 import net.fortytwo.linkeddata.sail.LinkedDataSail;
+import net.fortytwo.linkeddata.util.RDFUtils;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.util.RDFUtils;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
@@ -129,7 +129,7 @@ public class WebCache {
                     : RDFUtils.createRandomUri(valueFactory);
             sc.addStatement(contextURI, fullMemo, memoResource, cacheContext);
 
-            for (ContextProperty entry : memo.getEntries()) {
+            for (ContextMemo.ContextProperty entry : memo.getEntries()) {
                 URI key = valueFactory.createURI(WebClosure.CACHE_NS + entry.key);
                 URI datatype = entry.valueDatatype;
                 Literal value = (null == datatype)
@@ -218,8 +218,8 @@ public class WebCache {
                 iter.close();
             }
 
-            Collection<ContextProperty> entries
-                    = new LinkedList<ContextProperty>();
+            Collection<ContextMemo.ContextProperty> entries
+                    = new LinkedList<ContextMemo.ContextProperty>();
 
             CloseableIteration<? extends Statement, SailException> valueIter
                     = sc.getStatements(memoResource, null, null, false, cacheContext);
@@ -231,7 +231,7 @@ public class WebCache {
                     URI pred = memoSt.getPredicate();
                     Literal obj = (Literal) memoSt.getObject();
 
-                    ContextProperty entry = new ContextProperty();
+                    ContextMemo.ContextProperty entry = new ContextMemo.ContextProperty();
                     entry.key = pred.getLocalName();
                     entry.value = obj.getLabel();
                     // Note: datatype is unimportant here; it's only for external applications

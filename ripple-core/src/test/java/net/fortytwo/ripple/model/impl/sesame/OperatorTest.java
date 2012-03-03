@@ -22,7 +22,6 @@ import net.fortytwo.ripple.model.RDFPredicateMapping;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.test.RippleTestCase;
-import net.fortytwo.ripple.util.RDFUtils;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.rio.RDFFormat;
 
@@ -56,8 +55,7 @@ public class OperatorTest extends RippleTestCase
 
         InputStream is = new ByteArrayInputStream( TEST_1.getBytes() );
         RDFImporter importer = new RDFImporter( mc );
-        SesameInputAdapter sc = new SesameInputAdapter( importer );
-        RDFUtils.read( is, sc, "", RDFFormat.TURTLE );
+        SesameInputAdapter.parse(is, importer, "", RDFFormat.TURTLE);
         mc.commit();
         is.close();
 

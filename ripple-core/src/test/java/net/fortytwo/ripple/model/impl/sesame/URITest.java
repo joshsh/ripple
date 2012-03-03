@@ -19,7 +19,6 @@ import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.util.ModelConnectionHelper;
-import net.fortytwo.ripple.util.RDFUtils;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.URIImpl;
 import org.openrdf.model.vocabulary.RDF;
@@ -180,8 +179,7 @@ System.out.println( "unhandled test case!" );
         InputStream is = URITest.class.getResourceAsStream( "UriTest.n3" );
 
         RDFImporter importer = new RDFImporter( mc );
-        SesameInputAdapter sc = new SesameInputAdapter( importer );
-        RDFUtils.read( is, sc, "", RDFFormat.N3 );
+        SesameInputAdapter.parse( is, importer, "", RDFFormat.N3 );
         mc.commit();
 
         Collector<RippleValue> cases = new Collector<RippleValue>();

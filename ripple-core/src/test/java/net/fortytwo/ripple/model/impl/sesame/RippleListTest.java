@@ -19,7 +19,6 @@ import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.test.RippleTestCase;
-import net.fortytwo.ripple.util.RDFUtils;
 import org.openrdf.model.vocabulary.XMLSchema;
 import org.openrdf.rio.RDFFormat;
 
@@ -46,8 +45,7 @@ public class RippleListTest extends RippleTestCase
 
         InputStream is = RippleListTest.class.getResourceAsStream( "listTest.ttl" );
         RDFImporter importer = new RDFImporter( mc );
-        SesameInputAdapter sc = new SesameInputAdapter( importer );
-        RDFUtils.read( is, sc, "", RDFFormat.TURTLE );
+        SesameInputAdapter.parse( is, importer, "", RDFFormat.TURTLE );
         mc.commit();
         is.close();
 

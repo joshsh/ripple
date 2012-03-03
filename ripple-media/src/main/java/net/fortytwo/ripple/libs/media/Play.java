@@ -10,13 +10,12 @@
 package net.fortytwo.ripple.libs.media;
 
 import net.fortytwo.flow.Sink;
+import net.fortytwo.flow.rdf.HTTPUtils;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.StackContext;
-import net.fortytwo.ripple.util.HTTPUtils;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 
@@ -79,9 +78,9 @@ System.out.println( "error: " + e );
 	private void play( final RDFValue uri ) throws RippleException
 	{
 		String[] mimeTypes = { "audio/midi" };
-        HttpMethod method = HTTPUtils.createRdfGetMethod( uri.toString() );
+        HttpMethod method = HTTPUtils.createRdfGetMethod(uri.toString());
         HTTPUtils.setAcceptHeader( method, mimeTypes );
-        HTTPUtils.registerMethod( method );
+        HTTPUtils.throttleHttpRequest(method);
 		HttpClient client = HTTPUtils.createClient();
 
         InputStream is;

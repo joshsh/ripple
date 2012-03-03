@@ -1,6 +1,7 @@
 package net.fortytwo.linkeddata;
 
 import net.fortytwo.ripple.RippleException;
+import org.openrdf.model.URI;
 import org.restlet.data.MediaType;
 import org.openrdf.model.vocabulary.XMLSchema;
 
@@ -231,5 +232,16 @@ public class ContextMemo
         {
             this.rdfizer = entry.value;
         }
+    }
+
+    /**
+     * A key-value pair representing a property of a named graph context
+     *
+     * @author Joshua Shinavier (http://fortytwo.net)
+     */
+    public static class ContextProperty {
+        public String key;
+        public String value;  // must not break parseability of the "compact" memo string
+        public URI valueDatatype;  // may be null
     }
 }

@@ -15,10 +15,10 @@ import net.fortytwo.flow.rdf.diff.RDFDiffBuffer;
 import net.fortytwo.flow.rdf.diff.RDFDiffSink;
 import net.fortytwo.flow.rdf.diff.RDFDiffTee;
 import net.fortytwo.flow.rdf.diff.SynchronizedRDFDiffSink;
-import net.fortytwo.linkeddata.SparqlUpdater;
+import net.fortytwo.linkeddata.util.SparqlUpdater;
 import net.fortytwo.linkeddata.WebClosure;
+import net.fortytwo.linkeddata.util.RDFUtils;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.util.RDFUtils;
 import org.apache.log4j.Logger;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Resource;
@@ -67,7 +67,7 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
     private final WebClosure webClosure;
     // Note: SparqlUpdater is not thread-safe, so we must synchronize all
     //       operations involving it.
-    private final SparqlUpdater<RippleException> sparqlUpdater;
+    private final SparqlUpdater sparqlUpdater;
     private final RDFDiffSink apiInputSink;
     // Buffering input to the wrapped SailConnection avoids deadlocks.
     private final RDFDiffBuffer baseSailWriteBuffer;
@@ -365,7 +365,7 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
         baseSailWriteSink = new SynchronizedRDFDiffSink(baseSailWriteBuffer, mutex);
 
         if (useSparqlUpdate) {
-            sparqlUpdater = new SparqlUpdater<RippleException>(webClosure.getURIMap(), baseSailWriteSink);
+            sparqlUpdater = new SparqlUpdater(webClosure.getURIMap(), baseSailWriteSink);
             apiInputSink = sparqlUpdater.getSink();
         } else {
             sparqlUpdater = null;
