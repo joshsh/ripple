@@ -22,11 +22,9 @@ import org.openrdf.model.Value;
 import org.openrdf.model.ValueFactory;
 
 /**
- * Author: josh
- * Date: Jan 18, 2008
- * Time: 12:52:56 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class BNodeToURIFilter<E extends Exception> implements RDFSink {
+public class BNodeToURIFilter implements RDFSink {
     private final Sink<Statement> stSink;
     private final Sink<Namespace> nsSink;
     private final Sink<String> cmtSink;

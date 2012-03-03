@@ -71,7 +71,7 @@ public class LinkedDataSailTest extends TestCase {
 
     public void testCountStatements() throws Exception {
         ValueFactory vf = sail.getValueFactory();
-        SailConnection sc = sail.getConnection();
+        SailConnection sc = baseSail.getConnection();
 
         URI ctxA = vf.createURI("urn:org.example.test.countStatementsTest#");
         URI uri1 = vf.createURI("urn:org.example.test#uri1");
@@ -90,8 +90,10 @@ public class LinkedDataSailTest extends TestCase {
             }
         }
         sc.commit();
+        sc.close();
+        
+        sc = sail.getConnection();        
         assertEquals(27, countStatements(sc, ctxA));
-
         sc.close();
     }
 

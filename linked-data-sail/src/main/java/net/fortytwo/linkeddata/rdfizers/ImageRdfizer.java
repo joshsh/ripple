@@ -3,7 +3,6 @@ package net.fortytwo.linkeddata.rdfizers;
 import net.fortytwo.linkeddata.CacheEntry;
 import net.fortytwo.linkeddata.Rdfizer;
 import net.fortytwo.ripple.RippleException;
-import org.openrdf.model.URI;
 import org.openrdf.rio.RDFHandler;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;

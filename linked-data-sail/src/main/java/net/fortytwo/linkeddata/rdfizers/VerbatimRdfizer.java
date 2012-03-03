@@ -1,10 +1,14 @@
 package net.fortytwo.linkeddata.rdfizers;
 
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.linkeddata.Rdfizer;
 import net.fortytwo.linkeddata.CacheEntry;
-import org.openrdf.model.URI;
-import org.openrdf.rio.*;
+import net.fortytwo.linkeddata.Rdfizer;
+import net.fortytwo.ripple.RippleException;
+import org.openrdf.rio.RDFFormat;
+import org.openrdf.rio.RDFHandler;
+import org.openrdf.rio.RDFHandlerException;
+import org.openrdf.rio.RDFParseException;
+import org.openrdf.rio.RDFParser;
+import org.openrdf.rio.Rio;
 
 import java.io.IOException;
 import java.io.InputStream;

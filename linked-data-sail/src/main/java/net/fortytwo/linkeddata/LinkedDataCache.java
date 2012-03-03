@@ -38,8 +38,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A configurable container of URI dereferencers and RDFizers which provides a unified view of the Semantic Web
- * as a collection of interlinked RDF documents.
+ * A manager for a dynamic set of RDF graphs collected from the Web.
+ * The cache uses configurable URI dereferencers and RDFizers to fetch and translate documents,
+ * and connects to an RDF triple store which provides a unified view of the Web of Data.
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
@@ -70,6 +71,7 @@ public class LinkedDataCache {
     private final ValueFactory valueFactory;
     private final boolean useBlankNodes;
     private URIMap uriMap;
+    private boolean autoCommit = true;
 
     private boolean derefSubjects = true;
     private boolean derefPredicates = false;
@@ -85,6 +87,13 @@ public class LinkedDataCache {
     // Maps URI schemes to Dereferencers
     private final Map<String, Dereferencer> dereferencers = new HashMap<String, Dereferencer>();
 
+    /**
+     * Constructs a cache with the default settings, dereferencers, and rdfizers.
+     *
+     * @param sail the underlying triple store for the cache
+     * @return the default cache
+     * @throws RippleException if construction fails for any reason
+     */
     public static LinkedDataCache createDefault(final Sail sail) throws RippleException {
         LinkedDataCache cache = new LinkedDataCache(sail);
 
@@ -122,7 +131,7 @@ public class LinkedDataCache {
     }
 
     /**
-     * @param sail persistent Sail which will be used for the cache
+     * @param sail underlying triple store for the cache
      * @throws RippleException if there is a configuration error
      */
     public LinkedDataCache(final Sail sail) throws RippleException {
@@ -133,14 +142,24 @@ public class LinkedDataCache {
         useBlankNodes = Ripple.getConfiguration().getBoolean(Ripple.USE_BLANK_NODES);
     }
 
+    /**
+     * @return an application-specific mapping for URIs dereferenced by the cache, or null no mapping is used
+     */
     public URIMap getURIMap() {
         return uriMap;
     }
 
+    /**
+     * Defines an application-specific mapping for URIs dereferenced by the cache, in the manner of a Web proxy.
+     * @param map the mapping
+     */
     public void setURIMap(final URIMap map) {
         this.uriMap = map;
     }
 
+    /**
+     * @return an HTTP "Accept" header which matches the cache's collection of rdfizers
+     */
     public String getAcceptHeader() {
         if (null == acceptHeader) {
             StringBuilder sb = new StringBuilder();
@@ -179,6 +198,14 @@ public class LinkedDataCache {
         return acceptHeader;
     }
 
+    /**
+     * Associates an rdfizer with a given media type.
+     *
+     * @param mediaType     a MIME type, e.g. "application/rdf+xml", "image/tiff"
+     * @param rdfizer       the associated rdfizer
+     * @param qualityFactor a quality value ranging from 0 to 1 which expresses the client's preference for the given media type.
+     *                      This value is used for HTTP content negotiation.
+     */
     public void addRdfizer(final MediaType mediaType,
                            final Rdfizer rdfizer,
                            final double qualityFactor) {
@@ -201,6 +228,12 @@ public class LinkedDataCache {
         acceptHeader = null;
     }
 
+    /**
+     * Associates a dereferencer with a given URI scheme.
+     *
+     * @param scheme the name of the URI scheme (e.g. "http", "ftp", "file", "jar")
+     * @param dref   the associated dereferencer
+     */
     public void addDereferencer(final String scheme, final Dereferencer dref) {
         LOGGER.info("adding dereferencer for for URI scheme " + scheme + ": " + dref);
 
@@ -208,7 +241,7 @@ public class LinkedDataCache {
     }
 
     /**
-     * Retrieves caching metadata for a URI, possibly retrieving a document from the Web first.
+     * Retrieves caching metadata for a URI, possibly dereferencing a document from the Web first.
      *
      * @param uri the URI to dereference
      * @param sc  a connection to a Sail
@@ -309,16 +342,35 @@ public class LinkedDataCache {
             }
         } finally {
             metadata.setMemo(graphUri, memo, sc);
-            try {
-                sc.commit();
-            } catch (SailException e) {
-                throw new RippleException(e);
+
+            if (autoCommit) {
+                try {
+                    sc.commit();
+                } catch (SailException e) {
+                    throw new RippleException(e);
+                }
             }
 
             logStatus(uri, memo);
         }
 
         return memo.getStatus();
+    }
+
+    /**
+     * @return whether the cache commits to the triple store after each Web request
+     *         (true by default)
+     */
+    public boolean isAutoCommit() {
+        return autoCommit;
+    }
+
+    /**
+     * @param autoCommit whether the cache should commit to the triple store after each Web request
+     *                   (true by default)
+     */
+    public void setAutoCommit(boolean autoCommit) {
+        this.autoCommit = autoCommit;
     }
 
     public boolean getDereferenceSubjects() {

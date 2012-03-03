@@ -1,6 +1,5 @@
 package net.fortytwo.linkeddata.sail;
 
-import net.fortytwo.flow.rdf.diff.RDFDiffSink;
 import net.fortytwo.linkeddata.LinkedDataCache;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
@@ -16,8 +15,7 @@ import org.openrdf.sail.StackableSail;
 import java.io.File;
 
 /**
- * A thread-safe Sail which treats the Semantic Web as a single global graph of
- * linked data.
+ * A thread-safe storage layer which treats the Semantic Web as a single global graph of linked data.
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
@@ -36,7 +34,7 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
     /**
      * @param baseSail   base Sail which provides a storage layer for aggregated RDF data (Note: the base Sail should be initialized before this Sail is used)
      * @param cache a custom WebClosure providing an RDF-document-level view of the Web
-     * @throws net.fortytwo.ripple.RippleException if construction fails
+     * @throws RippleException if construction fails
      */
     public LinkedDataSail(final Sail baseSail,
                           final LinkedDataCache cache)
@@ -97,17 +95,6 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
     public void shutDown() throws SailException {
     }
 
-    // Extended API ////////////////////////////////////////////////////////////
-
-    public synchronized LinkedDataSailConnection getConnection(final RDFDiffSink listenerSink)
-            throws SailException {
-        return new LinkedDataSailConnection(baseSail, cache, listenerSink);
-    }
-
-    public LinkedDataCache getCache() {
-        return cache;
-    }
-
     public Sail getBaseSail() {
         return baseSail;
     }
@@ -116,7 +103,11 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
         this.baseSail = baseSail;
     }
 
-    ////////////////////////////////////////////////////////////////////////////
+    // Extended API ////////////////////////////////////////////////////////////
+
+    public LinkedDataCache getCache() {
+        return cache;
+    }
 
     public static boolean logFailedUris() {
         return logFailedUris;

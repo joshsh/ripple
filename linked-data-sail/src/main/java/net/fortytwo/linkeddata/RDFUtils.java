@@ -23,6 +23,9 @@ import java.io.OutputStream;
 import java.util.UUID;
 
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public final class RDFUtils {
     private RDFUtils() {
     }
