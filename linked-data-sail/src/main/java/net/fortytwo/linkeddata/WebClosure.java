@@ -10,8 +10,6 @@ import net.fortytwo.linkeddata.dereferencers.JarURIDereferencer;
 import net.fortytwo.linkeddata.rdfizers.ImageRdfizer;
 import net.fortytwo.linkeddata.rdfizers.VerbatimRdfizer;
 import net.fortytwo.linkeddata.sail.LinkedDataSail;
-import net.fortytwo.linkeddata.util.BNodeToURIFilter;
-import net.fortytwo.linkeddata.util.RDFUtils;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.StringUtils;
@@ -21,6 +19,7 @@ import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFHandler;
+import org.openrdf.rio.rdfa.RDFaFormat;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
@@ -45,37 +44,29 @@ import java.util.UUID;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class WebClosure {
+    private static final Logger LOGGER = Logger.getLogger(WebClosure.class);
+
     // TODO: these should probably not be HTTP URIs
     public static final String
             CACHE_NS = "http://fortytwo.net/2008/01/webclosure#",
             CACHE_MEMO = CACHE_NS + "memo",
             FULL_MEMO = CACHE_NS + "fullMemo";
 
-    private static final String[] BADEXT = {
+    private static final String[] NON_RDF_EXTENSIONS = {
             "123", "3dm", "3dmf", "3gp", "8bi", "aac", "ai", "aif", "app", "asf",
             "asp", "asx", "avi", "bat", "bin", "bmp", "c", "cab", "cfg", "cgi",
             "com", "cpl", "cpp", "css", "csv", "dat", "db", "dll", "dmg", "dmp",
             "doc", "drv", "drw", "dxf", "eps", "exe", "fnt", "fon", "gif", "gz",
-            "h", "hqx", "htm", "html", "iff", "indd", "ini", "iso", "java", /*"jpeg",*/
+            "h", "hqx", /*"htm", "html",*/ "iff", "indd", "ini", "iso", "java", /*"jpeg",*/
             /*"jpg",*/ "js", "jsp", "key", "log", "m3u", "mdb", "mid", "midi", "mim",
             "mng", "mov", "mp3", "mp4", "mpa", "mpg", "msg", "msi", "otf", "pct",
             "pdf", "php", "pif", "pkg", "pl", "plugin", "png", "pps", "ppt", "ps",
             "psd", "psp", "qt", "qxd", "qxp", "ra", "ram", "rar", "reg", "rm",
             "rtf", "sea", "sit", "sitx", "sql", "svg", "swf", "sys", "tar", "tif",
             "ttf", "uue", "vb", "vcd", "wav", "wks", "wma", "wmv", "wpd", "wps",
-            "ws", "xhtml", "xll", "xls", "yps", "zip"};
-
-    private static final Logger LOGGER = Logger.getLogger(WebClosure.class);
+            "ws", /*"xhtml",*/ "xll", "xls", "yps", "zip"};
 
     private final WebCache cache;
-
-    // Maps media types to Rdfizers
-    private final Map<MediaType, MediaTypeInfo> rdfizers
-            = new HashMap<MediaType, MediaTypeInfo>();
-
-    // Maps URI schemes to Dereferencers
-    private final Map<String, Dereferencer> dereferencers = new HashMap<String, Dereferencer>();
-
     private final URIMap uriMap;
     private final ValueFactory valueFactory;
     private final boolean useBlankNodes;
@@ -86,6 +77,13 @@ public class WebClosure {
     private boolean derefContexts = false;
 
     private String acceptHeader = null;
+
+    // Maps media types to Rdfizers
+    private final Map<MediaType, MediaTypeInfo> rdfizers
+            = new HashMap<MediaType, MediaTypeInfo>();
+
+    // Maps URI schemes to Dereferencers
+    private final Map<String, Dereferencer> dereferencers = new HashMap<String, Dereferencer>();
 
     public static WebClosure createDefault(final Sail baseSail,
                                            final URIMap uriMap) throws RippleException {
@@ -99,18 +97,23 @@ public class WebClosure {
 
                 // Add URI dereferencers.
                 HTTPURIDereferencer hdref = new HTTPURIDereferencer(wc);
-                for (String aBADEXT : BADEXT) {
-                    hdref.blackListExtension(aBADEXT);
+                for (String x : NON_RDF_EXTENSIONS) {
+                    hdref.blackListExtension(x);
                 }
                 wc.addDereferencer("http", hdref);
                 wc.addDereferencer("jar", new JarURIDereferencer());
                 wc.addDereferencer("file", new FileURIDereferencer());
 
+                RDFFormat.register(RDFaFormat.RDFA);
+
                 // Rdfizers for registered RDF formats
                 for (RDFFormat f : RDFFormat.values()) {
-                    wc.addRdfizer(new MediaType(f.getDefaultMIMEType()), new VerbatimRdfizer(f));
+                    Rdfizer r = new VerbatimRdfizer(f);
+                    for (String type : f.getMIMETypes()) {
+                        wc.addRdfizer(new MediaType(type), r);
+                    }
                 }
-                
+
                 // Additional rdfizers
                 Rdfizer imageRdfizer = new ImageRdfizer();
                 // Mainstream EXIF-compatible image types: JPEG, TIFF
@@ -195,8 +198,14 @@ public class WebClosure {
     public void addRdfizer(final MediaType mediaType,
                            final Rdfizer rdfizer,
                            final double qualityFactor) {
+        LOGGER.info("adding RDFizer for media type " + mediaType + ": " + rdfizer);
+
         if (qualityFactor <= 0 || qualityFactor > 1) {
             throw new IllegalArgumentException("quality factor must be between 0 and 1");
+        }
+
+        if (null != rdfizers.get(mediaType)) {
+            LOGGER.warn("overriding already-registered RDFizer for media type " + mediaType);
         }
 
         MediaTypeInfo rq = new MediaTypeInfo();
@@ -276,7 +285,7 @@ public class WebClosure {
             cache.setMemo(memoUuid, memo, sc);
         }
 
-        memo.setUriDereferencer(dref);
+        memo.setDereferencer(dref);
 
         // Note: from this point on, failures are explicitly stored as caching
         // metadata.
@@ -288,10 +297,10 @@ public class WebClosure {
         } catch (RippleException e) {
             e.logError();
             memo.setStatus(ContextMemo.Status.DereferencerError);
-            return logStatus(nonInfoURI, memo.getStatus(), null);
+            return logStatus(nonInfoURI, memo, null);
         } catch (Throwable t) {
             memo.setStatus(ContextMemo.Status.DereferencerError);
-            logStatus(nonInfoURI, memo.getStatus(), null);
+            logStatus(nonInfoURI, memo, null);
             throw new RippleException(t);
         }
 
@@ -310,7 +319,7 @@ public class WebClosure {
         if (null == rfiz) {
             memo.setStatus(ContextMemo.Status.BadMediaType);
             memo.setMediaType(mt);
-            return logStatus(nonInfoURI, memo.getStatus(), mt);
+            return logStatus(nonInfoURI, memo, mt);
         }
 
         memo.setRdfizer(rfiz);
@@ -346,7 +355,7 @@ public class WebClosure {
 
         ContextMemo.Status status;
 
-        status = rfiz.handle(is, hdlr, nonInfoURI, baseUri);
+        status = rfiz.rdfize(is, hdlr, nonInfoURI, baseUri);
 
         if (ContextMemo.Status.Success == status) {
             // Push results and record success
@@ -355,7 +364,7 @@ public class WebClosure {
 
         memo.setStatus(status);
 
-        return logStatus(nonInfoURI, status, mt);
+        return logStatus(nonInfoURI, memo, mt);
     }
 
     public boolean getDereferenceStatementSubjects() {
@@ -391,14 +400,19 @@ public class WebClosure {
     }
 
     private ContextMemo.Status logStatus(final URI uri,
-                                         final ContextMemo.Status status,
+                                         final ContextMemo memo,
                                          final MediaType mt) {
+        ContextMemo.Status status = memo.getStatus();
+
         if (ContextMemo.Status.Success != status) {
-            String msg = "Failed to dereference URI <"
-                    + StringUtils.escapeURIString(uri.toString()) + ">: " + status;
-            if (ContextMemo.Status.ParseError == status && null != mt) {// && MediaType.TEXT_PLAIN == mt) {
-                msg += " (perhaps " + mt.getName() + " is not the correct media type for this data)";
-            }
+            StringBuilder msg = new StringBuilder("Failed to dereference URI <"
+                    + StringUtils.escapeURIString(uri.toString()) + "> (");
+
+            msg.append("dereferencer: ").append(memo.getDereferencer());
+            msg.append(", media type: ").append(memo.getMediaType());
+            msg.append(", rdfizer: ").append(memo.getRdfizer());
+            msg.append("): ").append(status);
+
             LOGGER.info(msg);
         }
 

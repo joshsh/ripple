@@ -1,10 +1,11 @@
-package net.fortytwo.linkeddata.util;
+package net.fortytwo.linkeddata.sail;
 
 import net.fortytwo.flow.rdf.HTTPUtils;
 import net.fortytwo.flow.rdf.SesameOutputAdapter;
 import net.fortytwo.flow.rdf.diff.RDFDiffContextFilter;
 import net.fortytwo.flow.rdf.diff.RDFDiffSink;
 import net.fortytwo.flow.rdf.diff.RDFDiffSource;
+import net.fortytwo.linkeddata.RDFUtils;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.URIMap;
 import org.apache.commons.httpclient.HttpClient;

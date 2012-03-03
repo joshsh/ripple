@@ -15,42 +15,14 @@
         <groupId>net.fortytwo.ripple</groupId>
         <artifactId>ripple</artifactId>
         <version>0.8-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <repositories>
-        <repository>
-            <id>fortytwo</id>
-            <name>fortytwo.net Maven repository</name>
-            <url>http://fortytwo.net/maven2</url>
-        </repository>
-        <repository>
-            <id>tinkerpop-repository</id>
-            <name>TinkerPop Maven2 Repository</name>
-            <url>http://tinkerpop.com/maven2</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-        </repository>
-    </repositories>
-
     <dependencies>
-        <!--<dependency>
-            <groupId>net.fortytwo</groupId>
-            <artifactId>flow</artifactId>
-            <version>0.8-SNAPSHOT</version>
-        </dependency>-->
         <dependency>
             <groupId>net.fortytwo.ripple</groupId>
             <artifactId>ripple-demo</artifactId>
             <version>${ripple.version}</version>
         </dependency>
-        <!--<dependency>
-            <groupId>com.tinkerpop.blueprints</groupId>
-            <artifactId>blueprints-neo4j-graph</artifactId>
-            <version>0.6</version>
-        </dependency>-->
         <dependency>
             <groupId>com.tinkerpop</groupId>
             <artifactId>gremlin</artifactId>

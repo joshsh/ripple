@@ -2,7 +2,6 @@ package net.fortytwo.linkeddata;
 
 import info.aduna.iteration.CloseableIteration;
 import net.fortytwo.linkeddata.sail.LinkedDataSail;
-import net.fortytwo.linkeddata.util.RDFUtils;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import org.openrdf.model.Literal;

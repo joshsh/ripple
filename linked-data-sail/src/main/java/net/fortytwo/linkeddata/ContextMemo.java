@@ -38,7 +38,7 @@ public class ContextMemo
             STATUS = "status",
             TIMESTAMP = "timestamp",
             MEDIATYPE = "mediaType",
-            URIDEREFERENCER = "uriDereferencer",
+            DEREFERENCER = "dereferencer",
             RDFIZER = "rdfizer";
 
 	// Use XMLSchema-style time stamps, without time zone info, accurate to
@@ -46,11 +46,11 @@ public class ContextMemo
 	private static final SimpleDateFormat TIMESTAMP_FORMAT
             = new SimpleDateFormat( "yyyy'-'MM'-'dd'T'HH':'mm':'ss" );
 
-	private Status status = null;
-	private Date timestamp = null;
-	private MediaType mediaType = null;
-	private String uriDereferencer = null;
-    private String rdfizer = null;
+	private Status status;
+	private Date timestamp;
+    private MediaType mediaType;
+    private String dereferencer;
+    private String rdfizer;
 
 	public ContextMemo()
 	{
@@ -101,6 +101,22 @@ public class ContextMemo
 		}
     }
 
+    public String getDereferencer() {
+        return dereferencer;
+    }
+
+    public String getRdfizer() {
+        return rdfizer;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public MediaType getMediaType() {
+        return mediaType;
+    }
+
     public Collection<ContextProperty> getEntries()
     {
         Collection<ContextProperty> entries = new LinkedList<ContextProperty>();
@@ -131,11 +147,11 @@ public class ContextMemo
             entries.add( entry );
 		}
 
-		if ( null != this.uriDereferencer )
+		if ( null != this.dereferencer)
 		{
             entry = new ContextProperty();
-            entry.key = URIDEREFERENCER;
-            entry.value = this.uriDereferencer.toString();
+            entry.key = DEREFERENCER;
+            entry.value = this.dereferencer.toString();
             entries.add( entry );
 		}
 
@@ -191,14 +207,14 @@ public class ContextMemo
 		this.mediaType = mt;
 	}
 
-	public void setUriDereferencer( final Dereferencer dref )
+	public void setDereferencer(final Dereferencer dref)
 	{
-		this.uriDereferencer = dref.getClass().getName();
+		this.dereferencer = dref.toString();
 	}
 
 	public void setRdfizer( final Rdfizer rfiz )
 	{
-		this.rdfizer = rfiz.getClass().getName();
+		this.rdfizer = rfiz.toString();
 	}
 
     private void addEntry( final ContextProperty entry ) throws RippleException
@@ -223,9 +239,9 @@ public class ContextMemo
             this.mediaType = new MediaType( entry.value );
         }
 
-        else if ( entry.key.equals( URIDEREFERENCER ) )
+        else if ( entry.key.equals(DEREFERENCER) )
         {
-            this.uriDereferencer = entry.value;
+            this.dereferencer = entry.value;
         }
 
         else if ( entry.key.equals( RDFIZER ) )

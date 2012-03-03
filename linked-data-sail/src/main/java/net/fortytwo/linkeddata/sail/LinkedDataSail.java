@@ -6,7 +6,6 @@ import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.RippleProperties;
 import net.fortytwo.ripple.URIMap;
-import org.apache.log4j.Logger;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.sail.NotifyingSail;
 import org.openrdf.sail.NotifyingSailConnection;
@@ -29,8 +28,6 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
             MAX_CACHE_CAPACITY = "net.fortytwo.linkeddata.maxCacheCapacity",
             USE_COMPACT_MEMO_FORMAT = "net.fortytwo.linkeddata.useCompactMemoFormat";
 
-    private static final Logger LOGGER = Logger.getLogger(LinkedDataSail.class);
-
     private static boolean logFailedUris;
 
     private final WebClosure webClosure;
@@ -41,6 +38,7 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
     /**
      * @param baseSail   base Sail which provides a storage layer for aggregated RDF data (Note: the base Sail should be initialized before this Sail is used)
      * @param webClosure a custom WebClosure providing an RDF-document-level view of the Web
+     * @throws net.fortytwo.ripple.RippleException if construction fails
      */
     public LinkedDataSail(final Sail baseSail,
                           final WebClosure webClosure)
@@ -55,6 +53,7 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
 
     /**
      * @param baseSail base Sail which provides a storage layer for aggregated RDF data (Note: the base Sail should be initialized before this Sail is used)
+     * @throws net.fortytwo.ripple.RippleException if construction fails
      */
     public LinkedDataSail(final Sail baseSail)
             throws RippleException {

@@ -7,7 +7,7 @@
  */
 
 
-package net.fortytwo.linkeddata.util;
+package net.fortytwo.linkeddata;
 
 import net.fortytwo.flow.rdf.SesameOutputAdapter;
 import net.fortytwo.ripple.Ripple;
@@ -18,10 +18,8 @@ import org.openrdf.model.ValueFactory;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFWriter;
 import org.openrdf.rio.Rio;
-import org.restlet.data.MediaType;
 
 import java.io.OutputStream;
-import java.util.List;
 import java.util.UUID;
 
 
@@ -88,14 +86,5 @@ public final class RDFUtils {
 
     public static URI createRandomUri(final ValueFactory vf) throws RippleException {
         return createRandomUri(UUID.randomUUID().toString(), vf);
-    }
-
-    public static MediaType findMediaType(final RDFFormat format) {
-        List<String> types = format.getMIMETypes();
-        if (null == types || 0 == types.size()) {
-            throw new IllegalStateException("no MIME type for RDF format: " + format);
-        }
-
-        return new MediaType(types.iterator().next());
     }
 }

@@ -7,7 +7,7 @@
  */
 
 
-package net.fortytwo.linkeddata.util;
+package net.fortytwo.linkeddata;
 
 import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.rdf.RDFSink;

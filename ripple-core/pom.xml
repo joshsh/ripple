@@ -17,24 +17,6 @@
         <version>0.8-SNAPSHOT</version>
     </parent>
 
-    <repositories>
-        <repository>
-            <id>fortytwo</id>
-            <name>fortytwo.net Maven repository</name>
-            <url>http://fortytwo.net/maven2</url>
-        </repository>
-        <repository>
-            <id>aduna-repo</id>
-            <name>Aduna repository</name>
-            <url>http://repo.aduna-software.org/maven2/releases</url>
-        </repository>
-        <repository>
-            <id>jline</id>
-            <name>JLine Project Repository</name>
-            <url>http://jline.sourceforge.net/m2repo</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
             <groupId>net.fortytwo.ripple</groupId>

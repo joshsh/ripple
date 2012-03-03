@@ -35,10 +35,10 @@ public class ImageRdfizer implements Rdfizer
         initialized = true;
     }
     
-    public ContextMemo.Status handle( final InputStream is,
-                                      final RDFHandler handler,
-                                      final URI resourceUri,
-                                      final String baseUri )
+    public ContextMemo.Status rdfize(final InputStream is,
+                                     final RDFHandler handler,
+                                     final URI resourceUri,
+                                     final String baseUri)
     {
         if ( !initialized )
         {
@@ -144,27 +144,9 @@ public class ImageRdfizer implements Rdfizer
             sb.append( "\n" );
             showNode( n, sb, indent );
         }
-
-/*
-        try {
-            DocumentBuilderFactory factory =
-            DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-
-            Document document = builder.newDocument();
-            document.adoptNode(node);
-
-            OutputFormat format = new OutputFormat();//((Document)core);
-            format.setLineSeparator(LineSeparator.Windows);
-            format.setIndenting(true);
-            format.setLineWidth(0);
-            format.setPreserveSpace(true);
-            XMLSerializer serializer = new XMLSerializer(
-                System.out, format);
-            serializer.asDOMSerializer();
-            serializer.serialize(document);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
+    }
+    
+    public String toString() {
+        return "image rdfizer";
     }
 }

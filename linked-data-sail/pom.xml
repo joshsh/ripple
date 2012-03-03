@@ -15,21 +15,7 @@
         <groupId>net.fortytwo.ripple</groupId>
         <artifactId>ripple</artifactId>
         <version>0.8-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
-
-    <repositories>
-        <repository>
-            <id>fortytwo</id>
-            <name>fortytwo.net Maven repository</name>
-            <url>http://fortytwo.net/maven2</url>
-        </repository>
-        <repository>
-            <id>aduna-repo</id>
-            <name>Aduna repository</name>
-            <url>http://repo.aduna-software.org/maven2/releases</url>
-        </repository>
-    </repositories>
 
     <dependencies>
         <dependency>
@@ -59,11 +45,11 @@
             <artifactId>sesame-rio-ntriples</artifactId>
             <version>${sesame.version}</version>
         </dependency>
-        <!--<dependency>
+        <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-rio-rdfa</artifactId>
             <version>2.6.3-42</version>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-rio-rdfxml</artifactId>

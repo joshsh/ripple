@@ -15,9 +15,8 @@ import net.fortytwo.flow.rdf.diff.RDFDiffBuffer;
 import net.fortytwo.flow.rdf.diff.RDFDiffSink;
 import net.fortytwo.flow.rdf.diff.RDFDiffTee;
 import net.fortytwo.flow.rdf.diff.SynchronizedRDFDiffSink;
-import net.fortytwo.linkeddata.util.SparqlUpdater;
+import net.fortytwo.linkeddata.RDFUtils;
 import net.fortytwo.linkeddata.WebClosure;
-import net.fortytwo.linkeddata.util.RDFUtils;
 import net.fortytwo.ripple.RippleException;
 import org.apache.log4j.Logger;
 import org.openrdf.model.Namespace;
@@ -59,8 +58,7 @@ import java.util.Set;
 // TODO: non-blocking / multithreaded SPARUL
 // TODO: cut down on excessive synchronization
 public class LinkedDataSailConnection implements NotifyingSailConnection {
-    private static final Logger LOGGER
-            = Logger.getLogger(LinkedDataSailConnection.class);
+    private static final Logger LOGGER = Logger.getLogger(LinkedDataSailConnection.class);
 
     private final Sail baseSail;
     private final ValueFactory valueFactory;

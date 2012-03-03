@@ -56,5 +56,9 @@ public class HTTPURIDereferencer implements Dereferencer
 	{
 		badExtensions.remove( ext );
 	}
+
+    public String toString() {
+        return "HTTP URI dereferencer";
+    }
 }
 

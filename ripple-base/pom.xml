@@ -15,7 +15,6 @@
         <groupId>net.fortytwo.ripple</groupId>
         <artifactId>ripple</artifactId>
         <version>0.8-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <dependencies>
