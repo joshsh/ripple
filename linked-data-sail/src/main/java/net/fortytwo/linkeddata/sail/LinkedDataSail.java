@@ -16,6 +16,7 @@ import java.io.File;
 
 /**
  * A thread-safe storage layer which treats the Semantic Web as a single global graph of linked data.
+ * LinkedDataSail is layered on top of another Sail which serves as a database for cached Semantic Web documents.
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
@@ -29,12 +30,11 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
     private final LinkedDataCache cache;
 
     private Sail baseSail;
-    private boolean initialized = false;
 
     /**
-     * @param baseSail   base Sail which provides a storage layer for aggregated RDF data (Note: the base Sail should be initialized before this Sail is used)
-     * @param cache a custom WebClosure providing an RDF-document-level view of the Web
-     * @throws RippleException if construction fails
+     * @param baseSail base Sail which provides a storage layer for aggregated RDF data (Note: the base Sail should be initialized before this Sail is used)
+     * @param cache    a custom WebClosure providing an RDF-document-level view of the Web
+     * @throws RippleException if there is a configuration error
      */
     public LinkedDataSail(final Sail baseSail,
                           final LinkedDataCache cache)
@@ -49,7 +49,7 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
 
     /**
      * @param baseSail base Sail which provides a storage layer for aggregated RDF data (Note: the base Sail should be initialized before this Sail is used)
-     * @throws net.fortytwo.ripple.RippleException if construction fails
+     * @throws RippleException if there is a configuration error
      */
     public LinkedDataSail(final Sail baseSail)
             throws RippleException {
@@ -57,19 +57,17 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
     }
 
     public void addSailChangedListener(final SailChangedListener listener) {
+        if (baseSail instanceof NotifyingSail) {
+            ((NotifyingSail) baseSail).addSailChangedListener(listener);
+        }
     }
 
-    public synchronized NotifyingSailConnection getConnection()
-            throws SailException {
-        if (!initialized) {
-            throw new SailException("LinkedDataSail has not been initialized");
-        }
-
+    public synchronized NotifyingSailConnection getConnection() throws SailException {
         return new LinkedDataSailConnection(baseSail, cache);
     }
 
     public File getDataDir() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     public ValueFactory getValueFactory() {
@@ -78,21 +76,26 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
     }
 
     public void initialize() throws SailException {
-        initialized = true;
+        // Do not initialize the base Sail; it is initialized independently.
     }
 
-    public boolean isWritable()
-            throws SailException {
-        return true;
+    public boolean isWritable() throws SailException {
+        // LinkedDataSail is read-only
+        return false;
     }
 
     public void removeSailChangedListener(final SailChangedListener listener) {
+        if (baseSail instanceof NotifyingSail) {
+            ((NotifyingSail) baseSail).removeSailChangedListener(listener);
+        }
     }
 
     public void setDataDir(final File dataDir) {
+        throw new UnsupportedOperationException();
     }
 
     public void shutDown() throws SailException {
+        // Do not shut down the base Sail.
     }
 
     public Sail getBaseSail() {
@@ -105,6 +108,9 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
 
     // Extended API ////////////////////////////////////////////////////////////
 
+    /**
+     * @return this LinkedDataSail's cache manager
+     */
     public LinkedDataCache getCache() {
         return cache;
     }

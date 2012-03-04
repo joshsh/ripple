@@ -31,9 +31,6 @@ import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailConnectionListener;
 import org.openrdf.sail.SailException;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * A connection to a LinkedDataSail
  *
@@ -48,17 +45,13 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
 
     private boolean open = false;
     private SailConnection baseConnection;
-    private Set<SailConnectionListener> listeners = null;
 
     ////////////////////////////////////////////////////////////////////////////
 
-    // Connection listener methods are synchronized w.r.t. this SailConnection.
     public synchronized void addConnectionListener(final SailConnectionListener listener) {
-        if (null == listeners) {
-            listeners = new HashSet<SailConnectionListener>();
+        if (baseConnection instanceof NotifyingSailConnection) {
+            ((NotifyingSailConnection) baseConnection).addConnectionListener(listener);
         }
-
-        listeners.add(listener);
     }
 
     public void addStatement(final Resource subj,
@@ -143,10 +136,9 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
         return open;
     }
 
-    // Connection listener methods are synchronized w.r.t. this SailConnection.
     public synchronized void removeConnectionListener(final SailConnectionListener listener) {
-        if (null != listeners) {
-            listeners.remove(listener);
+        if (baseConnection instanceof NotifyingSailConnection) {
+            ((NotifyingSailConnection) baseConnection).removeConnectionListener(listener);
         }
     }
 
