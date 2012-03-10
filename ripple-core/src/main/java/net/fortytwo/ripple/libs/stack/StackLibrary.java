@@ -44,7 +44,8 @@ public class StackLibrary extends Library
                 Rotated.class,
                 Self.class,
                 Swap.class,
-                Swapd.class );
+                Swapd.class,
+                Top.class);
 
 		// List primitives.
 		registerPrimitives( context,

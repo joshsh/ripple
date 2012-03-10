@@ -30,11 +30,11 @@ public class StreamLibrary extends Library {
 
         registerPrimitives(context,
                 Both.class,
+                Distinct.class,
                 Each.class,
                 Intersect.class,
                 Limit.class,
                 Scrap.class,
-                Distinct.class,
 
                 // Closed world primitives
                 Amp.class,
