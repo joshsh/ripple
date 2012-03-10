@@ -1,3 +1,5 @@
+<!-- This README can be viewed at https://github.com/joshsh/ripple/wiki -->
+
 ![Ripple logo|width=420px|height=100px](https://github.com/joshsh/ripple/wiki/graphics/ripple-logo-text-medium.png)
 
 Welcome to the Ripple wiki!
@@ -41,4 +43,3 @@ This implementation is written in Java and includes an interactive command-line 
     * The [demo screencast](http://ripple.googlecode.com/svn/trunk/docs/screencast/index.html) from the [SFSW 2007 Scripting Challenge](http://www.semanticscripting.org/SFSW2007/)
     * [ripple.fortytwo.net](http://ripple.fortytwo.net) (the Ripple blog)
     * [clj-ripple](https://github.com/eduardoejp/clj-ripple): a library for embedding Ripple in Clojure.  Sweet!
-
