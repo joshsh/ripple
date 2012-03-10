@@ -58,11 +58,11 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
                              final URI pred,
                              final Value obj,
                              final Resource... contexts) throws SailException {
-        throw new UnsupportedOperationException("LinkedDataSail is read-only with respect to RDF statements");
+        baseConnection.addStatement(subj, pred, obj, contexts);
     }
 
     public void clear(final Resource... contexts) throws SailException {
-        throw new UnsupportedOperationException("LinkedDataSail is read-only with respect to RDF statements");
+        baseConnection.clear(contexts);
     }
 
     public void clearNamespaces() throws SailException {
@@ -99,7 +99,7 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
     }
 
     public void executeUpdate(UpdateExpr updateExpr, Dataset dataset, BindingSet bindingSet, boolean b) throws SailException {
-        throw new UnsupportedOperationException("LinkedDataSail is read-only with respect to RDF statements");
+        baseConnection.executeUpdate(updateExpr, dataset, bindingSet, b);
     }
 
     public CloseableIteration<? extends Resource, SailException> getContextIDs()
@@ -151,7 +151,7 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
                                  final URI pred,
                                  final Value obj,
                                  final Resource... context) throws SailException {
-        throw new UnsupportedOperationException("LinkedDataSail is read-only with respect to RDF statements");
+        baseConnection.removeStatements(subj, pred, obj, context);
     }
 
     public void rollback() throws SailException {

@@ -80,8 +80,8 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
     }
 
     public boolean isWritable() throws SailException {
-        // LinkedDataSail is read-only
-        return false;
+        // You may write to LinkedDataSail, but be sure not to interfere with caching metadata.
+        return true;
     }
 
     public void removeSailChangedListener(final SailChangedListener listener) {
