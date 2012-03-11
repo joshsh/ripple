@@ -1,9 +1,7 @@
 package net.fortytwo.linkeddata.sail;
 
 import net.fortytwo.linkeddata.LinkedDataCache;
-import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.RippleProperties;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.sail.NotifyingSail;
 import org.openrdf.sail.NotifyingSailConnection;
@@ -15,17 +13,15 @@ import org.openrdf.sail.StackableSail;
 import java.io.File;
 
 /**
- * A thread-safe storage layer which treats the Semantic Web as a single global graph of linked data.
+ * A dynamic storage layer which treats the Semantic Web as a single global graph of linked data.
  * LinkedDataSail is layered on top of another Sail which serves as a database for cached Semantic Web documents.
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class LinkedDataSail implements StackableSail, NotifyingSail {
     public static final String
-            LOG_FAILED_URIS = "net.fortytwo.linkeddata.logFailedUris",
-            MAX_CACHE_CAPACITY = "net.fortytwo.linkeddata.maxCacheCapacity";
-
-    private static boolean logFailedUris;
+            CACHE_LIFETIME = "net.fortytwo.linkeddata.cacheLifetime",
+            MEMORY_CACHE_CAPACITY = "net.fortytwo.linkeddata.memoryCacheCapacity";
 
     private final LinkedDataCache cache;
 
@@ -39,9 +35,6 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
     public LinkedDataSail(final Sail baseSail,
                           final LinkedDataCache cache)
             throws RippleException {
-        RippleProperties properties = Ripple.getConfiguration();
-        logFailedUris = properties.getBoolean(LOG_FAILED_URIS);
-
         this.baseSail = baseSail;
 
         this.cache = cache;
@@ -113,10 +106,6 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
      */
     public LinkedDataCache getCache() {
         return cache;
-    }
-
-    public static boolean logFailedUris() {
-        return logFailedUris;
     }
 }
 

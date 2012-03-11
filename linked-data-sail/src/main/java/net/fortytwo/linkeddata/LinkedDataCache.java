@@ -34,6 +34,7 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -79,6 +80,8 @@ public class LinkedDataCache {
     private boolean derefContexts = false;
 
     private String acceptHeader = null;
+
+    private CacheExpirationPolicy expirationPolicy;
 
     // Maps media types to Rdfizers
     private final Map<MediaType, MediaTypeInfo> rdfizers
@@ -135,11 +138,13 @@ public class LinkedDataCache {
      * @throws RippleException if there is a configuration error
      */
     public LinkedDataCache(final Sail sail) throws RippleException {
-        int capacity = Ripple.getConfiguration().getInt(LinkedDataSail.MAX_CACHE_CAPACITY);
+        int capacity = Ripple.getConfiguration().getInt(LinkedDataSail.MEMORY_CACHE_CAPACITY);
         this.metadata = new CachingMetadata(capacity, sail.getValueFactory());
 
         this.valueFactory = sail.getValueFactory();
         useBlankNodes = Ripple.getConfiguration().getBoolean(Ripple.USE_BLANK_NODES);
+
+        this.expirationPolicy = new DefaultCacheExpirationPolicy();
     }
 
     /**
@@ -151,6 +156,7 @@ public class LinkedDataCache {
 
     /**
      * Defines an application-specific mapping for URIs dereferenced by the cache, in the manner of a Web proxy.
+     *
      * @param map the mapping
      */
     public void setURIMap(final URIMap map) {
@@ -250,6 +256,7 @@ public class LinkedDataCache {
      */
     public CacheEntry.Status retrieveUri(final URI uri,
                                          final SailConnection sc) throws RippleException {
+        // Find the named graph which stores all information associated with this URI
         String graphUri = RDFUtils.findGraphUri(uri.toString());
 
         // Note: there is potential for a race condition if two threads access URIs with the
@@ -258,7 +265,8 @@ public class LinkedDataCache {
         // concern of a document being retrieved twice) as long as the threads use different SailConnections.
         CacheEntry memo = metadata.getMemo(graphUri, sc);
 
-        if (null != memo) {
+        // If there is already a (non-expired) entry for this URI, just return its status.
+        if (null != memo && !expirationPolicy.isExpired(uri.toString(), memo)) {
             return memo.getStatus();
         }
 
@@ -373,6 +381,14 @@ public class LinkedDataCache {
         this.autoCommit = autoCommit;
     }
 
+    /**
+     * @param expirationPolicy the rule by which the cache determines whether a cache entry has expired.
+     *                         If an entry has expired, the cache will issue a new request in order to refresh it.
+     */
+    public void setExpirationPolicy(CacheExpirationPolicy expirationPolicy) {
+        this.expirationPolicy = expirationPolicy;
+    }
+
     public boolean getDereferenceSubjects() {
         return derefSubjects;
     }
@@ -433,6 +449,22 @@ public class LinkedDataCache {
     private Rdfizer chooseRdfizer(final MediaType mediaType) throws RippleException {
         MediaTypeInfo rq = rdfizers.get(mediaType);
         return (null == rq) ? null : rq.rdfizer;
+    }
+
+
+    private class DefaultCacheExpirationPolicy implements CacheExpirationPolicy {
+        private long cacheLifetime;
+
+        public DefaultCacheExpirationPolicy() throws RippleException {
+            cacheLifetime = Ripple.getConfiguration().getLong(LinkedDataSail.CACHE_LIFETIME) * 1000;
+        }
+
+        public boolean isExpired(final String uri,
+                                 final CacheEntry entry) {
+            Date last = entry.getTimestamp();
+            return null != last
+                    && System.currentTimeMillis() - last.getTime() >= cacheLifetime;
+        }
     }
 
     private class MediaTypeInfo {

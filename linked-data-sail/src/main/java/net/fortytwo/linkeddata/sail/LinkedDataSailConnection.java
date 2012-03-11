@@ -38,10 +38,8 @@ import org.openrdf.sail.SailException;
  */
 public class LinkedDataSailConnection implements NotifyingSailConnection {
 
-    private final Sail baseSail;
     private final ValueFactory valueFactory;
     private final LinkedDataCache linkedDataCache;
-    // Buffering input to the wrapped SailConnection avoids deadlocks.
 
     private boolean open = false;
     private SailConnection baseConnection;
@@ -79,15 +77,13 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
         baseConnection.commit();
     }
 
-    // Note: doesn't need to be synchronized, as it reduces to getStatements
-    //       calls, which are thread-safe and return thread-safe objects.
     public CloseableIteration<? extends BindingSet, QueryEvaluationException> evaluate(
             final TupleExpr tupleExpr,
             final Dataset dataset,
             final BindingSet bindings,
             final boolean includeInferred)
             throws SailException {
-        // Decompose queries into getStatements so we can dereference URIs.
+        // Decompose queries into getStatements operations so we can dereference URIs.
         try {
             TripleSource tripleSource = new SailConnectionTripleSource(this, valueFactory, includeInferred);
             EvaluationStrategyImpl strategy = new EvaluationStrategyImpl(tripleSource, dataset);
@@ -117,7 +113,6 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
         return baseConnection.getNamespaces();
     }
 
-    // Note: not synchronized, on account of URI dereferencing
     public CloseableIteration<? extends Statement, SailException> getStatements(
             final Resource subj,
             final URI pred,
@@ -170,27 +165,18 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
     ////////////////////////////////////////////////////////////////////////////
 
     LinkedDataSailConnection(final Sail baseSail,
-                             final LinkedDataCache linkedDataCache)
-            throws SailException {
-        this.baseSail = baseSail;
+                             final LinkedDataCache linkedDataCache) throws SailException {
         this.linkedDataCache = linkedDataCache;
 
         // Inherit the local store's ValueFactory
         valueFactory = baseSail.getValueFactory();
 
-        openLocalStoreConnection();
+        baseConnection = baseSail.getConnection();
 
         open = true;
     }
 
     ////////////////////////////////////////////////////////////////////////////
-
-    private void openLocalStoreConnection()
-            throws SailException {
-        synchronized (baseSail) {
-            baseConnection = baseSail.getConnection();
-        }
-    }
 
     private void retrieveUri(final URI uri) {
         try {
