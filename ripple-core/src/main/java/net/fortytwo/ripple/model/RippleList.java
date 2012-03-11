@@ -9,23 +9,18 @@
 
 package net.fortytwo.ripple.model;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.ListNode;
-import net.fortytwo.ripple.RippleProperties;
-import net.fortytwo.ripple.Ripple;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RipplePrintStream;
-import net.fortytwo.ripple.model.enums.ExpressionOrder;
 
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * The head of a linked-list data structure holding <code>RippleValue</code>s.
  */
 public abstract class RippleList extends ListNode<RippleValue> implements RippleValue {
     // Constants
-    private static ExpressionOrder expressionOrder;
-    private static boolean printPadded;
     private static boolean initialized = false;
 
     protected RippleValue first;
@@ -71,7 +66,7 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
      *
      * @param i an index into the list, where the index 0 corresponds to the first item in the list
      * @return the corresponding list item
-     * @throws RippleException
+     * @throws RippleException if retrieval from the list fails
      */
     public RippleValue get(final int i)
             throws RippleException {
@@ -98,9 +93,6 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
     public abstract RippleList concat(final RippleList tail);
 
     private static void initialize() throws RippleException {
-        RippleProperties props = Ripple.getConfiguration();
-        expressionOrder = ExpressionOrder.find(props.getString(Ripple.EXPRESSION_ORDER));
-        printPadded = props.getBoolean(Ripple.LIST_PADDING);
         initialized = true;
     }
 
@@ -116,11 +108,9 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
 
         StringBuilder sb = new StringBuilder();
 
-        ListNode<RippleValue> cur =
-                (ExpressionOrder.DIAGRAMMATIC == expressionOrder)
-                        ? this : invert();
+        ListNode<RippleValue> cur = this;
 
-        sb.append(printPadded ? "( " : "(");
+        sb.append("(");
 
         boolean isFirst = true;
         while (!cur.isNil()) {
@@ -141,7 +131,7 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
             cur = cur.getRest();
         }
 
-        sb.append(printPadded ? " )" : ")");
+        sb.append(")");
 
         return sb.toString();
     }
@@ -159,12 +149,10 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
             initialize();
         }
 
-        ListNode<RippleValue> cur =
-                (ExpressionOrder.DIAGRAMMATIC == expressionOrder)
-                        ? this : invert();
+        ListNode<RippleValue> cur = this;
 
         if (includeParentheses) {
-            p.print(printPadded ? "( " : "(");
+            p.print(")");
         }
 
         boolean isFirst = true;
@@ -191,7 +179,7 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
         }
 
         if (includeParentheses) {
-            p.print(printPadded ? " )" : ")");
+            p.print(")");
         }
     }
 
@@ -199,7 +187,7 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
      * @return a Java list of the items in this list.  This is purely a convenience method.
      */
     public List<RippleValue> toJavaList() {
-        LinkedList javaList = new LinkedList();
+        LinkedList<RippleValue> javaList = new LinkedList<RippleValue>();
 
         ListNode<RippleValue> cur = this;
         while (!cur.isNil()) {

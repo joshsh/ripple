@@ -23,7 +23,7 @@ public final class Ripple
 
     public static final String
             BUFFER_QUERY_RESULTS                = "net.fortytwo.ripple.cli.bufferQueryResults",
-            RESOURCE_VIEW_SHOW_EDGES            = "net.fortytwo.ripple.cli.resourceViewShowEdges",
+            RESULT_VIEW_SHOW_EDGES              = "net.fortytwo.ripple.cli.resultViewShowEdges",
             RESULT_VIEW_DEDUPLICATE_OBJECTS     = "net.fortytwo.ripple.cli.resultViewDeduplicateObjects",
             RESULT_VIEW_MAX_OBJECTS             = "net.fortytwo.ripple.cli.resultViewMaxObjects",
             RESULT_VIEW_MAX_PREDICATES          = "net.fortytwo.ripple.cli.resultViewMaxPredicates",
@@ -44,19 +44,11 @@ public final class Ripple
             SAIL_TYPE                           = "net.fortytwo.ripple.demo.sailType",
             ALLOW_DUPLICATE_NAMESPACES          = "net.fortytwo.ripple.io.allowDuplicateNamespaces",
             PREFER_NEWEST_NAMESPACE_DEFINITIONS = "net.fortytwo.ripple.io.preferNewestNamespaceDefinitions",
-            REJECT_NONASSOCIATED_STATEMENTS     = "net.fortytwo.ripple.io.rejectNonAssociatedStatements",
             HTTPCONNECTION_COURTESY_INTERVAL    = "net.fortytwo.ripple.io.httpConnectionCourtesyInterval",
             HTTPCONNECTION_TIMEOUT              = "net.fortytwo.ripple.io.httpConnectionTimeout",
-            LIST_PADDING                        = "net.fortytwo.ripple.model.listPadding",
-            USE_INFERENCE                       = "net.fortytwo.ripple.model.useInference",
-            PULL_ENTIRE_MODEL                   = "net.fortytwo.ripple.model.lexicon.pullEntireModel",
             USE_BLANK_NODES                     = "net.fortytwo.ripple.model.useBlankNodes",
             MEMOIZE_LISTS_FROM_RDF              = "net.fortytwo.ripple.model.memoizeListsFromRdf",
-            DEFAULT_NAMESPACE                   = "net.fortytwo.ripple.query.defaultNamespace",
-            EVALUATION_ORDER                    = "net.fortytwo.ripple.query.evaluationOrder",
-            EVALUATION_STYLE                    = "net.fortytwo.ripple.query.evaluationStyle",
-            EXPRESSION_ASSOCIATIVITY            = "net.fortytwo.ripple.query.expressionAssociativity",
-            EXPRESSION_ORDER                    = "net.fortytwo.ripple.query.expressionOrder",
+            DEFAULT_NAMESPACE                   = "net.fortytwo.ripple.model.defaultNamespace",
             // TODO: .........
             USE_ASYNCHRONOUS_QUERIES            = "";
 
@@ -156,12 +148,6 @@ public final class Ripple
 	public static void setQuiet( final boolean q )
 	{
 		quiet = q;
-	}
-
-    // TODO: move this
-    public static boolean useInference() throws RippleException
-	{
-		return CONFIGURATION.getBoolean( USE_INFERENCE );
 	}
 
     // TODO: move these
