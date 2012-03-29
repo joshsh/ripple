@@ -50,8 +50,9 @@ public class QueryEngine {
 
         initializeLexicon();
 
+        // TODO: the default value is a temporary fix for version conflicts due to property renaming
         String defaultNamespace = Ripple.getConfiguration().getString(
-                Ripple.DEFAULT_NAMESPACE);
+                Ripple.DEFAULT_NAMESPACE, "http://example.org/ns/");
 
         // Set the default namespace.
         ModelConnection mc = createConnection();
