@@ -14,12 +14,10 @@ import net.fortytwo.ripple.RippleException;
 
 import java.util.LinkedList;
 
-/**
- * Author: josh
- * Date: Mar 7, 2008
- * Time: 1:39:10 PM
- */
 // TODO: add a concept of Source
+/**
+ * A two-channel data pipeline which distinguishes between data items "added" and "removed"
+ */
 public class Diff<T> implements DiffSink<T>, DiffSource<T> {
     private enum Action {Add, Remove}
 

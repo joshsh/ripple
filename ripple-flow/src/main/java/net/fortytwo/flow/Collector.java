@@ -14,6 +14,8 @@ import net.fortytwo.ripple.RippleException;
 import java.util.Iterator;
 
 /**
+ * A data collector which stores data items in the order it receives them.
+ *
  * Note: while this class is not actually thread-safe, put() may safely be
  * called while writeTo() is in progress.
  */
@@ -22,11 +24,19 @@ public class Collector<T> extends SimpleReadOnlyCollection<T> implements Sink<T>
 	private Node first, last;
 	private int count;
 
+    /**
+     * Constructs a new collector
+     */
 	public Collector()
 	{
 		clear();
 	}
 
+    /**
+     * Receives the next data item to be stored
+     * @param t the data item being passed
+     * @throws RippleException if a data handling error occurs
+     */
 	public void put( final T t ) throws RippleException
 	{
 		Node n = new Node( t, null );
@@ -45,6 +55,13 @@ public class Collector<T> extends SimpleReadOnlyCollection<T> implements Sink<T>
 		count++;
 	}
 
+    /**
+     * Pushes the collected items to the specified sink.
+     * This operation does not cause this collector to become empty.
+     *
+     * @param sink the downstream sink to receive the data in this collector
+     * @throws RippleException if a data handling error occurs
+     */
     public void writeTo( final Sink<T> sink ) throws RippleException
 	{
 		Node cur = first;
@@ -65,17 +82,26 @@ public class Collector<T> extends SimpleReadOnlyCollection<T> implements Sink<T>
 
     // java.util.Collection methods ////////////////////////////////////////////
 
+    /**
+     * @return the number of items in this collection
+     */
     public int size()
 	{
 		return count;
 	}
 
+    /**
+     * @return an iterator over the items in this collection
+     */
 	public Iterator<T> iterator()
 	{
 		return new NodeIterator( first );
 	}
 
     @Override
+    /**
+     * Remove all items from this collection
+     */
     public void clear()
 	{
 		first = null;

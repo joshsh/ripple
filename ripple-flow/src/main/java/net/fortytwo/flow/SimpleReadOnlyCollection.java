@@ -3,11 +3,9 @@ package net.fortytwo.flow;
 import java.util.Collection;
 
 /**
- * Author: josh
- * Date: Mar 25, 2009
- * Time: 8:52:02 PM
+ * A helper class for collectors
  */
-public abstract class SimpleReadOnlyCollection<T> implements Collection<T>
+abstract class SimpleReadOnlyCollection<T> implements Collection<T>
 {
     public boolean isEmpty()
     {

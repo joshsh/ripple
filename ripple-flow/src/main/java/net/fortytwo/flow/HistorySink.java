@@ -18,8 +18,7 @@ import java.util.LinkedList;
  * its <code>advance</code> method.
  * It has a limited capacity, remembering only the latest <code>k</code> intervals.
  *
- * @param <T> the class of pipeline items
- * @param <E> the class of exceptions thrown
+ * @param <T> the type of data being passed
  */
 public class HistorySink<T> implements Sink<T>
 {
@@ -29,6 +28,10 @@ public class HistorySink<T> implements Sink<T>
     private int len;
 	private Collector<T> current;
 
+    /**
+     * Constructs a new history sink with a given capacity
+     * @param capacity the number of items this history sink may hold
+     */
 	public HistorySink( final int capacity )
 	{
 		if ( capacity < 1 )
@@ -42,6 +45,9 @@ public class HistorySink<T> implements Sink<T>
 		len = 0;
 	}
 
+    /**
+     * Advances to the next step in the history
+     */
 	public void advance()
 	{
 		current = new Collector<T>();
@@ -54,11 +60,25 @@ public class HistorySink<T> implements Sink<T>
 		}
 	}
 
+    /**
+     * Receives the next data item passed in.
+     * The item goes into the current step in the history.
+     *
+     * @param t the data item being passed
+     * @throws RippleException if a data handling error occurs
+     */
 	public void put( final T t ) throws RippleException
 	{
 		current.put( t );
 	}
 
+    /**
+     * Retrieves a data source for a given step in the history.
+     * @param index the index of the desired step in the history.
+     *              The current step has an index of 0,
+     *              while the previous step has an index of 1, etc.
+     * @return a data source producing all data items collected in the given step
+     */
 	public Source<T> get(final int index)
 	{
         if (index < 0) {

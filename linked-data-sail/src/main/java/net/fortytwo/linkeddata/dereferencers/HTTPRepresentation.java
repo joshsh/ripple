@@ -46,7 +46,7 @@ public class HTTPRepresentation extends StreamRepresentation {
         int code = method.getStatusCode();
 
         if (2 != code / 100) {
-            throw new RippleException("non-200 response for resource <"
+            throw new RippleException("" + code + " response for resource <"
                     + StringUtils.escapeURIString(uri) + ">");
         }
 

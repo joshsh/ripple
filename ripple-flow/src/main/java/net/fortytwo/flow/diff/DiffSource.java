@@ -3,11 +3,14 @@ package net.fortytwo.flow.diff;
 import net.fortytwo.ripple.RippleException;
 
 /**
- * Author: josh
- * Date: Jul 23, 2008
- * Time: 2:21:11 PM
+ * A source of two-channel "diff" data
  */
 public interface DiffSource<T>
 {
+    /**
+     * Writes all of the data in this source to the specified diff sink
+     * @param sink the downstream recipient of the diff
+     * @throws RippleException if a data handling error occurs
+     */
     void writeTo( DiffSink<T> sink ) throws RippleException;
 }
