@@ -152,7 +152,7 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
         ListNode<RippleValue> cur = this;
 
         if (includeParentheses) {
-            p.print(")");
+            p.print("(");
         }
 
         boolean isFirst = true;
