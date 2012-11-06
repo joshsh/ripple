@@ -23,6 +23,7 @@ public class VerbatimRdfizer implements Rdfizer {
     public VerbatimRdfizer(final RDFFormat format) {
         this.format = format;
         parser = Rio.createParser(format);
+        parser.setDatatypeHandling(RDFParser.DatatypeHandling.IGNORE);
     }
 
     public CacheEntry.Status rdfize(final InputStream is,

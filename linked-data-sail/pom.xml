@@ -72,6 +72,11 @@
         </dependency>
 
         <dependency>
+            <groupId>net.fortytwo.sesametools</groupId>
+            <artifactId>nquads</artifactId>
+            <version>${sesametools.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-sail-memory</artifactId>
             <version>${sesame.version}</version>
