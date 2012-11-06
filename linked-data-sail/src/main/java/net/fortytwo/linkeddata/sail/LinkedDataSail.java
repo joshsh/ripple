@@ -21,6 +21,7 @@ import java.io.File;
 public class LinkedDataSail implements StackableSail, NotifyingSail {
     public static final String
             CACHE_LIFETIME = "net.fortytwo.linkeddata.cacheLifetime",
+            DATATYPE_HANDLING_POLICY = "net.fortytwo.linkeddata.datatypeHandlingPolicy",
             MEMORY_CACHE_CAPACITY = "net.fortytwo.linkeddata.memoryCacheCapacity";
 
     private final LinkedDataCache cache;

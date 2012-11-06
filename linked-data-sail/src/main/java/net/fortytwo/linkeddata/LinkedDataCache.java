@@ -22,6 +22,7 @@ import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.URIImpl;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFHandler;
+import org.openrdf.rio.RDFParser;
 import org.openrdf.rio.rdfa.RDFaFormat;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailConnection;
@@ -71,6 +72,7 @@ public class LinkedDataCache {
     private final CachingMetadata metadata;
     private final ValueFactory valueFactory;
     private final boolean useBlankNodes;
+
     private URIMap uriMap;
     private boolean autoCommit = true;
 
@@ -110,12 +112,26 @@ public class LinkedDataCache {
         cache.addDereferencer("file", new FileURIDereferencer());
         cache.addDereferencer("jar", new JarURIDereferencer());
 
+        RDFParser.DatatypeHandling datatypeHandling;
+        String p = Ripple.getConfiguration().getString(LinkedDataSail.DATATYPE_HANDLING_POLICY);
+        datatypeHandling
+                = p.equals("ignore")
+                ? RDFParser.DatatypeHandling.IGNORE
+                : p.equals("verify")
+                ? RDFParser.DatatypeHandling.VERIFY
+                : p.equals("normalize")
+                ? RDFParser.DatatypeHandling.NORMALIZE
+                : null;
+        if (null == datatypeHandling) {
+            throw new RippleException("no such datatype handling policy: " + p);
+        }
+
         // TODO: this is a hack
         RDFFormat.register(RDFaFormat.RDFA);
 
         // Rdfizers for registered RDF formats
         for (RDFFormat f : RDFFormat.values()) {
-            Rdfizer r = new VerbatimRdfizer(f);
+            Rdfizer r = new VerbatimRdfizer(f, datatypeHandling);
             for (String type : f.getMIMETypes()) {
                 double qualityFactor = type.equals("application/rdf+xml") ? 1.0 : 0.5;
                 cache.addRdfizer(new MediaType(type), r, qualityFactor);
