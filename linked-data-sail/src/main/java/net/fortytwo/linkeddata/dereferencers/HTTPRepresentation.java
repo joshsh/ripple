@@ -23,13 +23,15 @@ public class HTTPRepresentation extends StreamRepresentation {
     private final InputStream inputStream;
     private final HttpMethod method;
 
+    private final long idleTime;
+
     // Note: the URI is immediately dereferenced
     public HTTPRepresentation(final String uri, final String acceptHeader) throws RippleException {
         super(null);
 
         method = HTTPUtils.createGetMethod(uri);
         HTTPUtils.setAcceptHeader(method, acceptHeader);
-        HTTPUtils.throttleHttpRequest(method);
+        idleTime = HTTPUtils.throttleHttpRequest(method);
 
         HttpClient client = HTTPUtils.createClient();
 
@@ -46,7 +48,7 @@ public class HTTPRepresentation extends StreamRepresentation {
         int code = method.getStatusCode();
 
         if (2 != code / 100) {
-            throw new RippleException("" + code + " response for resource <"
+            throw new ErrorResponseException("" + code + " response for resource <"
                     + StringUtils.escapeURIString(uri) + ">");
         }
 
@@ -56,21 +58,17 @@ public class HTTPRepresentation extends StreamRepresentation {
             throw new RippleException(e);
         }
 
-        if (null == is) {
-            throw new RippleException("null input stream");
-        }
-
         inputStream = new HttpRepresentationInputStream(is);
 
         Header h = method.getResponseHeader(HTTPUtils.CONTENT_TYPE);
         if (null == h) {
-            throw new RippleException("no content-type header served for resource <"
+            throw new InvalidResponseException("no content-type header served for resource <"
                     + StringUtils.escapeURIString(uri) + ">");
         }
 
         String mtStr = h.getValue().split(";")[0];
         if (null == mtStr || 0 == mtStr.length()) {
-            throw new RippleException("no media type found for resource <"
+            throw new InvalidResponseException("no media type found for resource <"
                     + StringUtils.escapeURIString(uri) + ">");
         }
         MediaType mt = new MediaType(mtStr);
@@ -84,6 +82,26 @@ public class HTTPRepresentation extends StreamRepresentation {
 
     public InputStream getStream() throws IOException {
         return inputStream;
+    }
+
+    /**
+     * @return the HTTP method of this representation.
+     * This class is generally used as an internal component of LinkedDataSail,
+     * but it can also be used as a standalone tool for dereferencing Linked Data
+     * URIs, in which case access to HTTP headers and status data is useful.
+     */
+    public HttpMethod getMethod() {
+        return method;
+    }
+
+    /**
+     * @return the amount of time, in milliseconds, which was spent on a courtesy delay
+     * (to avoid overloading remote servers) while creating this representation, as opposed
+     * to time spent waiting for a response from the remote server or receiving packet data.
+     * This is important for accurate response time analysis.
+     */
+    public long getIdleTime() {
+        return idleTime;
     }
 
     public void write(final OutputStream outputStream) throws IOException {
@@ -119,6 +137,26 @@ public class HTTPRepresentation extends StreamRepresentation {
         @Override
         public int available() throws IOException {
             return innerInputStream.available();
+        }
+    }
+
+    public class ErrorResponseException extends RippleException {
+        public ErrorResponseException(final String message) {
+            super(message);
+        }
+
+        public HttpMethod getMethod() {
+            return method;
+        }
+    }
+
+    public class InvalidResponseException extends RippleException {
+        public InvalidResponseException(final String message) {
+            super(message);
+        }
+
+        public HttpMethod getMethod() {
+            return method;
         }
     }
 }

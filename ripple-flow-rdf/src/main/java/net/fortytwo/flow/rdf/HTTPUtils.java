@@ -149,8 +149,10 @@ public class HTTPUtils {
      * That is, it avoids the Ripple client making a nuisance of itself by
      * making too many requests, too quickly, of the same host.
      * TODO: request and respect robots.txt, if present.
+     *
+     * @return the amount of time, in milliseconds, that is spent idling for the sake of crawler etiquette
      */
-    public static void throttleHttpRequest(final HttpMethod method) throws RippleException {
+    public static long throttleHttpRequest(final HttpMethod method) throws RippleException {
         if (!initialized) {
             initialize();
         }
@@ -199,6 +201,10 @@ public class HTTPUtils {
                     throw new RippleException(e);
                 }
             }
+
+            return System.currentTimeMillis() - now.getTime();
+        } else {
+            return 0;
         }
     }
 
