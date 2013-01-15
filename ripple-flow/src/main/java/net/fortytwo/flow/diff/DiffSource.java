@@ -4,6 +4,8 @@ import net.fortytwo.ripple.RippleException;
 
 /**
  * A source of two-channel "diff" data
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public interface DiffSource<T>
 {

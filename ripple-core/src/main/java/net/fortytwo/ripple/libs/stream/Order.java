@@ -1,12 +1,3 @@
-/*
- * $URL: https://ripple.googlecode.com/svn/trunk/ripple-core/src/main/java/net/fortytwo/ripple/libs/stream/Both.java $
- * $Revision: 106 $
- * $Author: parcour $
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.stream;
 
 import net.fortytwo.flow.Collector;
@@ -24,9 +15,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
-// FIXME: total hack
+// FIXME: this is a total hack
 public class Order extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             StreamLibrary.NS_2011_08 + "order"};

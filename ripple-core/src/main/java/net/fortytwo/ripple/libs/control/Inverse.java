@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.flow.Sink;
@@ -20,9 +11,7 @@ import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackMappingWrapper;
 
 /**
- * Author: josh
- * Date: Apr 2, 2008
- * Time: 4:25:16 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Inverse extends PrimitiveStackMapping {
     public String[] getIdentifiers() {

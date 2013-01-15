@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.query.commands;
 
 import net.fortytwo.ripple.RippleException;
@@ -17,6 +8,9 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.io.RipplePrintStream;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class ShowContextsCmd extends Command
 {
 	public void execute( final QueryEngine qe, final ModelConnection mc )

@@ -1,21 +1,10 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.query;
 
 import java.io.OutputStream;
 import java.io.IOException;
 
 /**
- * Author: josh
- * Date: Jan 23, 2008
- * Time: 4:53:10 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class NullOutputStream extends OutputStream
 {

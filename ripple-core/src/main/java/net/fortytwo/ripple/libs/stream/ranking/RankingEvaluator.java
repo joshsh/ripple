@@ -8,9 +8,7 @@ import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.query.StackEvaluator;
 
 /**
- * User: josh
- * Date: 4/4/11
- * Time: 9:19 AM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RankingEvaluator extends StackEvaluator {
     private final int steps;

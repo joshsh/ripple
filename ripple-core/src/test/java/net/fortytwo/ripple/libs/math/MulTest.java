@@ -3,9 +3,7 @@ package net.fortytwo.ripple.libs.math;
 import net.fortytwo.ripple.test.RippleTestCase;
 
 /**
- * User: josh
- * Date: 4/10/11
- * Time: 3:26 AM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class MulTest extends RippleTestCase {
         public void testSingleSolution() throws Exception

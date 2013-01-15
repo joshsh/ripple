@@ -1,12 +1,3 @@
-/*
- * $URL: https://ripple.googlecode.com/svn/trunk/ripple-core/src/main/java/net/fortytwo/ripple/libs/stream/Both.java $
- * $Revision: 106 $
- * $Author: parcour $
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.stream;
 
 import net.fortytwo.flow.Collector;
@@ -21,9 +12,9 @@ import net.fortytwo.ripple.query.LazyStackEvaluator;
 import net.fortytwo.ripple.query.StackEvaluator;
 
 /**
- *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
-// FIXME: total hack
+// FIXME: this is a total hack
 public class Count extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             // Note: this "count" has different semantics than the 2008-08 version

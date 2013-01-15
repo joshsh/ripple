@@ -7,9 +7,7 @@ import org.openrdf.model.Value;
 import org.openrdf.model.impl.LiteralImpl;
 
 /**
- * User: josh
- * Date: 6/2/11
- * Time: 1:06 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RippleLiteral extends LiteralImpl implements RippleSesameValue, Resource {
     private RippleList list = null;

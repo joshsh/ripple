@@ -4,6 +4,8 @@ import java.util.Collection;
 
 /**
  * A helper class for collectors
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 abstract class SimpleReadOnlyCollection<T> implements Collection<T>
 {

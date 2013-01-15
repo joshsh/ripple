@@ -1,20 +1,9 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple;
 
 import junit.framework.TestCase;
 
 /**
- * Author: josh
- * Date: Apr 15, 2008
- * Time: 3:40:04 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RippleTest extends TestCase
 {

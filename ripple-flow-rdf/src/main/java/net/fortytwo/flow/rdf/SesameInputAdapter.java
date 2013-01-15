@@ -1,12 +1,3 @@
-/*
- * $URL: https://ripple.googlecode.com/svn/trunk/ripple-rdf/src/main/java/net/fortytwo/flow/rdf/SesameInputAdapter.java $
- * $Revision: 135 $
- * $Author: parcour $
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.flow.rdf;
 
 import net.fortytwo.flow.Sink;
@@ -26,6 +17,8 @@ import java.io.InputStream;
 
 /**
  * An RDFHandler which passes its input into an RdfSink.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SesameInputAdapter implements RDFHandler {
     private final Sink<Statement> stSink;

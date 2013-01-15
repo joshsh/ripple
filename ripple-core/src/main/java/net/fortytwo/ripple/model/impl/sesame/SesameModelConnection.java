@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model.impl.sesame;
 
 import info.aduna.iteration.CloseableIteration;
@@ -59,6 +50,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class SesameModelConnection implements ModelConnection {
     private static final Logger LOGGER
             = Logger.getLogger(ModelConnection.class);

@@ -1,16 +1,10 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.cli.jline;
 
 import java.util.Collection;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class DirectiveCompletor extends RippleCompletor
 {
 	private static final char [] DELIMITERS = { ' ', '\t', '\n', '\r' };

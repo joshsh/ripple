@@ -1,18 +1,11 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
 
 /**
  * RDF data and Java implementation of a library of primitive functions.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public abstract class Library
 {

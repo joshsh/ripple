@@ -1,20 +1,13 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.control;
-
-import java.util.LinkedList;
 
 import net.fortytwo.ripple.RippleException;
 
+import java.util.LinkedList;
+
 /**
  * A queue of tasks which are executed sequentially and in FIFO order.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net
  */
 public class TaskQueue extends Task
 {

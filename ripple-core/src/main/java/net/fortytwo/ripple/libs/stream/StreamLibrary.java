@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.stream;
 
 import net.fortytwo.ripple.RippleException;
@@ -17,6 +8,8 @@ import net.fortytwo.ripple.model.LibraryLoader;
 
 /**
  * A collection of data flow primitives.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class StreamLibrary extends Library {
     public static final String

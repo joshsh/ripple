@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
@@ -19,6 +10,8 @@ import net.fortytwo.flow.rdf.diff.RDFDiffSink;
  *
  * Native Ripple values are totally ordered in a Model,
  * and each one maps to exactly one RDF resource.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public interface Model {
     /**

@@ -9,9 +9,7 @@ import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.keyval.KeyValueValue;
 
 /**
- * User: josh
- * Date: 4/5/11
- * Time: 11:22 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class KeyValues extends PrimitiveStackMapping {
     @Override

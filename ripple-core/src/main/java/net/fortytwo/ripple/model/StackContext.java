@@ -1,20 +1,9 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
 
 /**
- * Author: josh
- * Date: Feb 7, 2008
- * Time: 6:17:24 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class StackContext implements Cloneable
 {

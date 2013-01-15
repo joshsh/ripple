@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.cli;
 
 import junit.framework.TestCase;
@@ -21,6 +12,10 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class InterpreterTest extends TestCase
 {
 	private static final long WAIT_INTERVAL = 100l;

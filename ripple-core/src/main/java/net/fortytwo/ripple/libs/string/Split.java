@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.string;
 
 import net.fortytwo.flow.Sink;
@@ -21,6 +12,8 @@ import net.fortytwo.ripple.model.RippleValue;
  * the list obtained by "splitting" the string around the regular expression.
  * For instance <code>... "one, two,three" ",[ ]*" /split</code> yields
  * <code>... ("one" "two" "three")</code>
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Split extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {

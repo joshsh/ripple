@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.Ripple;
@@ -14,6 +5,9 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.io.RipplePrintStream;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class Op implements RippleValue {
     private final StackMapping inverseMapping = new StackMapping() {
         public void apply(final RippleList arg,

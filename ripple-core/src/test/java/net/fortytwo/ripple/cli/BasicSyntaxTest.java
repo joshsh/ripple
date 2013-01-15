@@ -3,9 +3,7 @@ package net.fortytwo.ripple.cli;
 import net.fortytwo.ripple.test.RippleTestCase;
 
 /**
- * User: josh
- * Date: 4/8/11
- * Time: 11:59 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class BasicSyntaxTest extends RippleTestCase {
     public void testWhitespaceInLists() throws Exception {

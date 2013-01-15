@@ -1,16 +1,14 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.sail;
 
 import info.aduna.iteration.CloseableIteration;
 
+/**
+ *
+ * @param <T>
+ * @param <E>
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class EmptyCloseableIteration<T, E extends Exception> implements CloseableIteration<T, E> {
     public void close() throws E {
     }

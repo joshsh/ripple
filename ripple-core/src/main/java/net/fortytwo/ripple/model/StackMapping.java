@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
@@ -14,6 +5,8 @@ import net.fortytwo.flow.Mapping;
 
 /**
  * A streaming filter which maps stacks to stacks.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public interface StackMapping extends Mapping<RippleList, RippleList, ModelConnection> {
     /**

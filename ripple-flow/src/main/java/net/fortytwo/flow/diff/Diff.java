@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.flow.diff;
 
 import net.fortytwo.flow.Sink;
@@ -17,6 +8,8 @@ import java.util.LinkedList;
 // TODO: add a concept of Source
 /**
  * A two-channel data pipeline which distinguishes between data items "added" and "removed"
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Diff<T> implements DiffSink<T>, DiffSource<T> {
     private enum Action {Add, Remove}

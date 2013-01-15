@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.media;
 
 import com.sun.speech.freetts.Voice;
@@ -17,6 +8,9 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class Speak extends PrimitiveStackMapping
 {
 	private Voice singleVoice = null;

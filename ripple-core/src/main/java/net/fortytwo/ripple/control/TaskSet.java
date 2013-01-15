@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.control;
 
 import net.fortytwo.ripple.RippleException;
@@ -15,6 +6,8 @@ import net.fortytwo.flow.Sink;
 /**
  * A set of tasks which are executed concurrently.  Tasks are scheduled for
  * execution as soon as they are added to the set.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class TaskSet
 {

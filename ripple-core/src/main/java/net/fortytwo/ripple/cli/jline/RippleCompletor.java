@@ -1,13 +1,6 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.cli.jline;
+
+import jline.Completor;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -15,8 +8,9 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import jline.Completor;
-
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public abstract class RippleCompletor implements Completor
 {
 	private final SortedSet<String> alts;

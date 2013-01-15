@@ -10,9 +10,7 @@ import java.util.Set;
 import java.util.HashSet;
 
 /**
- * Author: josh
- * Date: May 3, 2008
- * Time: 1:42:20 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RandomTest extends RippleTestCase
 {

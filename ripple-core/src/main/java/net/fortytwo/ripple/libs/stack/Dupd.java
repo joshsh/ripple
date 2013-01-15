@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.stack;
 
 import net.fortytwo.flow.Sink;
@@ -19,6 +10,8 @@ import net.fortytwo.ripple.model.RippleValue;
 /**
  * A primitive which pushes a copy of the second-to-topmost item on the stack to
  * the head of the stack.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Dupd extends PrimitiveStackMapping
 {

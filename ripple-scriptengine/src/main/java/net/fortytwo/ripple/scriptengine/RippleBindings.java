@@ -6,11 +6,7 @@ import java.util.Set;
 import java.util.Collection;
 
 /**
- * Created by IntelliJ IDEA.
- * User: josh
- * Date: Aug 6, 2009
- * Time: 12:36:09 AM
- * To change this template use File | Settings | File Templates.
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RippleBindings implements Bindings {
 

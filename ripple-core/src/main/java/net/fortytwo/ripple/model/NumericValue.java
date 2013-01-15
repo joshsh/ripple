@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
@@ -21,6 +12,8 @@ import java.util.HashMap;
 
 /**
  * A numeric (xsd:integer or xsd:double) literal value.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public abstract class NumericValue implements RippleValue, Comparable<NumericValue>
 {

@@ -8,9 +8,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
 /**
- * User: josh
- * Date: 5/20/11
- * Time: 10:26 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public abstract class ScriptEngineWrapper {
     private final ScriptEngine scriptEngine;

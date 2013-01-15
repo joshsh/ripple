@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.data;
 
 import net.fortytwo.flow.Sink;
@@ -20,6 +11,8 @@ import net.fortytwo.ripple.model.RippleValue;
  * A primitive which consumes two items x and y and produces a Boolean value of
  * true if x is greater than or equal to y according to Ripple total order, otherwise
  * false.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Gte extends PrimitiveStackMapping
 {

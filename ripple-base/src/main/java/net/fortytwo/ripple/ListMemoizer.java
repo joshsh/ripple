@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple;
 
 import java.util.Comparator;
@@ -15,6 +6,8 @@ import java.util.Comparator;
 
 /**
  * A space-efficient map using where the key values are linked lists.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class ListMemoizer<T, M>
 {

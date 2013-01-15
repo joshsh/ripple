@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple;
 
 import gnu.getopt.Getopt;
@@ -27,9 +18,10 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Properties;
 
-
 /**
  * Demo application.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public final class Demo {
     private Demo() {

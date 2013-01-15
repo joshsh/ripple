@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.stack;
 
 import net.fortytwo.flow.Sink;
@@ -19,6 +10,8 @@ import net.fortytwo.ripple.model.RippleValue;
 /**
  * A primitive which consumes a list an an item, prepends the item to the list,
  * and produces the resulting list.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Swons extends PrimitiveStackMapping
 {

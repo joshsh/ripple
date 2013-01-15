@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.query;
 
 import net.fortytwo.flow.HistorySink;
@@ -38,6 +29,8 @@ import java.io.InputStream;
  * Expressions are pushed into the QueryPipe using the put method,
  * and the results flow from the other end of the pipe into the specified sink.
  * Results arrive at any time and in any order, depending on the intermediate components of the pipe.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class QueryPipe implements Sink<String> {
     private final RecognizerAdapter recognizerAdapter;

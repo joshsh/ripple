@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.math;
 
 import net.fortytwo.flow.Sink;
@@ -20,6 +11,8 @@ import net.fortytwo.ripple.model.RippleList;
  * A primitive which consumes a number and produces its sign.  This has three
  * possible values: -1 if the number is less than 0, 0 if the number is equal to
  * 0, and 1 if the number is greater than 0.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Sign extends PrimitiveStackMapping
 {

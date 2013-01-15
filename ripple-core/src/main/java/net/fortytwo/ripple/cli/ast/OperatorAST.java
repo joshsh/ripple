@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.cli.ast;
 
 import net.fortytwo.ripple.RippleException;
@@ -17,6 +8,9 @@ import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.query.QueryEngine;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class OperatorAST implements AST<RippleList> {
     public enum Type {
         Apply,

@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.flow;
 
 import net.fortytwo.ripple.RippleException;
@@ -14,6 +5,8 @@ import net.fortytwo.ripple.RippleException;
 /**
  * A modal pipeline which passes data alternately to one of two downstream sinks
  * @param <T> the type of data being passed
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Switch<T> implements Sink<T>
 {

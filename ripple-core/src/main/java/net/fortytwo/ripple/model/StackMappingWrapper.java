@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.flow.Sink;
@@ -18,9 +9,7 @@ import net.fortytwo.ripple.util.ModelConnectionHelper;
  * FIXME: this should probably not be a RippleValue.  Perhaps the behavior of 'invert' should change so that
  * this is not necessary.
  *
- * Author: josh
- * Date: Apr 2, 2008
- * Time: 5:14:03 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class StackMappingWrapper implements StackMapping, RippleValue
 {

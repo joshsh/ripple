@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.flow.Sink;
@@ -23,6 +14,8 @@ import net.fortytwo.ripple.model.regex.TimesQuantifier;
  * A primitive which consumes an item and a number n, then pushes n active
  * copies of the item to the stack.  This has the effect of applying the
  * filter "n times" to the remainder of the stack.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class TimesApply extends PrimitiveStackMapping {
     public String[] getIdentifiers() {

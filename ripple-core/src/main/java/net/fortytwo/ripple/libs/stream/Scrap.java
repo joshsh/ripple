@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.stream;
 
 import net.fortytwo.flow.Sink;
@@ -17,6 +8,8 @@ import net.fortytwo.ripple.model.RippleList;
 
 /**
  * A filter which discards the stack.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Scrap extends PrimitiveStackMapping
 {

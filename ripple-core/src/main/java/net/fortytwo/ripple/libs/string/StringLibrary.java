@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.string;
 
 import net.fortytwo.ripple.RippleException;
@@ -22,6 +13,8 @@ import org.openrdf.model.vocabulary.XMLSchema;
 
 /**
  * A collection of string manipulation primitives.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class StringLibrary extends Library
 {

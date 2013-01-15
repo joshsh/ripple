@@ -1,8 +1,3 @@
-/*
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.data;
 
 import net.fortytwo.ripple.RippleException;
@@ -11,6 +6,8 @@ import net.fortytwo.ripple.model.LibraryLoader;
 
 /**
  * A collection of primitives for value comparison and datatype conversion.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class DataLibrary extends Library {
     public static final String

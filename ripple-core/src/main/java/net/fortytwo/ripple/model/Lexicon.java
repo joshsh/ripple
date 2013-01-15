@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model;
 
 import jline.Completor;
@@ -35,6 +26,8 @@ import java.util.regex.Pattern;
 /**
  * Defines a mapping between keywords and URIs, and between namespace prefixes
  * and URIs.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Lexicon {
     // Note: these definitions are to be kept in exact agreement with those in

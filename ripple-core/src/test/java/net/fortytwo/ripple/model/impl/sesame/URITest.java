@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model.impl.sesame;
 
 import net.fortytwo.flow.Collector;
@@ -29,6 +20,9 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class URITest extends RippleTestCase
 {
     private static final String URI_NS = "http://id.ninebynine.org/wip/2004/uritest/";

@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.stack;
 
 import net.fortytwo.flow.Collector;
@@ -20,6 +11,8 @@ import net.fortytwo.ripple.model.RippleValue;
 /**
  * A primitive function which consumes two lists and produces the concatenation
  * of the two lists.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Cat extends PrimitiveStackMapping
 {

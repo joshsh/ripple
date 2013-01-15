@@ -33,11 +33,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by IntelliJ IDEA.
- * User: josh
- * Date: Aug 5, 2009
- * Time: 5:01:46 PM
- * To change this template use File | Settings | File Templates.
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RippleScriptEngine implements ScriptEngine {
     private final ScriptEngineFactory factory;

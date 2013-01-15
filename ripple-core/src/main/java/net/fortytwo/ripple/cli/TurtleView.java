@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.cli;
 
 import net.fortytwo.flow.Collector;
@@ -29,6 +20,8 @@ import java.util.Iterator;
  * A <code>Sink</code> which accepts Ripple stacks and prints them to a
  * specified stream in LIFO order, including a Turtle-styled tree view for the
  * topmost item in the stack.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class TurtleView implements Sink<RippleList>
 {

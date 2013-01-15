@@ -1,12 +1,3 @@
-/*
- * $URL: https://ripple.googlecode.com/svn/trunk/ripple-rdf/src/main/java/net/fortytwo/flow/rdf/SailInserter.java $
- * $Revision: 135 $
- * $Author: parcour $
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.flow.rdf;
 
 import org.openrdf.model.Statement;
@@ -15,6 +6,9 @@ import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class SailInserter implements RDFHandler {
     private final SailConnection sailConnection;
 

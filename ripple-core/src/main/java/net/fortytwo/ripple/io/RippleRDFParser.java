@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.io;
 
 import net.fortytwo.ripple.RippleException;
@@ -29,9 +20,7 @@ import java.io.InputStream;
 import java.io.Reader;
 
 /**
- * Author: josh
- * Date: Feb 28, 2008
- * Time: 6:52:17 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RippleRDFParser extends RDFParserBase
 {

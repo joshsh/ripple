@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.string;
 
 import net.fortytwo.flow.Sink;
@@ -20,6 +11,8 @@ import net.fortytwo.ripple.model.RippleValue;
  * A primitive which consumes a string, a regular expression and a replacement
  * substring, then produces the string obtained by replacing all occurrences of the
  * regular expression in the original string with the replacement substring.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class ReplaceAll extends PrimitiveStackMapping
 {

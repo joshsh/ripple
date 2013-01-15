@@ -1,17 +1,10 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.cli;
 
 /**
-*  A trivial exception for breaking out of the ANTLR-generated parser, which
-*  does not match end-of-input.
+ * A trivial exception for breaking out of the ANTLR-generated parser, which
+ * does not match end-of-input.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
 */
 public class ParserQuitException extends RuntimeException
 {

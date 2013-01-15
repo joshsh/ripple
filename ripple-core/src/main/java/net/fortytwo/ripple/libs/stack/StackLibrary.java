@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.stack;
 
 import net.fortytwo.ripple.RippleException;
@@ -18,6 +9,8 @@ import net.fortytwo.ripple.model.LibraryLoader;
 /**
  * A collection of stack manipulation primitives.  Compare with Joy and other
  * functional stack languages.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class StackLibrary extends Library
 {

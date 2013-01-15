@@ -1,11 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
 package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.flow.Sink;
@@ -17,6 +9,9 @@ import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackMapping;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class InContext extends RDFPredicateStackMapping
 {
     private static final String[] IDENTIFIERS = {

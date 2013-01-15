@@ -5,9 +5,7 @@ import net.fortytwo.flow.Source;
 import net.fortytwo.ripple.RippleException;
 
 /**
- * User: josh
- * Date: 5/14/11
- * Time: 4:00 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class ListGenerator extends Operator {
     public ListGenerator(final Source<RippleList> source) {

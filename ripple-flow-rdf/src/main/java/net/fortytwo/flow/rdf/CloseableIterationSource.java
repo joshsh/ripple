@@ -1,12 +1,3 @@
-/*
- * $URL: https://ripple.googlecode.com/svn/trunk/ripple-rdf/src/main/java/net/fortytwo/flow/rdf/CloseableIterationSource.java $
- * $Revision: 135 $
- * $Author: parcour $
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.flow.rdf;
 
 import net.fortytwo.flow.Sink;
@@ -14,6 +5,12 @@ import net.fortytwo.flow.Source;
 import info.aduna.iteration.CloseableIteration;
 import net.fortytwo.ripple.RippleException;
 
+/**
+ * @param <T>
+ * @param <E>
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class CloseableIterationSource<T, E extends Exception> implements Source<T> {
     private CloseableIteration<T, E> iteration;
 

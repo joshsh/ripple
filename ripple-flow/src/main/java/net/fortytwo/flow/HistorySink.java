@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.flow;
 
 import net.fortytwo.ripple.RippleException;
@@ -19,6 +10,8 @@ import java.util.LinkedList;
  * It has a limited capacity, remembering only the latest <code>k</code> intervals.
  *
  * @param <T> the type of data being passed
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class HistorySink<T> implements Sink<T>
 {

@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.logic;
 
 import net.fortytwo.flow.Sink;
@@ -21,6 +12,8 @@ import net.fortytwo.ripple.model.StackMapping;
 /**
  * A primitive which consumes two Boolean values and produces the result of
  * their inclusive logical disjunction.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Or extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {

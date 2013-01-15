@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.system;
 
 import net.fortytwo.flow.Sink;
@@ -26,6 +17,8 @@ import java.io.InputStreamReader;
 /**
  * A primitive which consumes an information resource, issues a GET request for
  * the resource, then produces the retrieved data as a string.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Get extends PrimitiveStackMapping
 {

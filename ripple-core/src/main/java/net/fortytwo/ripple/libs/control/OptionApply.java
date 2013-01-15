@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.flow.Sink;
@@ -23,6 +14,8 @@ import net.fortytwo.ripple.model.regex.OptionalQuantifier;
 /**
  * A primitive which activates ("applies") the topmost item on the stack any
  * number of times.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class OptionApply extends PrimitiveStackMapping
 {

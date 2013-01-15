@@ -1,12 +1,3 @@
-/*
- * $URL: https://ripple.googlecode.com/svn/trunk/ripple-core/src/main/java/net/fortytwo/ripple/model/RDFValue.java $
- * $Revision: 63 $
- * $Author: parcour $
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
@@ -19,6 +10,8 @@ import org.openrdf.model.Value;
 
 /**
  * Note: this class has a natural ordering that is inconsistent with equals.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RDFValue implements RippleValue {
     private final Value value;

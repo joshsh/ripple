@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.query.commands;
 
 import net.fortytwo.flow.Collector;
@@ -21,6 +12,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class ShowPrefixesCmd extends Command
 {
 	public void execute( final QueryEngine qe, final ModelConnection mc )

@@ -1,25 +1,18 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.control;
+
+import net.fortytwo.ripple.RippleException;
 
 import java.io.InputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
-
-import net.fortytwo.ripple.RippleException;
 
 /**
  * An InputStream which optionally spawns a new thread to read bytes from a
  * source InputStream into a buffer as soon as they are available.  Otherwise,
  * it acts as a simple wrapper for the source InputStream, reading from the
  * source only when its own read() method is called.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class ThreadedInputStream extends InputStream
 {

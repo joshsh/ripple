@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.cli.ast;
 
 import net.fortytwo.ripple.query.QueryEngine;
@@ -18,6 +9,9 @@ import net.fortytwo.ripple.model.RippleList;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class TypedLiteralAST implements AST<RippleList> {
     private final String value;
     private final AST<RippleList> type;

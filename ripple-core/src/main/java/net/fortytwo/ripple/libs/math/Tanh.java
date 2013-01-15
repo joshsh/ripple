@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.math;
 
 import net.fortytwo.flow.Sink;
@@ -18,6 +9,8 @@ import net.fortytwo.ripple.model.RippleList;
 
 /**
  * A primitive which consumes a number and produces its hyperbolic tangent.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Tanh extends PrimitiveStackMapping
 {

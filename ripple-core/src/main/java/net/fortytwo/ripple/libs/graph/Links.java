@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.flow.Sink;
@@ -25,6 +16,8 @@ import org.openrdf.model.Statement;
 /**
  * A primitive which consumes a resource and produces a three-element list
  * (subject, resource, object) for each statement about the resource.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Links extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {

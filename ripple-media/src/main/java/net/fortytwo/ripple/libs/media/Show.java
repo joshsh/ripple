@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.media;
 
 import net.fortytwo.flow.Sink;
@@ -25,6 +16,9 @@ import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class Show extends PrimitiveStackMapping
 {
 	private static final String[] MIME_TYPES = ImageIO.getReaderMIMETypes();

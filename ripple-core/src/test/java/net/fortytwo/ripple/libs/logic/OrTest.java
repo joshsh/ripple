@@ -3,9 +3,7 @@ package net.fortytwo.ripple.libs.logic;
 import net.fortytwo.ripple.test.RippleTestCase;
 
 /**
- * Author: josh
- * Date: May 3, 2008
- * Time: 1:42:20 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class OrTest extends RippleTestCase {
     public void testSimple() throws Exception {

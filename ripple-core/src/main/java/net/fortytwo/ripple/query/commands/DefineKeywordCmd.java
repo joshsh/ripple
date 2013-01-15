@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.query.commands;
 
 import net.fortytwo.ripple.RippleException;
@@ -16,6 +7,9 @@ import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class DefineKeywordCmd extends Command {
     private final KeywordAST name;
     private final RippleValue value;

@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.system;
 
 import net.fortytwo.ripple.RippleException;
@@ -15,6 +6,8 @@ import net.fortytwo.ripple.model.LibraryLoader;
 
 /**
  * A collection of miscellaneous primitives.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SystemLibrary extends Library {
     public static final String

@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.cli;
 
 import antlr.RecognitionException;
@@ -16,6 +7,9 @@ import net.fortytwo.flow.Sink;
 
 import java.io.PrintStream;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class ParserExceptionSink implements Sink<Exception>
 {
 	private final PrintStream errorPrintStream;

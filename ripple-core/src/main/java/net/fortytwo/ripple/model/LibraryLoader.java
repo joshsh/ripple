@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
@@ -15,6 +6,9 @@ import org.openrdf.model.Value;
 import java.util.LinkedHashMap;
 import java.util.ServiceLoader;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class LibraryLoader extends ClassLoader {
     public LibraryLoader() {
         super(LibraryLoader.class.getClassLoader());

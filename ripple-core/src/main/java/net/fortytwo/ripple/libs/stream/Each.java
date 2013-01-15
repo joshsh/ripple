@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.stream;
 
 import net.fortytwo.flow.Sink;
@@ -19,6 +10,8 @@ import net.fortytwo.ripple.model.RippleValue;
 /**
  * A primitive which consumes a list and produces each item in the list in a
  * separate stack.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Each extends PrimitiveStackMapping
 {

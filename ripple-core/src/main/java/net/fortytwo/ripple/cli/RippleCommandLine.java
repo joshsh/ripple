@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.cli;
 
 import jline.Completor;
@@ -43,6 +34,8 @@ import java.util.List;
 
 /**
  * A command-line read-eval-print loop which coordinates user interaction with a Ripple query engine.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RippleCommandLine {
     private static final Logger LOGGER

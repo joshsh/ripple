@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.flow.Sink;
@@ -23,6 +14,8 @@ import net.fortytwo.ripple.model.RippleValue;
  * A primitive which consumes a Boolean value b, a filter t, and a filter f,
  * then produces an active copy of t if b is true, otherwise an active copy of
  * f.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Branch extends PrimitiveStackMapping
 {

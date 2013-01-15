@@ -1,24 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
-/*
- * Copyright 2004 Carnegie Mellon University.
- * Portions Copyright 2004 Sun Microsystems, Inc.
- * Portions Copyright 2004 Mitsubishi Electric Research Laboratories.
- * All Rights Reserved.  Use is subject to license terms.
- *
- * See the file "license.terms" for information on usage and
- * redistribution of this file, and for a DISCLAIMER OF ALL
- * WARRANTIES.
- *
- */
-
 package net.fortytwo.ripple.audio;
 
 import edu.cmu.sphinx.frontend.util.Microphone;
@@ -36,6 +15,8 @@ import java.net.URL;
  * A simple HelloDigits demo showing a simple speech application 
  * built using Sphinx-4. This application uses the Sphinx-4 endpointer,
  * which automatically segments incoming audio into utterances and silences.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class HelloDigits {
 	

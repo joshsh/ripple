@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.logic;
 
 import net.fortytwo.flow.Sink;
@@ -20,6 +11,8 @@ import net.fortytwo.ripple.model.StackMapping;
 
 /**
  * A primitive which consumes a Boolean value and produces its inverse.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Not extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {

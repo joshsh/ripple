@@ -9,11 +9,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * Created by IntelliJ IDEA.
- * User: josh
- * Date: Aug 5, 2009
- * Time: 5:01:54 PM
- * To change this template use File | Settings | File Templates.
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RippleScriptEngineFactory implements ScriptEngineFactory {
     private static final String

@@ -7,9 +7,7 @@ import net.fortytwo.ripple.model.RippleValue;
 import java.util.Collection;
 
 /**
- * User: josh
- * Date: 4/5/11
- * Time: 11:09 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public abstract class KeyValueValue implements RippleValue, Comparable<KeyValueValue> {
     public abstract RippleValue getValue(String key,

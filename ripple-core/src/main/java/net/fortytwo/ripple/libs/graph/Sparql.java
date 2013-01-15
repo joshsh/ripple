@@ -1,12 +1,3 @@
-/*
- * $URL: https://ripple.googlecode.com/svn/trunk/ripple-core/src/main/java/net/fortytwo/ripple/libs/analysis/ToDouble.java $
- * $Revision: 106 $
- * $Author: parcour $
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.graph;
 
 import info.aduna.iteration.CloseableIteration;
@@ -23,6 +14,8 @@ import org.openrdf.query.QueryEvaluationException;
 /**
  * A primitive which consumes a SPARQL query and pushes, for each result, a variable number of values onto the stack, one for each binding.
  * FIXME: this is very much a hack.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Sparql extends PrimitiveStackMapping {
     private static final Logger LOGGER

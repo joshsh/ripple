@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.query;
 
 import net.fortytwo.flow.Sink;
@@ -19,6 +10,10 @@ import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackMapping;
 
 // Note: not thread-safe, on account of stop()
+
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class LazyStackEvaluator extends StackEvaluator {
 
     private boolean stopped = true;

@@ -1,12 +1,3 @@
-/*
- * $URL: https://ripple.googlecode.com/svn/trunk/ripple-rdf/src/main/java/net/fortytwo/flow/rdf/SynchronizedRDFSink.java $
- * $Revision: 135 $
- * $Author: parcour $
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.flow.rdf;
 
 import net.fortytwo.flow.Sink;
@@ -15,6 +6,9 @@ import net.fortytwo.flow.SynchronizedSink;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class SynchronizedRDFSink implements RDFSink {
 	private final SynchronizedSink<Statement> stSink;
 	private final SynchronizedSink<Namespace> nsSink;

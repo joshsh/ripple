@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model.regex;
 
 import net.fortytwo.flow.Sink;
@@ -18,9 +9,7 @@ import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackMapping;
 
 /**
- * Author: josh
- * Date: Jan 15, 2008
- * Time: 9:24:59 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class TimesQuantifier implements StackMapping
 {

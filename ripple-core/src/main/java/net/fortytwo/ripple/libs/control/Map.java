@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.flow.Collector;
@@ -26,6 +17,8 @@ import net.fortytwo.ripple.model.StackMapping;
  * each element in the list (as if it were on top of the remainder of the stack)
  * in turn, yielding another list.
  * For instance, <code>(1 2 3) (10 add >>) map >></code> yields <code>(11 12 13)</code>
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Map extends PrimitiveStackMapping {
     public String[] getIdentifiers() {

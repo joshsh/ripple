@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model;
 
 import info.aduna.iteration.CloseableIteration;
@@ -29,6 +20,8 @@ import java.util.Date;
  * handling of transactions,
  * access to the total order of Ripple values in the model,
  * and mapping of values into and out of Ripple space.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public interface ModelConnection {
     /**

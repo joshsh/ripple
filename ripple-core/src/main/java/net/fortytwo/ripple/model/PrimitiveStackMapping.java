@@ -1,19 +1,12 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RipplePrintStream;
-import net.fortytwo.ripple.util.ModelConnectionHelper;
 import org.openrdf.model.Resource;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
 {
     private final boolean transparent;

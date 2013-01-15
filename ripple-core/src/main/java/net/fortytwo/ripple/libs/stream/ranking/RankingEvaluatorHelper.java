@@ -20,10 +20,8 @@ import java.util.PriorityQueue;
 
 /**
  * Note: for synchronous evaluation only.
- * <p/>
- * User: josh
- * Date: 4/4/11
- * Time: 9:28 AM
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RankingEvaluatorHelper {
     private static final Logger LOGGER = Logger.getLogger(RankingEvaluatorHelper.class);

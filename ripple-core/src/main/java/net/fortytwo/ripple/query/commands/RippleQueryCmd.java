@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.query.commands;
 
 import net.fortytwo.flow.Collector;
@@ -19,6 +10,9 @@ import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.StackEvaluator;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class RippleQueryCmd extends Command {
     private final ListAST query;
     private final Sink<RippleList> sink;

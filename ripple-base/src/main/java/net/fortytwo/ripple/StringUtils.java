@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple;
 
 import java.net.URLDecoder;
@@ -15,6 +6,9 @@ import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public final class StringUtils {
     private static final String UTF_8 = "UTF-8";
 

@@ -1,12 +1,3 @@
-/*
- * $URL: https://ripple.googlecode.com/svn/trunk/ripple-rdf/src/main/java/net/fortytwo/flow/rdf/SingleContextPipe.java $
- * $Revision: 135 $
- * $Author: parcour $
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.flow.rdf;
 
 import net.fortytwo.ripple.RippleException;
@@ -17,6 +8,9 @@ import org.openrdf.model.ValueFactory;
 
 import net.fortytwo.flow.Sink;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class SingleContextPipe implements RDFSink {
 	private final Sink<Statement> stSink;
 	private final Sink<Namespace> nsSink;

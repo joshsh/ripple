@@ -5,6 +5,8 @@ import net.fortytwo.flow.NullSink;
 
 /**
  * A trivial diff sink which simply throws away all of its input
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class NullDiffSink<T> implements DiffSink<T>
 {

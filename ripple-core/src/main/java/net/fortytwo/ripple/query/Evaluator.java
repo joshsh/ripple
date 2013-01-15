@@ -1,19 +1,12 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.query;
 
 import net.fortytwo.flow.Mapping;
 
 /**
-*  A function which reduces arbitrary expressions to a particular normal form.
-*/
+ * A function which reduces arbitrary expressions to a particular normal form.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public abstract class Evaluator<D, R, C> implements Mapping<D, R, C>
 {
 	/*public int arity()

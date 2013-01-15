@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.flow.Sink;
@@ -23,6 +14,8 @@ import net.fortytwo.ripple.model.RippleValue;
  * produces the result of folding the list with the given filter and initial
  * value.  For instance, <code>(1 2 3) 0 add /fold</code> yields 0 + 1 + 2 + 3
  * = 6.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Fold extends PrimitiveStackMapping {
     public String[] getIdentifiers() {

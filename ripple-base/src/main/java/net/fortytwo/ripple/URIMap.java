@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple;
 
 import org.apache.log4j.Logger;
@@ -17,6 +8,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+/*
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class URIMap
 {
 	private static final Logger LOGGER = Logger.getLogger( URIMap.class );

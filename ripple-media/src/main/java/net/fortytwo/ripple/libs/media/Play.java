@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.media;
 
 import net.fortytwo.flow.Sink;
@@ -24,6 +15,9 @@ import javax.sound.midi.Sequencer;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class Play extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {

@@ -1,8 +1,3 @@
-/*
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.ripple.RippleException;
@@ -12,6 +7,8 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 
 /**
  * A collection of primitives for controlling the flow of Ripple programs.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class ControlLibrary extends Library {
     public static final String

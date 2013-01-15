@@ -1,18 +1,12 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.media;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class MediaLibrary extends Library {
     public static final String
             NS_2011_08 = "http://fortytwo.net/2011/08/ripple/media#",

@@ -1,6 +1,5 @@
 package net.fortytwo.flow.rdf.ranking;
 
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;

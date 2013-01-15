@@ -1,26 +1,10 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model.impl.sesame;
 
-import java.io.InputStream;
-import java.util.Collection;
-import java.util.Iterator;
-
 import net.fortytwo.ripple.test.RippleTestCase;
-import net.fortytwo.ripple.util.FileUtils;
-import net.fortytwo.ripple.model.LexiconUpdater;
-import net.fortytwo.ripple.model.Lexicon;
 
-import org.openrdf.model.Namespace;
-import org.openrdf.model.impl.NamespaceImpl;
-
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class LexiconUpdaterTest extends RippleTestCase
 {
     public void testNothing() throws Exception {

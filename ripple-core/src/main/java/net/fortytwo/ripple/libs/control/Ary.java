@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.flow.Sink;
@@ -23,6 +14,8 @@ import net.fortytwo.ripple.model.StackMapping;
  * A primitive which consumes a numeric "arity" and produces an active identity
  * filter with the given arity.  This forces the remainder of the stack to be
  * reduced to the corresponding depth.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Ary extends PrimitiveStackMapping {
     public String[] getIdentifiers() {

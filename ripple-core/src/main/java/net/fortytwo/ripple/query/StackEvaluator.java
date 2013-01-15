@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.query;
 
 import net.fortytwo.ripple.RippleException;
@@ -16,9 +7,7 @@ import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackMapping;
 
 /**
- * Author: josh
- * Date: Feb 11, 2008
- * Time: 3:15:35 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public abstract class StackEvaluator extends Evaluator<RippleList, RippleList, ModelConnection> implements StackMapping
 {

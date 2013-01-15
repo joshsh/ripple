@@ -1,22 +1,16 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.cli.ast;
+
+import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.query.QueryEngine;
 
 import java.util.Properties;
 
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.query.QueryEngine;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.flow.Sink;
-
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class AnnotatedAST implements AST<RippleList>
 {
 	private final AST innerAst;

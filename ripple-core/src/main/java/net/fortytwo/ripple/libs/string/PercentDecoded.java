@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.string;
 
 import net.fortytwo.flow.Sink;
@@ -20,6 +11,8 @@ import net.fortytwo.ripple.model.RippleValue;
 /**
  * A primitive which consumes an  (RFC 3986) percent-encoded string and produces
  * its decoded equivalent.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class PercentDecoded extends PrimitiveStackMapping
 {

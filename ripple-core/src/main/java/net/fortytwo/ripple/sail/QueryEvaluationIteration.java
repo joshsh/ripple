@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.sail;
 
 import info.aduna.iteration.CloseableIteration;
@@ -14,6 +5,9 @@ import org.openrdf.model.Statement;
 import org.openrdf.query.QueryEvaluationException;
 import org.openrdf.sail.SailException;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class QueryEvaluationIteration implements CloseableIteration<Statement, QueryEvaluationException> {
     private final CloseableIteration<? extends Statement, SailException> baseIteration;
 

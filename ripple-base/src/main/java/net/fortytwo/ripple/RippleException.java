@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple;
 
 import org.apache.log4j.Logger;
@@ -17,6 +8,8 @@ import java.io.PrintStream;
 
 /**
  * A custom Exception.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RippleException extends Exception {
     private static final long serialVersionUID = 2498405641024203574L;

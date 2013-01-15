@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.cli.ast;
 
 import net.fortytwo.ripple.RippleException;
@@ -16,6 +7,9 @@ import net.fortytwo.ripple.model.NumericValue;
 import java.util.regex.Pattern;
 import java.math.BigInteger;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class IntegerAST extends NumberAST
 {
     /*

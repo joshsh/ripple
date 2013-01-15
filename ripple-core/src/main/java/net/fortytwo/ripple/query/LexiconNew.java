@@ -5,9 +5,7 @@ import org.openrdf.model.URI;
 import java.util.Iterator;
 
 /**
- * Author: josh
- * Date: May 29, 2009
- * Time: 6:25:50 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public interface LexiconNew
 {

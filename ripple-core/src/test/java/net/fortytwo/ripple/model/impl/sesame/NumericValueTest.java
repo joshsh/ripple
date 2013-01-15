@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model.impl.sesame;
 
 import net.fortytwo.ripple.model.NumericValue;
@@ -22,6 +13,9 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class NumericValueTest extends RippleTestCase
 {
     public void testValues() throws Exception

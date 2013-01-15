@@ -23,9 +23,7 @@ import org.openrdf.sail.SailException;
 import org.openrdf.sail.helpers.SailConnectionWrapper;
 
 /**
- * User: josh
- * Date: 6/2/11
- * Time: 12:53 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RippleSailConnection extends SailConnectionWrapper {
     private final ModelConnection modelConnection;

@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model.impl.sesame;
 
 import org.openrdf.model.Literal;
@@ -21,6 +12,9 @@ import net.fortytwo.ripple.model.RDFValue;
 
 import java.math.BigDecimal;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class SesameNumericValue extends NumericValue {
 
 	private RDFValue rdfEquivalent = null;

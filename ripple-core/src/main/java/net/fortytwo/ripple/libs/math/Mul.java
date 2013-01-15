@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.math;
 
 import net.fortytwo.flow.Sink;
@@ -19,6 +10,8 @@ import net.fortytwo.ripple.model.StackMapping;
 
 /**
  * A primitive which consumes two numbers and produces their product.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Mul extends PrimitiveStackMapping
 {

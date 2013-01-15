@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.flow;
 
 import net.fortytwo.ripple.RippleException;
@@ -18,6 +9,8 @@ import java.util.Iterator;
  *
  * Note: while this class is not actually thread-safe, put() may safely be
  * called while writeTo() is in progress.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Collector<T> extends SimpleReadOnlyCollection<T> implements Sink<T>, Source<T>
 {

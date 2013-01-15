@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.cli.ast;
 
 import net.fortytwo.ripple.RippleException;
@@ -18,6 +9,9 @@ import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.ListNode;
 
 // TODO: this class has more plumbing than it needs
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class ListAST extends ListNode<AST> implements AST<RippleList>
 {
 	protected AST first;

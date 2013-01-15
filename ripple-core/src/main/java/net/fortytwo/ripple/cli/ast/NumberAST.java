@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.cli.ast;
 
 import net.fortytwo.ripple.RippleException;
@@ -16,6 +7,9 @@ import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.flow.Sink;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public abstract class NumberAST implements AST<RippleList>
 {
 	public abstract NumericValue getValue( ModelConnection mc ) throws RippleException;

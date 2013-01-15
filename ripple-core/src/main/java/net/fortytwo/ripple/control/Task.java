@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.control;
 
 import net.fortytwo.ripple.RippleException;
@@ -14,6 +5,9 @@ import org.apache.log4j.Logger;
 
 import java.util.LinkedList;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public abstract class Task
 {
 	private static final Logger LOGGER = Logger.getLogger( Task.class );

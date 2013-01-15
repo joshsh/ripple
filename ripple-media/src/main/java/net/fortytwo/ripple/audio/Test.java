@@ -1,22 +1,15 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.audio;
 
 import com.sun.speech.freetts.Voice;
 import com.sun.speech.freetts.VoiceManager;
 
 /**
-* Simple program to demonstrate the use of the FreeTTS speech
-* synthesizer.  This simple program shows how to use FreeTTS
-* without requiring the Java Speech API (JSAPI).
-*/
+ * Simple program to demonstrate the use of the FreeTTS speech
+ * synthesizer.  This simple program shows how to use FreeTTS
+ * without requiring the Java Speech API (JSAPI).
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class Test {
 
 	/**

@@ -1,21 +1,15 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.cli;
-
-import java.io.PrintStream;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.cli.ast.KeywordAST;
 import net.fortytwo.ripple.cli.ast.ListAST;
 import net.fortytwo.ripple.query.Command;
 
+import java.io.PrintStream;
+
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public abstract class RecognizerAdapter
 {
 	private final PrintStream errorStream;

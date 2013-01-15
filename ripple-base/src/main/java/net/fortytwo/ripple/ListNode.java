@@ -1,16 +1,9 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple;
 
 /**
  * The head of an abstract linked list.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public abstract class ListNode<T> {
     /**

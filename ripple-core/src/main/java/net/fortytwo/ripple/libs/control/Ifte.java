@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.flow.Sink;
@@ -24,6 +15,8 @@ import net.fortytwo.ripple.model.StackMapping;
  * then applies an active copy of b to the stack.  If b yields a value of
  * true, then t is applied the rest of the stack.  Otherwise, f is applied to
  * the rest of the stack.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Ifte extends PrimitiveStackMapping
 {

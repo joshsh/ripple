@@ -1,21 +1,10 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model.enums;
 
 import net.fortytwo.ripple.RippleException;
 
 /**
- * Author: josh
-* Date: Feb 29, 2008
-* Time: 6:13:59 PM
-*/
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public enum EvaluationOrder
 {
     EAGER  ( "eager" ),

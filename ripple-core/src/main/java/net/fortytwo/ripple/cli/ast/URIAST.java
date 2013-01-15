@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.cli.ast;
 
 import net.fortytwo.flow.Sink;
@@ -17,6 +8,9 @@ import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.query.QueryEngine;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class URIAST implements AST<RippleList>
 {
 	private final String value;

@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.query;
 
 import java.io.IOException;
@@ -16,6 +7,8 @@ import java.io.InputStream;
  * A buffer to which bytes are written by any number of threads, and from which
  * bytes are read, in FIFO order, by a single thread.  The reader thread may be
  * the same as any of the writer threads.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class PipedIOStream extends InputStream //, OutputStream
 {

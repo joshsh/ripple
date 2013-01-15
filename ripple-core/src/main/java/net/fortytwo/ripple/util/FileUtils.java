@@ -1,23 +1,16 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.util;
+
+import net.fortytwo.ripple.RippleException;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
 import java.util.Collection;
 import java.util.LinkedList;
 
-import net.fortytwo.ripple.RippleException;
-
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public final class FileUtils
 {
 	public static Collection<String> getLines( final InputStream is )

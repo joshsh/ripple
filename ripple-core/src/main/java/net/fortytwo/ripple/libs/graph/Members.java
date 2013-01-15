@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.flow.Sink;
@@ -24,6 +15,8 @@ import org.openrdf.model.Statement;
 /**
  * A primitive which consumes an RDF container and produces all items in the
  * container.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Members extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {

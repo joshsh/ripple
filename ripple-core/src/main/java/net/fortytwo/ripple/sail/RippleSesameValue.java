@@ -4,9 +4,7 @@ import net.fortytwo.ripple.model.RippleList;
 import org.openrdf.model.Value;
 
 /**
- * User: josh
- * Date: 6/2/11
- * Time: 1:07 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public interface RippleSesameValue {
     RippleList getStack();

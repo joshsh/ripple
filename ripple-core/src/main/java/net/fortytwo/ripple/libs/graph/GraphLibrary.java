@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.ripple.RippleException;
@@ -15,6 +6,8 @@ import net.fortytwo.ripple.model.LibraryLoader;
 
 /**
  * A collection of primitives for manipulating data types and RDF graphs.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class GraphLibrary extends Library {
     public static final String

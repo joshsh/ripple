@@ -1,11 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
 package net.fortytwo.ripple;
 
 import org.apache.log4j.PropertyConfigurator;
@@ -16,6 +8,8 @@ import java.util.Properties;
 
 /**
  *  Read-only configuration metadata.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public final class Ripple
 {

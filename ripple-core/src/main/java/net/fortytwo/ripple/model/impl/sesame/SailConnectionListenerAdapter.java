@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model.impl.sesame;
 
 import net.fortytwo.ripple.RippleException;
@@ -17,6 +8,9 @@ import org.apache.log4j.Logger;
 import org.openrdf.model.Statement;
 import org.openrdf.sail.SailConnectionListener;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class SailConnectionListenerAdapter implements SailConnectionListener
 {
 	private static final Logger LOGGER

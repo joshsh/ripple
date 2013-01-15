@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.cli;
 
 import java.io.IOException;
@@ -17,6 +8,9 @@ import net.fortytwo.flow.Sink;
 
 import org.apache.log4j.Logger;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class Interpreter
 {
 	private static final Logger LOGGER

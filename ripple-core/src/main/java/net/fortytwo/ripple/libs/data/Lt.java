@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.data;
 
 import net.fortytwo.flow.Sink;
@@ -21,6 +12,8 @@ import net.fortytwo.ripple.model.RippleValue;
  * A primitive which consumes two items x and y and produces a Boolean value of
  * true if x is less than y according to the natural ordering of x, otherwise
  * false.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Lt extends PrimitiveStackMapping
 {

@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.ripple.RippleException;
@@ -18,6 +9,8 @@ import net.fortytwo.ripple.model.regex.TimesQuantifier;
 /**
  * A primitive which activates ("applies") the topmost item on the stack one or
  * more times.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RangeApply extends PrimitiveStackMapping {
     public String[] getIdentifiers() {

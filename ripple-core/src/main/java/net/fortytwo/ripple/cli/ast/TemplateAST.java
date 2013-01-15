@@ -1,18 +1,7 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.cli.ast;
 
 /**
- * Author: josh
- * Date: Apr 8, 2008
- * Time: 12:28:41 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class TemplateAST extends ListAST
 {

@@ -1,18 +1,7 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model;
 
 /**
- * Author: josh
- * Date: Feb 7, 2008
- * Time: 10:46:12 AM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class StatementPatternQuery
 {

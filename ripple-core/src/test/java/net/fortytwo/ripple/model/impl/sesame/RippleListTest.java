@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model.impl.sesame;
 
 import net.fortytwo.flow.Collector;
@@ -25,6 +16,9 @@ import org.openrdf.rio.RDFFormat;
 import java.io.InputStream;
 import java.util.Iterator;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class RippleListTest extends RippleTestCase
 {
     public void testListRDFEquivalence() throws Exception

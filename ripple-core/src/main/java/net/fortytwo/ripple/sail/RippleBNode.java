@@ -7,9 +7,7 @@ import org.openrdf.model.impl.BNodeImpl;
 import java.util.UUID;
 
 /**
- * User: josh
- * Date: 6/2/11
- * Time: 1:07 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RippleBNode extends BNodeImpl implements RippleSesameValue {
     private RippleList list = null;

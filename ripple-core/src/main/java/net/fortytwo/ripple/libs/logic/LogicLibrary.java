@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.logic;
 
 import net.fortytwo.ripple.RippleException;
@@ -15,6 +6,8 @@ import net.fortytwo.ripple.model.LibraryLoader;
 
 /**
  * A collection of primitives for boolean logic and conditionals.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class LogicLibrary extends Library
 {

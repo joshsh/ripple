@@ -6,9 +6,7 @@ import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.Command;
 
 /**
- * Author: josh
- * Date: Apr 8, 2009
- * Time: 11:46:35 AM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 // TODO: unit testing
 public class UndefinePrefixCmd extends Command

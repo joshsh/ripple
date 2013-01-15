@@ -5,9 +5,7 @@ import junit.framework.TestCase;
 import java.util.Comparator;
 
 /**
- * User: josh
- * Date: 4/4/11
- * Time: 9:42 AM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class ListMemoizerTest extends TestCase {
 

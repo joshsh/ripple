@@ -4,9 +4,7 @@ import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.model.Lexicon;
 
 /**
- * Author: josh
- * Date: May 21, 2008
- * Time: 4:51:49 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class LexiconTest extends RippleTestCase
 {

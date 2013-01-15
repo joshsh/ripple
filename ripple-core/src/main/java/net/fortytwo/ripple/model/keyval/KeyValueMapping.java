@@ -9,9 +9,7 @@ import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackMapping;
 
 /**
- * User: josh
- * Date: Aug 18, 2010
- * Time: 1:42:37 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class KeyValueMapping implements StackMapping {
     private final String key;

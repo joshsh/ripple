@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.data;
 
 import net.fortytwo.flow.Sink;
@@ -20,6 +11,8 @@ import org.openrdf.model.Value;
 /**
  * A primitive which consumes a plain literal value and produces its language
  * tag (or an empty string if the literal has no language tag).
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Lang extends PrimitiveStackMapping {
     public String[] getIdentifiers() {

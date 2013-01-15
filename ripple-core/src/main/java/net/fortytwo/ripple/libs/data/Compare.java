@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.data;
 
 import net.fortytwo.flow.Sink;
@@ -20,6 +11,8 @@ import net.fortytwo.ripple.model.RippleValue;
 /**
  * A primitive which consumes two resources and produces a comparison value
  * according to their data type.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Compare extends PrimitiveStackMapping {
     public String[] getIdentifiers() {

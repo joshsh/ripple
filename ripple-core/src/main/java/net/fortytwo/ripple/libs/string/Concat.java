@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.string;
 
 import net.fortytwo.flow.Sink;
@@ -20,6 +11,8 @@ import net.fortytwo.ripple.model.RippleValue;
 /**
  * A primitive which consumes two strings and produces their
  * concatenation.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Concat extends PrimitiveStackMapping
 {

@@ -24,9 +24,7 @@ import java.util.LinkedList;
 import java.util.Set;
 
 /**
- * User: josh
- * Date: 6/2/11
- * Time: 2:49 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RippleSailTest extends TestCase {
     private Sail baseSail;

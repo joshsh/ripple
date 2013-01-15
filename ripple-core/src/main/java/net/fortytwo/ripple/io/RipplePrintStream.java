@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.io;
 
 import net.fortytwo.ripple.RippleException;
@@ -27,6 +18,9 @@ import java.io.PrintStream;
 import java.util.Iterator;
 import java.math.BigDecimal;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class RipplePrintStream extends PrintStream
 {
 	private final Lexicon lexicon;

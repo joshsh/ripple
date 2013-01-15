@@ -1,23 +1,14 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.math;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.libs.data.Gt;
-import net.fortytwo.ripple.libs.data.Lt;
 import net.fortytwo.ripple.model.Library;
-import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.LibraryLoader;
+import net.fortytwo.ripple.model.PrimitiveStackMapping;
 
 /**
  * A collection of mathematical primitives.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class MathLibrary extends Library
 {

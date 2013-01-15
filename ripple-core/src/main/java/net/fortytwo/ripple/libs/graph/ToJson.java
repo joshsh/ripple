@@ -1,12 +1,3 @@
-/*
- * $URL: https://ripple.googlecode.com/svn/trunk/ripple-core/src/main/java/net/fortytwo/ripple/libs/graph/ToUri.java $
- * $Revision: 134 $
- * $Author: parcour $
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.flow.Sink;
@@ -23,6 +14,8 @@ import org.json.JSONObject;
 /**
  * A primitive which consumes a literal value and produces the resource
  * identified by the corresponding URI (if any).
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class ToJson extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {

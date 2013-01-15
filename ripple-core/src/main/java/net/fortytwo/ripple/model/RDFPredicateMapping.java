@@ -1,12 +1,3 @@
-/*
- * $URL: https://ripple.googlecode.com/svn/trunk/ripple-core/src/main/java/net/fortytwo/ripple/model/RDFPredicateMapping.java $
- * $Revision: 60 $
- * $Author: parcour $
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.flow.Sink;
@@ -15,9 +6,7 @@ import net.fortytwo.ripple.Ripple;
 import org.openrdf.model.vocabulary.RDF;
 
 /**
- * Author: josh
- * Date: Feb 7, 2008
- * Time: 10:29:26 AM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RDFPredicateMapping implements StackMapping {
     private static final int ARITY = 1;

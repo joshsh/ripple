@@ -8,9 +8,7 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 
 /**
- * User: josh
- * Date: 4/4/11
- * Time: 9:19 AM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Amp extends PrimitiveStackMapping {
     @Override

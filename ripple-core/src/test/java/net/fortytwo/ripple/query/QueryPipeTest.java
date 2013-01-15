@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.query;
 
 import net.fortytwo.ripple.model.Model;
@@ -19,6 +10,9 @@ import net.fortytwo.flow.Collector;
 import java.util.Random;
 import java.io.PrintStream;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class QueryPipeTest extends RippleTestCase
 {
     private static final int

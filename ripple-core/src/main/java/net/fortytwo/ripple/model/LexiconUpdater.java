@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.flow.Sink;
@@ -25,6 +16,8 @@ import java.util.regex.Pattern;
 
 /**
  * Note: several LexiconUpdaters may safely be attached to a single Lexicon.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class LexiconUpdater implements RDFDiffSink {
 // TODO: Unicode characters supported by the lexer / Turtle grammar

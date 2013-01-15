@@ -11,9 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * User: josh
- * Date: 4/5/11
- * Time: 9:35 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Script extends PrimitiveStackMapping {
     private final Map<String, ScriptEngineWrapper> scriptEngines;

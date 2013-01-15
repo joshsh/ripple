@@ -9,9 +9,7 @@ import net.fortytwo.ripple.model.RippleValue;
 import java.util.Comparator;
 
 /**
- * Author: josh
- * Date: May 3, 2008
- * Time: 1:42:20 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RippleValueComparatorTest extends RippleTestCase {
     public void testTypeComparison() throws Exception {

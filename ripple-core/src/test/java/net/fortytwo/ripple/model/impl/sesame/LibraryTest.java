@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model.impl.sesame;
 
 import net.fortytwo.ripple.model.ModelConnection;
@@ -14,6 +5,9 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.test.RippleTestCase;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class LibraryTest extends RippleTestCase
 {
     public void testPrimitiveAlias() throws Exception

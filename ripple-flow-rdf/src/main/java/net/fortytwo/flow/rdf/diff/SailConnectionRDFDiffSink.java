@@ -11,9 +11,7 @@ import org.openrdf.model.Statement;
 import org.openrdf.model.Namespace;
 
 /**
- * Author: josh
- * Date: Jul 23, 2008
- * Time: 2:32:16 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SailConnectionRDFDiffSink implements RDFDiffSink {
     private final RDFSink addSink;

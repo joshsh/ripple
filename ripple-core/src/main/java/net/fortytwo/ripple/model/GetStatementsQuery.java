@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model;
 
 import info.aduna.iteration.CloseableIteration;
@@ -27,9 +18,7 @@ import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
 
 /**
- * Author: josh
- * Date: Feb 7, 2008
- * Time: 10:46:12 AM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class GetStatementsQuery
 {

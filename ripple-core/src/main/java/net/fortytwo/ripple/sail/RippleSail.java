@@ -5,8 +5,6 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
-import net.fortytwo.ripple.query.LazyStackEvaluator;
-import net.fortytwo.ripple.query.StackEvaluator;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.sail.Sail;
@@ -16,9 +14,7 @@ import org.openrdf.sail.SailException;
 import java.io.File;
 
 /**
- * User: josh
- * Date: 6/2/11
- * Time: 12:53 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RippleSail implements Sail {
 

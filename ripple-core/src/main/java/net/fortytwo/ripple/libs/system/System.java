@@ -1,12 +1,3 @@
-/*
- * $URL: https://ripple.googlecode.com/svn/trunk/ripple-core/src/main/java/net/fortytwo/ripple/libs/etc/Get.java $
- * $Revision: 96 $
- * $Author: parcour $
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.system;
 
 import net.fortytwo.flow.Sink;
@@ -20,6 +11,8 @@ import java.io.InputStream;
 
 /**
  * A primitive which enables system calls to the underlying operating system.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class System extends PrimitiveStackMapping {
     private static final int

@@ -16,6 +16,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 //To consider at some point: caching, authorization
+
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class HTTPUtils {
     public static final String
             ACCEPT = "Accept",

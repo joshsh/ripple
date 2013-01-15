@@ -1,18 +1,15 @@
 package net.fortytwo.ripple.cli;
 
-import net.fortytwo.ripple.test.RippleTestCase;
-import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.ModelConnection;
-
-import java.util.Collection;
-
+import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.test.RippleTestCase;
 import org.openrdf.model.Literal;
 import org.openrdf.model.vocabulary.XMLSchema;
 
+import java.util.Collection;
+
 /**
- * Author: josh
- * Date: May 3, 2008
- * Time: 1:42:20 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class DatatypeSyntaxTest extends RippleTestCase
 {

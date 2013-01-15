@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.flow.Sink;
@@ -23,6 +14,8 @@ import net.fortytwo.ripple.model.regex.StarQuantifier;
 /**
  * A primitive which optionally activates ("applies") the topmost item on the
  * stack.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class StarApply extends PrimitiveStackMapping {
     // TODO: arity should really be 1, but this is a nice temporary solution

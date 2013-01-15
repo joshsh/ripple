@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.stream;
 
 import net.fortytwo.flow.Sink;
@@ -24,6 +15,8 @@ import net.fortytwo.ripple.model.StackMapping;
  * A filter which drops any stack which has already been transmitted and behaves
  * like the identity filter otherwise, making a stream of stacks into a set of
  * stacks.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Distinct extends PrimitiveStackMapping
 {

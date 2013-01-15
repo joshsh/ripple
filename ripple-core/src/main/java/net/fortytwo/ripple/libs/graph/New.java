@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.flow.Sink;
@@ -18,6 +9,8 @@ import net.fortytwo.ripple.util.ModelConnectionHelper;
 
 /**
  * A primitive which produces a new blank node.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class New extends PrimitiveStackMapping
 {

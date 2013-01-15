@@ -1,12 +1,3 @@
-/*
- * $URL: https://ripple.googlecode.com/svn/trunk/ripple-core/src/main/java/net/fortytwo/ripple/libs/stack/Cons.java $
- * $Revision: 71 $
- * $Author: parcour $
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.stack;
 
 import net.fortytwo.flow.Sink;
@@ -19,6 +10,8 @@ import net.fortytwo.ripple.model.RippleValue;
 /**
  * A primitive which consumes an item and a list, prepends the item to the list,
  * then produces the resulting list.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Take extends PrimitiveStackMapping
 {

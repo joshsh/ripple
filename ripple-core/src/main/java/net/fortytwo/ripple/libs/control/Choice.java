@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.flow.Sink;
@@ -21,6 +12,8 @@ import net.fortytwo.ripple.model.RippleValue;
 /**
  * A primitive which consumes a Boolean value b, an item t, and an item f, then
  * produces t if b is true, otherwise f.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Choice extends PrimitiveStackMapping
 {

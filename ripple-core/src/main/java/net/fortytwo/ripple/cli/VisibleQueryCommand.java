@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.cli;
 
 import net.fortytwo.flow.HistorySink;
@@ -33,6 +24,8 @@ import org.openrdf.model.vocabulary.RDF;
 
 /**
  * A command for evaluating a Ripple query at the command line.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class VisibleQueryCommand extends Command {
     private static RDFValue RDF_FIRST = new RDFValue(RDF.FIRST);

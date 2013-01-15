@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.stack;
 
 import net.fortytwo.flow.Sink;
@@ -19,6 +10,8 @@ import net.fortytwo.ripple.model.RippleValue;
 /**
  * Consumes a list and an index n and produces the nth item in the list, where
  * the first item in the list has an index of 1.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class At extends PrimitiveStackMapping
 {

@@ -1,17 +1,11 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RipplePrintStream;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public interface RippleValue {
     // TODO: rpl:op may not be handled consistently.
     public enum Type {

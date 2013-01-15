@@ -20,9 +20,7 @@ import java.util.List;
  *
  * Note: this iterator is for single-threaded evaluation only.
  *
- * User: josh
- * Date: 6/17/11
- * Time: 4:03 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class LazyEvaluatingIterator implements CloseableIteration<RippleList, RippleException> {
 

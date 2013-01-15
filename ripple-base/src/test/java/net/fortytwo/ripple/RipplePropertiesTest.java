@@ -5,9 +5,7 @@ import junit.framework.TestCase;
 import java.util.Date;
 
 /**
- * Author: josh
- * Date: Jul 29, 2008
- * Time: 9:15:20 AM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RipplePropertiesTest extends TestCase
 {

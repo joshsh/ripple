@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.io;
 
 import net.fortytwo.ripple.model.Model;
@@ -17,6 +8,9 @@ import net.fortytwo.ripple.test.RippleTestCase;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class RipplePrintStreamTest extends RippleTestCase
 {
     public void testLiterals() throws Exception

@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
@@ -19,6 +10,8 @@ import java.util.Set;
 /**
  * A partial mapping of RDF values to a small set of native Ripple values
  * with special identity in the Ripple environment
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SpecialValueMap {
     private final Map<Value, RippleValue> rdfToNativeMap;

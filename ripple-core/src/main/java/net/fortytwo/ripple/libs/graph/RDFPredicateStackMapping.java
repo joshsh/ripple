@@ -1,12 +1,3 @@
-/*
- * $URL: https://ripple.googlecode.com/svn/trunk/ripple-core/src/main/java/net/fortytwo/ripple/libs/analysis/Infer.java $
- * $Revision: 51 $
- * $Author: parcour $
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.ripple.RippleException;
@@ -16,6 +7,9 @@ import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.StackMapping;
 import net.fortytwo.ripple.model.StatementPatternQuery;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public abstract class RDFPredicateStackMapping extends PrimitiveStackMapping
 {
     private final boolean inverted;

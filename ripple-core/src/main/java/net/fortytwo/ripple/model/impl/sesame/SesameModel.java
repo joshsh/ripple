@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model.impl.sesame;
 
 import net.fortytwo.flow.rdf.diff.RDFDiffSink;
@@ -24,6 +15,8 @@ import java.util.Set;
 
 /**
  * A Ripple <code>Model</code> implementation using the Sesame RDF toolkit.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SesameModel implements Model {
     private static final Logger LOGGER = Logger.getLogger(SesameModel.class);

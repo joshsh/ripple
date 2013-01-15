@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.string;
 
 import net.fortytwo.flow.Sink;
@@ -20,6 +11,8 @@ import net.fortytwo.ripple.model.RippleValue;
 
 /**
  * A primitive which consumes a string and produces its SHA-1 sum.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Sha1 extends PrimitiveStackMapping
 {

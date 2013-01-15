@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model.impl.sesame;
 
 import net.fortytwo.flow.Collector;
@@ -30,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SesameList extends RippleList {
     private static final RDFValue RDF_FIRST = new RDFValue(RDF.FIRST);

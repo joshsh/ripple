@@ -15,9 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * User: josh
- * Date: 5/20/11
- * Time: 1:40 AM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SPARQLValue extends KeyValueValue {
     private final Map<String, Value> pairs;

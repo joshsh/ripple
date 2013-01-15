@@ -1,12 +1,3 @@
-/*
- * $URL: https://ripple.googlecode.com/svn/trunk/ripple-rdf/src/main/java/net/fortytwo/flow/rdf/RDFCollector.java $
- * $Revision: 135 $
- * $Author: parcour $
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.flow.rdf;
 
 import net.fortytwo.flow.Collector;
@@ -16,6 +7,9 @@ import net.fortytwo.flow.Source;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class RDFCollector extends RDFSource implements RDFSink {
 	private final Collector<Statement> statements;
 	private final Collector<Namespace> namespaces;

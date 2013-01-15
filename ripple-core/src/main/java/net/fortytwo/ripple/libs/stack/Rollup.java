@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.stack;
 
 import net.fortytwo.flow.Sink;
@@ -19,6 +10,8 @@ import net.fortytwo.ripple.model.RippleValue;
 /**
  * A primitive which permutes the first, second and third items on the stack
  * such that (... x y z) becomes (... z x y).
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Rollup extends PrimitiveStackMapping
 {

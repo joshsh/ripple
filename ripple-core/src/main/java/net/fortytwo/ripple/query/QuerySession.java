@@ -1,9 +1,7 @@
 package net.fortytwo.ripple.query;
 
 /**
- * Author: josh
- * Date: May 29, 2009
- * Time: 6:12:29 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class QuerySession
 {

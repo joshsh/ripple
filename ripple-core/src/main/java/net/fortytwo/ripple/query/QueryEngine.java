@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.query;
 
 import net.fortytwo.ripple.Ripple;
@@ -19,6 +10,9 @@ import net.fortytwo.ripple.model.ModelConnection;
 
 import java.io.PrintStream;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class QueryEngine {
     private final Model model;
     private final Lexicon lexicon;

@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.math;
 
 import net.fortytwo.flow.Sink;
@@ -19,6 +10,8 @@ import net.fortytwo.ripple.model.RippleList;
 /**
  * A primitive which consumes two numbers x and y and produces the number x
  * modulo y.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Mod extends PrimitiveStackMapping
 {

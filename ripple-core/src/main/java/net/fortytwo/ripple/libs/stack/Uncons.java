@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.stack;
 
 import net.fortytwo.flow.Sink;
@@ -19,6 +10,8 @@ import net.fortytwo.ripple.model.RippleValue;
 /**
  * A primitive which consumes a list and produces the first item in the list,
  * followed by the rest of the list.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Uncons extends PrimitiveStackMapping
 {

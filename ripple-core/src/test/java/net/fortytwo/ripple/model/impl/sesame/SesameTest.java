@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model.impl.sesame;
 
 import info.aduna.iteration.CloseableIteration;
@@ -33,6 +24,9 @@ import org.openrdf.sail.memory.MemoryStore;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class SesameTest extends RippleTestCase
 {
 	private static final Logger LOGGER = Logger.getLogger( SesameTest.class );

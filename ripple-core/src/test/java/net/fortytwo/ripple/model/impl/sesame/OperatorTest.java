@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model.impl.sesame;
 
 import net.fortytwo.flow.Collector;
@@ -28,6 +19,9 @@ import org.openrdf.rio.RDFFormat;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class OperatorTest extends RippleTestCase
 {
 	private static final String TEST_1 =

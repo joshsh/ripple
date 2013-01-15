@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.string;
 
 import net.fortytwo.flow.Sink;
@@ -19,6 +10,8 @@ import net.fortytwo.ripple.model.RippleValue;
 /**
  * A primitive which consumes a string, strips off all leading and trailing
  * white space, and produces the result.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Trim extends PrimitiveStackMapping
 {

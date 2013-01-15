@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.flow.Sink;
@@ -23,6 +14,8 @@ import net.fortytwo.ripple.model.StackMapping;
 /**
  * A filter which discards the stack unless the topmost item is the boolean
  * value stack:true.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Require extends PrimitiveStackMapping
 {

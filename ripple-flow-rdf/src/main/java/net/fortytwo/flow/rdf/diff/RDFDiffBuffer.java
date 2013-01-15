@@ -1,16 +1,10 @@
-/*
- * $URL: https://ripple.googlecode.com/svn/trunk/ripple-rdf/src/main/java/net/fortytwo/flow/rdf/diff/RDFDiffBuffer.java $
- * $Revision: 135 $
- * $Author: parcour $
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.flow.rdf.diff;
 
 import net.fortytwo.ripple.RippleException;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class RDFDiffBuffer extends RDFDiffCollector {
 	private final RDFDiffSink sink;
 

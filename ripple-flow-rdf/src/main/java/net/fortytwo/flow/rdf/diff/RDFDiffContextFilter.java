@@ -1,12 +1,3 @@
-/*
- * $URL: https://ripple.googlecode.com/svn/trunk/ripple-rdf/src/main/java/net/fortytwo/flow/rdf/diff/RDFDiffContextFilter.java $
- * $Revision: 135 $
- * $Author: parcour $
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.flow.rdf.diff;
 
 import net.fortytwo.flow.Sink;
@@ -21,6 +12,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public final class RDFDiffContextFilter implements RDFDiffSink {
 	private final Map<Resource, RDFDiffCollector> contextToCollectorMap;
     private final RDFSink addSink;

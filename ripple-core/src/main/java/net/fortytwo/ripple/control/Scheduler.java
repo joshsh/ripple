@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.control;
 
 import net.fortytwo.ripple.Ripple;
@@ -18,6 +9,9 @@ import org.apache.log4j.Logger;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public final class Scheduler
 {
 	private static final Logger LOGGER = Logger.getLogger( Scheduler.class );

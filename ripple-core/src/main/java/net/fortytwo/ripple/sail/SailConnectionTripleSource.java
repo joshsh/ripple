@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.sail;
 
 import info.aduna.iteration.CloseableIteration;
@@ -21,6 +12,9 @@ import org.openrdf.query.algebra.evaluation.TripleSource;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class SailConnectionTripleSource implements TripleSource {
     private final SailConnection sailConnection;
     private final ValueFactory valueFactory;

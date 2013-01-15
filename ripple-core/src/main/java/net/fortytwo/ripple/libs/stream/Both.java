@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.stream;
 
 import net.fortytwo.flow.Sink;
@@ -18,6 +9,8 @@ import net.fortytwo.ripple.model.RippleValue;
 
 /**
  * A filter which consumes two items and produces each item in its own stack.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Both extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {

@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.query;
 
 import net.fortytwo.flow.Collector;
@@ -19,6 +10,9 @@ import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.test.RippleTestCase;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class LazyEvaluatorTest extends RippleTestCase
 {
     public void testSimple() throws Exception

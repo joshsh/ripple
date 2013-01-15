@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.data;
 
 import net.fortytwo.flow.Sink;
@@ -21,6 +12,8 @@ import java.util.Date;
 /**
  * A primitive which produces the current time, in seconds since midnight UTC of
  * January 1, 1970.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class ToMillis extends PrimitiveStackMapping {
     public String[] getIdentifiers() {

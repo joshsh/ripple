@@ -5,9 +5,7 @@ import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackContext;
 
 /**
- * User: josh
- * Date: 4/4/11
- * Time: 9:24 AM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RankingContext extends StackContext {
     private double priority = 1.0;

@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.query.commands;
 
 import info.aduna.iteration.CloseableIteration;
@@ -26,6 +17,9 @@ import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.test.RippleTestCase;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class DefinitionsTest extends RippleTestCase
 {
     public void testDefinitions() throws Exception

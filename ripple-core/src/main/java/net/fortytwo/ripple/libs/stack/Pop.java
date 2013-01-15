@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.stack;
 
 import net.fortytwo.flow.Sink;
@@ -17,6 +8,8 @@ import net.fortytwo.ripple.model.RippleList;
 
 /**
  * A primitive which removes the topmost item from the stack.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Pop extends PrimitiveStackMapping
 {

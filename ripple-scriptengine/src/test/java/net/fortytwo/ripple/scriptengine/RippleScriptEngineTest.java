@@ -1,18 +1,13 @@
 package net.fortytwo.ripple.scriptengine;
 
 import junit.framework.TestCase;
-
-import javax.script.ScriptEngineFactory;
-import javax.script.ScriptEngine;
-
 import net.fortytwo.ripple.Ripple;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineFactory;
+
 /**
- * Created by IntelliJ IDEA.
- * User: josh
- * Date: Aug 6, 2009
- * Time: 7:17:39 PM
- * To change this template use File | Settings | File Templates.
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RippleScriptEngineTest extends TestCase {
     private ScriptEngine engine;

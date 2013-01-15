@@ -17,9 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * User: josh
- * Date: Aug 18, 2010
- * Time: 1:38:43 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class JSONValue extends KeyValueValue {
     private final JSONObject jsonObject;

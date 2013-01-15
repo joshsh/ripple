@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.flow;
 
 import net.fortytwo.ripple.RippleException;
@@ -19,6 +10,8 @@ import java.util.Set;
  * Duplicates are filtered out rather than being passed to the downstream sink.
  *
  * @param <T>
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class DistinctFilter<T> implements Sink<T>
 {

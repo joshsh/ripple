@@ -1,17 +1,10 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.query;
-
 
 import net.fortytwo.ripple.test.RippleTestCase;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class QueryEngineTest extends RippleTestCase
 {
     public void testNothing() throws Exception {

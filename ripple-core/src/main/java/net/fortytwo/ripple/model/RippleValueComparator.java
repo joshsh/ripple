@@ -11,11 +11,7 @@ import org.openrdf.model.Value;
 import java.util.Arrays;
 import java.util.Comparator;
 
-/**
- * Author: josh
- * Date: Jul 9, 2008
- * Time: 5:23:43 PM
- * <p/>
+/*
  * TODO: this comparator currently ignores the equivalence of RDF lists with native lists, and of numeric values with numeric-typed literals
  * <p/>
  * literal
@@ -29,6 +25,10 @@ import java.util.Comparator;
  * list
  * operator
  * other resource
+ */
+
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RippleValueComparator implements Comparator<RippleValue> {
     private final ModelConnection modelConnection;

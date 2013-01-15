@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.io;
 
 import net.fortytwo.flow.Sink;
@@ -20,6 +11,10 @@ import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 
 // TODO: change this class to use a SailConnection instead of a ModelConnection
+
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class RDFImporter implements RDFSink {
     private final Sink<Statement> stSink;
     private final Sink<Namespace> nsSink;

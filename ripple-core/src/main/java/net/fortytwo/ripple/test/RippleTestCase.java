@@ -32,9 +32,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
- * Author: josh
- * Date: May 3, 2008
- * Time: 1:43:08 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public abstract class RippleTestCase extends TestCase {
     // TODO: add a shutdown hook to clean up these objects

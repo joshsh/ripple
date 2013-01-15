@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.flow;
 
 import net.fortytwo.ripple.RippleException;
@@ -15,6 +6,8 @@ import net.fortytwo.ripple.RippleException;
  * A pipeline which enforces one data item at a time, regardless of the number of threads writing into the sink.
  * It is thread-safe but protects downstream components which may not be thread-safe.
  * @param <T> the type of data being passed
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SynchronizedSink<T> implements Sink<T>
 {

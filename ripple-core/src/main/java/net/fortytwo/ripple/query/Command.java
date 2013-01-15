@@ -1,18 +1,12 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.query;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.control.Task;
 import net.fortytwo.ripple.model.ModelConnection;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public abstract class Command extends Task {
     private QueryEngine queryEngine = null;
 

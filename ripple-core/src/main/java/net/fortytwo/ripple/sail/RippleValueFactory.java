@@ -14,9 +14,7 @@ import org.openrdf.sail.SailException;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
- * User: josh
- * Date: 6/2/11
- * Time: 1:03 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RippleValueFactory implements ValueFactory {
     public static final String STRING_NAMESPACE = "urn:string:";

@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model.impl.sesame;
 
 import net.fortytwo.ripple.test.RippleTestCase;
@@ -14,6 +5,9 @@ import net.fortytwo.ripple.model.ModelConnection;
 
 import org.openrdf.model.URI;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class ModelConnectionTest extends RippleTestCase
 {
     public void testCreateURI() throws Exception

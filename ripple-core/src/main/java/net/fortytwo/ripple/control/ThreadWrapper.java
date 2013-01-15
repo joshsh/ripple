@@ -1,16 +1,10 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.control;
 
 import net.fortytwo.ripple.RippleException;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public abstract class ThreadWrapper
 {
 	private final String name;

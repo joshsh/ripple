@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.math;
 
 import net.fortytwo.flow.Sink;
@@ -20,6 +11,8 @@ import net.fortytwo.ripple.model.StackMapping;
 /**
  * A primitive which consumes a number and produces Euler's number e raised to
  * the power of that number.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Exp extends PrimitiveStackMapping
 {

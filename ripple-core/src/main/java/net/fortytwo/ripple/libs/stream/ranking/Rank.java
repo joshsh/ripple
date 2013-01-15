@@ -18,9 +18,7 @@ import net.fortytwo.ripple.model.RippleList;
  */
 
 /**
- * User: josh
- * Date: 4/4/11
- * Time: 1:48 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Rank extends PrimitiveStackMapping {
     @Override

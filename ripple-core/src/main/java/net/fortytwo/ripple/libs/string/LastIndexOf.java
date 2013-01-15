@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.string;
 
 import net.fortytwo.flow.Sink;
@@ -18,6 +9,8 @@ import net.fortytwo.ripple.model.RippleList;
 /**
  * A primitive which consumes a string and a substring and produces the index of
  * the last occurrence of the substring.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class LastIndexOf extends PrimitiveStackMapping
 {

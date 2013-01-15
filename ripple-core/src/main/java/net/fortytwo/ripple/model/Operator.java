@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.flow.Sink;
@@ -19,6 +10,9 @@ import org.openrdf.model.Resource;
 import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.RDF;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class Operator implements RippleValue {
     public static final Op OP = new Op();
 

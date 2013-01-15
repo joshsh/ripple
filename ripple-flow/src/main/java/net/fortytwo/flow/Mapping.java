@@ -1,14 +1,4 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.flow;
-
 
 import net.fortytwo.ripple.RippleException;
 
@@ -20,6 +10,8 @@ import net.fortytwo.ripple.RippleException;
  * @param <D> the argument data type
  * @param <R> the solution data type
  * @param <C> a helper type which provides "context" to the mapping
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public interface Mapping<D, R, C>
 {

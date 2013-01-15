@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.stream;
 
 import net.fortytwo.flow.Sink;
@@ -21,6 +12,8 @@ import net.fortytwo.ripple.model.StackMapping;
 /**
  * A primitive which consumes a number n and produces a filter which transmits
  * at most n stacks.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Limit extends PrimitiveStackMapping
 {

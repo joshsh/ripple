@@ -1,12 +1,3 @@
-/*
- * $URL$
- * $Revision$
- * $Author$
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.libs.data;
 
 import net.fortytwo.flow.Sink;
@@ -24,6 +15,8 @@ import org.openrdf.model.vocabulary.XMLSchema;
  * value but with a type of xsd:string.  For resources identified by URIs,
  * this is the URI as a string.  For blank nodes, this is the identifier of
  * the node.
+ *
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class ToString extends PrimitiveStackMapping {
     public String[] getIdentifiers() {
