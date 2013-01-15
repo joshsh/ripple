@@ -3,7 +3,7 @@
 * $Revision: 1054 $
 * $Author: josh $
 *
-* Copyright (C) 2007-2012 Joshua Shinavier
+* @author Joshua Shinavier (http://fortytwo.net)
 */
 
 package net.fortytwo.ripple.logo;
