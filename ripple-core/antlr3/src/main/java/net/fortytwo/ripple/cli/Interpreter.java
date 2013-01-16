@@ -1,12 +1,3 @@
-/*
- * $URL: https://ripple.googlecode.com/svn/trunk/ripple-core/src/main/java/net/fortytwo/ripple/cli/Interpreter.java $
- * $Revision: 96 $
- * $Author: parcour $
- *
- * Copyright (C) 2007-2012 Joshua Shinavier
- */
-
-
 package net.fortytwo.ripple.cli;
 
 import net.fortytwo.ripple.RippleException;
@@ -19,6 +10,9 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class Interpreter {
     private static final Logger LOGGER
             = Logger.getLogger(Interpreter.class);

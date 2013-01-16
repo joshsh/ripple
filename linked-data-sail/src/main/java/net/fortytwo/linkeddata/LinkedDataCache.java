@@ -23,7 +23,6 @@ import org.openrdf.model.impl.URIImpl;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFHandler;
 import org.openrdf.rio.RDFParser;
-import org.openrdf.rio.rdfa.RDFaFormat;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
@@ -126,8 +125,8 @@ public class LinkedDataCache {
             throw new RippleException("no such datatype handling policy: " + p);
         }
 
-        // TODO: this is a hack
-        RDFFormat.register(RDFaFormat.RDFA);
+        // TODO: this is temporary/experimental
+        //RDFFormat.register(RDFaFormat.FORMAT);
 
         // Rdfizers for registered RDF formats
         for (RDFFormat f : RDFFormat.values()) {
