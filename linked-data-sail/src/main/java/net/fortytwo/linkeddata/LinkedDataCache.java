@@ -28,14 +28,17 @@ import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
 import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
+import org.semarglproject.sesame.rdf.rdfa.RDFaFormat;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 /**
@@ -126,10 +129,14 @@ public class LinkedDataCache {
         }
 
         // TODO: this is temporary/experimental
+        RDFFormat.register(RDFaFormat.RDFA);
         //RDFFormat.register(RDFaFormat.FORMAT);
 
         // Rdfizers for registered RDF formats
-        for (RDFFormat f : RDFFormat.values()) {
+        // TODO: 'tmp' is a hack to avoid a poorly-understood ConcurrentModificationException
+        Collection<RDFFormat> tmp = new LinkedList<RDFFormat>();
+        tmp.addAll(RDFFormat.values());
+        for (RDFFormat f : tmp) {
             Rdfizer r = new VerbatimRdfizer(f, datatypeHandling);
             for (String type : f.getMIMETypes()) {
                 double qualityFactor = type.equals("application/rdf+xml") ? 1.0 : 0.5;

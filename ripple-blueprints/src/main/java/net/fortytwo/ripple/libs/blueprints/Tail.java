@@ -1,7 +1,8 @@
 package net.fortytwo.ripple.libs.blueprints;
 
-import com.tinkerpop.blueprints.pgm.Edge;
-import com.tinkerpop.blueprints.pgm.Vertex;
+import com.tinkerpop.blueprints.Direction;
+import com.tinkerpop.blueprints.Edge;
+import com.tinkerpop.blueprints.Vertex;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
@@ -46,7 +47,7 @@ public class Tail extends PrimitiveStackMapping {
 
         if (first instanceof EdgeValue) {
             Edge edge = ((EdgeValue) first).getElement();
-            solutions.put(stack.push(new VertexValue(edge.getOutVertex())));
+            solutions.put(stack.push(new VertexValue(edge.getVertex(Direction.OUT))));
         }
     }
 
@@ -84,7 +85,7 @@ public class Tail extends PrimitiveStackMapping {
             if (first instanceof VertexValue) {
                 Vertex vertex = ((VertexValue) first).getElement();
 
-                for (Edge edge : vertex.getOutEdges()) {
+                for (Edge edge : vertex.getEdges(Direction.OUT)) {
                     solutions.put(stack.push(new EdgeValue(edge)));
                 }
             }

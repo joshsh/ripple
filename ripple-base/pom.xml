@@ -4,17 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>net.fortytwo.ripple</groupId>
     <artifactId>ripple-base</artifactId>
-    <version>0.8-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Ripple Base</name>
     <description>basic data structures and utilities</description>
 
     <parent>
         <groupId>net.fortytwo.ripple</groupId>
-        <artifactId>ripple</artifactId>
-        <version>0.8-SNAPSHOT</version>
+        <artifactId>ripple-all</artifactId>
+        <version>1.0-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -26,20 +24,18 @@
         <dependency>
             <groupId>org.restlet.jse</groupId>
             <artifactId>org.restlet</artifactId>
-            <version>2.1-M3</version>
+            <version>${restlet.version}</version>
         </dependency>
-
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
-            <version>1.2.14</version>
+            <version>${log4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-            <version>1.6.1</version>
+            <version>${slf4j.version}</version>
         </dependency>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

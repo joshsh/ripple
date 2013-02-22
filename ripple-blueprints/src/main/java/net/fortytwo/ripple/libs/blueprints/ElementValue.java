@@ -1,6 +1,6 @@
 package net.fortytwo.ripple.libs.blueprints;
 
-import com.tinkerpop.blueprints.pgm.Element;
+import com.tinkerpop.blueprints.Element;
 import net.fortytwo.ripple.model.keyval.KeyValueValue;
 
 /**

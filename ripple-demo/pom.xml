@@ -4,17 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>net.fortytwo.ripple</groupId>
     <artifactId>ripple-demo</artifactId>
-    <version>0.8-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Ripple Command Line</name>
-    <description>demo of Ripple on LinkedDataSail</description>
+    <name>Ripple REPL</name>
+    <description>Ripple REPL from the command-line</description>
 
     <parent>
         <groupId>net.fortytwo.ripple</groupId>
-        <artifactId>ripple</artifactId>
-        <version>0.8-SNAPSHOT</version>
+        <artifactId>ripple-all</artifactId>
+        <version>1.0-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -74,7 +72,6 @@
 
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
-        <testSourceDirectory>src/test/java</testSourceDirectory>
         <directory>target</directory>
         <finalName>${project.artifactId}-${project.version}</finalName>
         <resources>

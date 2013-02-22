@@ -1,8 +1,8 @@
 package net.fortytwo.ripple.libs.blueprints;
 
-import com.tinkerpop.blueprints.pgm.Edge;
-import com.tinkerpop.blueprints.pgm.Vertex;
-import com.tinkerpop.gremlin.jsr223.GremlinScriptEngine;
+import com.tinkerpop.blueprints.Edge;
+import com.tinkerpop.blueprints.Vertex;
+import com.tinkerpop.gremlin.groovy.jsr223.GremlinGroovyScriptEngine;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.system.SystemLibrary;
 import net.fortytwo.ripple.model.Library;
@@ -56,7 +56,7 @@ public class BlueprintsLibrary extends Library {
     }
 
     public static void main(final String[] args) throws Exception {
-        GremlinScriptEngine engine = new GremlinScriptEngine();
+        GremlinGroovyScriptEngine engine = new GremlinGroovyScriptEngine();
         Object result = engine.eval("g = TinkerGraphFactory.createTinkerGraph()\ng.v(1)");
         //result = engine.eval("g.v(1)");
         System.out.println("" + result.getClass() + ": " + result);

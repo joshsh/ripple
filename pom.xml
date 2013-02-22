@@ -5,8 +5,8 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.fortytwo.ripple</groupId>
-    <artifactId>ripple</artifactId>
-    <version>0.8-SNAPSHOT</version>
+    <artifactId>ripple-all</artifactId>
+    <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Ripple</name>
     <description>Semantic Web scripting language</description>
@@ -48,9 +48,13 @@
     </modules>
 
     <properties>
-        <ripple.version>0.8-SNAPSHOT</ripple.version>
+        <ripple.version>1.0-SNAPSHOT</ripple.version>
         <sesame.version>2.6.10</sesame.version>
         <sesametools.version>1.7-SNAPSHOT</sesametools.version>
+        <tinkerpop.version>2.2.0</tinkerpop.version>
+        <restlet.version>2.1-M3</restlet.version>
+        <log4j.version>1.2.14</log4j.version>
+        <slf4j.version>1.6.1</slf4j.version>
         <junit.version>4.5</junit.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

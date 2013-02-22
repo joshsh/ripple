@@ -1,7 +1,8 @@
 package net.fortytwo.ripple.libs.blueprints;
 
-import com.tinkerpop.blueprints.pgm.Edge;
-import com.tinkerpop.blueprints.pgm.Vertex;
+import com.tinkerpop.blueprints.Direction;
+import com.tinkerpop.blueprints.Edge;
+import com.tinkerpop.blueprints.Vertex;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
@@ -42,7 +43,7 @@ public class Head extends PrimitiveStackMapping {
 
         if (first instanceof EdgeValue) {
             Edge edge = ((EdgeValue) first).getElement();
-            solutions.put(stack.push(new VertexValue(edge.getInVertex())));
+            solutions.put(stack.push(new VertexValue(edge.getVertex(Direction.IN))));
         }
     }
 
@@ -75,7 +76,7 @@ public class Head extends PrimitiveStackMapping {
             if (first instanceof VertexValue) {
                 Vertex vertex = ((VertexValue) first).getElement();
 
-                for (Edge edge : vertex.getInEdges()) {
+                for (Edge edge : vertex.getEdges(Direction.IN)) {
                     solutions.put(stack.push(new EdgeValue(edge)));
                 }
             }

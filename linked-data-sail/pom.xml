@@ -6,15 +6,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.fortytwo</groupId>
     <artifactId>linked-data-sail</artifactId>
-    <version>0.8-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>LinkedDataSail</name>
-    <description>linked data client for Sesame</description>
+    <description>Linked Data client for Sesame</description>
 
     <parent>
         <groupId>net.fortytwo.ripple</groupId>
-        <artifactId>ripple</artifactId>
-        <version>0.8-SNAPSHOT</version>
+        <artifactId>ripple-all</artifactId>
+        <version>1.0-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -77,7 +76,11 @@
             <artifactId>sesame-tools-rio-rdfa</artifactId>
             <version>1.1-SNAPSHOT</version>
         </dependency>-->
-
+        <dependency>
+            <groupId>org.semarglproject</groupId>
+            <artifactId>semargl-sesame</artifactId>
+            <version>0.4</version>
+        </dependency>
 
         <dependency>
             <groupId>net.fortytwo.sesametools</groupId>

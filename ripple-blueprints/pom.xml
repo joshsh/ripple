@@ -4,17 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>net.fortytwo.ripple</groupId>
     <artifactId>ripple-blueprints</artifactId>
-    <version>0.8-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Ripple Blueprints Extension</name>
     <description>Blueprints, Gremlin, and Pipes integration for Ripple</description>
 
     <parent>
         <groupId>net.fortytwo.ripple</groupId>
-        <artifactId>ripple</artifactId>
-        <version>0.8-SNAPSHOT</version>
+        <artifactId>ripple-all</artifactId>
+        <version>1.0-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -24,11 +22,10 @@
             <version>${ripple.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.tinkerpop</groupId>
-            <artifactId>gremlin</artifactId>
-            <version>1.2-SNAPSHOT</version>
+            <groupId>com.tinkerpop.gremlin</groupId>
+            <artifactId>gremlin-groovy</artifactId>
+            <version>${tinkerpop.version}</version>
         </dependency>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
