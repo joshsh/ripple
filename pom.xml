@@ -39,22 +39,22 @@
 
     <developers>
         <developer>
+            <id>joshsh</id>
             <name>Joshua Shinavier</name>
             <email>josh@fortytwo.net</email>
-            <url>https://fortytwo.net</url>
-            <id>joshsh</id>
+            <url>http://fortytwo.net</url>
         </developer>
     </developers>
 
     <properties>
         <ripple.version>1.0-SNAPSHOT</ripple.version>
         <sesame.version>2.6.10</sesame.version>
-        <sesametools.version>1.7-SNAPSHOT</sesametools.version>
+        <sesametools.version>1.7</sesametools.version>
         <tinkerpop.version>2.2.0</tinkerpop.version>
-        <restlet.version>2.1-M3</restlet.version>
-        <log4j.version>1.2.14</log4j.version>
-        <slf4j.version>1.6.1</slf4j.version>
-        <junit.version>4.5</junit.version>
+        <restlet.version>2.1.1</restlet.version>
+        <log4j.version>1.2.17</log4j.version>
+        <slf4j.version>1.7.2</slf4j.version>
+        <junit.version>4.11</junit.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>

@@ -6,8 +6,8 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>ripple-demo</artifactId>
     <packaging>jar</packaging>
-    <name>Ripple REPL</name>
-    <description>Ripple REPL from the command-line</description>
+    <name>Ripple Demo</name>
+    <description>Ripple demo at the command-line</description>
 
     <parent>
         <groupId>net.fortytwo.ripple</groupId>
@@ -28,12 +28,12 @@
         </dependency>
         <dependency>
             <groupId>net.fortytwo.sesametools</groupId>
-            <artifactId>readonly</artifactId>
+            <artifactId>readonly-sail</artifactId>
             <version>${sesametools.version}</version>
         </dependency>
         <dependency>
             <groupId>net.fortytwo.sesametools</groupId>
-            <artifactId>reposail</artifactId>
+            <artifactId>repository-sail</artifactId>
             <version>${sesametools.version}</version>
         </dependency>
         <dependency>
@@ -95,7 +95,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.4</version>
                 <executions>
                     <execution>
                         <id>copy-dependencies</id>

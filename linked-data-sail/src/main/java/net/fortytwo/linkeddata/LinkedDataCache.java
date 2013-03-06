@@ -142,6 +142,9 @@ public class LinkedDataCache {
                 double qualityFactor = type.equals("application/rdf+xml") ? 1.0 : 0.5;
                 cache.addRdfizer(new MediaType(type), r, qualityFactor);
             }
+            if (f.equals(RDFaFormat.RDFA)) {
+                cache.addRdfizer(new MediaType("text/html"), r, 0.5);
+            }
         }
 
         // Additional rdfizers
