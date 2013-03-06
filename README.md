@@ -36,10 +36,11 @@ This implementation is written in Java and includes an interactive command-line 
         * [media library](https://github.com/joshsh/ripple/wiki/media-library): primitives for playing audio, showing images, and speaking text
         * [blueprints library](https://github.com/joshsh/ripple/wiki/blueprints-library): graph traversal on the [Blueprints](https://github.com/tinkerpop/blueprints/wiki/) API
 * Miscellaneous
+    * [Ripple configuration properties](https://github.com/joshsh/ripple/wiki/Ripple-configuration-properties)
     * [LinkedDataSail](https://github.com/joshsh/ripple/wiki/LinkedDataSail): Ripple's dynamic view of the Web of Data
     * [Naming conventions](https://github.com/joshsh/ripple/wiki/Naming-conventions) for Ripple programs
 * External links
     * [Functional programs as Linked Data](http://sunsite.informatik.rwth-aachen.de/Publications/CEUR-WS/Vol-248/paper10.pdf) (the original paper on Ripple)
-    * The [demo screencast](http://ripple.googlecode.com/svn/trunk/docs/screencast/index.html) from the [SFSW 2007 Scripting Challenge](http://www.semanticscripting.org/SFSW2007/)
+    * The [demo screencast](http://ripple.googlecode.com/svn/trunk/docs/screencast/index.html) from the [SFSW 2007 Scripting Challenge](http://web.archive.org/web/20120326083323/http://www.semanticscripting.org/SFSW2007/)
     * [ripple.fortytwo.net](http://ripple.fortytwo.net) (the Ripple blog)
     * [clj-ripple](https://github.com/eduardoejp/clj-ripple): a library for embedding Ripple in Clojure.  Sweet!
