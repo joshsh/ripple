@@ -2,7 +2,7 @@
 Overview
 ================================================================================
 
-This package is an extension to the Ripple scripting language which includes a
+This module is an extension to the Ripple scripting language which includes a
 few additional, 'multimedia' primitives.  It is documented here:
 
     https://github.com/joshsh/ripple/wiki/media-library

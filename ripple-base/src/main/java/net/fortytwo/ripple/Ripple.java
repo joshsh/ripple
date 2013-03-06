@@ -131,7 +131,7 @@ public final class Ripple
 
 	public static String getVersion()
 	{
-		return "0.8";
+		return "1.0";
 	}
 
 	public static boolean getQuiet()
