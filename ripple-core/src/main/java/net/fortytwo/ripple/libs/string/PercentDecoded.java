@@ -17,7 +17,7 @@ import net.fortytwo.ripple.model.RippleValue;
 public class PercentDecoded extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StringLibrary.NS_2011_08 + "percent-decoded",
+            StringLibrary.NS_2013_03 + "percent-decoded",
             StringLibrary.NS_2008_08 + "percentDecode"};
 
     public String[] getIdentifiers()

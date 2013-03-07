@@ -16,7 +16,7 @@ public class RangeApply extends PrimitiveStackMapping {
     public String[] getIdentifiers() {
         return new String[]{
                 // Note: this primitive has different semantics than its predecessor, stack:rangeApply
-                ControlLibrary.NS_2011_08 + "range-apply"};
+                ControlLibrary.NS_2013_03 + "range-apply"};
     }
 
     public RangeApply() throws RippleException {

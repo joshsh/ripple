@@ -16,7 +16,7 @@ public class Speak extends PrimitiveStackMapping
 	private Voice singleVoice = null;
 
     private static final String[] IDENTIFIERS = {
-            MediaLibrary.NS_2011_08 + "speak",
+            MediaLibrary.NS_2013_03 + "speak",
             MediaLibrary.NS_2008_08 + "speak",
             MediaLibrary.NS_2007_08 + "speak"};
 

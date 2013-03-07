@@ -17,7 +17,7 @@ import net.fortytwo.ripple.model.RippleList;
 public class Sign extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2011_08 + "sign",
+            MathLibrary.NS_2013_03 + "sign",
             MathLibrary.NS_2008_08 + "sign",
             MathLibrary.NS_2007_08 + "signum",
             MathLibrary.NS_2007_05 + "sign"};

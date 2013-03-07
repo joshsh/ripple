@@ -17,7 +17,7 @@ import net.fortytwo.ripple.model.RippleValue;
 public class Concat extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StringLibrary.NS_2011_08 + "concat",
+            StringLibrary.NS_2013_03 + "concat",
             StringLibrary.NS_2008_08 + "concat",
             StringLibrary.NS_2007_08 + "strCat",
             SystemLibrary.NS_2007_05 + "strCat"};

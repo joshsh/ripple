@@ -23,7 +23,7 @@ import net.fortytwo.ripple.model.StackMapping;
 public class Map extends PrimitiveStackMapping {
     public String[] getIdentifiers() {
         return new String[]{
-                ControlLibrary.NS_2011_08 + "map",
+                ControlLibrary.NS_2013_03 + "map",
                 StackLibrary.NS_2008_08 + "map"};
     }
 

@@ -18,7 +18,7 @@ import net.fortytwo.ripple.model.RippleList;
 public class Floor extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2011_08 + "floor",
+            MathLibrary.NS_2013_03 + "floor",
             MathLibrary.NS_2008_08 + "floor"};
 
     public String[] getIdentifiers()

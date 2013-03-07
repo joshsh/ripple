@@ -20,7 +20,7 @@ import java.util.List;
 // FIXME: this is a total hack
 public class Order extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
-            StreamLibrary.NS_2011_08 + "order"};
+            StreamLibrary.NS_2013_03 + "order"};
 
     public String[] getIdentifiers() {
         return IDENTIFIERS;

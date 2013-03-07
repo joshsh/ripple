@@ -23,7 +23,7 @@ public class Distinct extends PrimitiveStackMapping
 	private static final String MEMO = "memo";
 
     private static final String[] IDENTIFIERS = {
-            StreamLibrary.NS_2011_08 + "distinct",
+            StreamLibrary.NS_2013_03 + "distinct",
             StreamLibrary.NS_2008_08 + "distinct",
             StreamLibrary.NS_2008_08 + "unique",
             StreamLibrary.NS_2007_08 + "unique",

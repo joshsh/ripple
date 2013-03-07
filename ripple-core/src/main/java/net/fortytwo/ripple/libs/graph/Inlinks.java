@@ -21,7 +21,7 @@ import org.openrdf.model.Statement;
  */
 public class Inlinks extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_2011_08 + "inlinks",
+            GraphLibrary.NS_2013_03 + "inlinks",
             GraphLibrary.NS_2008_08 + "inlinks"};
 
     private static final Logger LOGGER = Logger.getLogger(Inlinks.class);

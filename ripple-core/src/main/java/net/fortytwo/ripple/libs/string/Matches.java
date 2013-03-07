@@ -17,7 +17,7 @@ import net.fortytwo.ripple.model.RippleValue;
 public class Matches extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StringLibrary.NS_2011_08 + "matches",
+            StringLibrary.NS_2013_03 + "matches",
             StringLibrary.NS_2008_08 + "matches",
             StringLibrary.NS_2007_08 + "matches"};
 

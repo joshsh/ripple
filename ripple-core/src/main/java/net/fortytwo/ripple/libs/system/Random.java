@@ -16,7 +16,7 @@ import net.fortytwo.ripple.model.RippleList;
 public class Random extends PrimitiveStackMapping {
     public String[] getIdentifiers() {
         return new String[]{
-                SystemLibrary.NS_2011_08 + "random",
+                SystemLibrary.NS_2013_03 + "random",
                 MathLibrary.NS_2008_08 + "random",
                 MathLibrary.NS_2007_08 + "random"};
     }

@@ -13,7 +13,7 @@ import net.fortytwo.ripple.model.RippleList;
  */
 public class Top extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2011_08 + "top"};
+            StackLibrary.NS_2013_03 + "top"};
 
     public String[] getIdentifiers() {
         return IDENTIFIERS;

@@ -16,7 +16,7 @@ import net.fortytwo.ripple.model.RippleValue;
 public class ToLowerCase extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StringLibrary.NS_2011_08 + "to-lower-case",
+            StringLibrary.NS_2013_03 + "to-lower-case",
             StringLibrary.NS_2008_08 + "toLowerCase",
             StringLibrary.NS_2007_08 + "toLowerCase"};
 

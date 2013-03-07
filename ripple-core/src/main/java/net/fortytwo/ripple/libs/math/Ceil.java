@@ -18,7 +18,7 @@ import net.fortytwo.ripple.model.RippleList;
 public class Ceil extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2011_08 + "ceil",
+            MathLibrary.NS_2013_03 + "ceil",
             MathLibrary.NS_2008_08 + "ceil"};
 
     public String[] getIdentifiers()

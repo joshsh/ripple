@@ -17,7 +17,7 @@ import net.fortytwo.ripple.model.RippleValue;
 public class Dipd extends PrimitiveStackMapping {
     public String[] getIdentifiers() {
         return new String[]{
-                ControlLibrary.NS_2011_08 + "dipd",
+                ControlLibrary.NS_2013_03 + "dipd",
                 StackLibrary.NS_2008_08 + "dipd",
                 StackLibrary.NS_2007_08 + "dipd",
                 StackLibrary.NS_2007_05 + "dipd"};

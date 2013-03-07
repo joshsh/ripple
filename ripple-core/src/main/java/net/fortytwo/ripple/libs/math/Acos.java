@@ -17,7 +17,7 @@ import net.fortytwo.ripple.model.StackMapping;
 public class Acos extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2011_08 + "acos",
+            MathLibrary.NS_2013_03 + "acos",
             MathLibrary.NS_2008_08 + "acos",
             MathLibrary.NS_2007_08 + "acos"};
 

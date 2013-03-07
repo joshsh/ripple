@@ -16,7 +16,7 @@ import net.fortytwo.ripple.model.RippleValue;
 public class StartsWith extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StringLibrary.NS_2011_08 + "starts-with",
+            StringLibrary.NS_2013_03 + "starts-with",
             StringLibrary.NS_2008_08 + "startsWith",
             StringLibrary.NS_2007_08 + "startsWith"};
 

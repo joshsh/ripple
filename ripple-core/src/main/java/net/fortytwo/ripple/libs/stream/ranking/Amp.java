@@ -14,7 +14,7 @@ public class Amp extends PrimitiveStackMapping {
     @Override
     public String[] getIdentifiers() {
         return new String[]{
-                StreamLibrary.NS_2011_08 + "amp"
+                StreamLibrary.NS_2013_03 + "amp"
         };
     }
 

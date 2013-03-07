@@ -15,7 +15,7 @@ import net.fortytwo.ripple.model.RippleValue;
 public class Swapd extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2011_08 + "swapd",
+            StackLibrary.NS_2013_03 + "swapd",
             StackLibrary.NS_2008_08 + "swapd",
             StackLibrary.NS_2007_08 + "swapd",
             StackLibrary.NS_2007_05 + "swapd"};

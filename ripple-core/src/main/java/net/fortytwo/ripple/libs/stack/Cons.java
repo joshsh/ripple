@@ -16,7 +16,7 @@ import net.fortytwo.ripple.model.RippleValue;
 public class Cons extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2011_08 + "cons",
+            StackLibrary.NS_2013_03 + "cons",
             StackLibrary.NS_2008_08 + "cons",
             StackLibrary.NS_2007_08 + "cons",
             StackLibrary.NS_2007_05 + "cons"};

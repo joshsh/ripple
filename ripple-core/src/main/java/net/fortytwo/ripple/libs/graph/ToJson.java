@@ -19,8 +19,7 @@ import org.json.JSONObject;
  */
 public class ToJson extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_2011_08 + "to-json",
-            GraphLibrary.NS_2010_08 + "toJson"};
+            GraphLibrary.NS_2013_03 + "to-json"};
 
     public String[] getIdentifiers() {
         return IDENTIFIERS;

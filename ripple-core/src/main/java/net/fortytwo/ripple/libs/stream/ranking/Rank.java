@@ -24,7 +24,7 @@ public class Rank extends PrimitiveStackMapping {
     @Override
     public String[] getIdentifiers() {
         return new String[]{
-                StreamLibrary.NS_2011_08 + "rank"
+                StreamLibrary.NS_2013_03 + "rank"
         };
     }
 

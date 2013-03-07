@@ -16,7 +16,7 @@ import net.fortytwo.ripple.model.RippleValue;
 public class Md5 extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StringLibrary.NS_2011_08 + "md5",
+            StringLibrary.NS_2013_03 + "md5",
             StringLibrary.NS_2008_08 + "md5"};
 
     public String[] getIdentifiers()

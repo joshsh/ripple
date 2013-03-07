@@ -20,7 +20,7 @@ import net.fortytwo.ripple.model.StackMapping;
 public class Ary extends PrimitiveStackMapping {
     public String[] getIdentifiers() {
         return new String[]{
-                ControlLibrary.NS_2011_08 + "ary",
+                ControlLibrary.NS_2013_03 + "ary",
                 StackLibrary.NS_2008_08 + "ary",
                 StackLibrary.NS_2007_08 + "ary",
                 StackLibrary.NS_2007_05 + "ary"};

@@ -32,19 +32,19 @@ public class ToJsonTest extends RippleTestCase
                 "         }") + "\"";
 
         // Simple values
-        assertReducesTo(json + " toJson. \"intVal\".", "42" );
-        assertReducesTo(json + " toJson. \"intVal\". type.", "<http://www.w3.org/2001/XMLSchema#integer>" );
-        assertReducesTo(json + " toJson. \"booleanVal\".", "false" );
-        assertReducesTo(json + " toJson. \"doubleVal\".", "3.14" );
-        assertReducesTo(json + " toJson. \"doubleVal\". type.", "<http://www.w3.org/2001/XMLSchema#double>" );
-        assertReducesTo(json + " toJson. \"longVal\".", "\"10000000000\"^^<http://www.w3.org/2001/XMLSchema#long>" );
-        assertReducesTo(json + " toJson. \"longVal\". type.", "<http://www.w3.org/2001/XMLSchema#long>" );
+        assertReducesTo(json + " to-json. \"intVal\".", "42" );
+        assertReducesTo(json + " to-json. \"intVal\". type.", "<http://www.w3.org/2001/XMLSchema#integer>" );
+        assertReducesTo(json + " to-json. \"booleanVal\".", "false" );
+        assertReducesTo(json + " to-json. \"doubleVal\".", "3.14" );
+        assertReducesTo(json + " to-json. \"doubleVal\". type.", "<http://www.w3.org/2001/XMLSchema#double>" );
+        assertReducesTo(json + " to-json. \"longVal\".", "\"10000000000\"^^<http://www.w3.org/2001/XMLSchema#long>" );
+        assertReducesTo(json + " to-json. \"longVal\". type.", "<http://www.w3.org/2001/XMLSchema#long>" );
 
         // JSON values
-        assertReducesTo(json + " toJson. \"jsonVal\". \"second\".", "2" );
+        assertReducesTo(json + " to-json. \"jsonVal\". \"second\".", "2" );
 
         // Array values
-        assertReducesTo(json + " toJson. \"arrayVal\". 1 at. \"one\".", "1" );
-        assertReducesTo(json + " toJson. \"arrayVal\". 3 at.", "3" );
+        assertReducesTo(json + " to-json. \"arrayVal\". 1 at. \"one\".", "1" );
+        assertReducesTo(json + " to-json. \"arrayVal\". 3 at.", "3" );
     }
 }

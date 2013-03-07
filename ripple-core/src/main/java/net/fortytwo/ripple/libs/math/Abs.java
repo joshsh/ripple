@@ -19,7 +19,7 @@ public class Abs extends PrimitiveStackMapping
     private final StackMapping self = this;
 
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2011_08 + "abs",
+            MathLibrary.NS_2013_03 + "abs",
             MathLibrary.NS_2008_08 + "abs",
             MathLibrary.NS_2007_08 + "abs",
             MathLibrary.NS_2007_05 + "abs"};

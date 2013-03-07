@@ -17,7 +17,7 @@ import net.fortytwo.ripple.model.RippleValue;
 public class Cat extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2011_08 + "cat",
+            StackLibrary.NS_2013_03 + "cat",
             StackLibrary.NS_2008_08 + "cat",
             StackLibrary.NS_2007_08 + "cat",
             StackLibrary.NS_2007_05 + "cat"};

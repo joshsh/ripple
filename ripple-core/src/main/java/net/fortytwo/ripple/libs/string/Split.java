@@ -17,7 +17,7 @@ import net.fortytwo.ripple.model.RippleValue;
  */
 public class Split extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
-            StringLibrary.NS_2011_08 + "split",
+            StringLibrary.NS_2013_03 + "split",
             StringLibrary.NS_2008_08 + "split",
             StringLibrary.NS_2007_08 + "split"};
 

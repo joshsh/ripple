@@ -17,7 +17,7 @@ import net.fortytwo.ripple.model.RippleValue;
  */
 public class BlueprintsLibrary extends Library {
     public static final String
-            NS_2011_08 = "http://fortytwo.net/2011/08/ripple/blueprints#";
+            NS_2013_03 = "http://fortytwo.net/2013/03/ripple/blueprints#";
 
     @Override
     public void load(final LibraryLoader.Context context) throws RippleException {

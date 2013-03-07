@@ -15,7 +15,7 @@ import net.fortytwo.ripple.model.RippleList;
 public class IndexOf extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StringLibrary.NS_2011_08 + "index-of",
+            StringLibrary.NS_2013_03 + "index-of",
             StringLibrary.NS_2008_08 + "indexOf",
             StringLibrary.NS_2007_08 + "indexOf"};
 

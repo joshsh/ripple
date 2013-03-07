@@ -17,7 +17,7 @@ import net.fortytwo.ripple.model.RippleValue;
 public class Sha1 extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StringLibrary.NS_2011_08 + "sha1",
+            StringLibrary.NS_2013_03 + "sha1",
             StringLibrary.NS_2008_08 + "sha1",
             StringLibrary.NS_2007_08 + "sha1",
             SystemLibrary.NS_2007_05 + "sha1"};

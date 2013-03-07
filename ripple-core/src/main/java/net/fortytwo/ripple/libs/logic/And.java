@@ -17,7 +17,7 @@ import net.fortytwo.ripple.model.StackMapping;
  */
 public class And extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
-            LogicLibrary.NS_2011_08 + "and",
+            LogicLibrary.NS_2013_03 + "and",
             LogicLibrary.NS_2008_08 + "and",
             StackLibrary.NS_2007_08 + "and",
             StackLibrary.NS_2007_05 + "and"};

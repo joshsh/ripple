@@ -20,7 +20,7 @@ import org.openrdf.model.Statement;
  */
 public class Members extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_2011_08 + "members",
+            GraphLibrary.NS_2013_03 + "members",
             GraphLibrary.NS_2008_08 + "members",
             GraphLibrary.NS_2007_08 + "contains",
             GraphLibrary.NS_2007_05 + "contains"};

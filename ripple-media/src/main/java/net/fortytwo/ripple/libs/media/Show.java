@@ -24,7 +24,7 @@ public class Show extends PrimitiveStackMapping
 	private static final String[] MIME_TYPES = ImageIO.getReaderMIMETypes();
 
     private static final String[] IDENTIFIERS = {
-            MediaLibrary.NS_2011_08 + "show",
+            MediaLibrary.NS_2013_03 + "show",
             MediaLibrary.NS_2008_08 + "show",
             MediaLibrary.NS_2007_08 + "show"};
 

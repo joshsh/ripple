@@ -23,7 +23,7 @@ import net.fortytwo.ripple.model.StackMapping;
 public class While extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            ControlLibrary.NS_2011_08 + "while",
+            ControlLibrary.NS_2013_03 + "while",
             LogicLibrary.NS_2008_08 + "while"};
 
     public String[] getIdentifiers()

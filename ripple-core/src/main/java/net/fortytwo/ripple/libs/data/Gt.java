@@ -18,7 +18,7 @@ import net.fortytwo.ripple.model.RippleValue;
 public class Gt extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            DataLibrary.NS_2011_08 + "gt",
+            DataLibrary.NS_2013_03 + "gt",
             MathLibrary.NS_2008_08 + "gt",
             MathLibrary.NS_2007_08 + "gt",
             MathLibrary.NS_2007_05 + "gt"};

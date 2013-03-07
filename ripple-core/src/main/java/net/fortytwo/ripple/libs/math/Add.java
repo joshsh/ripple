@@ -16,7 +16,7 @@ import net.fortytwo.ripple.model.StackMapping;
 public class Add extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2011_08 + "add",
+            MathLibrary.NS_2013_03 + "add",
             MathLibrary.NS_2008_08 + "add",
             MathLibrary.NS_2007_08 + "add",
             MathLibrary.NS_2007_05 + "add"};

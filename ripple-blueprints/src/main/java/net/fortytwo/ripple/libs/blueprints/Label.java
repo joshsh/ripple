@@ -17,7 +17,7 @@ public class Label extends PrimitiveStackMapping {
     @Override
     public String[] getIdentifiers() {
         return new String[]{
-                BlueprintsLibrary.NS_2011_08 + "label"
+                BlueprintsLibrary.NS_2013_03 + "label"
         };
     }
 

@@ -15,7 +15,7 @@ import net.fortytwo.ripple.model.RippleValue;
 public class Max extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2011_08 + "max",
+            StackLibrary.NS_2013_03 + "max",
             StackLibrary.NS_2008_08 + "max",
             StackLibrary.NS_2007_08 + "max"};
 

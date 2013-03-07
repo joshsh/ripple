@@ -21,7 +21,7 @@ public class PlusApply extends PrimitiveStackMapping {
     public String[] getIdentifiers() {
         return new String[]{
                 // Note: this primitive has different semantics than its predecessor, stack:plusApply
-                ControlLibrary.NS_2011_08 + "plus-apply"};
+                ControlLibrary.NS_2013_03 + "plus-apply"};
     }
 
     public PlusApply() throws RippleException {

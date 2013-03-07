@@ -12,7 +12,7 @@ import net.fortytwo.ripple.model.LibraryLoader;
 public class LogicLibrary extends Library
 {
     public static final String
-            NS_2011_08 = "http://fortytwo.net/2011/08/ripple/logic#",
+            NS_2013_03 = "http://fortytwo.net/2013/03/ripple/logic#",
             NS_2008_08 = "http://fortytwo.net/2008/08/ripple/logic#";
 
     public void load(final LibraryLoader.Context context)

@@ -18,7 +18,7 @@ import net.fortytwo.ripple.query.StackEvaluator;
 public class Count extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             // Note: this "count" has different semantics than the 2008-08 version
-            StreamLibrary.NS_2011_08 + "count"};
+            StreamLibrary.NS_2013_03 + "count"};
 
     public String[] getIdentifiers() {
         return IDENTIFIERS;

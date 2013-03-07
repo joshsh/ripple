@@ -17,7 +17,7 @@ public class Cosh extends PrimitiveStackMapping
 	private static final int ARITY = 1;
 
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2011_08 + "cosh",
+            MathLibrary.NS_2013_03 + "cosh",
             MathLibrary.NS_2008_08 + "cosh",
             MathLibrary.NS_2007_08 + "cosh"};
 

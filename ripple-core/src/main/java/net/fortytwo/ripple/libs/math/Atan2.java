@@ -14,7 +14,7 @@ import net.fortytwo.ripple.model.StackMapping;
  */
 public class Atan2 extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2011_08 + "atan2"};
+            MathLibrary.NS_2013_03 + "atan2"};
 
     public String[] getIdentifiers() {
         return IDENTIFIERS;

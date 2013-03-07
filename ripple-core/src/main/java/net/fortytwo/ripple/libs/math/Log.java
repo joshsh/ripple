@@ -17,7 +17,7 @@ import net.fortytwo.ripple.model.StackMapping;
 public class Log extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2011_08 + "log",
+            MathLibrary.NS_2013_03 + "log",
             MathLibrary.NS_2008_08 + "log",
             MathLibrary.NS_2007_08 + "log"};
 

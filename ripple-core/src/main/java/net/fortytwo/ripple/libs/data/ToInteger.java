@@ -20,7 +20,7 @@ public class ToInteger extends PrimitiveStackMapping
 		= Logger.getLogger( ToInteger.class );
 
     private static final String[] IDENTIFIERS = {
-            DataLibrary.NS_2011_08 + "to-integer",
+            DataLibrary.NS_2013_03 + "to-integer",
             GraphLibrary.NS_2008_08 + "toInteger",
             GraphLibrary.NS_2007_08 + "toInteger",
             GraphLibrary.NS_2007_05 + "toInteger"};

@@ -16,7 +16,7 @@ import net.fortytwo.ripple.model.StackMapping;
 public class Neg extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2011_08 + "neg",
+            MathLibrary.NS_2013_03 + "neg",
             MathLibrary.NS_2008_08 + "neg",
             MathLibrary.NS_2007_08 + "neg",
             MathLibrary.NS_2007_05 + "neg"};

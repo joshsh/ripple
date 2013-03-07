@@ -19,7 +19,7 @@ import net.fortytwo.ripple.model.StackMapping;
 public class Head extends PrimitiveStackMapping {
     public String[] getIdentifiers() {
         return new String[]{
-                BlueprintsLibrary.NS_2011_08 + "head"
+                BlueprintsLibrary.NS_2013_03 + "head"
         };
     }
 

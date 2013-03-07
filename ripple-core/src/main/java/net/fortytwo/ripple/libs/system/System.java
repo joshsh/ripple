@@ -21,7 +21,7 @@ public class System extends PrimitiveStackMapping {
 
     public String[] getIdentifiers() {
         return new String[]{
-                SystemLibrary.NS_2011_08 + "system",
+                SystemLibrary.NS_2013_03 + "system",
                 SystemLibrary.NS_2008_08 + "system"};
     }
 

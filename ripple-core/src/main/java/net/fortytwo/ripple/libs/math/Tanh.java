@@ -15,7 +15,7 @@ import net.fortytwo.ripple.model.RippleList;
 public class Tanh extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2011_08 + "tanh",
+            MathLibrary.NS_2013_03 + "tanh",
             MathLibrary.NS_2008_08 + "tanh",
             MathLibrary.NS_2007_08 + "tanh"};
 

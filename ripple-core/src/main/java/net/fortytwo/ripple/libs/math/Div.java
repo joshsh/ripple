@@ -17,7 +17,7 @@ import net.fortytwo.ripple.model.StackMapping;
 public class Div extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            MathLibrary.NS_2011_08 + "div",
+            MathLibrary.NS_2013_03 + "div",
             MathLibrary.NS_2008_08 + "div",
             MathLibrary.NS_2007_08 + "div",
             MathLibrary.NS_2007_05 + "div"};

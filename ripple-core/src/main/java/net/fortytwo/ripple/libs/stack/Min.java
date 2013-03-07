@@ -15,7 +15,7 @@ import net.fortytwo.ripple.model.RippleValue;
 public class Min extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2011_08 + "min",
+            StackLibrary.NS_2013_03 + "min",
             StackLibrary.NS_2008_08 + "min",
             StackLibrary.NS_2007_08 + "min"};
 

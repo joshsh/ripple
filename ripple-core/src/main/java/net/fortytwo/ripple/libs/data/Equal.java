@@ -17,7 +17,7 @@ import net.fortytwo.ripple.model.RippleValue;
 public class Equal extends PrimitiveStackMapping {
     public String[] getIdentifiers() {
         return new String[]{
-                DataLibrary.NS_2011_08 + "equal",
+                DataLibrary.NS_2013_03 + "equal",
                 GraphLibrary.NS_2008_08 + "equal",
                 GraphLibrary.NS_2007_08 + "equal",
                 GraphLibrary.NS_2007_05 + "equal"};

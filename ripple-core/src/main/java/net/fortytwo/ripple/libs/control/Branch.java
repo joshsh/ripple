@@ -20,7 +20,7 @@ import net.fortytwo.ripple.model.RippleValue;
 public class Branch extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            ControlLibrary.NS_2011_08 + "branch",
+            ControlLibrary.NS_2013_03 + "branch",
             LogicLibrary.NS_2008_08 + "branch",
             StackLibrary.NS_2007_08 + "branch",
             StackLibrary.NS_2007_05 + "branch"};

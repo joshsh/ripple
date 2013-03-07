@@ -11,7 +11,7 @@ import net.fortytwo.ripple.model.LibraryLoader;
  */
 public class SystemLibrary extends Library {
     public static final String
-            NS_2011_08 = "http://fortytwo.net/2011/08/ripple/system#",
+            NS_2013_03 = "http://fortytwo.net/2013/03/ripple/system#",
             NS_2008_08 = "http://fortytwo.net/2008/08/ripple/etc#",
             NS_2007_08 = "http://fortytwo.net/2007/08/ripple/etc#",
             NS_2007_05 = "http://fortytwo.net/2007/05/ripple/etc#";

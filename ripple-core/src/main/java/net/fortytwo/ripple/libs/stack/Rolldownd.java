@@ -16,7 +16,7 @@ import net.fortytwo.ripple.model.RippleValue;
 public class Rolldownd extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2011_08 + "rolldownd",
+            StackLibrary.NS_2013_03 + "rolldownd",
             StackLibrary.NS_2008_08 + "rolldownd",
             StackLibrary.NS_2007_08 + "rolldownd",
             StackLibrary.NS_2007_05 + "rolldownd"};

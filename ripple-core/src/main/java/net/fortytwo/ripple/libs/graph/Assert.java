@@ -16,7 +16,7 @@ import net.fortytwo.ripple.model.RippleValue;
 public class Assert extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            GraphLibrary.NS_2011_08 + "assert",
+            GraphLibrary.NS_2013_03 + "assert",
             GraphLibrary.NS_2008_08 + "assert",
             GraphLibrary.NS_2007_08 + "assert",
             GraphLibrary.NS_2007_05 + "assert"};

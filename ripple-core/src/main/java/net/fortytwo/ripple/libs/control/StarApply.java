@@ -27,7 +27,7 @@ public class StarApply extends PrimitiveStackMapping {
     public String[] getIdentifiers() {
         return new String[]{
                 // Note: this primitive has different semantics than its predecessor, stack:starApply
-                ControlLibrary.NS_2011_08 + "star-apply"};
+                ControlLibrary.NS_2013_03 + "star-apply"};
     }
 
     public StarApply() throws RippleException {

@@ -21,7 +21,7 @@ public class OptionApply extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
             // Note: this primitive different semantics than its predecessor, stack:optApply
-            ControlLibrary.NS_2011_08 + "option-apply"};
+            ControlLibrary.NS_2013_03 + "option-apply"};
 
     public String[] getIdentifiers()
     {

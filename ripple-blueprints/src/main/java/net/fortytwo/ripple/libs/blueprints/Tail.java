@@ -20,7 +20,7 @@ public class Tail extends PrimitiveStackMapping {
     @Override
     public String[] getIdentifiers() {
         return new String[]{
-                BlueprintsLibrary.NS_2011_08 + "tail"
+                BlueprintsLibrary.NS_2013_03 + "tail"
         };
     }
 

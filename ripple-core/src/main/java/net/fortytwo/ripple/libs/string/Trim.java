@@ -16,7 +16,7 @@ import net.fortytwo.ripple.model.RippleValue;
 public class Trim extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StringLibrary.NS_2011_08 + "trim",
+            StringLibrary.NS_2013_03 + "trim",
             StringLibrary.NS_2008_08 + "trim",
             StringLibrary.NS_2007_08 + "trim"};
 

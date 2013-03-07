@@ -14,7 +14,7 @@ import net.fortytwo.ripple.model.RippleList;
 public class Pop extends PrimitiveStackMapping
 {
     private static final String[] IDENTIFIERS = {
-            StackLibrary.NS_2011_08 + "pop",
+            StackLibrary.NS_2013_03 + "pop",
             StackLibrary.NS_2008_08 + "pop",
             StackLibrary.NS_2007_08 + "pop",
             StackLibrary.NS_2007_05 + "pop"};
