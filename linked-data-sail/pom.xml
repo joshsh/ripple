@@ -44,11 +44,6 @@
             <artifactId>sesame-rio-ntriples</artifactId>
             <version>${sesame.version}</version>
         </dependency>
-        <!--<dependency>
-            <groupId>org.openrdf.sesame</groupId>
-            <artifactId>sesame-rio-rdfa</artifactId>
-            <version>2.6.3-42</version>
-        </dependency>-->
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-rio-rdfxml</artifactId>
@@ -70,17 +65,16 @@
             <version>${sesame.version}</version>
         </dependency>
 
-        <!-- temporary, experimental -->
-        <!--<dependency>
-            <groupId>at.newmedialab.sesame</groupId>
-            <artifactId>sesame-tools-rio-rdfa</artifactId>
-            <version>1.1-SNAPSHOT</version>
-        </dependency>-->
         <dependency>
             <groupId>org.semarglproject</groupId>
             <artifactId>semargl-sesame</artifactId>
             <version>0.4</version>
         </dependency>
+        <!--<dependency>
+            <groupId>at.newmedialab.sesame</groupId>
+            <artifactId>sesame-tools-rio-rdfa</artifactId>
+            <version>1.1-SNAPSHOT</version>
+        </dependency>-->
 
         <dependency>
             <groupId>net.fortytwo.sesametools</groupId>

@@ -128,7 +128,6 @@ public class LinkedDataCache {
             throw new RippleException("no such datatype handling policy: " + p);
         }
 
-        // TODO: this is temporary/experimental
         RDFFormat.register(RDFaFormat.RDFA);
         //RDFFormat.register(RDFaFormat.FORMAT);
 
