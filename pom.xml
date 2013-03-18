@@ -72,7 +72,6 @@
     </modules>
 
     <build>
-        <directory>target</directory>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -169,11 +168,6 @@
             <id>maven-restlet</id>
             <name>Public online Restlet repository</name>
             <url>http://maven.restlet.org</url>
-        </repository>
-        <repository>
-            <id>jline</id>
-            <name>JLine Project Repository</name>
-            <url>http://jline.sourceforge.net/m2repo</url>
         </repository>
     </repositories>
 

@@ -1,13 +1,12 @@
 package net.fortytwo.ripple.cli;
 
-import jline.Completor;
-import jline.ConsoleReader;
-import jline.MultiCompletor;
+import jline.console.ConsoleReader;
+import jline.console.completer.AggregateCompleter;
+import jline.console.completer.Completer;
 import net.fortytwo.flow.Collector;
 import net.fortytwo.flow.HistorySink;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.Source;
-import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.cli.ast.KeywordAST;
 import net.fortytwo.ripple.cli.ast.ListAST;
@@ -25,10 +24,7 @@ import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.commands.DefineKeywordCmd;
 import org.apache.log4j.Logger;
 
-import java.io.FileWriter;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,20 +119,10 @@ public class RippleCommandLine {
         InputStream filter = new InputStreamEventFilter(is, ra);
         consoleReaderInput = new ThreadedInputStream(filter);
 
-        String jlineDebugOutput = Ripple.getConfiguration().getString(
-                Ripple.JLINE_DEBUG_OUTPUT);
-
         // Create reader.
         try {
             reader = new ConsoleReader(consoleReaderInput,
-                    new OutputStreamWriter(qe.getPrintStream()));
-
-            // Set up JLine logging if asked for.
-            if (null != jlineDebugOutput && 0 < jlineDebugOutput.length()) {
-                reader.setDebug(
-                        new PrintWriter(
-                                new FileWriter(jlineDebugOutput, true)));
-            }
+                    qe.getPrintStream());
         } catch (Throwable t) {
             throw new RippleException(t);
         }
@@ -201,7 +187,7 @@ public class RippleCommandLine {
 
     private void updateCompletors() {
         LOGGER.debug("updating completors");
-        List<Completor> completors = new ArrayList<Completor>();
+        List<Completer> completors = new ArrayList<Completer>();
 
         try {
             Lexicon lex = queryEngine.getLexicon();
@@ -225,9 +211,9 @@ public class RippleCommandLine {
 
             try {
                 // This makes candidates from multiple completors available at once.
-                Completor multiCompletor = new MultiCompletor(completors);
+                Completer multiCompletor = new AggregateCompleter(completors);
 
-                reader.addCompletor(multiCompletor);
+                reader.addCompleter(multiCompletor);
             } catch (Throwable t) {
                 throw new RippleException(t);
             }

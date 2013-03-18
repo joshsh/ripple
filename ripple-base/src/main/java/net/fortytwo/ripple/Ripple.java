@@ -21,7 +21,6 @@ public final class Ripple
             RESULT_VIEW_DEDUPLICATE_OBJECTS     = "net.fortytwo.ripple.cli.resultViewDeduplicateObjects",
             RESULT_VIEW_MAX_OBJECTS             = "net.fortytwo.ripple.cli.resultViewMaxObjects",
             RESULT_VIEW_MAX_PREDICATES          = "net.fortytwo.ripple.cli.resultViewMaxPredicates",
-            JLINE_DEBUG_OUTPUT                  = "net.fortytwo.ripple.cli.jline.debugOutput",
             RESULT_VIEW_PRINT_ENTIRE_STACK      = "net.fortytwo.ripple.cli.resultViewPrintEntireStack",
             MAX_WORKER_THREADS                  = "net.fortytwo.ripple.control.maxWorkerThreads",
             ALLEGROSAIL_HOST                    = "net.fortytwo.ripple.demo.allegroSailHost",

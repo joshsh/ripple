@@ -143,22 +143,11 @@ private boolean lastQueryContinued = false;
 		InputStream filter = new InputStreamEventFilter( is, ra );
 		consoleReaderInput = new ThreadedInputStream( filter );
 
-		String jlineDebugOutput = Ripple.getProperties().getString(
-                Ripple.JLINE_DEBUG_OUTPUT );
-
         // Create reader.
 		try
 		{
 			reader = new ConsoleReader( consoleReaderInput,
 				new OutputStreamWriter( qe.getPrintStream() ) );
-
-			// Set up JLine logging if asked for.
-			if ( null != jlineDebugOutput && 0 < jlineDebugOutput.length() )
-			{
-				reader.setDebug(
-					new PrintWriter(
-						new FileWriter( jlineDebugOutput, true ) ) );
-			}
 		}
 
 		catch ( Throwable t )
