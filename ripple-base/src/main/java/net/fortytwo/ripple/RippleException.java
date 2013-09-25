@@ -1,10 +1,9 @@
 package net.fortytwo.ripple;
 
-import org.apache.log4j.Logger;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import org.log4j.Logger;
 
 /**
  * A custom Exception.
