@@ -12,6 +12,7 @@ import org.openrdf.model.ValueFactory;
 import org.openrdf.sail.SailException;
 
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.util.Date;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -133,6 +134,12 @@ public class RippleValueFactory implements ValueFactory {
     @Override
     public Literal createLiteral(XMLGregorianCalendar xmlGregorianCalendar) {
         Literal other = base.createLiteral(xmlGregorianCalendar);
+        return new RippleLiteral(other.getLabel(), other.getDatatype());
+    }
+
+    @Override
+    public Literal createLiteral(Date date) {
+        Literal other = base.createLiteral(date);
         return new RippleLiteral(other.getLabel(), other.getDatatype());
     }
 

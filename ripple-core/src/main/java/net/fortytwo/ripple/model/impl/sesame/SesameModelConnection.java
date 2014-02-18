@@ -129,6 +129,7 @@ public class SesameModelConnection implements ModelConnection {
     public void commit() throws RippleException {
         try {
             sailConnection.commit();
+            sailConnection.begin();
         } catch (SailReadOnlyException e) {
             handleSailReadOnlyException(e);
         } catch (Throwable t) {
@@ -144,6 +145,7 @@ public class SesameModelConnection implements ModelConnection {
             throws RippleException {
         try {
             sailConnection = model.sail.getConnection();
+            sailConnection.begin();
 
 // FIXME: this doesn't give the LexiconUpdater any information about namespaces
 // FIXME: removed because SailConnectionListener is no longer supported by arbitrary Sails... you would need to wrap

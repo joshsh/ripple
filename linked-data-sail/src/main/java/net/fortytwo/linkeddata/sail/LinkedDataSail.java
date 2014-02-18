@@ -7,8 +7,10 @@ import org.openrdf.sail.NotifyingSail;
 import org.openrdf.sail.NotifyingSailConnection;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailChangedListener;
+import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
 import org.openrdf.sail.StackableSail;
+import org.openrdf.sail.helpers.SailBase;
 
 import java.io.File;
 
@@ -18,7 +20,7 @@ import java.io.File;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class LinkedDataSail implements StackableSail, NotifyingSail {
+public class LinkedDataSail extends SailBase implements StackableSail, NotifyingSail {
     public static final String
             CACHE_LIFETIME = "net.fortytwo.linkeddata.cacheLifetime",
             DATATYPE_HANDLING_POLICY = "net.fortytwo.linkeddata.datatypeHandlingPolicy",
@@ -56,8 +58,14 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
         }
     }
 
-    public synchronized NotifyingSailConnection getConnection() throws SailException {
-        return new LinkedDataSailConnection(baseSail, cache);
+    @Override
+    public NotifyingSailConnection getConnection() throws SailException {
+        SailConnection sc = ((SailBase) this).getConnection();
+        return (NotifyingSailConnection) sc;
+    }
+
+    protected synchronized SailConnection getConnectionInternal() throws SailException {
+        return new LinkedDataSailConnection(this, baseSail, cache);
     }
 
     public File getDataDir() {
@@ -88,7 +96,7 @@ public class LinkedDataSail implements StackableSail, NotifyingSail {
         throw new UnsupportedOperationException();
     }
 
-    public void shutDown() throws SailException {
+    protected void shutDownInternal() throws SailException {
         // Do not shut down the base Sail.
     }
 

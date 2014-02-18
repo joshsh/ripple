@@ -130,8 +130,8 @@ public class LinkedDataCache {
             throw new RippleException("no such datatype handling policy: " + p);
         }
 
+        // manually register Semargl's RDFa parser and writer, which do not have factories
         RDFFormat.register(RDFaFormat.RDFA);
-        //RDFFormat.register(RDFaFormat.FORMAT);
 
         // Rdfizers for registered RDF formats
         // TODO: 'tmp' is a hack to avoid a poorly-understood ConcurrentModificationException

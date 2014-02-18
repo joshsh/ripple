@@ -13,7 +13,6 @@ import org.openrdf.query.BindingSet;
 import org.openrdf.query.Dataset;
 import org.openrdf.query.QueryEvaluationException;
 import org.openrdf.query.algebra.TupleExpr;
-import org.openrdf.query.algebra.UpdateExpr;
 import org.openrdf.query.algebra.evaluation.TripleSource;
 import org.openrdf.query.algebra.evaluation.impl.EvaluationStrategyImpl;
 import org.openrdf.sail.NotifyingSailConnection;
@@ -21,18 +20,19 @@ import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailConnectionListener;
 import org.openrdf.sail.SailException;
+import org.openrdf.sail.helpers.NotifyingSailConnectionBase;
+import org.openrdf.sail.helpers.SailBase;
 
 /**
  * A connection to a LinkedDataSail
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class LinkedDataSailConnection implements NotifyingSailConnection {
+public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
 
     private final ValueFactory valueFactory;
     private final LinkedDataCache linkedDataCache;
 
-    private boolean open = false;
     private SailConnection baseConnection;
 
     ////////////////////////////////////////////////////////////////////////////
@@ -43,32 +43,30 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
         }
     }
 
-    public void addStatement(final Resource subj,
+    protected void addStatementInternal(final Resource subj,
                              final URI pred,
                              final Value obj,
                              final Resource... contexts) throws SailException {
         baseConnection.addStatement(subj, pred, obj, contexts);
     }
 
-    public void clear(final Resource... contexts) throws SailException {
+    protected void clearInternal(final Resource... contexts) throws SailException {
         baseConnection.clear(contexts);
     }
 
-    public void clearNamespaces() throws SailException {
+    protected void clearNamespacesInternal() throws SailException {
         baseConnection.clearNamespaces();
     }
 
-    public synchronized void close() throws SailException {
+    protected synchronized void closeInternal() throws SailException {
         baseConnection.close();
-
-        open = false;
     }
 
-    public void commit() throws SailException {
+    protected void commitInternal() throws SailException {
         baseConnection.commit();
     }
 
-    public CloseableIteration<? extends BindingSet, QueryEvaluationException> evaluate(
+    protected CloseableIteration<? extends BindingSet, QueryEvaluationException> evaluateInternal(
             final TupleExpr tupleExpr,
             final Dataset dataset,
             final BindingSet bindings,
@@ -85,26 +83,22 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
         }
     }
 
-    public void executeUpdate(UpdateExpr updateExpr, Dataset dataset, BindingSet bindingSet, boolean b) throws SailException {
-        baseConnection.executeUpdate(updateExpr, dataset, bindingSet, b);
-    }
-
-    public CloseableIteration<? extends Resource, SailException> getContextIDs()
+    protected CloseableIteration<? extends Resource, SailException> getContextIDsInternal()
             throws SailException {
         return baseConnection.getContextIDs();
     }
 
-    public String getNamespace(final String prefix)
+    protected String getNamespaceInternal(final String prefix)
             throws SailException {
         return baseConnection.getNamespace(prefix);
     }
 
-    public CloseableIteration<? extends Namespace, SailException> getNamespaces()
+    protected CloseableIteration<? extends Namespace, SailException> getNamespacesInternal()
             throws SailException {
         return baseConnection.getNamespaces();
     }
 
-    public CloseableIteration<? extends Statement, SailException> getStatements(
+    protected CloseableIteration<? extends Statement, SailException> getStatementsInternal(
             final Resource subj,
             final URI pred,
             final Value obj,
@@ -118,53 +112,53 @@ public class LinkedDataSailConnection implements NotifyingSailConnection {
         return baseConnection.getStatements(subj, pred, obj, includeInferred, contexts);
     }
 
-    public boolean isOpen() throws SailException {
-        return open;
-    }
-
     public synchronized void removeConnectionListener(final SailConnectionListener listener) {
         if (baseConnection instanceof NotifyingSailConnection) {
             ((NotifyingSailConnection) baseConnection).removeConnectionListener(listener);
         }
     }
 
-    public void removeNamespace(final String prefix)
+    protected void removeNamespaceInternal(final String prefix)
             throws SailException {
         baseConnection.removeNamespace(prefix);
     }
 
-    public void removeStatements(final Resource subj,
+    protected void removeStatementsInternal(final Resource subj,
                                  final URI pred,
                                  final Value obj,
                                  final Resource... context) throws SailException {
         baseConnection.removeStatements(subj, pred, obj, context);
     }
 
-    public void rollback() throws SailException {
+    protected void rollbackInternal() throws SailException {
         baseConnection.rollback();
     }
 
-    public void setNamespace(final String prefix, final String name)
+    protected void setNamespaceInternal(final String prefix, final String name)
             throws SailException {
         baseConnection.setNamespace(prefix, name);
     }
 
-    public long size(final Resource... contexts) throws SailException {
+    protected long sizeInternal(final Resource... contexts) throws SailException {
         return baseConnection.size(contexts);
+    }
+
+    protected void startTransactionInternal() throws SailException {
+        // TODO?
     }
 
     ////////////////////////////////////////////////////////////////////////////
 
-    LinkedDataSailConnection(final Sail baseSail,
+    LinkedDataSailConnection(final SailBase sail,
+                             final Sail baseSail,
                              final LinkedDataCache linkedDataCache) throws SailException {
+        super(sail);
         this.linkedDataCache = linkedDataCache;
 
         // Inherit the local store's ValueFactory
         valueFactory = baseSail.getValueFactory();
 
         baseConnection = baseSail.getConnection();
-
-        open = true;
     }
 
     ////////////////////////////////////////////////////////////////////////////

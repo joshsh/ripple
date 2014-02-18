@@ -48,9 +48,9 @@
 
     <properties>
         <ripple.version>1.1-SNAPSHOT</ripple.version>
-        <sesame.version>2.6.10</sesame.version>
-        <sesametools.version>1.7</sesametools.version>
-        <tinkerpop.version>2.2.0</tinkerpop.version>
+        <sesame.version>2.7.10</sesame.version>
+        <sesametools.version>1.8</sesametools.version>
+        <tinkerpop.version>2.4.0</tinkerpop.version>
         <restlet.version>2.1.1</restlet.version>
         <log4j.version>1.2.17</log4j.version>
         <slf4j.version>1.7.2</slf4j.version>
