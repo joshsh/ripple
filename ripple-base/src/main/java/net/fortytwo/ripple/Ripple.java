@@ -1,5 +1,6 @@
 package net.fortytwo.ripple;
 
+import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import java.io.IOException;
@@ -13,7 +14,9 @@ import java.util.Properties;
  */
 public final class Ripple
 {
-	public static final String RANDOM_URN_PREFIX = "urn:uuid:";
+    private static final Logger LOGGER = Logger.getLogger(Ripple.class);
+
+    public static final String RANDOM_URN_PREFIX = "urn:uuid:";
 
     public static final String
             BUFFER_QUERY_RESULTS                = "net.fortytwo.ripple.cli.bufferQueryResults",
@@ -42,6 +45,7 @@ public final class Ripple
             USE_BLANK_NODES                     = "net.fortytwo.ripple.model.useBlankNodes",
             MEMOIZE_LISTS_FROM_RDF              = "net.fortytwo.ripple.model.memoizeListsFromRdf",
             DEFAULT_NAMESPACE                   = "net.fortytwo.ripple.model.defaultNamespace",
+            VERSION                             = "net.fortytwo.ripple.version",
             // TODO: .........
             USE_ASYNCHRONOUS_QUERIES            = "";
 
@@ -128,10 +132,14 @@ public final class Ripple
 		return "Ripple";
 	}
 
-	public static String getVersion()
-	{
-		return "1.0";
-	}
+	public static String getVersion() {
+        try {
+            return getConfiguration().getProperty(VERSION);
+        } catch (RippleException e) {
+            LOGGER.warn("could not determine Ripple version: " + e.getMessage());
+            return "?";
+        }
+    }
 
 	public static boolean getQuiet()
 	{
