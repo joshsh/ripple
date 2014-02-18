@@ -60,7 +60,7 @@ public class LinkedDataSail extends SailBase implements StackableSail, Notifying
 
     @Override
     public NotifyingSailConnection getConnection() throws SailException {
-        SailConnection sc = ((SailBase) this).getConnection();
+        SailConnection sc = getConnectionInternal();
         return (NotifyingSailConnection) sc;
     }
 

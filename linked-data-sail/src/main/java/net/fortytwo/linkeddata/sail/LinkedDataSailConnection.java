@@ -144,7 +144,7 @@ public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
     }
 
     protected void startTransactionInternal() throws SailException {
-        // TODO?
+        baseConnection.begin();
     }
 
     ////////////////////////////////////////////////////////////////////////////

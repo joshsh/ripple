@@ -11,7 +11,7 @@ import org.openrdf.sail.SailException;
  */
 public class SPARQLRepositorySail extends RepositorySail {
     public SPARQLRepositorySail(final String endpoint) throws SailException {
-        super(createRepo(endpoint), false);
+        super(createRepo(endpoint));
     }
 
     private static Repository createRepo(final String endpoint) throws SailException {

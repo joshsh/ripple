@@ -56,6 +56,11 @@
         </dependency>-->
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
+            <artifactId>sesame-rio-rdfjson</artifactId>
+            <version>${sesame.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-rio-rdfxml</artifactId>
             <version>${sesame.version}</version>
         </dependency>
@@ -79,6 +84,11 @@
             <groupId>org.semarglproject</groupId>
             <artifactId>semargl-sesame</artifactId>
             <version>0.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.jsonld-java</groupId>
+            <artifactId>jsonld-java-sesame</artifactId>
+            <version>0.3</version>
         </dependency>
         <!--<dependency>
             <groupId>at.newmedialab.sesame</groupId>
