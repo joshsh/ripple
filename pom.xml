@@ -11,7 +11,7 @@
 
     <groupId>net.fortytwo.ripple</groupId>
     <artifactId>ripple-all</artifactId>
-    <version>1.1</version>
+    <version>1.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Ripple</name>
     <description>Semantic Web scripting language</description>
@@ -47,7 +47,7 @@
     </developers>
 
     <properties>
-        <ripple.version>1.1</ripple.version>
+        <ripple.version>1.2-SNAPSHOT</ripple.version>
         <sesame.version>2.7.10</sesame.version>
         <sesametools.version>1.8</sesametools.version>
         <tinkerpop.version>2.4.0</tinkerpop.version>
