@@ -1,9 +1,8 @@
 package net.fortytwo.ripple.cli.jline;
 
-import jline.Completor;
+import jline.console.completer.Completer;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -11,7 +10,7 @@ import java.util.TreeSet;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public abstract class RippleCompletor implements Completor
+public abstract class RippleCompletor implements Completer
 {
 	private final SortedSet<String> alts;
 
@@ -19,10 +18,9 @@ public abstract class RippleCompletor implements Completor
 	{
 		alts = new TreeSet<String>();
 
-		for ( Iterator<String> i = alternatives.iterator(); i.hasNext(); )
-		{
-			alts.add( i.next() );
-		}
+        for (String alternative : alternatives) {
+            alts.add(alternative);
+        }
 	}
 
 	protected abstract int findStartIndex( String s );
@@ -71,21 +69,14 @@ public abstract class RippleCompletor implements Completor
 		SortedSet<String> matches = alts.tailSet( pre );
 		boolean foundMatches = false;
 
-		for ( Iterator<String> i = matches.iterator(); i.hasNext(); )
-		{
-			String can = i.next();
-	
-			if ( !( can.startsWith( pre ) ) )
-			{
-				break;
-			}
-
-			else
-			{
-				clist.add( can );
-				foundMatches = true;
-			}
-		}
+        for (String can : matches) {
+            if (!(can.startsWith(pre))) {
+                break;
+            } else {
+                clist.add(can);
+                foundMatches = true;
+            }
+        }
 
 		return foundMatches ? startIndex : -1;
 	}

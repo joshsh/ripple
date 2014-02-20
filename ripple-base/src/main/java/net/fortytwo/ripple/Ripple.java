@@ -1,5 +1,6 @@
 package net.fortytwo.ripple;
 
+import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import java.io.IOException;
@@ -13,7 +14,9 @@ import java.util.Properties;
  */
 public final class Ripple
 {
-	public static final String RANDOM_URN_PREFIX = "urn:uuid:";
+    private static final Logger LOGGER = Logger.getLogger(Ripple.class);
+
+    public static final String RANDOM_URN_PREFIX = "urn:uuid:";
 
     public static final String
             BUFFER_QUERY_RESULTS                = "net.fortytwo.ripple.cli.bufferQueryResults",
@@ -21,7 +24,6 @@ public final class Ripple
             RESULT_VIEW_DEDUPLICATE_OBJECTS     = "net.fortytwo.ripple.cli.resultViewDeduplicateObjects",
             RESULT_VIEW_MAX_OBJECTS             = "net.fortytwo.ripple.cli.resultViewMaxObjects",
             RESULT_VIEW_MAX_PREDICATES          = "net.fortytwo.ripple.cli.resultViewMaxPredicates",
-            JLINE_DEBUG_OUTPUT                  = "net.fortytwo.ripple.cli.jline.debugOutput",
             RESULT_VIEW_PRINT_ENTIRE_STACK      = "net.fortytwo.ripple.cli.resultViewPrintEntireStack",
             MAX_WORKER_THREADS                  = "net.fortytwo.ripple.control.maxWorkerThreads",
             ALLEGROSAIL_HOST                    = "net.fortytwo.ripple.demo.allegroSailHost",
@@ -43,6 +45,7 @@ public final class Ripple
             USE_BLANK_NODES                     = "net.fortytwo.ripple.model.useBlankNodes",
             MEMOIZE_LISTS_FROM_RDF              = "net.fortytwo.ripple.model.memoizeListsFromRdf",
             DEFAULT_NAMESPACE                   = "net.fortytwo.ripple.model.defaultNamespace",
+            VERSION                             = "net.fortytwo.ripple.version",
             // TODO: .........
             USE_ASYNCHRONOUS_QUERIES            = "";
 
@@ -129,10 +132,14 @@ public final class Ripple
 		return "Ripple";
 	}
 
-	public static String getVersion()
-	{
-		return "1.0";
-	}
+	public static String getVersion() {
+        try {
+            return getConfiguration().getProperty(VERSION);
+        } catch (RippleException e) {
+            LOGGER.warn("could not determine Ripple version: " + e.getMessage());
+            return "?";
+        }
+    }
 
 	public static boolean getQuiet()
 	{

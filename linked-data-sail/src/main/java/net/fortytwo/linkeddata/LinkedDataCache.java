@@ -94,6 +94,8 @@ public class LinkedDataCache {
     // Maps URI schemes to Dereferencers
     private final Map<String, Dereferencer> dereferencers = new HashMap<String, Dereferencer>();
 
+    private DataStore dataStore;
+
     /**
      * Constructs a cache with the default settings, dereferencers, and rdfizers.
      *
@@ -128,8 +130,8 @@ public class LinkedDataCache {
             throw new RippleException("no such datatype handling policy: " + p);
         }
 
+        // manually register Semargl's RDFa parser and writer, which do not have factories
         RDFFormat.register(RDFaFormat.RDFA);
-        //RDFFormat.register(RDFaFormat.FORMAT);
 
         // Rdfizers for registered RDF formats
         // TODO: 'tmp' is a hack to avoid a poorly-understood ConcurrentModificationException
@@ -169,6 +171,16 @@ public class LinkedDataCache {
         useBlankNodes = Ripple.getConfiguration().getBoolean(Ripple.USE_BLANK_NODES);
 
         this.expirationPolicy = new DefaultCacheExpirationPolicy();
+
+        dataStore = new DataStore() {
+            public RDFSink createInputSink(final SailConnection sc) {
+                return new SesameOutputAdapter(new SailInserter(sc));
+            }
+        };
+    }
+
+    public void setDataStore(final DataStore dataStore) {
+        this.dataStore = dataStore;
     }
 
     /**
@@ -340,7 +352,7 @@ public class LinkedDataCache {
 
             memo.setRdfizer(rfiz.getClass().getName());
 
-            SesameOutputAdapter adder = new SesameOutputAdapter(new SailInserter(sc));
+            RDFSink adder = dataStore.createInputSink(sc);
             RDFBuffer buffer = new RDFBuffer(adder);
 
             // Note: any context information in the source document is discarded.
@@ -495,5 +507,9 @@ public class LinkedDataCache {
         MediaType mediaType;
         public double quality;
         public Rdfizer rdfizer;
+    }
+
+    public interface DataStore {
+        RDFSink createInputSink(SailConnection sc);
     }
 }

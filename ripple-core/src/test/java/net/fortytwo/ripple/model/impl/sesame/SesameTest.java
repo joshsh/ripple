@@ -27,158 +27,167 @@ import java.io.InputStream;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class SesameTest extends RippleTestCase
-{
-	private static final Logger LOGGER = Logger.getLogger( SesameTest.class );
+public class SesameTest extends RippleTestCase {
+    private static final Logger LOGGER = Logger.getLogger(SesameTest.class);
 
-	static int countStatements( final SailConnection rc, final URI context )
-		throws Exception
-	{
-		int count = 0;
+    static int countStatements(final SailConnection sc, final URI context)
+            throws Exception {
+        int count = 0;
 
-		CloseableIteration<? extends Statement, SailException> stmtIter
-			= ( null == context )
-				? rc.getStatements( null, null, null, false )
-				: rc.getStatements( null, null, null, false, context );
+        CloseableIteration<? extends Statement, SailException> stmtIter
+                = (null == context)
+                ? sc.getStatements(null, null, null, false)
+                : sc.getStatements(null, null, null, false, context);
 
-		while ( stmtIter.hasNext() )
-		{
-			stmtIter.next();
-			count++;
-		}
+        while (stmtIter.hasNext()) {
+            stmtIter.next();
+            count++;
+        }
 
-		stmtIter.close();
+        stmtIter.close();
 
-		return count;
-	}
+        return count;
+    }
 
-    public void testRecoverFromParseError() throws Exception
-    {
+    public void testRecoverFromParseError() throws Exception {
         Sail sail = new MemoryStore();
         sail.initialize();
 
-        String bad = "bad" ;
+        String bad = "bad";
+
         String good = "@prefix foo:  <http://example.org/foo#>.\n"
-            + "foo:a foo:b foo:c." ;
+                + "foo:a foo:b foo:c.";
 
         InputStream is = null;
 
         try {
-            is = new ByteArrayInputStream( bad.getBytes() );
-            add( sail, is, "", RDFFormat.TURTLE );
-        } catch ( Exception e ) {}
-        is.close();
+            is = new ByteArrayInputStream(bad.getBytes());
+            add(sail, is, "", RDFFormat.TURTLE);
+        } catch (Exception e) {
+        } finally {
+            is.close();
+        }
 
         try {
-            is = new ByteArrayInputStream( good.getBytes() );
-            add( sail, is, "", RDFFormat.TURTLE );
-        } catch ( Exception e ) {}
+            is = new ByteArrayInputStream(good.getBytes());
+            add(sail, is, "", RDFFormat.TURTLE);
+        } catch (Exception e) {
+        }
         is.close();
 
         SailConnection sc = sail.getConnection();
-        int count = countStatements( sc, null );
-        sc.close();
-
-        assertEquals( 1, count );
+        try {
+            sc.begin();
+            int count = countStatements(sc, null);
+            assertEquals(1, count);
+        } finally {
+            sc.rollback();
+            sc.close();
+        }
     }
 
-    public void testAddFromInputStream() throws Exception
-    {
+    public void testAddFromInputStream() throws Exception {
         Sail sail = new MemoryStore();
         sail.initialize();
         SailConnection sc = sail.getConnection();
+        try {
+            sc.begin();
 
-        URI ctxA = sail.getValueFactory().createURI( "urn:test.AddFromInputStreamTest.ctxA#" );
+            URI ctxA = sail.getValueFactory().createURI("urn:test.AddFromInputStreamTest.ctxA#");
 
-        String s = "@prefix foo:  <http://example.org/foo#>.\n"
-            + "foo:a foo:b foo:c." ;
-        InputStream is = new ByteArrayInputStream( s.getBytes() );
+            String s = "@prefix foo:  <http://example.org/foo#>.\n"
+                    + "foo:a foo:b foo:c.";
+            InputStream is = new ByteArrayInputStream(s.getBytes());
+            try {
+                add(sail, is, ctxA.toString(), RDFFormat.TURTLE, ctxA);
+            } finally {
+                is.close();
+            }
 
-        add( sail, is, ctxA.toString(), RDFFormat.TURTLE, ctxA );
-        is.close();
-
-        assertEquals( 1, countStatements( sc, null ) );
-/* 60 */    assertEquals( 1, countStatements( sc, ctxA ) );
-
-        sc.close();
+            assertEquals(1, countStatements(sc, null));
+/* 60 */
+            assertEquals(1, countStatements(sc, ctxA));
+        } finally {
+            sc.close();
+        }
         sail.shutDown();
     }
 
     // Verifies that Sesame does not unescape literal labels (not that one would
     // reasonably suspect it of doing so).
-    public void testEscapeCharactersInLiterals() throws Exception
-    {
+    public void testEscapeCharactersInLiterals() throws Exception {
         Sail sail = new MemoryStore();
         sail.initialize();
         ValueFactory vf = sail.getValueFactory();
         Literal l;
 
-        l = vf.createLiteral( "\"" );
-        assertEquals( 1, l.getLabel().length() );
-        l = vf.createLiteral( "\\\"" );
-        assertEquals( 2, l.getLabel().length() );
+        l = vf.createLiteral("\"");
+        assertEquals(1, l.getLabel().length());
+        l = vf.createLiteral("\\\"");
+        assertEquals(2, l.getLabel().length());
 
-        l = vf.createLiteral( "\"", XMLSchema.STRING );
-        assertEquals( 1, l.getLabel().length() );
-        l = vf.createLiteral( "\\\"", XMLSchema.STRING );
-        assertEquals( 2, l.getLabel().length() );
+        l = vf.createLiteral("\"", XMLSchema.STRING);
+        assertEquals(1, l.getLabel().length());
+        l = vf.createLiteral("\\\"", XMLSchema.STRING);
+        assertEquals(2, l.getLabel().length());
 
         sail.shutDown();
     }
 
-    private void add( final Sail sail, final InputStream is, final String baseUri, final RDFFormat format ) throws Exception
-	{
-		RDFParser parser = Rio.createParser( format );
-		SailConnection sc = sail.getConnection();
-		SailInserter inserter = new SailInserter( sc );
-		parser.setRDFHandler( inserter );
-		
-		inserter.startRDF();
+    private void add(final Sail sail, final InputStream is, final String baseUri, final RDFFormat format) throws Exception {
+        RDFParser parser = Rio.createParser(format);
+        SailConnection sc = sail.getConnection();
+        try {
+            sc.begin();
 
-		try
-		{
-			parser.parse( is, baseUri );
-		}
+            SailInserter inserter = new SailInserter(sc);
+            parser.setRDFHandler(inserter);
 
-		catch ( Exception e )
-		{
-			inserter.endRDF();
-			sc.close();
-			throw e;
-		}
+            inserter.startRDF();
 
-		inserter.endRDF();
-		sc.commit();
-		sc.close();
-	}
+            try {
+                parser.parse(is, baseUri);
+            } catch (Exception e) {
+                inserter.endRDF();
+                sc.close();
+                throw e;
+            }
 
-	private void add( final Sail sail, final InputStream is, final String baseUri, final RDFFormat format, final URI context ) throws Exception
-	{
-		RDFParser parser = Rio.createParser( format );
-		SailConnection sc = sail.getConnection();
-		SailInserter inserter = new SailInserter( sc );
-		SesameOutputAdapter outAdapter = new SesameOutputAdapter( inserter );
-		RDFSink scp = new SingleContextPipe( outAdapter, context, sail.getValueFactory() );
-		SesameInputAdapter inAdapter = new SesameInputAdapter( scp );
-		parser.setRDFHandler( inAdapter );
+            inserter.endRDF();
+            sc.commit();
+        } finally {
+            sc.rollback();
+            sc.close();
+        }
+    }
 
-		inserter.startRDF();
-		
-		try
-		{
-			parser.parse( is, baseUri );
-		}
+    private void add(final Sail sail, final InputStream is, final String baseUri, final RDFFormat format, final URI context) throws Exception {
+        RDFParser parser = Rio.createParser(format);
+        SailConnection sc = sail.getConnection();
+        try {
+            sc.begin();
+            SailInserter inserter = new SailInserter(sc);
+            SesameOutputAdapter outAdapter = new SesameOutputAdapter(inserter);
+            RDFSink scp = new SingleContextPipe(outAdapter, context, sail.getValueFactory());
+            SesameInputAdapter inAdapter = new SesameInputAdapter(scp);
+            parser.setRDFHandler(inAdapter);
 
-		catch ( Exception e )
-		{
-			inserter.endRDF();
-			sc.close();
-			throw e;
-		}
+            inserter.startRDF();
 
-		inserter.endRDF();
-		sc.commit();
-		sc.close();
-	}
+            try {
+                parser.parse(is, baseUri);
+            } catch (Exception e) {
+                inserter.endRDF();
+                sc.close();
+                throw e;
+            }
+
+            inserter.endRDF();
+            sc.commit();
+        } finally {
+            sc.rollback();
+            sc.close();
+        }
+    }
 }
 

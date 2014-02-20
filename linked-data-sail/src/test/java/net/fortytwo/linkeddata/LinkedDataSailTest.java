@@ -62,39 +62,49 @@ public class LinkedDataSailTest extends TestCase {
 
         SailConnection sc = sail.getConnection();
         try {
+            sc.begin();
             count = countStatements(sc.getStatements(tagging, RDF.TYPE, null, includeInferred));
             assertEquals(1, count);
         } finally {
+            sc.rollback();
             sc.close();
         }
     }
 
     public void testCountStatements() throws Exception {
         ValueFactory vf = sail.getValueFactory();
-        SailConnection sc = baseSail.getConnection();
-
         URI ctxA = vf.createURI("urn:org.example.test.countStatementsTest#");
         URI uri1 = vf.createURI("urn:org.example.test#uri1");
         URI uri2 = vf.createURI("urn:org.example.test#uri2");
         URI uri3 = vf.createURI("urn:org.example.test#uri3");
-
         URI[] uris = {uri1, uri2, uri3};
 
-        assertEquals(0, countStatements(sc, ctxA));
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                for (int k = 0; k < 3; k++) {
-                    sc.addStatement(
-                            uris[i], uris[j], uris[k], ctxA);
+        SailConnection sc = baseSail.getConnection();
+        try {
+            sc.begin();
+
+            assertEquals(0, countStatements(sc, ctxA));
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    for (int k = 0; k < 3; k++) {
+                        sc.addStatement(
+                                uris[i], uris[j], uris[k], ctxA);
+                    }
                 }
             }
+            sc.commit();
+        } finally {
+            sc.close();
         }
-        sc.commit();
-        sc.close();
-        
-        sc = sail.getConnection();        
-        assertEquals(27, countStatements(sc, ctxA));
-        sc.close();
+
+        sc = sail.getConnection();
+        try {
+            sc.begin();
+            assertEquals(27, countStatements(sc, ctxA));
+        } finally {
+            sc.rollback();
+            sc.close();
+        }
     }
 
     private static long countStatements(final CloseableIteration<? extends Statement, SailException> iter)
@@ -134,6 +144,7 @@ public class LinkedDataSailTest extends TestCase {
             try {
                 SailConnection sc = sail.getConnection();
                 try {
+                    sc.begin();
                     sc.getStatements(new URIImpl("http://rdf.freebase.com/rdf/en.stephen_fry"), null, null, false);
                     sc.commit();
                 } finally {

@@ -51,6 +51,7 @@ public abstract class RippleTestCase extends TestCase {
         SailConnection sc = getTestSail().getConnection();
 
         try {
+            sc.begin();
             sc.clear();
             sc.commit();
         } finally {
@@ -74,6 +75,7 @@ public abstract class RippleTestCase extends TestCase {
 
                 SailConnection sc = sail.getConnection();
                 try {
+                    sc.begin();
                     // Define some common namespaces
                     sc.setNamespace("rdf", RDF.NAMESPACE);
                     sc.setNamespace("rdfs", RDFS.NAMESPACE);

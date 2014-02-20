@@ -1,7 +1,7 @@
 package net.fortytwo.ripple.model;
 
-import jline.Completor;
-import jline.NullCompletor;
+import jline.console.completer.Completer;
+import jline.console.completer.NullCompleter;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
@@ -175,7 +175,7 @@ public class Lexicon {
         return symbol;
     }
 
-    public Completor getCompletor() throws RippleException {
+    public Completer getCompletor() throws RippleException {
         Set<String> keywords = keywordToUri.keySet();
         Set<String> prefixes = prefixToUri.keySet();
 
@@ -197,7 +197,7 @@ public class Lexicon {
 
             return new LexicalCompletor(alts);
         } else {
-            return new NullCompletor();
+            return new NullCompleter();
         }
     }
 

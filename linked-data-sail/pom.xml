@@ -13,7 +13,7 @@
     <parent>
         <groupId>net.fortytwo.ripple</groupId>
         <artifactId>ripple-all</artifactId>
-        <version>1.0</version>
+        <version>1.1-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -41,7 +41,22 @@
         </dependency>
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
+            <artifactId>sesame-rio-nquads</artifactId>
+            <version>${sesame.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-rio-ntriples</artifactId>
+            <version>${sesame.version}</version>
+        </dependency>
+        <!--<dependency>
+            <groupId>org.openrdf.sesame</groupId>
+            <artifactId>sesame-rio-rdfa</artifactId>
+            <version>${sesame.version}</version>
+        </dependency>-->
+        <dependency>
+            <groupId>org.openrdf.sesame</groupId>
+            <artifactId>sesame-rio-rdfjson</artifactId>
             <version>${sesame.version}</version>
         </dependency>
         <dependency>
@@ -70,17 +85,17 @@
             <artifactId>semargl-sesame</artifactId>
             <version>0.4</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.jsonld-java</groupId>
+            <artifactId>jsonld-java-sesame</artifactId>
+            <version>0.3</version>
+        </dependency>
         <!--<dependency>
             <groupId>at.newmedialab.sesame</groupId>
             <artifactId>sesame-tools-rio-rdfa</artifactId>
             <version>1.1-SNAPSHOT</version>
         </dependency>-->
 
-        <dependency>
-            <groupId>net.fortytwo.sesametools</groupId>
-            <artifactId>nquads</artifactId>
-            <version>${sesametools.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-sail-memory</artifactId>
