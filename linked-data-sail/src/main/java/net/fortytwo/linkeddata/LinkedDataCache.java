@@ -28,7 +28,6 @@ import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
 import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
-import org.semarglproject.sesame.rdf.rdfa.RDFaFormat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -130,9 +129,6 @@ public class LinkedDataCache {
             throw new RippleException("no such datatype handling policy: " + p);
         }
 
-        // manually register Semargl's RDFa parser and writer, which do not have factories
-        RDFFormat.register(RDFaFormat.RDFA);
-
         // Rdfizers for registered RDF formats
         // TODO: 'tmp' is a hack to avoid a poorly-understood ConcurrentModificationException
         Collection<RDFFormat> tmp = new LinkedList<RDFFormat>();
@@ -142,9 +138,6 @@ public class LinkedDataCache {
             for (String type : f.getMIMETypes()) {
                 double qualityFactor = type.equals("application/rdf+xml") ? 1.0 : 0.5;
                 cache.addRdfizer(new MediaType(type), r, qualityFactor);
-            }
-            if (f.equals(RDFaFormat.RDFA)) {
-                cache.addRdfizer(new MediaType("text/html"), r, 0.5);
             }
         }
 

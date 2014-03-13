@@ -22,11 +22,11 @@ import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.PipedIOStream;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.commands.DefineKeywordCmd;
-import org.apache.log4j.Logger;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * A command-line read-eval-print loop which coordinates user interaction with a Ripple query engine.
@@ -35,7 +35,7 @@ import java.util.List;
  */
 public class RippleCommandLine {
     private static final Logger LOGGER
-            = Logger.getLogger(RippleCommandLine.class);
+            = Logger.getLogger(RippleCommandLine.class.getName());
 
     private static final byte[] EOL = {'\n'};
 
@@ -87,11 +87,11 @@ public class RippleCommandLine {
                         readLine();
                         break;
                     case ESCAPE:
-                        LOGGER.debug("received escape event");
+                        LOGGER.fine("received escape event");
                         abortCommands();
                         break;
                     case QUIT:
-                        LOGGER.debug("received quit event");
+                        LOGGER.fine("received quit event");
                         abortCommands();
                         // Note: exception handling used for control
                         throw new ParserQuitException();
@@ -186,7 +186,7 @@ public class RippleCommandLine {
     }
 
     private void updateCompletors() {
-        LOGGER.debug("updating completors");
+        LOGGER.fine("updating completors");
         List<Completer> completors = new ArrayList<Completer>();
 
         try {
@@ -219,7 +219,7 @@ public class RippleCommandLine {
             }
         } catch (RippleException e) {
             e.logError();
-            LOGGER.error("failed to update completors");
+            LOGGER.severe("failed to update completors");
         }
     }
 

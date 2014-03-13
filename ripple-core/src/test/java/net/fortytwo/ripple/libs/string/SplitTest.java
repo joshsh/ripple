@@ -33,7 +33,9 @@ public class SplitTest extends RippleTestCase
 
     public void testEmptyStrings() throws Exception
     {
-        assertReducesTo( "\"Mississippi\" \"\" split.", "(\"\" \"M\" \"i\" \"s\" \"s\" \"i\" \"s\" \"s\" \"i\" \"p\" \"p\" \"i\")" );
+        assertEquals("M", "Mississippi".split("")[0]);
+
+        assertReducesTo( "\"Mississippi\" \"\" split.", "(\"M\" \"i\" \"s\" \"s\" \"i\" \"s\" \"s\" \"i\" \"p\" \"p\" \"i\")" );
         assertReducesTo( "\"\" \"mountain\" split.", "(\"\")" );
         assertReducesTo( "\"\" \"\" split.", "(\"\")" );  
     }

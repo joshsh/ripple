@@ -136,12 +136,12 @@ public class DatatypeSyntaxTest extends RippleTestCase
         assertEquals( XMLSchema.DOUBLE, l.getDatatype() );
 
         // Leading "-" on mantissa
-        results = reduce("-5e23");
+        results = reduce("-5e11");
         assertEquals( 1, results.size() );
         stack = results.iterator().next();
         assertEquals( 1, stack.length() );
         l = (Literal) stack.getFirst().toRDF(mc).sesameValue();
-        assertEquals( "-5.0E23", l.getLabel() );
+        assertEquals( "-5.0E11", l.getLabel() );
         assertEquals( XMLSchema.DOUBLE, l.getDatatype() );
 
         // Leading "+" on mantissa

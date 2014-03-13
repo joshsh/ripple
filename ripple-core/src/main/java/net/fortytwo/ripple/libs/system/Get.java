@@ -6,8 +6,9 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpMethod;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.openrdf.model.vocabulary.XMLSchema;
 
 import java.io.BufferedReader;
@@ -61,7 +62,7 @@ public class Get extends PrimitiveStackMapping
         //uriStr = mc.getModel().getURIMap().get( uriStr );
         stack = stack.getRest();
 
-		HttpMethod method = HTTPUtils.createGetMethod(uriStr);
+		HttpGet method = HTTPUtils.createGetMethod(uriStr);
 		HTTPUtils.throttleHttpRequest(method);
 
 		HttpClient client = HTTPUtils.createClient();
@@ -70,8 +71,8 @@ public class Get extends PrimitiveStackMapping
 
 		try
 		{
-			client.executeMethod( method );
-	        body = method.getResponseBodyAsStream();
+			HttpResponse response = client.execute( method );
+	        body = response.getEntity().getContent();
 		}
 
 		catch ( Throwable t )

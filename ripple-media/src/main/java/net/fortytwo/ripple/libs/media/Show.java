@@ -7,8 +7,9 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpMethod;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -94,7 +95,7 @@ public class Show extends PrimitiveStackMapping
 		
 		public ImagePanel( final RDFValue uri ) throws RippleException
 		{
-            HttpMethod method = HTTPUtils.createRdfGetMethod( uri.toString() );
+            HttpGet method = HTTPUtils.createRdfGetMethod( uri.toString() );
             HTTPUtils.setAcceptHeader( method, MIME_TYPES);
             HTTPUtils.throttleHttpRequest(method);
             HttpClient client = HTTPUtils.createClient();
@@ -102,8 +103,8 @@ public class Show extends PrimitiveStackMapping
             InputStream is;
 
             try {
-                client.executeMethod( method );
-                is = method.getResponseBodyAsStream();
+                HttpResponse response = client.execute(method);
+                is = response.getEntity().getContent();
             } catch ( IOException e ) {
                 throw new RippleException( e );
             }

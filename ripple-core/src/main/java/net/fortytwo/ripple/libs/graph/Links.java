@@ -9,9 +9,10 @@ import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
-import org.apache.log4j.Logger;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
+
+import java.util.logging.Logger;
 
 /**
  * A primitive which consumes a resource and produces a three-element list
@@ -24,7 +25,7 @@ public class Links extends PrimitiveStackMapping {
             GraphLibrary.NS_2013_03 + "links",
             GraphLibrary.NS_2008_08 + "links"};
 
-    private static final Logger LOGGER = Logger.getLogger(Links.class);
+    private static final Logger LOGGER = Logger.getLogger(Links.class.getName());
 
     public String[] getIdentifiers() {
         return IDENTIFIERS;
@@ -76,7 +77,7 @@ public class Links extends PrimitiveStackMapping {
             // FIXME: only SesameModel supports getStatements()
             mc.getStatements(subj.toRDF(mc), null, null, stSink);
         } else {
-            LOGGER.warn("primitive is compatible only with the Sesame model: " + this);
+            LOGGER.warning("primitive is compatible only with the Sesame model: " + this);
         }
     }
 }

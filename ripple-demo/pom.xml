@@ -30,6 +30,13 @@
             <groupId>net.fortytwo.sesametools</groupId>
             <artifactId>readonly-sail</artifactId>
             <version>${sesametools.version}</version>
+            <exclusions>
+                <!-- conflict with Sesame -->
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>net.fortytwo.sesametools</groupId>

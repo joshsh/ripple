@@ -21,7 +21,6 @@ import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.RippleValueComparator;
 import net.fortytwo.ripple.model.StatementPatternQuery;
-import org.apache.log4j.Logger;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Resource;
@@ -49,13 +48,14 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SesameModelConnection implements ModelConnection {
     private static final Logger LOGGER
-            = Logger.getLogger(ModelConnection.class);
+            = Logger.getLogger(ModelConnection.class.getName());
 
     protected final SesameModel model;
     protected SailConnection sailConnection;
@@ -172,7 +172,7 @@ public class SesameModelConnection implements ModelConnection {
                 sailConnection.close();
             } else {
                 // Don't throw an exception: we could easily end up in a loop.
-                LOGGER.error("tried to close an already-closed connection");
+                LOGGER.severe("tried to close an already-closed connection");
             }
         } catch (SailReadOnlyException e) {
             handleSailReadOnlyException(e);
@@ -518,7 +518,7 @@ public class SesameModelConnection implements ModelConnection {
             try {
                 sesameQuery = new GetStatementsQuery(query, this);
             } catch (GetStatementsQuery.InvalidQueryException e) {
-                LOGGER.debug("invalid query: " + e.getMessage());
+                LOGGER.fine("invalid query: " + e.getMessage());
                 return;
             }
 

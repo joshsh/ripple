@@ -1,19 +1,18 @@
 package net.fortytwo.ripple;
 
-import org.apache.log4j.Logger;
-
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 /*
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class URIMap
 {
-	private static final Logger LOGGER = Logger.getLogger( URIMap.class );
+	private static final Logger LOGGER = Logger.getLogger( URIMap.class.getName() );
 
 	private final Map<String, String> map;
 
@@ -60,7 +59,7 @@ public class URIMap
 		for ( int i = 0; i < fromUris.length; i++ )
 		{
 			toUris[i] = map.get( fromUris[i] );
-			LOGGER.debug( "map " + fromUris[i] + " to " + toUris[i] );
+			LOGGER.fine( "map " + fromUris[i] + " to " + toUris[i] );
 		}
 
 		upToDate = true;

@@ -1,10 +1,8 @@
 package net.fortytwo.ripple;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
-
 import java.io.IOException;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 
 /**
@@ -14,7 +12,7 @@ import java.util.Properties;
  */
 public final class Ripple
 {
-    private static final Logger LOGGER = Logger.getLogger(Ripple.class);
+    private static final Logger LOGGER = Logger.getLogger(Ripple.class.getName());
 
     public static final String RANDOM_URN_PREFIX = "urn:uuid:";
 
@@ -81,9 +79,6 @@ public final class Ripple
 	{
 		if ( !initialized )
 		{
-            PropertyConfigurator.configure(
-                    Ripple.class.getResource( LOG4J_PROPERTIES ) );
-
             Properties props = new Properties();
 
             try
@@ -136,7 +131,7 @@ public final class Ripple
         try {
             return getConfiguration().getProperty(VERSION);
         } catch (RippleException e) {
-            LOGGER.warn("could not determine Ripple version: " + e.getMessage());
+            LOGGER.warning("could not determine Ripple version: " + e.getMessage());
             return "?";
         }
     }

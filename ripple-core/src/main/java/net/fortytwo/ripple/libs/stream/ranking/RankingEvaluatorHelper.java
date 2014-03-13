@@ -10,13 +10,13 @@ import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.RippleValueComparator;
 import net.fortytwo.ripple.model.StackMapping;
-import org.apache.log4j.Logger;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
+import java.util.logging.Logger;
 
 /**
  * Note: for synchronous evaluation only.
@@ -24,7 +24,7 @@ import java.util.PriorityQueue;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RankingEvaluatorHelper {
-    private static final Logger LOGGER = Logger.getLogger(RankingEvaluatorHelper.class);
+    private static final Logger LOGGER = Logger.getLogger(RankingEvaluatorHelper.class.getName());
 
     // A prioritized queue of active (still-to-be-reduced) stacks
     private final PriorityQueue<RankingContext> queue;
@@ -143,7 +143,7 @@ public class RankingEvaluatorHelper {
                         }
                     } catch (Throwable t) {
                         // To keep things simple, just eat any errors.
-                        LOGGER.error("error in expression reduction", t);
+                        LOGGER.severe("error in expression reduction: " + t.getMessage());
                     }
                     return;
                 } else {

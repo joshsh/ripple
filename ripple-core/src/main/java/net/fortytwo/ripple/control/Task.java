@@ -1,16 +1,16 @@
 package net.fortytwo.ripple.control;
 
 import net.fortytwo.ripple.RippleException;
-import org.apache.log4j.Logger;
 
 import java.util.LinkedList;
+import java.util.logging.Logger;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public abstract class Task
 {
-	private static final Logger LOGGER = Logger.getLogger( Task.class );
+	private static final Logger LOGGER = Logger.getLogger( Task.class.getName() );
 
 	private LinkedList<Task> children = null;
 	private boolean finished = true, stopped = false;
@@ -87,7 +87,7 @@ public abstract class Task
 //System.out.println( "[" + this + "].addChild(" + child + ")" );
 		if ( finished )
 		{
-			LOGGER.error( "attempted to add a child to a finished task" );
+			LOGGER.severe( "attempted to add a child to a finished task" );
 		}
 
 		else

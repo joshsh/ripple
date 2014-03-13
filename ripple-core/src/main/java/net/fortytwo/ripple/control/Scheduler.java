@@ -4,17 +4,17 @@ import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.NullSink;
 import net.fortytwo.flow.Sink;
-import org.apache.log4j.Logger;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.logging.Logger;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public final class Scheduler
 {
-	private static final Logger LOGGER = Logger.getLogger( Scheduler.class );
+	private static final Logger LOGGER = Logger.getLogger( Scheduler.class.getName() );
 
 	private static Scheduler singleInstance = null;
     private static long workerThreadCount = 0;
@@ -240,7 +240,7 @@ public final class Scheduler
 
 						catch ( InterruptedException e )
 						{
-							LOGGER.warn( "worker runnable interrupted while waiting for new tasks" );
+							LOGGER.warning( "worker runnable interrupted while waiting for new tasks" );
 						}
 					}
 				}
@@ -260,7 +260,7 @@ public final class Scheduler
 			{
 				if ( t instanceof InterruptedException )
 				{
-					LOGGER.warn( "task interrupted: " + currentTaskItem.task );
+					LOGGER.warning( "task interrupted: " + currentTaskItem.task );
 					return;
 				}
 

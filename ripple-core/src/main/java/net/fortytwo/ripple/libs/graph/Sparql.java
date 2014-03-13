@@ -7,9 +7,10 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.keyval.KeyValueValue;
-import org.apache.log4j.Logger;
 import org.openrdf.query.BindingSet;
 import org.openrdf.query.QueryEvaluationException;
+
+import java.util.logging.Logger;
 
 /**
  * A primitive which consumes a SPARQL query and pushes, for each result, a variable number of values onto the stack, one for each binding.
@@ -19,7 +20,7 @@ import org.openrdf.query.QueryEvaluationException;
  */
 public class Sparql extends PrimitiveStackMapping {
     private static final Logger LOGGER
-            = Logger.getLogger(Sparql.class);
+            = Logger.getLogger(Sparql.class.getName());
 
     private static final String[] IDENTIFIERS = {
             GraphLibrary.NS_2013_03 + "sparql",

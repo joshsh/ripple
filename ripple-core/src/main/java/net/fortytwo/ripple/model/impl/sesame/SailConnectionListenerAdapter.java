@@ -4,9 +4,10 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.rdf.diff.RDFDiffSink;
 
-import org.apache.log4j.Logger;
 import org.openrdf.model.Statement;
 import org.openrdf.sail.SailConnectionListener;
+
+import java.util.logging.Logger;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -14,7 +15,7 @@ import org.openrdf.sail.SailConnectionListener;
 public class SailConnectionListenerAdapter implements SailConnectionListener
 {
 	private static final Logger LOGGER
-		= Logger.getLogger( SailConnectionListenerAdapter.class );
+		= Logger.getLogger( SailConnectionListenerAdapter.class.getName() );
 	
 	private final Sink<Statement> addSink, subSink;
 	
@@ -33,7 +34,7 @@ public class SailConnectionListenerAdapter implements SailConnectionListener
 		
 		catch ( RippleException e )
 		{
-			LOGGER.warn( "Unhandled exception", e );
+			LOGGER.warning( "Unhandled exception" + e.getMessage() );
 		}
 	}
 
@@ -46,7 +47,7 @@ public class SailConnectionListenerAdapter implements SailConnectionListener
 		
 		catch ( RippleException e )
 		{
-			LOGGER.warn( "Unhandled exception", e );
+			LOGGER.warning( "Unhandled exception" + e.getMessage() );
 		}
 	}
 

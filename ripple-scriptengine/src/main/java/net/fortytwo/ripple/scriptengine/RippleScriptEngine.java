@@ -47,7 +47,7 @@ public class RippleScriptEngine implements ScriptEngine {
     public RippleScriptEngine(final ScriptEngineFactory factory) throws RippleException {
         this.factory = factory;
 
-        results = new Collector<RippleList>();
+        results = new Collector<>();
 
         URIMap uriMap = new URIMap();
         sailConfig = new SailConfiguration(uriMap);

@@ -4,10 +4,10 @@ import net.fortytwo.flow.rdf.HTTPUtils;
 import net.fortytwo.linkeddata.RDFUtils;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.StringUtils;
-import org.apache.commons.httpclient.ConnectTimeoutException;
-import org.apache.commons.httpclient.Header;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpMethod;
+import org.apache.http.Header;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.restlet.data.MediaType;
 import org.restlet.representation.StreamRepresentation;
 
@@ -24,7 +24,7 @@ import java.nio.channels.WritableByteChannel;
  */
 public class HTTPRepresentation extends StreamRepresentation {
     private final InputStream inputStream;
-    private final HttpMethod method;
+    private final HttpUriRequest method;
 
     private final long idleTime;
 
@@ -44,17 +44,16 @@ public class HTTPRepresentation extends StreamRepresentation {
 
         HttpClient client = HTTPUtils.createClient();
 
+        HttpResponse response;
         try {
-            client.executeMethod(method);
-        } catch (ConnectTimeoutException e) {
-
+            response = client.execute(method);
         } catch (IOException e) {
             throw new RippleException(e);
         }
 
         InputStream is;
 
-        int code = method.getStatusCode();
+        int code = response.getStatusLine().getStatusCode();
 
         if (2 != code / 100) {
             throw new ErrorResponseException("" + code + " response for resource <"
@@ -62,14 +61,14 @@ public class HTTPRepresentation extends StreamRepresentation {
         }
 
         try {
-            is = method.getResponseBodyAsStream();
+            is = response.getEntity().getContent();
         } catch (IOException e) {
             throw new RippleException(e);
         }
 
         inputStream = new HttpRepresentationInputStream(is);
 
-        Header h = method.getResponseHeader(HTTPUtils.CONTENT_TYPE);
+        Header h = response.getFirstHeader(HTTPUtils.CONTENT_TYPE);
         if (null == h) {
             throw new InvalidResponseException("no content-type header served for resource <"
                     + StringUtils.escapeURIString(uri) + ">");
@@ -99,7 +98,7 @@ public class HTTPRepresentation extends StreamRepresentation {
      * but it can also be used as a standalone tool for dereferencing Linked Data
      * URIs, in which case access to HTTP headers and status data is useful.
      */
-    public HttpMethod getMethod() {
+    public HttpUriRequest getMethod() {
         return method;
     }
 
@@ -138,7 +137,7 @@ public class HTTPRepresentation extends StreamRepresentation {
 
         @Override
         public void close() throws IOException {
-            method.releaseConnection();
+            method.abort();
 
             innerInputStream.close();
         }
@@ -154,7 +153,7 @@ public class HTTPRepresentation extends StreamRepresentation {
             super(message);
         }
 
-        public HttpMethod getMethod() {
+        public HttpUriRequest getMethod() {
             return method;
         }
     }
@@ -164,7 +163,7 @@ public class HTTPRepresentation extends StreamRepresentation {
             super(message);
         }
 
-        public HttpMethod getMethod() {
+        public HttpUriRequest getMethod() {
             return method;
         }
     }

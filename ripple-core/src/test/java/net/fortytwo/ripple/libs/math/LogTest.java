@@ -30,7 +30,7 @@ public class LogTest extends RippleTestCase
     public void testInverse() throws Exception
     {
         assertReducesTo( "0 log~.", "1" );
-        assertReducesTo( "1 log~.", "2.7182818284590455" );
+        assertReducesTo( "1 log~.", "2.718281828459045" );
         assertReducesTo( "-1 log~.", "0.36787944117144233" );
     }
 }

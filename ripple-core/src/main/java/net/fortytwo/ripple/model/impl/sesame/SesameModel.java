@@ -7,11 +7,11 @@ import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.SpecialValueMap;
-import org.apache.log4j.Logger;
 import org.openrdf.sail.Sail;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * A Ripple <code>Model</code> implementation using the Sesame RDF toolkit.
@@ -19,7 +19,7 @@ import java.util.Set;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SesameModel implements Model {
-    private static final Logger LOGGER = Logger.getLogger(SesameModel.class);
+    private static final Logger LOGGER = Logger.getLogger(SesameModel.class.getName());
 
     final Sail sail;
     SpecialValueMap specialValues;
@@ -27,7 +27,7 @@ public class SesameModel implements Model {
 
 
     public SesameModel(final Sail sail) throws RippleException {
-        LOGGER.debug("instantiating SesameModel");
+        LOGGER.fine("instantiating SesameModel");
 
         this.sail = sail;
 
@@ -81,7 +81,7 @@ public class SesameModel implements Model {
                     sb.append(mc);
                 }
 
-                LOGGER.warn(sb.toString());
+                LOGGER.warning(sb.toString());
 
                 for (ModelConnection mc : openConnections) {
                     mc.reset(true);

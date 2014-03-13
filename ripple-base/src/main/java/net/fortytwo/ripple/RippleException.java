@@ -1,10 +1,9 @@
 package net.fortytwo.ripple;
 
-import org.apache.log4j.Logger;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.logging.Logger;
 
 /**
  * A custom Exception.
@@ -13,7 +12,7 @@ import java.io.PrintStream;
  */
 public class RippleException extends Exception {
     private static final long serialVersionUID = 2498405641024203574L;
-    private static final Logger LOGGER = Logger.getLogger(RippleException.class);
+    private static final Logger LOGGER = Logger.getLogger(RippleException.class.getName());
 
     public RippleException(final Throwable cause) {
         super(cause);
@@ -53,7 +52,7 @@ public class RippleException extends Exception {
         }
 
         try {
-            LOGGER.error(description);
+            LOGGER.severe(description);
         } catch (Throwable t) {
             System.err.println("Failed to log an exception. A stack trace of the secondary error follows.");
             t.printStackTrace(System.err);

@@ -7,8 +7,9 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpMethod;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Sequencer;
@@ -72,7 +73,7 @@ System.out.println( "error: " + e );
 	private void play( final RDFValue uri ) throws RippleException
 	{
 		String[] mimeTypes = { "audio/midi" };
-        HttpMethod method = HTTPUtils.createRdfGetMethod(uri.toString());
+        HttpGet method = HTTPUtils.createRdfGetMethod(uri.toString());
         HTTPUtils.setAcceptHeader( method, mimeTypes );
         HTTPUtils.throttleHttpRequest(method);
 		HttpClient client = HTTPUtils.createClient();
@@ -80,8 +81,8 @@ System.out.println( "error: " + e );
         InputStream is;
 
         try {
-            client.executeMethod( method );
-            is = method.getResponseBodyAsStream();
+            HttpResponse response = client.execute(method);
+            is = response.getEntity().getContent();
         } catch ( IOException e ) {
             throw new RippleException( e );
         }

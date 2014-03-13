@@ -10,7 +10,7 @@ public class ExpTest extends RippleTestCase
     public void testSingleSolution() throws Exception
     {
         assertReducesTo( "0 exp.", "1" );
-        assertReducesTo( "1 exp.", "2.7182818284590455" );
+        assertReducesTo( "1 exp.", "2.718281828459045" );
         assertReducesTo( "-1 exp.", "0.36787944117144233" );
     }
 

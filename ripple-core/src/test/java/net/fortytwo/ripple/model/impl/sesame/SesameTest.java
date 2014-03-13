@@ -7,7 +7,6 @@ import net.fortytwo.flow.rdf.SesameInputAdapter;
 import net.fortytwo.flow.rdf.SesameOutputAdapter;
 import net.fortytwo.flow.rdf.SingleContextPipe;
 import net.fortytwo.ripple.test.RippleTestCase;
-import org.apache.log4j.Logger;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
@@ -28,7 +27,6 @@ import java.io.InputStream;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SesameTest extends RippleTestCase {
-    private static final Logger LOGGER = Logger.getLogger(SesameTest.class);
 
     static int countStatements(final SailConnection sc, final URI context)
             throws Exception {
