@@ -16,7 +16,7 @@ import net.fortytwo.ripple.model.StackMapping;
  * A primitive which consumes a list and a mapping, then applies the mapping to
  * each element in the list (as if it were on top of the remainder of the stack)
  * in turn, yielding another list.
- * For instance, <code>(1 2 3) (10 add >>) map >></code> yields <code>(11 12 13)</code>
+ * For instance, <code>(1 2 3) (10 add.) map.</code> yields <code>(11 12 13)</code>
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */

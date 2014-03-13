@@ -3,6 +3,9 @@ package net.fortytwo.linkeddata;
 import net.fortytwo.flow.rdf.SesameOutputAdapter;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
+import org.apache.jena.iri.IRI;
+import org.apache.jena.iri.IRIFactory;
+import org.apache.jena.iri.impl.Parser;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
@@ -11,13 +14,18 @@ import org.openrdf.rio.RDFWriter;
 import org.openrdf.rio.Rio;
 
 import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public final class RDFUtils {
+    private static final Logger LOGGER = Logger.getLogger(RDFUtils.class.getName());
+
     private RDFUtils() {
     }
 
@@ -63,6 +71,7 @@ public final class RDFUtils {
 
     /**
      * Strips the fragment identifier of a (usually) HTTP URI.
+     *
      * @param uri a URI possibly containing a fragment identifier, e.g. http://example.org/foo#bar
      * @return the URI without a fragment identifier, e.g. http://example.org/foo
      */
@@ -72,9 +81,20 @@ public final class RDFUtils {
     }
 
     // Note: using hashed URIs for graph names avoids collision with resource URIs in retrieved descriptions
-   public static String findGraphUri(final String uri) {
+    public static String findGraphUri(final String uri) {
         String docUri = removeFragmentIdentifier(uri);
         return Ripple.RANDOM_URN_PREFIX
                 + UUID.nameUUIDFromBytes(docUri.getBytes());
+    }
+
+    public static URL iriToUrl(final String iriStr) throws MalformedURLException {
+        IRIFactory f = new IRIFactory();
+        IRI iri = f.create(iriStr);
+        boolean includeWarnings = false;
+        if (iri.hasViolation(includeWarnings)) {
+            LOGGER.warning("IRI has syntax violation: " + iriStr);
+        }
+
+        return iri.toURL();
     }
 }

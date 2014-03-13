@@ -1,6 +1,7 @@
 package net.fortytwo.linkeddata.dereferencers;
 
 import net.fortytwo.flow.rdf.HTTPUtils;
+import net.fortytwo.linkeddata.RDFUtils;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.StringUtils;
 import org.apache.commons.httpclient.ConnectTimeoutException;
@@ -13,6 +14,8 @@ import org.restlet.representation.StreamRepresentation;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 
@@ -29,7 +32,13 @@ public class HTTPRepresentation extends StreamRepresentation {
     public HTTPRepresentation(final String uri, final String acceptHeader) throws RippleException {
         super(null);
 
-        method = HTTPUtils.createGetMethod(uri);
+        URL getUrl;
+        try {
+            getUrl = RDFUtils.iriToUrl(uri);
+        } catch (MalformedURLException e) {
+            throw new RippleException(e);
+        }
+        method = HTTPUtils.createGetMethod(getUrl.toString());
         HTTPUtils.setAcceptHeader(method, acceptHeader);
         idleTime = HTTPUtils.throttleHttpRequest(method);
 

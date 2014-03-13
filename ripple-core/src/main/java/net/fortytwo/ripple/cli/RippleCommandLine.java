@@ -56,13 +56,13 @@ public class RippleCommandLine {
 
     /**
      * Console input:
-     * is --> filter --> consoleReaderInput --> reader --> readOut --> writeIn --> interpreter
-     * <p/>
+     * is to filter to consoleReaderInput to reader to readOut to writeIn to interpreter
+     *
      * Normal output:
-     * [commands and queries] --> queryEngine.getPrintStream()
-     * <p/>
+     * [commands and queries] to queryEngine.getPrintStream()
+     *
      * Error output:
-     * alert() --> queryEngine.getErrorPrintStream()
+     * alert() to queryEngine.getErrorPrintStream()
      */
     public RippleCommandLine(final QueryEngine qe, final InputStream is)
             throws RippleException {

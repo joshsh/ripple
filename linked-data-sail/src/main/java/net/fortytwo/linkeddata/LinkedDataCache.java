@@ -325,7 +325,7 @@ public class LinkedDataCache {
             return CacheEntry.Status.BadUriScheme;
         }
 
-        LOGGER.info("dereferencing URI <"
+        LOGGER.info("dereferencing <"
                 + StringUtils.escapeURIString(uri.toString()) + ">");
         //+ " at location " + mapped );
 
