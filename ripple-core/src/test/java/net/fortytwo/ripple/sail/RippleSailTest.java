@@ -274,7 +274,7 @@ public class RippleSailTest extends TestCase {
         Model model = new SesameModel(baseSail);
         StackEvaluator eval = new LazyStackEvaluator();
 
-        ModelConnection mc = model.createConnection();
+        ModelConnection mc = model.getConnection();
         try {
             Collector<StackContext, RippleException> solutions = new Collector<StackContext, RippleException>();
             RippleList stack = mc.list().push(mc.canonicalValue(new RDFValue(new URIImpl("http://example.org/foo"))))

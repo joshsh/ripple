@@ -20,6 +20,12 @@ public class QueryEngine {
     private final RipplePrintStream printStream;
     private final PrintStream errorPrintStream;
 
+    // this single connection is used for all query operations derived from this engine,
+    // including the asynchronous SesameModelConnection query tasks which execute in worker threads.
+    // This allows one thread to begin a query operation and another to finish it at any time;
+    // the connection will still be active as long as the query engine has not been shut down.
+    private final ModelConnection connection;
+
     ////////////////////////////////////////////////////////////////////////////
 
     public QueryEngine(final Model model) throws RippleException {
@@ -42,6 +48,8 @@ public class QueryEngine {
         printStream = new RipplePrintStream(out, lexicon);
         errorPrintStream = err;
 
+        connection = model.createConnection(new LexiconUpdater(lexicon));
+
         initializeLexicon();
 
         // TODO: the default value is a temporary fix for version conflicts due to property renaming
@@ -49,26 +57,17 @@ public class QueryEngine {
                 Ripple.DEFAULT_NAMESPACE, "http://example.org/ns/");
 
         // Set the default namespace.
-        ModelConnection mc = createConnection();
-
-        try {
-            //mc.setNamespace( "", defaultNamespace, false );
-
-            // FIXME: these should not be hard-coded
-            getLexicon().addCommonNamespaces(mc);
-
-            getLexicon().setNamespace("", defaultNamespace, mc);
-
-            mc.commit();
-        } finally {
-            mc.close();
-        }
+        //mc.setNamespace( "", defaultNamespace, false );
+        // FIXME: these should not be hard-coded
+        getLexicon().addCommonNamespaces(connection);
+        getLexicon().setNamespace("", defaultNamespace, connection);
+        connection.commit();
     }
 
     ////////////////////////////////////////////////////////////////////////////
 
-    public ModelConnection createConnection() throws RippleException {
-        return model.createConnection(new LexiconUpdater(lexicon));
+    public ModelConnection getConnection() throws RippleException {
+        return connection;
     }
 
     public StackEvaluator getEvaluator() {
@@ -91,17 +90,12 @@ public class QueryEngine {
         return errorPrintStream;
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     public void executeCommand(final Command cmd) throws RippleException {
-        ModelConnection mc = createConnection();
+        cmd.execute(this, connection);
+    }
 
-        try {
-            cmd.execute(this, mc);
-            mc.commit();
-        } finally {
-            mc.close();
-        }
+    public void shutDown() throws RippleException {
+        connection.close();
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -109,14 +103,8 @@ public class QueryEngine {
     private void initializeLexicon() throws RippleException {
         LexiconUpdater updater = new LexiconUpdater(lexicon);
 
-        ModelConnection mc = createConnection();
-
-        try {
-            mc.getNamespaces().writeTo(updater.adderSink().namespaceSink());
-            mc.commit();
-        } finally {
-            mc.close();
-        }
+        connection.getNamespaces().writeTo(updater.adderSink().namespaceSink());
+        connection.commit();
     }
 }
 

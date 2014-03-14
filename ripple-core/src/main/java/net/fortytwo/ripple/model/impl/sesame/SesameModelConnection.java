@@ -64,6 +64,8 @@ public class SesameModelConnection implements ModelConnection {
     private final TaskSet taskSet = new TaskSet();
     private final Comparator<RippleValue> comparator;
 
+    private boolean closed = false;
+
     ////////////////////////////////////////////////////////////////////////////
 
     protected SesameModelConnection(final SesameModel model, final RDFDiffSink listenerSink)
@@ -108,6 +110,8 @@ public class SesameModelConnection implements ModelConnection {
     }
 
     public void close() throws RippleException {
+        closed = true;
+
         finish();
 
         closeSailConnection(true);
@@ -242,6 +246,8 @@ public class SesameModelConnection implements ModelConnection {
 
     public void add(final RippleValue subj, final RippleValue pred, final RippleValue obj, RippleValue... contexts)
             throws RippleException {
+        ensureOpen();
+
         Value subjValue = subj.toRDF(this).sesameValue();
         Value predValue = pred.toRDF(this).sesameValue();
         Value objValue = obj.toRDF(this).sesameValue();
@@ -288,6 +294,8 @@ public class SesameModelConnection implements ModelConnection {
 
     public void remove(final RippleValue subj, final RippleValue pred, final RippleValue obj, final RippleValue... contexts)
             throws RippleException {
+        ensureOpen();
+
         Value subjValue, predValue, objValue;
 
         if (null == subj) {
@@ -352,6 +360,8 @@ public class SesameModelConnection implements ModelConnection {
     // Note: this method is no longer in the ModelConnection API
     public long countStatements(final Resource... contexts)
             throws RippleException {
+        ensureOpen();
+
         int count = 0;
 
         try {
@@ -464,6 +474,8 @@ public class SesameModelConnection implements ModelConnection {
 
     public void setNamespace(final String prefix, final String ns, final boolean override)
             throws RippleException {
+        ensureOpen();
+
         //LOGGER.info( "### setting namespace: '" + prefix + "' to " + ns );
         try {
             //synchronized ( model )
@@ -497,6 +509,14 @@ public class SesameModelConnection implements ModelConnection {
 
         public void executeProtected() throws RippleException {
             query(query, sink, false);
+
+            /*
+            ModelConnection mc = model.getConnection();
+            try {
+                mc.query(query, sink, false);
+            } finally {
+                mc.close();
+            }*/
         }
 
         protected void stopProtected() {
@@ -509,6 +529,8 @@ public class SesameModelConnection implements ModelConnection {
     public void query(final StatementPatternQuery query,
                       final Sink<RippleValue> sink,
                       final boolean asynchronous) throws RippleException {
+        ensureOpen();
+
         if (asynchronous) {
             QueryTask task = new QueryTask(query, sink);
             taskSet.add(task);
@@ -540,6 +562,8 @@ public class SesameModelConnection implements ModelConnection {
     }
 
     public Source<Namespace> getNamespaces() throws RippleException {
+        ensureOpen();
+
         Collector<Namespace> results = new Collector<Namespace>();
         Source<Namespace> source;
 
@@ -561,6 +585,8 @@ public class SesameModelConnection implements ModelConnection {
                               final RDFValue obj,
                               final Sink<Statement> sink)
             throws RippleException {
+        ensureOpen();
+
         Value rdfSubj = (null == subj) ? null : subj.sesameValue();
         Value rdfPred = (null == pred) ? null : pred.sesameValue();
         Value rdfObj = (null == obj) ? null : obj.sesameValue();
@@ -618,6 +644,8 @@ public class SesameModelConnection implements ModelConnection {
 
     public CloseableIteration<? extends BindingSet, QueryEvaluationException> evaluate(final String query)
             throws RippleException {
+        ensureOpen();
+
         SPARQLParser parser = new SPARQLParser();
 
         boolean useInference = false;
@@ -644,6 +672,8 @@ public class SesameModelConnection implements ModelConnection {
 
     public Source<RippleValue> getContexts()
             throws RippleException {
+        ensureOpen();
+
         return new Source<RippleValue>() {
             public void writeTo(Sink<RippleValue> sink) throws RippleException {
                 try {
@@ -667,6 +697,8 @@ public class SesameModelConnection implements ModelConnection {
     }
 
     public boolean internalize(final RippleList list) throws RippleException {
+        ensureOpen();
+
         Collector<Statement> buffer = new Collector<Statement>();
 
         // Handle circular lists (in the unlikely event that some implementation allows them) sanely.
@@ -711,5 +743,13 @@ public class SesameModelConnection implements ModelConnection {
         buffer.writeTo(importer.statementSink());
 
         return true;
+    }
+
+    // if the connection is closed, and a thread tries to access it, bail out ASAP before something confusing happens
+    // use this method with methods which read from or write to the Sail
+    private void ensureOpen() {
+        if (closed) {
+            throw new IllegalStateException("connection closed");
+        }
     }
 }

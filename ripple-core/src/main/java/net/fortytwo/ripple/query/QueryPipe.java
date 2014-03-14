@@ -42,7 +42,7 @@ public class QueryPipe implements Sink<String> {
 
     public QueryPipe(final QueryEngine queryEngine,
                      final Sink<RippleList> resultSink) throws RippleException {
-        connection = queryEngine.createConnection();
+        connection = queryEngine.getConnection();
 
         resultBuffer = new Buffer<RippleList>(resultSink);
         final Object mutex = "";
@@ -89,7 +89,7 @@ public class QueryPipe implements Sink<String> {
     }
 
     public void close() throws RippleException {
-        connection.close();
+        //connection.close();
     }
 
     public void put(final InputStream input) throws RippleException {

@@ -59,6 +59,7 @@ public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
     }
 
     protected synchronized void closeInternal() throws SailException {
+        baseConnection.rollback();
         baseConnection.close();
     }
 
@@ -132,6 +133,7 @@ public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
 
     protected void rollbackInternal() throws SailException {
         baseConnection.rollback();
+        //baseConnection.begin();
     }
 
     protected void setNamespaceInternal(final String prefix, final String name)

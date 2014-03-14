@@ -380,9 +380,11 @@ public class LinkedDataCache {
         } finally {
             metadata.setMemo(graphUri, memo, sc);
 
+            // an autocommit happens independently of a call to LinkedDataSail#commit
             if (autoCommit) {
                 try {
                     sc.commit();
+                    sc.begin();
                 } catch (SailException e) {
                     throw new RippleException(e);
                 }

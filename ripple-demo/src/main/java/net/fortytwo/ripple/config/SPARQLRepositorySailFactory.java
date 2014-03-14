@@ -10,12 +10,10 @@ import org.openrdf.sail.SailException;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SPARQLRepositorySailFactory implements SailFactory {
-    @Override
     public Class getSailClass() {
         return SPARQLRepositorySail.class;
     }
 
-    @Override
     public Sail createSail(URIMap uriMap, SailConfiguration config) throws RippleException {
         String endpoint = Ripple.getConfiguration().getString(Ripple.SPARQL_ENDPOINTURL);
         try {

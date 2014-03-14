@@ -35,6 +35,7 @@ public final class Ripple
             NATIVESTORE_INDEXES                 = "net.fortytwo.ripple.demo.nativeStoreIndexes",
             SPARQL_ENDPOINTURL                  = "net.fortytwo.ripple.demo.sparqlEndpointUrl",
             READ_ONLY                           = "net.fortytwo.ripple.demo.readOnly",
+            SAIL_LOG                            = "net.fortytwo.ripple.demo.sailLog",
             SAIL_TYPE                           = "net.fortytwo.ripple.demo.sailType",
             ALLOW_DUPLICATE_NAMESPACES          = "net.fortytwo.ripple.io.allowDuplicateNamespaces",
             PREFER_NEWEST_NAMESPACE_DEFINITIONS = "net.fortytwo.ripple.io.preferNewestNamespaceDefinitions",

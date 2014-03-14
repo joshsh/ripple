@@ -29,7 +29,7 @@ public class QueryPipeTest extends RippleTestCase
         Collector<RippleList> expected = new Collector<RippleList>();
         Collector<RippleList> results = new Collector<RippleList>();
         QueryPipe qp = new QueryPipe( qe, results );
-        ModelConnection mc = qe.createConnection();
+        ModelConnection mc = qe.getConnection();
 
         RippleValue
                 zero = mc.numericValue(0),
@@ -61,7 +61,7 @@ public class QueryPipeTest extends RippleTestCase
         assertCollectorsEqual( expected, results );
 
         qp.close();
-        mc.close();
+        //mc.close();
     }
 
     public void testFuzz() throws Exception
@@ -76,7 +76,7 @@ public class QueryPipeTest extends RippleTestCase
         Collector<RippleList> expected = new Collector<RippleList>();
         Collector<RippleList> results = new Collector<RippleList>();
         QueryPipe qp = new QueryPipe( qe, results );
-        ModelConnection mc = qe.createConnection();
+        ModelConnection mc = qe.getConnection();
 
         RippleValue
                 five = mc.numericValue(5);
@@ -116,6 +116,6 @@ public class QueryPipeTest extends RippleTestCase
         }
 
         qp.close();
-        mc.close();
+        //mc.close();
     }
 }
