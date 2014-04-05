@@ -87,7 +87,7 @@ public class Pow extends PrimitiveStackMapping {
                 stack = stack.getRest();
 
                 if (a.doubleValue() > 0 && c.doubleValue() > 0) {
-                    result = mc.numericValue(Math.log(c.doubleValue()) / Math.log(a.doubleValue()));
+                    result = mc.valueOf(Math.log(c.doubleValue()) / Math.log(a.doubleValue()));
                     solutions.put(stack.push(result));
                 }
             }

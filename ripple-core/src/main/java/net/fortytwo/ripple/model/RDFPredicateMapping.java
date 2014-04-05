@@ -5,6 +5,8 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.Ripple;
 import org.openrdf.model.vocabulary.RDF;
 
+import java.net.URI;
+
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
@@ -39,7 +41,7 @@ public class RDFPredicateMapping implements StackMapping {
                                             final ModelConnection mc) throws RippleException {
         if (subject instanceof RippleList) {
             if (predicate.sesameValue().equals(RDF.TYPE)) {
-                solutions.put(rest.push(mc.uriValue(RDF.LIST.toString())));
+                solutions.put(rest.push(mc.valueOf(URI.create(RDF.LIST.toString()))));
             } else if (!((RippleList) subject).isNil()) {
                 //System.out.println("" + subject + " " + predicate);
                 if (predicate.sesameValue().equals(RDF.FIRST)) {

@@ -141,6 +141,12 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
+    /**
+     * @return the existing <code>SailConnection</code> of this model connection.
+     * A new <code>SailConnection</code> is not created.
+     * The connection comes with an active transaction,
+     * and a new transaction should be begun immediately after external commit or rollback operations.
+     */
     public SailConnection getSailConnection() {
         return sailConnection;
     }
@@ -394,12 +400,12 @@ public class SesameModelConnection implements ModelConnection {
 
     ////////////////////////////////////////////////////////////////////////////
 
-    public RDFValue uriValue(final String s) throws RippleException {
+    public RDFValue valueOf(final java.net.URI s) throws RippleException {
         try {
 // return canonicalize(valueFactory.createURI(s));
             // Note: do NOT automatically canonicalize values.  Sometimes one needs the original URI (e.g. so as to
             // remove statements), and not the native object it maps to.
-            return new RDFValue(valueFactory.createURI(s));
+            return new RDFValue(valueFactory.createURI(s.toString()));
         } catch (Throwable t) {
             reset(true);
             throw new RippleException(t);
@@ -410,7 +416,7 @@ public class SesameModelConnection implements ModelConnection {
         return model.specialValues.get(v);
     }
 
-    public RDFValue plainValue(final String s) throws RippleException {
+    public RDFValue valueOf(final String s) throws RippleException {
         try {
             return new RDFValue(
                     valueFactory.createLiteral(s));
@@ -421,7 +427,7 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
-    public RDFValue languageTaggedValue(final String s, final String language)
+    public RDFValue valueOf(final String s, final String language)
             throws RippleException {
         try {
             return new RDFValue(
@@ -432,7 +438,7 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
-    public RDFValue typedValue(final String s, final URI dataType)
+    public RDFValue valueOf(final String s, final URI dataType)
             throws RippleException {
         try {
             return new RDFValue(
@@ -443,7 +449,7 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
-    public RDFValue booleanValue(final boolean b)
+    public RDFValue valueOf(final boolean b)
             throws RippleException {
         try {
             return new RDFValue(
@@ -454,19 +460,19 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
-    public NumericValue numericValue(final int i) throws RippleException {
+    public NumericValue valueOf(final int i) throws RippleException {
         return new SesameNumericValue(i);
     }
 
-    public NumericValue numericValue(final long l) throws RippleException {
+    public NumericValue valueOf(final long l) throws RippleException {
         return new SesameNumericValue(l);
     }
 
-    public NumericValue numericValue(final double d) throws RippleException {
+    public NumericValue valueOf(final double d) throws RippleException {
         return new SesameNumericValue(d);
     }
 
-    public NumericValue numericValue(final BigDecimal b) throws RippleException {
+    public NumericValue valueOf(final BigDecimal b) throws RippleException {
         return new SesameNumericValue(b);
     }
 

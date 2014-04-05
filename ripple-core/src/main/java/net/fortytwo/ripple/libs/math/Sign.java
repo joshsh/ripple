@@ -54,7 +54,7 @@ public class Sign extends PrimitiveStackMapping
 		a = mc.toNumericValue( stack.getFirst() );
 		stack = stack.getRest();
 
-		result = mc.numericValue(a.sign());
+		result = mc.valueOf(a.sign());
 
 		solutions.put(
 				stack.push( result ) );

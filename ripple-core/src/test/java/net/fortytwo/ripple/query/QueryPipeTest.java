@@ -32,9 +32,9 @@ public class QueryPipeTest extends RippleTestCase
         ModelConnection mc = qe.getConnection();
 
         RippleValue
-                zero = mc.numericValue(0),
-                four = mc.numericValue(4),
-                five = mc.numericValue(5);
+                zero = mc.valueOf(0),
+                four = mc.valueOf(4),
+                five = mc.valueOf(5);
 
         // A simple expression.
         results.clear();
@@ -79,7 +79,7 @@ public class QueryPipeTest extends RippleTestCase
         ModelConnection mc = qe.getConnection();
 
         RippleValue
-                five = mc.numericValue(5);
+                five = mc.valueOf(5);
 
         byte[] bytes = new byte[128];
         for ( int i = 0; i < bytes.length; i++ )

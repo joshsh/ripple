@@ -113,7 +113,7 @@ public class Get extends PrimitiveStackMapping
 
 		try
 		{
-			method.releaseConnection();
+			method.abort();
 		}
 
 		catch ( Throwable t )
@@ -121,7 +121,7 @@ public class Get extends PrimitiveStackMapping
 			throw new RippleException( t );
 		}
 
-		solutions.put( stack.push( mc.typedValue(result, XMLSchema.STRING) ) );
+		solutions.put( stack.push( mc.valueOf(result, XMLSchema.STRING) ) );
 	}
 }
 

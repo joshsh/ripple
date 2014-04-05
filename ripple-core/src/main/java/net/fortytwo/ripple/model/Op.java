@@ -5,6 +5,8 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.io.RipplePrintStream;
 
+import java.net.URI;
+
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
@@ -93,7 +95,7 @@ public class Op implements RippleValue {
 
     public RDFValue toRDF(final ModelConnection mc)
             throws RippleException {
-        return mc.uriValue(Ripple.RIPPLE_ONTO_BASEURI + "op");
+        return mc.valueOf(URI.create(Ripple.RIPPLE_ONTO_BASEURI + "op"));
     }
 
     public StackMapping getMapping() {

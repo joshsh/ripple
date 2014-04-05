@@ -30,7 +30,7 @@ public class TypedLiteralAST implements AST<RippleList> {
                 RippleValue type = l.getFirst();
                 Value t = (URI) type.toRDF(mc).sesameValue();
                 if (t instanceof URI) {
-                    sink.put(mc.list().push(mc.typedValue(value, (URI) t)));
+                    sink.put(mc.list().push(mc.valueOf(value, (URI) t)));
                 } else {
                     qe.getErrorPrintStream().println("datatype does not map to a URI reference: " + type);
                 }

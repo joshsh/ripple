@@ -51,7 +51,7 @@ public class Sinh extends PrimitiveStackMapping
 		a = mc.toNumericValue( stack.getFirst() );
 		stack = stack.getRest();
 
-		result = mc.numericValue(Math.sinh(a.doubleValue()));
+		result = mc.valueOf(Math.sinh(a.doubleValue()));
 
 		solutions.put(
 				stack.push( result ) );

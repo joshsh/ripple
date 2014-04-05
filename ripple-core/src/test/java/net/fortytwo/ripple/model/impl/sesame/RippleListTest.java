@@ -66,12 +66,12 @@ public class RippleListTest extends RippleTestCase
             }
         };
 
-        RippleValue l1 = mc.typedValue("1", XMLSchema.STRING);
-        RippleValue l2 = mc.typedValue("2", XMLSchema.STRING);
-        RippleValue l1a = mc.typedValue("1a", XMLSchema.STRING);
-        RippleValue l1b = mc.typedValue("1b", XMLSchema.STRING);
-        RippleValue l2a = mc.typedValue("2a", XMLSchema.STRING);
-        RippleValue l2b = mc.typedValue("2b", XMLSchema.STRING);
+        RippleValue l1 = mc.valueOf("1", XMLSchema.STRING);
+        RippleValue l2 = mc.valueOf("2", XMLSchema.STRING);
+        RippleValue l1a = mc.valueOf("1a", XMLSchema.STRING);
+        RippleValue l1b = mc.valueOf("1b", XMLSchema.STRING);
+        RippleValue l2a = mc.valueOf("2a", XMLSchema.STRING);
+        RippleValue l2b = mc.valueOf("2b", XMLSchema.STRING);
 
         head = new RDFValue( createURI( "urn:test.RippleListTest.FromRdfTest#simpleList", mc ) );
         created.clear();
@@ -119,10 +119,10 @@ public class RippleListTest extends RippleTestCase
     {
         ModelConnection mc = getTestModel().createConnection();
         RippleValue
-            a0 = mc.numericValue(42),
-            a1 = mc.numericValue(137),
-            a2 = mc.numericValue(23),
-            b0 = mc.numericValue(216);
+            a0 = mc.valueOf(42),
+            a1 = mc.valueOf(137),
+            a2 = mc.valueOf(23),
+            b0 = mc.valueOf(216);
         mc.close();
 
         RippleList

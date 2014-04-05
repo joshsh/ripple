@@ -12,6 +12,7 @@ import net.fortytwo.ripple.model.StatementPatternQuery;
 import org.openrdf.model.Statement;
 import org.openrdf.model.Value;
 
+import java.net.URI;
 import java.util.Random;
 import java.util.UUID;
 
@@ -64,6 +65,6 @@ public class ModelConnectionHelper {
     }
 
     public RDFValue createRandomURI() throws RippleException {
-        return connection.uriValue(Ripple.RANDOM_URN_PREFIX + UUID.randomUUID());
+        return connection.valueOf(URI.create(Ripple.RANDOM_URN_PREFIX + UUID.randomUUID()));
     }
 }

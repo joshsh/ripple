@@ -15,6 +15,8 @@ import net.fortytwo.ripple.query.LazyEvaluatingIterator;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.QueryPipe;
 import net.fortytwo.ripple.query.StackEvaluator;
+import org.junit.After;
+import org.junit.Before;
 import org.openrdf.model.URI;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.model.vocabulary.RDFS;
@@ -44,6 +46,7 @@ public abstract class RippleTestCase extends TestCase {
     protected ModelConnection modelConnection = null;
     protected Comparator<RippleValue> comparator = null;
 
+    @Before
     public void setUp() throws Exception {
         modelConnection = getTestModel().createConnection();
         comparator = modelConnection.getComparator();
@@ -59,6 +62,7 @@ public abstract class RippleTestCase extends TestCase {
         }
     }
 
+    @After
     public void tearDown() throws Exception {
         if (null != modelConnection) {
             modelConnection.close();
@@ -285,6 +289,6 @@ while (!l.isNil()) {
 
     protected URI createURI(final String s,
                             final ModelConnection mc) throws RippleException {
-        return (URI) mc.uriValue(s).sesameValue();
+        return (URI) mc.valueOf(java.net.URI.create(s)).sesameValue();
     }
 }

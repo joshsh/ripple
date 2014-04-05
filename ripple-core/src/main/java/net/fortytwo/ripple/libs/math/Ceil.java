@@ -53,7 +53,7 @@ public class Ceil extends PrimitiveStackMapping
 		a = mc.toNumericValue( stack.getFirst() );
 		stack = stack.getRest();
 
-		result = mc.numericValue((int) Math.ceil(a.doubleValue()));
+		result = mc.valueOf((int) Math.ceil(a.doubleValue()));
 
 		solutions.put(
 				stack.push( result ) );

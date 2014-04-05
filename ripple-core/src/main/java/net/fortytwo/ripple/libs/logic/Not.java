@@ -49,7 +49,7 @@ public class Not extends PrimitiveStackMapping {
         x = mc.toBoolean(stack.getFirst());
         stack = stack.getRest();
 
-        RippleValue result = mc.booleanValue(!x);
+        RippleValue result = mc.valueOf(!x);
 
         solutions.put(
                 stack.push(result));

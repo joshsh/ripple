@@ -53,7 +53,7 @@ public class Cos extends PrimitiveStackMapping
 		a = mc.toNumericValue( stack.getFirst() );
 		stack = stack.getRest();
 
-		result = mc.numericValue(Math.cos(a.doubleValue()));
+		result = mc.valueOf(Math.cos(a.doubleValue()));
 
 		solutions.put(
 				stack.push( result ) );

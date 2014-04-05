@@ -41,7 +41,7 @@ public class KeyValues extends PrimitiveStackMapping {
         if (first instanceof KeyValueValue) {
             for (String key : ((KeyValueValue) first).getKeys()) {
                 RippleValue value = ((KeyValueValue) first).getValue(key, mc);
-                solutions.put(stack.push(mc.plainValue(key)).push(value));
+                solutions.put(stack.push(mc.valueOf(key)).push(value));
             }
         }
     }

@@ -8,12 +8,14 @@ import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.query.QueryEngine;
 
+import java.net.URI;
+
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class URIAST implements AST<RippleList>
 {
-	private final String value;
+	private final URI value;
 
 	public URIAST( final String escapedValue )
 	{
@@ -31,7 +33,7 @@ public class URIAST implements AST<RippleList>
             System.exit( 1 );
 		}
 
-        this.value = s;
+        this.value = URI.create(s);
     }
 
 	public void evaluate( final Sink<RippleList> sink,
@@ -39,13 +41,13 @@ public class URIAST implements AST<RippleList>
 						final ModelConnection mc )
 		throws RippleException
 	{
-        RDFValue v = mc.uriValue(value);
+        RDFValue v = mc.valueOf(value);
 		sink.put( mc.list().push(mc.canonicalValue(v)) );
 	}
 
 	public String toString()
 	{
-		return "<" + StringUtils.escapeURIString( value ) + ">";
+		return "<" + StringUtils.escapeURIString( value.toString() ) + ">";
 	}
 }
 

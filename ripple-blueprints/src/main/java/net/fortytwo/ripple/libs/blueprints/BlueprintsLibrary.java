@@ -38,20 +38,20 @@ public class BlueprintsLibrary extends Library {
         } else if (tinker instanceof Edge) {
             return new EdgeValue((Edge) tinker);
         } else if (tinker instanceof String) {
-            return mc.plainValue((String) tinker);
+            return mc.valueOf((String) tinker);
         } else if (tinker instanceof Double) {
-            return mc.numericValue((Double) tinker);
+            return mc.valueOf((Double) tinker);
         } else if (tinker instanceof Integer) {
-            return mc.numericValue((Integer) tinker);
+            return mc.valueOf((Integer) tinker);
         } else if (tinker instanceof Long) {
-            return mc.numericValue((Long) tinker);
+            return mc.valueOf((Long) tinker);
         } else if (tinker instanceof Boolean) {
-            return mc.booleanValue((Boolean) tinker);
+            return mc.valueOf((Boolean) tinker);
         } else if (tinker instanceof Float) {
             // Cheat and call it a double.
-            return mc.numericValue(Double.valueOf((Float) tinker));
+            return mc.valueOf(Double.valueOf((Float) tinker));
         } else {
-            return mc.plainValue("[" + tinker.toString() + " (" + tinker.getClass() + ")]");
+            return mc.valueOf("[" + tinker.toString() + " (" + tinker.getClass() + ")]");
         }
     }
 

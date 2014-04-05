@@ -106,7 +106,7 @@ public interface ModelConnection {
      * @return the resulting RDF value
      * @throws RippleException if the argument is not a valid URI
      */
-    RDFValue uriValue(String uri) throws RippleException;
+    RDFValue valueOf(java.net.URI uri) throws RippleException;
 
     /**
      * Constructs a plain literal value in Ripple space.
@@ -115,7 +115,7 @@ public interface ModelConnection {
      * @return the resulting string value
      * @throws RippleException if the literal cannot be constructed
      */
-    RDFValue plainValue(String label) throws RippleException;
+    RDFValue valueOf(String label) throws RippleException;
 
     /**
      * Constructs a language-tagged literal value in Ripple space.
@@ -125,7 +125,7 @@ public interface ModelConnection {
      * @return the resulting value
      * @throws RippleException if the literal cannot be constructed
      */
-    RDFValue languageTaggedValue(String s, String language) throws RippleException;
+    RDFValue valueOf(String s, String language) throws RippleException;
 
     /**
      * Constructs a typed RDF literal value.
@@ -136,7 +136,7 @@ public interface ModelConnection {
      * @throws RippleException if the arguments do not define a valid literal
      */
     // TODO: this should use an implementation-independent URI class
-    RDFValue typedValue(String label, URI datatype) throws RippleException;
+    RDFValue valueOf(String label, URI datatype) throws RippleException;
 
     /**
      * Constructs a boolean value.
@@ -145,7 +145,7 @@ public interface ModelConnection {
      * @return the resulting RDF value
      * @throws RippleException if the value cannot be constructed
      */
-    RDFValue booleanValue(boolean b) throws RippleException;
+    RDFValue valueOf(boolean b) throws RippleException;
 
     /**
      * Constructs an integer-typed numeric value.
@@ -154,7 +154,7 @@ public interface ModelConnection {
      * @return the resulting numeric value
      * @throws RippleException if the value cannot be constructed
      */
-    NumericValue numericValue(int i) throws RippleException;
+    NumericValue valueOf(int i) throws RippleException;
 
     /**
      * Constructs a long-integer-typed numeric value.
@@ -163,7 +163,7 @@ public interface ModelConnection {
      * @return the resulting numeric value
      * @throws RippleException if the value cannot be constructed
      */
-    NumericValue numericValue(long l) throws RippleException;
+    NumericValue valueOf(long l) throws RippleException;
 
     /**
      * Constructs a double-precision numeric value.
@@ -172,7 +172,7 @@ public interface ModelConnection {
      * @return the resulting numeric value
      * @throws RippleException if the value cannot be constructed
      */
-    NumericValue numericValue(double d) throws RippleException;
+    NumericValue valueOf(double d) throws RippleException;
 
     /**
      * Constructs a big-decimal-typed numeric value.
@@ -181,7 +181,7 @@ public interface ModelConnection {
      * @return the resulting numeric value
      * @throws RippleException if the value cannot be constructed
      */
-    NumericValue numericValue(BigDecimal bd) throws RippleException;
+    NumericValue valueOf(BigDecimal bd) throws RippleException;
 
     /**
      * Finds the "canonical" value, in Ripple space, for a given RDF value.

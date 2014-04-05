@@ -41,9 +41,11 @@ public class RippleSailTest extends TestCase {
         addDummyData(baseSail);
 
         sc = sail.getConnection();
+        sc.begin();
     }
 
     public final void tearDown() throws Exception {
+        sc.rollback();
         sc.close();
         sail.shutDown();
         baseSail.shutDown();
@@ -296,9 +298,11 @@ public class RippleSailTest extends TestCase {
         Repository repo = new SailRepository(sail);
         RepositoryConnection rc = repo.getConnection();
         try {
+            rc.begin();
             rc.add(RippleSail.class.getResource("rippleSailTest.trig"), "", RDFFormat.TRIG);
             rc.commit();
         } finally {
+            rc.rollback();
             rc.close();
         }
     }

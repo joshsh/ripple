@@ -58,7 +58,7 @@ public class DefineListCmd extends Command
 			RippleList expr = (RippleList) expressions.iterator().next().getFirst();
 //System.out.println( "exprList = " + exprList );
 
-			RDFValue id = mc.uriValue(qe.getLexicon().getDefaultNamespace() + name);
+			RDFValue id = mc.valueOf(java.net.URI.create(qe.getLexicon().getDefaultNamespace() + name));
             expr.setRDF(id);
             mc.internalize(expr);
 			mc.commit();

@@ -51,7 +51,7 @@ public class Lang extends PrimitiveStackMapping {
 
             if (null != result) {
                 solutions.put(
-                        stack.push(mc.plainValue(result)));
+                        stack.push(mc.valueOf(result)));
             }
         }
     }

@@ -23,7 +23,7 @@ public class BooleanAST implements AST<RippleList>
 						final ModelConnection mc )
 		throws RippleException
 	{
-		sink.put( mc.list().push( mc.booleanValue(value) ) );
+		sink.put( mc.list().push( mc.valueOf(value) ) );
 	}
 
 	public String toString()

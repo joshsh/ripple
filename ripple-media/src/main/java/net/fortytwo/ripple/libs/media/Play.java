@@ -15,6 +15,7 @@ import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Sequencer;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -52,7 +53,7 @@ public class Play extends PrimitiveStackMapping
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
 
-        RDFValue uri = mc.uriValue(mc.toString(arg.getFirst()));
+        RDFValue uri = mc.valueOf(URI.create(mc.toString(arg.getFirst())));
 		//stack = stack.getRest();
 
 		try

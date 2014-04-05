@@ -70,11 +70,11 @@ public class JSONValue extends KeyValueValue {
     public static RippleValue toRippleValue(final Object o,
                                             final ModelConnection mc) throws RippleException {
         if (o instanceof Boolean) {
-            return mc.booleanValue((Boolean) o);
+            return mc.valueOf((Boolean) o);
         } else if (o instanceof Double) {
-            return mc.numericValue((Double) o);
+            return mc.valueOf((Double) o);
         } else if (o instanceof Integer) {
-            return mc.numericValue((Integer) o);
+            return mc.valueOf((Integer) o);
         } else if (o instanceof JSONArray) {
             JSONArray a = (JSONArray) o;
             RippleList l = mc.list();
@@ -89,9 +89,9 @@ public class JSONValue extends KeyValueValue {
         } else if (o instanceof JSONObject) {
             return new JSONValue((JSONObject) o);
         } else if (o instanceof Long) {
-            return mc.numericValue((Long) o);
+            return mc.valueOf((Long) o);
         } else if (o instanceof String) {
-            return mc.plainValue((String) o);
+            return mc.valueOf((String) o);
         } else {
             throw new RippleException("tried to convert object of unfamiliar type: " + o);
         }

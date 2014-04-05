@@ -1,6 +1,7 @@
 package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Before;
 import org.openrdf.model.vocabulary.XMLSchema;
 
 /**
@@ -50,7 +51,7 @@ public class AssertInContextTest extends RippleTestCase
     public void testLiteralObjects() throws Exception {
         reduce("@prefix ex: <http://example.org/assert-in-context-test/>");
 
-        modelConnection.remove( null, null, modelConnection.numericValue(42) );
+        modelConnection.remove( null, null, modelConnection.valueOf(42) );
         modelConnection.commit();
         assertReducesTo( "ex:a ex:specialNumber ex:ctx1 in-context." );
         assertReducesTo( "ex:a ex:specialNumber 42 ex:ctx1 assert-in-context.", "ex:a" );
@@ -59,14 +60,14 @@ public class AssertInContextTest extends RippleTestCase
         // Equality does not imply identity in statement queries.
         assertReducesTo( "42.0 ex:specialNumber ex:ctx1 in-context~." );
 
-        modelConnection.remove( null, null, modelConnection.typedValue("something", XMLSchema.STRING) );
+        modelConnection.remove( null, null, modelConnection.valueOf("something", XMLSchema.STRING) );
         modelConnection.commit();
         assertReducesTo( "ex:a rdfs:comment ex:ctx1 in-context." );
         assertReducesTo( "ex:a rdfs:comment \"something\" ex:ctx1 assert-in-context.", "ex:a" );
         assertReducesTo( "ex:a rdfs:comment ex:ctx1 in-context.", "\"something\"" );
         assertReducesTo( "\"something\" rdfs:comment ex:ctx1 in-context~.", "ex:a" );
 
-        modelConnection.remove( null, null, modelConnection.typedValue("something", XMLSchema.STRING) );
+        modelConnection.remove( null, null, modelConnection.valueOf("something", XMLSchema.STRING) );
         modelConnection.commit();
         assertReducesTo( "ex:a rdfs:label ex:ctx1 in-context." );
         assertReducesTo( "ex:a rdfs:label \"something\"^^xsd:string ex:ctx1 assert-in-context.", "ex:a" );
@@ -77,7 +78,7 @@ public class AssertInContextTest extends RippleTestCase
     public void testNullContext() throws Exception {
         reduce("@prefix ex: <http://example.org/assert-in-context-test/>");
 
-        modelConnection.remove( null, null, modelConnection.plainValue("q") );
+        modelConnection.remove( null, null, modelConnection.valueOf("q") );
         modelConnection.commit();
         assertReducesTo( "ex:q rdfs:label \"q\" () assert-in-context.", "ex:q" );
         assertReducesTo( "ex:q rdfs:label () in-context.", "\"q\"" );

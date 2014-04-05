@@ -55,8 +55,8 @@ public class OperatorTest extends RippleTestCase
 
         Collector<Operator> ops = new Collector<Operator>();
         RippleValue arg;
-        RippleValue a1 = mc.plainValue("1");
-        RippleValue a2 = mc.plainValue("2");
+        RippleValue a1 = mc.valueOf("1");
+        RippleValue a2 = mc.valueOf("2");
 
         // a RippleList --> ListDequotation
         arg = mc.list().push(a2).push( a1 );
@@ -115,7 +115,7 @@ public class OperatorTest extends RippleTestCase
         assertTrue( ops.iterator().next().getMapping() instanceof RDFPredicateMapping);
 
         // anything else --> NullFilter
-        arg = mc.numericValue(42);
+        arg = mc.valueOf(42);
         ops.clear();
         Operator.createOperator( arg, ops, mc );
         assertEquals( 1, ops.size() );

@@ -23,30 +23,30 @@ public class RipplePrintStreamTest extends RippleTestCase
 
         mc.setNamespace( "xsd", "http://www.w3.org/2001/XMLSchema#", true );
 
-        ps.print( mc.numericValue(42) );
+        ps.print( mc.valueOf(42) );
         assertEquals( "42", bos.toString() );
         bos.reset();
-        ps.print( mc.numericValue(0) );
+        ps.print( mc.valueOf(0) );
         assertEquals( "0", bos.toString() );
         bos.reset();
-        ps.print( mc.numericValue(-42) );
+        ps.print( mc.valueOf(-42) );
         assertEquals( "-42", bos.toString() );
         bos.reset();
 
-        ps.print( mc.numericValue(42.0) );
+        ps.print( mc.valueOf(42.0) );
         assertEquals( "42.0E0", bos.toString() );
         bos.reset();
-        ps.print( mc.numericValue(0.0) );
+        ps.print( mc.valueOf(0.0) );
         assertEquals( "0.0E0", bos.toString() );
         bos.reset();
-        ps.print( mc.numericValue(-42.0) );
+        ps.print( mc.valueOf(-42.0) );
         assertEquals( "-42.0E0", bos.toString() );
         bos.reset();
 
-        ps.print( mc.booleanValue(true) );
+        ps.print( mc.valueOf(true) );
         assertEquals( "true", bos.toString() );
         bos.reset();
-        ps.print( mc.booleanValue(false) );
+        ps.print( mc.valueOf(false) );
         assertEquals( "false", bos.toString() );
         bos.reset();
 

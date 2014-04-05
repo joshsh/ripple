@@ -40,7 +40,7 @@ public class Keys extends PrimitiveStackMapping {
 
         if (first instanceof KeyValueValue) {
             for (String key : ((KeyValueValue) first).getKeys()) {
-                solutions.put(stack.push(mc.plainValue(key)));
+                solutions.put(stack.push(mc.valueOf(key)));
             }
         }
     }

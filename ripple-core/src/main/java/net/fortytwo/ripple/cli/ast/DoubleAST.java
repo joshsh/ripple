@@ -104,7 +104,7 @@ public class DoubleAST extends NumberAST
     
     public NumericValue getValue( final ModelConnection mc ) throws RippleException
     {
-        return mc.numericValue(value);
+        return mc.valueOf(value);
     }
 
 	public String toString()

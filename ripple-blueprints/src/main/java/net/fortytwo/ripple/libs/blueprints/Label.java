@@ -42,7 +42,7 @@ public class Label extends PrimitiveStackMapping {
 
         if (first instanceof EdgeValue) {
             Edge el = ((EdgeValue) first).getElement();
-            solutions.put(stack.push(mc.plainValue(el.getLabel())));
+            solutions.put(stack.push(mc.valueOf(el.getLabel())));
         }
     }
 }

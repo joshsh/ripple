@@ -38,7 +38,7 @@ public class DenyTest extends RippleTestCase
     public void testLiteralObjects() throws Exception {
         reduce("@prefix ex: <http://example.org/denyTest/>.");
 
-        modelConnection.remove( null, null, modelConnection.numericValue(42) );
+        modelConnection.remove( null, null, modelConnection.valueOf(42) );
         modelConnection.commit();
         assertReducesTo( "ex:a ex:specialNumer 42 assert.", "ex:a" );
         assertReducesTo( "ex:a ex:specialNumer.", "42" );
@@ -52,7 +52,7 @@ public class DenyTest extends RippleTestCase
         assertReducesTo( "ex:b ex:specialNumer.", "42" );
         assertReducesTo( "42 ex:specialNumer~.", "ex:b" );
 
-        modelConnection.remove( null, null, modelConnection.plainValue("something") );
+        modelConnection.remove( null, null, modelConnection.valueOf("something") );
         modelConnection.commit();
         assertReducesTo( "ex:a rdfs:comment \"something\" assert.", "ex:a" );
         assertReducesTo( "ex:a rdfs:comment.", "\"something\"" );
@@ -60,7 +60,7 @@ public class DenyTest extends RippleTestCase
         assertReducesTo( "ex:a rdfs:comment \"something\" deny.", "ex:a" );
         assertReducesTo( "ex:a rdfs:comment." );
 
-        modelConnection.remove( null, null, modelConnection.typedValue("something", XMLSchema.STRING) );
+        modelConnection.remove( null, null, modelConnection.valueOf("something", XMLSchema.STRING) );
         modelConnection.commit();
         assertReducesTo( "ex:a rdfs:label \"something\"^^xsd:string assert.", "ex:a" );
         assertReducesTo( "ex:a rdfs:label.", "\"something\"^^xsd:string" );

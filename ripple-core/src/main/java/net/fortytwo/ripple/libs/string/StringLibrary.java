@@ -71,8 +71,8 @@ public class StringLibrary extends Library
         }
 
         return stringTyped
-                ? mc.typedValue(label, XMLSchema.STRING)
-                : mc.plainValue(label);
+                ? mc.valueOf(label, XMLSchema.STRING)
+                : mc.valueOf(label);
     }
 }
 

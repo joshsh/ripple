@@ -16,10 +16,10 @@ public class RippleValueComparatorTest extends RippleTestCase {
         ModelConnection mc = getTestModel().createConnection();
         Comparator<RippleValue> c = mc.getComparator();
 
-        assertTrue(c.compare(mc.numericValue(42), mc.numericValue(42)) == 0);
-        assertTrue(c.compare(mc.numericValue(42.0), mc.numericValue(42)) == 0);
-        assertTrue(c.compare(mc.numericValue(42), mc.plainValue("foo")) < 0);
-        assertTrue(c.compare(mc.numericValue(42), new StackMappingWrapper(new NullStackMapping(), mc)) < 0);
+        assertTrue(c.compare(mc.valueOf(42), mc.valueOf(42)) == 0);
+        assertTrue(c.compare(mc.valueOf(42.0), mc.valueOf(42)) == 0);
+        assertTrue(c.compare(mc.valueOf(42), mc.valueOf("foo")) < 0);
+        assertTrue(c.compare(mc.valueOf(42), new StackMappingWrapper(new NullStackMapping(), mc)) < 0);
 
         mc.close();
     }
@@ -29,9 +29,9 @@ public class RippleValueComparatorTest extends RippleTestCase {
         Comparator<RippleValue> comparator = mc.getComparator();
 
         RippleValue
-                minusone = mc.numericValue(-1.0),
-                one = mc.numericValue(1),
-                two = mc.numericValue(2);
+                minusone = mc.valueOf(-1.0),
+                one = mc.valueOf(1),
+                two = mc.valueOf(2);
 
         assertEquals(0, comparator.compare(
                 createStack(mc, one, two),

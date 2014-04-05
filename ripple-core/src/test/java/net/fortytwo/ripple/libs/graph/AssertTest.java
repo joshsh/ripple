@@ -44,7 +44,7 @@ public class AssertTest extends RippleTestCase
     public void testLiteralObjects() throws Exception {
         reduce("@prefix ex: <http://example.org/assertTest/>.");
 
-        modelConnection.remove( null, null, modelConnection.numericValue(42) );
+        modelConnection.remove( null, null, modelConnection.valueOf(42) );
         modelConnection.commit();
         assertReducesTo( "ex:a ex:specialNumer." );
         assertReducesTo( "ex:a ex:specialNumer 42 assert.", "ex:a" );
@@ -53,14 +53,14 @@ public class AssertTest extends RippleTestCase
         // Equality does not imply identity in statement queries.
         assertReducesTo( "42.0 ex:specialNumer~." );
 
-        modelConnection.remove( null, null, modelConnection.plainValue("something") );
+        modelConnection.remove( null, null, modelConnection.valueOf("something") );
         modelConnection.commit();
         assertReducesTo( "ex:a rdfs:comment." );
         assertReducesTo( "ex:a rdfs:comment \"something\" assert.", "ex:a" );
         assertReducesTo( "ex:a rdfs:comment.", "\"something\"" );
         assertReducesTo( "\"something\" rdfs:comment~.", "ex:a" );
 
-        modelConnection.remove( null, null, modelConnection.typedValue("something", XMLSchema.STRING) );
+        modelConnection.remove( null, null, modelConnection.valueOf("something", XMLSchema.STRING) );
         modelConnection.commit();
         assertReducesTo( "ex:a rdfs:label." );
         assertReducesTo( "ex:a rdfs:label \"something\"^^xsd:string assert.", "ex:a" );

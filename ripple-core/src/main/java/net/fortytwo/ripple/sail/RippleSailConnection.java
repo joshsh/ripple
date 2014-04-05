@@ -277,4 +277,9 @@ public class RippleSailConnection extends SailConnectionWrapper {
             throw new UnsupportedOperationException();
         }
     }
+
+    @Override
+    public void begin() {
+        // Do nothing; adapt to SesameModel, which begins transactions implicitly
+    }
 }

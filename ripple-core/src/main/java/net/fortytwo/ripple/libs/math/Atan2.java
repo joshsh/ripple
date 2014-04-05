@@ -52,7 +52,7 @@ public class Atan2 extends PrimitiveStackMapping {
             result = Math.atan2(x, y);
 
             solutions.put(
-                    stack.push(mc.numericValue(result)));
+                    stack.push(mc.valueOf(result)));
         }
     }
 

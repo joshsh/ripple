@@ -53,7 +53,7 @@ public class Cosh extends PrimitiveStackMapping
 		a = mc.toNumericValue( stack.getFirst() );
 		stack = stack.getRest();
 
-		result = mc.numericValue(Math.cosh(a.doubleValue()));
+		result = mc.valueOf(Math.cosh(a.doubleValue()));
 
 		solutions.put(
 				stack.push( result ) );

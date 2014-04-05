@@ -55,7 +55,7 @@ public class Or extends PrimitiveStackMapping {
         y = mc.toBoolean(stack.getFirst());
         stack = stack.getRest();
 
-        RippleValue result = mc.booleanValue(x || y);
+        RippleValue result = mc.valueOf(x || y);
 
         solutions.put(
                 stack.push(result));
@@ -88,13 +88,13 @@ public class Or extends PrimitiveStackMapping {
                 stack = stack.getRest();
 
                 if (x) {
-                    RippleValue t = mc.booleanValue(true);
-                    RippleValue f = mc.booleanValue(false);
+                    RippleValue t = mc.valueOf(true);
+                    RippleValue f = mc.valueOf(false);
                     solutions.put(stack.push(t).push(t));
                     solutions.put(stack.push(t).push(f));
                     solutions.put(stack.push(f).push(t));
                 } else {
-                    RippleValue f = mc.booleanValue(false);
+                    RippleValue f = mc.valueOf(false);
                     solutions.put(stack.push(f).push(f));
                 }
             }

@@ -33,8 +33,8 @@ public class PlainLiteralAST implements AST<RippleList>
 		throws RippleException
 	{
 		RippleValue v = ( null == language )
-			? mc.plainValue(value)
-			: mc.languageTaggedValue(value, language);
+			? mc.valueOf(value)
+			: mc.valueOf(value, language);
 		sink.put( mc.list().push(v) );
 	}
 

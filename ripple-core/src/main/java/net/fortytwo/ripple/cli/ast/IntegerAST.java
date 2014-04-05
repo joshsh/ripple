@@ -49,7 +49,7 @@ public class IntegerAST extends NumberAST
     {
         // FIXME: xsd:integer values are constrained to the precision of Java
         // int's, whereas they are supposed to have arbitrary precision.
-        return mc.numericValue(value.intValue());
+        return mc.valueOf(value.intValue());
     }
 
 	public String toString()

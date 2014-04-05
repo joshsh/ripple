@@ -57,7 +57,7 @@ public class Empty extends PrimitiveStackMapping
 			{
 				boolean result = list.isNil();
 				solutions.put(
-						rest.push( mc.booleanValue(result) ) );
+						rest.push( mc.valueOf(result) ) );
 			}
 		};
 

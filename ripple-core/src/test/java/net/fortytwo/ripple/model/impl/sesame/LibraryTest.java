@@ -5,6 +5,8 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.test.RippleTestCase;
 
+import java.net.URI;
+
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
@@ -14,11 +16,11 @@ public class LibraryTest extends RippleTestCase
     {
         ModelConnection mc = this.modelConnection;
 
-        String dup05 = "http://fortytwo.net/2007/05/ripple/stack#dup";
-        String dup08 = "http://fortytwo.net/2007/08/ripple/stack#dup";
+        URI dup05 = URI.create("http://fortytwo.net/2007/05/ripple/stack#dup");
+        URI dup08 = URI.create("http://fortytwo.net/2007/08/ripple/stack#dup");
 
-        RippleValue dup05Val = mc.canonicalValue( mc.uriValue(dup05) );
-        RippleValue dup08Val = mc.canonicalValue( mc.uriValue(dup08) );
+        RippleValue dup05Val = mc.canonicalValue( mc.valueOf(dup05) );
+        RippleValue dup08Val = mc.canonicalValue( mc.valueOf(dup08) );
 
         assertNotNull( dup05Val );
         assertNotNull( dup08Val );
