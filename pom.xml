@@ -47,7 +47,8 @@
     </developers>
 
     <properties>
-        <httpcomponents.version>4.3.3</httpcomponents.version> <!-- note: *not* compatible with Android 2.2.1 -->
+        <httpcomponents.version>4.3.3</httpcomponents.version>
+        <!-- note: *not* compatible with Android 2.2.1 -->
         <junit.version>4.11</junit.version>
         <restlet.version>2.1.1</restlet.version>
         <ripple.version>1.2-SNAPSHOT</ripple.version>
@@ -93,7 +94,7 @@
                             </goals>
                             <configuration>
                                 <rules>
-                                    <DependencyConvergence />
+                                    <DependencyConvergence/>
                                 </rules>
                             </configuration>
                         </execution>
@@ -163,11 +164,6 @@
             <id>fortytwo</id>
             <name>fortytwo.net Maven repository</name>
             <url>http://fortytwo.net/maven2</url>
-        </repository>
-        <repository>
-            <id>aduna-repo</id>
-            <name>Aduna repository</name>
-            <url>http://repo.aduna-software.org/maven2/releases</url>
         </repository>
         <repository>
             <id>maven-restlet</id>

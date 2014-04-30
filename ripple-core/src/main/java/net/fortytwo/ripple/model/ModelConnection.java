@@ -84,7 +84,7 @@ public interface ModelConnection {
      *
      * @param v the value to convert.
      * @return the string representation of a value.  This is not identical to
-     *         Object.toString(), and may involve a loss of information.
+     * Object.toString(), and may involve a loss of information.
      * @throws RippleException if conversion fails
      */
     String toString(RippleValue v) throws RippleException;
@@ -107,6 +107,15 @@ public interface ModelConnection {
      * @throws RippleException if the argument is not a valid URI
      */
     RDFValue valueOf(java.net.URI uri) throws RippleException;
+
+    /**
+     * Construct a date/time value.
+     *
+     * @param d the date to convert
+     * @return the resulting RDF value
+     * @throws RippleException if the argument is not a valid date
+     */
+    RDFValue valueOf(final Date d) throws RippleException;
 
     /**
      * Constructs a plain literal value in Ripple space.
@@ -297,7 +306,7 @@ public interface ModelConnection {
      *
      * @param list the list to internalize
      * @return whether the list was internalized successfully.
-     *         If this operation is unsuccessful, no statements are added to the model.
+     * If this operation is unsuccessful, no statements are added to the model.
      * @throws RippleException if internalization fails
      */
     boolean internalize(RippleList list) throws RippleException;

@@ -42,10 +42,13 @@ import org.openrdf.sail.SailConnectionListener;
 import org.openrdf.sail.SailException;
 import org.openrdf.sail.SailReadOnlyException;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -56,6 +59,9 @@ import java.util.logging.Logger;
 public class SesameModelConnection implements ModelConnection {
     private static final Logger LOGGER
             = Logger.getLogger(ModelConnection.class.getName());
+
+    // instantiate this factory lazily, for the sake of Android applications which don't support javax
+    private static DatatypeFactory DATATYPE_FACTORY;
 
     protected final SesameModel model;
     protected SailConnection sailConnection;
@@ -226,7 +232,7 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
-    public Date toDateValue(RippleValue v) throws RippleException {
+    public Date toDateValue(final RippleValue v) throws RippleException {
         Literal l = castToLiteral(v.toRDF(this).sesameValue());
 
         XMLGregorianCalendar c = l.calendarValue();
@@ -410,6 +416,24 @@ public class SesameModelConnection implements ModelConnection {
             reset(true);
             throw new RippleException(t);
         }
+    }
+
+    public RDFValue valueOf(final Date d) throws RippleException {
+        // synchronize on the only other static member
+        synchronized (LOGGER) {
+            if (null == DATATYPE_FACTORY) {
+                try {
+                    DATATYPE_FACTORY = DatatypeFactory.newInstance();
+                } catch (DatatypeConfigurationException e) {
+                    throw new RippleException(e);
+                }
+            }
+        }
+
+        GregorianCalendar c = new GregorianCalendar();
+        c.setTime(d);
+        XMLGregorianCalendar xml = DATATYPE_FACTORY.newXMLGregorianCalendar(c);
+        return new RDFValue(valueFactory.createLiteral(xml));
     }
 
     public RippleValue canonicalValue(final RDFValue v) {

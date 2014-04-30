@@ -15,7 +15,7 @@ import net.fortytwo.ripple.model.RippleValue;
  */
 public class At extends PrimitiveStackMapping
 {
-    private static final String[] IDENTIFIERS = {
+    public static final String[] IDENTIFIERS = {
             StackLibrary.NS_2013_03 + "at",
             StackLibrary.NS_2008_08 + "at",
             StackLibrary.NS_2007_08 + "at",

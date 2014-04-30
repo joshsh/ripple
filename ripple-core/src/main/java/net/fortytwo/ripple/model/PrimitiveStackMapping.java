@@ -98,7 +98,7 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
 	{
         // TODO: this guards against a null rdfEquivalent value, but this should't be allowed to happen
         return ( null == rdfEquivalent )
-                ? "[anonymous PrimitiveStackMapping]"
+                ? "PrimitiveStackMapping(" + getIdentifiers()[0] + ")"
                 : "" + rdfEquivalent;
 	}
 
@@ -119,12 +119,8 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
     public boolean equals( final Object other )
     {
         return ( other instanceof PrimitiveStackMapping )
-                ? ( null == rdfEquivalent )
-                        ? ( null == ( (PrimitiveStackMapping) other ).rdfEquivalent )
-                        : false
-                : ( null == ( (PrimitiveStackMapping) other ).rdfEquivalent )
-                        ? false
-                        : rdfEquivalent.equals( ( (PrimitiveStackMapping) other ).rdfEquivalent );
+                ? (null == rdfEquivalent) && (null == ((PrimitiveStackMapping) other).rdfEquivalent)
+                : (null != ((PrimitiveStackMapping) other).rdfEquivalent) && rdfEquivalent.equals(((PrimitiveStackMapping) other).rdfEquivalent);
     }
 
     public int hashCode()
