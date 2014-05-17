@@ -1,21 +1,25 @@
 #!/bin/bash
 
-# Find Java
+# find Java
 if [ "$JAVA_HOME" = "" ] ; then
 	JAVA="java"
 else
 	JAVA="$JAVA_HOME/bin/java"
 fi
 
-# Set Java options
+# set Java options
 if [ "$JAVA_OPTIONS" = "" ] ; then
 	JAVA_OPTIONS="-Xms32M -Xmx512M"
 fi
 
-DIR=`dirname $0`
+LINK=`readlink $0`
+if [ "$LINK" ]; then
+    DIR=`dirname $LINK`
+else
+    DIR=`dirname $0`
+fi
 
-# Launch the application
 $JAVA $JAVA_OPTIONS -cp $DIR/target/classes:$DIR/"target/dependency/*" net.fortytwo.ripple.Demo $*
 
-# Return the program's exit code
+# return the application's exit code
 exit $?
