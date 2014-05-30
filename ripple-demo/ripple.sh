@@ -19,7 +19,4 @@ else
     DIR=`dirname $0`
 fi
 
-$JAVA $JAVA_OPTIONS -cp $DIR/target/classes:$DIR/"target/dependency/*" net.fortytwo.ripple.Demo $*
-
-# return the application's exit code
-exit $?
+exec $JAVA $JAVA_OPTIONS -cp $DIR/target/classes:$DIR/"target/dependency/*" net.fortytwo.ripple.Demo $*
