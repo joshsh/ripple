@@ -61,11 +61,6 @@
             <artifactId>sesame-repository-sail</artifactId>
             <version>${sesame.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.franz.ag</groupId>
-            <artifactId>agsail</artifactId>
-            <version>3.3</version>
-        </dependency>
 
         <dependency>
             <groupId>junit</groupId>
