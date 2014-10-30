@@ -2,7 +2,6 @@ package net.fortytwo.ripple.libs.blueprints;
 
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
-import com.tinkerpop.gremlin.groovy.jsr223.GremlinGroovyScriptEngine;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.system.SystemLibrary;
 import net.fortytwo.ripple.model.Library;

@@ -10,8 +10,7 @@ import java.util.regex.Pattern;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class DecimalAST extends NumberAST
-{
+public class DecimalAST extends NumberAST {
     /*
     decimal has a lexical representation consisting of a finite-length sequence
     of decimal digits (#x30-#x39) separated by a period as a decimal indicator.
@@ -27,38 +26,31 @@ public class DecimalAST extends NumberAST
 
     private final BigDecimal value;
 
-	public DecimalAST( final BigDecimal value )
-	{
-		this.value = value;
-	}
-
-    /**
-     *
-     * @param rep the string representation of an xsd:decimal value
-     */
-    public DecimalAST( final String rep )
-    {
-        if ( !XSD_DECIMAL.matcher( rep ).matches() )
-        {
-            throw new IllegalArgumentException( "invalid xsd:decimal value: " + rep );
-        }
-
-        value = new BigDecimal( canonicalize( rep ) );
+    public DecimalAST(final BigDecimal value) {
+        this.value = value;
     }
 
-    public NumericValue getValue( final ModelConnection mc ) throws RippleException
-    {
+    /**
+     * @param rep the string representation of an xsd:decimal value
+     */
+    public DecimalAST(final String rep) {
+        if (!XSD_DECIMAL.matcher(rep).matches()) {
+            throw new IllegalArgumentException("invalid xsd:decimal value: " + rep);
+        }
+
+        value = new BigDecimal(canonicalize(rep));
+    }
+
+    public NumericValue getValue(final ModelConnection mc) throws RippleException {
         return mc.valueOf(value);
     }
 
-    public String toString()
-	{
-		String s = value.toString();
+    public String toString() {
+        String s = value.toString();
 
         // Add a decimal point, if necessary, to make this an unambiguous
         // xsd:decimal value in Ripple syntax.
-        if ( !s.contains( "." ) )
-        {
+        if (!s.contains(".")) {
             s += ".0";
         }
 

@@ -1,84 +1,76 @@
 package net.fortytwo.ripple.cli;
 
+import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Logger;
 
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.flow.Sink;
-
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class Interpreter
-{
-	private static final Logger LOGGER
-		= Logger.getLogger( Interpreter.class.getName() );
+public class Interpreter {
+    private static final Logger LOGGER
+            = Logger.getLogger(Interpreter.class.getName());
 
-	private final RecognizerAdapter recognizerAdapter;
-	private final InputStream input;
-	private final Sink<Exception> exceptionSink;
-    
+    private final RecognizerAdapter recognizerAdapter;
+    private final InputStream input;
+    private final Sink<Exception> exceptionSink;
+
     private boolean active = false;
 
-	public Interpreter( final RecognizerAdapter adapter,
-						final InputStream input,
-						final Sink<Exception> exceptionSink )
-	{
-		recognizerAdapter = adapter;
-		this.input = input;
-		this.exceptionSink = exceptionSink;
-	}
+    public Interpreter(final RecognizerAdapter adapter,
+                       final InputStream input,
+                       final Sink<Exception> exceptionSink) {
+        recognizerAdapter = adapter;
+        this.input = input;
+        this.exceptionSink = exceptionSink;
+    }
 
-	public void quit()
-	{
-		active = false;
-	}
+    public void quit() {
+        active = false;
+    }
 
-	public void parse() throws RippleException
-	{
-		active = true;
+    public void parse() throws RippleException {
+        active = true;
 
 //System.out.println( "-- parse" );
-		// Break out when a @quit directive is encountered or a fatal error is
+        // Break out when a @quit directive is encountered or a fatal error is
         // thrown.
-		while ( active )
-		{
+        while (active) {
 //System.out.println( "-- construct" );
-			RippleLexer lexer = new RippleLexer( input );
-			lexer.initialize( recognizerAdapter );
-			RippleParser parser = new RippleParser( lexer );
-			parser.initialize( recognizerAdapter );
+            RippleLexer lexer = new RippleLexer(input);
+            lexer.initialize(recognizerAdapter);
+            RippleParser parser = new RippleParser(lexer);
+            parser.initialize(recognizerAdapter);
 
-            try
-			{
+            try {
 //System.out.println( "-- antlr" );
-				parser.nt_Document();
+                parser.nt_Document();
 
                 // If the parser has exited normally, then we're done.
 //System.out.println( "-- normal exit" );
-				active = false;
-			}
+                active = false;
+            }
 
-			// The parser has received a quit command.
-			catch ( ParserQuitException e )
-			{
+            // The parser has received a quit command.
+            catch (ParserQuitException e) {
 //System.out.println( "-- quit" );
-				LOGGER.fine( "quit() called on Interpreter" );
+                LOGGER.fine("quit() called on Interpreter");
 
-				active = false;
-			}
+                active = false;
+            }
 
             // TokenStreamIOException is considered fatal.  Two scenarios in
             // which it occurs are when the Interpreter thread has been
             // interrupted, and when the lexer has reached the end of input.
 
             // All other errors are assumed to be non-fatal.
-            catch ( Exception e )
-			{
+            catch (Exception e) {
                 // Handle non-fatal errors in an application-specific way.
-                exceptionSink.put( e );
-			}
+                exceptionSink.put(e);
+            }
 
             // If there's anything in the input buffer, it's because the parser
             // ran across a syntax error.  Clear the buffer, create a new lexer
@@ -86,25 +78,19 @@ public class Interpreter
             // Note: this is a command-line usage scenario, and precludes
             // recovery from errors when the Interpreter is reading from a
             // pre-populated buffer.
-            clear( input );            
+            clear(input);
         }
-	}
+    }
 
-	private static void clear( final InputStream is ) throws RippleException
-	{
-		try
-		{
-			int lim = is.available();
-			for ( int i = 0; i < lim; i++ )
-			{
-				is.read();
-			}
-		}
-
-		catch ( IOException e )
-		{
-			throw new RippleException( e );
-		}
-	}
+    private static void clear(final InputStream is) throws RippleException {
+        try {
+            int lim = is.available();
+            for (int i = 0; i < lim; i++) {
+                is.read();
+            }
+        } catch (IOException e) {
+            throw new RippleException(e);
+        }
+    }
 }
 

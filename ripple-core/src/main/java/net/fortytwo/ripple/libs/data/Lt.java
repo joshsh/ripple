@@ -15,34 +15,29 @@ import net.fortytwo.ripple.model.RippleValue;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class Lt extends PrimitiveStackMapping
-{
+public class Lt extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             DataLibrary.NS_2013_03 + "lt",
             MathLibrary.NS_2008_08 + "lt",
             MathLibrary.NS_2007_08 + "lt",
             MathLibrary.NS_2007_05 + "lt"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-	public Lt()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "x", null, true ),
-                new Parameter( "y", null, true )};
+    public Lt()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("x", null, true),
+                new Parameter("y", null, true)};
+    }
+
+    public String getComment() {
         return "x y  =>  b  -- where b is true if x < y, otherwise false";
     }
 
@@ -50,18 +45,18 @@ public class Lt extends PrimitiveStackMapping
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
 
-		RippleValue a, b, result;
-		RippleList stack = arg;
+        RippleValue a, b, result;
+        RippleList stack = arg;
 
-		b = stack.getFirst();
-		stack = stack.getRest();
-		a = stack.getFirst();
-		stack = stack.getRest();
+        b = stack.getFirst();
+        stack = stack.getRest();
+        a = stack.getFirst();
+        stack = stack.getRest();
 
-		result = mc.valueOf(mc.getComparator().compare(a, b) < 0);
+        result = mc.valueOf(mc.getComparator().compare(a, b) < 0);
 
-		solutions.put(
-				stack.push( result ) );
-	}
+        solutions.put(
+                stack.push(result));
+    }
 }
 

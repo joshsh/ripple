@@ -14,54 +14,48 @@ import net.fortytwo.ripple.model.StackMapping;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class Exp extends PrimitiveStackMapping
-{
+public class Exp extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             MathLibrary.NS_2013_03 + "exp",
             MathLibrary.NS_2008_08 + "exp",
             MathLibrary.NS_2007_08 + "exp"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-	public Exp()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "x", null, true )};
+    public Exp()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("x", null, true)};
+    }
+
+    public String getComment() {
         return "x  =>  exp(x)";
     }
 
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-		RippleList stack = arg;
+        RippleList stack = arg;
 
-		NumericValue a, result;
+        NumericValue a, result;
 
-		a = mc.toNumericValue( stack.getFirst() );
-		stack = stack.getRest();
+        a = mc.toNumericValue(stack.getFirst());
+        stack = stack.getRest();
 
-		result = mc.valueOf(Math.exp(a.doubleValue()));
+        result = mc.valueOf(Math.exp(a.doubleValue()));
 
-		solutions.put(
-				stack.push( result ) );
-	}
+        solutions.put(
+                stack.push(result));
+    }
 
     @Override
-    public StackMapping getInverse() throws RippleException
-    {
+    public StackMapping getInverse() throws RippleException {
         return MathLibrary.getLogValue();
     }
 }

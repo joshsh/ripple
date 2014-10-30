@@ -21,107 +21,85 @@ import java.io.InputStreamReader;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class Get extends PrimitiveStackMapping
-{
+public class Get extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             SystemLibrary.NS_2013_03 + "get",
             SystemLibrary.NS_2008_08 + "get",
             SystemLibrary.NS_2007_08 + "get",
             SystemLibrary.NS_2007_05 + "get"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "uri", null, true )};
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("uri", null, true)};
     }
 
-    public String getComment()
-    {
+    public String getComment() {
         return "issues a GET request and produces the received data as a string";
     }
 
     public Get()
-		throws RippleException
-	{
-		super();
-	}
+            throws RippleException {
+        super();
+    }
 
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-		RippleList stack = arg;
+        RippleList stack = arg;
 
-		String result;
+        String result;
 
-		String uriStr = stack.getFirst().toString();
+        String uriStr = stack.getFirst().toString();
         //uriStr = mc.getModel().getURIMap().get( uriStr );
         stack = stack.getRest();
 
-		HttpGet method = HTTPUtils.createGetMethod(uriStr);
-		HTTPUtils.throttleHttpRequest(method);
+        HttpGet method = HTTPUtils.createGetMethod(uriStr);
+        HTTPUtils.throttleHttpRequest(method);
 
-		HttpClient client = HTTPUtils.createClient();
+        HttpClient client = HTTPUtils.createClient();
 
-		InputStream body;
+        InputStream body;
 
-		try
-		{
-			HttpResponse response = client.execute( method );
-	        body = response.getEntity().getContent();
-		}
+        try {
+            HttpResponse response = client.execute(method);
+            body = response.getEntity().getContent();
+        } catch (Throwable t) {
+            throw new RippleException(t);
+        }
 
-		catch ( Throwable t )
-		{
-			throw new RippleException( t );
-		}
+        try {
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader(body));
+            StringBuffer sb = new StringBuffer();
+            String nextLine = "";
+            boolean first = true;
+            while ((nextLine = br.readLine()) != null) {
+                if (first) {
+                    first = false;
+                } else {
+                    sb.append('\n');
+                }
 
-		try
-		{
-			BufferedReader br = new BufferedReader(
-				new InputStreamReader( body ) );
-			StringBuffer sb = new StringBuffer();
-			String nextLine = "";
-			boolean first = true;
-			while ( ( nextLine = br.readLine() ) != null )
-			{
-				if ( first )
-				{
-					first = false;
-				}
+                sb.append(nextLine);
+            }
+            result = sb.toString();
 
-				else
-				{
-					sb.append( '\n' );
-				}
+            body.close();
+        } catch (java.io.IOException e) {
+            throw new RippleException(e);
+        }
 
-				sb.append( nextLine );
-			}
-			result = sb.toString();
+        try {
+            method.abort();
+        } catch (Throwable t) {
+            throw new RippleException(t);
+        }
 
-			body.close();
-		}
-
-		catch ( java.io.IOException e )
-		{
-			throw new RippleException( e );
-		}
-
-		try
-		{
-			method.abort();
-		}
-
-		catch ( Throwable t )
-		{
-			throw new RippleException( t );
-		}
-
-		solutions.put( stack.push( mc.valueOf(result, XMLSchema.STRING) ) );
-	}
+        solutions.put(stack.push(mc.valueOf(result, XMLSchema.STRING)));
+    }
 }
 

@@ -398,7 +398,7 @@ public class LinkedDataCache {
 
     /**
      * @return whether the cache commits to the triple store after each Web request
-     *         (true by default)
+     * (true by default)
      */
     public boolean isAutoCommit() {
         return autoCommit;

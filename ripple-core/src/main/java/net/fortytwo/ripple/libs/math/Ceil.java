@@ -15,48 +15,43 @@ import net.fortytwo.ripple.model.RippleList;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class Ceil extends PrimitiveStackMapping
-{
+public class Ceil extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             MathLibrary.NS_2013_03 + "ceil",
             MathLibrary.NS_2008_08 + "ceil"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-	public Ceil()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "x", null, true )};
+    public Ceil()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("x", null, true)};
+    }
+
+    public String getComment() {
         return "x  =>  c, where c is the smallest integer value that is greater than or equal to x";
     }
 
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-		RippleList stack = arg;
+        RippleList stack = arg;
 
-		NumericValue a, result;
+        NumericValue a, result;
 
-		a = mc.toNumericValue( stack.getFirst() );
-		stack = stack.getRest();
+        a = mc.toNumericValue(stack.getFirst());
+        stack = stack.getRest();
 
-		result = mc.valueOf((int) Math.ceil(a.doubleValue()));
+        result = mc.valueOf((int) Math.ceil(a.doubleValue()));
 
-		solutions.put(
-				stack.push( result ) );
-	}
+        solutions.put(
+                stack.push(result));
+    }
 }
 

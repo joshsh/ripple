@@ -12,41 +12,35 @@ import net.fortytwo.ripple.model.StackMapping;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class InContext extends RDFPredicateStackMapping
-{
+public class InContext extends RDFPredicateStackMapping {
     private static final String[] IDENTIFIERS = {
             GraphLibrary.NS_2013_03 + "in-context",
             GraphLibrary.NS_2007_08 + "inContext"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-	public InContext() throws RippleException
-	{
-		super( false );
+    public InContext() throws RippleException {
+        super(false);
 
-        this.inverse = new InContext( this );
-	}
+        this.inverse = new InContext(this);
+    }
 
-    private InContext( final StackMapping original ) throws RippleException
-    {
-        super( true );
+    private InContext(final StackMapping original) throws RippleException {
+        super(true);
 
         this.inverse = original;
     }
 
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "s", null, true ),
-                new Parameter( "p", null, true ),
-                new Parameter( "g", null, true )};
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("s", null, true),
+                new Parameter("p", null, true),
+                new Parameter("g", null, true)};
     }
 
-    public String getComment()
-    {
+    public String getComment() {
         return "s p g  =>  o";
     }
 
@@ -54,16 +48,16 @@ public class InContext extends RDFPredicateStackMapping
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
 
-		RippleList stack = arg;
+        RippleList stack = arg;
 
-        RDFValue context = stack.getFirst().toRDF( mc );
+        RDFValue context = stack.getFirst().toRDF(mc);
         stack = stack.getRest();
-        RDFValue pred = stack.getFirst().toRDF( mc );
+        RDFValue pred = stack.getFirst().toRDF(mc);
         stack = stack.getRest();
 
-        RDFPredicateMapping mapping = getMapping( pred, context );
+        RDFPredicateMapping mapping = getMapping(pred, context);
 
         solutions.put(
-				stack.push( new Operator( mapping ) ) );
-	}
+                stack.push(new Operator(mapping)));
+    }
 }

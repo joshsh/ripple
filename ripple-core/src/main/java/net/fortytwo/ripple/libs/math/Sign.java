@@ -14,50 +14,45 @@ import net.fortytwo.ripple.model.RippleList;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class Sign extends PrimitiveStackMapping
-{
+public class Sign extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             MathLibrary.NS_2013_03 + "sign",
             MathLibrary.NS_2008_08 + "sign",
             MathLibrary.NS_2007_08 + "signum",
             MathLibrary.NS_2007_05 + "sign"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-	public Sign()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "x", null, true )};
+    public Sign()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("x", null, true)};
+    }
+
+    public String getComment() {
         return "x  =>  sign of x (-1, 0, or +1)";
     }
 
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-		RippleList stack = arg;
+        RippleList stack = arg;
 
-		NumericValue a, result;
+        NumericValue a, result;
 
-		a = mc.toNumericValue( stack.getFirst() );
-		stack = stack.getRest();
+        a = mc.toNumericValue(stack.getFirst());
+        stack = stack.getRest();
 
-		result = mc.valueOf(a.sign());
+        result = mc.valueOf(a.sign());
 
-		solutions.put(
-				stack.push( result ) );
-	}
+        solutions.put(
+                stack.push(result));
+    }
 }
 

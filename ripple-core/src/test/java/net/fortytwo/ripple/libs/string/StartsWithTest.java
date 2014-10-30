@@ -5,22 +5,20 @@ import net.fortytwo.ripple.test.RippleTestCase;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class StartsWithTest extends RippleTestCase
-{
-    public void testAll() throws Exception
-    {
-        assertReducesTo( "\"one\" \"one\" startsWith.", "true" );
-        assertReducesTo( "\"one\" \"onetwo\" startsWith.", "false" );
-        assertReducesTo( "\"one\" \"o\" startsWith.", "true" );
-        assertReducesTo( "\"nation\" \"nat\" startsWith.", "true" );
-        assertReducesTo( "\"nation\" \"tion\" startsWith.", "false" );
+public class StartsWithTest extends RippleTestCase {
+    public void testAll() throws Exception {
+        assertReducesTo("\"one\" \"one\" startsWith.", "true");
+        assertReducesTo("\"one\" \"onetwo\" startsWith.", "false");
+        assertReducesTo("\"one\" \"o\" startsWith.", "true");
+        assertReducesTo("\"nation\" \"nat\" startsWith.", "true");
+        assertReducesTo("\"nation\" \"tion\" startsWith.", "false");
 
         // Case sensitivity
-        assertReducesTo( "\"one\" \"O\" startsWith.", "false" );
+        assertReducesTo("\"one\" \"O\" startsWith.", "false");
 
         // Empty strings
-        assertReducesTo( "\"\" \"\" startsWith.", "true" );
-        assertReducesTo( "\"one\" \"\" startsWith.", "true" );
-        assertReducesTo( "\"\" \"foo\" startsWith.", "false" );
+        assertReducesTo("\"\" \"\" startsWith.", "true");
+        assertReducesTo("\"one\" \"\" startsWith.", "true");
+        assertReducesTo("\"\" \"foo\" startsWith.", "false");
     }
 }

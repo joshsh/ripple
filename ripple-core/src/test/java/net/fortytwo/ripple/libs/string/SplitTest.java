@@ -5,39 +5,33 @@ import net.fortytwo.ripple.test.RippleTestCase;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class SplitTest extends RippleTestCase
-{
-    public void testSimple() throws Exception
-    {
-        assertReducesTo( "\"one, two,three\" \",[ ]*\" split.", "(\"one\" \"two\" \"three\")" );
-        assertReducesTo( "\"Mississippi\" \"i\" split.", "(\"M\" \"ss\" \"ss\" \"pp\")" );
-        assertReducesTo( "\"Mississippi\" \"ss\" split.", "(\"Mi\" \"i\" \"ippi\")" );
-        assertReducesTo( "\"Mississippi\" \"Miss\" split.", "(\"\" \"issippi\")" );
-        assertReducesTo( "\"Mississippi\" \"ippi\" split.", "(\"Mississ\")" );
+public class SplitTest extends RippleTestCase {
+    public void testSimple() throws Exception {
+        assertReducesTo("\"one, two,three\" \",[ ]*\" split.", "(\"one\" \"two\" \"three\")");
+        assertReducesTo("\"Mississippi\" \"i\" split.", "(\"M\" \"ss\" \"ss\" \"pp\")");
+        assertReducesTo("\"Mississippi\" \"ss\" split.", "(\"Mi\" \"i\" \"ippi\")");
+        assertReducesTo("\"Mississippi\" \"Miss\" split.", "(\"\" \"issippi\")");
+        assertReducesTo("\"Mississippi\" \"ippi\" split.", "(\"Mississ\")");
     }
 
-    public void testNomatch() throws Exception
-    {
-        assertReducesTo( "\"Mississippi\" \"mountain\" split.", "(\"Mississippi\")" );
+    public void testNomatch() throws Exception {
+        assertReducesTo("\"Mississippi\" \"mountain\" split.", "(\"Mississippi\")");
     }
 
-    public void testQuantifierGreediness() throws Exception
-    {
-        assertReducesTo( "\"Mississippi\" \"i.*i\" split.", "(\"M\")" );
+    public void testQuantifierGreediness() throws Exception {
+        assertReducesTo("\"Mississippi\" \"i.*i\" split.", "(\"M\")");
     }
 
-    public void testConflict() throws Exception
-    {
-        assertReducesTo( "\"Mississippi\" \"issi\" split.", "(\"M\" \"ssippi\")" );
+    public void testConflict() throws Exception {
+        assertReducesTo("\"Mississippi\" \"issi\" split.", "(\"M\" \"ssippi\")");
     }
 
-    public void testEmptyStrings() throws Exception
-    {
+    public void testEmptyStrings() throws Exception {
         // note: fails with JDK 1.8 (expects "M" instead of "")
         assertEquals("", "Mississippi".split("")[0]);
 
-        assertReducesTo( "\"Mississippi\" \"\" split.", "(\"\" \"M\" \"i\" \"s\" \"s\" \"i\" \"s\" \"s\" \"i\" \"p\" \"p\" \"i\")" );
-        assertReducesTo( "\"\" \"mountain\" split.", "(\"\")" );
-        assertReducesTo( "\"\" \"\" split.", "(\"\")" );  
+        assertReducesTo("\"Mississippi\" \"\" split.", "(\"\" \"M\" \"i\" \"s\" \"s\" \"i\" \"s\" \"s\" \"i\" \"p\" \"p\" \"i\")");
+        assertReducesTo("\"\" \"mountain\" split.", "(\"\")");
+        assertReducesTo("\"\" \"\" split.", "(\"\")");
     }
 }

@@ -12,9 +12,7 @@ import net.fortytwo.ripple.model.keyval.KeyValueValue;
 import java.util.Collection;
 
 /**
- * User: josh
- * Date: 4/5/11
- * Time: 9:05 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class EdgeValue extends ElementValue {
     private final Edge edge;

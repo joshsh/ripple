@@ -44,9 +44,9 @@ public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
     }
 
     protected void addStatementInternal(final Resource subj,
-                             final URI pred,
-                             final Value obj,
-                             final Resource... contexts) throws SailException {
+                                        final URI pred,
+                                        final Value obj,
+                                        final Resource... contexts) throws SailException {
         baseConnection.addStatement(subj, pred, obj, contexts);
     }
 
@@ -125,9 +125,9 @@ public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
     }
 
     protected void removeStatementsInternal(final Resource subj,
-                                 final URI pred,
-                                 final Value obj,
-                                 final Resource... context) throws SailException {
+                                            final URI pred,
+                                            final Value obj,
+                                            final Resource... context) throws SailException {
         baseConnection.removeStatements(subj, pred, obj, context);
     }
 

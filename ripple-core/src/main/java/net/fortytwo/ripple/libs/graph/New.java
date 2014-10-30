@@ -12,32 +12,27 @@ import net.fortytwo.ripple.util.ModelConnectionHelper;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class New extends PrimitiveStackMapping
-{
+public class New extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             GraphLibrary.NS_2013_03 + "new",
             GraphLibrary.NS_2008_08 + "new",
             GraphLibrary.NS_2007_08 + "new",
             GraphLibrary.NS_2007_05 + "new"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-	public New()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {};
+    public New()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{};
+    }
+
+    public String getComment() {
         return "n  -- where n is a new blank node";
     }
 
@@ -45,14 +40,14 @@ public class New extends PrimitiveStackMapping
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
 
-		RippleList stack = arg;
+        RippleList stack = arg;
 
-		// Note: stack may be null (and this should not be a problem).
-		RippleList result = stack.push(
-			new ModelConnectionHelper(mc).createRandomURI() );
+        // Note: stack may be null (and this should not be a problem).
+        RippleList result = stack.push(
+                new ModelConnectionHelper(mc).createRandomURI());
 //System.out.println( "Creating a new node" );
 
-		solutions.put( result );
-	}
+        solutions.put(result);
+    }
 }
 

@@ -7,9 +7,7 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleValue;
 
 /**
- * User: josh
- * Date: 5/20/11
- * Time: 10:26 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class GremlinWrapper extends ScriptEngineWrapper {
     public GremlinWrapper() {

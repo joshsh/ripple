@@ -17,53 +17,48 @@ import net.fortytwo.ripple.model.RippleValue;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class Branch extends PrimitiveStackMapping
-{
+public class Branch extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             ControlLibrary.NS_2013_03 + "branch",
             LogicLibrary.NS_2008_08 + "branch",
             StackLibrary.NS_2007_08 + "branch",
             StackLibrary.NS_2007_05 + "branch"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
-    
-    public Branch()
-		throws RippleException
-	{
-		super();
-	}
 
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "b", "a boolean condition", true ),
-                new Parameter( "t", "this program is executed if the condition is true", true ),
-                new Parameter( "f", "this program is executed if the condition is false", true )};
+    public Branch()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("b", "a boolean condition", true),
+                new Parameter("t", "this program is executed if the condition is true", true),
+                new Parameter("f", "this program is executed if the condition is false", true)};
+    }
+
+    public String getComment() {
         return "b t f  =>  p!  -- where p is t if b is true, f if b is false";
     }
 
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-		RippleList stack = arg;
+        RippleList stack = arg;
 
-		RippleValue falseProg = stack.getFirst();
-		stack = stack.getRest();
-		RippleValue trueProg = stack.getFirst();
-		stack = stack.getRest();
-		boolean b = mc.toBoolean( stack.getFirst() );
-		stack = stack.getRest();
+        RippleValue falseProg = stack.getFirst();
+        stack = stack.getRest();
+        RippleValue trueProg = stack.getFirst();
+        stack = stack.getRest();
+        boolean b = mc.toBoolean(stack.getFirst());
+        stack = stack.getRest();
 
-		RippleValue result = b ? trueProg : falseProg;
+        RippleValue result = b ? trueProg : falseProg;
 
-		solutions.put(
-				stack.push( result ).push( Operator.OP ) );
-	}
+        solutions.put(
+                stack.push(result).push(Operator.OP));
+    }
 }

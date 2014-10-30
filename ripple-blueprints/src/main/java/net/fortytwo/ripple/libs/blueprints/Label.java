@@ -9,9 +9,7 @@ import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 
 /**
- * User: josh
- * Date: 4/5/11
- * Time: 8:11 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Label extends PrimitiveStackMapping {
     @Override

@@ -5,65 +5,51 @@ import java.io.InputStream;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class InputStreamEventFilter extends InputStream
-{
-	private static final int ESC = 27;
+public class InputStreamEventFilter extends InputStream {
+    private static final int ESC = 27;
 
-	private final InputStream source;
-	private final RecognizerAdapter recognizerAdapter;
+    private final InputStream source;
+    private final RecognizerAdapter recognizerAdapter;
 
-	private int buffered;
+    private int buffered;
 
-	public InputStreamEventFilter( final InputStream is,
-								   final RecognizerAdapter rc )
-	{
-		source = is;
-		recognizerAdapter = rc;
+    public InputStreamEventFilter(final InputStream is,
+                                  final RecognizerAdapter rc) {
+        source = is;
+        recognizerAdapter = rc;
 
-		buffered = -1;
-	}
+        buffered = -1;
+    }
 
-	public int read() throws java.io.IOException
-	{
-		if ( -1 != buffered )
-		{
-			int tmp = buffered;
-			buffered = -1;
-			return tmp;
-		}
+    public int read() throws java.io.IOException {
+        if (-1 != buffered) {
+            int tmp = buffered;
+            buffered = -1;
+            return tmp;
+        }
 
-		// Break out when an ordinary character or sequence is found
-		while ( true )
-		{
-			int c = source.read();
+        // Break out when an ordinary character or sequence is found
+        while (true) {
+            int c = source.read();
 
-			if ( ESC == c )
-			{
-				c = source.read();
+            if (ESC == c) {
+                c = source.read();
 
-				if ( ESC == c )
-				{
-					recognizerAdapter.putEvent( RecognizerEvent.ESCAPE );
-				}
+                if (ESC == c) {
+                    recognizerAdapter.putEvent(RecognizerEvent.ESCAPE);
+                } else {
+                    buffered = c;
+                    return ESC;
+                }
+            } else {
+                return c;
+            }
+        }
+    }
 
-				else
-				{
-					buffered = c;
-					return ESC;
-				}
-			}
-
-			else
-			{
-				return c;
-			}
-		}
-	}
-
-	public int available() throws java.io.IOException
-	{
-		// Note: ESC characters may throw this number off in either direction.
-		return source.available();
-	}
+    public int available() throws java.io.IOException {
+        // Note: ESC characters may throw this number off in either direction.
+        return source.available();
+    }
 }
 

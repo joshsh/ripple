@@ -1,12 +1,12 @@
 package net.fortytwo.ripple.query;
 
-import net.fortytwo.flow.HistorySink;
-import net.fortytwo.flow.Tee;
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Buffer;
 import net.fortytwo.flow.Collector;
+import net.fortytwo.flow.HistorySink;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.Source;
+import net.fortytwo.flow.Tee;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.cli.Interpreter;
 import net.fortytwo.ripple.cli.ParserExceptionSink;
 import net.fortytwo.ripple.cli.RecognizerAdapter;
@@ -19,8 +19,8 @@ import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.query.commands.DefineKeywordCmd;
 import net.fortytwo.ripple.query.commands.RippleQueryCmd;
 
-import java.io.IOException;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 /**

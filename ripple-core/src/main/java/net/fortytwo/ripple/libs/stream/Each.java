@@ -13,33 +13,28 @@ import net.fortytwo.ripple.model.RippleValue;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class Each extends PrimitiveStackMapping
-{
+public class Each extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             StreamLibrary.NS_2013_03 + "each",
             StreamLibrary.NS_2008_08 + "each",
             StreamLibrary.NS_2007_08 + "each",
             StreamLibrary.NS_2007_05 + "each"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-	public Each()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "l", "a list", true )};
+    public Each()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("l", "a list", true)};
+    }
+
+    public String getComment() {
         return "l => each item in l";
     }
 
@@ -49,29 +44,26 @@ public class Each extends PrimitiveStackMapping
 
         RippleValue l;
 
-		l = arg.getFirst();
-		final RippleList rest = arg.getRest();
+        l = arg.getFirst();
+        final RippleList rest = arg.getRest();
 
-		Sink<RippleList> listSink = new Sink<RippleList>()
-		{
-			public void put( RippleList list ) throws RippleException
-			{
-				while ( !list.isNil() )
-				{
+        Sink<RippleList> listSink = new Sink<RippleList>() {
+            public void put(RippleList list) throws RippleException {
+                while (!list.isNil()) {
                     try {
                         solutions.put(
-                                rest.push(list.getFirst()) );
+                                rest.push(list.getFirst()));
                     } catch (RippleException e) {
                         // Soft fail
                         e.logError();
                     }
 
-					list = list.getRest();
-				}
-			}
-		};
+                    list = list.getRest();
+                }
+            }
+        };
 
-		mc.toList( l, listSink );
-	}
+        mc.toList(l, listSink);
+    }
 }
 

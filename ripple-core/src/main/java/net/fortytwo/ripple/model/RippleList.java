@@ -39,7 +39,7 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
 
     /**
      * @return the number of items in this list.
-     *         This is purely a convenience method.
+     * This is purely a convenience method.
      */
     public int length() {
         int l = 0;

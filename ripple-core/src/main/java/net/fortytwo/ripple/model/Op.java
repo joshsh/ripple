@@ -1,8 +1,8 @@
 package net.fortytwo.ripple.model;
 
+import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.io.RipplePrintStream;
 
 import java.net.URI;

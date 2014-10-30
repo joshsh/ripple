@@ -12,9 +12,7 @@ import net.fortytwo.ripple.model.keyval.KeyValueValue;
 import java.util.Collection;
 
 /**
- * User: josh
- * Date: 4/5/11
- * Time: 9:06 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class VertexValue extends ElementValue {
     private final Vertex vertex;

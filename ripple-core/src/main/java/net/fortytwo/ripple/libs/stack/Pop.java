@@ -11,46 +11,40 @@ import net.fortytwo.ripple.model.RippleList;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class Pop extends PrimitiveStackMapping
-{
+public class Pop extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             StackLibrary.NS_2013_03 + "pop",
             StackLibrary.NS_2008_08 + "pop",
             StackLibrary.NS_2007_08 + "pop",
             StackLibrary.NS_2007_05 + "pop"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-	public Pop()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "x", null, true )};
+    public Pop()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("x", null, true)};
+    }
+
+    public String getComment() {
         return "x  =>";
     }
 
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-		RippleList stack = arg;
-		stack = stack.getRest();
+        RippleList stack = arg;
+        stack = stack.getRest();
 
-		if ( !stack.isNil() )
-		{
-			solutions.put( stack );
-		}
-	}
+        if (!stack.isNil()) {
+            solutions.put(stack);
+        }
+    }
 }
 

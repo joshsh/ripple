@@ -5,58 +5,43 @@ import java.util.Collection;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class DirectiveCompletor extends RippleCompletor
-{
-	private static final char [] DELIMITERS = { ' ', '\t', '\n', '\r' };
+public class DirectiveCompletor extends RippleCompletor {
+    private static final char[] DELIMITERS = {' ', '\t', '\n', '\r'};
 
-	public DirectiveCompletor( final Collection<String> alternatives )
-	{
-		super( alternatives );
-	}
+    public DirectiveCompletor(final Collection<String> alternatives) {
+        super(alternatives);
+    }
 
-	private boolean isDelimiter( final char c )
-	{
-		for ( int i = 0; i < DELIMITERS.length; i++ )
-		{
-			if ( DELIMITERS[i] == c )
-			{
-				return true;
-			}
-		}
+    private boolean isDelimiter(final char c) {
+        for (int i = 0; i < DELIMITERS.length; i++) {
+            if (DELIMITERS[i] == c) {
+                return true;
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	protected int findStartIndex( final String s )
-	{
-		int index = 0;
+    protected int findStartIndex(final String s) {
+        int index = 0;
 
-		boolean ok = true;
-		for ( int i = 0; i < s.length(); i++ )
-		{
-			char c = s.charAt( i );
+        boolean ok = true;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
 
-			if ( isDelimiter( c ) )
-			{
-				if ( ok )
-				{
-					index = i + 1;
-				}
-			}
+            if (isDelimiter(c)) {
+                if (ok) {
+                    index = i + 1;
+                }
+            } else if ('.' == c) {
+                ok = true;
+                index = i + 1;
+            } else {
+                ok = false;
+            }
+        }
 
-			else if ( '.' == c )
-			{
-				ok = true;
-				index = i + 1;
-			}
-
-			else
-			{
-				ok = false;
-			}
-		}
-
-		return index;
-	}
+        return index;
+    }
 }
 

@@ -13,44 +13,39 @@ import net.fortytwo.ripple.model.RippleValue;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class Md5 extends PrimitiveStackMapping
-{
+public class Md5 extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             StringLibrary.NS_2013_03 + "md5",
             StringLibrary.NS_2008_08 + "md5"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-	public Md5()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "plaintext", null, true )};
+    public Md5()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("plaintext", null, true)};
+    }
+
+    public String getComment() {
         return "finds the md5 hash of a string";
     }
 
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-		RippleList stack = arg;
+        RippleList stack = arg;
 
-		RippleValue a = stack.getFirst();
-		stack = stack.getRest();
+        RippleValue a = stack.getFirst();
+        stack = stack.getRest();
 
-        String result = StringUtils.md5SumOf( mc.toString( a ) );
-        solutions.put( stack.push(
-			    StringLibrary.value( result, mc, a ) ) );
-	}
+        String result = StringUtils.md5SumOf(mc.toString(a));
+        solutions.put(stack.push(
+                StringLibrary.value(result, mc, a)));
+    }
 }

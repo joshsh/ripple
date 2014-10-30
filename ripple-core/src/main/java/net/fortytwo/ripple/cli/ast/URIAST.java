@@ -13,41 +13,33 @@ import java.net.URI;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class URIAST implements AST<RippleList>
-{
-	private final URI value;
+public class URIAST implements AST<RippleList> {
+    private final URI value;
 
-	public URIAST( final String escapedValue )
-	{
+    public URIAST(final String escapedValue) {
         String s;
 
-        try
-		{
-			s = StringUtils.unescapeUriString( escapedValue );
-		}
-
-		catch ( RippleException e )
-		{
-			e.logError();
+        try {
+            s = StringUtils.unescapeUriString(escapedValue);
+        } catch (RippleException e) {
+            e.logError();
             s = null;
-            System.exit( 1 );
-		}
+            System.exit(1);
+        }
 
         this.value = URI.create(s);
     }
 
-	public void evaluate( final Sink<RippleList> sink,
-						final QueryEngine qe,
-						final ModelConnection mc )
-		throws RippleException
-	{
+    public void evaluate(final Sink<RippleList> sink,
+                         final QueryEngine qe,
+                         final ModelConnection mc)
+            throws RippleException {
         RDFValue v = mc.valueOf(value);
-		sink.put( mc.list().push(mc.canonicalValue(v)) );
-	}
+        sink.put(mc.list().push(mc.canonicalValue(v)));
+    }
 
-	public String toString()
-	{
-		return "<" + StringUtils.escapeURIString( value.toString() ) + ">";
-	}
+    public String toString() {
+        return "<" + StringUtils.escapeURIString(value.toString()) + ">";
+    }
 }
 

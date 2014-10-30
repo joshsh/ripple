@@ -5,41 +5,35 @@ import net.fortytwo.ripple.RippleException;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class StackContext implements Cloneable
-{
+public class StackContext implements Cloneable {
     protected final ModelConnection modelConnection;
 
-	protected RippleList stack;
+    protected RippleList stack;
 
-	public StackContext( final RippleList stack, final ModelConnection mc )
-	{
-		this.stack = stack;
-		this.modelConnection = mc;
-	}
+    public StackContext(final RippleList stack, final ModelConnection mc) {
+        this.stack = stack;
+        this.modelConnection = mc;
+    }
 
-	public RippleList getStack()
-	{
-		return this.stack;
-	}
-	
-	public ModelConnection getModelConnection()
-	{
-		return this.modelConnection;
-	}
+    public RippleList getStack() {
+        return this.stack;
+    }
 
-	public StackContext with( final RippleList s ) {
-		try
-		{
-			StackContext clone = (StackContext) this.clone();
-			clone.stack = s;
-			return clone;
-		}
+    public ModelConnection getModelConnection() {
+        return this.modelConnection;
+    }
 
-		// This shouldn't happen.
-		catch ( CloneNotSupportedException e )
-		{
-			new RippleException( e ).logError();
-			return this;
-		}
-	}
+    public StackContext with(final RippleList s) {
+        try {
+            StackContext clone = (StackContext) this.clone();
+            clone.stack = s;
+            return clone;
+        }
+
+        // This shouldn't happen.
+        catch (CloneNotSupportedException e) {
+            new RippleException(e).logError();
+            return this;
+        }
+    }
 }

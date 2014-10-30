@@ -28,7 +28,7 @@ public class FileURIDereferencer implements Dereferencer {
         if (null == format) {
             throw new RippleException("no matching media type for " + uri);
         }
-        
+
         List<String> types = format.getMIMETypes();
         if (0 == types.size()) {
             throw new IllegalStateException("RDF format has no media type(s): " + format);
@@ -66,7 +66,7 @@ public class FileURIDereferencer implements Dereferencer {
             //To change body of implemented methods use File | Settings | File Templates.
         }
     }
-    
+
     public String toString() {
         return "file URI dereferencer";
     }

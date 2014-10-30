@@ -5,8 +5,7 @@ import net.fortytwo.ripple.test.RippleTestCase;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class LexiconUpdaterTest extends RippleTestCase
-{
+public class LexiconUpdaterTest extends RippleTestCase {
     public void testNothing() throws Exception {
 
     }

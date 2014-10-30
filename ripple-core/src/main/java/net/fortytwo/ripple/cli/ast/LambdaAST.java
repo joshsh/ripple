@@ -5,31 +5,27 @@ import java.util.List;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class LambdaAST extends ListAST
-{
+public class LambdaAST extends ListAST {
     private static final String
             CONS = "cons",
             DIP = "dip",
             DUP = "dup",
             POP = "pop";
 
-    public LambdaAST( final String boundVariable, final ListAST expression )
-    {
-        ListAST expr = toConcatenativeExpression( boundVariable, expression );
+    public LambdaAST(final String boundVariable, final ListAST expression) {
+        ListAST expr = toConcatenativeExpression(boundVariable, expression);
         this.first = expr.getFirst();
         this.rest = expr.getRest();
     }
 
-    public LambdaAST( List<String> boundVars, ListAST expression )
-    {
+    public LambdaAST(List<String> boundVars, ListAST expression) {
         ListAST expr = expression;
 //System.out.println( "original: " + expr );
 
-        for ( int i = 0; i < boundVars.size(); i++ )
-        {
+        for (int i = 0; i < boundVars.size(); i++) {
 //System.out.println( "replacing variable " + boundVars.get( i ));
-            String boundVariable = boundVars.get( i );
-            expr = toConcatenativeExpression( boundVariable, expr );
+            String boundVariable = boundVars.get(i);
+            expr = toConcatenativeExpression(boundVariable, expr);
 //System.out.println( "    intermediate: " + expr );
         }
 
@@ -37,22 +33,17 @@ public class LambdaAST extends ListAST
         this.rest = expr.getRest();
     }
 
-    private static ListAST toConcatenativeExpression(final String boundVariable, final ListAST expression)
-    {
-        int fo = firstOccurrence( boundVariable, expression );
- //System.out.println("(1) first occurrence of " + boundVariable + " in " + expression + " is " + fo );
- //        int count = countOccurrences( boundVariable, expression );
+    private static ListAST toConcatenativeExpression(final String boundVariable, final ListAST expression) {
+        int fo = firstOccurrence(boundVariable, expression);
+        //System.out.println("(1) first occurrence of " + boundVariable + " in " + expression + " is " + fo );
+        //        int count = countOccurrences( boundVariable, expression );
 
-        if ( 0 > fo )
-        {
+        if (0 > fo) {
             return expression
-                    .push( new OperatorAST() )
-                    .push( new KeywordAST( POP ) );
-        }
-
-        else
-        {
-           ListAST expr = expression;
+                    .push(new OperatorAST())
+                    .push(new KeywordAST(POP));
+        } else {
+            ListAST expr = expression;
 
            /*for ( int i = 0; i < count; i++ )
            {
@@ -68,13 +59,12 @@ public class LambdaAST extends ListAST
            }*/
 
             int i = 0;
-            while ( fo >= 0 )
-            {
-                expr = replaceFirstOccurrence( boundVariable, expr, fo );
-                if ( i > 0 ) {
+            while (fo >= 0) {
+                expr = replaceFirstOccurrence(boundVariable, expr, fo);
+                if (i > 0) {
                     expr = expr
-                            .push( new OperatorAST() )
-                            .push( new KeywordAST( DUP ) );
+                            .push(new OperatorAST())
+                            .push(new KeywordAST(DUP));
                 }
                 i++;
                 fo = firstOccurrence(boundVariable, expr);
@@ -85,41 +75,36 @@ public class LambdaAST extends ListAST
         }
     }
 
-    private static ListAST replaceFirstOccurrence( final String name, ListAST list, final int i )
-    {
+    private static ListAST replaceFirstOccurrence(final String name, ListAST list, final int i) {
         // If the to-be-replaced node is not at the head of the list, transform
         // the list so that it is at the head.
-        if ( i > 0 )
-        {
+        if (i > 0) {
             ListAST head = new ListAST();
-            for ( int j = 0; j < i; j++ )
-            {
-                head = new ListAST( list.getFirst(), head );
+            for (int j = 0; j < i; j++) {
+                head = new ListAST(list.getFirst(), head);
                 list = list.getRest();
             }
 
             head = head.invert();
             AST first = list.getFirst();
             list = list.getRest()
-                    .push( new OperatorAST() )
-                    .push( new KeywordAST( DIP ) )
-                    .push( head )
-                    .push( first );
+                    .push(new OperatorAST())
+                    .push(new KeywordAST(DIP))
+                    .push(head)
+                    .push(first);
         }
 
         AST first = list.getFirst();
 
-        if ( first instanceof ListAST)
-        {
+        if (first instanceof ListAST) {
             return list.getRest()
-                    .push( new OperatorAST() )
-                    .push( new KeywordAST( CONS ) )
-                    .push( toConcatenativeExpression( name, (ListAST) first ) );
+                    .push(new OperatorAST())
+                    .push(new KeywordAST(CONS))
+                    .push(toConcatenativeExpression(name, (ListAST) first));
         }
 
         // Note: assumed to be instanceof KeywordAst
-        else
-        {
+        else {
             return list.getRest();
         }
     }
@@ -170,25 +155,17 @@ public class LambdaAST extends ListAST
          return list.getFirst();
      }*/
 
-    private static int countOccurrences( final String name, ListAST list )
-    {
+    private static int countOccurrences(final String name, ListAST list) {
         int count = 0;
-        while ( !list.isNil() )
-        {
+        while (!list.isNil()) {
             AST a = list.getFirst();
-            if ( a instanceof KeywordAST)
-            {
-                if ( ( (KeywordAST) a ).getName().equals( name ) )
-                {
+            if (a instanceof KeywordAST) {
+                if (((KeywordAST) a).getName().equals(name)) {
                     count++;
                 }
-            }
-
-            else if ( a instanceof ListAST)
-            {
-                int j = countOccurrences( name, (ListAST) a );
-                if ( j >= 0 )
-                {
+            } else if (a instanceof ListAST) {
+                int j = countOccurrences(name, (ListAST) a);
+                if (j >= 0) {
                     count++;
                 }
             }
@@ -199,25 +176,17 @@ public class LambdaAST extends ListAST
         return count;
     }
 
-    private static int firstOccurrence( final String name, ListAST list )
-    {
+    private static int firstOccurrence(final String name, ListAST list) {
         int i = 0;
-        while ( !list.isNil() )
-        {
+        while (!list.isNil()) {
             AST a = list.getFirst();
-            if ( a instanceof KeywordAST)
-            {
-                if ( ( (KeywordAST) a ).getName().equals( name ) )
-                {
+            if (a instanceof KeywordAST) {
+                if (((KeywordAST) a).getName().equals(name)) {
                     return i;
                 }
-            }
-
-            else if ( a instanceof ListAST)
-            {
-                int j = firstOccurrence( name, (ListAST) a );
-                if ( j >= 0 )
-                {
+            } else if (a instanceof ListAST) {
+                int j = firstOccurrence(name, (ListAST) a);
+                if (j >= 0) {
                     return i;
                 }
             }

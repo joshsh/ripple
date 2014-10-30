@@ -1,6 +1,12 @@
 package net.fortytwo.ripple.cli;
 
+import net.fortytwo.flow.Buffer;
 import net.fortytwo.flow.HistorySink;
+import net.fortytwo.flow.NullSink;
+import net.fortytwo.flow.Sink;
+import net.fortytwo.flow.Switch;
+import net.fortytwo.flow.SynchronizedSink;
+import net.fortytwo.flow.Tee;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.cli.ast.ListAST;
@@ -13,13 +19,6 @@ import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.commands.RippleQueryCmd;
-import net.fortytwo.flow.Buffer;
-import net.fortytwo.flow.NullSink;
-import net.fortytwo.flow.Sink;
-import net.fortytwo.flow.Switch;
-import net.fortytwo.flow.SynchronizedSink;
-import net.fortytwo.flow.Tee;
-
 import org.openrdf.model.vocabulary.RDF;
 
 /**

@@ -3,10 +3,10 @@ package net.fortytwo.ripple.scriptengine;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 
-import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngine;
-import java.util.List;
+import javax.script.ScriptEngineFactory;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -66,7 +66,7 @@ public class RippleScriptEngineFactory implements ScriptEngineFactory {
                                       final String m,
                                       final String... args) {
         StringBuilder sb = new StringBuilder(obj);
-        
+
         for (String arg : args) {
             sb.append(" ");
             sb.append(arg);
@@ -95,12 +95,12 @@ public class RippleScriptEngineFactory implements ScriptEngineFactory {
             }
 
             sb.append(st);
-            
+
             // It doesn't hurt to add an end-statement token (unless the last
             // statement ended with continue-statement token...)
             sb.append(".");
         }
-        
+
         return sb.toString();
     }
 

@@ -14,32 +14,27 @@ import net.fortytwo.ripple.model.StackMapping;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class Atan extends PrimitiveStackMapping
-{
+public class Atan extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             MathLibrary.NS_2013_03 + "atan",
             MathLibrary.NS_2008_08 + "atan",
             MathLibrary.NS_2007_08 + "atan"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-	public Atan()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "x", null, true )};
+    public Atan()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("x", null, true)};
+    }
+
+    public String getComment() {
         return "x  =>  atan(x)";
     }
 
@@ -47,21 +42,20 @@ public class Atan extends PrimitiveStackMapping
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
 
-		RippleList stack = arg;
-		NumericValue a, result;
+        RippleList stack = arg;
+        NumericValue a, result;
 
-		a = mc.toNumericValue( stack.getFirst() );
-		stack = stack.getRest();
+        a = mc.toNumericValue(stack.getFirst());
+        stack = stack.getRest();
 
-		result = mc.valueOf(Math.atan(a.doubleValue()));
+        result = mc.valueOf(Math.atan(a.doubleValue()));
 
-		solutions.put(
-				stack.push( result ) );
-	}
+        solutions.put(
+                stack.push(result));
+    }
 
     @Override
-    public StackMapping getInverse() throws RippleException
-    {
+    public StackMapping getInverse() throws RippleException {
         return MathLibrary.getTanValue();
     }
 }

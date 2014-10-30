@@ -15,47 +15,42 @@ import net.fortytwo.ripple.model.RippleValue;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class PercentEncoded extends PrimitiveStackMapping
-{
+public class PercentEncoded extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             StringLibrary.NS_2013_03 + "percent-encoded",
             StringLibrary.NS_2008_08 + "percentEncode",
             StringLibrary.NS_2007_08 + "percentEncode",
             SystemLibrary.NS_2007_05 + "urlEncoding"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-	public PercentEncoded()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "plaintext", null, true )};
+    public PercentEncoded()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("plaintext", null, true)};
+    }
+
+    public String getComment() {
         return "finds the percent encoding (per RFC 3986) of a string";
     }
 
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-		RippleList stack = arg;
+        RippleList stack = arg;
 
-		RippleValue a = stack.getFirst();
-		stack = stack.getRest();
+        RippleValue a = stack.getFirst();
+        stack = stack.getRest();
 
-		String result = StringUtils.percentEncode( mc.toString( a ) );
-		solutions.put(
-				stack.push( StringLibrary.value( result, mc, a ) ) );
-	}
+        String result = StringUtils.percentEncode(mc.toString(a));
+        solutions.put(
+                stack.push(StringLibrary.value(result, mc, a)));
+    }
 }
 

@@ -13,47 +13,42 @@ import net.fortytwo.ripple.model.RippleList;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class Contains extends PrimitiveStackMapping
-{
+public class Contains extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             StringLibrary.NS_2013_03 + "contains",
             StringLibrary.NS_2008_08 + "contains"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-	public Contains() throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "s1", null, true ),
-                new Parameter( "s2", null, true )};
+    public Contains() throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("s1", null, true),
+                new Parameter("s2", null, true)};
+    }
+
+    public String getComment() {
         return "s1 s2  =>  b  -- where b is true/false if s1 contains s2 as a substring";
     }
 
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-		RippleList stack = arg;
+        RippleList stack = arg;
 
-		String b = mc.toString( stack.getFirst() );
-		stack = stack.getRest();
-		String a = mc.toString( stack.getFirst() );
-		stack = stack.getRest();
+        String b = mc.toString(stack.getFirst());
+        stack = stack.getRest();
+        String a = mc.toString(stack.getFirst());
+        stack = stack.getRest();
 
-		RDFValue result = mc.valueOf(a.contains(b));
+        RDFValue result = mc.valueOf(a.contains(b));
 
-		solutions.put(
-				stack.push( result ) );
-	}
+        solutions.put(
+                stack.push(result));
+    }
 }

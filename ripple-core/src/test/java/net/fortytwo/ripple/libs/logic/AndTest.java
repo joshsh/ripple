@@ -5,27 +5,24 @@ import net.fortytwo.ripple.test.RippleTestCase;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class AndTest extends RippleTestCase
-{
-    public void testSimple() throws Exception
-    {
-        assertReducesTo( "true true and.", "true" );
-        assertReducesTo( "true false and.", "false" );
-        assertReducesTo( "false true and.", "false" );
-        assertReducesTo( "false false and.", "false" );
+public class AndTest extends RippleTestCase {
+    public void testSimple() throws Exception {
+        assertReducesTo("true true and.", "true");
+        assertReducesTo("true false and.", "false");
+        assertReducesTo("false true and.", "false");
+        assertReducesTo("false false and.", "false");
     }
 
-    public void testNonBooleanValues() throws Exception
-    {
-        assertReducesTo( "true 42 and.", "false" );
-        assertReducesTo( "false 42 and.", "false" );
-        assertReducesTo( "42 true and.", "false" );
-        assertReducesTo( "42 false and.", "false" );
-        assertReducesTo( "42 42 and.", "false" );
+    public void testNonBooleanValues() throws Exception {
+        assertReducesTo("true 42 and.", "false");
+        assertReducesTo("false 42 and.", "false");
+        assertReducesTo("42 true and.", "false");
+        assertReducesTo("42 false and.", "false");
+        assertReducesTo("42 42 and.", "false");
     }
 
     public void testInverse() throws Exception {
-        assertReducesTo( "true and~.", "true true");
-        assertReducesTo( "false and~.", "true false", "false true", "false false");
+        assertReducesTo("true and~.", "true true");
+        assertReducesTo("false and~.", "true false", "false true", "false false");
     }
 }

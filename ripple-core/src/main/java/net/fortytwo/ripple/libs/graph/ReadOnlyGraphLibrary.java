@@ -10,12 +10,10 @@ import net.fortytwo.ripple.model.LibraryLoader;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class ReadOnlyGraphLibrary extends GraphLibrary
-{
+public class ReadOnlyGraphLibrary extends GraphLibrary {
     @Override
     public void load(final LibraryLoader.Context context)
-        throws RippleException
-    {
-        load( context, false );
+            throws RippleException {
+        load(context, false);
     }
 }

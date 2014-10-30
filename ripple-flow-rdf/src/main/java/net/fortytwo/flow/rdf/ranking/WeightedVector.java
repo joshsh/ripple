@@ -117,7 +117,7 @@ public class WeightedVector<T> {
 
     /**
      * @return the vector as an array of weighted values, sorted in order of
-     *         decreasing weight
+     * decreasing weight
      */
     public WeightedValue<T>[] toSortedArray() {
         WeightedValue<T>[] wvalues = new WeightedValue[valueToWeightedValue.size()];
@@ -189,7 +189,7 @@ public class WeightedVector<T> {
     /**
      * @param other another vector to subtract from this one
      * @return result of subtracting another vector from this
-     *         vector (set exclusion)
+     * vector (set exclusion)
      */
     public WeightedVector<T> subtract(final WeightedVector<T> other) {
         WeightedVector<T> result = new WeightedVector<T>(this);
@@ -226,7 +226,7 @@ public class WeightedVector<T> {
     /**
      * @param other
      * @return product of this vector with the transpose of another vector
-     *         (set intersection)
+     * (set intersection)
      */
     public WeightedVector<T> multiplyByTransposeOf(final WeightedVector<T> other) {
         WeightedVector<T> result = new WeightedVector<T>(this);

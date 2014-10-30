@@ -9,15 +9,14 @@ import net.fortytwo.ripple.RippleException;
  * a Sink is a black box with respect to upstream components passing data into it.
  *
  * @param <T> the type of data being passed
- *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public interface Sink<T>
-{
+public interface Sink<T> {
     /**
      * Passes a data item into the <code>Sink</code>
+     *
      * @param t the data item being passed
      * @throws RippleException if a data handling error occors
      */
-	void put( T t ) throws RippleException;
+    void put(T t) throws RippleException;
 }

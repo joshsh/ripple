@@ -66,9 +66,7 @@ public class Split extends PrimitiveStackMapping {
                 // Soft fail
                 e.logError();
             }
-        }
-
-        catch (java.util.regex.PatternSyntaxException e) {
+        } catch (java.util.regex.PatternSyntaxException e) {
             // Hard fail (for now).
             throw new RippleException(e);
         }

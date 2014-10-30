@@ -22,26 +22,22 @@ import java.io.Reader;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class RippleRDFParser extends RDFParserBase
-{
+public class RippleRDFParser extends RDFParserBase {
     private static RDFFormat RIPPLE_RDFFORMAT
-            = new RDFFormat( "foo", "bar", null, "quux", false, false );
+            = new RDFFormat("foo", "bar", null, "quux", false, false);
 
     private RecognizerAdapter adapter = null;
 
-    public RippleRDFParser()
-    {
+    public RippleRDFParser() {
 
     }
 
-    public RDFFormat getRDFFormat()
-    {
+    public RDFFormat getRDFFormat() {
         return RIPPLE_RDFFORMAT;
     }
 
-    public void parse( final InputStream in, final String baseUri )
-            throws IOException, RDFParseException, RDFHandlerException
-    {
+    public void parse(final InputStream in, final String baseUri)
+            throws IOException, RDFParseException, RDFHandlerException {
         /* RESTOREME
         if ( null == adapter )
         {
@@ -69,17 +65,15 @@ public class RippleRDFParser extends RDFParserBase
         }*/
     }
 
-    public void parse( final Reader reader, final String baseUri )
-            throws IOException, RDFParseException, RDFHandlerException
-    {
+    public void parse(final Reader reader, final String baseUri)
+            throws IOException, RDFParseException, RDFHandlerException {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
     ////////////////////////////////////////////////////////////////////////////
 
-    private void createAdapter()
-    {
-        adapter = new RecognizerAdapter(System.err){
+    private void createAdapter() {
+        adapter = new RecognizerAdapter(System.err) {
             @Override
             protected void handleQuery(ListAST ast) throws RippleException {
                 // TODO
@@ -89,30 +83,22 @@ public class RippleRDFParser extends RDFParserBase
             protected void handleCommand(Command command) throws RippleException {
                 // FIXME: using instanceof is a bit of a hack
 
-                if ( command instanceof DefinePrefixCmd )
-                {
-                    String prefix = ( (DefinePrefixCmd) command ).getPrefix();
-                    URIAST uri = ( (DefinePrefixCmd) command ).getUri();
+                if (command instanceof DefinePrefixCmd) {
+                    String prefix = ((DefinePrefixCmd) command).getPrefix();
+                    URIAST uri = ((DefinePrefixCmd) command).getUri();
 
                     //...
 
-                }
-
-                else if ( command instanceof DefineListCmd || command instanceof RedefineListCmd)
-                {
+                } else if (command instanceof DefineListCmd || command instanceof RedefineListCmd) {
                     String name;
                     ListAST list;
 
-                    if ( command instanceof DefineListCmd)
-                    {
-                        name = ( (DefineListCmd) command ).getListName();
-                        list = ( (DefineListCmd) command ).getList();
-                    }
-
-                    else
-                    {
-                        name = ( (RedefineListCmd) command ).getListName();
-                        list = ( (RedefineListCmd) command ).getList();
+                    if (command instanceof DefineListCmd) {
+                        name = ((DefineListCmd) command).getListName();
+                        list = ((DefineListCmd) command).getList();
+                    } else {
+                        name = ((RedefineListCmd) command).getListName();
+                        list = ((RedefineListCmd) command).getList();
                     }
 
                     //...

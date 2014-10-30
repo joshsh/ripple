@@ -16,26 +16,30 @@ import java.io.InputStreamReader;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class InterpreterTest extends TestCase
-{
-	private static final long WAIT_INTERVAL = 100l;
-	private static final byte[] NEWLINE = { '\n' };
+public class InterpreterTest extends TestCase {
+    private static final long WAIT_INTERVAL = 100l;
+    private static final byte[] NEWLINE = {'\n'};
 
-	private int lineNumber;
-	private int getLineNumber() { return lineNumber; }
-	private void setLineNumber( int n ) { lineNumber = n; }
+    private int lineNumber;
 
-	private void parse( final InputStream is, final boolean expectSuccess )
-		throws Exception
-	{
+    private int getLineNumber() {
+        return lineNumber;
+    }
+
+    private void setLineNumber(int n) {
+        lineNumber = n;
+    }
+
+    private void parse(final InputStream is, final boolean expectSuccess)
+            throws Exception {
 //		final Integer nQueries, nCommands, nEvents, lineNumber;
 //		nQueries = nCommands = nEvents =
-		lineNumber = 0;
+        lineNumber = 0;
 
-		final PipedIOStream pio = new PipedIOStream();
+        final PipedIOStream pio = new PipedIOStream();
 
-		Collector<Exception> exceptions = new Collector<Exception>();
-		RecognizerAdapter ra = new RecognizerAdapter(System.err ){
+        Collector<Exception> exceptions = new Collector<Exception>();
+        RecognizerAdapter ra = new RecognizerAdapter(System.err) {
             @Override
             protected void handleQuery(ListAST query) throws RippleException {
                 // Do nothing.
@@ -56,91 +60,71 @@ public class InterpreterTest extends TestCase
                 // Do nothing.
             }
         };
-		final Interpreter interpreter = new Interpreter( ra, pio, exceptions );
+        final Interpreter interpreter = new Interpreter(ra, pio, exceptions);
 
-		Thread interpreterThread = new Thread( new Runnable()
-			{
-				public void run()
-				{
-					try
-					{
-						interpreter.parse();
-					}
+        Thread interpreterThread = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    interpreter.parse();
+                } catch (Exception e) {
+                    // Throw out the error, for now.
+                    e.printStackTrace();
+                }
+            }
+        }, "InterpreterTest thread");
 
-					catch ( Exception e )
-					{
-						// Throw out the error, for now.
-						e.printStackTrace();
-					}
-				}
-			 }, "InterpreterTest thread" );
+        interpreterThread.start();
 
-		interpreterThread.start();
+        final BufferedReader reader = new BufferedReader(
+                new InputStreamReader(is));
 
-		final BufferedReader reader = new BufferedReader(
-			new InputStreamReader( is ) );
+        String line;
 
-		String line;
+        do {
+            exceptions.clear();
 
-		do
-		{
-			exceptions.clear();
+            lineNumber++;
+            System.out.println("line #" + lineNumber);
+            line = reader.readLine();
 
-			lineNumber++;
-System.out.println("line #" + lineNumber);
-			line = reader.readLine();
+            if (null == line) {
+                break;
+            }
 
-			if ( null == line )
-			{
-				break;
-			}
+            pio.write((line.trim() + '\n').getBytes());
 
-			pio.write( ( line.trim() + '\n' ).getBytes() );
+            do {
+                //System.out.println( "waiting " + WAIT_INTERVAL + " milliseconds" );
+                synchronized (this) {
+                    // FIXME: the first wait depends on a race condition
+                    try {
+                        wait(WAIT_INTERVAL);
+                    } catch (InterruptedException e) {
+                        throw new RippleException(e);
+                    }
+                }
+            } while (Thread.State.RUNNABLE == interpreterThread.getState());
 
-			do
-			{
-	//System.out.println( "waiting " + WAIT_INTERVAL + " milliseconds" );
-				synchronized ( this )
-				{
-					// FIXME: the first wait depends on a race condition
-					try
-					{
-						wait( WAIT_INTERVAL );
-					}
-
-					catch ( InterruptedException e )
-					{
-						throw new RippleException( e );
-					}
-				}
-			} while ( Thread.State.RUNNABLE == interpreterThread.getState() );
-
-			if ( expectSuccess )
-			{
-				if ( exceptions.size() > 0 )
-				{
-					fail( "Success case failed on line "
-							+ lineNumber + ": " + line
-							+ ", with exception = " + exceptions.iterator().next() );
-				}
-			}
-
-			else
-			{
-				if ( exceptions.size() < 1 )
-				{
-					fail( "Failure case succeeded on line "
-							+ lineNumber + ": " + line );
-				}
-			}
-		} while ( true );
+            if (expectSuccess) {
+                if (exceptions.size() > 0) {
+                    fail("Success case failed on line "
+                            + lineNumber + ": " + line
+                            + ", with exception = " + exceptions.iterator().next());
+                }
+            } else {
+                if (exceptions.size() < 1) {
+                    fail("Failure case succeeded on line "
+                            + lineNumber + ": " + line);
+                }
+            }
+        } while (true);
 
 
-		pio.close();
-	}
+        pio.close();
+    }
 
 /*	private void parse( final InputStream is, final boolean expectSuccess )
-		throws Exception
+        throws Exception
 	{
 //		final Integer nQueries, nCommands, nEvents, lineNumber;
 //		nQueries = nCommands = nEvents = lineNumber = 0;
@@ -278,10 +262,9 @@ System.out.println( "########## got an exception: " + e );
 		pio.close();
 	}*/
 
-	////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
 
-    public void testNothing() throws Exception
-    {
+    public void testNothing() throws Exception {
 
     }
     

@@ -12,9 +12,7 @@ import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackMapping;
 
 /**
- * User: josh
- * Date: 4/5/11
- * Time: 8:11 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Tail extends PrimitiveStackMapping {
     @Override

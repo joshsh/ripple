@@ -18,83 +18,73 @@ import net.fortytwo.ripple.model.StackMapping;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class Ifte extends PrimitiveStackMapping
-{
+public class Ifte extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             ControlLibrary.NS_2013_03 + "ifte",
             // Note: the previous implementation of ifte had different semantics
             // (rather than the current, Joy semantics).
-            };
+    };
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
-    
-    public Ifte()
-		throws RippleException
-	{
-		super();
-	}
 
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "b", "a boolean mapping", true ),
-                new Parameter( "ifPart", "this program is executed if the condition is true", true ),
-                new Parameter( "elsePart", "this program is executed if the condition is false", true )};
+    public Ifte()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("b", "a boolean mapping", true),
+                new Parameter("ifPart", "this program is executed if the condition is true", true),
+                new Parameter("elsePart", "this program is executed if the condition is false", true)};
+    }
+
+    public String getComment() {
         return "b t f =>  p!  -- where p is t if the application of b evaluates to true, and f if it evaluates to false";
     }
 
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-		RippleList stack = arg;
+        RippleList stack = arg;
 
-		RippleValue falseProg = stack.getFirst();
-		stack = stack.getRest();
-		RippleValue trueProg = stack.getFirst();
-		stack = stack.getRest();
-		RippleValue criterion = stack.getFirst();
-		stack = stack.getRest();
+        RippleValue falseProg = stack.getFirst();
+        stack = stack.getRest();
+        RippleValue trueProg = stack.getFirst();
+        stack = stack.getRest();
+        RippleValue criterion = stack.getFirst();
+        stack = stack.getRest();
 
-        StackMapping inner = new IfteInner( stack, trueProg, falseProg );
-        RippleList newStack = stack.push( criterion ).push( Operator.OP )
-                .push( new Operator( inner ) );
-               
-        solutions.put( newStack );
-	}
+        StackMapping inner = new IfteInner(stack, trueProg, falseProg);
+        RippleList newStack = stack.push(criterion).push(Operator.OP)
+                .push(new Operator(inner));
 
-    private class IfteInner implements StackMapping
-    {
+        solutions.put(newStack);
+    }
+
+    private class IfteInner implements StackMapping {
         private final RippleList originalStack;
         private final RippleValue trueProgram, falseProgram;
 
-        public IfteInner( final RippleList originalStack,
-                          final RippleValue trueProgram,
-                          final RippleValue falseProgram )
-        {
+        public IfteInner(final RippleList originalStack,
+                         final RippleValue trueProgram,
+                         final RippleValue falseProgram) {
             this.originalStack = originalStack;
             this.trueProgram = trueProgram;
             this.falseProgram = falseProgram;
         }
-        
-        public int arity()
-        {
+
+        public int arity() {
             return 1;
         }
 
-        public StackMapping getInverse() throws RippleException
-        {
+        public StackMapping getInverse() throws RippleException {
             return new NullStackMapping();
         }
 
-        public boolean isTransparent()
-        {
+        public boolean isTransparent() {
             return true;
         }
 
@@ -104,11 +94,11 @@ public class Ifte extends PrimitiveStackMapping
 
             RippleValue b = arg.getFirst();
 
-            RippleList stack = mc.toBoolean( b )
-                    ? originalStack.push( trueProgram ).push( Operator.OP )
-                    : originalStack.push( falseProgram ).push( Operator.OP );
+            RippleList stack = mc.toBoolean(b)
+                    ? originalStack.push(trueProgram).push(Operator.OP)
+                    : originalStack.push(falseProgram).push(Operator.OP);
 
-            solutions.put( stack );
+            solutions.put(stack);
         }
     }
 }

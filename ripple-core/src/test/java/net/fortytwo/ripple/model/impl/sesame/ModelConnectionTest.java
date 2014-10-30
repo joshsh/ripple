@@ -1,17 +1,14 @@
 package net.fortytwo.ripple.model.impl.sesame;
 
-import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.model.ModelConnection;
-
+import net.fortytwo.ripple.test.RippleTestCase;
 import org.openrdf.model.URI;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class ModelConnectionTest extends RippleTestCase
-{
-    public void testCreateURI() throws Exception
-    {
+public class ModelConnectionTest extends RippleTestCase {
+    public void testCreateURI() throws Exception {
         ModelConnection mc = getTestModel().createConnection();
 
         URI uri;
@@ -19,43 +16,43 @@ public class ModelConnectionTest extends RippleTestCase
 
         // Hash namespaces.
 
-        uri = createURI( "http://example.org/foo#bar", mc );
+        uri = createURI("http://example.org/foo#bar", mc);
         localName = uri.getLocalName();
         namespace = uri.getNamespace();
-        assertEquals( localName, "bar" );
-        assertEquals( namespace, "http://example.org/foo#" );
+        assertEquals(localName, "bar");
+        assertEquals(namespace, "http://example.org/foo#");
 
-        uri = createURI( "http://example.org/foo#", mc );
+        uri = createURI("http://example.org/foo#", mc);
         localName = uri.getLocalName();
         namespace = uri.getNamespace();
-        assertEquals( localName, "" );
-        assertEquals( namespace, "http://example.org/foo#" );
+        assertEquals(localName, "");
+        assertEquals(namespace, "http://example.org/foo#");
 
-        uri = createURI( "http://example.org/ns/foo/#bar", mc );
+        uri = createURI("http://example.org/ns/foo/#bar", mc);
         localName = uri.getLocalName();
         namespace = uri.getNamespace();
-        assertEquals( localName, "bar" );
-        assertEquals( namespace, "http://example.org/ns/foo/#" );
+        assertEquals(localName, "bar");
+        assertEquals(namespace, "http://example.org/ns/foo/#");
 
-        uri = createURI( "http://example.org/ns/foo/#", mc );
+        uri = createURI("http://example.org/ns/foo/#", mc);
         localName = uri.getLocalName();
         namespace = uri.getNamespace();
-        assertEquals( localName, "" );
-        assertEquals( namespace, "http://example.org/ns/foo/#" );
+        assertEquals(localName, "");
+        assertEquals(namespace, "http://example.org/ns/foo/#");
 
         // Slash namespaces.
 
-        uri = createURI( "http://example.org/ns/foo/bar", mc );
+        uri = createURI("http://example.org/ns/foo/bar", mc);
         localName = uri.getLocalName();
         namespace = uri.getNamespace();
-        assertEquals( localName, "bar" );
-        assertEquals( namespace, "http://example.org/ns/foo/" );
+        assertEquals(localName, "bar");
+        assertEquals(namespace, "http://example.org/ns/foo/");
 
-        uri = createURI( "http://example.org/ns/foo/", mc );
+        uri = createURI("http://example.org/ns/foo/", mc);
         localName = uri.getLocalName();
         namespace = uri.getNamespace();
-        assertEquals( localName, "" );
-        assertEquals( namespace, "http://example.org/ns/foo/" );
+        assertEquals(localName, "");
+        assertEquals(namespace, "http://example.org/ns/foo/");
 
         mc.close();
     }

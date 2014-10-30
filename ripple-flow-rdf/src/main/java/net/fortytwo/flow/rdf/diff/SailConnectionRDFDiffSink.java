@@ -1,14 +1,14 @@
 package net.fortytwo.flow.rdf.diff;
 
-import net.fortytwo.flow.rdf.RDFSink;
-import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.NullSink;
+import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.diff.DiffSink;
+import net.fortytwo.flow.rdf.RDFSink;
 import net.fortytwo.ripple.RippleException;
+import org.openrdf.model.Namespace;
+import org.openrdf.model.Statement;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
-import org.openrdf.model.Statement;
-import org.openrdf.model.Namespace;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)

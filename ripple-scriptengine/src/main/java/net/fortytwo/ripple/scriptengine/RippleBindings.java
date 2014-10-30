@@ -1,9 +1,9 @@
 package net.fortytwo.ripple.scriptengine;
 
 import javax.script.Bindings;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-import java.util.Collection;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)

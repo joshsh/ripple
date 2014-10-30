@@ -12,40 +12,35 @@ import net.fortytwo.ripple.model.StackMapping;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class Self extends PrimitiveStackMapping
-{
+public class Self extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             StackLibrary.NS_2013_03 + "self",
             StackLibrary.NS_2008_08 + "id",
             StackLibrary.NS_2007_08 + "id",
             StackLibrary.NS_2007_05 + "id"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-	public Self()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {};
+    public Self()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{};
+    }
+
+    public String getComment() {
         return " =>  (identity function, does nothing)";
     }
 
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-		solutions.put( arg );
-	}
+        solutions.put(arg);
+    }
 
     @Override
     public StackMapping getInverse() {

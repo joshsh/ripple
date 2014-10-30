@@ -28,8 +28,8 @@ public class VerbatimRdfizer implements Rdfizer {
     }
 
     public CacheEntry.Status rdfize(final InputStream is,
-                                     final RDFHandler handler,
-                                     final String baseUri) {
+                                    final RDFHandler handler,
+                                    final String baseUri) {
         try {
             parser.setRDFHandler(handler);
             parser.parse(is, baseUri);

@@ -32,7 +32,7 @@ public class SesameList extends RippleList {
     private static Map<Value, Source<RippleList>> nativeLists = new HashMap<Value, Source<RippleList>>();
     private static Boolean memoize;
 
-    private  RDFValue rdfEquivalent;
+    private RDFValue rdfEquivalent;
 
     public static RippleList nilList() {
         return NIL;

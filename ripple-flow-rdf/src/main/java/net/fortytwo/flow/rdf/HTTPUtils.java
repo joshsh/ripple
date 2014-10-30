@@ -50,16 +50,16 @@ public class HTTPUtils {
                 .setSocketTimeout((int) connectionTimeout)
                 .setConnectTimeout((int) connectionTimeout)
                 .setConnectionRequestTimeout((int) connectionTimeout)
-                //.setStaleConnectionCheckEnabled(true)
+                        //.setStaleConnectionCheckEnabled(true)
                 .build();
 
         HttpClient client = HttpClients.custom()
                 .setDefaultRequestConfig(defaultRequestConfig)
-                //.disableAutomaticRetries()
-                //.disableConnectionState()
-                //.disableContentCompression()
-                //.disableRedirectHandling()
-                //.useSystemProperties()
+                        //.disableAutomaticRetries()
+                        //.disableConnectionState()
+                        //.disableContentCompression()
+                        //.disableRedirectHandling()
+                        //.useSystemProperties()
                 .build();
 
         //client.execute(new HttpGet("http://targethost/homepage"));

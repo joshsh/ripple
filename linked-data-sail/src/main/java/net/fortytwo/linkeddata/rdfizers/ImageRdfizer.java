@@ -23,42 +23,36 @@ import java.util.Iterator;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class ImageRdfizer implements Rdfizer
-{
+public class ImageRdfizer implements Rdfizer {
     private static boolean initialized = false;
 
-    private static void initialize()
-    {
-        ImageIO.setUseCache( false );
+    private static void initialize() {
+        ImageIO.setUseCache(false);
         ImageIO.scanForPlugins();  // probably not necessary...
         initialized = true;
     }
-    
+
     public CacheEntry.Status rdfize(final InputStream is,
-                                     final RDFHandler handler,
-                                     final String baseUri)
-    {
-        if ( !initialized )
-        {
+                                    final RDFHandler handler,
+                                    final String baseUri) {
+        if (!initialized) {
             initialize();
         }
 
-        try
-        {
-            ImageInputStream iis = ImageIO.createImageInputStream( is );
+        try {
+            ImageInputStream iis = ImageIO.createImageInputStream(is);
 
             // get an iterator over all readers that claim to be able to query the image
-            Iterator<ImageReader> readers = ImageIO.getImageReaders( iis );
+            Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
 
             // check the iterator for having the ImageReader
-            if ( readers.hasNext() )
-            {
+            if (readers.hasNext()) {
                 // get an ImageReader to parse and decode the image to process
                 ImageReader reader = readers.next();
 
                 // set the input of the ImageReader
                 reader.setInput(iis);
-                
+
                 // print the reader of the processed file
                 System.out.println("[Trace] Image Reader : " + reader);
 
@@ -102,48 +96,42 @@ public class ImageRdfizer implements Rdfizer
                 }
 
                 return CacheEntry.Status.Success;
-            }
-
-            else
-            {
-                new RippleException( "could not find a reader for image" ).logError( false );
+            } else {
+                new RippleException("could not find a reader for image").logError(false);
                 return CacheEntry.Status.RdfizerError;
             }
-        }
-
-        catch ( IOException e ) {
-            new RippleException( e ).logError( true );
+        } catch (IOException e) {
+            new RippleException(e).logError(true);
             return CacheEntry.Status.RdfizerError;
         }
     }
 
-    private static void showNode( final Node node, final StringBuilder sb, String indent )
-    {
-        sb.append( indent ).append( node.getLocalName() );// + ", " + node.getNamespaceURI() + node.getLocalName() );
+    private static void showNode(final Node node, final StringBuilder sb, String indent) {
+        sb.append(indent).append(node.getLocalName());// + ", " + node.getNamespaceURI() + node.getLocalName() );
         indent += "    ";
 
         NamedNodeMap map = node.getAttributes();
         if (0 < map.getLength()) {
-            sb.append( " {" );
+            sb.append(" {");
             for (int i = 0; i < map.getLength(); i++) {
-                if ( 0 < i ) {
-                    sb.append( ", " );
+                if (0 < i) {
+                    sb.append(", ");
                 }
                 Node n = map.item(i);
-                sb.append( n.getNodeName() + "=" + n.getNodeValue() );
+                sb.append(n.getNodeName() + "=" + n.getNodeValue());
                 //sb.append( "\n" ).append( indent ).append( "attr: " ).append(n.getLocalName());
             }
-            sb.append( "}" );
+            sb.append("}");
         }
 
         NodeList list = node.getChildNodes();
         for (int i = 0; i < list.getLength(); i++) {
             Node n = list.item(i);
-            sb.append( "\n" );
-            showNode( n, sb, indent );
+            sb.append("\n");
+            showNode(n, sb, indent);
         }
     }
-    
+
     public String toString() {
         return "image rdfizer";
     }

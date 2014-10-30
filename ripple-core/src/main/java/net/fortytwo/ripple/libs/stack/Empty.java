@@ -13,54 +13,47 @@ import net.fortytwo.ripple.model.RippleValue;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class Empty extends PrimitiveStackMapping
-{
+public class Empty extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             StackLibrary.NS_2013_03 + "empty",
             StackLibrary.NS_2008_08 + "empty"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-	public Empty()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "l", "a list", true )};
+    public Empty()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("l", "a list", true)};
+    }
+
+    public String getComment() {
         return "l  =>  true if l is an empty list, otherwise false";
     }
 
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-		RippleList stack = arg;
+        RippleList stack = arg;
 
-		RippleValue l;
+        RippleValue l;
 
-		l = stack.getFirst();
-		final RippleList rest = stack.getRest();
+        l = stack.getFirst();
+        final RippleList rest = stack.getRest();
 
-		Sink<RippleList> listSink = new Sink<RippleList>()
-		{
-			public void put( final RippleList list ) throws RippleException
-			{
-				boolean result = list.isNil();
-				solutions.put(
-						rest.push( mc.valueOf(result) ) );
-			}
-		};
+        Sink<RippleList> listSink = new Sink<RippleList>() {
+            public void put(final RippleList list) throws RippleException {
+                boolean result = list.isNil();
+                solutions.put(
+                        rest.push(mc.valueOf(result)));
+            }
+        };
 
-		mc.toList( l, listSink );
-	}
+        mc.toList(l, listSink);
+    }
 }

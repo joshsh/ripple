@@ -7,7 +7,6 @@ import net.fortytwo.ripple.URIMap;
 import net.fortytwo.sesametools.readonly.ReadOnlySail;
 import net.fortytwo.sesametools.replay.RecorderSail;
 import org.openrdf.sail.Sail;
-import org.openrdf.sail.SailException;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

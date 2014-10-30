@@ -6,7 +6,7 @@ import org.restlet.representation.Representation;
 /**
  * An object which fetches documents based on URI (for example, Web documents via HTTP).
  *
- *  @author Joshua Shinavier (http://fortytwo.net)
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public interface Dereferencer {
     /**

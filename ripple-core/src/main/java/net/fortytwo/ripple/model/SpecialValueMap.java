@@ -28,8 +28,8 @@ public class SpecialValueMap {
      *
      * @param rdf a wrapped RDF value to map into Ripple space
      * @return a native data structure which is equated with the given RDF
-     *         value.  If there is no such data structure, the value itself.  This
-     *         method will never return <code>null</code>.
+     * value.  If there is no such data structure, the value itself.  This
+     * method will never return <code>null</code>.
      */
     public RippleValue get(final RDFValue rdf) {
         RippleValue rpl = rdfToNativeMap.get(rdf.sesameValue());
@@ -53,7 +53,8 @@ public class SpecialValueMap {
 
     /**
      * Adds a value to the map, binding its associated RDF value back to the Ripple value.
-     * @param v the Ripple value to add
+     *
+     * @param v  the Ripple value to add
      * @param mc a transactional connection
      * @throws RippleException if the associated RDF value of the Ripple value can't be determined
      */
@@ -64,6 +65,7 @@ public class SpecialValueMap {
 
     /**
      * Removes a value from the map.
+     *
      * @param key the RDF value to remove
      */
     public void remove(final Value key) {

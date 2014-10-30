@@ -11,25 +11,22 @@ import java.util.Properties;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class AnnotatedAST implements AST<RippleList>
-{
-	private final AST innerAst;
-	private final Properties props;
-	
-	public AnnotatedAST( final AST inner, final Properties props )
-	{
-		innerAst = inner;
-		this.props = props;
-	}
-	
-	public void evaluate( Sink<RippleList> sink,
-					QueryEngine qe,
-					ModelConnection mc )
-		throws RippleException
-	{
+public class AnnotatedAST implements AST<RippleList> {
+    private final AST innerAst;
+    private final Properties props;
+
+    public AnnotatedAST(final AST inner, final Properties props) {
+        innerAst = inner;
+        this.props = props;
+    }
+
+    public void evaluate(Sink<RippleList> sink,
+                         QueryEngine qe,
+                         ModelConnection mc)
+            throws RippleException {
 // TODO: create a PropertyAnnotatedValue class and translate into it
-		innerAst.evaluate( sink, qe, mc );
-	}
+        innerAst.evaluate(sink, qe, mc);
+    }
 }
 
 

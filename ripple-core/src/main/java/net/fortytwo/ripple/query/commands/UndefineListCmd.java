@@ -9,31 +9,27 @@ import net.fortytwo.ripple.query.QueryEngine;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class UndefineListCmd extends Command
-{
-	private final String term;
+public class UndefineListCmd extends Command {
+    private final String term;
 
-	public UndefineListCmd(final String term)
-	{
-		this.term = term;
-	}
+    public UndefineListCmd(final String term) {
+        this.term = term;
+    }
 
-	public void execute( final QueryEngine qe, final ModelConnection mc )
-		throws RippleException
-	{
+    public void execute(final QueryEngine qe, final ModelConnection mc)
+            throws RippleException {
         RDFValue uri = mc.valueOf(java.net.URI.create(qe.getLexicon().getDefaultNamespace() + term));
 //System.out.println("uri = " + uri);
-        mc.remove( uri, null, null );
-		mc.commit();
-        mc.getModel().getSpecialValues().remove( uri.sesameValue() );
+        mc.remove(uri, null, null);
+        mc.commit();
+        mc.getModel().getSpecialValues().remove(uri.sesameValue());
     }
 
     public String getName() {
         return "unlist";
     }
 
-    protected void abort()
-	{
-	}
+    protected void abort() {
+    }
 }
 

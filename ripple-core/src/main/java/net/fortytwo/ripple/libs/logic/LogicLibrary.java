@@ -9,19 +9,17 @@ import net.fortytwo.ripple.model.LibraryLoader;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class LogicLibrary extends Library
-{
+public class LogicLibrary extends Library {
     public static final String
             NS_2013_03 = "http://fortytwo.net/2013/03/ripple/logic#",
             NS_2008_08 = "http://fortytwo.net/2008/08/ripple/logic#";
 
     public void load(final LibraryLoader.Context context)
-		throws RippleException
-	{
-		registerPrimitives( context,
+            throws RippleException {
+        registerPrimitives(context,
                 And.class,
                 Not.class,
                 Or.class,
-                Xor.class );
+                Xor.class);
     }
 }

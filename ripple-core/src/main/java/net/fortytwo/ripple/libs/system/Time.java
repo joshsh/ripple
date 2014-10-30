@@ -14,39 +14,34 @@ import java.lang.System;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class Time extends PrimitiveStackMapping
-{
+public class Time extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             SystemLibrary.NS_2013_03 + "time",
             SystemLibrary.NS_2008_08 + "time",
             SystemLibrary.NS_2007_08 + "time",
             SystemLibrary.NS_2007_05 + "time"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {};
+    public Parameter[] getParameters() {
+        return new Parameter[]{};
     }
 
-    public String getComment()
-    {
+    public String getComment() {
         return "produces the current time in milliseconds since the Unix epoch";
     }
 
-	public Time() throws RippleException
-	{
-		super();
-	}
+    public Time() throws RippleException {
+        super();
+    }
 
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
 
         solutions.put(arg.push(
-                mc.valueOf(System.currentTimeMillis())) );
-	}
+                mc.valueOf(System.currentTimeMillis())));
+    }
 }

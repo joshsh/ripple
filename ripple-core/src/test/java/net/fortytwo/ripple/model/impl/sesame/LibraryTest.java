@@ -10,24 +10,22 @@ import java.net.URI;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class LibraryTest extends RippleTestCase
-{
-    public void testPrimitiveAlias() throws Exception
-    {
+public class LibraryTest extends RippleTestCase {
+    public void testPrimitiveAlias() throws Exception {
         ModelConnection mc = this.modelConnection;
 
         URI dup05 = URI.create("http://fortytwo.net/2007/05/ripple/stack#dup");
         URI dup08 = URI.create("http://fortytwo.net/2007/08/ripple/stack#dup");
 
-        RippleValue dup05Val = mc.canonicalValue( mc.valueOf(dup05) );
-        RippleValue dup08Val = mc.canonicalValue( mc.valueOf(dup08) );
+        RippleValue dup05Val = mc.canonicalValue(mc.valueOf(dup05));
+        RippleValue dup08Val = mc.canonicalValue(mc.valueOf(dup08));
 
-        assertNotNull( dup05Val );
-        assertNotNull( dup08Val );
-        assertTrue( dup05Val instanceof PrimitiveStackMapping );
-        assertTrue( dup08Val instanceof PrimitiveStackMapping );
+        assertNotNull(dup05Val);
+        assertNotNull(dup08Val);
+        assertTrue(dup05Val instanceof PrimitiveStackMapping);
+        assertTrue(dup08Val instanceof PrimitiveStackMapping);
 
-        assertEquals( dup05Val, dup08Val );
+        assertEquals(dup05Val, dup08Val);
     }
 
     public void testAliasInExpression() throws Exception {

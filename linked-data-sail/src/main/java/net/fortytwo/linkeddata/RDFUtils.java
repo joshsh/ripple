@@ -5,7 +5,6 @@ import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import org.apache.jena.iri.IRI;
 import org.apache.jena.iri.IRIFactory;
-import org.apache.jena.iri.impl.Parser;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;

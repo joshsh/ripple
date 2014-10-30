@@ -2,8 +2,8 @@ package net.fortytwo.ripple.scriptengine;
 
 import net.fortytwo.flow.Collector;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.config.SailConfiguration;
 import net.fortytwo.ripple.URIMap;
+import net.fortytwo.ripple.config.SailConfiguration;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.RDFValue;
