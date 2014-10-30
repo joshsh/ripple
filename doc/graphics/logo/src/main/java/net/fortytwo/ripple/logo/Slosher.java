@@ -3,10 +3,8 @@ package net.fortytwo.ripple.logo;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-/**
- * User: josh
- * Date: 5/15/11
- * Time: 12:41 PM
+/*
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 class Slosher {
     public Point2D location;

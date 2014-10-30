@@ -38,11 +38,11 @@ public class Interpreter {
     public void parse() throws RippleException {
         active = true;
 
-System.out.println( "-- parse" );
+        System.out.println("-- parse");
         // Break out when a @quit directive is encountered or a fatal error is
         // thrown.
         while (active) {
-System.out.println( "-- construct" );
+            System.out.println("-- construct");
 
             CharStream s;
 
@@ -66,17 +66,17 @@ System.out.println( "-- construct" );
             parser.initialize(recognizerAdapter);
 
             try {
-System.out.println( "-- antlr" );
+                System.out.println("-- antlr");
                 parser.document();
 
                 // If the parser has exited normally, then we're done.
-System.out.println( "-- normal exit" );
+                System.out.println("-- normal exit");
                 active = false;
             }
 
             // The parser has received a quit command.
             catch (ParserQuitException e) {
-System.out.println( "-- quit" );
+                System.out.println("-- quit");
                 LOGGER.debug("quit() called on Interpreter");
 
                 active = false;
@@ -115,9 +115,7 @@ System.out.println( "-- quit" );
             for (int i = 0; i < lim; i++) {
                 is.read();
             }
-        }
-
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new RippleException(e);
         }
     }

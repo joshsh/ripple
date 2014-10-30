@@ -1,20 +1,12 @@
-/*
-* $URL: http://svn.fortytwo.net/projects/ripple/trunk/ripple-logo/RippleEffect.java $
-* $Revision: 1054 $
-* $Author: josh $
-*
-* @author Joshua Shinavier (http://fortytwo.net)
-*/
-
 package net.fortytwo.ripple.logo;
 
-
-import javax.swing.*;
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.MemoryImageSource;
 import java.util.Random;
 
+/*
+ * @author Joshua Shinavier (http://fortytwo.net)
+ */
 public class RippleEffect {
     // Changing the seed value will change the result
     Random random = new Random(4621);

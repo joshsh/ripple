@@ -2,10 +2,8 @@ package net.fortytwo.ripple.logo;
 
 import java.awt.geom.Point2D;
 
-/**
- * User: josh
- * Date: 5/15/11
- * Time: 5:18 PM
+/*
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Rippler {
     private final Point2D center;
