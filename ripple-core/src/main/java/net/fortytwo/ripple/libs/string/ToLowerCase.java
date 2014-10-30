@@ -13,47 +13,42 @@ import net.fortytwo.ripple.model.RippleValue;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class ToLowerCase extends PrimitiveStackMapping
-{
+public class ToLowerCase extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             StringLibrary.NS_2013_03 + "to-lower-case",
             StringLibrary.NS_2008_08 + "toLowerCase",
             StringLibrary.NS_2007_08 + "toLowerCase"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-	public ToLowerCase()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "s", null, true )};
+    public ToLowerCase()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("s", null, true)};
+    }
+
+    public String getComment() {
         return "s  =>  s2 -- where s2 is equal to s with all characters converted to lower case";
     }
 
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-		RippleList stack = arg;
+        RippleList stack = arg;
 
-		RippleValue s = stack.getFirst();
-		stack = stack.getRest();
+        RippleValue s = stack.getFirst();
+        stack = stack.getRest();
 
-        String result = mc.toString( s ).toLowerCase();
+        String result = mc.toString(s).toLowerCase();
 
-		solutions.put(
-				stack.push( StringLibrary.value( result, mc, s ) ) );
-	}
+        solutions.put(
+                stack.push(StringLibrary.value(result, mc, s)));
+    }
 }
 

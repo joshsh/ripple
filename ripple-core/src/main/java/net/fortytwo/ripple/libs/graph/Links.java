@@ -56,20 +56,15 @@ public class Links extends PrimitiveStackMapping {
             RippleValue subj;
 
             subj = stack.getFirst();
-            //final RippleList rest = stack.getRest();
 
             Sink<Statement> stSink = new Sink<Statement>() {
                 public void put(final Statement st) throws RippleException {
                     Resource context = st.getContext();
 
-                    //RippleValue subj = bridge.get( st.getSubject() );
                     RippleValue pred = mc.canonicalValue(new RDFValue(st.getPredicate()));
                     RippleValue obj = mc.canonicalValue(new RDFValue(st.getObject()));
                     RippleValue ctx = (null == context) ? mc.list() : mc.canonicalValue(new RDFValue(context));
-                    //RippleList triple = mc.list( obj ).push( pred ).push( subj );
 
-                    //sink.put( arg.with(
-                    //	rest.push( triple ) ) );
                     solutions.put(stack.push(pred).push(obj).push(ctx));
                 }
             };

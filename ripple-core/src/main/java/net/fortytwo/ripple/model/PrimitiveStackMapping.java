@@ -11,7 +11,6 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
     private final boolean transparent;
 
     private RDFValue rdfEquivalent;
-//	private FunctionTypeAnnotation typeAnnotation = null;
 
     protected class Parameter {
         private String name;
@@ -68,7 +67,7 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
 
         rdfEquivalent = v;
 
-//		typeAnnotation = new FunctionTypeAnnotation( v, mc );
+// typeAnnotation = new FunctionTypeAnnotation( v, mc );
     }
 
     public void printTo(final RipplePrintStream p)

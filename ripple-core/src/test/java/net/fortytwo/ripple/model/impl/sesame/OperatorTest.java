@@ -37,8 +37,8 @@ public class OperatorTest extends RippleTestCase {
                     + "rdf:first \"1a\";\n"
                     + "rdf:first \"1b\";\n"
                     + "rdf:rest [\n"
-                    + "		rdf:first \"2\";\n"
-                    + "		rdf:rest rdf:nil ];\n"
+                    + "    rdf:first \"2\";\n"
+                    + "    rdf:rest rdf:nil ];\n"
                     + ".";
 
     public void testCreateOperator() throws Exception {

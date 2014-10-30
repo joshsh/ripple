@@ -122,29 +122,27 @@ public class URITest extends RippleTestCase {
 
         public void test(final ModelConnection mc)
                 throws Exception {
-            //System.out.println( "URI test " + label
-            //	+ ( null == comment ? "" : " (" + comment + ")" ) );
             String fakeBase = "http://example.org/";
             URI uri;
 
             switch (type) {
-//				case ABSID:
+//              case ABSID:
                 case ABSRF:
                     assertFalse(null == base);
                     uri = createURI(base, mc);
                     break;
-// 				case ABS2REL:
-// 				case DECOMP:
-//				case INVRF:  // ?
-// 				case NORMCASE:
-// 				case NORMESC:
-// 				case NORMPATH:
-// 				case RELATIVE:
+//              case ABS2REL:
+//              case DECOMP:
+//              case INVRF:  // ?
+//              case NORMCASE:
+//              case NORMESC:
+//              case NORMPATH:
+//              case RELATIVE:
                 case RELRF:
                     assertFalse(null == base);
                     //uri = createURI(fakeBase + base, mc);
                     break;
-//				case REL2ABS:
+//              case REL2ABS:
                 default:
                     System.out.println("unhandled test case!");
             }

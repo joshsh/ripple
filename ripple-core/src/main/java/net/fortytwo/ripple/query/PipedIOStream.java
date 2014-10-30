@@ -29,25 +29,18 @@ public class PipedIOStream extends InputStream //, OutputStream
 
     @Override
     public synchronized void close() throws IOException {
-//System.out.println("[" + this + "].close() #####################");
         data = null;
 
-		/*synchronized ( mutex )
-		{
-			mutex.notify();
-		}*/
     }
 
     @Override
     public synchronized int available() {
-//System.out.println("available = " + length);
         return length;
     }
 
     @Override
     public int read() throws IOException {
-//System.out.println("    ---> length = " + length );
-        // FIXME: race condition
+        // TODO: race condition
         if (0 == length) {
             synchronized (mutex) {
                 try {
@@ -66,20 +59,17 @@ public class PipedIOStream extends InputStream //, OutputStream
             int c = data[pos];
             pos = (1 + pos) % size;
             length--;
-//System.out.println("    [" + this + "] query(" + c + " -- '" + (char) c + "') -- length = " + length + " -- thread = " + Thread.currentThread());
             return c;
         }
     }
 
     public synchronized void write(int b) throws IOException {
-//System.out.println("[" + this + "] write(" + b + ")");
         if (null == data) {
             throw new IOException("can't write: pipe has been closed");
         }
 
         // Expand the buffer if needed.
         if (length + 1 > size) {
-//System.out.println("EXPANDING ######################");
             int newSize = size * BUFFER_EXPANSION;
             int[] newData = new int[newSize];
             for (int i = 0; i < length; i++) {
@@ -113,7 +103,6 @@ public class PipedIOStream extends InputStream //, OutputStream
 
     @Override
     public long skip(final long n) throws IOException {
-//System.out.println("skip(" + n + ")");
         long i;
         for (i = 0; i < n; i++) {
             int c = read();
@@ -126,6 +115,5 @@ public class PipedIOStream extends InputStream //, OutputStream
     }
 
     public void flush() throws IOException {
-//System.out.println("flush()");
     }
 }

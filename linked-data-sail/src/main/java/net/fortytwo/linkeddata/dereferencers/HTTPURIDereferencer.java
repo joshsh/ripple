@@ -39,7 +39,6 @@ public class HTTPURIDereferencer implements Dereferencer {
         if (l >= 0 && badExtensions.contains(uri.substring(l + 1))) {
             throw new RippleException("URI <" + StringUtils.escapeURIString(uri) + "> has blacklisted extension");
             // TODO: we can throw exceptions or return nulls to indicate an error, but we shouldn't do both
-//			return null;
         }
 
         return new HTTPRepresentation(uri, linkedDataCache.getAcceptHeader());

@@ -59,12 +59,12 @@ public class LexiconUpdaterTest extends RippleTestCase {
         }
     }
 
-	private Collection<String> getLines( final String fileName ) throws Exception
-	{
-		InputStream is = LexiconUpdaterTest.class.getResourceAsStream( fileName );
-		Collection<String> lines = FileUtils.getLines( is );
-		is.close();
-		return lines;
-	}   */
+    private Collection<String> getLines(final String fileName) throws Exception {
+        InputStream is = LexiconUpdaterTest.class.getResourceAsStream(fileName);
+        Collection<String> lines = FileUtils.getLines(is);
+        is.close();
+        return lines;
+    }
+    */
 }
 

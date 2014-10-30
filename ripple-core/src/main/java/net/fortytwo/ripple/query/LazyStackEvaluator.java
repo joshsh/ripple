@@ -60,7 +60,7 @@ public class LazyStackEvaluator extends StackEvaluator {
                     // We simply ignore stacks which can't be reduced to
                     // something with a passive item on top.
                     if (rest.isNil()) {
-                        //						sink.put( stack );
+                        // sink.put( stack );
                     } else {
                         final Sink<RippleList> thisEval = this;
                         Sink<RippleList> argSink = new Sink<RippleList>() {
