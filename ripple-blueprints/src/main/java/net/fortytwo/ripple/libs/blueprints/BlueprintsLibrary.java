@@ -54,11 +54,4 @@ public class BlueprintsLibrary extends Library {
             return mc.valueOf("[" + tinker.toString() + " (" + tinker.getClass() + ")]");
         }
     }
-
-    public static void main(final String[] args) throws Exception {
-        GremlinGroovyScriptEngine engine = new GremlinGroovyScriptEngine();
-        Object result = engine.eval("g = TinkerGraphFactory.createTinkerGraph()\ng.v(1)");
-        //result = engine.eval("g.v(1)");
-        System.out.println("" + result.getClass() + ": " + result);
-    }
 }

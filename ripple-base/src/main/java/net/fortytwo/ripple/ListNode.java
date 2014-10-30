@@ -26,10 +26,6 @@ public abstract class ListNode<T> {
         ListNode<T> otherCur = other;
 
         while (!thisCur.isNil()) {
-/*System.out.println("thisCur = " + thisCur);
-System.out.println("    thisCur.getFirst() = " + thisCur.getFirst());
-System.out.println("    otherCur = " + otherCur);
-System.out.println("    otherCur.getFirst() = " + otherCur.getFirst());*/
             if (otherCur.isNil()) {
                 return false;
             }
