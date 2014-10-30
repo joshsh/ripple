@@ -95,8 +95,6 @@ public class HTTPUtils {
         return method;
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     public static HttpGet createRdfGetMethod(final String url) throws RippleException {
         HttpGet method = createGetMethod(url);
 
@@ -122,8 +120,6 @@ public class HTTPUtils {
         setContentTypeHeader(method, SPARQL_QUERY);
         return method;
     }
-
-    ////////////////////////////////////////////////////////////////////////////
 
     public static void setContentTypeHeader(final HttpRequest method, final String value)
             throws RippleException {
@@ -156,8 +152,6 @@ public class HTTPUtils {
 
         setAcceptHeader(method, sb.toString());
     }
-
-    ////////////////////////////////////////////////////////////////////////////
 
     /**
      * Enforces crawler etiquette with respect to timing of HTTP requests.
@@ -216,8 +210,6 @@ public class HTTPUtils {
             return 0;
         }
     }
-
-    ////////////////////////////////////////////////////////////////////////////
 
     private static void setAgent(final HttpRequest method) {
         method.setHeader(USER_AGENT, Ripple.getName() + "/" + Ripple.getVersion());

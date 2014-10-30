@@ -80,8 +80,6 @@ public class LazyStackEvaluator extends StackEvaluator {
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {

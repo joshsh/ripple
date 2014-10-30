@@ -56,8 +56,6 @@ public class Limit extends PrimitiveStackMapping {
                                 new LimitInner((long) lim))));
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     protected class LimitInner implements StackMapping {
         private long count, limit;
 

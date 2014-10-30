@@ -35,8 +35,6 @@ public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
 
     private SailConnection baseConnection;
 
-    ////////////////////////////////////////////////////////////////////////////
-
     public synchronized void addConnectionListener(final SailConnectionListener listener) {
         if (baseConnection instanceof NotifyingSailConnection) {
             ((NotifyingSailConnection) baseConnection).addConnectionListener(listener);
@@ -149,8 +147,6 @@ public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
         baseConnection.begin();
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     LinkedDataSailConnection(final SailBase sail,
                              final Sail baseSail,
                              final LinkedDataCache linkedDataCache) throws SailException {
@@ -162,8 +158,6 @@ public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
 
         baseConnection = baseSail.getConnection();
     }
-
-    ////////////////////////////////////////////////////////////////////////////
 
     private void retrieveUri(final URI uri) {
         try {

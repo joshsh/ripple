@@ -268,8 +268,8 @@ public class RippleValueComparator implements Comparator<RippleValue> {
             return compareNativeLists(firstLists.iterator().next(),
                     secondLists.iterator().next());
         } else {
-            RippleList firstArray[] = new RippleList[firstSize];
-            RippleList secondArray[] = new RippleList[secondSize];
+            RippleList[] firstArray = new RippleList[firstSize];
+            RippleList[] secondArray = new RippleList[secondSize];
 
             int i = 0;
             for (RippleList firstList : firstLists) {

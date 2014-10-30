@@ -70,8 +70,6 @@ public class RippleRDFParser extends RDFParserBase {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     private void createAdapter() {
         adapter = new RecognizerAdapter(System.err) {
             @Override

@@ -294,8 +294,6 @@ public final class StringUtils {
         return coded;
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     private static char toUnicodeChar(final String unicode)
             throws RippleException {
         try {

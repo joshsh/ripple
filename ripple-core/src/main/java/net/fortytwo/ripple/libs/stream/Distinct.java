@@ -55,8 +55,6 @@ public class Distinct extends PrimitiveStackMapping {
                                 new DistinctInner())));
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     protected class DistinctInner implements StackMapping {
         private ListMemoizer<RippleValue, String> memoizer = null;
 

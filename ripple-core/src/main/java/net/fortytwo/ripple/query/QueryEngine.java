@@ -26,8 +26,6 @@ public class QueryEngine {
     // the connection will still be active as long as the query engine has not been shut down.
     private final ModelConnection connection;
 
-    ////////////////////////////////////////////////////////////////////////////
-
     public QueryEngine(final Model model) throws RippleException {
         this(model, new LazyStackEvaluator(), System.out, System.err);
     }
@@ -64,8 +62,6 @@ public class QueryEngine {
         connection.commit();
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     public ModelConnection getConnection() throws RippleException {
         return connection;
     }
@@ -97,8 +93,6 @@ public class QueryEngine {
     public void shutDown() throws RippleException {
         connection.close();
     }
-
-    ////////////////////////////////////////////////////////////////////////////
 
     private void initializeLexicon() throws RippleException {
         LexiconUpdater updater = new LexiconUpdater(lexicon);

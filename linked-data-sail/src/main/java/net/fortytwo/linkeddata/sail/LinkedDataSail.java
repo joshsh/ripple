@@ -110,8 +110,6 @@ public class LinkedDataSail extends SailBase implements StackableSail, Notifying
         this.baseSail = baseSail;
     }
 
-    // Extended API ////////////////////////////////////////////////////////////
-
     /**
      * @return this LinkedDataSail's cache manager
      */

@@ -112,8 +112,6 @@ public class RankingEvaluatorHelper {
         }
     };
 
-    ////////////////////////////////////////////////////////////////////////////
-
     private void reduce(final RippleList arg,
                         final ModelConnection mc) throws RippleException {
         RippleList stack = arg;

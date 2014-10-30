@@ -71,8 +71,6 @@ public class RipplePrintStream extends PrintStream {
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     private void printURIRef(final URI uri) {
         print("<" + StringUtils.escapeURIString(uri.toString()) + ">");
     }

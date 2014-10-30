@@ -46,8 +46,6 @@ public final class RDFUtils {
         return new SesameOutputAdapter(writer);
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     public static boolean isHttpUri(final URI uri) {
         return uri.toString().startsWith("http://");
     }

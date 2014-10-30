@@ -175,8 +175,6 @@ public class ListMemoizer<T, M> {
             }
         }
 
-        ////////////////////////////////////////////////////////////////////////////
-
         private int compare(final ListMemoizerHelper first,
                             final ListMemoizerHelper second) {
             if (null == first) {

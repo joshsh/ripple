@@ -65,8 +65,6 @@ public class Collector<T> extends SimpleReadOnlyCollection<T> implements Sink<T>
         }
     }
 
-    // java.util.Collection methods ////////////////////////////////////////////
-
     /**
      * @return the number of items in this collection
      */
@@ -89,8 +87,6 @@ public class Collector<T> extends SimpleReadOnlyCollection<T> implements Sink<T>
         first = null;
         count = 0;
     }
-
-    ////////////////////////////////////////////////////////////////////////////
 
     private class Node {
         public T value;

@@ -61,8 +61,6 @@ public class Intersect extends PrimitiveStackMapping {
                 stack.push(rfalse).push(Operator.OP).push(mc.valueOf(false)).push(inner));
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     protected class IntersectInner implements StackMapping {
         private ListMemoizer<RippleValue, String> trueMemoizer = null;
         private ListMemoizer<RippleValue, String> falseMemoizer = null;

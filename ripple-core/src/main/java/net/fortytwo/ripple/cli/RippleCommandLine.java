@@ -52,8 +52,6 @@ public class RippleCommandLine {
 
     private int lineNumber;
 
-    ////////////////////////////////////////////////////////////////////////////
-
     /**
      * Console input:
      * is to filter to consoleReaderInput to reader to readOut to writeIn to interpreter
@@ -147,8 +145,6 @@ public class RippleCommandLine {
 //System.out.println( "done parsing" );
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     private void readLine() {
         try {
             ++lineNumber;
@@ -237,8 +233,6 @@ public class RippleCommandLine {
         protected void abort() {
         }
     }
-
-    ////////////////////////////////////////////////////////////////////////////
 
     private void addCommand(final Command cmd) {
 //System.out.println( "addCommand(" + cmd + ")" );

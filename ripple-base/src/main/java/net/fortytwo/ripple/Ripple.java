@@ -62,8 +62,6 @@ public final class Ripple {
     // FIXME: quiet is never used
     private static boolean quiet = false;
 
-    ////////////////////////////////////////////////////////////////////////////
-
     private Ripple() {
     }
 
@@ -109,8 +107,6 @@ public final class Ripple {
 
         return CONFIGURATION;
     }
-
-    ////////////////////////////////////////////////////////////////////////////
 
     public static String getName() {
         return "Ripple";

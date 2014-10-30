@@ -195,8 +195,6 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     private Literal castToLiteral(final Value v) throws RippleException {
         if (v instanceof Literal) {
             return (Literal) v;
@@ -204,8 +202,6 @@ public class SesameModelConnection implements ModelConnection {
             throw new RippleException("value " + v + " is not a Literal");
         }
     }
-
-    ////////////////////////////////////////////////////////////////////////////
 
     // Note: everything apart from xsd:true is considered false.
     // Eventually, this method may throw a type mismatch exception if it is
@@ -251,8 +247,6 @@ public class SesameModelConnection implements ModelConnection {
             return v.toString();
         }
     }
-
-    ////////////////////////////////////////////////////////////////////////////
 
     public void add(final RippleValue subj, final RippleValue pred, final RippleValue obj, RippleValue... contexts)
             throws RippleException {
@@ -399,13 +393,9 @@ public class SesameModelConnection implements ModelConnection {
         return count;
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     public Comparator<RippleValue> getComparator() {
         return comparator;
     }
-
-    ////////////////////////////////////////////////////////////////////////////
 
     public RDFValue valueOf(final java.net.URI s) throws RippleException {
         try {
@@ -501,8 +491,6 @@ public class SesameModelConnection implements ModelConnection {
         return new SesameNumericValue(b);
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     public void setNamespace(final String prefix, final String ns, final boolean override)
             throws RippleException {
         ensureOpen();
@@ -526,8 +514,6 @@ public class SesameModelConnection implements ModelConnection {
             throw new RippleException(t);
         }
     }
-
-    ////////////////////////////////////////////////////////////////////////////
 
     private class QueryTask extends Task {
         private final StatementPatternQuery query;
@@ -698,8 +684,6 @@ public class SesameModelConnection implements ModelConnection {
             throw new RippleException(e);
         }
     }
-
-    ////////////////////////////////////////////////////////////////////////////
 
     public Source<RippleValue> getContexts()
             throws RippleException {

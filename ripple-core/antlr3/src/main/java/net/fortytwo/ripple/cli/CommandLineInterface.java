@@ -49,8 +49,6 @@ public class CommandLineInterface {
     private int lineNumber;
     private boolean lastQueryContinued = false;
 
-    ////////////////////////////////////////////////////////////////////////////
-
     /**
      * Console input:
      * is --> filter --> consoleReaderInput --> reader --> readOut --> writeIn --> interpreter
@@ -157,8 +155,6 @@ public class CommandLineInterface {
 //System.out.println( "done parsing" );
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     private void readLine() {
         try {
             ++lineNumber;
@@ -239,8 +235,6 @@ public class CommandLineInterface {
         protected void abort() {
         }
     }
-
-    ////////////////////////////////////////////////////////////////////////////
 
     private void addCommand(final Command cmd) {
 //System.out.println( "addCommand(" + cmd + ")" );

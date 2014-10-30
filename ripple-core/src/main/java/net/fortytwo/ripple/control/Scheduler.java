@@ -23,8 +23,6 @@ public final class Scheduler {
     private final LinkedList<WorkerRunnable> waitingRunnables;
     private final int maxThreads;
 
-    ////////////////////////////////////////////////////////////////////////////
-
     public static void add(final Task task, final Sink<Task> completedTaskSink) throws RippleException {
         if (null == singleInstance) {
             singleInstance = new Scheduler();
@@ -40,8 +38,6 @@ public final class Scheduler {
     private synchronized static long nextWorkerId() {
         return ++workerThreadCount;
     }
-
-    ////////////////////////////////////////////////////////////////////////////
 
     private Scheduler() throws RippleException {
         taskQueue = new LinkedList<TaskItem>();
@@ -116,8 +112,6 @@ public final class Scheduler {
             }
         }
     }
-
-    ////////////////////////////////////////////////////////////////////////////
 
     private class TaskItem {
         public Task task;

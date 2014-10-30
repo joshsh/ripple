@@ -35,8 +35,6 @@ public class RippleProperties extends Properties {
         return s;
     }
 
-    // String values ///////////////////////////////////////////////////////////
-
     public String getString(final String name) throws RippleException {
         return getProperty(name, true);
     }
@@ -57,8 +55,6 @@ public class RippleProperties extends Properties {
         }
     }
 
-    // boolean values //////////////////////////////////////////////////////////
-
     public boolean getBoolean(final String name) throws RippleException {
         String value = getProperty(name, true);
 
@@ -76,8 +72,6 @@ public class RippleProperties extends Properties {
     public void setBoolean(final String name, final boolean value) {
         setProperty(name, "" + value);
     }
-
-    // double values ///////////////////////////////////////////////////////////
 
     public double getDouble(final String name) throws RippleException {
         String value = getProperty(name, true);
@@ -104,7 +98,6 @@ public class RippleProperties extends Properties {
     public void setDouble(final String name, final double value) {
         setProperty(name, "" + value);
     }
-    // float values ////////////////////////////////////////////////////////////
 
     public float getFloat(final String name) throws RippleException {
         String value = getProperty(name, true);
@@ -132,8 +125,6 @@ public class RippleProperties extends Properties {
         setProperty(name, "" + value);
     }
 
-    // int values //////////////////////////////////////////////////////////////
-
     public int getInt(final String name) throws RippleException {
         String value = getProperty(name, true);
 
@@ -160,8 +151,6 @@ public class RippleProperties extends Properties {
         setProperty(name, "" + value);
     }
 
-    // long values /////////////////////////////////////////////////////////////
-
     public long getLong(final String name) throws RippleException {
         String value = getProperty(name, true);
 
@@ -187,8 +176,6 @@ public class RippleProperties extends Properties {
     public void setLong(final String name, final long value) {
         setProperty(name, "" + value);
     }
-
-    // URI values //////////////////////////////////////////////////////////////
 
     public URI getURI(final String name) throws RippleException {
         String value = getProperty(name, true);
@@ -220,8 +207,6 @@ public class RippleProperties extends Properties {
         }
     }
 
-    // URL values //////////////////////////////////////////////////////////////
-
     public URL getURL(final String name) throws RippleException {
         String value = getProperty(name, true);
 
@@ -252,8 +237,6 @@ public class RippleProperties extends Properties {
         }
     }
 
-    // File values ///////////////////////////////////////////////////////////////
-
     public File getFile(final String name) throws RippleException {
         String value = getProperty(name, true);
 
@@ -275,8 +258,6 @@ public class RippleProperties extends Properties {
             setProperty(name, "" + value.getAbsolutePath());
         }
     }
-
-    // Date values ///////////////////////////////////////////////////////////////
 
     public Date getDate(final String name) throws RippleException {
         String value = getProperty(name, true);

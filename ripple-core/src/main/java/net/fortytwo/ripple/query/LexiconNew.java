@@ -8,7 +8,6 @@ import java.util.Iterator;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public interface LexiconNew {
-    // relative URIs ///////////////////////////////////////////////////////////
 
     /**
      * @return the base URI currently in scope
@@ -20,15 +19,11 @@ public interface LexiconNew {
      */
     void setBaseURI(String uri);
 
-    // namespaces //////////////////////////////////////////////////////////////
-
     Iterator<String> getNamespacePrefixes();
 
     URI resolveNamespacePrefix(String prefix);
 
     void setNamespace(String prefix, URI uri);
-
-    // keywords ////////////////////////////////////////////////////////////////
 
     Iterator<String> getKeywords();
 
