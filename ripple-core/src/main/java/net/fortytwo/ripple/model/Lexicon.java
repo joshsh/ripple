@@ -258,11 +258,10 @@ public class Lexicon {
         return uri;
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     /**
      * Defines a new prefix:namespace pair.
-     * In order to maintain a one-to-one mapping of prefixes and URIs, any namespaces in which the given prefix or URI exist will be removed
+     * In order to maintain a one-to-one mapping of prefixes and URIs,
+     * any namespaces in which the given prefix or URI exist will be removed
      * before the new namespace is added.
      *
      * @param prefix the prefix of the namespace, e.g. <code>"foaf"</code>
@@ -288,7 +287,8 @@ public class Lexicon {
 
     /**
      * Removes a namespace definition.
-     * In order to maintain a one-to-one mapping of prefixes and URIs, both prefix and URI of an existing namespace will be unbound.
+     * In order to maintain a one-to-one mapping of prefixes and URIs,
+     * both prefix and URI of an existing namespace will be unbound.
      *
      * @param prefix the prefix of the namespace to remove
      */
@@ -332,8 +332,6 @@ public class Lexicon {
             throw new RippleException(e);
         }
     }
-
-    ////////////////////////////////////////////////////////////////////////////
 
     public void putTemporaryValue(final String name,
                                   final RippleValue value) {

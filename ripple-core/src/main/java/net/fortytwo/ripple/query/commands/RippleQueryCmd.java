@@ -27,7 +27,6 @@ public class RippleQueryCmd extends Command {
 
     public void execute(final QueryEngine qe, final ModelConnection mc)
             throws RippleException {
-        //System.out.println("executing query: " + query + " against " + ((SesameModelConnection) mc).getSailConnection());
         final Collector<RippleList> expressions = new Collector<RippleList>();
 
         final Sink<RippleList> exprSink = new Sink<RippleList>() {

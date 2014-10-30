@@ -37,7 +37,8 @@ public class ReplaceAll extends PrimitiveStackMapping {
     }
 
     public String getComment() {
-        return "s regex replacement  =>  s2 -- in which each occurrence of the given regular expression in s has been substituted with the given replacement";
+        return "s regex replacement  =>  s2 -- in which each occurrence of the given regular expression in s" +
+                " has been substituted with the given replacement";
     }
 
     public void apply(final RippleList arg,

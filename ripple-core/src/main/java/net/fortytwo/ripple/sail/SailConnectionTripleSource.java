@@ -20,7 +20,9 @@ public class SailConnectionTripleSource implements TripleSource {
     private final ValueFactory valueFactory;
     private final boolean includeInferred;
 
-    public SailConnectionTripleSource(final SailConnection conn, final ValueFactory valueFactory, final boolean includeInferred) {
+    public SailConnectionTripleSource(final SailConnection conn,
+                                      final ValueFactory valueFactory,
+                                      final boolean includeInferred) {
         sailConnection = conn;
         this.valueFactory = valueFactory;
         this.includeInferred = includeInferred;

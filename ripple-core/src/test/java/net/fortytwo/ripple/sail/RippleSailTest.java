@@ -51,23 +51,6 @@ public class RippleSailTest extends TestCase {
         baseSail.shutDown();
     }
 
-    /*
-    public void testAll() throws Exception {
-        URI foo = vf.createURI("http://example.org/foo");
-
-        Set<Statement> set;
-
-        set = toSet(sc.getStatements(foo, RDF.FIRST, null, false));
-        for (Statement st : set) {
-            System.out.println(st);
-        }
-
-        set = toSet(sc.getStatements(foo, sail.getValueFactory().createURI("http://fortytwo.net/2013/03/ripple/control#apply"), null, false));
-        for (Statement st : set) {
-            System.out.println(st);
-        }
-    }*/
-
     private Collection<BindingSet> evaluate(final String queryStr) throws Exception {
         BindingSet bindings = new EmptyBindingSet();
         String baseURI = "http://example.org/baseUri#";

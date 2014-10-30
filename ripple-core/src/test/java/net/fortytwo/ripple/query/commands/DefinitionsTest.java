@@ -24,8 +24,10 @@ public class DefinitionsTest extends RippleTestCase {
         SailConnection sc = sail.getConnection();
         QueryEngine qe = getTestQueryEngine();
 
-        ListAST foobar = new ListAST(new PlainLiteralAST("foo"), new ListAST(new PlainLiteralAST("bar"), new ListAST()));
-        ListAST foobar2 = new ListAST(new PlainLiteralAST("foo2"), new ListAST(new PlainLiteralAST("bar2"), new ListAST()));
+        ListAST foobar = new ListAST(
+                new PlainLiteralAST("foo"), new ListAST(new PlainLiteralAST("bar"), new ListAST()));
+        ListAST foobar2 = new ListAST(
+                new PlainLiteralAST("foo2"), new ListAST(new PlainLiteralAST("bar2"), new ListAST()));
         URI foobarUri = sail.getValueFactory().createURI(qe.getLexicon().getDefaultNamespace() + "foobar");
         Literal foo = sail.getValueFactory().createLiteral("foo");
         Literal foo2 = sail.getValueFactory().createLiteral("foo2");
@@ -89,7 +91,9 @@ public class DefinitionsTest extends RippleTestCase {
         sc.close();
     }
 
-    private int countStatements(final CloseableIteration<? extends Statement, SailException> iter) throws SailException {
+    private int countStatements(final CloseableIteration<? extends Statement, SailException> iter)
+            throws SailException {
+
         int count = 0;
         while (iter.hasNext()) {
             count++;
@@ -99,7 +103,9 @@ public class DefinitionsTest extends RippleTestCase {
         return count;
     }
 
-    private Statement getSingleStatement(final CloseableIteration<? extends Statement, SailException> iter) throws SailException {
+    private Statement getSingleStatement(final CloseableIteration<? extends Statement, SailException> iter)
+            throws SailException {
+
         Statement st = (iter.hasNext()) ? iter.next() : null;
         iter.close();
         return st;

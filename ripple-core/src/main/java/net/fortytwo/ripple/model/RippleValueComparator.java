@@ -12,7 +12,8 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 /*
- * TODO: this comparator currently ignores the equivalence of RDF lists with native lists, and of numeric values with numeric-typed literals
+ * TODO: this comparator currently ignores the equivalence of RDF lists with native lists,
+ * and of numeric values with numeric-typed literals
  * <p/>
  * literal
  * plain literal

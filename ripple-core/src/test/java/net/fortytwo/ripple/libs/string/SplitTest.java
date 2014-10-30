@@ -30,7 +30,8 @@ public class SplitTest extends RippleTestCase {
         // note: fails with JDK 1.8 (expects "M" instead of "")
         assertEquals("", "Mississippi".split("")[0]);
 
-        assertReducesTo("\"Mississippi\" \"\" split.", "(\"\" \"M\" \"i\" \"s\" \"s\" \"i\" \"s\" \"s\" \"i\" \"p\" \"p\" \"i\")");
+        assertReducesTo("\"Mississippi\" \"\" split.",
+                "(\"\" \"M\" \"i\" \"s\" \"s\" \"i\" \"s\" \"s\" \"i\" \"p\" \"p\" \"i\")");
         assertReducesTo("\"\" \"mountain\" split.", "(\"\")");
         assertReducesTo("\"\" \"\" split.", "(\"\")");
     }

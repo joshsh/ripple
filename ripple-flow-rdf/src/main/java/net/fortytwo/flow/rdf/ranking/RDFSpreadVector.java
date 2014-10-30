@@ -56,13 +56,11 @@ public class RDFSpreadVector implements WeightedVectorApproximation<Resource, Ha
     }
 
     public int compute(int cycles) throws HandlerException {
-        //System.out.println("dbpedia spreader: " + cycles + " cycles over " + seeds.length + " seeds: " + seeds[0] + "...");
         for (int i = 0; i < cycles; i++) {
             if (0 == curGen.size()) {
                 if (0 == nextGen.size()) {
                     return 0;
                 } else {
-                    //System.out.println("weight " + weight + " --> " + weight * DECAY);
                     weight *= DECAY;
                     Queue<Resource> tmp = curGen;
                     curGen = nextGen;
@@ -86,8 +84,7 @@ public class RDFSpreadVector implements WeightedVectorApproximation<Resource, Ha
         if (0 < inPredicates.length) {
             Handler<Resource, HandlerException> inHandler = new Handler<Resource, HandlerException>() {
                 public boolean handle(final Resource r) throws HandlerException {
-                    //System.out.println("in: " + r);
-                    result.addWeight(r, weight);
+=                    result.addWeight(r, weight);
                     resources.offer(r);
                     return true;
                 }
@@ -102,7 +99,6 @@ public class RDFSpreadVector implements WeightedVectorApproximation<Resource, Ha
         if (0 < outPredicates.length) {
             Handler<Resource, HandlerException> outHandler = new Handler<Resource, HandlerException>() {
                 public boolean handle(final Resource r) throws HandlerException {
-                    //System.out.println("out: " + r);
                     result.addWeight(r, weight);
                     resources.offer(r);
                     return true;

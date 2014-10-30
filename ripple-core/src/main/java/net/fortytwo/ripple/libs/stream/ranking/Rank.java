@@ -31,12 +31,14 @@ public class Rank extends PrimitiveStackMapping {
     @Override
     public Parameter[] getParameters() {
         return new Parameter[]{
-                new Parameter("steps", "the number of computational steps to perform before producing a ranking result", true)};
+                new Parameter("steps",
+                        "the number of computational steps to perform before producing a ranking result", true)};
     }
 
     @Override
     public String getComment() {
-        return "a closed-world ranking evaluator which aggregates weights of traversed paths.  Use in conjunction with etc:amp.";
+        return "a closed-world ranking evaluator which aggregates weights of traversed paths." +
+                "  Use in conjunction with etc:amp.";
     }
 
     public void apply(final RippleList arg,

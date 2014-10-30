@@ -42,7 +42,8 @@ public class Require extends PrimitiveStackMapping {
     }
 
     public String getComment() {
-        return "transmits the rest of a stack only if applying the topmost item to the rest of the stack yields stack:true";
+        return "transmits the rest of a stack only if applying the topmost item" +
+                " to the rest of the stack yields stack:true";
     }
 
     public void apply(final RippleList arg,
@@ -70,7 +71,8 @@ public class Require extends PrimitiveStackMapping {
             this.criterion = criterion;
         }
 
-        // FIXME: the criterion's arity had better be accurate (which it currently may not be, if the criterion is a list dequotation)
+        // FIXME: the criterion's arity had better be accurate
+        // (which it currently may not be, if the criterion is a list dequotation)
         public int arity() {
             return criterion.getMapping().arity();
         }

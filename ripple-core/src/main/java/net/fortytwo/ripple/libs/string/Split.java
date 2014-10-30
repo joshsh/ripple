@@ -37,7 +37,8 @@ public class Split extends PrimitiveStackMapping {
     }
 
     public String getComment() {
-        return "s regex  =>  (s1, s2, s3, ...) -- where s has been divided into substrings by occurrences of regular expression regex";
+        return "s regex  =>  (s1, s2, s3, ...) -- where s has been divided into substrings" +
+                " by occurrences of regular expression regex";
     }
 
     public void apply(final RippleList arg,

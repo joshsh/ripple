@@ -238,7 +238,8 @@ public class LinkedDataCache {
      *
      * @param mediaType     a MIME type, e.g. "application/rdf+xml", "image/tiff"
      * @param rdfizer       the associated rdfizer
-     * @param qualityFactor a quality value ranging from 0 to 1 which expresses the client's preference for the given media type.
+     * @param qualityFactor a quality value ranging from 0 to 1 which expresses
+     *                      the client's preference for the given media type.
      *                      This value is used for HTTP content negotiation.
      */
     public void addRdfizer(final MediaType mediaType,

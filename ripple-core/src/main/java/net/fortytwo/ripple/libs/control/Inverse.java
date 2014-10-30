@@ -27,7 +27,8 @@ public class Inverse extends PrimitiveStackMapping {
     }
 
     public String getComment() {
-        return "consumes a mapping and produces the inverse of that mapping (or a null mapping if the inverse is not otherwise defined)";
+        return "consumes a mapping and produces the inverse of that mapping" +
+                " (or a null mapping if the inverse is not otherwise defined)";
     }
 
     public void apply(final RippleList arg,

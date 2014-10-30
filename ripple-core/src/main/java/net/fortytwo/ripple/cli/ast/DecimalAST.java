@@ -20,7 +20,8 @@ public class DecimalAST extends NumberAST {
     12678967.543233, +100000.00, 210.
     */
     private static final Pattern
-            // TODO: apparently, digits after the decimal point are not required, but are digits before the decimal point required?
+            // TODO: apparently, digits after the decimal point are not required,
+            // but are digits before the decimal point required?
             // Note: NaN, positive and negative infinity are apparently not allowed.
             XSD_DECIMAL = Pattern.compile("[-+]?\\d+([.]\\d*)?");
 

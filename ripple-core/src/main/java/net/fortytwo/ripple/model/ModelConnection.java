@@ -277,7 +277,8 @@ public interface ModelConnection {
      * @param pred     the predicate of each statement
      * @param obj      the object of each statement
      * @param contexts the graph contexts of the statements, if any.
-     *                 For each non-null context supplied, a statement will be created and placed in the corresponding graph.
+     *                 For each non-null context supplied,
+     *                 a statement will be created and placed in the corresponding graph.
      *                 If a null context is supplied, a statement will be added to the default graph.
      *                 If no contexts are supplied, a single statement will be added to the default graph.
      * @throws RippleException if the statement(s) cannot be added
@@ -291,7 +292,8 @@ public interface ModelConnection {
      * @param pred     the predicate of each matching statement, or <code>null</code> as a wildcard
      * @param obj      the object of each matching statement, or <code>null</code> as a wildcard
      * @param contexts zero or more graph contexts for matching statements.
-     *                 For each non-null context supplied, matching statements from the corresponding graph will be removed.
+     *                 For each non-null context supplied,
+     *                 matching statements from the corresponding graph will be removed.
      *                 If a null context is supplied, matching statements from the default context will be removed.
      *                 If no contexts are supplied, matching statements from all contexts will be removed.
      * @throws RippleException if matching statements cannot be removed

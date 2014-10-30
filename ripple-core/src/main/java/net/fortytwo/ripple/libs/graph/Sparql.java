@@ -13,7 +13,8 @@ import org.openrdf.query.QueryEvaluationException;
 import java.util.logging.Logger;
 
 /**
- * A primitive which consumes a SPARQL query and pushes, for each result, a variable number of values onto the stack, one for each binding.
+ * A primitive which consumes a SPARQL query and pushes, for each result,
+ * a variable number of values onto the stack, one for each binding.
  * FIXME: this is very much a hack.
  *
  * @author Joshua Shinavier (http://fortytwo.net)

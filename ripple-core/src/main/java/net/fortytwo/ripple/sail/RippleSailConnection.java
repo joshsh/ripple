@@ -58,13 +58,19 @@ public class RippleSailConnection extends SailConnectionWrapper {
     }
 
     @Override
-    public void addStatement(final Resource subject, final URI predicate, final Value object, final Resource... contexts) throws SailException {
+    public void addStatement(final Resource subject,
+                             final URI predicate,
+                             final Value object,
+                             final Resource... contexts) throws SailException {
         // When implementing this method, make sure that only RippleSesameValues are passed down
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void removeStatements(final Resource subject, final URI predicate, final Value object, final Resource... contexts) throws SailException {
+    public void removeStatements(final Resource subject,
+                                 final URI predicate,
+                                 final Value object,
+                                 final Resource... contexts) throws SailException {
         // Implement this method if/when addStatement is implemented
         throw new UnsupportedOperationException();
     }

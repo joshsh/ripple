@@ -36,7 +36,8 @@ public class RangeApply extends PrimitiveStackMapping {
     }
 
     public String getComment() {
-        return "p min max  =>  ... p{min, max}!  -- pushes between min (inclusive) and max (inclusive) active copies of the program p, or 'executes p min times to max times'";
+        return "p min max  =>  ... p{min, max}!  -- pushes between min (inclusive)" +
+                " and max (inclusive) active copies of the program p, or 'executes p min times to max times'";
     }
 
     public void apply(final RippleList arg,

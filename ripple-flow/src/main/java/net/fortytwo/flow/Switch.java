@@ -36,7 +36,8 @@ public class Switch<T> implements Sink<T> {
 
     /**
      * Toggles between the two downstream sinks.
-     * When this method is called, one sink becomes inactive (idle) while the other becomes active (ready to receive data).
+     * When this method is called, one sink becomes inactive (idle)
+     * while the other becomes active (ready to receive data).
      */
     public void flip() {
         state = !state;

@@ -29,7 +29,8 @@ public class LibraryTest extends RippleTestCase {
     }
 
     public void testAliasInExpression() throws Exception {
-        assertReducesTo("<http://fortytwo.net/2007/05/ripple/stack#dup>", "<http://fortytwo.net/2007/08/ripple/stack#dup>");
+        assertReducesTo("<http://fortytwo.net/2007/05/ripple/stack#dup>",
+                "<http://fortytwo.net/2007/08/ripple/stack#dup>");
         assertReducesTo("2 <http://fortytwo.net/2007/05/ripple/stack#dup>.", "2 2");
         assertReducesTo("2 <http://fortytwo.net/2007/08/ripple/stack#dup>.", "2 2");
     }

@@ -70,7 +70,8 @@ public class RDFValue implements RippleValue {
                 ? Type.OTHER_RESOURCE
                 : value instanceof Literal
                 ? (null != ((Literal) value).getDatatype()
-                ? (NumericValue.isNumericLiteral((Literal) value) ? Type.NUMERIC_TYPED_LITERAL : Type.OTHER_TYPED_LITERAL)
+                ? (NumericValue.isNumericLiteral((Literal) value)
+                ? Type.NUMERIC_TYPED_LITERAL : Type.OTHER_TYPED_LITERAL)
                 : null == ((Literal) value).getLanguage()
                 ? Type.PLAIN_LITERAL_WITHOUT_LANGUAGE_TAG
                 : Type.PLAIN_LITERAL_WITH_LANGUAGE_TAG)

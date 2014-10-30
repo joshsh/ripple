@@ -15,6 +15,7 @@ public class FoldTest extends RippleTestCase {
     }
 
     public void testOrder() throws Exception {
-        assertReducesTo("(1 2 3) \"testing\" (toString. strCat.) fold.", "\"testing123\"^^<http://www.w3.org/2001/XMLSchema#string>");
+        assertReducesTo("(1 2 3) \"testing\" (toString. strCat.) fold.",
+                "\"testing123\"^^<http://www.w3.org/2001/XMLSchema#string>");
     }
 }

@@ -25,7 +25,11 @@ public class SailConnectionRDFDiffSink implements RDFDiffSink {
             public void put(final Statement statement) throws RippleException {
 //System.out.println("    adding statement: " + statement);
                 try {
-                    sailConnection.addStatement(statement.getSubject(), statement.getPredicate(), statement.getObject(), statement.getContext());
+                    sailConnection.addStatement(
+                            statement.getSubject(),
+                            statement.getPredicate(),
+                            statement.getObject(),
+                            statement.getContext());
                 } catch (SailException e) {
                     throw new RippleException(e);
                 }
@@ -35,7 +39,11 @@ public class SailConnectionRDFDiffSink implements RDFDiffSink {
         final Sink<Statement> subtractStatementSink = new Sink<Statement>() {
             public void put(final Statement statement) throws RippleException {
                 try {
-                    sailConnection.removeStatements(statement.getSubject(), statement.getPredicate(), statement.getObject(), statement.getContext());
+                    sailConnection.removeStatements(
+                            statement.getSubject(),
+                            statement.getPredicate(),
+                            statement.getObject(),
+                            statement.getContext());
                 } catch (SailException e) {
                     throw new RippleException(e);
 

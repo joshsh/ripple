@@ -79,8 +79,6 @@ public abstract class NumericValue implements RippleValue, Comparable<NumericVal
         return x < 0.0 ? -1 : x > 0 ? 1 : 0;
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     public StackMapping getMapping() {
         return null;
     }
@@ -104,13 +102,12 @@ public abstract class NumericValue implements RippleValue, Comparable<NumericVal
                 p.printDecimal(decimalValue());
                 break;
             default:
-                // Shouldn't happen.
+                // This shouldn't happen.
         }
     }
 
     public int compareTo(final NumericValue other) {
         Type precision = maxPrecision(this, other);
-//System.out.println("comparing " + a + " with " + b + " (precision = " + precision + ", a.getType() = " + a.getType() + ", b.getType() = " + b.getType() + ")");
 
         switch (precision) {
             case INTEGER:
@@ -122,11 +119,9 @@ public abstract class NumericValue implements RippleValue, Comparable<NumericVal
             case DOUBLE:
                 return compare(this.doubleValue(), other.doubleValue());
             case DECIMAL:
-//System.out.println("    a.decimalValue().compareTo( b.decimalValue() ) = " + a.decimalValue().compareTo( b.decimalValue() ));
-//System.out.println("    a.number.getClass() = " + a.number.getClass() + ", b.number.getClass() = " + b.number.getClass());
                 return this.decimalValue().compareTo(other.decimalValue());
             default:
-                // Shouldn't happen.
+                // This shouldn't happen.
                 return 0;
         }
     }
@@ -153,7 +148,7 @@ public abstract class NumericValue implements RippleValue, Comparable<NumericVal
             case DECIMAL:
                 return a.decimalValue().compareTo(b.decimalValue());
             default:
-                // Shouldn't happen.
+                // This shouldn't happen.
                 return 0;
         }
     }
@@ -178,7 +173,7 @@ public abstract class NumericValue implements RippleValue, Comparable<NumericVal
                 case DECIMAL:
                     return a.decimalValue().compareTo(b.decimalValue());
                 default:
-                    // Shouldn't happen.
+                    // This shouldn't happen.
                     return 0;
             }
         }

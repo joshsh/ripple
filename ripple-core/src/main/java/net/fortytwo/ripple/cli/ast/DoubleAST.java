@@ -21,7 +21,8 @@ public class DoubleAST extends NumberAST {
     three special values: positive and negative infinity and not-a-number (NaN).
     */
     private static final Pattern
-            // TODO: apparently, digits after the decimal point are not required, but are digits before the decimal point required?
+            // TODO: apparently, digits after the decimal point are not required,
+            // but are digits before the decimal point required?
             XSD_DOUBLE = Pattern.compile("NaN|INF|-INF|([-+]?\\d+([.]\\d*)?([eE][-+]?\\d+)?)");
 
     private static final BigDecimal

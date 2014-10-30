@@ -37,7 +37,8 @@ public class Substring extends PrimitiveStackMapping {
     }
 
     public String getComment() {
-        return "s beginIndex endIndex  =>  s2 -- where s2 is the substring of s which begins at the specified beginIndex and extends to the character at index endIndex - 1";
+        return "s beginIndex endIndex  =>  s2 -- where s2 is the substring of s which begins" +
+                " at the specified beginIndex and extends to the character at index endIndex - 1";
     }
 
     public void apply(final RippleList arg,

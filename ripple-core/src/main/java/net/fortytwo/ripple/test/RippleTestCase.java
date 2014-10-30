@@ -192,7 +192,6 @@ for ( RippleList l : actArray )
 
         // Compare the results by pairs.
         for (int i = 0; i < size; i++) {
-//System.out.println("expected (" + expArray[i].getClass() + "): " + expArray[i] + ", actual (" + actArray[i].getClass() + "): " + actArray[i]);
 /*RippleList l;
 l = expArray[i];
 System.out.println("expected: (" + l.getClass() + ") -- " + l);

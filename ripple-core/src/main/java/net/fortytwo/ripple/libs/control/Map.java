@@ -83,7 +83,9 @@ public class Map extends PrimitiveStackMapping {
         private RippleList constructedList;
         private Operator operator;
 
-        public InnerMapping(final RippleList constructedList, final RippleList invertedListHead, final Operator operator) {
+        public InnerMapping(final RippleList constructedList,
+                            final RippleList invertedListHead,
+                            final Operator operator) {
             this.constructedList = constructedList;
             this.invertedListHead = invertedListHead;
             this.operator = operator;

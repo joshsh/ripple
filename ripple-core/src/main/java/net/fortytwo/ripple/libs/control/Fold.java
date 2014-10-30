@@ -39,7 +39,8 @@ public class Fold extends PrimitiveStackMapping {
     }
 
     public String getComment() {
-        return "l v0 p  =>  v  -- starting with value v0, sequentially push members of List l and combine with binary operator p";
+        return "l v0 p  =>  v  -- starting with value v0," +
+                " sequentially push members of List l and combine with binary operator p";
     }
 
     public void apply(final RippleList arg,

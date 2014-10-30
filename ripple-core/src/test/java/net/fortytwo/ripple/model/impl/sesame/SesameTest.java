@@ -132,7 +132,9 @@ public class SesameTest extends RippleTestCase {
         sail.shutDown();
     }
 
-    private void add(final Sail sail, final InputStream is, final String baseUri, final RDFFormat format) throws Exception {
+    private void add(final Sail sail, final InputStream is, final String baseUri, final RDFFormat format)
+            throws Exception {
+
         RDFParser parser = Rio.createParser(format);
         SailConnection sc = sail.getConnection();
         try {
@@ -159,7 +161,12 @@ public class SesameTest extends RippleTestCase {
         }
     }
 
-    private void add(final Sail sail, final InputStream is, final String baseUri, final RDFFormat format, final URI context) throws Exception {
+    private void add(final Sail sail,
+                     final InputStream is,
+                     final String baseUri,
+                     final RDFFormat format,
+                     final URI context) throws Exception {
+
         RDFParser parser = Rio.createParser(format);
         SailConnection sc = sail.getConnection();
         try {

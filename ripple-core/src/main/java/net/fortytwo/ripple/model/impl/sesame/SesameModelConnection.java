@@ -72,8 +72,6 @@ public class SesameModelConnection implements ModelConnection {
 
     private boolean closed = false;
 
-    ////////////////////////////////////////////////////////////////////////////
-
     protected SesameModelConnection(final SesameModel model, final RDFDiffSink listenerSink)
             throws RippleException {
         this.model = model;
@@ -304,8 +302,11 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
-    public void remove(final RippleValue subj, final RippleValue pred, final RippleValue obj, final RippleValue... contexts)
-            throws RippleException {
+    public void remove(final RippleValue subj,
+                       final RippleValue pred,
+                       final RippleValue obj,
+                       final RippleValue... contexts) throws RippleException {
+
         ensureOpen();
 
         Value subjValue, predValue, objValue;
@@ -732,7 +733,8 @@ public class SesameModelConnection implements ModelConnection {
         Collector<Statement> buffer = new Collector<Statement>();
 
         // Handle circular lists (in the unlikely event that some implementation allows them) sanely.
-        // TODO: handle list containment cycles (e.g. list containing a list containing the original list) as well.  These are actually more likely than circular lists.
+        // TODO: handle list containment cycles (e.g. list containing a list containing the original list) as well.
+        // These are actually more likely than circular lists.
         Set<RDFValue> alreadyInterned = new HashSet<RDFValue>();
 
         RippleList cur = list;

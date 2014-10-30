@@ -42,7 +42,8 @@ public class Ifte extends PrimitiveStackMapping {
     }
 
     public String getComment() {
-        return "b t f =>  p!  -- where p is t if the application of b evaluates to true, and f if it evaluates to false";
+        return "b t f =>  p!  -- where p is t if the application of b evaluates to true," +
+                " and f if it evaluates to false";
     }
 
     public void apply(final RippleList arg,

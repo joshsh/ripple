@@ -32,7 +32,8 @@ public class LazyEvaluatingIterator implements CloseableIteration<RippleList, Ri
                                   final ModelConnection mc) {
         this.mc = mc;
 
-        // TODO: refusing to evaluate nil stacks makes this iterator like LazyStackEvaluator, but is this really the desired behavior?
+        // TODO: refusing to evaluate nil stacks makes this iterator like LazyStackEvaluator,
+        // but is this really the desired behavior?
         if (!stack.isNil()) {
             //System.out.println("adding initial intermediate: " + stack);
             intermediates.add(stack);

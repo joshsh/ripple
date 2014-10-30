@@ -33,11 +33,13 @@ public class LexiconTest extends RippleTestCase {
         Lexicon l = new Lexicon(getTestModel());
 
         for (String localName : validLocalNames) {
-            assertTrue("\"" + localName + "\" should be accepted as a valid local name", l.isValidLocalName(localName));
+            assertTrue("\"" + localName + "\" should be accepted as a valid local name",
+                    l.isValidLocalName(localName));
         }
 
         for (String localName : inValidLocalNames) {
-            assertFalse("\"" + localName + "\" should not be accepted as a valid local name", l.isValidLocalName(localName));
+            assertFalse("\"" + localName + "\" should not be accepted as a valid local name",
+                    l.isValidLocalName(localName));
         }
     }
 

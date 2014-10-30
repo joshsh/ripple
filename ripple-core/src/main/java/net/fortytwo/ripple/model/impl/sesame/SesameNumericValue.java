@@ -105,19 +105,24 @@ public class SesameNumericValue extends NumericValue {
                 case INTEGER:
                     // Don't use ValueFactory.creatLiteral(int), which (at
                     // least in this case) produces xsd:int instead of xsd:integer
-                    rdfEquivalent = new RDFValue(smc.getValueFactory().createLiteral("" + number.intValue(), XMLSchema.INTEGER));
+                    rdfEquivalent = new RDFValue(
+                            smc.getValueFactory().createLiteral("" + number.intValue(), XMLSchema.INTEGER));
                     break;
                 case LONG:
-                    rdfEquivalent = new RDFValue(smc.getValueFactory().createLiteral(number.longValue()));
+                    rdfEquivalent = new RDFValue(
+                            smc.getValueFactory().createLiteral(number.longValue()));
                     break;
                 case DOUBLE:
-                    rdfEquivalent = new RDFValue(smc.getValueFactory().createLiteral(number.doubleValue()));
+                    rdfEquivalent = new RDFValue(
+                            smc.getValueFactory().createLiteral(number.doubleValue()));
                     break;
                 case FLOAT:
-                    rdfEquivalent = new RDFValue(smc.getValueFactory().createLiteral(number.floatValue()));
+                    rdfEquivalent = new RDFValue(
+                            smc.getValueFactory().createLiteral(number.floatValue()));
                     break;
                 case DECIMAL:
-                    rdfEquivalent = new RDFValue(smc.getValueFactory().createLiteral(number.toString(), XMLSchema.DECIMAL));
+                    rdfEquivalent = new RDFValue(
+                            smc.getValueFactory().createLiteral(number.toString(), XMLSchema.DECIMAL));
                     break;
             }
         }
@@ -140,7 +145,7 @@ public class SesameNumericValue extends NumericValue {
             case DECIMAL:
                 return new SesameNumericValue(a.decimalValue().abs());
             default:
-                // Shouldn't happen.
+                // This shouldn't happen.
                 return null;
         }
     }
@@ -161,7 +166,7 @@ public class SesameNumericValue extends NumericValue {
             case DECIMAL:
                 return new SesameNumericValue(a.decimalValue().negate());
             default:
-                // Shouldn't happen.
+                // This shouldn't happen.
                 return null;
         }
     }
@@ -182,7 +187,7 @@ public class SesameNumericValue extends NumericValue {
             case DECIMAL:
                 return new SesameNumericValue(a.decimalValue().add(b.decimalValue()));
             default:
-                // Shouldn't happen.
+                // This shouldn't happen.
                 return null;
         }
     }
@@ -203,7 +208,7 @@ public class SesameNumericValue extends NumericValue {
             case DECIMAL:
                 return new SesameNumericValue(a.decimalValue().subtract(b.decimalValue()));
             default:
-                // Shouldn't happen.
+                // This shouldn't happen.
                 return null;
         }
     }
@@ -224,7 +229,7 @@ public class SesameNumericValue extends NumericValue {
             case DECIMAL:
                 return new SesameNumericValue(a.decimalValue().multiply(b.decimalValue()));
             default:
-                // Shouldn't happen.
+                // This shouldn't happen.
                 return null;
         }
     }
@@ -246,7 +251,7 @@ public class SesameNumericValue extends NumericValue {
             case DECIMAL:
                 return new SesameNumericValue(a.decimalValue().divide(b.decimalValue()));
             default:
-                // Shouldn't happen.
+                // This shouldn't happen.
                 return null;
         }
     }
@@ -268,22 +273,19 @@ public class SesameNumericValue extends NumericValue {
             case DECIMAL:
                 return new SesameNumericValue(a.decimalValue().remainder(b.decimalValue()).abs());
             default:
-                // Shouldn't happen.
+                // This shouldn't happen.
                 return null;
         }
     }
 
     public NumericValue pow(final NumericValue pow) {
-//System.out.println("this = " + this + " (type = " + this.getType() + "), pow = " + pow + " (type = " + pow.getType() + ")");
         NumericValue a = this;
 
         if (Type.DECIMAL == a.getDatatype() && Type.INTEGER == pow.getDatatype()) {
             return new SesameNumericValue(a.decimalValue().pow(pow.intValue()));
         } else {
             double r = Math.pow(a.doubleValue(), pow.doubleValue());
-//System.out.println("    r = " + r);
             Type precision = maxPrecision(a, pow);
-//System.out.println("    precision = " + precision);
             switch (precision) {
                 case INTEGER:
                     return new SesameNumericValue((int) r);
@@ -296,7 +298,7 @@ public class SesameNumericValue extends NumericValue {
                 case DECIMAL:
                     return new SesameNumericValue(r);
                 default:
-                    // Shouldn't happen.
+                    // This shouldn't happen.
                     return null;
             }
         }

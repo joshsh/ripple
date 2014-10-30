@@ -34,7 +34,8 @@ public class LastIndexOf extends PrimitiveStackMapping {
     }
 
     public String getComment() {
-        return "str substr  =>  i -- where i is the index of the last occurrence of substr in str, or -1 if it does not occur";
+        return "str substr  =>  i -- where i is the index of the last occurrence of substr in str," +
+                " or -1 if it does not occur";
     }
 
     public void apply(final RippleList arg,

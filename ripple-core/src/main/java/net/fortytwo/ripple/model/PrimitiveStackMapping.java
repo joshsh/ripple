@@ -62,7 +62,8 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
     public void setRdfEquivalent(final RDFValue v, final ModelConnection mc)
             throws RippleException {
         if (!(v.sesameValue() instanceof Resource)) {
-            throw new IllegalArgumentException("for comparison purposes, the identifier of a PrimitiveStackMapping must be a Resource");
+            throw new IllegalArgumentException("for comparison purposes," +
+                    " the identifier of a PrimitiveStackMapping must be a Resource");
         }
 
         rdfEquivalent = v;
@@ -102,7 +103,8 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
     public boolean equals(final Object other) {
         return (other instanceof PrimitiveStackMapping)
                 ? (null == rdfEquivalent) && (null == ((PrimitiveStackMapping) other).rdfEquivalent)
-                : (null != ((PrimitiveStackMapping) other).rdfEquivalent) && rdfEquivalent.equals(((PrimitiveStackMapping) other).rdfEquivalent);
+                : (null != ((PrimitiveStackMapping) other).rdfEquivalent)
+                && rdfEquivalent.equals(((PrimitiveStackMapping) other).rdfEquivalent);
     }
 
     public int hashCode() {

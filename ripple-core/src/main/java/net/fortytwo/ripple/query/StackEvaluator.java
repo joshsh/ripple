@@ -9,7 +9,9 @@ import net.fortytwo.ripple.model.StackMapping;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public abstract class StackEvaluator extends Evaluator<RippleList, RippleList, ModelConnection> implements StackMapping {
+public abstract class StackEvaluator extends Evaluator<RippleList, RippleList, ModelConnection>
+        implements StackMapping {
+
     public int arity() {
         return 1;
     }

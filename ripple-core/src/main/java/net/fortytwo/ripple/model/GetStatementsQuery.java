@@ -94,7 +94,9 @@ public class GetStatementsQuery {
         return (URI) rv.toRDF(mc).sesameValue();
     }
 
-    private Resource getResource(final RippleValue rv, final ModelConnection mc) throws RippleException, ClassCastException {
+    private Resource getResource(final RippleValue rv, final ModelConnection mc)
+            throws RippleException, ClassCastException {
+
         RDFValue v = rv.toRDF(mc);
         return null == v ? null : (Resource) v.sesameValue();
     }

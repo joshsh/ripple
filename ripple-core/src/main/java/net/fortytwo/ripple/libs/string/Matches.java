@@ -36,7 +36,8 @@ public class Matches extends PrimitiveStackMapping {
     }
 
     public String getComment() {
-        return "s regex  =>  b -- where b is true if the given string matches the given regular expression, otherwise false";
+        return "s regex  =>  b -- where b is true if the given string matches the given regular expression," +
+                " otherwise false";
     }
 
     public void apply(final RippleList arg,
