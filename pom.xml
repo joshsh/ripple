@@ -46,11 +46,11 @@
         </developer>
     </developers>
 
+    <!-- note: *not* compatible with Android 2.2.1 -->
     <properties>
         <httpcomponents.version>4.3.3</httpcomponents.version>
-        <!-- note: *not* compatible with Android 2.2.1 -->
         <junit.version>4.11</junit.version>
-        <restlet.version>2.1.1</restlet.version>
+        <restlet.version>2.2.2</restlet.version>
         <ripple.version>1.2-SNAPSHOT</ripple.version>
         <sesame.version>2.7.10</sesame.version>
         <sesametools.version>1.9-SNAPSHOT</sesametools.version>
