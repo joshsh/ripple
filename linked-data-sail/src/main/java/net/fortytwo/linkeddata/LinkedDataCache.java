@@ -48,7 +48,7 @@ import java.util.Map;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class LinkedDataCache {
-    private static final Logger LOGGER = Logger.getLogger(LinkedDataCache.class);
+    private static final Logger logger = Logger.getLogger(LinkedDataCache.class);
 
     public static final String
             CACHE_NS = "http://fortytwo.net/2012/02/linkeddata#";
@@ -245,14 +245,14 @@ public class LinkedDataCache {
     public void addRdfizer(final MediaType mediaType,
                            final Rdfizer rdfizer,
                            final double qualityFactor) {
-        LOGGER.info("adding RDFizer for media type " + mediaType + ": " + rdfizer);
+        logger.info("adding RDFizer for media type " + mediaType + ": " + rdfizer);
 
         if (qualityFactor <= 0 || qualityFactor > 1) {
             throw new IllegalArgumentException("quality factor must be between 0 and 1");
         }
 
         if (null != rdfizers.get(mediaType)) {
-            LOGGER.warn("overriding already-registered RDFizer for media type " + mediaType);
+            logger.warn("overriding already-registered RDFizer for media type " + mediaType);
         }
 
         MediaTypeInfo rq = new MediaTypeInfo();
@@ -271,7 +271,7 @@ public class LinkedDataCache {
      * @param dref   the associated dereferencer
      */
     public void addDereferencer(final String scheme, final Dereferencer dref) {
-        LOGGER.info("adding dereferencer for for URI scheme " + scheme + ": " + dref);
+        logger.info("adding dereferencer for for URI scheme " + scheme + ": " + dref);
 
         dereferencers.put(scheme, dref);
     }
@@ -319,7 +319,7 @@ public class LinkedDataCache {
             return CacheEntry.Status.BadUriScheme;
         }
 
-        LOGGER.info("dereferencing <"
+        logger.info("dereferencing <"
                 + StringUtils.escapeURIString(uri.toString()) + ">");
         //+ " at location " + mapped );
 
@@ -466,7 +466,7 @@ public class LinkedDataCache {
             msg.append(", rdfizer: ").append(memo.getRdfizer());
             msg.append("): ").append(status);
 
-            LOGGER.info(msg);
+            logger.info(msg);
         }
 
         return status;

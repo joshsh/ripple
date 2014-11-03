@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Interpreter {
-    private static final Logger LOGGER
+    private static final Logger logger
             = Logger.getLogger(Interpreter.class.getName());
 
     private final RecognizerAdapter recognizerAdapter;
@@ -57,7 +57,7 @@ public class Interpreter {
             // The parser has received a quit command.
             catch (ParserQuitException e) {
 //System.out.println( "-- quit" );
-                LOGGER.fine("quit() called on Interpreter");
+                logger.fine("quit() called on Interpreter");
 
                 active = false;
             }

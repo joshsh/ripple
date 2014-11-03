@@ -25,7 +25,7 @@ public class Inlinks extends PrimitiveStackMapping {
             GraphLibrary.NS_2013_03 + "inlinks",
             GraphLibrary.NS_2008_08 + "inlinks"};
 
-    private static final Logger LOGGER = Logger.getLogger(Inlinks.class.getName());
+    private static final Logger logger = Logger.getLogger(Inlinks.class.getName());
 
     public String[] getIdentifiers() {
         return IDENTIFIERS;
@@ -70,7 +70,7 @@ public class Inlinks extends PrimitiveStackMapping {
 
             mc.getStatements(null, null, obj.toRDF(mc), stSink);
         } else {
-            LOGGER.warning("primitive is compatible only with the Sesame model: " + this);
+            logger.warning("primitive is compatible only with the Sesame model: " + this);
         }
     }
 }

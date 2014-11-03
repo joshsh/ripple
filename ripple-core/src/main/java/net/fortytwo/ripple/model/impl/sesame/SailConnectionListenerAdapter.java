@@ -12,7 +12,7 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SailConnectionListenerAdapter implements SailConnectionListener {
-    private static final Logger LOGGER
+    private static final Logger logger
             = Logger.getLogger(SailConnectionListenerAdapter.class.getName());
 
     private final Sink<Statement> addSink, subSink;
@@ -26,7 +26,7 @@ public class SailConnectionListenerAdapter implements SailConnectionListener {
         try {
             addSink.put(st);
         } catch (RippleException e) {
-            LOGGER.warning("Unhandled exception" + e.getMessage());
+            logger.warning("Unhandled exception" + e.getMessage());
         }
     }
 
@@ -34,7 +34,7 @@ public class SailConnectionListenerAdapter implements SailConnectionListener {
         try {
             subSink.put(st);
         } catch (RippleException e) {
-            LOGGER.warning("Unhandled exception" + e.getMessage());
+            logger.warning("Unhandled exception" + e.getMessage());
         }
     }
 

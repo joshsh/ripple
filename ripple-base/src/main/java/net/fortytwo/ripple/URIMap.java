@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class URIMap {
-    private static final Logger LOGGER = Logger.getLogger(URIMap.class.getName());
+    private static final Logger logger = Logger.getLogger(URIMap.class.getName());
 
     private final Map<String, String> map;
 
@@ -52,7 +52,7 @@ public class URIMap {
         toUris = new String[fromUris.length];
         for (int i = 0; i < fromUris.length; i++) {
             toUris[i] = map.get(fromUris[i]);
-            LOGGER.fine("map " + fromUris[i] + " to " + toUris[i]);
+            logger.fine("map " + fromUris[i] + " to " + toUris[i]);
         }
 
         upToDate = true;

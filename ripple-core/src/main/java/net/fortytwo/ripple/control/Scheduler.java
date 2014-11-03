@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public final class Scheduler {
-    private static final Logger LOGGER = Logger.getLogger(Scheduler.class.getName());
+    private static final Logger logger = Logger.getLogger(Scheduler.class.getName());
 
     private static Scheduler singleInstance = null;
     private static long workerThreadCount = 0;
@@ -193,7 +193,7 @@ public final class Scheduler {
                         try {
                             wait();
                         } catch (InterruptedException e) {
-                            LOGGER.warning("worker runnable interrupted while waiting for new tasks");
+                            logger.warning("worker runnable interrupted while waiting for new tasks");
                         }
                     }
                 }
@@ -207,7 +207,7 @@ public final class Scheduler {
                 e = (RippleException) t;
             } else {
                 if (t instanceof InterruptedException) {
-                    LOGGER.warning("task interrupted: " + currentTaskItem.task);
+                    logger.warning("task interrupted: " + currentTaskItem.task);
                     return;
                 }
 

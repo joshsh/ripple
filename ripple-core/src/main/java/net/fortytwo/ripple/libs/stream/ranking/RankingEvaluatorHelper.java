@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RankingEvaluatorHelper {
-    private static final Logger LOGGER = Logger.getLogger(RankingEvaluatorHelper.class.getName());
+    private static final Logger logger = Logger.getLogger(RankingEvaluatorHelper.class.getName());
 
     // A prioritized queue of active (still-to-be-reduced) stacks
     private final PriorityQueue<RankingContext> queue;
@@ -141,7 +141,7 @@ public class RankingEvaluatorHelper {
                         }
                     } catch (Throwable t) {
                         // To keep things simple, just eat any errors.
-                        LOGGER.severe("error in expression reduction: " + t.getMessage());
+                        logger.severe("error in expression reduction: " + t.getMessage());
                     }
                     return;
                 } else {

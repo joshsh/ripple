@@ -34,7 +34,7 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RippleCommandLine {
-    private static final Logger LOGGER
+    private static final Logger logger
             = Logger.getLogger(RippleCommandLine.class.getName());
 
     private static final byte[] EOL = {'\n'};
@@ -85,11 +85,11 @@ public class RippleCommandLine {
                         readLine();
                         break;
                     case ESCAPE:
-                        LOGGER.fine("received escape event");
+                        logger.fine("received escape event");
                         abortCommands();
                         break;
                     case QUIT:
-                        LOGGER.fine("received quit event");
+                        logger.fine("received quit event");
                         abortCommands();
                         // Note: exception handling used for control
                         throw new ParserQuitException();
@@ -182,7 +182,7 @@ public class RippleCommandLine {
     }
 
     private void updateCompletors() {
-        LOGGER.fine("updating completors");
+        logger.fine("updating completors");
         List<Completer> completors = new ArrayList<Completer>();
 
         try {
@@ -215,7 +215,7 @@ public class RippleCommandLine {
             }
         } catch (RippleException e) {
             e.logError();
-            LOGGER.severe("failed to update completors");
+            logger.severe("failed to update completors");
         }
     }
 

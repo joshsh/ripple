@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Sparql extends PrimitiveStackMapping {
-    private static final Logger LOGGER
+    private static final Logger logger
             = Logger.getLogger(Sparql.class.getName());
 
     private static final String[] IDENTIFIERS = {

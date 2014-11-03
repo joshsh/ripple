@@ -198,7 +198,7 @@ public class HTTPUtils {
             // Wait if necessary.
             if (w > 0) {
                 try {
-//LOGGER.info( "    waiting " + w + " milliseconds" );
+//logger.info( "    waiting " + w + " milliseconds" );
                     Thread.sleep(w);
                 } catch (InterruptedException e) {
                     throw new RippleException(e);

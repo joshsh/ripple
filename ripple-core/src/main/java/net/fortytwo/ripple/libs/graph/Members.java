@@ -26,7 +26,7 @@ public class Members extends PrimitiveStackMapping {
             GraphLibrary.NS_2007_08 + "contains",
             GraphLibrary.NS_2007_05 + "contains"};
 
-    private static final Logger LOGGER = Logger.getLogger(Members.class.getName());
+    private static final Logger logger = Logger.getLogger(Members.class.getName());
 
     public String[] getIdentifiers() {
         return IDENTIFIERS;
@@ -86,7 +86,7 @@ public class Members extends PrimitiveStackMapping {
                 i++;
             }*/
         } else {
-            LOGGER.warning("primitive is compatible only with the Sesame model: " + this);
+            logger.warning("primitive is compatible only with the Sesame model: " + this);
         }
     }
 }

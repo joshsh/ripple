@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class ToDouble extends PrimitiveStackMapping {
-    private static final Logger LOGGER
+    private static final Logger logger
             = Logger.getLogger(ToDouble.class.getName());
 
     public String[] getIdentifiers() {
@@ -57,7 +57,7 @@ public class ToDouble extends PrimitiveStackMapping {
         try {
             d = new Double(s).doubleValue();
         } catch (NumberFormatException e) {
-            LOGGER.fine("bad integer value: " + s);
+            logger.fine("bad integer value: " + s);
             return;
         }
 

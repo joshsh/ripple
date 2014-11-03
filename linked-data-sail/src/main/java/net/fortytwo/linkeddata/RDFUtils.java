@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public final class RDFUtils {
-    private static final Logger LOGGER = Logger.getLogger(RDFUtils.class.getName());
+    private static final Logger logger = Logger.getLogger(RDFUtils.class.getName());
 
     private RDFUtils() {
     }
@@ -89,7 +89,7 @@ public final class RDFUtils {
         IRI iri = f.create(iriStr);
         boolean includeWarnings = false;
         if (iri.hasViolation(includeWarnings)) {
-            LOGGER.warning("IRI has syntax violation: " + iriStr);
+            logger.warning("IRI has syntax violation: " + iriStr);
         }
 
         return iri.toURL();

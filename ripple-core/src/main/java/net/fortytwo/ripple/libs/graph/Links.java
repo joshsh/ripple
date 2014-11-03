@@ -25,7 +25,7 @@ public class Links extends PrimitiveStackMapping {
             GraphLibrary.NS_2013_03 + "links",
             GraphLibrary.NS_2008_08 + "links"};
 
-    private static final Logger LOGGER = Logger.getLogger(Links.class.getName());
+    private static final Logger logger = Logger.getLogger(Links.class.getName());
 
     public String[] getIdentifiers() {
         return IDENTIFIERS;
@@ -72,7 +72,7 @@ public class Links extends PrimitiveStackMapping {
             // FIXME: only SesameModel supports getStatements()
             mc.getStatements(subj.toRDF(mc), null, null, stSink);
         } else {
-            LOGGER.warning("primitive is compatible only with the Sesame model: " + this);
+            logger.warning("primitive is compatible only with the Sesame model: " + this);
         }
     }
 }

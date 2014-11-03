@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class ToInteger extends PrimitiveStackMapping {
-    private static final Logger LOGGER
+    private static final Logger logger
             = Logger.getLogger(ToInteger.class.getName());
 
     private static final String[] IDENTIFIERS = {
@@ -59,7 +59,7 @@ public class ToInteger extends PrimitiveStackMapping {
         try {
             i = new Integer(s).intValue();
         } catch (NumberFormatException e) {
-            LOGGER.fine("bad integer value: " + s);
+            logger.fine("bad integer value: " + s);
             return;
         }
 

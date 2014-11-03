@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SesameModel implements Model {
-    private static final Logger LOGGER = Logger.getLogger(SesameModel.class.getName());
+    private static final Logger logger = Logger.getLogger(SesameModel.class.getName());
 
     final Sail sail;
     SpecialValueMap specialValues;
@@ -27,7 +27,7 @@ public class SesameModel implements Model {
 
 
     public SesameModel(final Sail sail) throws RippleException {
-        LOGGER.fine("instantiating SesameModel");
+        logger.fine("instantiating SesameModel");
 
         this.sail = sail;
 
@@ -81,7 +81,7 @@ public class SesameModel implements Model {
                     sb.append(mc);
                 }
 
-                LOGGER.warning(sb.toString());
+                logger.warning(sb.toString());
 
                 for (ModelConnection mc : openConnections) {
                     mc.reset(true);

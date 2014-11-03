@@ -18,7 +18,7 @@ import java.util.Set;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class HTTPURIDereferencer implements Dereferencer {
-    private static final Logger LOGGER = Logger.getLogger(HTTPURIDereferencer.class);
+    private static final Logger logger = Logger.getLogger(HTTPURIDereferencer.class);
 
     // FIXME: temporary
     private final LinkedDataCache linkedDataCache;

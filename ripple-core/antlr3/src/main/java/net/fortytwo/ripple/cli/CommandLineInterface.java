@@ -30,7 +30,7 @@ import java.util.List;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class CommandLineInterface {
-    private static final Logger LOGGER
+    private static final Logger logger
             = Logger.getLogger(CommandLineInterface.class);
 
     private static final byte[] EOL = {'\n'};
@@ -101,11 +101,11 @@ public class CommandLineInterface {
                         readLine();
                         break;
                     case ESCAPE:
-                        LOGGER.debug("received escape event");
+                        logger.debug("received escape event");
                         abortCommands();
                         break;
                     case QUIT:
-                        LOGGER.debug("received quit event");
+                        logger.debug("received quit event");
                         abortCommands();
                         // Note: exception handling used for control
                         throw new ParserQuitException();
@@ -188,7 +188,7 @@ public class CommandLineInterface {
     }
 
     private void updateCompletors() {
-        LOGGER.debug("updating completors");
+        logger.debug("updating completors");
         List<Completor> completors = new ArrayList<Completor>();
 
         try {
@@ -222,7 +222,7 @@ public class CommandLineInterface {
             }
         } catch (RippleException e) {
             e.logError();
-            LOGGER.error("failed to update completors");
+            logger.error("failed to update completors");
         }
     }
 

@@ -12,7 +12,7 @@ import java.util.logging.Logger;
  */
 public class RippleException extends Exception {
     private static final long serialVersionUID = 2498405641024203574L;
-    private static final Logger LOGGER = Logger.getLogger(RippleException.class.getName());
+    private static final Logger logger = Logger.getLogger(RippleException.class.getName());
 
     public RippleException(final Throwable cause) {
         super(cause);
@@ -52,7 +52,7 @@ public class RippleException extends Exception {
         }
 
         try {
-            LOGGER.severe(description);
+            logger.severe(description);
         } catch (Throwable t) {
             System.err.println("Failed to log an exception. A stack trace of the secondary error follows.");
             t.printStackTrace(System.err);

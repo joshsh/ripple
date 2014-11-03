@@ -57,7 +57,7 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SesameModelConnection implements ModelConnection {
-    private static final Logger LOGGER
+    private static final Logger logger
             = Logger.getLogger(ModelConnection.class.getName());
 
     // instantiate this factory lazily, for the sake of Android applications which don't support javax
@@ -186,7 +186,7 @@ public class SesameModelConnection implements ModelConnection {
                 sailConnection.close();
             } else {
                 // Don't throw an exception: we could easily end up in a loop.
-                LOGGER.severe("tried to close an already-closed connection");
+                logger.severe("tried to close an already-closed connection");
             }
         } catch (SailReadOnlyException e) {
             handleSailReadOnlyException(e);
@@ -411,7 +411,7 @@ public class SesameModelConnection implements ModelConnection {
 
     public RDFValue valueOf(final Date d) throws RippleException {
         // synchronize on the only other static member
-        synchronized (LOGGER) {
+        synchronized (logger) {
             if (null == DATATYPE_FACTORY) {
                 try {
                     DATATYPE_FACTORY = DatatypeFactory.newInstance();
@@ -495,7 +495,7 @@ public class SesameModelConnection implements ModelConnection {
             throws RippleException {
         ensureOpen();
 
-        //LOGGER.info( "### setting namespace: '" + prefix + "' to " + ns );
+        //logger.info( "### setting namespace: '" + prefix + "' to " + ns );
         try {
             //synchronized ( model )
             {
@@ -557,7 +557,7 @@ public class SesameModelConnection implements ModelConnection {
             try {
                 sesameQuery = new GetStatementsQuery(query, this);
             } catch (GetStatementsQuery.InvalidQueryException e) {
-                LOGGER.fine("invalid query: " + e.getMessage());
+                logger.fine("invalid query: " + e.getMessage());
                 return;
             }
 

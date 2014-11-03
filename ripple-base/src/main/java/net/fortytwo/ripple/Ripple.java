@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public final class Ripple {
-    private static final Logger LOGGER = Logger.getLogger(Ripple.class.getName());
+    private static final Logger logger = Logger.getLogger(Ripple.class.getName());
 
     public static final String RANDOM_URN_PREFIX = "urn:uuid:";
 
@@ -116,7 +116,7 @@ public final class Ripple {
         try {
             return getConfiguration().getProperty(VERSION);
         } catch (RippleException e) {
-            LOGGER.warning("could not determine Ripple version: " + e.getMessage());
+            logger.warning("could not determine Ripple version: " + e.getMessage());
             return "?";
         }
     }

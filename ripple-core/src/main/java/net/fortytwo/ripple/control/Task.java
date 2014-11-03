@@ -9,7 +9,7 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public abstract class Task {
-    private static final Logger LOGGER = Logger.getLogger(Task.class.getName());
+    private static final Logger logger = Logger.getLogger(Task.class.getName());
 
     private LinkedList<Task> children = null;
     private boolean finished = true, stopped = false;
@@ -77,7 +77,7 @@ public abstract class Task {
     public synchronized void addChild(final Task child) {
 //System.out.println( "[" + this + "].addChild(" + child + ")" );
         if (finished) {
-            LOGGER.severe("attempted to add a child to a finished task");
+            logger.severe("attempted to add a child to a finished task");
         } else {
             if (null == children) {
                 children = new LinkedList<Task>();

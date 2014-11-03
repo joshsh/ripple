@@ -84,7 +84,7 @@ public class RDFSpreadVector implements WeightedVectorApproximation<Resource, Ha
         if (0 < inPredicates.length) {
             Handler<Resource, HandlerException> inHandler = new Handler<Resource, HandlerException>() {
                 public boolean handle(final Resource r) throws HandlerException {
-=                    result.addWeight(r, weight);
+                    result.addWeight(r, weight);
                     resources.offer(r);
                     return true;
                 }
