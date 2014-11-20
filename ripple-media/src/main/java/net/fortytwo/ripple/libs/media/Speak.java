@@ -12,7 +12,7 @@ import net.fortytwo.ripple.model.RippleList;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Speak extends PrimitiveStackMapping {
-    private Voice singleVoice = null;
+    private Voice singleVoice;
 
     private static final String[] IDENTIFIERS = {
             MediaLibrary.NS_2013_03 + "speak",
