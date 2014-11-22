@@ -4,7 +4,6 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleValue;
 import org.openrdf.model.Literal;
 import org.openrdf.model.URI;
@@ -47,13 +46,13 @@ public class StringLibrary extends Library {
                 Trim.class);
     }
 
-    public static RDFValue value(final String label,
-                                 final ModelConnection mc,
-                                 final RippleValue... operands) throws RippleException {
+    public static Object value(final String label,
+                               final ModelConnection mc,
+                               final Object... operands) throws RippleException {
         boolean stringTyped = false;
 
-        for (RippleValue o : operands) {
-            Value v = o.toRDF(mc).sesameValue();
+        for (Object o : operands) {
+            Value v = mc.toRDF(o).sesameValue();
             if (v instanceof Literal) {
                 URI datatype = ((Literal) v).getDatatype();
 
@@ -66,7 +65,7 @@ public class StringLibrary extends Library {
 
         return stringTyped
                 ? mc.valueOf(label, XMLSchema.STRING)
-                : mc.valueOf(label);
+                : label;
     }
 }
 

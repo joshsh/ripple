@@ -12,10 +12,10 @@ import net.fortytwo.ripple.query.QueryEngine;
  */
 public class DefineKeywordCmd extends Command {
     private final KeywordAST name;
-    private final RippleValue value;
+    private final Object value;
 
     public DefineKeywordCmd(final KeywordAST name,
-                            final RippleValue value) {
+                            final Object value) {
         this.name = name;
         this.value = value;
     }

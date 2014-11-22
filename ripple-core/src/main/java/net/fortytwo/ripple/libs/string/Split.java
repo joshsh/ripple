@@ -46,7 +46,7 @@ public class Split extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
 
-        RippleValue s, regex;
+        Object s, regex;
 
         regex = stack.getFirst();
         stack = stack.getRest();

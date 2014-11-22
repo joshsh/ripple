@@ -36,15 +36,15 @@ public class LazyStackEvaluator extends StackEvaluator {
             }
 
             //System.out.println(this + " -- stack = " + stack);
-            RippleValue first = arg.getFirst();
+            Object first = arg.getFirst();
             //System.out.println( "   first.isActive() = " + first.isActive() );
             //System.out.println("   first = " + stack.getFirst());
 
-            if (null != first.getMapping()) {
+            final StackMapping f = mc.toMapping(first);
+            if (null != f) {
                 RippleList rest = arg.getRest();
                 //System.out.println("   rest = " + rest);
 
-                final StackMapping f = first.getMapping();
                 //System.out.println("   f = " + f);
                 //System.out.println("   f.arity() = " + f.arity());
 

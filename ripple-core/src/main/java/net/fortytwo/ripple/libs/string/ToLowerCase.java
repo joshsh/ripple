@@ -42,7 +42,7 @@ public class ToLowerCase extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
 
-        RippleValue s = stack.getFirst();
+        Object s = stack.getFirst();
         stack = stack.getRest();
 
         String result = mc.toString(s).toLowerCase();

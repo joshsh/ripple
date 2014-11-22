@@ -44,7 +44,7 @@ public class Type extends PrimitiveStackMapping {
 
         Value v;
 
-        v = stack.getFirst().toRDF(mc).sesameValue();
+        v = mc.toRDF(stack.getFirst()).sesameValue();
         stack = stack.getRest();
 
         if (v instanceof Literal) {

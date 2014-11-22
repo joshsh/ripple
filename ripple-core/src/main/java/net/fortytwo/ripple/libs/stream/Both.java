@@ -42,7 +42,7 @@ public class Both extends PrimitiveStackMapping {
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
-        RippleValue x, y;
+        Object x, y;
 
         x = stack.getFirst();
         stack = stack.getRest();

@@ -48,7 +48,7 @@ public class AssertInContextTest extends RippleTestCase {
     public void testLiteralObjects() throws Exception {
         reduce("@prefix ex: <http://example.org/assert-in-context-test/>");
 
-        modelConnection.remove(null, null, modelConnection.valueOf(42));
+        modelConnection.remove(null, null, 42);
         modelConnection.commit();
         assertReducesTo("ex:a ex:specialNumber ex:ctx1 in-context.");
         assertReducesTo("ex:a ex:specialNumber 42 ex:ctx1 assert-in-context.", "ex:a");
@@ -75,7 +75,7 @@ public class AssertInContextTest extends RippleTestCase {
     public void testNullContext() throws Exception {
         reduce("@prefix ex: <http://example.org/assert-in-context-test/>");
 
-        modelConnection.remove(null, null, modelConnection.valueOf("q"));
+        modelConnection.remove(null, null, "q");
         modelConnection.commit();
         assertReducesTo("ex:q rdfs:label \"q\" () assert-in-context.", "ex:q");
         assertReducesTo("ex:q rdfs:label () in-context.", "\"q\"");

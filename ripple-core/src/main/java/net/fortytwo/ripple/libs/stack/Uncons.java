@@ -43,7 +43,7 @@ public class Uncons extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
 
-        RippleValue l;
+        Object l;
 
         l = stack.getFirst();
         final RippleList rest = stack.getRest();

@@ -45,7 +45,7 @@ public class Cat extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
 
-        RippleValue l1, l2;
+        Object l1, l2;
 
         l1 = stack.getFirst();
         stack = stack.getRest();

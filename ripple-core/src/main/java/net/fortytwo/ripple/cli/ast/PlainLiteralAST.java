@@ -28,8 +28,8 @@ public class PlainLiteralAST implements AST<RippleList> {
                          final QueryEngine qe,
                          final ModelConnection mc)
             throws RippleException {
-        RippleValue v = (null == language)
-                ? mc.valueOf(value)
+        Object v = (null == language)
+                ? value
                 : mc.valueOf(value, language);
         sink.put(mc.list().push(v));
     }

@@ -49,14 +49,14 @@ public class Branch extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
 
-        RippleValue falseProg = stack.getFirst();
+        Object falseProg = stack.getFirst();
         stack = stack.getRest();
-        RippleValue trueProg = stack.getFirst();
+        Object trueProg = stack.getFirst();
         stack = stack.getRest();
-        boolean b = mc.toBoolean(stack.getFirst());
+        Object b = stack.getFirst();
         stack = stack.getRest();
 
-        RippleValue result = b ? trueProg : falseProg;
+        Object result = mc.toBoolean(b) ? trueProg : falseProg;
 
         solutions.put(
                 stack.push(result).push(Operator.OP));

@@ -1,6 +1,7 @@
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.impl.sesame.types.PrimitiveStackMappingType;
 
 import java.net.URI;
 
@@ -21,23 +22,26 @@ public abstract class Library {
         }
     }
 
-    protected PrimitiveStackMapping registerPrimitive(final Class c,
+    protected PrimitiveStackMapping registerPrimitive(final Class<? extends PrimitiveStackMapping> c,
                                                       final LibraryLoader.Context context)
             throws RippleException {
         final ModelConnection mc = context.getModelConnection();
         PrimitiveStackMapping prim;
 
         try {
-            prim = (PrimitiveStackMapping) c.newInstance();
-            prim.setRdfEquivalent(mc.valueOf(URI.create(prim.getIdentifiers()[0])), mc);
+            prim = c.newInstance();
+            prim.setRdfEquivalent(mc.valueOf(URI.create(prim.getIdentifiers()[0])));
         } catch (InstantiationException e) {
             throw new RippleException(e);
         } catch (IllegalAccessException e) {
             throw new RippleException(e);
         }
 
+        PrimitiveStackMappingType type = new PrimitiveStackMappingType(c);
+        mc.getModel().register(type);
+
         // Add the primitive's stated URI to the map.
-        context.addPrimaryValue(prim.toRDF(mc).sesameValue(), prim);
+        context.addPrimaryValue(mc.toRDF(prim).sesameValue(), prim);
 
         // Add all stated aliases (but no aliases of aliases) to the map.
         String[] identifiers = prim.getIdentifiers();

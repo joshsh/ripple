@@ -49,9 +49,9 @@ public class While extends PrimitiveStackMapping {
 
         RippleList stack = arg;
 
-        RippleValue program = stack.getFirst();
+        Object program = stack.getFirst();
         stack = stack.getRest();
-        RippleValue criterion = stack.getFirst();
+        Object criterion = stack.getFirst();
         stack = stack.getRest();
 
         Collector<Operator> programOps

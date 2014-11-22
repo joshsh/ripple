@@ -3,10 +3,10 @@ package net.fortytwo.ripple.libs.math;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackMapping;
+import net.fortytwo.ripple.model.impl.sesame.types.NumericType;
 
 /**
  * A primitive which consumes two numbers and produces their product.
@@ -44,14 +44,14 @@ public class Mul extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
 
-        NumericValue a, b, result;
+        Number a, b, result;
 
-        b = mc.toNumericValue(stack.getFirst());
+        b = mc.toNumber(stack.getFirst());
         stack = stack.getRest();
-        a = mc.toNumericValue(stack.getFirst());
+        a = mc.toNumber(stack.getFirst());
         stack = stack.getRest();
 
-        result = a.mul(b);
+        result = NumericType.mul(a, b);
 
         solutions.put(
                 stack.push(result));

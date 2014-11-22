@@ -46,9 +46,9 @@ public class Map extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
 
-        final RippleValue mappingVal = stack.getFirst();
+        final Object mappingVal = stack.getFirst();
         stack = stack.getRest();
-        RippleValue listVal = stack.getFirst();
+        Object listVal = stack.getFirst();
         final RippleList rest = stack.getRest();
 
         // Note: it is simply assumed that these mappings have a production of
@@ -65,7 +65,7 @@ public class Map extends PrimitiveStackMapping {
                 // TODO: this is probably a little more complicated than it needs to be
                 else {
                     RippleList inverted = list.invert();
-                    RippleValue f = inverted.getFirst();
+                    Object f = inverted.getFirst();
 
                     for (Operator operator : operators) {
                         StackMapping inner = new InnerMapping(mc.list(), inverted.getRest(), operator);
@@ -108,7 +108,7 @@ public class Map extends PrimitiveStackMapping {
                           final ModelConnection mc) throws RippleException {
 
             RippleList stack = arg;
-            RippleValue first = stack.getFirst();
+            Object first = stack.getFirst();
             stack = stack.getRest();
 
             RippleList newListRest = constructedList.push(first);

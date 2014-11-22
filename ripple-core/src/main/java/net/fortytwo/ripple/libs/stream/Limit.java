@@ -47,7 +47,7 @@ public class Limit extends PrimitiveStackMapping {
 
         int lim;
 
-        lim = mc.toNumericValue(stack.getFirst()).intValue();
+        lim = mc.toNumber(stack.getFirst()).intValue();
         stack = stack.getRest();
 
         solutions.put(

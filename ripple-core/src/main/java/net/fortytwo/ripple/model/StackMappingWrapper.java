@@ -50,13 +50,14 @@ public class StackMappingWrapper implements StackMapping, RippleValue {
         return null;
     }
 
-    public void printTo(final RipplePrintStream p) throws RippleException {
+    public void printTo(final RipplePrintStream p,
+                        final ModelConnection mc) throws RippleException {
         p.print("[StackMappingWrapper: ");
         p.print(innerMapping);
         p.print("]");
     }
 
-    public Type getType() {
-        return Type.OTHER_RESOURCE;
+    public RippleType.Category getCategory() {
+        return RippleType.Category.OTHER_RESOURCE;
     }
 }

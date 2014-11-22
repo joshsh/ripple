@@ -35,12 +35,12 @@ public class Keys extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
 
         RippleList stack = arg;
-        RippleValue first = stack.getFirst();
+        Object first = stack.getFirst();
         stack = stack.getRest();
 
         if (first instanceof KeyValueValue) {
             for (String key : ((KeyValueValue) first).getKeys()) {
-                solutions.put(stack.push(mc.valueOf(key)));
+                solutions.put(stack.push(key));
             }
         }
     }

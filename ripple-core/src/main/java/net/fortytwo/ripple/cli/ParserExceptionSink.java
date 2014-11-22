@@ -33,7 +33,7 @@ public class ParserExceptionSink implements Sink<Exception> {
         else if (e instanceof RecognitionException) {
             alert("Parser error: " + e.toString());
         } else {
-            alert("Strange error (see log for details): " + e.toString());
+            alert("Ungrokked error (see log for details): " + e.toString());
             (new RippleException(e)).logError(true);
         }
     }

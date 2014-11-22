@@ -43,7 +43,7 @@ public class Dipd extends PrimitiveStackMapping {
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
 
-        RippleValue z, y, x;
+        Object z, y, x;
         RippleList stack = arg;
 
 // hack...

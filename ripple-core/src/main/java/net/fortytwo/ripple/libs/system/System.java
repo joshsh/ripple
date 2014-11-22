@@ -65,9 +65,9 @@ public class System extends PrimitiveStackMapping {
         }
 
         solutions.put(
-                stack.push(mc.valueOf(exitCode))
-                        .push(mc.valueOf(normalOutput))
-                        .push(mc.valueOf(errorOutput)));
+                stack.push(exitCode)
+                        .push(normalOutput)
+                        .push(errorOutput));
     }
 
     private String readInputStream(final InputStream is,

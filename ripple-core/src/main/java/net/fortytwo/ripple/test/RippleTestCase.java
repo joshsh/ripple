@@ -44,7 +44,7 @@ public abstract class RippleTestCase extends TestCase {
     private static QueryEngine queryEngine = null;
 
     protected ModelConnection modelConnection = null;
-    protected Comparator<RippleValue> comparator = null;
+    protected Comparator<Object> comparator = null;
 
     @Before
     public void setUp() throws Exception {
@@ -129,7 +129,7 @@ public abstract class RippleTestCase extends TestCase {
     }
 
     protected RippleList createStack(final ModelConnection mc,
-                                     final RippleValue... values) throws RippleException {
+                                     final Object... values) throws RippleException {
         if (0 == values.length) {
             return mc.list();
         }
@@ -143,7 +143,7 @@ public abstract class RippleTestCase extends TestCase {
     }
 
     protected RippleList createQueue(final ModelConnection mc,
-                                     final RippleValue... values) throws RippleException {
+                                     final Object... values) throws RippleException {
         return createStack(mc, values).invert();
     }
 
@@ -207,11 +207,11 @@ while (!l.isNil()) {
     System.out.println("    (" + f.getClass() + ") -- " + f);
     l = l.getRest();
 } */
-            assertEquals(expArray[i], actArray[i]);
+            assertRippleEquals(expArray[i], actArray[i]);
         }
     }
 
-    protected void assertEquals(final RippleValue first, final RippleValue second) throws Exception {
+    protected void assertRippleEquals(final Object first, final Object second) throws Exception {
         int cmp = comparator.compare(first, second);
         if (0 != cmp) {
             throw new AssertionFailedError("expected <" + first + "> but was <" + second + ">");

@@ -33,11 +33,11 @@ public class VertexValue extends ElementValue {
         return null;
     }
 
-    public void printTo(final RipplePrintStream p) throws RippleException {
+    public void printTo(final RipplePrintStream p, final ModelConnection mc) throws RippleException {
         p.print("[vertex " + vertex.getId() + "]");
     }
 
-    public RippleValue getValue(final String key,
+    public Object getValue(final String key,
                                 final ModelConnection mc) throws RippleException {
         Object result = vertex.getProperty(key);
         return null == result ? null : BlueprintsLibrary.createRippleValue(result, mc);

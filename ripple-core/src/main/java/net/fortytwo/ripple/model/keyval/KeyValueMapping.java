@@ -33,14 +33,14 @@ public class KeyValueMapping implements StackMapping {
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-        RippleValue x;
+        Object x;
         RippleList stack = arg;
 
         x = stack.getFirst();
         stack = stack.getRest();
 
         if (x instanceof KeyValueValue) {
-            RippleValue result = ((KeyValueValue) x).getValue(key, mc);
+            Object result = ((KeyValueValue) x).getValue(key, mc);
             solutions.put(
                     stack.push(result));
         } else {

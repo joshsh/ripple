@@ -35,12 +35,12 @@ public class Label extends PrimitiveStackMapping {
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
-        RippleValue first = stack.getFirst();
+        Object first = stack.getFirst();
         stack = stack.getRest();
 
         if (first instanceof EdgeValue) {
             Edge el = ((EdgeValue) first).getElement();
-            solutions.put(stack.push(mc.valueOf(el.getLabel())));
+            solutions.put(stack.push(el.getLabel()));
         }
     }
 }

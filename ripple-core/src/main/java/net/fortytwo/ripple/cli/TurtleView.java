@@ -8,7 +8,6 @@ import net.fortytwo.ripple.RippleProperties;
 import net.fortytwo.ripple.io.RipplePrintStream;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.util.ModelConnectionHelper;
 
@@ -74,7 +73,7 @@ public class TurtleView implements Sink<RippleList> {
      */
     public void put(final RippleList stack) throws RippleException {
         // Grab the topmost item on the stack.
-        RippleValue subject = stack.getFirst();
+        Object subject = stack.getFirst();
 
         // View the list in right-to-left order
         RippleList list = stack.invert();
@@ -86,20 +85,20 @@ public class TurtleView implements Sink<RippleList> {
         //printStream.print( "rdf:_" + ++index + INDEX_SEPARATOR );
 
         if (printEntireStack) {
-            list.printTo(printStream, false);
+            list.printTo(printStream, modelConnection, false);
         } else {
-            subject.printTo(printStream);
+            modelConnection.print(subject, printStream);
         }
 
         printStream.print("\n");
 
         if (showEdges && !stack.isNil()) {
-            Collector<RippleValue> predicates = new Collector<RippleValue>();
+            Collector<Object> predicates = new Collector<>();
             helper.findPredicates(subject, predicates);
 
             int predCount = 0;
 
-            for (Iterator<RippleValue> predIter = predicates.iterator();
+            for (Iterator<Object> predIter = predicates.iterator();
                  predIter.hasNext(); ) {
                 printStream.print(prefixIndent);
                 printStream.print(INDENT);
@@ -112,25 +111,25 @@ public class TurtleView implements Sink<RippleList> {
                     break;
                 }
 
-                RippleValue predicate = predIter.next();
-                printStream.print(predicate);
+                Object predicate = predIter.next();
+                modelConnection.print(predicate, printStream);
                 printStream.print("\n");
 
-                Collector<RippleValue> objects = new Collector<RippleValue>();
+                Collector<Object> objects = new Collector<>();
                 StatementPatternQuery query = new StatementPatternQuery(subject, predicate, null);
                 modelConnection.query(query, objects, false);
 
                 int objCount = 0;
 
-                Collection<RippleValue> objColl;
+                Collection<Object> objColl;
                 if (deduplicateObjects) {
-                    objColl = new HashSet<RippleValue>();
+                    objColl = new HashSet<>();
                     objColl.addAll(objects);
                 } else {
                     objColl = objects;
                 }
 
-                for (Iterator<RippleValue> objIter = objColl.iterator();
+                for (Iterator<Object> objIter = objColl.iterator();
                      objIter.hasNext(); ) {
                     printStream.print(prefixIndent);
                     printStream.print(INDENT);
@@ -144,8 +143,8 @@ public class TurtleView implements Sink<RippleList> {
                         break;
                     }
 
-                    RippleValue object = objIter.next();
-                    printStream.print(object);
+                    Object object = objIter.next();
+                    modelConnection.print(object, printStream);
                     printStream.print((objIter.hasNext())
                             ? ","
                             : (predIter.hasNext())

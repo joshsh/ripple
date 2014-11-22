@@ -3,7 +3,6 @@ package net.fortytwo.ripple.libs.math;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackMapping;
@@ -46,14 +45,14 @@ public class Acos extends PrimitiveStackMapping {
 
 
         double a;
-        NumericValue result;
+        double result;
 
-        a = mc.toNumericValue(stack.getFirst()).doubleValue();
+        a = mc.toNumber(stack.getFirst()).doubleValue();
         stack = stack.getRest();
 
         // Apply the function only if it is defined for the given argument.
         if (a >= -1 && a <= 1) {
-            result = mc.valueOf(Math.acos(a));
+            result = Math.acos(a);
 
             solutions.put(
                     stack.push(result));

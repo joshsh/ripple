@@ -14,13 +14,13 @@ import java.util.Set;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SpecialValueMap {
-    private final Map<Value, RippleValue> rdfToNativeMap;
+    private final Map<Value, Object> rdfToNativeMap;
 
     /**
      * Create a new map.
      */
     public SpecialValueMap() {
-        rdfToNativeMap = new HashMap<Value, RippleValue>();
+        rdfToNativeMap = new HashMap<>();
     }
 
     /**
@@ -31,8 +31,8 @@ public class SpecialValueMap {
      * value.  If there is no such data structure, the value itself.  This
      * method will never return <code>null</code>.
      */
-    public RippleValue get(final RDFValue rdf) {
-        RippleValue rpl = rdfToNativeMap.get(rdf.sesameValue());
+    public Object get(final RDFValue rdf) {
+        Object rpl = rdfToNativeMap.get(rdf.sesameValue());
 
         if (null == rpl) {
             rpl = rdf;
@@ -47,7 +47,7 @@ public class SpecialValueMap {
      * @param key   a value in RDF space
      * @param value a corresponding value in Ripple space
      */
-    public void put(final Value key, final RippleValue value) {
+    public void put(final Value key, final Object value) {
         rdfToNativeMap.put(key, value);
     }
 
@@ -58,9 +58,9 @@ public class SpecialValueMap {
      * @param mc a transactional connection
      * @throws RippleException if the associated RDF value of the Ripple value can't be determined
      */
-    public void add(final RippleValue v, final ModelConnection mc)
+    public void add(final Object v, final ModelConnection mc)
             throws RippleException {
-        rdfToNativeMap.put(v.toRDF(mc).sesameValue(), v);
+        rdfToNativeMap.put(mc.toRDF(v).sesameValue(), v);
     }
 
     /**

@@ -3,7 +3,6 @@ package net.fortytwo.ripple.libs.math;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackMapping;
@@ -43,17 +42,15 @@ public class Tan extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
         double a;
-        NumericValue result;
 
-        a = mc.toNumericValue(stack.getFirst()).doubleValue();
+        a = mc.toNumber(stack.getFirst()).doubleValue();
         stack = stack.getRest();
 
 // TODO: check for undefined values
         double d = Math.tan(a);
-        result = mc.valueOf(d);
 
         solutions.put(
-                stack.push(result));
+                stack.push(d));
     }
 
     @Override

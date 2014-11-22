@@ -8,14 +8,14 @@ import net.fortytwo.ripple.RippleException;
  */
 public class Closure implements StackMapping {
     private final StackMapping innerMapping;
-    private final RippleValue argument;
+    private final Object argument;
     private final int calculatedArity;
 
     /**
      * @param innerMapping a mapping
      * @param argument     an inactive value
      */
-    public Closure(final StackMapping innerMapping, final RippleValue argument) {
+    public Closure(final StackMapping innerMapping, final Object argument) {
         this.innerMapping = innerMapping;
         this.argument = argument;
         calculatedArity = innerMapping.arity() - 1;

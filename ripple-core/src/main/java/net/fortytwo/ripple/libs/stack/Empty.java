@@ -41,7 +41,7 @@ public class Empty extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
 
-        RippleValue l;
+        Object l;
 
         l = stack.getFirst();
         final RippleList rest = stack.getRest();
@@ -50,7 +50,7 @@ public class Empty extends PrimitiveStackMapping {
             public void put(final RippleList list) throws RippleException {
                 boolean result = list.isNil();
                 solutions.put(
-                        rest.push(mc.valueOf(result)));
+                        rest.push(result));
             }
         };
 

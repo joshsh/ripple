@@ -35,9 +35,10 @@ public class ListDequotation implements StackMapping {
         // Never emit an empty stack.
         if (!out.isNil()) {
             if (invert) {
-                RippleValue v = out.getFirst();
-                if (null != v.getMapping()) {
-                    StackMapping inverse = v.getMapping().getInverse();
+                Object v = out.getFirst();
+                StackMapping m = mc.toMapping(v);
+                if (null != m) {
+                    StackMapping inverse = m.getInverse();
                     out = out.getRest().push(new Operator(inverse));
                     solutions.put(out);
                 }

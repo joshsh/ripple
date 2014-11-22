@@ -21,15 +21,15 @@ public class LazyEvaluatorTest extends RippleTestCase {
         final Collector<RippleList> actual = new Collector<RippleList>();
         RippleList input;
 
-        RippleValue op = Operator.OP;
-        RippleValue
+        Object op = Operator.OP;
+        Object
                 dup = new Dup(),
                 sqrt = new Sqrt(),
                 abs = new Abs();
-        RippleValue
-                minusone = mc.valueOf(-1.0),
-                one = mc.valueOf(1),
-                two = mc.valueOf(2);
+        Number
+                minusone = -1.0,
+                one = 1,
+                two = 2;
 
         // passive stack passes through unchanged
         // (1 2) -> (1 2)

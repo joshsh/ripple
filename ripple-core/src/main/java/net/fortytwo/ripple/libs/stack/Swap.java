@@ -42,7 +42,7 @@ public class Swap extends PrimitiveStackMapping {
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
-        RippleValue y, x;
+        Object y, x;
 
         y = stack.getFirst();
         stack = stack.getRest();

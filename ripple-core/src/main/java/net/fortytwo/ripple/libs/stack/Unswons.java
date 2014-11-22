@@ -41,8 +41,7 @@ public class Unswons extends PrimitiveStackMapping {
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-
-        RippleValue l;
+        Object l;
 
         l = arg.getFirst();
         final RippleList rest = arg.getRest();

@@ -29,10 +29,10 @@ public class QueryPipeTest extends RippleTestCase {
         QueryPipe qp = new QueryPipe(qe, results);
         ModelConnection mc = qe.getConnection();
 
-        RippleValue
-                zero = mc.valueOf(0),
-                four = mc.valueOf(4),
-                five = mc.valueOf(5);
+        Number
+                zero = 0,
+                four = 4,
+                five = 5;
 
         // A simple expression.
         results.clear();
@@ -75,8 +75,7 @@ public class QueryPipeTest extends RippleTestCase {
         QueryPipe qp = new QueryPipe(qe, results);
         ModelConnection mc = qe.getConnection();
 
-        RippleValue
-                five = mc.valueOf(5);
+        Number five = 5;
 
         byte[] bytes = new byte[128];
         for (int i = 0; i < bytes.length; i++) {

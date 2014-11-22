@@ -47,12 +47,12 @@ public class Substring extends PrimitiveStackMapping {
         RippleList stack = arg;
 
         int begin, end;
-        RippleValue s;
+        Object s;
         String result;
 
-        end = mc.toNumericValue(stack.getFirst()).intValue();
+        end = mc.toNumber(stack.getFirst()).intValue();
         stack = stack.getRest();
-        begin = mc.toNumericValue(stack.getFirst()).intValue();
+        begin = mc.toNumber(stack.getFirst()).intValue();
         stack = stack.getRest();
         s = stack.getFirst();
         stack = stack.getRest();

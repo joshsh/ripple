@@ -49,11 +49,11 @@ public class Fold extends PrimitiveStackMapping {
 
         RippleList stack = arg;
 
-        RippleValue l;
+        Object l;
 
-        final RippleValue f = stack.getFirst();
+        final Object f = stack.getFirst();
         stack = stack.getRest();
-        final RippleValue v = stack.getFirst();
+        final Object v = stack.getFirst();
         stack = stack.getRest();
         l = stack.getFirst();
         final RippleList rest = stack.getRest();

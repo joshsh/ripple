@@ -45,7 +45,7 @@ public class Rotated extends PrimitiveStackMapping {
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
-        RippleValue w, z, y, x;
+        Object w, z, y, x;
 
         w = stack.getFirst();
         stack = stack.getRest();

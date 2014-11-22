@@ -54,8 +54,7 @@ public class Count extends PrimitiveStackMapping {
             int count = s.size();
 
             solutions.put(
-                    arg.getRest().push(
-                            mc.valueOf(count)));
+                    arg.getRest().push(count));
         } finally {
             Ripple.enableAsynchronousQueries(a);
         }

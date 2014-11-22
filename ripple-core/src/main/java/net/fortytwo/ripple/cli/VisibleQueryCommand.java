@@ -104,12 +104,12 @@ public class VisibleQueryCommand extends Command {
         taskSet.stopWaiting();
     }
 
-    private static void dereference(final RippleValue v, final ModelConnection mc)
+    private static void dereference(final Object v, final ModelConnection mc)
             throws RippleException {
         try {
-            if (null != v.toRDF(mc)) {
+            if (null != mc.toRDF(v)) {
                 StatementPatternQuery query = new StatementPatternQuery(v, RDF_FIRST, null);
-                mc.query(query, new NullSink<RippleValue>(), false);
+                mc.query(query, new NullSink<>(), false);
             }
         } catch (RippleException e) {
             // (soft fail... don't even log the error)

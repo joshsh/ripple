@@ -73,14 +73,14 @@ public class URITest extends RippleTestCase {
         }
     }
 
-    private static String strVal(RippleValue subj, RippleValue pred, ModelConnectionHelper h, final ModelConnection mc)
+    private static String strVal(Object subj, Object pred, ModelConnectionHelper h, final ModelConnection mc)
             throws Exception {
-        RippleValue obj = h.findSingleObject(subj, pred);
+        Object obj = h.findSingleObject(subj, pred);
 
         if (null == obj) {
             return null;
         } else {
-            return obj.toRDF(mc).sesameValue().stringValue();
+            return mc.toRDF(obj).sesameValue().stringValue();
         }
     }
 
@@ -99,7 +99,7 @@ public class URITest extends RippleTestCase {
                 scheme,
                 user;
 
-        public UriTestCase(final RippleValue r, final ModelConnection mc)
+        public UriTestCase(final Object r, final ModelConnection mc)
                 throws Exception {
             ModelConnectionHelper h = new ModelConnectionHelper(mc);
 
@@ -116,7 +116,7 @@ public class URITest extends RippleTestCase {
 
             System.out.println("r = " + r);
             type = TestType.find(
-                    ((URI) h.findSingleObject(r, TEST).toRDF(mc).sesameValue()).getLocalName());
+                    ((URI) mc.toRDF(h.findSingleObject(r, TEST)).sesameValue()).getLocalName());
             System.out.println("    type = " + type);
         }
 
@@ -166,12 +166,12 @@ public class URITest extends RippleTestCase {
         SesameInputAdapter.parse(is, importer, "", RDFFormat.N3);
         mc.commit();
 
-        Collector<RippleValue> cases = new Collector<RippleValue>();
+        Collector<Object> cases = new Collector<>();
         StatementPatternQuery query = new StatementPatternQuery(null, TYPE, URITEST);
         mc.query(query, cases, false);
 
         for (Object aCase : cases) {
-            RippleValue caseValue = (RippleValue) aCase;
+            Object caseValue = aCase;
             (new UriTestCase(caseValue, mc)).test(mc);
         }
 

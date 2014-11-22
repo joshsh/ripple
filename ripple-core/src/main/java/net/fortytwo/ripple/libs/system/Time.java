@@ -42,6 +42,6 @@ public class Time extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
 
         solutions.put(arg.push(
-                mc.valueOf(System.currentTimeMillis())));
+                System.currentTimeMillis()));
     }
 }

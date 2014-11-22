@@ -33,14 +33,14 @@ public class RankingEvaluatorHelper {
     private final List<RankingContext> resultList;
 
     // A set of intermediate results.
-    private final ListMemoizer<RippleValue, RankingContext> resultMemos;
+    private final ListMemoizer<Object, RankingContext> resultMemos;
 
     public RankingEvaluatorHelper(final RippleList arg,
                                   final ModelConnection mc) {
-        queue = new PriorityQueue<RankingContext>(1, comparator);
+        queue = new PriorityQueue<>(1, comparator);
 
-        resultList = new LinkedList<RankingContext>();
-        resultMemos = new ListMemoizer<RippleValue, RankingContext>(
+        resultList = new LinkedList<>();
+        resultMemos = new ListMemoizer<>(
                 new RippleValueComparator(mc));
 
         handleOutput(new RankingContext(arg, mc));
@@ -79,7 +79,7 @@ public class RankingEvaluatorHelper {
 
     private void handleOutput(final RankingContext c) {
         //System.out.println("adding intermediate: " + c.getStack());
-        if (c.getStack().isNil() || null == c.getStack().getFirst().getMapping()) {
+        if (c.getStack().isNil() || null == c.getModelConnection().toMapping(c.getStack().getFirst())) {
             RankingContext other = resultMemos.get(c.getStack());
 
             if (null == other) {
@@ -118,19 +118,19 @@ public class RankingEvaluatorHelper {
         RippleList ops = mc.list();
 
         while (true) {
-            RippleValue first = stack.getFirst();
+            Object first = stack.getFirst();
 
-            if (stack.isNil() || null == first.getMapping()) {
+            if (stack.isNil() || null == mc.toMapping(first)) {
                 if (ops.isNil()) {
                     outputSink.put(stack);
                     return;
                 } else {
-                    Closure c = new Closure(ops.getFirst().getMapping(), first);
+                    Closure c = new Closure(mc.toMapping(ops.getFirst()), first);
                     stack = stack.getRest().push(new Operator(c));
                     ops = ops.getRest();
                 }
             } else {
-                StackMapping f = first.getMapping();
+                StackMapping f = mc.toMapping(first);
 
                 if (0 == f.arity()) {
                     try {

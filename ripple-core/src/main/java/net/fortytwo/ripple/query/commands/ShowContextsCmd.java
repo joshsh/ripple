@@ -16,10 +16,10 @@ public class ShowContextsCmd extends Command {
             throws RippleException {
         final RipplePrintStream ps = qe.getPrintStream();
 
-        Sink<RippleValue> printSink = new Sink<RippleValue>() {
+        Sink<Object> printSink = new Sink<Object>() {
             private int i = 0;
 
-            public void put(final RippleValue v) throws RippleException {
+            public void put(final Object v) throws RippleException {
                 ps.print("[" + i++ + "] ");
                 ps.println(v);
             }

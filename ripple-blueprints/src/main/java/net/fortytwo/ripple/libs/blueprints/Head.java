@@ -36,7 +36,7 @@ public class Head extends PrimitiveStackMapping {
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
-        RippleValue first = stack.getFirst();
+        Object first = stack.getFirst();
         stack = stack.getRest();
 
         if (first instanceof EdgeValue) {
@@ -68,7 +68,7 @@ public class Head extends PrimitiveStackMapping {
                           final Sink<RippleList> solutions,
                           final ModelConnection mc) throws RippleException {
             RippleList stack = arg;
-            RippleValue first = stack.getFirst();
+            Object first = stack.getFirst();
             stack = stack.getRest();
 
             if (first instanceof VertexValue) {

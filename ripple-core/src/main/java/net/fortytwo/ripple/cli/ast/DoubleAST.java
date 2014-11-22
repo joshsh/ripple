@@ -2,7 +2,6 @@ package net.fortytwo.ripple.cli.ast;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.NumericValue;
 
 import java.math.BigDecimal;
 import java.util.regex.Pattern;
@@ -84,8 +83,8 @@ public class DoubleAST extends NumberAST {
         }
     }
 
-    public NumericValue getValue(final ModelConnection mc) throws RippleException {
-        return mc.valueOf(value);
+    public Number getValue(final ModelConnection mc) throws RippleException {
+        return value;
     }
 
     public String toString() {

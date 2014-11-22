@@ -34,11 +34,12 @@ public class JSONValue extends KeyValueValue {
         return null;
     }
 
-    public void printTo(final RipplePrintStream p) throws RippleException {
+    public void printTo(final RipplePrintStream p,
+                        final ModelConnection mc) throws RippleException {
         p.print(jsonObject.toString());
     }
 
-    public RippleValue getValue(final String key,
+    public Object getValue(final String key,
                                 final ModelConnection mc) throws RippleException {
         Object o = jsonObject.opt(key);
         if (null == o) {
@@ -67,14 +68,14 @@ public class JSONValue extends KeyValueValue {
      * @return a corresponding RippleValue
      * @throws RippleException if something goes awry
      */
-    public static RippleValue toRippleValue(final Object o,
+    public static Object toRippleValue(final Object o,
                                             final ModelConnection mc) throws RippleException {
         if (o instanceof Boolean) {
-            return mc.valueOf((Boolean) o);
+            return o;
         } else if (o instanceof Double) {
-            return mc.valueOf((Double) o);
+            return o;
         } else if (o instanceof Integer) {
-            return mc.valueOf((Integer) o);
+            return o;
         } else if (o instanceof JSONArray) {
             JSONArray a = (JSONArray) o;
             RippleList l = mc.list();
@@ -89,9 +90,9 @@ public class JSONValue extends KeyValueValue {
         } else if (o instanceof JSONObject) {
             return new JSONValue((JSONObject) o);
         } else if (o instanceof Long) {
-            return mc.valueOf((Long) o);
+            return o;
         } else if (o instanceof String) {
-            return mc.valueOf((String) o);
+            return o;
         } else {
             throw new RippleException("tried to convert object of unfamiliar type: " + o);
         }

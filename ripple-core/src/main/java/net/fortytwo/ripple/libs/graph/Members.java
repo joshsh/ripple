@@ -51,13 +51,12 @@ public class Members extends PrimitiveStackMapping {
 
         Model model = mc.getModel();
         if (model instanceof SesameModel) {
-            RippleList stack = arg;
 
-            RippleValue head = stack.getFirst();
-            final RippleList rest = stack.getRest();
+            Object head = arg.getFirst();
+            final RippleList rest = arg.getRest();
 
-            final Sink<RippleValue> pushSink = new Sink<RippleValue>() {
-                public void put(final RippleValue v) throws RippleException {
+            final Sink<Object> pushSink = new Sink<Object>() {
+                public void put(final Object v) throws RippleException {
                     solutions.put(rest.push(v));
                 }
             };
@@ -70,7 +69,7 @@ public class Members extends PrimitiveStackMapping {
                 }
             };
 
-            mc.getStatements(head.toRDF(mc), null, null, stSink);
+            mc.getStatements(mc.toRDF(head), null, null, stSink);
 
             /*
             int i = 1;

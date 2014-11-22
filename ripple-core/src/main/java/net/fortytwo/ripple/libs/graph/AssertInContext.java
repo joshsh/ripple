@@ -46,7 +46,7 @@ public class AssertInContext extends PrimitiveStackMapping {
 
         RippleList stack = arg;
 
-        RippleValue subj, pred, obj, ctx;
+        Object subj, pred, obj, ctx;
 
         ctx = stack.getFirst();
         stack = stack.getRest();

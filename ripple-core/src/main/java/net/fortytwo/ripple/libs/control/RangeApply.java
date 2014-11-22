@@ -48,11 +48,11 @@ public class RangeApply extends PrimitiveStackMapping {
 
         final int min, max;
 
-        max = mc.toNumericValue(stack.getFirst()).intValue();
+        max = mc.toNumber(stack.getFirst()).intValue();
         stack = stack.getRest();
-        min = mc.toNumericValue(stack.getFirst()).intValue();
+        min = mc.toNumber(stack.getFirst()).intValue();
         stack = stack.getRest();
-        RippleValue p = stack.getFirst();
+        Object p = stack.getFirst();
         final RippleList rest = stack.getRest();
 
         Sink<Operator> opSink = new Sink<Operator>() {

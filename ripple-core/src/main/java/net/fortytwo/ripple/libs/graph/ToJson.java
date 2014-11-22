@@ -50,13 +50,13 @@ public class ToJson extends PrimitiveStackMapping {
         s = mc.toString(stack.getFirst());
         stack = stack.getRest();
 
-        RippleValue json = toJson(s, mc);
+        Object json = toJson(s, mc);
 
         solutions.put(
                 stack.push(json));
     }
 
-    private RippleValue toJson(final String s,
+    private Object toJson(final String s,
                                final ModelConnection mc) throws RippleException {
         String st = s.trim();
         try {

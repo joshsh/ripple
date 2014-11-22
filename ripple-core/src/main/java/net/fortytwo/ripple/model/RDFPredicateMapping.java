@@ -35,7 +35,7 @@ public class RDFPredicateMapping implements StackMapping {
         return true;
     }
 
-    private void findListPredicateSolutions(final RippleValue subject,
+    private void findListPredicateSolutions(final Object subject,
                                             final RippleList rest,
                                             final Sink<RippleList> solutions,
                                             final ModelConnection mc) throws RippleException {
@@ -45,7 +45,7 @@ public class RDFPredicateMapping implements StackMapping {
             } else if (!((RippleList) subject).isNil()) {
                 //System.out.println("" + subject + " " + predicate);
                 if (predicate.sesameValue().equals(RDF.FIRST)) {
-                    RippleValue f = ((RippleList) subject).getFirst();
+                    Object f = ((RippleList) subject).getFirst();
                     solutions.put(rest.push(f));
                 } else if (predicate.sesameValue().equals(RDF.REST)) {
                     RippleList r = ((RippleList) subject).getRest();
@@ -58,7 +58,7 @@ public class RDFPredicateMapping implements StackMapping {
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-        RippleValue sourceVal = arg.getFirst();
+        Object sourceVal = arg.getFirst();
         StatementPatternQuery query;
 
         switch (this.type) {
@@ -78,7 +78,7 @@ public class RDFPredicateMapping implements StackMapping {
                 throw new RippleException("unsupported query type: " + type);
         }
 
-        Sink<RippleValue> resultSink = new ValueSink(arg, solutions);
+        Sink<Object> resultSink = new ValueSink(arg, solutions);
 
         //System.out.println("asynch: " + Ripple.asynchronousQueries());
         if (Ripple.asynchronousQueries()) {
@@ -110,7 +110,7 @@ public class RDFPredicateMapping implements StackMapping {
         return new RDFPredicateMapping(inverseType, this.predicate, this.context);
     }
 
-    private class ValueSink implements Sink<RippleValue> {
+    private class ValueSink implements Sink<Object> {
         private Sink<RippleList> sink;
         private RippleList arg;
 
@@ -119,7 +119,7 @@ public class RDFPredicateMapping implements StackMapping {
             this.sink = sink;
         }
 
-        public void put(final RippleValue v) throws RippleException {
+        public void put(final Object v) throws RippleException {
             try {
                 //System.out.println("got Ripple value: " + v);
                 // Note: relies on this mapping's arity being equal to 1

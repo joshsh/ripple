@@ -4,7 +4,6 @@ import com.tinkerpop.gremlin.groovy.jsr223.GremlinGroovyScriptEngine;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.system.ScriptEngineWrapper;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RippleValue;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -15,8 +14,8 @@ public class GremlinWrapper extends ScriptEngineWrapper {
     }
 
     @Override
-    protected RippleValue nativize(final Object externalObject,
-                                   final ModelConnection mc) throws RippleException {
+    protected Object nativize(final Object externalObject,
+                              final ModelConnection mc) throws RippleException {
         return BlueprintsLibrary.createRippleValue(externalObject, mc);
     }
 }

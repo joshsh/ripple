@@ -39,7 +39,7 @@ public class Has extends PrimitiveStackMapping {
         return "l x  =>  b  -- where b is true if List l contains a member which is equal to x, otherwise false";
     }
 
-    private boolean has(RippleList l, final RippleValue v, final ModelConnection mc)
+    private boolean has(RippleList l, final Object v, final ModelConnection mc)
             throws RippleException {
         while (!l.isNil()) {
             if (0 == mc.getComparator().compare(l.getFirst(), v)) {
@@ -57,9 +57,9 @@ public class Has extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
 
-        RippleValue l;
+        Object l;
 
-        final RippleValue x = stack.getFirst();
+        final Object x = stack.getFirst();
         stack = stack.getRest();
         l = stack.getFirst();
         final RippleList rest = stack.getRest();
@@ -67,7 +67,7 @@ public class Has extends PrimitiveStackMapping {
         Sink<RippleList> listSink = new Sink<RippleList>() {
             public void put(final RippleList list) throws RippleException {
                 solutions.put(
-                        rest.push(mc.valueOf(has(list, x, mc))));
+                        rest.push(has(list, x, mc)));
             }
         };
 

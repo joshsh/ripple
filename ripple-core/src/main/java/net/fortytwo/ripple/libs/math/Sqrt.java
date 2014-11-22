@@ -3,10 +3,10 @@ package net.fortytwo.ripple.libs.math;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackMapping;
+import net.fortytwo.ripple.model.impl.sesame.types.NumericType;
 
 /**
  * A primitive which consumes a number and produces all real square roots of the
@@ -51,7 +51,7 @@ public class Sqrt extends PrimitiveStackMapping {
 
         double a;
 
-        a = mc.toNumericValue(stack.getFirst()).doubleValue();
+        a = mc.toNumber(stack.getFirst()).doubleValue();
         stack = stack.getRest();
 
         // Apply the function only if it is defined for the given argument.
@@ -61,10 +61,10 @@ public class Sqrt extends PrimitiveStackMapping {
             // Yield both square roots.
             try {
                 solutions.put(
-                        stack.push(mc.valueOf(d)));
+                        stack.push(d));
                 if (d > 0) {
                     solutions.put(
-                            stack.push(mc.valueOf(0.0 - d)));
+                            stack.push(0.0 - d));
                 }
             } catch (RippleException e) {
                 // Soft fail
@@ -96,12 +96,12 @@ public class Sqrt extends PrimitiveStackMapping {
                           final ModelConnection mc) throws RippleException {
             RippleList stack = arg;
 
-            NumericValue a, result;
+            Number a, result;
 
-            a = mc.toNumericValue(stack.getFirst());
+            a = mc.toNumber(stack.getFirst());
             stack = stack.getRest();
 
-            result = a.mul(a);
+            result = NumericType.mul(a, a);
 
             solutions.put(
                     stack.push(result));

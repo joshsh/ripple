@@ -53,7 +53,7 @@ public class LastIndexOf extends PrimitiveStackMapping {
 
         result = str.lastIndexOf(substr);
         solutions.put(
-                stack.push(mc.valueOf(result)));
+                stack.push(result));
     }
 }
 

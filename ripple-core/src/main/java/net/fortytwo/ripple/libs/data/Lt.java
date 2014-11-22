@@ -45,7 +45,7 @@ public class Lt extends PrimitiveStackMapping {
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
 
-        RippleValue a, b, result;
+        Object a, b, result;
         RippleList stack = arg;
 
         b = stack.getFirst();
@@ -53,7 +53,7 @@ public class Lt extends PrimitiveStackMapping {
         a = stack.getFirst();
         stack = stack.getRest();
 
-        result = mc.valueOf(mc.getComparator().compare(a, b) < 0);
+        result = mc.getComparator().compare(a, b) < 0;
 
         solutions.put(
                 stack.push(result));

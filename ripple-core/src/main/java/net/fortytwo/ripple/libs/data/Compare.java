@@ -44,7 +44,7 @@ public class Compare extends PrimitiveStackMapping {
 
         RippleList stack = arg;
 
-        RippleValue y, x;
+        Object y, x;
 
         y = stack.getFirst();
         stack = stack.getRest();
@@ -56,7 +56,7 @@ public class Compare extends PrimitiveStackMapping {
         // Constrain the result to three possible values.
         result = (result < 0) ? -1 : (result > 0) ? 1 : 0;
 
-        solutions.put(stack.push(mc.valueOf(result)));
+        solutions.put(stack.push(result));
     }
 }
 

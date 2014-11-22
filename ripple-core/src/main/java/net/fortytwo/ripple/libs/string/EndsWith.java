@@ -44,14 +44,14 @@ public class EndsWith extends PrimitiveStackMapping {
         RippleList stack = arg;
 
         String affix, s;
-        RippleValue result;
+        boolean result;
 
         affix = mc.toString(stack.getFirst());
         stack = stack.getRest();
         s = mc.toString(stack.getFirst());
         stack = stack.getRest();
 
-        result = mc.valueOf(s.endsWith(affix));
+        result = s.endsWith(affix);
 
         solutions.put(
                 stack.push(result));

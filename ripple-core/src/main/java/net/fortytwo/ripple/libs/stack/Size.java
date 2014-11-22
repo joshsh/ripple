@@ -43,7 +43,7 @@ public class Size extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
 
-        RippleValue l;
+        Object l;
 
         l = stack.getFirst();
         final RippleList rest = stack.getRest();
@@ -52,7 +52,7 @@ public class Size extends PrimitiveStackMapping {
             public void put(final RippleList list) throws RippleException {
                 int result = list.length();
                 solutions.put(
-                        rest.push(mc.valueOf(result)));
+                        rest.push(result));
             }
         };
 

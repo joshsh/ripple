@@ -46,7 +46,7 @@ public class Deny extends PrimitiveStackMapping {
 
         RippleList stack = arg;
 
-        RippleValue subj, pred, obj;
+        Object subj, pred, obj;
 
         obj = stack.getFirst();
         stack = stack.getRest();

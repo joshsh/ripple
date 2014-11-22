@@ -27,8 +27,8 @@ public class TypedLiteralAST implements AST<RippleList> {
             throws RippleException {
         Sink<RippleList> typeSink = new Sink<RippleList>() {
             public void put(final RippleList l) throws RippleException {
-                RippleValue type = l.getFirst();
-                Value t = (URI) type.toRDF(mc).sesameValue();
+                Object type = l.getFirst();
+                Value t = mc.toRDF(type).sesameValue();
                 if (t instanceof URI) {
                     sink.put(mc.list().push(mc.valueOf(value, (URI) t)));
                 } else {

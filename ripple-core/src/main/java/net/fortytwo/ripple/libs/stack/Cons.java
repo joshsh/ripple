@@ -43,11 +43,11 @@ public class Cons extends PrimitiveStackMapping {
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
-        RippleValue l;
+        Object l;
 
         l = stack.getFirst();
         stack = stack.getRest();
-        final RippleValue x = stack.getFirst();
+        final Object x = stack.getFirst();
         final RippleList rest = stack.getRest();
 
         Sink<RippleList> listSink = new Sink<RippleList>() {

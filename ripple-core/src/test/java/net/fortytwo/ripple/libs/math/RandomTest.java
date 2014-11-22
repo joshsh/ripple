@@ -1,6 +1,5 @@
 package net.fortytwo.ripple.libs.math;
 
-import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.test.RippleTestCase;
@@ -16,7 +15,7 @@ public class RandomTest extends RippleTestCase {
     public void testSingleSolution() throws Exception {
         Collection<RippleList> results;
         RippleList l;
-        RippleValue v;
+        Object v;
         double d;
         Set<Double> values = new HashSet<Double>();
 
@@ -26,8 +25,8 @@ public class RandomTest extends RippleTestCase {
             l = results.iterator().next();
             assertEquals(1, l.length());
             v = l.getFirst();
-            assertTrue(v instanceof NumericValue);
-            d = ((NumericValue) v).doubleValue();
+            assertTrue(v instanceof Number);
+            d = ((Number) v).doubleValue();
             assertTrue(0 <= d);
             assertTrue(1 > d);
             Double dobj = new Double(d);

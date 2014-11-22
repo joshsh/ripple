@@ -3,7 +3,6 @@ package net.fortytwo.ripple.libs.math;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackMapping;
@@ -45,14 +44,14 @@ public class Asin extends PrimitiveStackMapping {
         RippleList stack = arg;
 
         double a;
-        NumericValue result;
+        double result;
 
-        a = mc.toNumericValue(stack.getFirst()).doubleValue();
+        a = mc.toNumber(stack.getFirst()).doubleValue();
         stack = stack.getRest();
 
         // Apply the function only if it is defined for the given argument.
         if (a >= -1 && a <= 1) {
-            result = mc.valueOf(Math.asin(a));
+            result = Math.asin(a);
 
             solutions.put(
                     stack.push(result));

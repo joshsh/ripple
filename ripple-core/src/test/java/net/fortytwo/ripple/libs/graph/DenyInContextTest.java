@@ -49,7 +49,7 @@ public class DenyInContextTest extends RippleTestCase {
     public void testLiteralObjects() throws Exception {
         reduce("@prefix ex: <http://example.org/deny-in-contextTest/>.");
 
-        modelConnection.remove(null, null, modelConnection.valueOf(42));
+        modelConnection.remove(null, null, 42);
         modelConnection.commit();
         assertReducesTo("ex:a ex:specialNumer 42 ex:ctx1 assert-in-context.", "ex:a");
         assertReducesTo("ex:a ex:specialNumer.", "42");
@@ -67,7 +67,7 @@ public class DenyInContextTest extends RippleTestCase {
         assertReducesTo("ex:b ex:specialNumer.", "42");
         assertReducesTo("42 ex:specialNumer~.", "ex:b");
 
-        modelConnection.remove(null, null, modelConnection.valueOf("something"));
+        modelConnection.remove(null, null, "something");
         modelConnection.commit();
         assertReducesTo("ex:a rdfs:comment \"something\" ex:ctx1 assert-in-context.", "ex:a");
         assertReducesTo("ex:a rdfs:comment.", "\"something\"");
@@ -102,7 +102,7 @@ public class DenyInContextTest extends RippleTestCase {
     public void testNullContext() throws Exception {
         reduce("@prefix ex: <http://example.org/assert-in-contextTest/>.");
 
-        modelConnection.remove(null, null, modelConnection.valueOf("q"));
+        modelConnection.remove(null, null, "q");
         modelConnection.commit();
         assertReducesTo("ex:q rdfs:label \"q\" () assert-in-context.", "ex:q");
         assertReducesTo("ex:q rdfs:label () in-context.", "\"q\"");

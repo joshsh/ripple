@@ -4,7 +4,6 @@ import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.math.MathLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 
@@ -39,9 +38,9 @@ public class Random extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
 
-        NumericValue result;
+        Number result;
 
-        result = mc.valueOf(Math.random());
+        result = Math.random();
 
         solutions.put(
                 stack.push(result));

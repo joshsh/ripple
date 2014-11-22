@@ -1,13 +1,12 @@
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.io.RipplePrintStream;
 import org.openrdf.model.Resource;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public abstract class PrimitiveStackMapping implements StackMapping, RippleValue {
+public abstract class PrimitiveStackMapping implements StackMapping {
     private final boolean transparent;
 
     private RDFValue rdfEquivalent;
@@ -59,8 +58,11 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
         return getParameters().length;
     }
 
-    public void setRdfEquivalent(final RDFValue v, final ModelConnection mc)
-            throws RippleException {
+    public RDFValue getRdfEquivalent() {
+        return rdfEquivalent;
+    }
+
+    public void setRdfEquivalent(final RDFValue v) throws RippleException {
         if (!(v.sesameValue() instanceof Resource)) {
             throw new IllegalArgumentException("for comparison purposes," +
                     " the identifier of a PrimitiveStackMapping must be a Resource");
@@ -71,25 +73,11 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
 // typeAnnotation = new FunctionTypeAnnotation( v, mc );
     }
 
-    public void printTo(final RipplePrintStream p)
-            throws RippleException {
-        p.print(rdfEquivalent);
-    }
-
-    public RDFValue toRDF(final ModelConnection mc)
-            throws RippleException {
-        return rdfEquivalent;
-    }
-
     public String toString() {
         // TODO: this guards against a null rdfEquivalent value, but this should't be allowed to happen
         return (null == rdfEquivalent)
                 ? "PrimitiveStackMapping(" + getIdentifiers()[0] + ")"
                 : "" + rdfEquivalent;
-    }
-
-    public StackMapping getMapping() {
-        return null;
     }
 
     public boolean isTransparent() {
@@ -115,10 +103,6 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
         }
 
         return code;
-    }
-
-    public Type getType() {
-        return Type.OTHER_RESOURCE;
     }
 }
 

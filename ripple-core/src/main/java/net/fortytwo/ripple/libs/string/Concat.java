@@ -45,7 +45,7 @@ public class Concat extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
 
-        RippleValue strA, strB;
+        Object strA, strB;
         String result;
 
         strA = stack.getFirst();

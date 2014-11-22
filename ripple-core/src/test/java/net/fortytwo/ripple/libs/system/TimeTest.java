@@ -18,8 +18,8 @@ public class TimeTest extends RippleTestCase {
         assertEquals(1, r.size());
         RippleList l = r.iterator().next();
         assertEquals(1, l.length());
-        RippleValue v = l.getFirst();
-        Value rv = v.toRDF(this.modelConnection).sesameValue();
+        Object v = l.getFirst();
+        Value rv = modelConnection.toRDF(v).sesameValue();
         assertTrue(rv instanceof Literal);
         assertEquals(XMLSchema.LONG, ((Literal) rv).getDatatype());
         long t = ((Literal) rv).longValue();

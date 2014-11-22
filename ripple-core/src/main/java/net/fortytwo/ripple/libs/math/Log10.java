@@ -3,10 +3,10 @@ package net.fortytwo.ripple.libs.math;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackMapping;
+import net.fortytwo.ripple.model.impl.sesame.types.NumericType;
 
 /**
  * A primitive which consumes a number and produces the base-10 logarithm of the
@@ -48,14 +48,14 @@ public class Log10 extends PrimitiveStackMapping {
         RippleList stack = arg;
 
         double a;
-        NumericValue result;
+        double result;
 
-        a = mc.toNumericValue(stack.getFirst()).doubleValue();
+        a = mc.toNumber(stack.getFirst()).doubleValue();
         stack = stack.getRest();
 
         // Apply the function only if it is defined for the given argument.
         if (a > 0) {
-            result = mc.valueOf(Math.log10(a));
+            result = Math.log10(a);
 
             solutions.put(
                     stack.push(result));
@@ -84,12 +84,12 @@ public class Log10 extends PrimitiveStackMapping {
                           final Sink<RippleList> solutions,
                           final ModelConnection mc) throws RippleException {
             RippleList stack = arg;
-            NumericValue x, result;
+            Number x, result;
 
-            x = mc.toNumericValue(stack.getFirst());
+            x = mc.toNumber(stack.getFirst());
             stack = stack.getRest();
 
-            result = mc.valueOf(10).pow(x);
+            result = NumericType.pow(10, x);
 
             solutions.put(
                     stack.push(result));

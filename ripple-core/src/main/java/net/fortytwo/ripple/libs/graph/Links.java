@@ -53,7 +53,7 @@ public class Links extends PrimitiveStackMapping {
         if (model instanceof SesameModel) {
             final RippleList stack = arg;
 
-            RippleValue subj;
+            Object subj;
 
             subj = stack.getFirst();
 
@@ -61,16 +61,16 @@ public class Links extends PrimitiveStackMapping {
                 public void put(final Statement st) throws RippleException {
                     Resource context = st.getContext();
 
-                    RippleValue pred = mc.canonicalValue(new RDFValue(st.getPredicate()));
-                    RippleValue obj = mc.canonicalValue(new RDFValue(st.getObject()));
-                    RippleValue ctx = (null == context) ? mc.list() : mc.canonicalValue(new RDFValue(context));
+                    Object pred = mc.canonicalValue(new RDFValue(st.getPredicate()));
+                    Object obj = mc.canonicalValue(new RDFValue(st.getObject()));
+                    Object ctx = (null == context) ? mc.list() : mc.canonicalValue(new RDFValue(context));
 
                     solutions.put(stack.push(pred).push(obj).push(ctx));
                 }
             };
 
             // FIXME: only SesameModel supports getStatements()
-            mc.getStatements(subj.toRDF(mc), null, null, stSink);
+            mc.getStatements(mc.toRDF(subj), null, null, stSink);
         } else {
             logger.warning("primitive is compatible only with the Sesame model: " + this);
         }

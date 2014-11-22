@@ -49,7 +49,7 @@ public class Rank extends PrimitiveStackMapping {
         Ripple.enableAsynchronousQueries(false);
         try {
             RippleList stack = arg;
-            int steps = mc.toNumericValue(stack.getFirst()).intValue();
+            int steps = mc.toNumber(stack.getFirst()).intValue();
             stack = stack.getRest();
 
             //System.out.println("ranking on: " + stack);

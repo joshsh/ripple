@@ -1,7 +1,10 @@
 package net.fortytwo.ripple.io;
 
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.RippleType;
+import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.test.RippleTestCase;
 
@@ -21,30 +24,30 @@ public class RipplePrintStreamTest extends RippleTestCase {
 
         mc.setNamespace("xsd", "http://www.w3.org/2001/XMLSchema#", true);
 
-        ps.print(mc.valueOf(42));
+        ps.print(42);
         assertEquals("42", bos.toString());
         bos.reset();
-        ps.print(mc.valueOf(0));
+        ps.print(0);
         assertEquals("0", bos.toString());
         bos.reset();
-        ps.print(mc.valueOf(-42));
+        ps.print(-42);
         assertEquals("-42", bos.toString());
         bos.reset();
 
-        ps.print(mc.valueOf(42.0));
+        ps.print(42.0);
         assertEquals("42.0E0", bos.toString());
         bos.reset();
-        ps.print(mc.valueOf(0.0));
+        ps.print(0.0);
         assertEquals("0.0E0", bos.toString());
         bos.reset();
-        ps.print(mc.valueOf(-42.0));
+        ps.print(-42.0);
         assertEquals("-42.0E0", bos.toString());
         bos.reset();
 
-        ps.print(mc.valueOf(true));
+        ps.print(true);
         assertEquals("true", bos.toString());
         bos.reset();
-        ps.print(mc.valueOf(false));
+        ps.print(false);
         assertEquals("false", bos.toString());
         bos.reset();
 

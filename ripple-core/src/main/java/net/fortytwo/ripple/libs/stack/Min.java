@@ -40,16 +40,16 @@ public class Min extends PrimitiveStackMapping {
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
 
-        RippleValue l;
+        Object l;
 
         l = arg.getFirst();
         final RippleList rest = arg.getRest();
 
         Sink<RippleList> listSink = new Sink<RippleList>() {
             public void put(RippleList list) throws RippleException {
-                RippleValue result = null;
+                Object result = null;
                 while (!list.isNil()) {
-                    RippleValue v = list.getFirst();
+                    Object v = list.getFirst();
                     if (null == result || mc.getComparator().compare(v, result) < 0) {
                         result = v;
                     }

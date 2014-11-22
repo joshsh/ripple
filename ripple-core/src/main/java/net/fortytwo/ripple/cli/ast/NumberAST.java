@@ -3,7 +3,6 @@ package net.fortytwo.ripple.cli.ast;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.query.QueryEngine;
 
@@ -11,7 +10,7 @@ import net.fortytwo.ripple.query.QueryEngine;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public abstract class NumberAST implements AST<RippleList> {
-    public abstract NumericValue getValue(ModelConnection mc) throws RippleException;
+    public abstract Number getValue(ModelConnection mc) throws RippleException;
 
     public void evaluate(final Sink<RippleList> sink,
                          final QueryEngine qe,

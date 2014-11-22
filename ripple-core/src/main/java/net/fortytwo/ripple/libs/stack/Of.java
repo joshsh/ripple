@@ -44,11 +44,11 @@ public class Of extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
 
-        RippleValue l;
+        Object l;
 
         l = stack.getFirst();
         stack = stack.getRest();
-        final int i = mc.toNumericValue(stack.getFirst()).intValue();
+        final int i = mc.toNumber(stack.getFirst()).intValue();
         final RippleList rest = stack.getRest();
 
         Sink<RippleList> listSink = new Sink<RippleList>() {

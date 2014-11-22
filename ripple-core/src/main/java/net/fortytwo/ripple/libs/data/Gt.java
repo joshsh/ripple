@@ -47,14 +47,14 @@ public class Gt extends PrimitiveStackMapping {
 
         RippleList stack = arg;
 
-        RippleValue a, b, result;
+        Object a, b, result;
 
         b = stack.getFirst();
         stack = stack.getRest();
         a = stack.getFirst();
         stack = stack.getRest();
 
-        result = mc.valueOf(mc.getComparator().compare(a, b) > 0);
+        result = mc.getComparator().compare(a, b) > 0;
 
         solutions.put(
                 stack.push(result));

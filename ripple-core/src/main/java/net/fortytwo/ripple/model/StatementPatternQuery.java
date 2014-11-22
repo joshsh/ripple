@@ -3,7 +3,7 @@ package net.fortytwo.ripple.model;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class StatementPatternQuery {
+public class StatementPatternQuery<T> {
     // Note: typically, not all patterns are supported
     public enum Pattern {
         _SOP,
@@ -16,16 +16,16 @@ public class StatementPatternQuery {
         SPO_
     }
 
-    private final RippleValue subject;
-    private final RippleValue predicate;
-    private final RippleValue object;
-    private final RippleValue[] contexts;
+    private final T subject;
+    private final T predicate;
+    private final T object;
+    private final T[] contexts;
     private final Pattern pattern;
 
-    public StatementPatternQuery(final RippleValue subject,
-                                 final RippleValue predicate,
-                                 final RippleValue object,
-                                 final RippleValue... contexts) {
+    public StatementPatternQuery(final T subject,
+                                 final T predicate,
+                                 final T object,
+                                 final T... contexts) {
         this.subject = subject;
         this.predicate = predicate;
         this.object = object;
@@ -52,19 +52,19 @@ public class StatementPatternQuery {
         return pattern;
     }
 
-    public RippleValue getSubject() {
+    public T getSubject() {
         return subject;
     }
 
-    public RippleValue getPredicate() {
+    public T getPredicate() {
         return predicate;
     }
 
-    public RippleValue getObject() {
+    public T getObject() {
         return object;
     }
 
-    public RippleValue[] getContexts() {
+    public T[] getContexts() {
         return contexts;
     }
 }

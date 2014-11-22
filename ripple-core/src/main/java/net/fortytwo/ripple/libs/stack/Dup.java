@@ -5,7 +5,6 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 
 /**
  * A primitive which pushes a copy of the topmost item on the stack to the
@@ -41,7 +40,7 @@ public class Dup extends PrimitiveStackMapping {
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-        RippleValue x;
+        Object x;
         RippleList stack = arg;
 
         x = stack.getFirst();

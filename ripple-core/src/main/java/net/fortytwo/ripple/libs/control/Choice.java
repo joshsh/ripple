@@ -46,7 +46,7 @@ public class Choice extends PrimitiveStackMapping {
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
 
-        RippleValue f, t, b;
+        Object f, t, b;
         RippleList stack = arg;
 
         f = stack.getFirst();
@@ -56,7 +56,7 @@ public class Choice extends PrimitiveStackMapping {
         b = stack.getFirst();
         stack = stack.getRest();
 
-        RippleValue result = mc.toBoolean(b) ? t : f;
+        Object result = mc.toBoolean(b) ? t : f;
 
         solutions.put(
                 stack.push(result));

@@ -51,24 +51,23 @@ public class Inlinks extends PrimitiveStackMapping {
 
         Model model = mc.getModel();
         if (model instanceof SesameModel) {
-            final RippleList stack = arg;
 
-            final RippleValue obj = stack.getFirst();
-            final RippleList rest = stack.getRest();
+            final Object obj = arg.getFirst();
+            final RippleList rest = arg.getRest();
 
             Sink<Statement> stSink = new Sink<Statement>() {
                 public void put(final Statement st) throws RippleException {
                     Resource context = st.getContext();
 
-                    RippleValue subj = mc.canonicalValue(new RDFValue(st.getSubject()));
-                    RippleValue pred = mc.canonicalValue(new RDFValue(st.getPredicate()));
-                    RippleValue ctx = (null == context) ? mc.list() : mc.canonicalValue(new RDFValue(context));
+                    Object subj = mc.canonicalValue(new RDFValue(st.getSubject()));
+                    Object pred = mc.canonicalValue(new RDFValue(st.getPredicate()));
+                    Object ctx = (null == context) ? mc.list() : mc.canonicalValue(new RDFValue(context));
 
                     solutions.put(rest.push(subj).push(pred).push(obj).push(ctx));
                 }
             };
 
-            mc.getStatements(null, null, obj.toRDF(mc), stSink);
+            mc.getStatements(null, null, mc.toRDF(obj), stSink);
         } else {
             logger.warning("primitive is compatible only with the Sesame model: " + this);
         }

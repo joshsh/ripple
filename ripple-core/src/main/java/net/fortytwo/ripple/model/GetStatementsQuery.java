@@ -29,8 +29,6 @@ public class GetStatementsQuery {
 
     public enum Type {SP_O, PO_S, SO_P}
 
-    ;
-
     // TODO: make this into a configuration property, or find another solution
     private static final boolean STRING_LITERALS_EQUIVALENT_TO_PLAIN_LITERALS = true;
 
@@ -69,7 +67,7 @@ public class GetStatementsQuery {
                     throw new InvalidQueryException("unsupported query pattern: " + patternQuery.getPattern());
             }
 
-            RippleValue[] rippleContexts = patternQuery.getContexts();
+            Object[] rippleContexts = patternQuery.getContexts();
             this.contexts = new Resource[rippleContexts.length];
 
             for (int i = 0; i < rippleContexts.length; i++) {
@@ -90,19 +88,19 @@ public class GetStatementsQuery {
         }
     }
 
-    private URI getURI(final RippleValue rv, final ModelConnection mc) throws RippleException, ClassCastException {
-        return (URI) rv.toRDF(mc).sesameValue();
+    private URI getURI(final Object rv, final ModelConnection mc) throws RippleException, ClassCastException {
+        return (URI) mc.toRDF(rv).sesameValue();
     }
 
-    private Resource getResource(final RippleValue rv, final ModelConnection mc)
+    private Resource getResource(final Object rv, final ModelConnection mc)
             throws RippleException, ClassCastException {
 
-        RDFValue v = rv.toRDF(mc);
+        RDFValue v = mc.toRDF(rv);
         return null == v ? null : (Resource) v.sesameValue();
     }
 
-    private Value getValue(final RippleValue rv, final ModelConnection mc) throws RippleException {
-        return rv.toRDF(mc).sesameValue();
+    private Value getValue(final Object rv, final ModelConnection mc) throws RippleException {
+        return mc.toRDF(rv).sesameValue();
     }
 
     public void getStatements(final SailConnection sc, final Sink<Statement> results) throws RippleException {

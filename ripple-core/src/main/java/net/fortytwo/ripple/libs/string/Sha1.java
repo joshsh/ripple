@@ -44,7 +44,7 @@ public class Sha1 extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
 
-        RippleValue a = stack.getFirst();
+        Object a = stack.getFirst();
         stack = stack.getRest();
 
         String result = StringUtils.sha1SumOf(mc.toString(a));

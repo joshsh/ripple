@@ -43,7 +43,7 @@ public class Equal extends PrimitiveStackMapping {
 
         RippleList stack = arg;
 
-        RippleValue a, b, result;
+        Object a, b, result;
 
         a = stack.getFirst();
         stack = stack.getRest();
@@ -53,7 +53,7 @@ public class Equal extends PrimitiveStackMapping {
         // Note: equals() is not suitable for this operation (for instance,
         //       it may yield false for RdfValues containing identical
         //       Literals).
-        result = mc.valueOf(0 == mc.getComparator().compare(a, b));
+        result = 0 == mc.getComparator().compare(a, b);
 
         solutions.put(stack.push(result));
     }

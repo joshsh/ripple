@@ -47,7 +47,7 @@ public class DefineListCmd extends Command {
 //System.out.println( "exprList = " + exprList );
 
             RDFValue id = mc.valueOf(java.net.URI.create(qe.getLexicon().getDefaultNamespace() + name));
-            expr.setRDF(id);
+            expr.setRDFEquivalent(id);
             mc.internalize(expr);
             mc.commit();
 

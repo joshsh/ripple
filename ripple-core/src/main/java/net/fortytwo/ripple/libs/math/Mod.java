@@ -3,9 +3,9 @@ package net.fortytwo.ripple.libs.math;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.impl.sesame.types.NumericType;
 
 /**
  * A primitive which consumes two numbers x and y and produces the number x
@@ -44,16 +44,16 @@ public class Mod extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
 
-        NumericValue a, b, result;
+        Number a, b, result;
 
-        b = mc.toNumericValue(stack.getFirst());
+        b = mc.toNumber(stack.getFirst());
         stack = stack.getRest();
-        a = mc.toNumericValue(stack.getFirst());
+        a = mc.toNumber(stack.getFirst());
         stack = stack.getRest();
 
         // Note: mod by zero simply does not yield a result.
-        if (!b.isZero()) {
-            result = a.mod(b);
+        if (!NumericType.isZero(b)) {
+            result = NumericType.mod(a, b);
 
             solutions.put(
                     stack.push(result));

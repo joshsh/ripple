@@ -41,7 +41,7 @@ public class Md5 extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
 
-        RippleValue a = stack.getFirst();
+        Object a = stack.getFirst();
         stack = stack.getRest();
 
         String result = StringUtils.md5SumOf(mc.toString(a));

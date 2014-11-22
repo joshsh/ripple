@@ -51,11 +51,11 @@ public class Ifte extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
 
-        RippleValue falseProg = stack.getFirst();
+        Object falseProg = stack.getFirst();
         stack = stack.getRest();
-        RippleValue trueProg = stack.getFirst();
+        Object trueProg = stack.getFirst();
         stack = stack.getRest();
-        RippleValue criterion = stack.getFirst();
+        Object criterion = stack.getFirst();
         stack = stack.getRest();
 
         StackMapping inner = new IfteInner(stack, trueProg, falseProg);
@@ -67,11 +67,11 @@ public class Ifte extends PrimitiveStackMapping {
 
     private class IfteInner implements StackMapping {
         private final RippleList originalStack;
-        private final RippleValue trueProgram, falseProgram;
+        private final Object trueProgram, falseProgram;
 
         public IfteInner(final RippleList originalStack,
-                         final RippleValue trueProgram,
-                         final RippleValue falseProgram) {
+                         final Object trueProgram,
+                         final Object falseProgram) {
             this.originalStack = originalStack;
             this.trueProgram = trueProgram;
             this.falseProgram = falseProgram;
@@ -93,7 +93,7 @@ public class Ifte extends PrimitiveStackMapping {
                           final Sink<RippleList> solutions,
                           final ModelConnection mc) throws RippleException {
 
-            RippleValue b = arg.getFirst();
+            Object b = arg.getFirst();
 
             RippleList stack = mc.toBoolean(b)
                     ? originalStack.push(trueProgram).push(Operator.OP)

@@ -44,13 +44,13 @@ public class Drop extends PrimitiveStackMapping {
         // Note: a bad numeric value will cause an error.  However, an
         // out-of-range numeric value (e.g. -1 or a value which exceeds the
         // length of the list) will simply fail to produce a result. 
-        final int n = mc.toNumericValue(stack.getFirst()).intValue();
+        final int n = mc.toNumber(stack.getFirst()).intValue();
         if (0 > n) {
             return;
         }
 
         stack = stack.getRest();
-        final RippleValue l = stack.getFirst();
+        final Object l = stack.getFirst();
         final RippleList rest = stack.getRest();
 
         Sink<RippleList> listSink = new Sink<RippleList>() {

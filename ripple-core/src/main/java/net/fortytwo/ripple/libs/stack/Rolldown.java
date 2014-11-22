@@ -44,7 +44,7 @@ public class Rolldown extends PrimitiveStackMapping {
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
-        RippleValue z, y, x;
+        Object z, y, x;
 
         z = stack.getFirst();
         stack = stack.getRest();

@@ -46,7 +46,7 @@ public class ReplaceAll extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
 
-        RippleValue regex, replacement, s;
+        Object regex, replacement, s;
         String result;
 
         replacement = stack.getFirst();

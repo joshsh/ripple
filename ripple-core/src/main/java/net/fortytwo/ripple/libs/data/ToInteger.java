@@ -64,7 +64,7 @@ public class ToInteger extends PrimitiveStackMapping {
         }
 
         solutions.put(
-                stack.push(mc.valueOf(i)));
+                stack.push(i));
     }
 }
 

@@ -46,7 +46,7 @@ public class Matches extends PrimitiveStackMapping {
         RippleList stack = arg;
 
         String regex, s;
-        RippleValue result;
+        boolean result;
 
         regex = mc.toString(stack.getFirst());
         stack = stack.getRest();
@@ -54,7 +54,7 @@ public class Matches extends PrimitiveStackMapping {
         stack = stack.getRest();
 
         try {
-            result = mc.valueOf(s.matches(regex));
+            result = s.matches(regex);
 
             solutions.put(
                     stack.push(result));

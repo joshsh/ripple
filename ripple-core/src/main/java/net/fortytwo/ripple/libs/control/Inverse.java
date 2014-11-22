@@ -38,11 +38,11 @@ public class Inverse extends PrimitiveStackMapping {
         RippleList stack = arg;
 
         final RippleList rest = stack.getRest();
-        RippleValue f = stack.getFirst();
+        Object f = stack.getFirst();
 
         Sink<Operator> opSink = new Sink<Operator>() {
             public void put(final Operator op) throws RippleException {
-                RippleValue inverse = new StackMappingWrapper(op.getMapping().getInverse(), mc);
+                Object inverse = new StackMappingWrapper(op.getMapping().getInverse(), mc);
                 solutions.put(rest.push(inverse));
             }
         };

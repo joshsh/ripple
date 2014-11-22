@@ -1,8 +1,6 @@
 package net.fortytwo.ripple.libs.data;
 
-import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.test.RippleTestCase;
 
 import java.util.Collection;
@@ -139,8 +137,8 @@ public class CompareTest extends RippleTestCase {
         assertEquals(1, results.size());
         RippleList l = results.iterator().next();
         assertEquals(1, l.length());
-        RippleValue v = l.getFirst();
-        assertTrue(v instanceof NumericValue);
-        return ((NumericValue) v).doubleValue();
+        Object v = l.getFirst();
+        assertTrue(v instanceof Number);
+        return ((Number) v).doubleValue();
     }
 }

@@ -27,6 +27,12 @@ public interface Model {
      */
     ModelConnection createConnection(RDFDiffSink listener) throws RippleException;
 
+    // TODO: JavaDoc
+    void register(RippleType type);
+
+    // TODO: JavaDoc
+    RippleType getTypeOf(Object instance);
+
     /**
      * @return a mapping of RDF space into Ripple space
      */

@@ -13,16 +13,12 @@ import org.openrdf.model.Statement;
 import org.openrdf.model.Value;
 
 import java.net.URI;
-import java.util.Random;
 import java.util.UUID;
 
 /**
- * User: josh
- * Date: Nov 19, 2010
- * Time: 4:21:35 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class ModelConnectionHelper {
-    private static final Random RANDOM = new Random();
 
     private final ModelConnection connection;
 
@@ -30,17 +26,17 @@ public class ModelConnectionHelper {
         this.connection = connection;
     }
 
-    public RippleValue findSingleObject(final RippleValue subj, final RippleValue pred)
+    public Object findSingleObject(final Object subj, final Object pred)
             throws RippleException {
         StatementPatternQuery query = new StatementPatternQuery(subj, pred, null);
-        Collector<RippleValue> results = new Collector<RippleValue>();
+        Collector<Object> results = new Collector<>();
         connection.query(query, results, false);
 
         return results.isEmpty() ? null : results.iterator().next();
     }
 
-    public void findPredicates(final RippleValue subject,
-                               final Sink<RippleValue> sink)
+    public void findPredicates(final Object subject,
+                               final Sink<Object> sink)
             throws RippleException {
         final Sink<Value> valueSink = new Sink<Value>() {
             public void put(final Value v) throws RippleException {
@@ -57,7 +53,7 @@ public class ModelConnectionHelper {
             }
         };
 
-        RDFValue v = subject.toRDF(connection);
+        RDFValue v = connection.toRDF(subject);
         // Not all RippleValues have an RDF identity.
         if (null != v) {
             connection.getStatements(v, null, null, predSelector);

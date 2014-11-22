@@ -4,6 +4,7 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RipplePrintStream;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RDFValue;
+import net.fortytwo.ripple.model.RippleType;
 import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackMapping;
 import net.fortytwo.ripple.model.keyval.KeyValueValue;
@@ -31,7 +32,7 @@ public class SPARQLValue extends KeyValueValue {
     }
 
     @Override
-    public RippleValue getValue(final String key,
+    public Object getValue(final String key,
                                 final ModelConnection mc) throws RippleException {
         return mc.canonicalValue(new RDFValue(pairs.get(key)));
     }
@@ -57,7 +58,8 @@ public class SPARQLValue extends KeyValueValue {
         return null;
     }
 
-    public void printTo(final RipplePrintStream p) throws RippleException {
+    public void printTo(final RipplePrintStream p,
+                        final ModelConnection mc) throws RippleException {
         p.print("{");
         boolean first = true;
         for (String key : pairs.keySet()) {
@@ -69,7 +71,7 @@ public class SPARQLValue extends KeyValueValue {
 
             p.print(key);
             p.print(":");
-            p.print(new RDFValue(pairs.get(key)));
+            mc.print(new RDFValue(pairs.get(key)), p);
         }
     }
 }

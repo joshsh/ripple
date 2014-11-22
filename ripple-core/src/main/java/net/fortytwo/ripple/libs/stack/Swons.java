@@ -44,9 +44,9 @@ public class Swons extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
 
-        RippleValue l;
+        Object l;
 
-        final RippleValue x = stack.getFirst();
+        final Object x = stack.getFirst();
         stack = stack.getRest();
         l = stack.getFirst();
         final RippleList rest = stack.getRest();

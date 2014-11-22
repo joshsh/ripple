@@ -23,8 +23,7 @@ public interface RippleValue {
 
     StackMapping getMapping();
 
-    void printTo(RipplePrintStream p) throws RippleException;
+    void printTo(RipplePrintStream p, ModelConnection mc) throws RippleException;
 
-    Type getType();
+    RippleType.Category getCategory();
 }
-

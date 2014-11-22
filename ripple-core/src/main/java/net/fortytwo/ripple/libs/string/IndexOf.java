@@ -52,7 +52,7 @@ public class IndexOf extends PrimitiveStackMapping {
 
         result = str.indexOf(substr);
         solutions.put(
-                stack.push(mc.valueOf(result)));
+                stack.push(result));
     }
 }
 

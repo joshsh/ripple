@@ -47,7 +47,7 @@ public class ToString extends PrimitiveStackMapping {
 
         RippleList stack = arg;
 
-        RippleValue v;
+        Object v;
 
         v = stack.getFirst();
         stack = stack.getRest();

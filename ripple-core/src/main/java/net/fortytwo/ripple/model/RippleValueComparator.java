@@ -2,6 +2,7 @@ package net.fortytwo.ripple.model;
 
 import net.fortytwo.flow.Collector;
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.impl.sesame.types.NumericType;
 import net.fortytwo.ripple.model.keyval.KeyValueValue;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
@@ -10,6 +11,7 @@ import org.openrdf.model.Value;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.logging.Logger;
 
 /*
  * TODO: this comparator currently ignores the equivalence of RDF lists with native lists,
@@ -31,26 +33,32 @@ import java.util.Comparator;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class RippleValueComparator implements Comparator<RippleValue> {
+public class RippleValueComparator implements Comparator<Object> {
+    private static final Logger logger = Logger.getLogger(RippleValueComparator.class.getName());
+
     private final ModelConnection modelConnection;
 
     public RippleValueComparator(final ModelConnection mc) {
         this.modelConnection = mc;
     }
 
-    public int compare(final RippleValue first,
-                       final RippleValue second) {
+    public int compare(final Object first,
+                       final Object second) {
         try {
-            int c = findType(first).compareTo(findType(second));
+            RippleType typeFirst = modelConnection.getModel().getTypeOf(first);
+            RippleType typeSecond = modelConnection.getModel().getTypeOf(second);
+            RippleType.Category catFirst = findCategory(first, typeFirst);
+            RippleType.Category catSecond = findCategory(second, typeSecond);
+            int c = catFirst.compareTo(catSecond);
 
             if (0 == c) {
-                switch (first.getType()) {
+                switch (catFirst) {
                     case PLAIN_LITERAL_WITHOUT_LANGUAGE_TAG:
                         return comparePlainLiteralWithoutLanguageTag(first, second);
                     case PLAIN_LITERAL_WITH_LANGUAGE_TAG:
                         return comparePlainLiteralWithLanguageTag(first, second);
                     case NUMERIC_TYPED_LITERAL:
-                        return compareNumericTypedLiteral(first, second);
+                        return compareNumericTypedLiteral(first, second, typeFirst, typeSecond);
                     case OTHER_TYPED_LITERAL:
                         return compareOtherTypedLiteral(first, second);
                     case LIST:
@@ -62,8 +70,7 @@ public class RippleValueComparator implements Comparator<RippleValue> {
                     case OTHER_RESOURCE:
                         return compareOtherResource(first, second);
                     default:
-                        // Shouldn't happen.
-                        return 0;
+                        throw new IllegalStateException();
                 }
             } else {
                 return c;
@@ -74,7 +81,11 @@ public class RippleValueComparator implements Comparator<RippleValue> {
         }
     }
 
-    private RippleValue.Type findType(final RippleValue value) throws RippleException {
+    private RippleType.Category findCategory(final Object value, final RippleType type) throws RippleException {
+        if (null != type) {
+            return type.getCategory();
+        }
+
         if (value instanceof RDFValue) {
             Value sesameValue = ((RDFValue) value).sesameValue();
 
@@ -85,41 +96,43 @@ public class RippleValueComparator implements Comparator<RippleValue> {
                     String language = ((Literal) sesameValue).getLanguage();
 
                     if (null == language) {
-                        return RippleValue.Type.PLAIN_LITERAL_WITHOUT_LANGUAGE_TAG;
+                        return RippleType.Category.PLAIN_LITERAL_WITHOUT_LANGUAGE_TAG;
                     } else {
-                        return RippleValue.Type.PLAIN_LITERAL_WITH_LANGUAGE_TAG;
+                        return RippleType.Category.PLAIN_LITERAL_WITH_LANGUAGE_TAG;
                     }
                 } else {
-                    if (NumericValue.isNumericLiteral((Literal) sesameValue)) {
-                        return RippleValue.Type.NUMERIC_TYPED_LITERAL;
+                    if (NumericType.isNumericLiteral((Literal) sesameValue)) {
+                        return RippleType.Category.NUMERIC_TYPED_LITERAL;
                     } else {
-                        return RippleValue.Type.OTHER_TYPED_LITERAL;
+                        return RippleType.Category.OTHER_TYPED_LITERAL;
                     }
                 }
             } else if (sesameValue instanceof Resource) {
                 if (Operator.isRDFList((RDFValue) value, modelConnection)) {
-                    return RippleValue.Type.LIST;
+                    return RippleType.Category.LIST;
                 } else {
-                    return RippleValue.Type.OTHER_RESOURCE;
+                    return RippleType.Category.OTHER_RESOURCE;
                 }
             } else {
                 throw new RippleException("Sesame value has unrecognized class: " + sesameValue);
             }
+        } else if (value instanceof RippleValue) {
+            return ((RippleValue) value).getCategory();
         } else {
-            return value.getType();
+            throw new IllegalStateException("no category for value: " + value);
         }
     }
 
-    private int comparePlainLiteralWithoutLanguageTag(final RippleValue first,
-                                                      final RippleValue second) throws RippleException {
-        return first.toRDF(modelConnection).sesameValue().stringValue().compareTo(
-                second.toRDF(modelConnection).sesameValue().stringValue());
+    private int comparePlainLiteralWithoutLanguageTag(final Object first,
+                                                      final Object second) throws RippleException {
+        return modelConnection.toRDF(first).sesameValue().stringValue().compareTo(
+                modelConnection.toRDF(second).sesameValue().stringValue());
     }
 
-    private int comparePlainLiteralWithLanguageTag(final RippleValue first,
-                                                   final RippleValue second) throws RippleException {
-        Literal firstLiteral = (Literal) first.toRDF(modelConnection).sesameValue();
-        Literal secondLiteral = (Literal) second.toRDF(modelConnection).sesameValue();
+    private int comparePlainLiteralWithLanguageTag(final Object first,
+                                                   final Object second) throws RippleException {
+        Literal firstLiteral = (Literal) modelConnection.toRDF(first).sesameValue();
+        Literal secondLiteral = (Literal) modelConnection.toRDF(second).sesameValue();
 
         int c = firstLiteral.getLanguage().compareTo(
                 secondLiteral.getLanguage());
@@ -131,29 +144,21 @@ public class RippleValueComparator implements Comparator<RippleValue> {
         }
     }
 
-    private int compareNumericTypedLiteral(final RippleValue first,
-                                           final RippleValue second) throws RippleException {
-        if (first instanceof NumericValue) {
-            if (second instanceof NumericValue) {
-                return ((NumericValue) first).compareTo((NumericValue) second);
-            } else {
-                return -NumericValue.compare((Literal) ((RDFValue) second).sesameValue(), (NumericValue) first);
-            }
-        } else {
-            if (second instanceof NumericValue) {
-                return NumericValue.compare((Literal) ((RDFValue) first).sesameValue(), (NumericValue) second);
-            } else {
-                return NumericValue.compareNumericLiterals(
-                        (Literal) ((RDFValue) first).sesameValue(),
-                        (Literal) ((RDFValue) second).sesameValue());
-            }
+    private int compareNumericTypedLiteral(final Object first,
+                                           final Object second,
+                                           final RippleType typeFirst,
+                                           final RippleType typeSecond) throws RippleException {
+        if (!(typeFirst instanceof NumericType && typeSecond instanceof NumericType)) {
+            throw new IllegalStateException();
         }
+
+        return NumericType.compare(((NumericType) typeFirst).findNumber(first), ((NumericType) typeSecond).findNumber(second));
     }
 
-    private int compareOtherTypedLiteral(final RippleValue first,
-                                         final RippleValue second) throws RippleException {
-        Literal firstLiteral = (Literal) first.toRDF(modelConnection).sesameValue();
-        Literal secondLiteral = (Literal) second.toRDF(modelConnection).sesameValue();
+    private int compareOtherTypedLiteral(final Object first,
+                                         final Object second) throws RippleException {
+        Literal firstLiteral = (Literal) modelConnection.toRDF(first).sesameValue();
+        Literal secondLiteral = (Literal) modelConnection.toRDF(second).sesameValue();
 
         int c = firstLiteral.getDatatype().stringValue().compareTo(
                 secondLiteral.getDatatype().stringValue());
@@ -166,8 +171,8 @@ public class RippleValueComparator implements Comparator<RippleValue> {
     }
 
     // TODO: list comparison is vulnerable to infinite loops due to circular lists
-    private int compareList(final RippleValue first,
-                            final RippleValue second) throws RippleException {
+    private int compareList(final Object first,
+                            final Object second) throws RippleException {
         if (first instanceof RippleList) {
             if (second instanceof RippleList) {
                 return compareNativeLists((RippleList) first, (RippleList) second);
@@ -201,22 +206,22 @@ public class RippleValueComparator implements Comparator<RippleValue> {
         }
     }
 
-    private int compareKeyValueValue(final RippleValue first,
-                                     final RippleValue second) {
+    private int compareKeyValueValue(final Object first,
+                                     final Object second) {
         return ((KeyValueValue) first).compareTo((KeyValueValue) second);
     }
 
-    private int compareOperator(final RippleValue first,
-                                final RippleValue second) throws RippleException {
+    private int compareOperator(final Object first,
+                                final Object second) throws RippleException {
         // TODO: let Operator implement Comparable<Operator>
         return 0;
     }
 
-    private int compareOtherResource(final RippleValue first,
-                                     final RippleValue second) throws RippleException {
+    private int compareOtherResource(final Object first,
+                                     final Object second) throws RippleException {
 //System.out.println("first = " + first + ", second = " + second);
-        RDFValue firstRdf = first.toRDF(modelConnection);
-        RDFValue secondRdf = second.toRDF(modelConnection);
+        RDFValue firstRdf = modelConnection.toRDF(first);
+        RDFValue secondRdf = modelConnection.toRDF(second);
         return null == firstRdf
                 ? null == secondRdf ? 0
                 : -1

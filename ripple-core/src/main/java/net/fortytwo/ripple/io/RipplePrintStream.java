@@ -3,6 +3,8 @@ package net.fortytwo.ripple.io;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.StringUtils;
 import net.fortytwo.ripple.model.Lexicon;
+import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.RippleType;
 import net.fortytwo.ripple.model.RippleValue;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;
@@ -26,14 +28,6 @@ public class RipplePrintStream extends PrintStream {
             throws RippleException {
         super(out);
         this.lexicon = lexicon;
-    }
-
-    public void print(final RippleValue v) throws RippleException {
-        if (null == v) {
-            throw new NullPointerException();
-        }
-
-        v.printTo(this);
     }
 
     public void print(final Value v) throws RippleException {

@@ -40,10 +40,8 @@ public class New extends PrimitiveStackMapping {
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
 
-        RippleList stack = arg;
-
         // Note: stack may be null (and this should not be a problem).
-        RippleList result = stack.push(
+        RippleList result = arg.push(
                 new ModelConnectionHelper(mc).createRandomURI());
 //System.out.println( "Creating a new node" );
 

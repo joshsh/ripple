@@ -56,7 +56,7 @@ public class Distinct extends PrimitiveStackMapping {
     }
 
     protected class DistinctInner implements StackMapping {
-        private ListMemoizer<RippleValue, String> memoizer = null;
+        private ListMemoizer<Object, String> memoizer = null;
 
         public int arity() {
             return 1;
@@ -67,7 +67,7 @@ public class Distinct extends PrimitiveStackMapping {
                           final Sink<RippleList> solutions,
                           final ModelConnection mc) throws RippleException {
             if (null == memoizer) {
-                memoizer = new ListMemoizer<RippleValue, String>(mc.getComparator());
+                memoizer = new ListMemoizer<>(mc.getComparator());
             }
 
             if (memoizer.put(arg, MEMO)) {

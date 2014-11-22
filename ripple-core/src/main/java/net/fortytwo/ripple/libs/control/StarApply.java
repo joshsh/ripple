@@ -48,7 +48,7 @@ public class StarApply extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
 
         RippleList stack = arg;
-        RippleValue first = stack.getFirst();
+        Object first = stack.getFirst();
         final RippleList rest = stack.getRest();
 
         Sink<Operator> opSink = new Sink<Operator>() {

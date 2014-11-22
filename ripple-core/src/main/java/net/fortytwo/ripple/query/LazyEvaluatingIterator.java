@@ -82,8 +82,8 @@ public class LazyEvaluatingIterator implements CloseableIteration<RippleList, Ri
 
                 return;
             }
-            RippleValue first = left.getFirst();
-            final StackMapping f = first.getMapping();
+            Object first = left.getFirst();
+            final StackMapping f = mc.toMapping(first);
 
             if (null == f) {
                 if (right.isNil()) {
@@ -91,7 +91,7 @@ public class LazyEvaluatingIterator implements CloseableIteration<RippleList, Ri
                     solutions.add(left);
                     return;
                 } else {
-                    Closure c = new Closure(right.getFirst().getMapping(), first);
+                    Closure c = new Closure(mc.toMapping(right.getFirst()), first);
                     right = right.getRest();
                     left = left.getRest().push(new Operator(c));
                 }

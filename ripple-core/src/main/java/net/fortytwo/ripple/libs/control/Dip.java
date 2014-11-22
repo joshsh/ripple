@@ -41,7 +41,7 @@ public class Dip extends PrimitiveStackMapping {
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-        RippleValue y, x;
+        Object y, x;
         RippleList stack = arg;
 
 // hack...

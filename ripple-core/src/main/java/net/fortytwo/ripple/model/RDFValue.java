@@ -3,6 +3,7 @@ package net.fortytwo.ripple.model;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.StringUtils;
 import net.fortytwo.ripple.io.RipplePrintStream;
+import net.fortytwo.ripple.model.impl.sesame.types.NumericType;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;
 import org.openrdf.model.URI;
@@ -28,7 +29,8 @@ public class RDFValue implements RippleValue {
         return this;
     }
 
-    public void printTo(final RipplePrintStream p)
+    public void printTo(final RipplePrintStream p,
+                        final ModelConnection mc)
             throws RippleException {
         p.print(value);
     }
@@ -63,18 +65,18 @@ public class RDFValue implements RippleValue {
         }
     }
 
-    public Type getType() {
+    public RippleType.Category getCategory() {
         return value instanceof URI
-                ? Type.OTHER_RESOURCE
+                ? RippleType.Category.OTHER_RESOURCE
                 : value instanceof BNode
-                ? Type.OTHER_RESOURCE
+                ? RippleType.Category.OTHER_RESOURCE
                 : value instanceof Literal
                 ? (null != ((Literal) value).getDatatype()
-                ? (NumericValue.isNumericLiteral((Literal) value)
-                ? Type.NUMERIC_TYPED_LITERAL : Type.OTHER_TYPED_LITERAL)
+                ? (NumericType.isNumericLiteral((Literal) value)
+                ? RippleType.Category.NUMERIC_TYPED_LITERAL : RippleType.Category.OTHER_TYPED_LITERAL)
                 : null == ((Literal) value).getLanguage()
-                ? Type.PLAIN_LITERAL_WITHOUT_LANGUAGE_TAG
-                : Type.PLAIN_LITERAL_WITH_LANGUAGE_TAG)
+                ? RippleType.Category.PLAIN_LITERAL_WITHOUT_LANGUAGE_TAG
+                : RippleType.Category.PLAIN_LITERAL_WITH_LANGUAGE_TAG)
                 : null;
 
     }

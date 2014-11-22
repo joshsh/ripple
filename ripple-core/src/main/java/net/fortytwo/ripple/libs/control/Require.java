@@ -51,7 +51,7 @@ public class Require extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
 
         RippleList stack = arg;
-        RippleValue mapping = stack.getFirst();
+        Object mapping = stack.getFirst();
         final RippleList rest = stack.getRest();
 
         Sink<Operator> opSink = new Sink<Operator>() {
@@ -120,7 +120,7 @@ public class Require extends PrimitiveStackMapping {
                           final Sink<RippleList> solutions,
                           final ModelConnection mc) throws RippleException {
 
-            RippleValue b;
+            Object b;
             RippleList stack = arg;
 
             b = stack.getFirst();

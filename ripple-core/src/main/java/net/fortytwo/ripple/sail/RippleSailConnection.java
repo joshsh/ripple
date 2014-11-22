@@ -234,14 +234,14 @@ public class RippleSailConnection extends SailConnectionWrapper {
                     RippleList stack = iter.next();
 
                     if (inverse) {
-                        Value subj = stack.getFirst().toRDF(modelConnection).sesameValue();
+                        Value subj = modelConnection.toRDF(stack.getFirst()).sesameValue();
                         RippleSesameValue s = (RippleSesameValue) valueFactory.nativize(subj);
                         s.setStack(stack);
 
                         nextStatement = valueFactory.createStatement((Resource) s, predicate, object);
                         //System.out.println("nextStatement(1): " + nextStatement);
                     } else {
-                        RDFValue r = stack.getFirst().toRDF(modelConnection);
+                        RDFValue r = modelConnection.toRDF(stack.getFirst());
                         Value obj;
                         RippleSesameValue o;
                         if (null == r) {

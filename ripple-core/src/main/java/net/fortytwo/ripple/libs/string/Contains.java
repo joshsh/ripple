@@ -46,7 +46,7 @@ public class Contains extends PrimitiveStackMapping {
         String a = mc.toString(stack.getFirst());
         stack = stack.getRest();
 
-        RDFValue result = mc.valueOf(a.contains(b));
+        boolean result = a.contains(b);
 
         solutions.put(
                 stack.push(result));

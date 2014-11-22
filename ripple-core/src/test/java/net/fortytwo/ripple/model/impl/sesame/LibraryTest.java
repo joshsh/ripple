@@ -17,8 +17,8 @@ public class LibraryTest extends RippleTestCase {
         URI dup05 = URI.create("http://fortytwo.net/2007/05/ripple/stack#dup");
         URI dup08 = URI.create("http://fortytwo.net/2007/08/ripple/stack#dup");
 
-        RippleValue dup05Val = mc.canonicalValue(mc.valueOf(dup05));
-        RippleValue dup08Val = mc.canonicalValue(mc.valueOf(dup08));
+        Object dup05Val = mc.canonicalValue(mc.valueOf(dup05));
+        Object dup08Val = mc.canonicalValue(mc.valueOf(dup08));
 
         assertNotNull(dup05Val);
         assertNotNull(dup08Val);

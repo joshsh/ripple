@@ -43,16 +43,16 @@ public class Atan2 extends PrimitiveStackMapping {
 
         double x, y, result;
 
-        x = mc.toNumericValue(stack.getFirst()).doubleValue();
+        x = mc.toNumber(stack.getFirst()).doubleValue();
         stack = stack.getRest();
-        y = mc.toNumericValue(stack.getFirst()).doubleValue();
+        y = mc.toNumber(stack.getFirst()).doubleValue();
         stack = stack.getRest();
 
         if (x != 0 || y != 0) {
             result = Math.atan2(x, y);
 
             solutions.put(
-                    stack.push(mc.valueOf(result)));
+                    stack.push(result));
         }
     }
 

@@ -12,21 +12,21 @@ import java.util.List;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public abstract class RippleList extends ListNode<RippleValue> implements RippleValue {
+public abstract class RippleList<T> extends ListNode<T> {
     // Constants
     private static boolean initialized = false;
 
-    protected RippleValue first;
-    protected final RippleList rest;
+    protected T first;
+    protected final RippleList<T> rest;
 
-    protected RippleList(final RippleValue first,
-                         final RippleList rest) {
+    protected RippleList(final T first,
+                         final RippleList<T> rest) {
         this.first = first;
         this.rest = rest;
     }
 
     @Override
-    public RippleValue getFirst() {
+    public T getFirst() {
         return first;
     }
 
@@ -35,7 +35,7 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
         return rest;
     }
 
-    public abstract void setRDF(final RDFValue id);
+    public abstract void setRDFEquivalent(final RDFValue id);
 
     /**
      * @return the number of items in this list.
@@ -44,7 +44,7 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
     public int length() {
         int l = 0;
 
-        ListNode<RippleValue> cur = this;
+        ListNode<T> cur = this;
         while (!cur.isNil()) {
             l++;
             cur = cur.getRest();
@@ -61,13 +61,13 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
      * @return the corresponding list item
      * @throws RippleException if retrieval from the list fails
      */
-    public RippleValue get(final int i)
+    public T get(final int i)
             throws RippleException {
         if (i < 0) {
             throw new RippleException("list index out of bounds: " + i);
         }
 
-        ListNode<RippleValue> cur = this;
+        ListNode<T> cur = this;
         for (int j = 0; j < i; j++) {
             if (cur.isNil()) {
                 throw new RippleException("list index out of bounds: " + i);
@@ -79,7 +79,7 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
         return cur.getFirst();
     }
 
-    public abstract RippleList push(RippleValue v) throws RippleException;
+    public abstract RippleList push(T v) throws RippleException;
 
     public abstract RippleList invert();
 
@@ -101,13 +101,13 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
 
         StringBuilder sb = new StringBuilder();
 
-        ListNode<RippleValue> cur = this;
+        ListNode<T> cur = this;
 
         sb.append("(");
 
         boolean isFirst = true;
         while (!cur.isNil()) {
-            RippleValue val = cur.getFirst();
+            T val = cur.getFirst();
 
             if (isFirst) {
                 isFirst = false;
@@ -129,20 +129,16 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
         return sb.toString();
     }
 
-    public void printTo(final RipplePrintStream p)
-            throws RippleException {
-        printTo(p, true);
-    }
-
     // Note: assumes diagrammatic order
     public void printTo(final RipplePrintStream p,
+                        final ModelConnection mc,
                         final boolean includeParentheses)
             throws RippleException {
         if (!initialized) {
             initialize();
         }
 
-        ListNode<RippleValue> cur = this;
+        ListNode<T> cur = this;
 
         if (includeParentheses) {
             p.print("(");
@@ -150,7 +146,7 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
 
         boolean isFirst = true;
         while (!cur.isNil()) {
-            RippleValue val = cur.getFirst();
+            T val = cur.getFirst();
 
 
             if (Operator.OP == val) {
@@ -161,7 +157,7 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
 
                 }
 
-                p.print(val);
+                mc.print(val, p);
             }
 
             if (isFirst) {
@@ -179,10 +175,10 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
     /**
      * @return a Java list of the items in this list.  This is purely a convenience method.
      */
-    public List<RippleValue> toJavaList() {
-        LinkedList<RippleValue> javaList = new LinkedList<RippleValue>();
+    public List<T> toJavaList() {
+        LinkedList<T> javaList = new LinkedList<>();
 
-        ListNode<RippleValue> cur = this;
+        ListNode<T> cur = this;
         while (!cur.isNil()) {
             javaList.addLast(cur.getFirst());
             cur = cur.getRest();
@@ -193,8 +189,8 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
 
     public boolean equals(final Object other) {
         if (other instanceof RippleList) {
-            ListNode<RippleValue> cur = this;
-            ListNode<RippleValue> cur2 = (RippleList) other;
+            ListNode<T> cur = this;
+            ListNode<T> cur2 = (RippleList) other;
 
             while (!cur.isNil()) {
                 if (cur2.isNil()) {
@@ -219,7 +215,7 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
         int code = 1320672831;
         int pow = 2;
 
-        ListNode<RippleValue> cur = this;
+        ListNode<T> cur = this;
         while (!cur.isNil()) {
             code += pow * cur.getFirst().hashCode();
             pow *= 2;
@@ -227,9 +223,5 @@ public abstract class RippleList extends ListNode<RippleValue> implements Ripple
         }
 
         return code;
-    }
-
-    public Type getType() {
-        return Type.LIST;
     }
 }

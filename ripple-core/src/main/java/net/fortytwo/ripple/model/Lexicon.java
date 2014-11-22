@@ -61,18 +61,18 @@ public class Lexicon {
     private final Map<String, String> prefixToUri;
     private final Map<String, String> uriToPrefix;
     private final Collection<String> allQNames;
-    private final Map<String, RippleValue> temporaryValues;
+    private final Map<String, Object> temporaryValues;
 
     public Lexicon(final Model model) throws RippleException {
-        prefixToUri = new HashMap<String, String>();
-        uriToPrefix = new HashMap<String, String>();
-        allQNames = new ArrayList<String>();
-        temporaryValues = new HashMap<String, RippleValue>();
+        prefixToUri = new HashMap<>();
+        uriToPrefix = new HashMap<>();
+        allQNames = new ArrayList<>();
+        temporaryValues = new HashMap<>();
 
         ModelConnection mc = model.createConnection();
         try {
-            keywordToUri = new HashMap<String, Set<URI>>();
-            uriToKeyword = new HashMap<URI, String>();
+            keywordToUri = new HashMap<>();
+            uriToKeyword = new HashMap<>();
 
             for (Value key : model.getSpecialValues().keySet()) {
                 if (key instanceof URI) {
@@ -124,7 +124,7 @@ public class Lexicon {
 
     private boolean isPrimaryValue(final Value key,
                                    final ModelConnection mc) throws RippleException {
-        Value mapsTo = mc.canonicalValue(new RDFValue(key)).toRDF(mc).sesameValue();
+        Value mapsTo = mc.toRDF(mc.canonicalValue(new RDFValue(key))).sesameValue();
         return key.equals(mapsTo);
     }
 
@@ -202,7 +202,7 @@ public class Lexicon {
     }
 
     public void resolveKeyword(final String keyword,
-                               final Sink<RippleValue> solutions,
+                               final Sink solutions,
                                final ModelConnection mc,
                                final PrintStream errors)
             throws RippleException {
@@ -212,12 +212,12 @@ public class Lexicon {
         // resolving to the same runtime value more than once (as is the case,
         // for instance, when two or more URIs mapping to a special value have
         // the same local name).
-        Set<RippleValue> values = new HashSet<RippleValue>();
+        Set values = new HashSet<>();
         for (URI u : options) {
             values.add(mc.canonicalValue(new RDFValue(u)));
         }
 
-        RippleValue t = temporaryValues.get(keyword);
+        Object t = temporaryValues.get(keyword);
         if (null != t) {
             values.add(t);
         }
@@ -228,14 +228,14 @@ public class Lexicon {
             errors.println("Warning: keyword '" + keyword + "' is ambiguous\n");
         }
 
-        for (RippleValue v : values) {
+        for (Object v : values) {
             solutions.put(v);
         }
     }
 
     public void uriForQName(final String nsPrefix,
                             final String localName,
-                            final Sink<RippleValue> sink,
+                            final Sink sink,
                             final ModelConnection mc,
                             final PrintStream errors) throws RippleException {
         String ns = getNamespaceUri(nsPrefix);
@@ -334,7 +334,7 @@ public class Lexicon {
     }
 
     public void putTemporaryValue(final String name,
-                                  final RippleValue value) {
+                                  final Object value) {
         temporaryValues.put(name, value);
     }
 }

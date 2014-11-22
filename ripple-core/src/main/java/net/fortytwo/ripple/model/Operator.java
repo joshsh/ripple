@@ -2,7 +2,6 @@ package net.fortytwo.ripple.model;
 
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.io.RipplePrintStream;
 import net.fortytwo.ripple.model.keyval.KeyValueMapping;
 import net.fortytwo.ripple.util.ModelConnectionHelper;
 import org.openrdf.model.Literal;
@@ -13,7 +12,7 @@ import org.openrdf.model.vocabulary.RDF;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class Operator implements RippleValue {
+public class Operator {
     public static final Op OP = new Op();
 
     private static final RDFValue RDF_FIRST = new RDFValue(RDF.FIRST);
@@ -52,26 +51,14 @@ public class Operator implements RippleValue {
         return "Operator(" + mapping + ")";
     }
 
-    public void printTo(final RipplePrintStream p)
-            throws RippleException {
-        p.print("[Operator: ");
-        p.print(mapping);
-        p.print("]");
-    }
-
     public StackMapping getMapping() {
         return mapping;
-    }
-
-    public RDFValue toRDF(final ModelConnection mc)
-            throws RippleException {
-        return null;
     }
 
     /**
      * Finds the type of a value and creates an appropriate "active" wrapper.
      */
-    public static void createOperator(final RippleValue v,
+    public static void createOperator(final Object v,
                                       final Sink<Operator> opSink,
                                       final ModelConnection mc)
             throws RippleException {
@@ -102,7 +89,7 @@ public class Operator implements RippleValue {
                     }
                 };
 
-                mc.toList(v, listSink);
+                mc.toList((RDFValue) v, listSink);
                 return;
             } else {
                 //System.out.println("not a list");
@@ -137,10 +124,6 @@ public class Operator implements RippleValue {
         ModelConnectionHelper h = new ModelConnectionHelper(mc);
         return (v.sesameValue().equals(RDF.NIL)
                 || null != h.findSingleObject(v, RDF_FIRST));
-    }
-
-    public Type getType() {
-        return Type.OPERATOR;
     }
 }
 

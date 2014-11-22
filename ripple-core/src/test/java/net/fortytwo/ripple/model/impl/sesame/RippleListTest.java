@@ -8,7 +8,6 @@ import net.fortytwo.ripple.io.RDFImporter;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.test.RippleTestCase;
 import org.openrdf.model.vocabulary.XMLSchema;
 import org.openrdf.rio.RDFFormat;
@@ -59,12 +58,12 @@ public class RippleListTest extends RippleTestCase {
             }
         };
 
-        RippleValue l1 = mc.valueOf("1", XMLSchema.STRING);
-        RippleValue l2 = mc.valueOf("2", XMLSchema.STRING);
-        RippleValue l1a = mc.valueOf("1a", XMLSchema.STRING);
-        RippleValue l1b = mc.valueOf("1b", XMLSchema.STRING);
-        RippleValue l2a = mc.valueOf("2a", XMLSchema.STRING);
-        RippleValue l2b = mc.valueOf("2b", XMLSchema.STRING);
+        RDFValue l1 = mc.valueOf("1", XMLSchema.STRING);
+        RDFValue l2 = mc.valueOf("2", XMLSchema.STRING);
+        RDFValue l1a = mc.valueOf("1a", XMLSchema.STRING);
+        RDFValue l1b = mc.valueOf("1b", XMLSchema.STRING);
+        RDFValue l2a = mc.valueOf("2a", XMLSchema.STRING);
+        RDFValue l2b = mc.valueOf("2b", XMLSchema.STRING);
 
         head = new RDFValue(createURI("urn:test.RippleListTest.FromRdfTest#simpleList", mc));
         created.clear();
@@ -110,11 +109,11 @@ public class RippleListTest extends RippleTestCase {
 
     public void testListConcatenation() throws Exception {
         ModelConnection mc = getTestModel().createConnection();
-        RippleValue
-                a0 = mc.valueOf(42),
-                a1 = mc.valueOf(137),
-                a2 = mc.valueOf(23),
-                b0 = mc.valueOf(216);
+        Object
+                a0 = 42,
+                a1 = 137,
+                a2 = 23,
+                b0 = 216;
         mc.close();
 
         RippleList
@@ -156,7 +155,7 @@ public class RippleListTest extends RippleTestCase {
 
         lresult = mc.list().concat(mc.list());
         assertEquals(lresult.length(), 0);
-        assertEquals(lresult, mc.list());
+        assertRippleEquals(lresult, mc.list());
     }
 }
 

@@ -2,7 +2,7 @@ package net.fortytwo.ripple.model.impl.sesame;
 
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.NumericValue;
+import net.fortytwo.ripple.model.impl.sesame.types.NumericType;
 import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.util.FileUtils;
 
@@ -20,48 +20,39 @@ public class NumericValueTest extends RippleTestCase {
     public void testValues() throws Exception {
         Model model = getTestModel();
         ModelConnection mc = model.createConnection();
-        NumericValue l;
+        Number l;
 
         // Create an integer literal.
-        l = mc.valueOf(42);
-        assertTrue(l instanceof NumericValue);
-        assertEquals(NumericValue.Type.INTEGER, l.getDatatype());
+        l = 42;
+        assertEquals(NumericType.Datatype.INTEGER, NumericType.datatypeOf(l));
         assertEquals(42, l.intValue());
-        l = mc.valueOf(0);
-        assertTrue(l instanceof NumericValue);
-        assertEquals(NumericValue.Type.INTEGER, l.getDatatype());
+        l = 0;
+        assertEquals(NumericType.Datatype.INTEGER, NumericType.datatypeOf(l));
         assertEquals(0, l.intValue());
-        l = mc.valueOf(-42);
-        assertTrue(l instanceof NumericValue);
-        assertEquals(NumericValue.Type.INTEGER, l.getDatatype());
+        l = -42;
+        assertEquals(NumericType.Datatype.INTEGER, NumericType.datatypeOf(l));
         assertEquals(-42, l.intValue());
 
         // Create a long literal.
-        l = mc.valueOf(42l);
-        assertTrue(l instanceof NumericValue);
-        assertEquals(NumericValue.Type.LONG, l.getDatatype());
+        l = 42;
+        assertEquals(NumericType.Datatype.LONG, NumericType.datatypeOf(l));
         assertEquals(42l, l.longValue());
-        l = mc.valueOf(0l);
-        assertTrue(l instanceof NumericValue);
-        assertEquals(NumericValue.Type.LONG, l.getDatatype());
+        l = 0l;
+        assertEquals(NumericType.Datatype.LONG, NumericType.datatypeOf(l));
         assertEquals(0l, l.longValue());
-        l = mc.valueOf(-42l);
-        assertTrue(l instanceof NumericValue);
-        assertEquals(NumericValue.Type.LONG, l.getDatatype());
+        l = -42l;
+        assertEquals(NumericType.Datatype.LONG, NumericType.datatypeOf(l));
         assertEquals(-42l, l.longValue());
 
         // Create a double literal
-        l = mc.valueOf(42.0);
-        assertTrue(l instanceof NumericValue);
-        assertEquals(NumericValue.Type.DOUBLE, l.getDatatype());
+        l = 42.0;
+        assertEquals(NumericType.Datatype.DOUBLE, NumericType.datatypeOf(l));
         assertEquals(42.0, l.doubleValue());
-        l = mc.valueOf(0.0);
-        assertTrue(l instanceof NumericValue);
-        assertEquals(NumericValue.Type.DOUBLE, l.getDatatype());
+        l = 0.0;
+        assertEquals(NumericType.Datatype.DOUBLE, NumericType.datatypeOf(l));
         assertEquals(0.0, l.doubleValue());
-        l = mc.valueOf(-42.0);
-        assertTrue(l instanceof NumericValue);
-        assertEquals(NumericValue.Type.DOUBLE, l.getDatatype());
+        l = -42.0;
+        assertEquals(NumericType.Datatype.DOUBLE, NumericType.datatypeOf(l));
         assertEquals(-42.0, l.doubleValue());
 
         InputStream is = ModelTest.class.getResourceAsStream("numericLiteralTest.txt");
@@ -84,7 +75,7 @@ public class NumericValueTest extends RippleTestCase {
             String func = tokenizer.nextToken();
             String signature = func + "(";
             int argv = argsForFunc.get(func);
-            NumericValue[] args = new NumericValue[argv];
+            Number[] args = new Number[argv];
             for (int i = 0; i < argv; i++) {
                 String s = tokenizer.nextToken();
                 if (i > 0) {
@@ -98,28 +89,28 @@ public class NumericValueTest extends RippleTestCase {
             // Skip the '=' token
             tokenizer.nextToken();
 
-            NumericValue correctResult = createNumericLiteral(tokenizer.nextToken());
-            NumericValue actualResult = null;
+            Number correctResult = createNumericLiteral(tokenizer.nextToken());
+            Number actualResult = null;
 
             Throwable thrown = null;
 
             try {
                 if (func.equals("abs")) {
-                    actualResult = args[0].abs();
+                    actualResult = NumericType.abs(args[0]);
                 } else if (func.equals("neg")) {
-                    actualResult = args[0].neg();
+                    actualResult = NumericType.neg(args[0]);
                 } else if (func.equals("add")) {
-                    actualResult = args[0].add(args[1]);
+                    actualResult = NumericType.add(args[0], args[1]);
                 } else if (func.equals("sub")) {
-                    actualResult = args[0].sub(args[1]);
+                    actualResult = NumericType.sub(args[0], args[1]);
                 } else if (func.equals("mul")) {
-                    actualResult = args[0].mul(args[1]);
+                    actualResult = NumericType.mul(args[0], args[1]);
                 } else if (func.equals("div")) {
-                    actualResult = args[0].div(args[1]);
+                    actualResult = NumericType.div(args[0], args[1]);
                 } else if (func.equals("mod")) {
-                    actualResult = args[0].mod(args[1]);
+                    actualResult = NumericType.mod(args[0], args[1]);
                 } else if (func.equals("pow")) {
-                    actualResult = args[0].pow(args[1]);
+                    actualResult = NumericType.pow(args[0], args[1]);
                 } else {
                     throw new Exception("bad function: " + func);
                 }
@@ -130,17 +121,17 @@ public class NumericValueTest extends RippleTestCase {
             if (null == thrown) {
                 assertTrue("for case " + signature, null != correctResult);
 
-                switch (correctResult.getDatatype()) {
+                switch (NumericType.datatypeOf(correctResult)) {
                     case INTEGER:
-                        assertEquals("for case " + signature, NumericValue.Type.INTEGER, actualResult.getDatatype());
+                        assertEquals("for case " + signature, NumericType.Datatype.INTEGER, NumericType.datatypeOf(actualResult));
                         assertEquals("for case " + signature, correctResult.intValue(), actualResult.intValue());
                         break;
                     case LONG:
-                        assertEquals("for case " + signature, NumericValue.Type.LONG, actualResult.getDatatype());
+                        assertEquals("for case " + signature, NumericType.Datatype.LONG, NumericType.datatypeOf(actualResult));
                         assertEquals("for case " + signature, correctResult.longValue(), actualResult.longValue());
                         break;
                     case DOUBLE:
-                        assertEquals("for case " + signature, NumericValue.Type.DOUBLE, actualResult.getDatatype());
+                        assertEquals("for case " + signature, NumericType.Datatype.DOUBLE, NumericType.datatypeOf(actualResult));
                         assertEquals("for case " + signature, correctResult.longValue(), actualResult.longValue());
                         break;
                 }
@@ -156,39 +147,36 @@ public class NumericValueTest extends RippleTestCase {
         mc.close();
     }
 
-    private NumericValue createNumericLiteral(final String s) {
-        NumericValue l;
+    private Number createNumericLiteral(final String s) {
+        Number l;
 
         if (s.equals("error")) {
             l = null;
         } else if (s.equals("infinity")) {
-            l = new SesameNumericValue(Double.POSITIVE_INFINITY);
+            l = Double.POSITIVE_INFINITY;
         } else if (s.contains("l")) {
-            l = new SesameNumericValue(new Long(s.substring(0, s.length() - 1)));
+            l = new Long(s.substring(0, s.length() - 1));
         } else if (s.contains(".")) {
-            l = new SesameNumericValue(new Double(s));
+            l = new Double(s);
         } else {
-            l = new SesameNumericValue(new Integer(s));
+            l = new Integer(s);
         }
 
         return l;
     }
 
-    public void testTypes()
-            throws Exception {
-        NumericValue
-                intLit = new SesameNumericValue(5),
-                doubleLit = new SesameNumericValue(3.1415926);
+    public void testTypes() throws Exception {
+        Number
+                intLit = 5,
+                doubleLit = 3.1415926;
 
-        assertEquals(intLit.getDatatype(), NumericValue.Type.INTEGER);
-        assertEquals(doubleLit.getDatatype(), NumericValue.Type.DOUBLE);
+        assertEquals(NumericType.Datatype.INTEGER, NumericType.datatypeOf(intLit));
+        assertEquals(NumericType.Datatype.DOUBLE, NumericType.datatypeOf(doubleLit));
 
-        assertEquals(
-                intLit.abs().getDatatype(),
-                NumericValue.Type.INTEGER);
-        assertEquals(
-                doubleLit.abs().getDatatype(),
-                NumericValue.Type.DOUBLE);
+        assertEquals(NumericType.Datatype.INTEGER,
+                NumericType.datatypeOf(NumericType.abs(intLit)));
+        assertEquals(NumericType.Datatype.DOUBLE,
+                NumericType.datatypeOf(NumericType.abs(doubleLit)));
 
         /*
         assertEquals(
@@ -277,6 +265,7 @@ public class NumericValueTest extends RippleTestCase {
             NumericLiteral.NumericLiteralType.DOUBLE ); */
     }
 
+    /*
     public void testEquality()
             throws Exception {
         // int == int
@@ -310,5 +299,6 @@ public class NumericValueTest extends RippleTestCase {
         assertEquals(new SesameNumericValue(new BigDecimal(1.0)), new SesameNumericValue(1l));
         assertEquals(new SesameNumericValue(new BigDecimal(1.0)), new SesameNumericValue(1.0));
     }
+    */
 }
 

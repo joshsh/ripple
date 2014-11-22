@@ -59,7 +59,7 @@ public class Script extends PrimitiveStackMapping {
         if (null == w) {
             java.lang.System.err.println("no such script engine: " + name);
         } else {
-            RippleValue result = w.evaluate(script, mc);
+            Object result = w.evaluate(script, mc);
 
             if (null != result) {
                 solutions.put(stack.push(result));

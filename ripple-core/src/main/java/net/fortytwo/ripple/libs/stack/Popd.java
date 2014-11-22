@@ -42,7 +42,7 @@ public class Popd extends PrimitiveStackMapping {
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
-        RippleValue y;
+        Object y;
 
         y = stack.getFirst();
         stack = stack.getRest();

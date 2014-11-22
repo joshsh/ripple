@@ -55,14 +55,14 @@ public class ToDouble extends PrimitiveStackMapping {
         double d;
 
         try {
-            d = new Double(s).doubleValue();
+            d = new Double(s);
         } catch (NumberFormatException e) {
             logger.fine("bad integer value: " + s);
             return;
         }
 
         solutions.put(
-                stack.push(mc.valueOf(d)));
+                stack.push(d));
     }
 }
 

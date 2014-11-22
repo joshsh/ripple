@@ -46,9 +46,9 @@ public class TimesApply extends PrimitiveStackMapping {
 
         final int times;
 
-        times = mc.toNumericValue(stack.getFirst()).intValue();
+        times = mc.toNumber(stack.getFirst()).intValue();
         stack = stack.getRest();
-        RippleValue p = stack.getFirst();
+        Object p = stack.getFirst();
         final RippleList rest = stack.getRest();
 
         Sink<Operator> opSink = new Sink<Operator>() {

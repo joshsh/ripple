@@ -7,7 +7,6 @@ import net.fortytwo.ripple.libs.system.SystemLibrary;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RippleValue;
 
 /**
  * User: josh
@@ -30,27 +29,27 @@ public class BlueprintsLibrary extends Library {
         SystemLibrary.registerScriptEngine("gremlin", new GremlinWrapper());
     }
 
-    public static RippleValue createRippleValue(final Object tinker,
-                                                final ModelConnection mc) throws RippleException {
+    public static Object createRippleValue(final Object tinker,
+                                           final ModelConnection mc) throws RippleException {
         if (tinker instanceof Vertex) {
             return new VertexValue((Vertex) tinker);
         } else if (tinker instanceof Edge) {
             return new EdgeValue((Edge) tinker);
         } else if (tinker instanceof String) {
-            return mc.valueOf((String) tinker);
+            return tinker;
         } else if (tinker instanceof Double) {
-            return mc.valueOf((Double) tinker);
+            return tinker;
         } else if (tinker instanceof Integer) {
-            return mc.valueOf((Integer) tinker);
+            return tinker;
         } else if (tinker instanceof Long) {
-            return mc.valueOf((Long) tinker);
+            return tinker;
         } else if (tinker instanceof Boolean) {
-            return mc.valueOf((Boolean) tinker);
+            return tinker;
         } else if (tinker instanceof Float) {
             // Cheat and call it a double.
-            return mc.valueOf(Double.valueOf((Float) tinker));
+            return Double.valueOf((Float) tinker);
         } else {
-            return mc.valueOf("[" + tinker.toString() + " (" + tinker.getClass() + ")]");
+            return "[" + tinker.toString() + " (" + tinker.getClass() + ")]";
         }
     }
 }

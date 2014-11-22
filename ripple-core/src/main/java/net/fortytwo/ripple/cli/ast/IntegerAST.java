@@ -2,7 +2,6 @@ package net.fortytwo.ripple.cli.ast;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.NumericValue;
 
 import java.math.BigInteger;
 import java.util.regex.Pattern;
@@ -40,10 +39,10 @@ public class IntegerAST extends NumberAST {
         value = new BigInteger(canonicalize(rep));
     }
 
-    public NumericValue getValue(final ModelConnection mc) throws RippleException {
+    public Number getValue(final ModelConnection mc) throws RippleException {
         // FIXME: xsd:integer values are constrained to the precision of Java
         // int's, whereas they are supposed to have arbitrary precision.
-        return mc.valueOf(value.intValue());
+        return value.intValue();
     }
 
     public String toString() {

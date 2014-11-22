@@ -50,9 +50,9 @@ public class InContext extends RDFPredicateStackMapping {
 
         RippleList stack = arg;
 
-        RDFValue context = stack.getFirst().toRDF(mc);
+        RDFValue context = mc.toRDF(stack.getFirst());
         stack = stack.getRest();
-        RDFValue pred = stack.getFirst().toRDF(mc);
+        RDFValue pred = mc.toRDF(stack.getFirst());
         stack = stack.getRest();
 
         RDFPredicateMapping mapping = getMapping(pred, context);

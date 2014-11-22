@@ -3,7 +3,6 @@ package net.fortytwo.ripple.libs.math;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackMapping;
@@ -43,12 +42,12 @@ public class Exp extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
 
-        NumericValue a, result;
+        Number a, result;
 
-        a = mc.toNumericValue(stack.getFirst());
+        a = mc.toNumber(stack.getFirst());
         stack = stack.getRest();
 
-        result = mc.valueOf(Math.exp(a.doubleValue()));
+        result = Math.exp(a.doubleValue());
 
         solutions.put(
                 stack.push(result));
