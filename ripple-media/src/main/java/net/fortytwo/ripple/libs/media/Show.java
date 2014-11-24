@@ -5,11 +5,11 @@ import net.fortytwo.flow.rdf.HTTPUtils;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.openrdf.model.Value;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -19,11 +19,15 @@ import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Show extends PrimitiveStackMapping {
+    private static final Logger logger = Logger.getLogger(Show.class.getName());
+
     private static final String[] MIME_TYPES = ImageIO.getReaderMIMETypes();
 
     private static final String[] IDENTIFIERS = {
@@ -53,7 +57,7 @@ public class Show extends PrimitiveStackMapping {
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
 
-        RDFValue uri = mc.valueOf(URI.create(mc.toString(arg.getFirst())));
+        Value uri = mc.valueOf(URI.create(mc.toString(arg.getFirst())));
         //stack = stack.getRest();
 
         ImagePanel panel;
@@ -72,7 +76,7 @@ public class Show extends PrimitiveStackMapping {
             f.setBounds(0, 0, width, height);
             f.setVisible(true);
         } catch (RippleException e) {
-            e.logError();
+            logger.log(Level.WARNING, "error while showing graphics", e);
         }
 
         // Pass the stack along, unaltered.
@@ -86,7 +90,7 @@ public class Show extends PrimitiveStackMapping {
         //image object
         public Image img;
 
-        public ImagePanel(final RDFValue uri) throws RippleException {
+        public ImagePanel(final Value uri) throws RippleException {
             HttpGet method = HTTPUtils.createRdfGetMethod(uri.toString());
             HTTPUtils.setAcceptHeader(method, MIME_TYPES);
             HTTPUtils.throttleHttpRequest(method);

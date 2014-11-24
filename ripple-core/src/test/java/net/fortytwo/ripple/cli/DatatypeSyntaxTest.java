@@ -22,7 +22,7 @@ public class DatatypeSyntaxTest extends RippleTestCase {
         assertEquals(1, results.size());
         stack = results.iterator().next();
         assertEquals(1, stack.length());
-        l = (Literal) mc.toRDF(stack.getFirst()).sesameValue();
+        l = (Literal) mc.toRDF(stack.getFirst());
         assertEquals("true", l.getLabel());
         assertEquals(XMLSchema.BOOLEAN, l.getDatatype());
 
@@ -30,7 +30,7 @@ public class DatatypeSyntaxTest extends RippleTestCase {
         assertEquals(1, results.size());
         stack = results.iterator().next();
         assertEquals(1, stack.length());
-        l = (Literal) mc.toRDF(stack.getFirst()).sesameValue();
+        l = (Literal) mc.toRDF(stack.getFirst());
         assertEquals("false", l.getLabel());
         assertEquals(XMLSchema.BOOLEAN, l.getDatatype());
 
@@ -47,7 +47,7 @@ public class DatatypeSyntaxTest extends RippleTestCase {
         assertEquals(1, results.size());
         stack = results.iterator().next();
         assertEquals(1, stack.length());
-        l = (Literal) mc.toRDF(stack.getFirst()).sesameValue();
+        l = (Literal) mc.toRDF(stack.getFirst());
         assertEquals("0", l.getLabel());
         assertEquals(XMLSchema.INTEGER, l.getDatatype());
 
@@ -55,7 +55,7 @@ public class DatatypeSyntaxTest extends RippleTestCase {
         assertEquals(1, results.size());
         stack = results.iterator().next();
         assertEquals(1, stack.length());
-        l = (Literal) mc.toRDF(stack.getFirst()).sesameValue();
+        l = (Literal) mc.toRDF(stack.getFirst());
         assertEquals("10", l.getLabel());
         assertEquals(XMLSchema.INTEGER, l.getDatatype());
 
@@ -64,7 +64,7 @@ public class DatatypeSyntaxTest extends RippleTestCase {
         assertEquals(1, results.size());
         stack = results.iterator().next();
         assertEquals(1, stack.length());
-        l = (Literal) mc.toRDF(stack.getFirst()).sesameValue();
+        l = (Literal) mc.toRDF(stack.getFirst());
         assertEquals("-5", l.getLabel());
         assertEquals(XMLSchema.INTEGER, l.getDatatype());
 
@@ -73,7 +73,7 @@ public class DatatypeSyntaxTest extends RippleTestCase {
         assertEquals(1, results.size());
         stack = results.iterator().next();
         assertEquals(1, stack.length());
-        l = (Literal) mc.toRDF(stack.getFirst()).sesameValue();
+        l = (Literal) mc.toRDF(stack.getFirst());
         assertEquals("1", l.getLabel());
         assertEquals(XMLSchema.INTEGER, l.getDatatype());
 
@@ -82,7 +82,7 @@ public class DatatypeSyntaxTest extends RippleTestCase {
         assertEquals(1, results.size());
         stack = results.iterator().next();
         assertEquals(1, stack.length());
-        l = (Literal) mc.toRDF(stack.getFirst()).sesameValue();
+        l = (Literal) mc.toRDF(stack.getFirst());
         assertEquals("42", l.getLabel());
         assertEquals(XMLSchema.INTEGER, l.getDatatype());
 
@@ -99,7 +99,7 @@ public class DatatypeSyntaxTest extends RippleTestCase {
         assertEquals(1, results.size());
         stack = results.iterator().next();
         assertEquals(1, stack.length());
-        l = (Literal) mc.toRDF(stack.getFirst()).sesameValue();
+        l = (Literal) mc.toRDF(stack.getFirst());
         assertEquals("0.0", l.getLabel());
         assertEquals(XMLSchema.DOUBLE, l.getDatatype());
 
@@ -108,7 +108,7 @@ public class DatatypeSyntaxTest extends RippleTestCase {
         assertEquals(1, results.size());
         stack = results.iterator().next();
         assertEquals(1, stack.length());
-        l = (Literal) mc.toRDF(stack.getFirst()).sesameValue();
+        l = (Literal) mc.toRDF(stack.getFirst());
         assertEquals("0.1", l.getLabel());
         assertEquals(XMLSchema.DOUBLE, l.getDatatype());
 
@@ -117,7 +117,7 @@ public class DatatypeSyntaxTest extends RippleTestCase {
         assertEquals(1, results.size());
         stack = results.iterator().next();
         assertEquals(1, stack.length());
-        l = (Literal) mc.toRDF(stack.getFirst()).sesameValue();
+        l = (Literal) mc.toRDF(stack.getFirst());
         assertEquals("1010.0", l.getLabel());
         assertEquals(XMLSchema.DOUBLE, l.getDatatype());
 
@@ -127,7 +127,7 @@ public class DatatypeSyntaxTest extends RippleTestCase {
         assertEquals(1, results.size());
         stack = results.iterator().next();
         assertEquals(1, stack.length());
-        l = (Literal) mc.toRDF(stack.getFirst()).sesameValue();
+        l = (Literal) mc.toRDF(stack.getFirst());
         assertEquals("0.0", l.getLabel());
         assertEquals(XMLSchema.DOUBLE, l.getDatatype());
 
@@ -136,7 +136,7 @@ public class DatatypeSyntaxTest extends RippleTestCase {
         assertEquals(1, results.size());
         stack = results.iterator().next();
         assertEquals(1, stack.length());
-        l = (Literal) mc.toRDF(stack.getFirst()).sesameValue();
+        l = (Literal) mc.toRDF(stack.getFirst());
         assertEquals("-5.0E11", l.getLabel());
         assertEquals(XMLSchema.DOUBLE, l.getDatatype());
 
@@ -145,7 +145,7 @@ public class DatatypeSyntaxTest extends RippleTestCase {
         assertEquals(1, results.size());
         stack = results.iterator().next();
         assertEquals(1, stack.length());
-        l = (Literal) mc.toRDF(stack.getFirst()).sesameValue();
+        l = (Literal) mc.toRDF(stack.getFirst());
         assertEquals("12.0", l.getLabel());
         assertEquals(XMLSchema.DOUBLE, l.getDatatype());
 
@@ -154,7 +154,7 @@ public class DatatypeSyntaxTest extends RippleTestCase {
         assertEquals(1, results.size());
         stack = results.iterator().next();
         assertEquals(1, stack.length());
-        l = (Literal) mc.toRDF(stack.getFirst()).sesameValue();
+        l = (Literal) mc.toRDF(stack.getFirst());
         assertEquals("4.2E100", l.getLabel());
         assertEquals(XMLSchema.DOUBLE, l.getDatatype());
 
@@ -171,7 +171,7 @@ public class DatatypeSyntaxTest extends RippleTestCase {
         assertEquals(1, results.size());
         stack = results.iterator().next();
         assertEquals(1, stack.length());
-        l = (Literal) mc.toRDF(stack.getFirst()).sesameValue();
+        l = (Literal) mc.toRDF(stack.getFirst());
         assertEquals("0.0", l.getLabel());
         assertEquals(XMLSchema.DECIMAL, l.getDatatype());
 
@@ -179,7 +179,7 @@ public class DatatypeSyntaxTest extends RippleTestCase {
         assertEquals(1, results.size());
         stack = results.iterator().next();
         assertEquals(1, stack.length());
-        l = (Literal) mc.toRDF(stack.getFirst()).sesameValue();
+        l = (Literal) mc.toRDF(stack.getFirst());
         assertEquals("10.1", l.getLabel());
         assertEquals(XMLSchema.DECIMAL, l.getDatatype());
 
@@ -189,7 +189,7 @@ public class DatatypeSyntaxTest extends RippleTestCase {
         assertEquals(1, results.size());
         stack = results.iterator().next();
         assertEquals(1, stack.length());
-        l = (Literal) mc.toRDF(stack.getFirst()).sesameValue();
+        l = (Literal) mc.toRDF(stack.getFirst());
         assertEquals("0.00", l.getLabel());
         assertEquals(XMLSchema.DECIMAL, l.getDatatype());
 
@@ -198,7 +198,7 @@ public class DatatypeSyntaxTest extends RippleTestCase {
         assertEquals(1, results.size());
         stack = results.iterator().next();
         assertEquals(1, stack.length());
-        l = (Literal) mc.toRDF(stack.getFirst()).sesameValue();
+        l = (Literal) mc.toRDF(stack.getFirst());
         assertEquals("-5.1", l.getLabel());
         assertEquals(XMLSchema.DECIMAL, l.getDatatype());
 
@@ -207,7 +207,7 @@ public class DatatypeSyntaxTest extends RippleTestCase {
         assertEquals(1, results.size());
         stack = results.iterator().next();
         assertEquals(1, stack.length());
-        l = (Literal) mc.toRDF(stack.getFirst()).sesameValue();
+        l = (Literal) mc.toRDF(stack.getFirst());
         assertEquals("1.2", l.getLabel());
         assertEquals(XMLSchema.DECIMAL, l.getDatatype());
 
@@ -216,7 +216,7 @@ public class DatatypeSyntaxTest extends RippleTestCase {
         assertEquals(1, results.size());
         stack = results.iterator().next();
         assertEquals(1, stack.length());
-        l = (Literal) mc.toRDF(stack.getFirst()).sesameValue();
+        l = (Literal) mc.toRDF(stack.getFirst());
         assertEquals("42.09", l.getLabel());
         assertEquals(XMLSchema.DECIMAL, l.getDatatype());
 

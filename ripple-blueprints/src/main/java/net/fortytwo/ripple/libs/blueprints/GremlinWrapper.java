@@ -16,6 +16,6 @@ public class GremlinWrapper extends ScriptEngineWrapper {
     @Override
     protected Object nativize(final Object externalObject,
                               final ModelConnection mc) throws RippleException {
-        return BlueprintsLibrary.createRippleValue(externalObject, mc);
+        return BlueprintsLibrary.toRipple(externalObject, mc);
     }
 }

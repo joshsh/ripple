@@ -2,12 +2,11 @@ package net.fortytwo.ripple.model.impl.sesame;
 
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.impl.sesame.types.NumericType;
+import net.fortytwo.ripple.model.types.NumericType;
 import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.util.FileUtils;
 
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -34,7 +33,7 @@ public class NumericValueTest extends RippleTestCase {
         assertEquals(-42, l.intValue());
 
         // Create a long literal.
-        l = 42;
+        l = 42L;
         assertEquals(NumericType.Datatype.LONG, NumericType.datatypeOf(l));
         assertEquals(42l, l.longValue());
         l = 0l;

@@ -8,7 +8,6 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 
 /**
  * A primitive which consumes a Boolean value b, a filter t, and a filter f,

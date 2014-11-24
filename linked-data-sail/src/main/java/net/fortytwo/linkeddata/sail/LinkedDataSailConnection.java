@@ -23,12 +23,17 @@ import org.openrdf.sail.SailException;
 import org.openrdf.sail.helpers.NotifyingSailConnectionBase;
 import org.openrdf.sail.helpers.SailBase;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * A connection to a LinkedDataSail
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
+
+    private static final Logger logger = Logger.getLogger(LinkedDataSailConnection.class.getName());
 
     private final ValueFactory valueFactory;
     private final LinkedDataCache linkedDataCache;
@@ -163,7 +168,7 @@ public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
         try {
             linkedDataCache.retrieveUri(uri, baseConnection);
         } catch (RippleException e) {
-            e.logError();
+            logger.log(Level.SEVERE, "failed to retrieve URI", e);
         }
     }
 

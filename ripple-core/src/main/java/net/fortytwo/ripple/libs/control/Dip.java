@@ -7,7 +7,6 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 
 /**
  * A primitive which activates the second-to-topmost item on the stack.

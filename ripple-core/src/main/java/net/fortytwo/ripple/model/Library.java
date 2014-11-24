@@ -1,7 +1,7 @@
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.model.impl.sesame.types.PrimitiveStackMappingType;
+import net.fortytwo.ripple.model.types.PrimitiveStackMappingType;
 
 import java.net.URI;
 
@@ -41,12 +41,12 @@ public abstract class Library {
         mc.getModel().register(type);
 
         // Add the primitive's stated URI to the map.
-        context.addPrimaryValue(mc.toRDF(prim).sesameValue(), prim);
+        context.addPrimaryValue(mc.toRDF(prim), prim);
 
         // Add all stated aliases (but no aliases of aliases) to the map.
         String[] identifiers = prim.getIdentifiers();
         for (int i = 1; i < identifiers.length; i++) {
-            context.addAlias(mc.valueOf(URI.create(identifiers[i])).sesameValue(), prim);
+            context.addAlias(mc.valueOf(URI.create(identifiers[i])), prim);
         }
 
         return prim;

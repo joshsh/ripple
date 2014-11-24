@@ -8,10 +8,15 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Speak extends PrimitiveStackMapping {
+    private static final Logger logger = Logger.getLogger(Speak.class.getName());
+
     private Voice singleVoice;
 
     private static final String[] IDENTIFIERS = {
@@ -47,8 +52,7 @@ public class Speak extends PrimitiveStackMapping {
         try {
             speak(s);
         } catch (RippleException e) {
-            System.out.println("error: " + e);
-            e.logError();
+            logger.log(Level.WARNING, "error while speaking text", e);
         }
 
         // Pass the stack along, unaltered.

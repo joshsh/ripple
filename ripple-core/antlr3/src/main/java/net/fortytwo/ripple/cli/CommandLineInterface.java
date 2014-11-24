@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * A command-line interpreter/browser which coordinates user interaction with a Ripple query engine.
@@ -221,8 +222,7 @@ public class CommandLineInterface {
                 throw new RippleException(t);
             }
         } catch (RippleException e) {
-            e.logError();
-            logger.error("failed to update completors");
+            logger.log(Level.SEVERE, "failed to update completors", e);
         }
     }
 

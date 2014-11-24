@@ -5,8 +5,10 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.keyval.KeyValueValue;
+import net.fortytwo.ripple.model.RippleType;
+import net.fortytwo.ripple.model.types.KeyValueType;
+
+import java.util.Collection;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -38,8 +40,10 @@ public class Keys extends PrimitiveStackMapping {
         Object first = stack.getFirst();
         stack = stack.getRest();
 
-        if (first instanceof KeyValueValue) {
-            for (String key : ((KeyValueValue) first).getKeys()) {
+        RippleType t = mc.getModel().getTypeOf(first);
+        if (t instanceof KeyValueType) {
+            Collection<String> keys = ((KeyValueType) t).getKeys(first);
+            for (String key : keys) {
                 solutions.put(stack.push(key));
             }
         }

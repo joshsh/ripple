@@ -26,6 +26,7 @@ import net.fortytwo.ripple.query.commands.DefineKeywordCmd;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -214,8 +215,7 @@ public class RippleCommandLine {
                 throw new RippleException(t);
             }
         } catch (RippleException e) {
-            e.logError();
-            logger.severe("failed to update completors");
+            logger.log(Level.SEVERE, "failed to update completors", e);
         }
     }
 

@@ -31,8 +31,8 @@ public class SpecialValueMap {
      * value.  If there is no such data structure, the value itself.  This
      * method will never return <code>null</code>.
      */
-    public Object get(final RDFValue rdf) {
-        Object rpl = rdfToNativeMap.get(rdf.sesameValue());
+    public Object get(final Value rdf) {
+        Object rpl = rdfToNativeMap.get(rdf);
 
         if (null == rpl) {
             rpl = rdf;
@@ -60,7 +60,7 @@ public class SpecialValueMap {
      */
     public void add(final Object v, final ModelConnection mc)
             throws RippleException {
-        rdfToNativeMap.put(mc.toRDF(v).sesameValue(), v);
+        rdfToNativeMap.put(mc.toRDF(v), v);
     }
 
     /**

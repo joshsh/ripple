@@ -5,22 +5,26 @@ import net.fortytwo.flow.rdf.HTTPUtils;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.openrdf.model.Value;
 
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Sequencer;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Play extends PrimitiveStackMapping {
+    private static final Logger logger = Logger.getLogger(Play.class.getName());
+
     private static final String[] IDENTIFIERS = {
             MediaLibrary.NS_2013_03 + "play",
             MediaLibrary.NS_2008_08 + "play",
@@ -48,21 +52,20 @@ public class Play extends PrimitiveStackMapping {
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
 
-        RDFValue uri = mc.valueOf(URI.create(mc.toString(arg.getFirst())));
+        Value uri = mc.valueOf(URI.create(mc.toString(arg.getFirst())));
         //stack = stack.getRest();
 
         try {
             play(uri);
         } catch (RippleException e) {
-            System.out.println("error: " + e);
-            e.logError();
+            logger.log(Level.WARNING, "error while playing MIDI", e);
         }
 
         // Pass the stack along, unaltered.
         solutions.put(arg);
     }
 
-    private void play(final RDFValue uri) throws RippleException {
+    private void play(final Value uri) throws RippleException {
         String[] mimeTypes = {"audio/midi"};
         HttpGet method = HTTPUtils.createRdfGetMethod(uri.toString());
         HTTPUtils.setAcceptHeader(method, mimeTypes);

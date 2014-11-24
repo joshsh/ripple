@@ -6,7 +6,6 @@ import net.fortytwo.ripple.libs.stack.StackLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackMapping;
 
 /**

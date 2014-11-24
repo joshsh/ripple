@@ -5,9 +5,9 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.RDFPredicateMapping;
-import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackMapping;
+import org.openrdf.model.Value;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -50,9 +50,9 @@ public class InContext extends RDFPredicateStackMapping {
 
         RippleList stack = arg;
 
-        RDFValue context = mc.toRDF(stack.getFirst());
+        Value context = mc.toRDF(stack.getFirst());
         stack = stack.getRest();
-        RDFValue pred = mc.toRDF(stack.getFirst());
+        Value pred = mc.toRDF(stack.getFirst());
         stack = stack.getRest();
 
         RDFPredicateMapping mapping = getMapping(pred, context);

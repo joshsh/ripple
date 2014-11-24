@@ -17,9 +17,9 @@ public class GtTest extends RippleTestCase {
 
     public void testSpecialValues() throws Exception {
         assertReducesTo("\"NaN\"^^xsd:double \"NaN\"^^xsd:double gt.", "false");
-        assertReducesTo("\"NaN\"^^xsd:double \"INF\"^^xsd:double gt.", "false");
-        assertReducesTo("\"NaN\"^^xsd:double \"-INF\"^^xsd:double gt.", "false");
-        assertReducesTo("\"NaN\"^^xsd:double 4 gt.", "false");
+        assertReducesTo("\"NaN\"^^xsd:double \"INF\"^^xsd:double gt.", "true");
+        assertReducesTo("\"NaN\"^^xsd:double \"-INF\"^^xsd:double gt.", "true");
+        assertReducesTo("\"NaN\"^^xsd:double 4 gt.", "true");
 
         assertReducesTo("\"INF\"^^xsd:double \"NaN\"^^xsd:double gt.", "false");
         assertReducesTo("\"INF\"^^xsd:double \"INF\"^^xsd:double gt.", "false");

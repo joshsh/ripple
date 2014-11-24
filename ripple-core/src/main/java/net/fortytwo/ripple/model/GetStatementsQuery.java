@@ -89,18 +89,18 @@ public class GetStatementsQuery {
     }
 
     private URI getURI(final Object rv, final ModelConnection mc) throws RippleException, ClassCastException {
-        return (URI) mc.toRDF(rv).sesameValue();
+        return (URI) mc.toRDF(rv);
     }
 
     private Resource getResource(final Object rv, final ModelConnection mc)
             throws RippleException, ClassCastException {
 
-        RDFValue v = mc.toRDF(rv);
-        return null == v ? null : (Resource) v.sesameValue();
+        Value v = mc.toRDF(rv);
+        return null == v ? null : (Resource) v;
     }
 
     private Value getValue(final Object rv, final ModelConnection mc) throws RippleException {
-        return mc.toRDF(rv).sesameValue();
+        return mc.toRDF(rv);
     }
 
     public void getStatements(final SailConnection sc, final Sink<Statement> results) throws RippleException {

@@ -1,7 +1,6 @@
 package net.fortytwo.ripple.libs.math;
 
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.test.RippleTestCase;
 
 import java.util.Collection;

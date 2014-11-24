@@ -21,17 +21,17 @@ public class LtTest extends RippleTestCase {
         assertReducesTo("\"NaN\"^^xsd:double \"-INF\"^^xsd:double lt.", "false");
         assertReducesTo("\"NaN\"^^xsd:double 4 lt.", "false");
 
-        assertReducesTo("\"INF\"^^xsd:double \"NaN\"^^xsd:double lt.", "false");
+        assertReducesTo("\"INF\"^^xsd:double \"NaN\"^^xsd:double lt.", "true");
         assertReducesTo("\"INF\"^^xsd:double \"INF\"^^xsd:double lt.", "false");
         assertReducesTo("\"INF\"^^xsd:double \"-INF\"^^xsd:double lt.", "false");
         assertReducesTo("\"INF\"^^xsd:double 4 lt.", "false");
 
-        assertReducesTo("\"-INF\"^^xsd:double \"NaN\"^^xsd:double lt.", "false");
+        assertReducesTo("\"-INF\"^^xsd:double \"NaN\"^^xsd:double lt.", "true");
         assertReducesTo("\"-INF\"^^xsd:double \"INF\"^^xsd:double lt.", "true");
         assertReducesTo("\"-INF\"^^xsd:double \"-INF\"^^xsd:double lt.", "false");
         assertReducesTo("\"-INF\"^^xsd:double 4 lt.", "true");
 
-        assertReducesTo("4 \"NaN\"^^xsd:double lt.", "false");
+        assertReducesTo("4 \"NaN\"^^xsd:double lt.", "true");
         assertReducesTo("4 \"INF\"^^xsd:double lt.", "true");
         assertReducesTo("4 \"-INF\"^^xsd:double lt.", "false");
         assertReducesTo("4 4 lt.", "false");

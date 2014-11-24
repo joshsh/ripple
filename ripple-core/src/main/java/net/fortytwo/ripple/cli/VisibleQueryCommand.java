@@ -12,9 +12,7 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.cli.ast.ListAST;
 import net.fortytwo.ripple.control.TaskSet;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
@@ -27,7 +25,6 @@ import org.openrdf.model.vocabulary.RDF;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class VisibleQueryCommand extends Command {
-    private static RDFValue RDF_FIRST = new RDFValue(RDF.FIRST);
 
     private final ListAST query;
     private final HistorySink<RippleList> resultHistory;
@@ -108,7 +105,7 @@ public class VisibleQueryCommand extends Command {
             throws RippleException {
         try {
             if (null != mc.toRDF(v)) {
-                StatementPatternQuery query = new StatementPatternQuery(v, RDF_FIRST, null);
+                StatementPatternQuery query = new StatementPatternQuery(v, RDF.FIRST, null);
                 mc.query(query, new NullSink<>(), false);
             }
         } catch (RippleException e) {

@@ -3,25 +3,30 @@ package net.fortytwo.ripple.model;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
+import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.RDF;
 
 import java.net.URI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RDFPredicateMapping implements StackMapping {
+    private static final Logger logger = Logger.getLogger(RDFPredicateMapping.class.getName());
+
     private static final int ARITY = 1;
 
     // Note: only the types SP_O and OP_S are supported for now
     private final StatementPatternQuery.Pattern type;
 
-    private final RDFValue predicate;
-    private final RDFValue context;
+    private final Value predicate;
+    private final Value context;
 
     public RDFPredicateMapping(final StatementPatternQuery.Pattern type,
-                               final RDFValue pred,
-                               final RDFValue context) {
+                               final Value pred,
+                               final Value context) {
         this.type = type;
         this.predicate = pred;
         this.context = context;
@@ -40,14 +45,14 @@ public class RDFPredicateMapping implements StackMapping {
                                             final Sink<RippleList> solutions,
                                             final ModelConnection mc) throws RippleException {
         if (subject instanceof RippleList) {
-            if (predicate.sesameValue().equals(RDF.TYPE)) {
+            if (predicate.equals(RDF.TYPE)) {
                 solutions.put(rest.push(mc.valueOf(URI.create(RDF.LIST.toString()))));
             } else if (!((RippleList) subject).isNil()) {
                 //System.out.println("" + subject + " " + predicate);
-                if (predicate.sesameValue().equals(RDF.FIRST)) {
+                if (predicate.equals(RDF.FIRST)) {
                     Object f = ((RippleList) subject).getFirst();
                     solutions.put(rest.push(f));
-                } else if (predicate.sesameValue().equals(RDF.REST)) {
+                } else if (predicate.equals(RDF.REST)) {
                     RippleList r = ((RippleList) subject).getRest();
                     solutions.put(rest.push(r));
                 }
@@ -126,7 +131,7 @@ public class RDFPredicateMapping implements StackMapping {
                 sink.put(arg.getRest().push(v));
             } catch (RippleException e) {
                 // Soft fail
-                e.logError();
+                logger.log(Level.WARNING, "failed to put solution", e);
             }
         }
     }

@@ -3,9 +3,9 @@ package net.fortytwo.ripple.libs.graph;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RDFPredicateMapping;
-import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.StackMapping;
 import net.fortytwo.ripple.model.StatementPatternQuery;
+import org.openrdf.model.Value;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -25,8 +25,8 @@ public abstract class RDFPredicateStackMapping extends PrimitiveStackMapping {
         return inverse;
     }
 
-    protected RDFPredicateMapping getMapping(final RDFValue predicate,
-                                             final RDFValue context)
+    protected RDFPredicateMapping getMapping(final Value predicate,
+                                             final Value context)
             throws RippleException {
         StatementPatternQuery.Pattern type = inverted
                 ? StatementPatternQuery.Pattern.PO_S

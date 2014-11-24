@@ -2,7 +2,6 @@ package net.fortytwo.ripple.model.impl.sesame;
 
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.test.RippleTestCase;
 
 import java.net.URI;

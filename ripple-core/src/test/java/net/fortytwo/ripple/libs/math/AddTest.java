@@ -19,7 +19,7 @@ public class AddTest extends RippleTestCase {
         assertReducesTo("\"NaN\"^^xsd:double \"NaN\"^^xsd:double add.", "\"NaN\"^^xsd:double");
         assertReducesTo("\"NaN\"^^xsd:double \"INF\"^^xsd:double add.", "\"NaN\"^^xsd:double");
         assertReducesTo("\"NaN\"^^xsd:double \"-INF\"^^xsd:double add.", "\"NaN\"^^xsd:double");
-        assertReducesTo("\"NaN\"^^xsd:double 4 add.", "8");
+        assertReducesTo("\"NaN\"^^xsd:double 4 add.", "\"NaN\"^^xsd:double");
 
         assertReducesTo("\"INF\"^^xsd:double \"NaN\"^^xsd:double add.", "\"NaN\"^^xsd:double");
         assertReducesTo("\"INF\"^^xsd:double \"INF\"^^xsd:double add.", "\"INF\"^^xsd:double");

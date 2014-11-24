@@ -6,7 +6,7 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackMapping;
-import net.fortytwo.ripple.model.impl.sesame.types.NumericType;
+import net.fortytwo.ripple.model.types.NumericType;
 
 /**
  * A primitive which consumes a number and produces its real cube root.

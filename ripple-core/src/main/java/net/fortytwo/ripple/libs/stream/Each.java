@@ -5,7 +5,9 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A primitive which consumes a list and produces each item in the list in a
@@ -14,6 +16,8 @@ import net.fortytwo.ripple.model.RippleValue;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Each extends PrimitiveStackMapping {
+    private static final Logger logger = Logger.getLogger(Each.class.getName());
+
     private static final String[] IDENTIFIERS = {
             StreamLibrary.NS_2013_03 + "each",
             StreamLibrary.NS_2008_08 + "each",
@@ -55,7 +59,7 @@ public class Each extends PrimitiveStackMapping {
                                 rest.push(list.getFirst()));
                     } catch (RippleException e) {
                         // Soft fail
-                        e.logError();
+                        logger.log(Level.WARNING, "failed to put solution", e);
                     }
 
                     list = list.getRest();

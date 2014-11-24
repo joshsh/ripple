@@ -6,6 +6,7 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.system.SystemLibrary;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
+import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
 
 /**
@@ -19,6 +20,10 @@ public class BlueprintsLibrary extends Library {
 
     @Override
     public void load(final LibraryLoader.Context context) throws RippleException {
+        Model model = context.getModelConnection().getModel();
+        model.register(new EdgeType());
+        model.register(new VertexType());
+
         registerPrimitives(context,
                 //Edit.class,
                 Head.class,
@@ -29,12 +34,12 @@ public class BlueprintsLibrary extends Library {
         SystemLibrary.registerScriptEngine("gremlin", new GremlinWrapper());
     }
 
-    public static Object createRippleValue(final Object tinker,
-                                           final ModelConnection mc) throws RippleException {
+    public static Object toRipple(final Object tinker,
+                                  final ModelConnection mc) throws RippleException {
         if (tinker instanceof Vertex) {
-            return new VertexValue((Vertex) tinker);
+            return tinker;
         } else if (tinker instanceof Edge) {
-            return new EdgeValue((Edge) tinker);
+            return tinker;
         } else if (tinker instanceof String) {
             return tinker;
         } else if (tinker instanceof Double) {

@@ -4,11 +4,11 @@ import net.fortytwo.flow.Collector;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.cli.ast.ListAST;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
 import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -46,13 +46,13 @@ public class DefineListCmd extends Command {
             RippleList expr = (RippleList) expressions.iterator().next().getFirst();
 //System.out.println( "exprList = " + exprList );
 
-            RDFValue id = mc.valueOf(java.net.URI.create(qe.getLexicon().getDefaultNamespace() + name));
+            Value id = mc.valueOf(java.net.URI.create(qe.getLexicon().getDefaultNamespace() + name));
             expr.setRDFEquivalent(id);
             mc.internalize(expr);
             mc.commit();
 
-            qe.getLexicon().addURI((URI) id.sesameValue());
-            mc.getModel().getSpecialValues().put(id.sesameValue(), expr);
+            qe.getLexicon().addURI((URI) id);
+            mc.getModel().getSpecialValues().put(id, expr);
         }
     }
 

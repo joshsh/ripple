@@ -8,7 +8,6 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackMapping;
 
 /**
@@ -39,9 +38,9 @@ public class Head extends PrimitiveStackMapping {
         Object first = stack.getFirst();
         stack = stack.getRest();
 
-        if (first instanceof EdgeValue) {
-            Edge edge = ((EdgeValue) first).getElement();
-            solutions.put(stack.push(new VertexValue(edge.getVertex(Direction.IN))));
+        if (first instanceof Edge) {
+            Edge edge = (Edge) first;
+            solutions.put(stack.push(edge.getVertex(Direction.IN)));
         }
     }
 
@@ -71,11 +70,11 @@ public class Head extends PrimitiveStackMapping {
             Object first = stack.getFirst();
             stack = stack.getRest();
 
-            if (first instanceof VertexValue) {
-                Vertex vertex = ((VertexValue) first).getElement();
+            if (first instanceof Vertex) {
+                Vertex vertex = (Vertex) first;
 
                 for (Edge edge : vertex.getEdges(Direction.IN)) {
-                    solutions.put(stack.push(new EdgeValue(edge)));
+                    solutions.put(stack.push(edge));
                 }
             }
         }

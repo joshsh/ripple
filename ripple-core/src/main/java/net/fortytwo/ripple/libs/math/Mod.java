@@ -5,7 +5,7 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.impl.sesame.types.NumericType;
+import net.fortytwo.ripple.model.types.NumericType;
 
 /**
  * A primitive which consumes two numbers x and y and produces the number x

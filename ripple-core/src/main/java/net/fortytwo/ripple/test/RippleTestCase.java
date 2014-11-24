@@ -9,7 +9,6 @@ import net.fortytwo.ripple.URIMap;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
 import net.fortytwo.ripple.query.LazyEvaluatingIterator;
 import net.fortytwo.ripple.query.QueryEngine;
@@ -149,24 +148,14 @@ public abstract class RippleTestCase extends TestCase {
 
     protected void assertCollectorsEqual(final Collector<RippleList> expected,
                                          final Collector<RippleList> actual) throws Exception {
-//System.out.println("expected: " + expected + ", actual = " + actual);
         int size = expected.size();
-/*if (actual.size() != expected.size()) {
-    System.out.println("expected:");
-    for ( RippleList l : expected )
-    {
-        System.out.println("    " + l );
-    }
-    System.out.println("actual:");
-    for ( RippleList l : actual )
-    {
-        System.out.println("    " + l );
-    }
-}*/
+
         assertEquals("wrong number of results.", size, actual.size());
         if (0 == size) {
             return;
         }
+//for (RippleList l : expected) {System.out.println("expected: " + l);}
+//for (RippleList l : actual) {System.out.println("actual: " + l);}
 
         // Sort the results.
         RippleList[] expArray = new RippleList[size];
@@ -179,34 +168,9 @@ public abstract class RippleTestCase extends TestCase {
         }
         Arrays.sort(expArray, comparator);
         Arrays.sort(actArray, comparator);
-/*System.out.println("expected:");
-for ( RippleList l : expArray )
-{
-    System.out.println("    " + l );
-}
-System.out.println("actual:");
-for ( RippleList l : actArray )
-{
-    System.out.println("    " + l );
-}*/
 
         // Compare the results by pairs.
         for (int i = 0; i < size; i++) {
-/*RippleList l;
-l = expArray[i];
-System.out.println("expected: (" + l.getClass() + ") -- " + l);
-while (!l.isNil()) {
-    RippleValue f = l.getFirst();
-    System.out.println("    (" + f.getClass() + ") -- " + f);
-    l = l.getRest();
-}
-l = actArray[i];
-System.out.println("actual: (" + l.getClass() + ") -- " + l);
-while (!l.isNil()) {
-    RippleValue f = l.getFirst();
-    System.out.println("    (" + f.getClass() + ") -- " + f);
-    l = l.getRest();
-} */
             assertRippleEquals(expArray[i], actArray[i]);
         }
     }
@@ -220,7 +184,7 @@ while (!l.isNil()) {
 
     protected Collection<RippleList> reduce(final InputStream from) throws RippleException {
         Collector<RippleList>
-                results = new Collector<RippleList>();
+                results = new Collector<>();
 
         QueryEngine qe = getTestQueryEngine();
 
@@ -228,7 +192,7 @@ while (!l.isNil()) {
         actualPipe.put(from);
         actualPipe.close();
 
-        Collection<RippleList> c = new LinkedList<RippleList>();
+        Collection<RippleList> c = new LinkedList<>();
         for (RippleList result : results) {
             c.add(result);
         }
@@ -246,10 +210,9 @@ while (!l.isNil()) {
         assertTrue("expression is legal: " + from, 0 == result.size());
     }
 
-
     protected Collection<RippleList> reduce(final String from) throws RippleException {
         Collector<RippleList>
-                results = new Collector<RippleList>();
+                results = new Collector<>();
 
         QueryEngine qe = getTestQueryEngine();
 
@@ -257,7 +220,7 @@ while (!l.isNil()) {
         actualPipe.put(from + "\n");
         actualPipe.close();
 
-        Collection<RippleList> c = new LinkedList<RippleList>();
+        Collection<RippleList> c = new LinkedList<>();
         for (RippleList result : results) {
             c.add(result);
         }
@@ -267,8 +230,8 @@ while (!l.isNil()) {
 
     protected void assertReducesTo(final String from, final String... to) throws Exception {
         Collector<RippleList>
-                expected = new Collector<RippleList>(),
-                actual = new Collector<RippleList>();
+                expected = new Collector<>(),
+                actual = new Collector<>();
 
         QueryEngine qe = getTestQueryEngine();
 
@@ -283,11 +246,10 @@ while (!l.isNil()) {
         expectedPipe.close();
 
         assertCollectorsEqual(expected, actual);
-//System.out.println( "########## expected.size() = " + expected.size() );
     }
 
     protected URI createURI(final String s,
                             final ModelConnection mc) throws RippleException {
-        return (URI) mc.valueOf(java.net.URI.create(s)).sesameValue();
+        return mc.valueOf(java.net.URI.create(s));
     }
 }

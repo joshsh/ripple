@@ -5,9 +5,7 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
@@ -61,9 +59,9 @@ public class Links extends PrimitiveStackMapping {
                 public void put(final Statement st) throws RippleException {
                     Resource context = st.getContext();
 
-                    Object pred = mc.canonicalValue(new RDFValue(st.getPredicate()));
-                    Object obj = mc.canonicalValue(new RDFValue(st.getObject()));
-                    Object ctx = (null == context) ? mc.list() : mc.canonicalValue(new RDFValue(context));
+                    Object pred = mc.canonicalValue(st.getPredicate());
+                    Object obj = mc.canonicalValue(st.getObject());
+                    Object ctx = (null == context) ? mc.list() : mc.canonicalValue(context);
 
                     solutions.put(stack.push(pred).push(obj).push(ctx));
                 }

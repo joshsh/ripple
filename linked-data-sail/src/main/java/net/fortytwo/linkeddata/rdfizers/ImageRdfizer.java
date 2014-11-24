@@ -15,6 +15,8 @@ import javax.imageio.stream.ImageInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 // TODO: follow instructions at http://www.barregren.se/blog/how-query-exif-and-iptc-java-image-i-o-api
 // example images: http://www.exif.org/samples/
@@ -24,6 +26,8 @@ import java.util.Iterator;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class ImageRdfizer implements Rdfizer {
+    private static final Logger logger = Logger.getLogger(ImageRdfizer.class.getName());
+
     private static boolean initialized = false;
 
     private static void initialize() {
@@ -97,11 +101,11 @@ public class ImageRdfizer implements Rdfizer {
 
                 return CacheEntry.Status.Success;
             } else {
-                new RippleException("could not find a reader for image").logError(false);
+                logger.log(Level.WARNING, "could not find a reader for image");
                 return CacheEntry.Status.RdfizerError;
             }
         } catch (IOException e) {
-            new RippleException(e).logError(true);
+            logger.log(Level.SEVERE, "image rdfization error", e);
             return CacheEntry.Status.RdfizerError;
         }
     }

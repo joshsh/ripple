@@ -4,16 +4,19 @@ import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.StringUtils;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.query.QueryEngine;
+import org.openrdf.model.Value;
 
 import java.net.URI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class URIAST implements AST<RippleList> {
+    private static final Logger logger = Logger.getLogger(URIAST.class.getName());
     private final URI value;
 
     public URIAST(final String escapedValue) {
@@ -22,9 +25,8 @@ public class URIAST implements AST<RippleList> {
         try {
             s = StringUtils.unescapeUriString(escapedValue);
         } catch (RippleException e) {
-            e.logError();
-            s = null;
-            System.exit(1);
+            logger.log(Level.SEVERE, "failed to unescape URI", e);
+            throw new IllegalStateException(e);
         }
 
         this.value = URI.create(s);
@@ -34,7 +36,7 @@ public class URIAST implements AST<RippleList> {
                          final QueryEngine qe,
                          final ModelConnection mc)
             throws RippleException {
-        RDFValue v = mc.valueOf(value);
+        Value v = mc.valueOf(value);
         sink.put(mc.list().push(mc.canonicalValue(v)));
     }
 

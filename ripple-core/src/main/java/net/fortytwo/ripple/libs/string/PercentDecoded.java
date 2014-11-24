@@ -6,7 +6,6 @@ import net.fortytwo.ripple.StringUtils;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 
 /**
  * A primitive which consumes an  (RFC 3986) percent-encoded string and produces

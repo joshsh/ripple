@@ -6,7 +6,6 @@ import net.fortytwo.ripple.libs.graph.GraphLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 
 /**
  * A primitive which consumes two resources and produces a comparison value

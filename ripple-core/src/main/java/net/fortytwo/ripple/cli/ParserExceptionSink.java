@@ -6,11 +6,15 @@ import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 
 import java.io.PrintStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class ParserExceptionSink implements Sink<Exception> {
+    private static final Logger logger = Logger.getLogger(ParserExceptionSink.class.getName());
+
     private final PrintStream errorPrintStream;
 
     public ParserExceptionSink(final PrintStream ps) {
@@ -34,7 +38,7 @@ public class ParserExceptionSink implements Sink<Exception> {
             alert("Parser error: " + e.toString());
         } else {
             alert("Ungrokked error (see log for details): " + e.toString());
-            (new RippleException(e)).logError(true);
+            logger.log(Level.SEVERE, "parser error", e);
         }
     }
 

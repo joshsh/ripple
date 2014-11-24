@@ -2,7 +2,6 @@ package net.fortytwo.ripple.model;
 
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.model.keyval.KeyValueMapping;
 import net.fortytwo.ripple.util.ModelConnectionHelper;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
@@ -15,8 +14,6 @@ import org.openrdf.model.vocabulary.RDF;
 public class Operator {
     public static final Op OP = new Op();
 
-    private static final RDFValue RDF_FIRST = new RDFValue(RDF.FIRST);
-
     private final StackMapping mapping;
 
     private Operator(final String key) {
@@ -24,7 +21,7 @@ public class Operator {
     }
 
     // Note: only for URI values (Literals are handled in createOperator)
-    private Operator(final RDFValue pred) throws RippleException {
+    private Operator(final Value pred) throws RippleException {
         mapping = new RDFPredicateMapping(StatementPatternQuery.Pattern.SP_O, pred, null);
     }
 
@@ -78,9 +75,9 @@ public class Operator {
 
         // This is the messy part.  Attempt to guess the type of the object from
         // the available RDF statements, and create the appropriate object.
-        if (v instanceof RDFValue) {
+        if (v instanceof Value) {
             //System.out.println("it's RDF");
-            if (isRDFList((RDFValue) v, mc)) {
+            if (isRDFList((Value) v, mc)) {
                 //System.out.println("it IS a list");
                 Sink<RippleList> listSink = new Sink<RippleList>() {
                     public void put(final RippleList list)
@@ -89,11 +86,11 @@ public class Operator {
                     }
                 };
 
-                mc.toList((RDFValue) v, listSink);
+                mc.toList((Value) v, listSink);
                 return;
             } else {
                 //System.out.println("not a list");
-                Value sv = ((RDFValue) v).sesameValue();
+                Value sv = ((Value) v);
 
                 if (sv instanceof Literal) {
                     //System.out.println("literal predicate: " + sv);
@@ -103,7 +100,7 @@ public class Operator {
 
                 // An RDF resource not otherwise recognizable becomes a predicate filter.
                 else if (sv instanceof Resource) {
-                    opSink.put(new Operator((RDFValue) v));
+                    opSink.put(new Operator((Value) v));
                     return;
                 }
             }
@@ -114,16 +111,16 @@ public class Operator {
     }
 
     // TODO: replace this with something a little more clever
-    public static boolean isRDFList(final RDFValue v, final ModelConnection mc)
+    public static boolean isRDFList(final Value v, final ModelConnection mc)
             throws RippleException {
         // TODO: this is a bit of a hack
-        if (v.sesameValue() instanceof Literal) {
+        if (v instanceof Literal) {
             return false;
         }
 
         ModelConnectionHelper h = new ModelConnectionHelper(mc);
-        return (v.sesameValue().equals(RDF.NIL)
-                || null != h.findSingleObject(v, RDF_FIRST));
+        return (v.equals(RDF.NIL)
+                || null != h.findSingleObject(v, RDF.FIRST));
     }
 }
 

@@ -1,10 +1,7 @@
 package net.fortytwo.ripple.io;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RippleType;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.test.RippleTestCase;
 
@@ -35,13 +32,13 @@ public class RipplePrintStreamTest extends RippleTestCase {
         bos.reset();
 
         ps.print(42.0);
-        assertEquals("42.0E0", bos.toString());
+        assertEquals("42.0", bos.toString());
         bos.reset();
         ps.print(0.0);
-        assertEquals("0.0E0", bos.toString());
+        assertEquals("0.0", bos.toString());
         bos.reset();
         ps.print(-42.0);
-        assertEquals("-42.0E0", bos.toString());
+        assertEquals("-42.0", bos.toString());
         bos.reset();
 
         ps.print(true);

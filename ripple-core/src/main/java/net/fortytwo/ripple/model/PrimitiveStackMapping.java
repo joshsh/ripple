@@ -2,6 +2,7 @@ package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
 import org.openrdf.model.Resource;
+import org.openrdf.model.Value;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -9,7 +10,7 @@ import org.openrdf.model.Resource;
 public abstract class PrimitiveStackMapping implements StackMapping {
     private final boolean transparent;
 
-    private RDFValue rdfEquivalent;
+    private Value rdfEquivalent;
 
     protected class Parameter {
         private String name;
@@ -58,12 +59,12 @@ public abstract class PrimitiveStackMapping implements StackMapping {
         return getParameters().length;
     }
 
-    public RDFValue getRdfEquivalent() {
+    public Value getRdfEquivalent() {
         return rdfEquivalent;
     }
 
-    public void setRdfEquivalent(final RDFValue v) throws RippleException {
-        if (!(v.sesameValue() instanceof Resource)) {
+    public void setRdfEquivalent(final Value v) throws RippleException {
+        if (!(v instanceof Resource)) {
             throw new IllegalArgumentException("for comparison purposes," +
                     " the identifier of a PrimitiveStackMapping must be a Resource");
         }
@@ -89,10 +90,9 @@ public abstract class PrimitiveStackMapping implements StackMapping {
     }
 
     public boolean equals(final Object other) {
-        return (other instanceof PrimitiveStackMapping)
-                ? (null == rdfEquivalent) && (null == ((PrimitiveStackMapping) other).rdfEquivalent)
-                : (null != ((PrimitiveStackMapping) other).rdfEquivalent)
-                && rdfEquivalent.equals(((PrimitiveStackMapping) other).rdfEquivalent);
+        return other instanceof PrimitiveStackMapping
+                && ((null == rdfEquivalent && null == ((PrimitiveStackMapping) other).rdfEquivalent)
+                || (rdfEquivalent.equals(((PrimitiveStackMapping) other).rdfEquivalent)));
     }
 
     public int hashCode() {

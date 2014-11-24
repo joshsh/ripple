@@ -43,7 +43,7 @@ public class Lang extends PrimitiveStackMapping {
         Value v;
         String result;
 
-        v = mc.toRDF(stack.getFirst()).sesameValue();
+        v = mc.toRDF(stack.getFirst());
         stack = stack.getRest();
 
         if (v instanceof Literal) {

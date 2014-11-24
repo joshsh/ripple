@@ -3,18 +3,17 @@ package net.fortytwo.ripple.model;
 import net.fortytwo.ripple.ListNode;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RipplePrintStream;
+import org.openrdf.model.Value;
 
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * The head of a linked-list data structure holding <code>RippleValue</code>s.
+ * The head of a simple linked-list data structure
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public abstract class RippleList<T> extends ListNode<T> {
-    // Constants
-    private static boolean initialized = false;
 
     protected T first;
     protected final RippleList<T> rest;
@@ -35,7 +34,7 @@ public abstract class RippleList<T> extends ListNode<T> {
         return rest;
     }
 
-    public abstract void setRDFEquivalent(final RDFValue id);
+    public abstract void setRDFEquivalent(final Value id);
 
     /**
      * @return the number of items in this list.
@@ -85,20 +84,7 @@ public abstract class RippleList<T> extends ListNode<T> {
 
     public abstract RippleList concat(final RippleList tail);
 
-    private static void initialize() throws RippleException {
-        initialized = true;
-    }
-
     public String toString() {
-        if (!initialized) {
-            try {
-                initialize();
-            } catch (RippleException e) {
-                initialized = true;
-                e.logError();
-            }
-        }
-
         StringBuilder sb = new StringBuilder();
 
         ListNode<T> cur = this;
@@ -134,10 +120,6 @@ public abstract class RippleList<T> extends ListNode<T> {
                         final ModelConnection mc,
                         final boolean includeParentheses)
             throws RippleException {
-        if (!initialized) {
-            initialize();
-        }
-
         ListNode<T> cur = this;
 
         if (includeParentheses) {
@@ -147,7 +129,6 @@ public abstract class RippleList<T> extends ListNode<T> {
         boolean isFirst = true;
         while (!cur.isNil()) {
             T val = cur.getFirst();
-
 
             if (Operator.OP == val) {
                 p.print(".");

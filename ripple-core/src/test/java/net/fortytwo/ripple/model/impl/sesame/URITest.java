@@ -5,12 +5,11 @@ import net.fortytwo.flow.rdf.SesameInputAdapter;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RDFImporter;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RDFValue;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.util.ModelConnectionHelper;
 import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 import org.openrdf.model.impl.URIImpl;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.model.vocabulary.RDFS;
@@ -26,20 +25,20 @@ import java.io.InputStreamReader;
 public class URITest extends RippleTestCase {
     private static final String URI_NS = "http://id.ninebynine.org/wip/2004/uritest/";
 
-    private static final RDFValue
-            COMMENT = new RDFValue(RDFS.COMMENT),
-            LABEL = new RDFValue(RDFS.LABEL),
-            TYPE = new RDFValue(RDF.TYPE),
-            BASE = new RDFValue(new URIImpl(URI_NS + "base")),
-            FRAG = new RDFValue(new URIImpl(URI_NS + "frag")),
-            PATH = new RDFValue(new URIImpl(URI_NS + "path")),
-            PORT = new RDFValue(new URIImpl(URI_NS + "port")),
-            QUERY = new RDFValue(new URIImpl(URI_NS + "query")),
-            REG = new RDFValue(new URIImpl(URI_NS + "reg")),
-            SCHEME = new RDFValue(new URIImpl(URI_NS + "scheme")),
-            TEST = new RDFValue(new URIImpl(URI_NS + "test")),
-            URITEST = new RDFValue(new URIImpl(URI_NS + "UriTest")),
-            USER = new RDFValue(new URIImpl(URI_NS + "user"));
+    private static final URI
+            COMMENT = RDFS.COMMENT,
+            LABEL = RDFS.LABEL,
+            TYPE = RDF.TYPE,
+            BASE = new URIImpl(URI_NS + "base"),
+            FRAG = new URIImpl(URI_NS + "frag"),
+            PATH = new URIImpl(URI_NS + "path"),
+            PORT = new URIImpl(URI_NS + "port"),
+            QUERY = new URIImpl(URI_NS + "query"),
+            REG = new URIImpl(URI_NS + "reg"),
+            SCHEME = new URIImpl(URI_NS + "scheme"),
+            TEST = new URIImpl(URI_NS + "test"),
+            URITEST = new URIImpl(URI_NS + "UriTest"),
+            USER = new URIImpl(URI_NS + "user");
 
     private enum TestType {
         ABSID("AbsId"),
@@ -80,7 +79,7 @@ public class URITest extends RippleTestCase {
         if (null == obj) {
             return null;
         } else {
-            return mc.toRDF(obj).sesameValue().stringValue();
+            return mc.toRDF(obj).stringValue();
         }
     }
 
@@ -116,7 +115,7 @@ public class URITest extends RippleTestCase {
 
             System.out.println("r = " + r);
             type = TestType.find(
-                    ((URI) mc.toRDF(h.findSingleObject(r, TEST)).sesameValue()).getLocalName());
+                    ((URI) mc.toRDF(h.findSingleObject(r, TEST))).getLocalName());
             System.out.println("    type = " + type);
         }
 
@@ -152,8 +151,8 @@ public class URITest extends RippleTestCase {
     public void testValueOf() throws Exception {
         String s = "http://example.org/foo";
         java.net.URI u = java.net.URI.create(s);
-        RDFValue v = modelConnection.valueOf(u);
-        assertEquals(s, v.sesameValue().stringValue());
+        Value v = modelConnection.valueOf(u);
+        assertEquals(s, v.stringValue());
     }
 
     public void testGrahamKlyneCases() throws Exception {

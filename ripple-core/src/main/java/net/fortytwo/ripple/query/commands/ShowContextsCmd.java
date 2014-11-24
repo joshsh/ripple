@@ -4,7 +4,6 @@ import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RipplePrintStream;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
 

@@ -19,13 +19,13 @@ public class MulTest extends RippleTestCase {
         assertReducesTo("\"NaN\"^^xsd:double 42 mul.", "\"NaN\"^^xsd:double");
 
         assertReducesTo("\"INF\"^^xsd:double \"NaN\"^^xsd:double mul.", "\"NaN\"^^xsd:double");
-        assertReducesTo("\"INF\"^^xsd:double \"INF\"^^xsd:double mul.", "\"NaN\"^^xsd:double");
-        assertReducesTo("\"INF\"^^xsd:double \"-INF\"^^xsd:double mul.", "\"NaN\"^^xsd:double");
+        assertReducesTo("\"INF\"^^xsd:double \"INF\"^^xsd:double mul.", "\"INF\"^^xsd:double");
+        assertReducesTo("\"INF\"^^xsd:double \"-INF\"^^xsd:double mul.", "\"-INF\"^^xsd:double");
         assertReducesTo("\"INF\"^^xsd:double 42 mul.", "\"INF\"^^xsd:double");
 
         assertReducesTo("\"-INF\"^^xsd:double \"NaN\"^^xsd:double mul.", "\"NaN\"^^xsd:double");
-        assertReducesTo("\"-INF\"^^xsd:double \"INF\"^^xsd:double mul.", "\"NaN\"^^xsd:double");
-        assertReducesTo("\"-INF\"^^xsd:double \"-INF\"^^xsd:double mul.", "\"NaN\"^^xsd:double");
+        assertReducesTo("\"-INF\"^^xsd:double \"INF\"^^xsd:double mul.", "\"-INF\"^^xsd:double");
+        assertReducesTo("\"-INF\"^^xsd:double \"-INF\"^^xsd:double mul.", "\"INF\"^^xsd:double");
         assertReducesTo("\"-INF\"^^xsd:double 42 mul.", "\"-INF\"^^xsd:double");
 
         assertReducesTo("42 \"NaN\"^^xsd:double mul.", "\"NaN\"^^xsd:double");

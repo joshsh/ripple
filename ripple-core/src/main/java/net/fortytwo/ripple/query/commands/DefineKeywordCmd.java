@@ -3,7 +3,6 @@ package net.fortytwo.ripple.query.commands;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.cli.ast.KeywordAST;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
 

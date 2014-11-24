@@ -2,17 +2,14 @@ package net.fortytwo.ripple.model;
 
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.io.RipplePrintStream;
 import net.fortytwo.ripple.util.ModelConnectionHelper;
+import org.openrdf.model.Value;
 
 /**
- * FIXME: this should probably not be a RippleValue.  Perhaps the behavior of 'invert' should change so that
- * this is not necessary.
- *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class StackMappingWrapper implements StackMapping, RippleValue {
-    private final RDFValue rdfValue;
+public class StackMappingWrapper implements StackMapping {
+    private final Value rdfEquivalent;
 
     private final StackMapping innerMapping;
 
@@ -20,8 +17,7 @@ public class StackMappingWrapper implements StackMapping, RippleValue {
         this.innerMapping = wrapped;
 
         // Uses a random identifier... not for actual use
-        rdfValue = new ModelConnectionHelper(mc).createRandomURI().toRDF(mc);
-//System.out.println("created a StackMappingWrapper: " + this + " for mapping " + innerMapping);
+        rdfEquivalent = new ModelConnectionHelper(mc).createRandomURI();
     }
 
     public int arity() {
@@ -42,22 +38,11 @@ public class StackMappingWrapper implements StackMapping, RippleValue {
         return innerMapping.getInverse();
     }
 
-    public RDFValue toRDF(final ModelConnection mc) throws RippleException {
-        return rdfValue;
+    public StackMapping getInnerMapping() {
+        return innerMapping;
     }
 
-    public StackMapping getMapping() {
-        return null;
-    }
-
-    public void printTo(final RipplePrintStream p,
-                        final ModelConnection mc) throws RippleException {
-        p.print("[StackMappingWrapper: ");
-        p.print(innerMapping);
-        p.print("]");
-    }
-
-    public RippleType.Category getCategory() {
-        return RippleType.Category.OTHER_RESOURCE;
+    public Value getRDFEquivalent() {
+        return rdfEquivalent;
     }
 }

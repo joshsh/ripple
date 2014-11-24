@@ -124,7 +124,7 @@ public class Lexicon {
 
     private boolean isPrimaryValue(final Value key,
                                    final ModelConnection mc) throws RippleException {
-        Value mapsTo = mc.toRDF(mc.canonicalValue(new RDFValue(key))).sesameValue();
+        Value mapsTo = mc.toRDF(mc.canonicalValue(key));
         return key.equals(mapsTo);
     }
 
@@ -214,7 +214,7 @@ public class Lexicon {
         // the same local name).
         Set values = new HashSet<>();
         for (URI u : options) {
-            values.add(mc.canonicalValue(new RDFValue(u)));
+            values.add(mc.canonicalValue(u));
         }
 
         Object t = temporaryValues.get(keyword);
@@ -244,7 +244,7 @@ public class Lexicon {
             errors.println("Warning: prefix '" + nsPrefix + "' does not identify a namespace\n");
         } else {
             // TODO: using URIImpl is a bit of a hack
-            sink.put(mc.canonicalValue(new RDFValue(new URIImpl(ns + localName))));
+            sink.put(mc.canonicalValue(new URIImpl(ns + localName)));
         }
     }
 

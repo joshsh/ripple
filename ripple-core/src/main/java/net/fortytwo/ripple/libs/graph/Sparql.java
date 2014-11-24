@@ -6,10 +6,10 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.keyval.KeyValueValue;
 import org.openrdf.query.BindingSet;
 import org.openrdf.query.QueryEvaluationException;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -60,13 +60,13 @@ public class Sparql extends PrimitiveStackMapping {
         try {
             try {
                 while (results.hasNext()) {
-                    KeyValueValue kv = new SPARQLValue(results.next());
+                    SPARQLValue kv = new SPARQLValue(results.next());
 
                     try {
                         solutions.put(stack.push(kv));
                     } catch (RippleException e) {
                         // Soft fail
-                        e.logError();
+                        logger.log(Level.WARNING, "failed to put SPARQL result", e);
                     }
                 }
             } finally {

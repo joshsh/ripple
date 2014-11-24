@@ -12,11 +12,15 @@ import org.openrdf.rio.Rio;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class VerbatimRdfizer implements Rdfizer {
+    private static final Logger logger = Logger.getLogger(VerbatimRdfizer.class.getName());
+
     private final RDFFormat format;
     private final RDFParser parser;
 
@@ -34,13 +38,13 @@ public class VerbatimRdfizer implements Rdfizer {
             parser.setRDFHandler(handler);
             parser.parse(is, baseUri);
         } catch (IOException e) {
-            new RippleException(e).logError(false);
+            logger.log(Level.WARNING, "error in verbatim rdfizer: " + e.getMessage());
             return CacheEntry.Status.Failure;
         } catch (RDFParseException e) {
-            new RippleException(e).logError(false);
+            logger.log(Level.WARNING, "error in verbatim rdfizer: " + e.getMessage());
             return CacheEntry.Status.ParseError;
         } catch (RDFHandlerException e) {
-            new RippleException(e).logError(false);
+            logger.log(Level.WARNING, "error in verbatim rdfizer: " + e.getMessage());
             return CacheEntry.Status.Failure;
         }
 

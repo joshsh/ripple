@@ -7,6 +7,7 @@ import net.fortytwo.ripple.RippleException;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -201,23 +202,10 @@ public final class Scheduler {
         }
 
         private void logThrowable(final Throwable t) {
-            RippleException e;
-
-            if (t instanceof RippleException) {
-                e = (RippleException) t;
+            if (t instanceof InterruptedException) {
+                logger.warning("task interrupted: " + currentTaskItem.task);
             } else {
-                if (t instanceof InterruptedException) {
-                    logger.warning("task interrupted: " + currentTaskItem.task);
-                    return;
-                }
-
-                e = new RippleException(t);
-            }
-
-            try {
-                e.logError();
-            } catch (Throwable secondary) {
-                System.out.println("failed to log error: " + t);
+                logger.log(Level.SEVERE, "exception in scheduler", t);
             }
         }
 

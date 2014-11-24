@@ -4,7 +4,6 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RippleValue;
 import org.openrdf.model.Literal;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
@@ -52,7 +51,7 @@ public class StringLibrary extends Library {
         boolean stringTyped = false;
 
         for (Object o : operands) {
-            Value v = mc.toRDF(o).sesameValue();
+            Value v = mc.toRDF(o);
             if (v instanceof Literal) {
                 URI datatype = ((Literal) v).getDatatype();
 

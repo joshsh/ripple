@@ -2,7 +2,6 @@ package net.fortytwo.ripple.model.impl.sesame;
 
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.NullStackMapping;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackMappingWrapper;
 import net.fortytwo.ripple.test.RippleTestCase;
 
@@ -11,7 +10,7 @@ import java.util.Comparator;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class RippleValueComparatorTest extends RippleTestCase {
+public class RippleComparatorTest extends RippleTestCase {
     public void testTypeComparison() throws Exception {
         ModelConnection mc = getTestModel().createConnection();
         Comparator<Object> c = mc.getComparator();
@@ -43,6 +42,19 @@ public class RippleValueComparatorTest extends RippleTestCase {
         // ...
 
         mc.close();
+    }
+
+    public void testCompareNegativeZero() throws Exception {
+        ModelConnection mc = getTestModel().createConnection();
+        Comparator<Object> comparator = mc.getComparator();
+
+        // accept negative zero for now
+        assertEquals(1, comparator.compare(
+                createStack(mc, 0),
+                createStack(mc, -0.0)));
+        assertEquals(1, comparator.compare(
+                createStack(mc, 0.0),
+                createStack(mc, -0.0)));
     }
 
     // ...

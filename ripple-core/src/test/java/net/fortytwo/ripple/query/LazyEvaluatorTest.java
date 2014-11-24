@@ -7,7 +7,6 @@ import net.fortytwo.ripple.libs.stack.Dup;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.test.RippleTestCase;
 
 /**

@@ -10,8 +10,6 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.NullStackMapping;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.RDFPredicateMapping;
-import net.fortytwo.ripple.model.RDFValue;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.test.RippleTestCase;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.rio.RDFFormat;
@@ -71,21 +69,21 @@ public class OperatorTest extends RippleTestCase {
         assertTrue(ops.iterator().next().getMapping() instanceof ListDequotation);
 
         // rdf:nil --> ListDequotation
-        arg = new RDFValue(RDF.NIL);
+        arg = RDF.NIL;
         ops.clear();
         Operator.createOperator(arg, ops, mc);
         assertEquals(1, ops.size());
         assertTrue(ops.iterator().next().getMapping() instanceof ListDequotation);
 
         // an rdf:List --> ListDequotation
-        arg = new RDFValue(createURI("urn:test.CreateOperatorTest#simpleList", mc));
+        arg = createURI("urn:test.CreateOperatorTest#simpleList", mc);
         ops.clear();
         Operator.createOperator(arg, ops, mc);
         assertEquals(1, ops.size());
         assertTrue(ops.iterator().next().getMapping() instanceof ListDequotation);
 
         // a branching rdf:List --> multiple ListDequotations
-        arg = new RDFValue(createURI("urn:test.CreateOperatorTest#firstBranchingList", mc));
+        arg = createURI("urn:test.CreateOperatorTest#firstBranchingList", mc);
         ops.clear();
         Operator.createOperator(arg, ops, mc);
         assertEquals(2, ops.size());
@@ -99,14 +97,14 @@ public class OperatorTest extends RippleTestCase {
         assertTrue(ops.iterator().next().getMapping() instanceof Dup);
 
         // an rdf:Property --> RdfPredicateRelation
-        arg = new RDFValue(RDF.TYPE);
+        arg = RDF.TYPE;
         ops.clear();
         Operator.createOperator(arg, ops, mc);
         assertEquals(1, ops.size());
         assertTrue(ops.iterator().next().getMapping() instanceof RDFPredicateMapping);
 
         // a non-property RdfValue which is not anything else --> RdfPredicateRelation
-        arg = new RDFValue(RDF.BAG);
+        arg = RDF.BAG;
         ops.clear();
         Operator.createOperator(arg, ops, mc);
         assertEquals(1, ops.size());

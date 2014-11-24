@@ -6,8 +6,6 @@ import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RDFValue;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StatementPatternQuery;
 import org.openrdf.model.Statement;
 import org.openrdf.model.Value;
@@ -40,7 +38,7 @@ public class ModelConnectionHelper {
             throws RippleException {
         final Sink<Value> valueSink = new Sink<Value>() {
             public void put(final Value v) throws RippleException {
-                sink.put(connection.canonicalValue(new RDFValue(v)));
+                sink.put(connection.canonicalValue(v));
             }
         };
 
@@ -53,14 +51,14 @@ public class ModelConnectionHelper {
             }
         };
 
-        RDFValue v = connection.toRDF(subject);
-        // Not all RippleValues have an RDF identity.
+        Value v = connection.toRDF(subject);
+        // Not all values have an RDF identity.
         if (null != v) {
             connection.getStatements(v, null, null, predSelector);
         }
     }
 
-    public RDFValue createRandomURI() throws RippleException {
+    public Value createRandomURI() throws RippleException {
         return connection.valueOf(URI.create(Ripple.RANDOM_URN_PREFIX + UUID.randomUUID()));
     }
 }

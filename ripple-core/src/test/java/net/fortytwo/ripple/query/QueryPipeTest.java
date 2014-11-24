@@ -4,7 +4,6 @@ import net.fortytwo.flow.Collector;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.test.RippleTestCase;
 
 import java.io.PrintStream;

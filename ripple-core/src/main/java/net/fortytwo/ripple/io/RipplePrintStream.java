@@ -5,7 +5,6 @@ import net.fortytwo.ripple.StringUtils;
 import net.fortytwo.ripple.model.Lexicon;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleType;
-import net.fortytwo.ripple.model.RippleValue;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Statement;

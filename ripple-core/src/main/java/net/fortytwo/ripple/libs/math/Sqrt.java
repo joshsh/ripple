@@ -6,7 +6,10 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackMapping;
-import net.fortytwo.ripple.model.impl.sesame.types.NumericType;
+import net.fortytwo.ripple.model.types.NumericType;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A primitive which consumes a number and produces all real square roots of the
@@ -15,7 +18,7 @@ import net.fortytwo.ripple.model.impl.sesame.types.NumericType;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Sqrt extends PrimitiveStackMapping {
-    private static final int ARITY = 1;
+    private static final Logger logger = Logger.getLogger(PrimitiveStackMapping.class.getName());
 
     private static final String[] IDENTIFIERS = {
             MathLibrary.NS_2013_03 + "sqrt",
@@ -60,15 +63,13 @@ public class Sqrt extends PrimitiveStackMapping {
 
             // Yield both square roots.
             try {
-                solutions.put(
-                        stack.push(d));
+                solutions.put(stack.push(d));
                 if (d > 0) {
-                    solutions.put(
-                            stack.push(0.0 - d));
+                    solutions.put(stack.push(0.0 - d));
                 }
             } catch (RippleException e) {
                 // Soft fail
-                e.logError();
+                logger.log(Level.WARNING, "failed to put sqrt solution", e);
             }
         }
     }

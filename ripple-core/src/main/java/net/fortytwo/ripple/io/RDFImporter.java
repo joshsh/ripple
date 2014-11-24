@@ -5,7 +5,6 @@ import net.fortytwo.flow.rdf.RDFSink;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RDFValue;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
@@ -28,15 +27,15 @@ public class RDFImporter implements RDFSink {
             public void put(final Statement st) throws RippleException {
 //System.out.println( "adding statement: " + st );
                 if (0 == contexts.length) {
-                    mc.add(new RDFValue(st.getSubject()),
-                            new RDFValue(st.getPredicate()),
-                            new RDFValue(st.getObject()));
+                    mc.add(st.getSubject(),
+                            st.getPredicate(),
+                            st.getObject());
                 } else {
                     for (Resource c : contexts) {
-                        mc.add(new RDFValue(st.getSubject()),
-                                new RDFValue(st.getPredicate()),
-                                new RDFValue(st.getObject()),
-                                new RDFValue(c));
+                        mc.add(st.getSubject(),
+                                st.getPredicate(),
+                                st.getObject(),
+                                c);
                     }
                 }
             }

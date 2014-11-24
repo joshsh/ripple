@@ -15,10 +15,10 @@ public class FloorTest extends RippleTestCase {
     }
 
     public void testSpecialValues() throws Exception {
-        assertReducesTo("\"NaN\"^^xsd:double floor.", "\"NaN\"^^xsd:double");
+        assertReducesTo("\"NaN\"^^xsd:double floor.", "0");
 
-        // TODO: these seem to yield max int values
-//        assertReducesTo( "\"INF\"^^xsd:double floor.", "0" );
-//        assertReducesTo( "\"-INF\"^^xsd:double floor.", "0" );
+        // TODO: currently yield system-specific min/max values
+        //assertReducesTo( "\"INF\"^^xsd:double floor.", "2147483647" );
+        //assertReducesTo( "\"-INF\"^^xsd:double floor.", "-2147483648" );
     }
 }

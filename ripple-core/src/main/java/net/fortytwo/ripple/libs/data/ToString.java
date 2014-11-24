@@ -6,7 +6,6 @@ import net.fortytwo.ripple.libs.graph.GraphLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import org.openrdf.model.vocabulary.XMLSchema;
 
 /**

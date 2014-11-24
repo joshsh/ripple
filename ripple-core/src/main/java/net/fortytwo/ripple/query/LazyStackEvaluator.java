@@ -6,7 +6,6 @@ import net.fortytwo.ripple.model.Closure;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackMapping;
 
 // Note: not thread-safe, on account of stop()

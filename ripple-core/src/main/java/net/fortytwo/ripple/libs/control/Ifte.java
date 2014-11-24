@@ -7,7 +7,6 @@ import net.fortytwo.ripple.model.NullStackMapping;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackMapping;
 
 /**

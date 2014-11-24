@@ -6,11 +6,14 @@ import net.fortytwo.ripple.cli.ast.ListAST;
 import net.fortytwo.ripple.query.Command;
 
 import java.io.PrintStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public abstract class RecognizerAdapter {
+    private static final Logger logger = Logger.getLogger(RecognizerAdapter.class.getName());
     private final PrintStream errorStream;
 
     // A helper variable for the lexer and parser.
@@ -33,7 +36,7 @@ public abstract class RecognizerAdapter {
             handleQuery(query);
         } catch (RippleException e) {
             errorStream.println("\nQuery error: " + e + "\n");
-            e.logError();
+            logger.log(Level.WARNING, "query error", e);
         }
     }
 
@@ -42,17 +45,16 @@ public abstract class RecognizerAdapter {
             handleCommand(cmd);
         } catch (RippleException e) {
             errorStream.println("\nCommand error: " + e + "\n");
-            e.logError();
+            logger.log(Level.WARNING, "command error", e);
         }
     }
 
     public void putEvent(final RecognizerEvent event) {
-//System.out.println("putting event: " + event);
         try {
             handleEvent(event);
         } catch (RippleException e) {
             errorStream.println("\nEvent error: " + e + "\n");
-            e.logError();
+            logger.log(Level.WARNING, "event error", e);
         }
     }
 

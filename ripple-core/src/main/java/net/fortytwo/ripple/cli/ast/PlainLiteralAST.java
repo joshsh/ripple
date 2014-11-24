@@ -5,7 +5,6 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.StringUtils;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.query.QueryEngine;
 
 /**

@@ -6,9 +6,9 @@ import net.fortytwo.flow.rdf.SesameInputAdapter;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RDFImporter;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.XMLSchema;
 import org.openrdf.rio.RDFFormat;
 
@@ -39,7 +39,7 @@ public class RippleListTest extends RippleTestCase {
         mc.commit();
         is.close();
 
-        RDFValue head;
+        Value head;
         Collector<RippleList> created = new Collector<RippleList>();
         final Collector<RippleList> allowed = new Collector<RippleList>();
 
@@ -58,14 +58,14 @@ public class RippleListTest extends RippleTestCase {
             }
         };
 
-        RDFValue l1 = mc.valueOf("1", XMLSchema.STRING);
-        RDFValue l2 = mc.valueOf("2", XMLSchema.STRING);
-        RDFValue l1a = mc.valueOf("1a", XMLSchema.STRING);
-        RDFValue l1b = mc.valueOf("1b", XMLSchema.STRING);
-        RDFValue l2a = mc.valueOf("2a", XMLSchema.STRING);
-        RDFValue l2b = mc.valueOf("2b", XMLSchema.STRING);
+        Value l1 = mc.valueOf("1", XMLSchema.STRING);
+        Value l2 = mc.valueOf("2", XMLSchema.STRING);
+        Value l1a = mc.valueOf("1a", XMLSchema.STRING);
+        Value l1b = mc.valueOf("1b", XMLSchema.STRING);
+        Value l2a = mc.valueOf("2a", XMLSchema.STRING);
+        Value l2b = mc.valueOf("2b", XMLSchema.STRING);
 
-        head = new RDFValue(createURI("urn:test.RippleListTest.FromRdfTest#simpleList", mc));
+        head = createURI("urn:test.RippleListTest.FromRdfTest#simpleList", mc);
         created.clear();
         mc.toList(head, created);
         assertEquals(1, created.size());
@@ -73,7 +73,7 @@ public class RippleListTest extends RippleTestCase {
         allowed.put(mc.list().push(l2).push(l1));
         created.writeTo(verifySink);
 
-        head = new RDFValue(createURI("urn:test.RippleListTest.FromRdfTest#firstBranchingList", mc));
+        head = createURI("urn:test.RippleListTest.FromRdfTest#firstBranchingList", mc);
         created.clear();
         mc.toList(head, created);
         assertEquals(2, created.size());
@@ -82,7 +82,7 @@ public class RippleListTest extends RippleTestCase {
         allowed.put(mc.list().push(l2).push(l1b));
         created.writeTo(verifySink);
 
-        head = new RDFValue(createURI("urn:test.RippleListTest.FromRdfTest#restBranchingList", mc));
+        head = createURI("urn:test.RippleListTest.FromRdfTest#restBranchingList", mc);
         created.clear();
         mc.toList(head, created);
         assertEquals(2, created.size());
@@ -91,7 +91,7 @@ public class RippleListTest extends RippleTestCase {
         allowed.put(mc.list().push(l2b).push(l1));
         created.writeTo(verifySink);
 
-        head = new RDFValue(createURI("urn:test.RippleListTest.FromRdfTest#firstAndRestBranchingList", mc));
+        head = createURI("urn:test.RippleListTest.FromRdfTest#firstAndRestBranchingList", mc);
         created.clear();
         mc.toList(head, created);
         assertEquals(4, created.size());

@@ -7,7 +7,6 @@ import net.fortytwo.ripple.libs.stack.StackLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 
 /**
  * A primitive which consumes a Boolean value b, an item t, and an item f, then

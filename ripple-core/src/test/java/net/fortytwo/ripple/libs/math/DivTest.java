@@ -35,7 +35,7 @@ public class DivTest extends RippleTestCase {
 
         assertReducesTo("42 \"NaN\"^^xsd:double div.", "\"NaN\"^^xsd:double");
         assertReducesTo("42 \"INF\"^^xsd:double div.", "0");
-        assertReducesTo("42 \"-INF\"^^xsd:double div.", "0");
+        assertReducesTo("42 \"-INF\"^^xsd:double div.", "-0.0"); // accept Java's negative zero
         assertReducesTo("42 42 div.", "1");
     }
 

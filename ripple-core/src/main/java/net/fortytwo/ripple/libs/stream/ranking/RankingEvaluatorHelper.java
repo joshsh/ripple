@@ -7,8 +7,7 @@ import net.fortytwo.ripple.model.Closure;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.RippleValueComparator;
+import net.fortytwo.ripple.model.RippleComparator;
 import net.fortytwo.ripple.model.StackMapping;
 
 import java.util.Collections;
@@ -41,7 +40,7 @@ public class RankingEvaluatorHelper {
 
         resultList = new LinkedList<>();
         resultMemos = new ListMemoizer<>(
-                new RippleValueComparator(mc));
+                new RippleComparator(mc));
 
         handleOutput(new RankingContext(arg, mc));
     }

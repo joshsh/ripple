@@ -136,8 +136,7 @@ public final class StringUtils {
     }
 
     // Note: assumes a properly formatted (escaped) String argument.
-    public static String unescapeUriString(final String s)
-            throws RippleException {
+    public static String unescapeUriString(final String s) throws RippleException {
         StringBuilder sb = new StringBuilder();
         String seq;
 

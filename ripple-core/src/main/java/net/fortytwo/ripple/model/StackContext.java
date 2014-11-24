@@ -28,12 +28,8 @@ public class StackContext implements Cloneable {
             StackContext clone = (StackContext) this.clone();
             clone.stack = s;
             return clone;
-        }
-
-        // This shouldn't happen.
-        catch (CloneNotSupportedException e) {
-            new RippleException(e).logError();
-            return this;
+        } catch (CloneNotSupportedException e) {
+            throw new IllegalStateException(e);
         }
     }
 }
