@@ -29,7 +29,8 @@ public class StringType extends SimpleType<String> {
 
     @Override
     public StackMapping getMapping(String instance) {
-        return new KeyValueMapping(instance);
+        return null;
+        //return new KeyValueMapping(instance);
     }
 
     @Override

@@ -24,6 +24,7 @@ public class PlainLiteralType extends RDFValueType<Literal> {
 
     @Override
     public StackMapping getMapping(Literal instance) {
-        return new KeyValueMapping(instance.getLabel());
+        return null;
+        //return new KeyValueMapping(instance.getLabel());
     }
 }

@@ -1,15 +1,18 @@
 package net.fortytwo.ripple.sail;
 
 import net.fortytwo.ripple.model.RippleList;
+import org.openrdf.model.BNode;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.impl.LiteralImpl;
 
+import java.util.Random;
+
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class RippleLiteral extends LiteralImpl implements RippleSesameValue, Resource {
+public class RippleLiteral extends LiteralImpl implements RippleSesameValue, BNode {
     private RippleList list = null;
 
     public RippleLiteral(String label) {
@@ -41,5 +44,12 @@ public class RippleLiteral extends LiteralImpl implements RippleSesameValue, Res
                 : null != this.getDatatype()
                 ? new LiteralImpl(this.getLabel(), this.getDatatype())
                 : new LiteralImpl(this.getLabel());
+    }
+
+    private static final Random random = new Random();
+    
+    @Override
+    public String getID() {
+        return "rl" + random.nextInt(Integer.MAX_VALUE);
     }
 }

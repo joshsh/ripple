@@ -26,12 +26,10 @@ public class Operator {
     }
 
     public Operator(final StackMapping mapping) {
-//System.out.println( "Operator[" + this + "](" + function + ")" );
         this.mapping = mapping;
     }
 
     public Operator(final RippleList list) {
-//System.out.println( "Operator[" + this + "](" + list + ")" );
         mapping = new ListDequotation(list);
     }
 
@@ -57,10 +55,7 @@ public class Operator {
      */
     public static void createOperator(final Object v,
                                       final Sink<Operator> opSink,
-                                      final ModelConnection mc)
-            throws RippleException {
-        //System.out.println("creating operator from: " + v);
-        //System.out.println("\tsesameValue: " + v.toRDF(mc).sesameValue());
+                                      final ModelConnection mc) throws RippleException {
         // A function becomes active.
         if (v instanceof StackMapping) {
             opSink.put(new Operator((StackMapping) v));
@@ -73,27 +68,27 @@ public class Operator {
             return;
         }
 
+        // A string becomes a key
+        else if (v instanceof String) {
+            opSink.put(new Operator((String) v));
+        }
+
         // This is the messy part.  Attempt to guess the type of the object from
         // the available RDF statements, and create the appropriate object.
         if (v instanceof Value) {
-            //System.out.println("it's RDF");
-            if (isRDFList((Value) v, mc)) {
-                //System.out.println("it IS a list");
+            if (ModelConnectionHelper.isRDFList(v, mc)) {
                 Sink<RippleList> listSink = new Sink<RippleList>() {
-                    public void put(final RippleList list)
-                            throws RippleException {
+                    public void put(final RippleList list) throws RippleException {
                         opSink.put(new Operator(list));
                     }
                 };
 
-                mc.toList((Value) v, listSink);
+                mc.toList(v, listSink);
                 return;
             } else {
-                //System.out.println("not a list");
                 Value sv = ((Value) v);
 
                 if (sv instanceof Literal) {
-                    //System.out.println("literal predicate: " + sv);
                     opSink.put(new Operator(((Literal) sv).getLabel()));
                     return;
                 }
@@ -108,19 +103,6 @@ public class Operator {
 
         // Anything else becomes an active nullary filter with no output.
         opSink.put(new Operator(new NullStackMapping()));
-    }
-
-    // TODO: replace this with something a little more clever
-    public static boolean isRDFList(final Value v, final ModelConnection mc)
-            throws RippleException {
-        // TODO: this is a bit of a hack
-        if (v instanceof Literal) {
-            return false;
-        }
-
-        ModelConnectionHelper h = new ModelConnectionHelper(mc);
-        return (v.equals(RDF.NIL)
-                || null != h.findSingleObject(v, RDF.FIRST));
     }
 }
 

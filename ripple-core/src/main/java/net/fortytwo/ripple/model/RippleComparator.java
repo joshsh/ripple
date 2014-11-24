@@ -5,6 +5,7 @@ import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.types.KeyValueType;
 import net.fortytwo.ripple.model.types.NumericType;
+import net.fortytwo.ripple.util.ModelConnectionHelper;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
@@ -55,10 +56,12 @@ public class RippleComparator implements Comparator<Object> {
             RippleType.Category catSecond = findCategory(second, typeSecond);
 
             // recognize URIs or blank nodes representing lists as equivalent to native lists
-            if (catFirst == RippleType.Category.OTHER_RESOURCE && isRDFList(first)) {
+            if (catFirst == RippleType.Category.OTHER_RESOURCE
+                    && ModelConnectionHelper.isRDFList(first, modelConnection)) {
                 catFirst = RippleType.Category.LIST;
             }
-            if (catSecond == RippleType.Category.OTHER_RESOURCE && isRDFList(second)) {
+            if (catSecond == RippleType.Category.OTHER_RESOURCE
+                    && ModelConnectionHelper.isRDFList(second, modelConnection)) {
                 catSecond = RippleType.Category.LIST;
             }
 
@@ -121,7 +124,7 @@ public class RippleComparator implements Comparator<Object> {
                     }
                 }
             } else if (sesameValue instanceof Resource) {
-                if (Operator.isRDFList(sesameValue, modelConnection)) {
+                if (ModelConnectionHelper.isRDFList(sesameValue, modelConnection)) {
                     return RippleType.Category.LIST;
                 } else {
                     return RippleType.Category.OTHER_RESOURCE;
@@ -326,19 +329,5 @@ public class RippleComparator implements Comparator<Object> {
                 return 0;
             }
         }
-    }
-
-    private boolean isRDFList(final Object r) throws RippleException {
-        if (!(r instanceof Resource)) {
-            return false;
-        }
-        final boolean[] b = {false};
-        modelConnection.getStatements((Resource) r, RDF.FIRST, null, new Sink<Statement>(){
-            @Override
-            public void put(Statement statement) throws RippleException {
-                b[0] = true;
-            }
-        });
-        return b[0];
     }
 }

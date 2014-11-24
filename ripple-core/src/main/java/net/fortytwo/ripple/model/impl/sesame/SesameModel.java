@@ -10,7 +10,6 @@ import net.fortytwo.ripple.model.RippleType;
 import net.fortytwo.ripple.model.SpecialValueMap;
 import net.fortytwo.ripple.model.types.BNodeType;
 import net.fortytwo.ripple.model.types.BooleanType;
-import net.fortytwo.ripple.model.types.JSONArrayType;
 import net.fortytwo.ripple.model.types.JSONObjectType;
 import net.fortytwo.ripple.model.types.LanguageTaggedLiteralType;
 import net.fortytwo.ripple.model.types.NonNumericLiteralType;
@@ -60,7 +59,6 @@ public class SesameModel implements Model {
         registeredTypes = new HashMap<>();
         register(new BNodeType());
         register(new BooleanType());
-        register(new JSONArrayType());
         register(new JSONObjectType());
         register(new LanguageTaggedLiteralType());
         register(new NonNumericLiteralType());

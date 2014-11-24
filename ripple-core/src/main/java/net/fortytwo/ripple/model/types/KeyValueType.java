@@ -3,6 +3,7 @@ package net.fortytwo.ripple.model.types;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleType;
+import org.json.JSONException;
 
 import java.util.Collection;
 import java.util.Comparator;

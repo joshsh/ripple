@@ -24,7 +24,6 @@ public class LazyStackEvaluator extends StackEvaluator {
         public EvaluatorSink(final Sink<RippleList> sink,
                              final ModelConnection mc) {
             this.sink = sink;
-            //System.out.println(this + "( " + sink + ")");
             this.mc = mc;
         }
 
@@ -34,18 +33,11 @@ public class LazyStackEvaluator extends StackEvaluator {
                 return;
             }
 
-            //System.out.println(this + " -- stack = " + stack);
             Object first = arg.getFirst();
-            //System.out.println( "   first.isActive() = " + first.isActive() );
-            //System.out.println("   first = " + stack.getFirst());
 
             final StackMapping f = mc.toMapping(first);
             if (null != f) {
                 RippleList rest = arg.getRest();
-                //System.out.println("   rest = " + rest);
-
-                //System.out.println("   f = " + f);
-                //System.out.println("   f.arity() = " + f.arity());
 
                 // Nullary functions don't need their argument stacks reduced.
                 // They shouldn't even care if the stack is empty.
