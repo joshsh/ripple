@@ -291,20 +291,12 @@ public class SesameModelConnection implements ModelConnection {
         return c.toGregorianCalendar().getTime();
     }
 
-    public String toString(final Object v) throws RippleException {
-        if (v instanceof String) {
-            return (String) v;
-        } else if (v instanceof Value) {
-            Value r = (Value) v;
-
-            if (r instanceof Literal) {
-                return ((Literal) r).getLabel();
-            } else {
-                return r.toString();
-            }
-        } else {
-            return v.toString();
-        }
+    public String toString(final Object v) {
+        return v instanceof String
+                ? (String) v
+                : v instanceof Value
+                ? ((Value) v).stringValue()
+                : v.toString();
     }
 
     public void add(final Object subj, final Object pred, final Object obj, Object... contexts)

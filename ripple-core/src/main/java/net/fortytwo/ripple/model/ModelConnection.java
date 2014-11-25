@@ -92,14 +92,13 @@ public interface ModelConnection {
     Date toDate(Object v) throws RippleException;
 
     /**
-     * Attempts to convert a Ripple value to a string value.
+     * Converts an object to a string.
+     * The implementation is identical to Object.toString() except when the object is an RDF value.
      *
      * @param v the value to convert.
-     * @return the string representation of a value.  This is not identical to
-     * Object.toString(), and may involve a loss of information.
-     * @throws RippleException if conversion fails
+     * @return the string representation of a value
      */
-    String toString(Object v) throws RippleException;
+    String toString(Object v);
 
     /**
      * Attempts to convert a Ripple value to a Ripple List.
