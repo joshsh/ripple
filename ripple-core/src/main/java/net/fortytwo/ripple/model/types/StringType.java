@@ -42,4 +42,9 @@ public class StringType extends SimpleType<String> {
     public Category getCategory() {
         return Category.PLAIN_LITERAL_WITHOUT_LANGUAGE_TAG;
     }
+
+    @Override
+    public int compare(String o1, String o2, ModelConnection mc) {
+        return o1.compareTo(o2);
+    }
 }

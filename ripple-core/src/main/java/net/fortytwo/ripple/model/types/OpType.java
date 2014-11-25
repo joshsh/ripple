@@ -118,7 +118,12 @@ public class OpType extends SimpleType<Op> {
 
     @Override
     public Category getCategory() {
-        // FIXME: the Operator class also uses this type
         return RippleType.Category.OPERATOR;
+    }
+
+    @Override
+    public int compare(Op o1, Op o2, ModelConnection mc) {
+        // there is only one Op
+        return 0;
     }
 }

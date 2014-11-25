@@ -3,6 +3,7 @@ package net.fortytwo.ripple.model.types;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RipplePrintStream;
 import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleType;
 import net.fortytwo.ripple.model.StackMapping;
 import net.fortytwo.ripple.model.impl.sesame.SesameList;
@@ -40,5 +41,11 @@ public class SesameListType extends SimpleType<SesameList> {
     @Override
     public Category getCategory() {
         return RippleType.Category.LIST;
+    }
+
+    @Override
+    public int compare(SesameList o1, SesameList o2, ModelConnection mc) {
+        // TODO: move the list comparator into this class
+        return mc.getComparator().getListComparator().compare(o1, o2);
     }
 }

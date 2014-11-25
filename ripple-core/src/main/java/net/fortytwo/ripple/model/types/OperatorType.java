@@ -43,4 +43,10 @@ public class OperatorType extends SimpleType<Operator> {
     public Category getCategory() {
         return RippleType.Category.OPERATOR;
     }
+
+    @Override
+    public int compare(Operator o1, Operator o2, ModelConnection mc) {
+        // note: this is an impermanent and inconsistent ordering
+        return ((Integer) o1.getMapping().hashCode()).compareTo(o2.getMapping().hashCode());
+    }
 }

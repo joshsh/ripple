@@ -1,5 +1,6 @@
 package net.fortytwo.ripple.model.types;
 
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleType;
 import org.openrdf.model.URI;
 
@@ -19,5 +20,10 @@ public class URIType extends RDFValueType<URI> {
     @Override
     public Category getCategory() {
         return RippleType.Category.OTHER_RESOURCE;
+    }
+
+    @Override
+    public int compare(URI o1, URI o2, ModelConnection mc) {
+        return o1.stringValue().compareTo(o2.stringValue());
     }
 }

@@ -20,6 +20,7 @@ import net.fortytwo.ripple.model.types.OperatorType;
 import net.fortytwo.ripple.model.types.PlainLiteralType;
 import net.fortytwo.ripple.model.types.SPARQLValueType;
 import net.fortytwo.ripple.model.types.SesameListType;
+import net.fortytwo.ripple.model.types.StackMappingType;
 import net.fortytwo.ripple.model.types.StackMappingWrapperType;
 import net.fortytwo.ripple.model.types.StringType;
 import net.fortytwo.ripple.model.types.URIType;
@@ -70,6 +71,7 @@ public class SesameModel implements Model {
         // note: PrimitiveStackMapping types are registered on a per-primitive basis as libraries are loaded
         register(new SesameListType());
         register(new SPARQLValueType());
+        register(new StackMappingType());
         register(new StackMappingWrapperType());
         register(new StringType());
         register(new URIType());

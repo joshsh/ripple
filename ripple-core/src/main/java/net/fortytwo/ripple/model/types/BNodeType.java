@@ -1,5 +1,6 @@
 package net.fortytwo.ripple.model.types;
 
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleType;
 import org.openrdf.model.BNode;
 
@@ -19,5 +20,10 @@ public class BNodeType extends RDFValueType<BNode> {
     @Override
     public Category getCategory() {
         return RippleType.Category.OTHER_RESOURCE;
+    }
+
+    @Override
+    public int compare(BNode o1, BNode o2, ModelConnection mc) {
+        return o1.getID().compareTo(o2.getID());
     }
 }

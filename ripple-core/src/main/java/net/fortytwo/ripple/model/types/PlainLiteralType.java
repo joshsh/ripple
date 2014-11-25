@@ -1,6 +1,6 @@
 package net.fortytwo.ripple.model.types;
 
-import net.fortytwo.ripple.model.KeyValueMapping;
+import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StackMapping;
 import org.openrdf.model.Literal;
 
@@ -25,6 +25,10 @@ public class PlainLiteralType extends RDFValueType<Literal> {
     @Override
     public StackMapping getMapping(Literal instance) {
         return null;
-        //return new KeyValueMapping(instance.getLabel());
+    }
+
+    @Override
+    public int compare(Literal o1, Literal o2, ModelConnection mc) {
+        return o1.getLabel().compareTo(o2.getLabel());
     }
 }

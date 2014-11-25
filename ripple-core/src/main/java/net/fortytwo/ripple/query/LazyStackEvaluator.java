@@ -29,7 +29,7 @@ public class LazyStackEvaluator extends StackEvaluator {
 
         public void put(final RippleList arg)
                 throws RippleException {
-            if (stopped) {
+            if (stopped || arg.isNil()) {
                 return;
             }
 
@@ -78,25 +78,13 @@ public class LazyStackEvaluator extends StackEvaluator {
             return;
         }
 
-        /*
-        Sink<StackContext, RippleException> debugSink = new Sink<StackContext, RippleException>() {
-            public void put(final StackContext ctx) throws RippleException {
-                System.out.println("yielding value: " + ctx.getStack());
-                solutions.put(ctx);
-            }
-        };
-        //*/
-
         EvaluatorSink evalSink = new EvaluatorSink(solutions, mc);
-        //EvaluatorSink evalSink = new EvaluatorSink( debugSink );
         stopped = false;
 
         try {
             evalSink.put(arg);
-        }
-
-        // Attempt to recover from stack overflow.
-        catch (StackOverflowError e) {
+        } catch (StackOverflowError e) {
+            // Attempt to recover from stack overflow.
             throw new RippleException(e);
         }
     }

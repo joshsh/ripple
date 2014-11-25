@@ -11,7 +11,7 @@ import java.util.Comparator;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public abstract class KeyValueType<T> extends SimpleType<T> implements Comparator<T> {
+public abstract class KeyValueType<T> extends SimpleType<T> {
 
     protected KeyValueType(Class clazz) {
         super(clazz);

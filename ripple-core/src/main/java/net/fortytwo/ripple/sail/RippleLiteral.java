@@ -47,7 +47,7 @@ public class RippleLiteral extends LiteralImpl implements RippleSesameValue, BNo
     }
 
     private static final Random random = new Random();
-    
+
     @Override
     public String getID() {
         return "rl" + random.nextInt(Integer.MAX_VALUE);

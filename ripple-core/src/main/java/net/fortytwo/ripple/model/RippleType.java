@@ -5,6 +5,7 @@ import net.fortytwo.ripple.io.RipplePrintStream;
 import org.openrdf.model.Value;
 
 import java.util.Collection;
+import java.util.Comparator;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -33,4 +34,6 @@ public interface RippleType<T> {
     void print(T instance, RipplePrintStream p, ModelConnection mc) throws RippleException;
 
     Category getCategory();
+
+    int compare(T o1, T o2, ModelConnection mc);
 }

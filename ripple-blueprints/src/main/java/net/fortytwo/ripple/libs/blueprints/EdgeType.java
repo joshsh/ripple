@@ -31,7 +31,7 @@ public class EdgeType extends KeyValueType<Edge> {
     }
 
     @Override
-    public int compare(Edge o1, Edge o2) {
+    public int compare(Edge o1, Edge o2, ModelConnection mc) {
         String otherLabel = o2.getLabel();
         int cmp = o1.getLabel().compareTo(otherLabel);
         if (0 == cmp) {

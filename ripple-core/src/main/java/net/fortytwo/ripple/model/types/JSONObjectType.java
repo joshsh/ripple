@@ -66,7 +66,7 @@ public class JSONObjectType extends KeyValueType<JSONObject> {
     }
 
     @Override
-    public int compare(JSONObject o1, JSONObject o2) {
+    public int compare(JSONObject o1, JSONObject o2, ModelConnection mc) {
         return o1.toString().compareTo(o2.toString());
     }
 

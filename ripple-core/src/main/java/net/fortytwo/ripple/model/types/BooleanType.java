@@ -40,4 +40,9 @@ public class BooleanType extends SimpleType<Boolean> {
     public Category getCategory() {
         return Category.OTHER_TYPED_LITERAL;
     }
+
+    @Override
+    public int compare(Boolean o1, Boolean o2, ModelConnection mc) {
+        return o1.compareTo(o2);
+    }
 }

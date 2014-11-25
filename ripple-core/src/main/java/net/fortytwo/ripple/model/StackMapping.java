@@ -4,7 +4,7 @@ import net.fortytwo.flow.Mapping;
 import net.fortytwo.ripple.RippleException;
 
 /**
- * A streaming filter which maps stacks to stacks.
+ * A streaming filter which maps stacks to stacks
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */

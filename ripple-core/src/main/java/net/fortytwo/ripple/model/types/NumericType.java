@@ -362,4 +362,9 @@ public abstract class NumericType<T> implements RippleType<T> {
                 return l.doubleValue();
         }
     }
+
+    @Override
+    public int compare(T o1, T o2, ModelConnection mc) {
+        return ((Double) findNumber(o1).doubleValue()).compareTo(findNumber(o2).doubleValue());
+    }
 }

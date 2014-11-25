@@ -28,5 +28,4 @@ public abstract class RDFValueType<T extends Value> extends SimpleType<T> {
     public Value toRDF(T instance, ModelConnection mc) throws RippleException {
         return instance;
     }
-
 }

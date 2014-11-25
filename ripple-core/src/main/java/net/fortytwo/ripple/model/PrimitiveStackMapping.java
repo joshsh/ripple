@@ -59,7 +59,7 @@ public abstract class PrimitiveStackMapping implements StackMapping {
         return getParameters().length;
     }
 
-    public Value getRdfEquivalent() {
+    public Value getRDFEquivalent() {
         return rdfEquivalent;
     }
 

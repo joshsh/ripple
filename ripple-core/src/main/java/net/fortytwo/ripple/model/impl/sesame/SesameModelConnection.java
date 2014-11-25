@@ -68,7 +68,7 @@ public class SesameModelConnection implements ModelConnection {
     protected final RDFDiffSink listenerSink;
     protected final ValueFactory valueFactory;
     private final TaskSet taskSet = new TaskSet();
-    private final Comparator<Object> comparator;
+    private final RippleComparator comparator;
 
     private boolean closed = false;
 
@@ -452,7 +452,7 @@ public class SesameModelConnection implements ModelConnection {
         return count;
     }
 
-    public Comparator<Object> getComparator() {
+    public RippleComparator getComparator() {
         return comparator;
     }
 

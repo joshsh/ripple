@@ -171,7 +171,7 @@ public interface ModelConnection {
      *
      * @return the total order of objects in this model
      */
-    Comparator<Object> getComparator();
+    RippleComparator getComparator();
 
     /**
      * Define a namespace prefix.

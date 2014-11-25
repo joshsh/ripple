@@ -6,6 +6,8 @@ import net.fortytwo.ripple.util.ModelConnectionHelper;
 import org.openrdf.model.Value;
 
 /**
+ * A wrapper for a stack mapping with a settable RDF equivalent
+ *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class StackMappingWrapper implements StackMapping {

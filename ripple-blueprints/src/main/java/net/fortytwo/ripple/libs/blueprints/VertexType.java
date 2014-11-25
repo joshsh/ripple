@@ -31,7 +31,7 @@ public class VertexType extends KeyValueType<Vertex> {
     }
 
     @Override
-    public int compare(Vertex o1, Vertex o2) {
+    public int compare(Vertex o1, Vertex o2, ModelConnection mc) {
         return ((Integer) o1.getId().hashCode()).compareTo(o2.getId().hashCode());
     }
 

@@ -1,17 +1,14 @@
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.flow.Collector;
-import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.types.KeyValueType;
 import net.fortytwo.ripple.model.types.NumericType;
 import net.fortytwo.ripple.util.ModelConnectionHelper;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
-import org.openrdf.model.vocabulary.RDF;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -42,49 +39,62 @@ public class RippleComparator implements Comparator<Object> {
     private static final Logger logger = Logger.getLogger(RippleComparator.class.getName());
 
     private final ModelConnection modelConnection;
+    private final Comparator<RippleList> listComparator;
 
     public RippleComparator(final ModelConnection mc) {
         this.modelConnection = mc;
+        this.listComparator = new RippleListComparator();
     }
 
-    public int compare(final Object first,
-                       final Object second) {
+    public Comparator<RippleList> getListComparator() {
+        return listComparator;
+    }
+
+    public int compare(final Object o1,
+                       final Object o2) {
         try {
-            RippleType typeFirst = modelConnection.getModel().getTypeOf(first);
-            RippleType typeSecond = modelConnection.getModel().getTypeOf(second);
-            RippleType.Category catFirst = findCategory(first, typeFirst);
-            RippleType.Category catSecond = findCategory(second, typeSecond);
+            RippleType o1Type = modelConnection.getModel().getTypeOf(o1);
+            RippleType o2Type = modelConnection.getModel().getTypeOf(o2);
+
+            // if the objects have the same type, use the type's internal comparison
+            if (o1Type == o2Type) {
+                return o1Type.compare(o1, o2, modelConnection);
+            }
+
+            // if the objects have different types, look for equivalence relations
+            RippleType.Category o1Cat = findCategory(o1, o1Type);
+            RippleType.Category o2Cat = findCategory(o2, o2Type);
 
             // recognize URIs or blank nodes representing lists as equivalent to native lists
-            if (catFirst == RippleType.Category.OTHER_RESOURCE
-                    && ModelConnectionHelper.isRDFList(first, modelConnection)) {
-                catFirst = RippleType.Category.LIST;
+            if (o1Cat == RippleType.Category.OTHER_RESOURCE
+                    && ModelConnectionHelper.isRDFList(o1, modelConnection)) {
+                o1Cat = RippleType.Category.LIST;
             }
-            if (catSecond == RippleType.Category.OTHER_RESOURCE
-                    && ModelConnectionHelper.isRDFList(second, modelConnection)) {
-                catSecond = RippleType.Category.LIST;
+            if (o2Cat == RippleType.Category.OTHER_RESOURCE
+                    && ModelConnectionHelper.isRDFList(o2, modelConnection)) {
+                o2Cat = RippleType.Category.LIST;
             }
 
-            int c = catFirst.compareTo(catSecond);
+            int c = o1Cat.compareTo(o2Cat);
 
             if (0 == c) {
-                switch (catFirst) {
+                switch (o1Cat) {
                     case PLAIN_LITERAL_WITHOUT_LANGUAGE_TAG:
-                        return comparePlainLiteralWithoutLanguageTag(first, second);
+                        return comparePlainLiteralWithoutLanguageTag(o1, o2);
                     case PLAIN_LITERAL_WITH_LANGUAGE_TAG:
-                        return comparePlainLiteralWithLanguageTag(first, second);
+                        return comparePlainLiteralWithLanguageTag(o1, o2);
                     case NUMERIC_TYPED_LITERAL:
-                        return compareNumericTypedLiteral(first, second, typeFirst, typeSecond);
+                        return compareNumericTypedLiteral(o1, o2, o1Type, o2Type);
                     case OTHER_TYPED_LITERAL:
-                        return compareOtherTypedLiteral(first, second);
+                        return compareOtherTypedLiteral(o1, o2);
                     case LIST:
-                        return compareList(first, second);
+                        return compareList(o1, o2);
                     case KEYVALUE_VALUE:
-                        return compareKeyValueValue(first, second, typeFirst, typeSecond);
+                        return compareKeyValueValue(o1, o2, o1Type, o2Type);
                     case OPERATOR:
-                        return compareOperator(first, second);
+                        return compareOperator(o1, o2, o1Type, o2Type);
                     case OTHER_RESOURCE:
-                        return compareOtherResource(first, second);
+                        return compareOtherResource(o1, o2);
                     default:
                         throw new IllegalStateException();
                 }
@@ -92,8 +102,18 @@ public class RippleComparator implements Comparator<Object> {
                 return c;
             }
         } catch (RippleException e) {
-            logger.log(Level.WARNING, "failed to compare " + first + " and " + second, e);
+            logger.log(Level.WARNING, "failed to compare " + o1 + " and " + o2, e);
             return 0;
+        }
+    }
+
+    // default comparison where there are no equivalence relations between classes in a category
+    private int compareDefaultInSameCategory(final Object o1, final Object o2,
+                                             final RippleType o1Type, final RippleType o2Type) {
+        if (o1Type == o2Type) {
+            return o1Type.compare(o1, o2, modelConnection);
+        } else {
+            return o1Type.getClass().getName().compareTo(o2Type.getClass().getName());
         }
     }
 
@@ -137,179 +157,183 @@ public class RippleComparator implements Comparator<Object> {
         }
     }
 
-    private int comparePlainLiteralWithoutLanguageTag(final Object first,
-                                                      final Object second) throws RippleException {
-        return modelConnection.toRDF(first).stringValue().compareTo(
-                modelConnection.toRDF(second).stringValue());
+    private int comparePlainLiteralWithoutLanguageTag(final Object o1,
+                                                      final Object o2) throws RippleException {
+        return modelConnection.toRDF(o1).stringValue().compareTo(
+                modelConnection.toRDF(o2).stringValue());
     }
 
-    private int comparePlainLiteralWithLanguageTag(final Object first,
-                                                   final Object second) throws RippleException {
-        Literal firstLiteral = (Literal) modelConnection.toRDF(first);
-        Literal secondLiteral = (Literal) modelConnection.toRDF(second);
+    private int comparePlainLiteralWithLanguageTag(final Object o1,
+                                                   final Object o2) throws RippleException {
+        Literal o1Lit = (Literal) modelConnection.toRDF(o1);
+        Literal o2Lit = (Literal) modelConnection.toRDF(o2);
 
-        int c = firstLiteral.getLanguage().compareTo(
-                secondLiteral.getLanguage());
+        int c = o1Lit.getLanguage().compareTo(
+                o2Lit.getLanguage());
         if (0 == c) {
-            return firstLiteral.getLabel().compareTo(
-                    secondLiteral.getLabel());
+            return o1Lit.getLabel().compareTo(
+                    o2Lit.getLabel());
         } else {
             return c;
         }
     }
 
-    private int compareNumericTypedLiteral(final Object first,
-                                           final Object second,
-                                           final RippleType typeFirst,
-                                           final RippleType typeSecond) throws RippleException {
-        if (!(typeFirst instanceof NumericType && typeSecond instanceof NumericType)) {
+    private int compareNumericTypedLiteral(final Object o1,
+                                           final Object o2,
+                                           final RippleType o1Type,
+                                           final RippleType o2Type) throws RippleException {
+        if (!(o1Type instanceof NumericType && o2Type instanceof NumericType)) {
             throw new IllegalStateException();
         }
 
-        return NumericType.compare(((NumericType) typeFirst).findNumber(first), ((NumericType) typeSecond).findNumber(second));
+        return NumericType.compare(((NumericType) o1Type).findNumber(o1), ((NumericType) o2Type).findNumber(o2));
     }
 
-    private int compareOtherTypedLiteral(final Object first,
-                                         final Object second) throws RippleException {
-        Literal firstLiteral = (Literal) modelConnection.toRDF(first);
-        Literal secondLiteral = (Literal) modelConnection.toRDF(second);
+    private int compareOtherTypedLiteral(final Object o1,
+                                         final Object o2) throws RippleException {
+        Literal o1Lit = (Literal) modelConnection.toRDF(o1);
+        Literal o2Lit = (Literal) modelConnection.toRDF(o2);
 
-        int c = firstLiteral.getDatatype().stringValue().compareTo(
-                secondLiteral.getDatatype().stringValue());
+        int c = o1Lit.getDatatype().stringValue().compareTo(
+                o2Lit.getDatatype().stringValue());
         if (0 == c) {
-            return firstLiteral.getLabel().compareTo(
-                    secondLiteral.getLabel());
+            return o1Lit.getLabel().compareTo(
+                    o2Lit.getLabel());
         } else {
             return c;
         }
     }
 
     // TODO: list comparison is vulnerable to infinite loops due to circular lists
-    private int compareList(final Object first,
-                            final Object second) throws RippleException {
-        if (first instanceof RippleList) {
-            if (second instanceof RippleList) {
-                return compareNativeLists((RippleList) first, (RippleList) second);
+    private int compareList(final Object o1,
+                            final Object o2) throws RippleException {
+        if (o1 instanceof RippleList) {
+            if (o2 instanceof RippleList) {
+                return compareNativeLists((RippleList) o1, (RippleList) o2);
             } else {
-                Collector<RippleList> firstLists
+                Collector<RippleList> o1Lists
                         = new Collector<>();
-                Collector<RippleList> secondLists
+                Collector<RippleList> o2Lists
                         = new Collector<>();
-                firstLists.put((RippleList) first);
-                modelConnection.toList(second, secondLists);
-                return compareListCollectors(firstLists, secondLists);
+                o1Lists.put((RippleList) o1);
+                modelConnection.toList(o2, o2Lists);
+                return compareListCollectors(o1Lists, o2Lists);
             }
         } else {
-            if (second instanceof RippleList) {
-                Collector<RippleList> firstLists
+            if (o2 instanceof RippleList) {
+                Collector<RippleList> o1Lists
                         = new Collector<>();
-                Collector<RippleList> secondLists
+                Collector<RippleList> o2Lists
                         = new Collector<>();
-                modelConnection.toList(first, firstLists);
-                secondLists.put((RippleList) second);
-                return compareListCollectors(firstLists, secondLists);
+                modelConnection.toList(o1, o1Lists);
+                o2Lists.put((RippleList) o2);
+                return compareListCollectors(o1Lists, o2Lists);
             } else {
-                Collector<RippleList> firstLists
+                Collector<RippleList> o1Lists
                         = new Collector<>();
-                Collector<RippleList> secondLists
+                Collector<RippleList> o2Lists
                         = new Collector<>();
-                modelConnection.toList(first, firstLists);
-                modelConnection.toList(second, secondLists);
-                return compareListCollectors(firstLists, secondLists);
+                modelConnection.toList(o1, o1Lists);
+                modelConnection.toList(o2, o2Lists);
+                return compareListCollectors(o1Lists, o2Lists);
             }
         }
     }
 
-    private int compareKeyValueValue(final Object first,
-                                     final Object second,
-                                     final RippleType firstType,
-                                     final RippleType secondType) {
-        if (firstType == secondType) {
-            return ((KeyValueType) firstType).compare(first, second);
+    private int compareKeyValueValue(final Object o1,
+                                     final Object o2,
+                                     final RippleType o1Type,
+                                     final RippleType o2Type) {
+        if (o1Type == o2Type) {
+            return ((KeyValueType) o1Type).compare(o1, o2, modelConnection);
         } else {
-            return firstType.getClass().getName().compareTo(secondType.getClass().getName());
+            return o1Type.getClass().getName().compareTo(o2Type.getClass().getName());
         }
     }
 
-    private int compareOperator(final Object first,
-                                final Object second) throws RippleException {
-        // TODO: let Operator implement Comparable<Operator>
-        return 0;
+    private int compareOperator(final Object o1,
+                                final Object o2,
+                                final RippleType o1Type,
+                                final RippleType o2Type) throws RippleException {
+        if (o1 instanceof PrimitiveStackMapping && o2 instanceof PrimitiveStackMapping) {
+            return o1Type.compare(o1, o2, modelConnection);
+        } else {
+            return compareDefaultInSameCategory(o1, o2, o1Type, o2Type);
+        }
     }
 
-    private int compareOtherResource(final Object first,
-                                     final Object second) throws RippleException {
-        Value firstRdf = modelConnection.toRDF(first);
-        Value secondRdf = modelConnection.toRDF(second);
-        return null == firstRdf
-                ? null == secondRdf ? 0
+    private int compareOtherResource(final Object o1,
+                                     final Object o2) throws RippleException {
+        Value o1Rdf = modelConnection.toRDF(o1);
+        Value o2Rdf = modelConnection.toRDF(o2);
+        return null == o1Rdf
+                ? null == o2Rdf ? 0
                 : -1
-                : null == secondRdf ? 1
-                : firstRdf.stringValue().compareTo(
-                secondRdf.stringValue());
+                : null == o2Rdf ? 1
+                : o1Rdf.stringValue().compareTo(
+                o2Rdf.stringValue());
     }
 
-    private int compareNativeLists(final RippleList first,
-                                   final RippleList second) throws RippleException {
-        RippleList firstCur = first;
-        RippleList secondCur = second;
+    private int compareNativeLists(final RippleList l1,
+                                   final RippleList l2) throws RippleException {
+        RippleList cur1 = l1;
+        RippleList cur2 = l2;
 
-        while (!firstCur.isNil()) {
-            if (secondCur.isNil()) {
+        while (!cur1.isNil()) {
+            if (cur2.isNil()) {
                 return 1;
             }
 
-            int cmp = compare(firstCur.getFirst(), secondCur.getFirst());
+            int cmp = compare(cur1.getFirst(), cur2.getFirst());
 
             if (0 != cmp) {
                 return cmp;
             }
 
-            firstCur = firstCur.getRest();
-            secondCur = secondCur.getRest();
+            cur1 = cur1.getRest();
+            cur2 = cur2.getRest();
         }
 
-        if (secondCur.isNil()) {
+        if (cur2.isNil()) {
             return 0;
         } else {
             return -1;
         }
     }
 
-    private int compareListCollectors(final Collector<RippleList> firstLists,
-                                      final Collector<RippleList> secondLists) throws RippleException {
-        int firstSize = firstLists.size();
-        int secondSize = secondLists.size();
+    private int compareListCollectors(final Collector<RippleList> l1,
+                                      final Collector<RippleList> l2) throws RippleException {
+        int l1Size = l1.size();
+        int l2Size = l2.size();
 
-        if (firstSize < secondSize) {
+        if (l1Size < l2Size) {
             return -1;
-        } else if (secondSize < firstSize) {
+        } else if (l2Size < l1Size) {
             return 1;
         }
 
         // This is common enough to probably be worth a special case.
-        else if (1 == firstSize) {
-            return compareNativeLists(firstLists.iterator().next(),
-                    secondLists.iterator().next());
+        else if (1 == l1Size) {
+            return compareNativeLists(l1.iterator().next(),
+                    l2.iterator().next());
         } else {
-            RippleList[] firstArray = new RippleList[firstSize];
-            RippleList[] secondArray = new RippleList[secondSize];
+            RippleList[] a1 = new RippleList[l1Size];
+            RippleList[] a2 = new RippleList[l2Size];
 
             int i = 0;
-            for (RippleList firstList : firstLists) {
-                firstArray[i] = firstList;
+            for (RippleList l : l1) {
+                a1[i] = l;
             }
             i = 0;
-            for (RippleList secondList : secondLists) {
-                secondArray[i] = secondList;
+            for (RippleList secondList : l2) {
+                a2[i] = secondList;
             }
 
-            Comparator<RippleList> comparator = new RippleListComparator();
-            Arrays.sort(firstArray, comparator);
-            Arrays.sort(secondArray, comparator);
+            Arrays.sort(a1, listComparator);
+            Arrays.sort(a2, listComparator);
 
-            for (int j = 0; j < firstSize; j++) {
-                int c = compareNativeLists(firstArray[j], secondArray[j]);
+            for (int j = 0; j < l1Size; j++) {
+                int c = compareNativeLists(a1[j], a2[j]);
                 if (0 != c) {
                     return c;
                 }
@@ -319,13 +343,13 @@ public class RippleComparator implements Comparator<Object> {
         }
     }
 
-    private class RippleListComparator implements Comparator<RippleList> {
-        public int compare(final RippleList first,
-                           final RippleList second) {
+    public class RippleListComparator implements Comparator<RippleList> {
+        public int compare(final RippleList l1,
+                           final RippleList l2) {
             try {
-                return compareNativeLists(first, second);
+                return compareNativeLists(l1, l2);
             } catch (RippleException e) {
-                logger.log(Level.WARNING, "failed to compare " + first + " and " + second, e);
+                logger.log(Level.WARNING, "failed to compare " + l1 + " and " + l2, e);
                 return 0;
             }
         }

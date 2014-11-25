@@ -52,6 +52,11 @@ public class SPARQLValueType extends KeyValueType<SPARQLValue> implements Compar
     }
 
     @Override
+    public int compare(SPARQLValue o1, SPARQLValue o2, ModelConnection mc) {
+        return o1.toString().compareTo(o2.toString());
+    }
+
+    @Override
     public Collection<String> getKeys(final SPARQLValue instance) {
         return instance.getPairs().keySet();
     }
