@@ -46,7 +46,7 @@ public class JSONObjectType extends KeyValueType<JSONObject> {
 
     @Override
     public Collection<String> getKeys(final JSONObject instance) {
-        List<String> keys = new LinkedList<>();
+        List<String> keys = new LinkedList<String>();
         Iterator i = instance.keys();
         while (i.hasNext()) {
             Object key = i.next();

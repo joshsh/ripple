@@ -36,8 +36,8 @@ public class LibraryLoader extends ClassLoader {
 
         public Context(final ModelConnection mc) {
             this.modelConnection = mc;
-            primaryMap = new LinkedHashMap<>();
-            aliasMap = new LinkedHashMap<>();
+            primaryMap = new LinkedHashMap<Value, Object>();
+            aliasMap = new LinkedHashMap<Value, Object>();
         }
 
         public ModelConnection getModelConnection() {

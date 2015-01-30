@@ -184,7 +184,7 @@ public abstract class RippleTestCase extends TestCase {
 
     protected Collection<RippleList> reduce(final InputStream from) throws RippleException {
         Collector<RippleList>
-                results = new Collector<>();
+                results = new Collector<RippleList>();
 
         QueryEngine qe = getTestQueryEngine();
 
@@ -192,7 +192,7 @@ public abstract class RippleTestCase extends TestCase {
         actualPipe.put(from);
         actualPipe.close();
 
-        Collection<RippleList> c = new LinkedList<>();
+        Collection<RippleList> c = new LinkedList<RippleList>();
         for (RippleList result : results) {
             c.add(result);
         }
@@ -212,7 +212,7 @@ public abstract class RippleTestCase extends TestCase {
 
     protected Collection<RippleList> reduce(final String from) throws RippleException {
         Collector<RippleList>
-                results = new Collector<>();
+                results = new Collector<RippleList>();
 
         QueryEngine qe = getTestQueryEngine();
 
@@ -220,7 +220,7 @@ public abstract class RippleTestCase extends TestCase {
         actualPipe.put(from + "\n");
         actualPipe.close();
 
-        Collection<RippleList> c = new LinkedList<>();
+        Collection<RippleList> c = new LinkedList<RippleList>();
         for (RippleList result : results) {
             c.add(result);
         }
@@ -230,8 +230,8 @@ public abstract class RippleTestCase extends TestCase {
 
     protected void assertReducesTo(final String from, final String... to) throws Exception {
         Collector<RippleList>
-                expected = new Collector<>(),
-                actual = new Collector<>();
+                expected = new Collector<RippleList>(),
+                actual = new Collector<RippleList>();
 
         QueryEngine qe = getTestQueryEngine();
 

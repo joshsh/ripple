@@ -157,7 +157,7 @@ public abstract class RippleList<T> extends ListNode<T> {
      * @return a Java list of the items in this list.  This is purely a convenience method.
      */
     public List<T> toJavaList() {
-        LinkedList<T> javaList = new LinkedList<>();
+        LinkedList<T> javaList = new LinkedList<T>();
 
         ListNode<T> cur = this;
         while (!cur.isNil()) {

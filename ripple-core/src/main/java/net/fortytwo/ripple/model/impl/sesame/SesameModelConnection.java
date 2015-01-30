@@ -718,7 +718,7 @@ public class SesameModelConnection implements ModelConnection {
         // Handle circular lists (in the unlikely event that some implementation allows them) sanely.
         // TODO: handle list containment cycles (e.g. list containing a list containing the original list) as well.
         // These are actually more likely than circular lists.
-        Set<Value> alreadyInterned = new HashSet<>();
+        Set<Value> alreadyInterned = new HashSet<Value>();
 
         RippleList cur = list;
         Value id = toRDF(cur);

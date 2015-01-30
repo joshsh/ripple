@@ -106,7 +106,7 @@ public class VisibleQueryCommand extends Command {
         try {
             if (null != mc.toRDF(v)) {
                 StatementPatternQuery query = new StatementPatternQuery(v, RDF.FIRST, null);
-                mc.query(query, new NullSink<>(), false);
+                mc.query(query, new NullSink<RippleList>(), false);
             }
         } catch (RippleException e) {
             // (soft fail... don't even log the error)

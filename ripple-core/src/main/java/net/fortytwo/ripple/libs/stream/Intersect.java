@@ -88,7 +88,7 @@ public class Intersect extends PrimitiveStackMapping {
             RippleList stack = arg.getRest();
 
             if (null == trueMemoizer) {
-                trueMemoizer = new ListMemoizer<>(mc.getComparator());
+                trueMemoizer = new ListMemoizer<Object, String>(mc.getComparator());
             }
 
             trueMemoizer.put(stack, MEMO);
@@ -104,7 +104,7 @@ public class Intersect extends PrimitiveStackMapping {
             RippleList stack = arg.getRest();
 
             if (null == falseMemoizer) {
-                falseMemoizer = new ListMemoizer<>(mc.getComparator());
+                falseMemoizer = new ListMemoizer<Object, String>(mc.getComparator());
             }
 
             falseMemoizer.put(stack, MEMO);

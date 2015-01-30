@@ -39,7 +39,7 @@ public class SailConnectionTripleSource implements TripleSource {
                     sailConnection.getStatements(subj, pred, obj, includeInferred, contexts));
         } catch (SailException e) {
             logger.log(Level.WARNING, "query evaluation failed", e);
-            return new EmptyCloseableIteration<>();
+            return new EmptyCloseableIteration<Statement, QueryEvaluationException>();
         }
     }
 

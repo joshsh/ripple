@@ -36,10 +36,10 @@ public class RankingEvaluatorHelper {
 
     public RankingEvaluatorHelper(final RippleList arg,
                                   final ModelConnection mc) {
-        queue = new PriorityQueue<>(1, comparator);
+        queue = new PriorityQueue<RankingContext>(1, comparator);
 
-        resultList = new LinkedList<>();
-        resultMemos = new ListMemoizer<>(
+        resultList = new LinkedList<RankingContext>();
+        resultMemos = new ListMemoizer<Object, RankingContext>(
                 new RippleComparator(mc));
 
         handleOutput(new RankingContext(arg, mc));

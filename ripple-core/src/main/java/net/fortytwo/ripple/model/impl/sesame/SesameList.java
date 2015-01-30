@@ -159,7 +159,7 @@ public class SesameList<T> extends RippleList<T> {
         if (mc.toRDF(head).equals(RDF.NIL)) {
             sink.put(NIL);
         } else {
-            final Collector<Object> firstValues = new Collector<>();
+            final Collector<Object> firstValues = new Collector<Object>();
 
             final Sink<RippleList> restSink = new Sink<RippleList>() {
                 public void put(final RippleList rest) throws RippleException {
@@ -210,7 +210,7 @@ public class SesameList<T> extends RippleList<T> {
                                  final Object subj,
                                  final Object pred,
                                  final Sink sink) throws RippleException {
-        StatementPatternQuery query = new StatementPatternQuery<>(subj, pred, null);
+        StatementPatternQuery query = new StatementPatternQuery(subj, pred, null);
         mc.query(query, sink, false);
     }
 

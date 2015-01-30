@@ -20,7 +20,7 @@ public class SpecialValueMap {
      * Create a new map.
      */
     public SpecialValueMap() {
-        rdfToNativeMap = new HashMap<>();
+        rdfToNativeMap = new HashMap<Value, Object>();
     }
 
     /**

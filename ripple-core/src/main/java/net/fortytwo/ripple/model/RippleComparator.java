@@ -212,9 +212,9 @@ public class RippleComparator implements Comparator<Object> {
                 return compareNativeLists((RippleList) o1, (RippleList) o2);
             } else {
                 Collector<RippleList> o1Lists
-                        = new Collector<>();
+                        = new Collector<RippleList>();
                 Collector<RippleList> o2Lists
-                        = new Collector<>();
+                        = new Collector<RippleList>();
                 o1Lists.put((RippleList) o1);
                 modelConnection.toList(o2, o2Lists);
                 return compareListCollectors(o1Lists, o2Lists);
@@ -222,17 +222,17 @@ public class RippleComparator implements Comparator<Object> {
         } else {
             if (o2 instanceof RippleList) {
                 Collector<RippleList> o1Lists
-                        = new Collector<>();
+                        = new Collector<RippleList>();
                 Collector<RippleList> o2Lists
-                        = new Collector<>();
+                        = new Collector<RippleList>();
                 modelConnection.toList(o1, o1Lists);
                 o2Lists.put((RippleList) o2);
                 return compareListCollectors(o1Lists, o2Lists);
             } else {
                 Collector<RippleList> o1Lists
-                        = new Collector<>();
+                        = new Collector<RippleList>();
                 Collector<RippleList> o2Lists
-                        = new Collector<>();
+                        = new Collector<RippleList>();
                 modelConnection.toList(o1, o1Lists);
                 modelConnection.toList(o2, o2Lists);
                 return compareListCollectors(o1Lists, o2Lists);

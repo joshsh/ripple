@@ -13,7 +13,7 @@ public class SPARQLValue {
     private final Map<String, Value> pairs;
 
     public SPARQLValue(BindingSet bindings) {
-        pairs = new HashMap<>();
+        pairs = new HashMap<String, Value>();
         for (String key : bindings.getBindingNames()) {
             Value value = bindings.getValue(key);
             if (null != value) {

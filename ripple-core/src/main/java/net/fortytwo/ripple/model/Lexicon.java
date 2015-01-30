@@ -64,15 +64,15 @@ public class Lexicon {
     private final Map<String, Object> temporaryValues;
 
     public Lexicon(final Model model) throws RippleException {
-        prefixToUri = new HashMap<>();
-        uriToPrefix = new HashMap<>();
-        allQNames = new ArrayList<>();
-        temporaryValues = new HashMap<>();
+        prefixToUri = new HashMap<String, String>();
+        uriToPrefix = new HashMap<String, String>();
+        allQNames = new ArrayList<String>();
+        temporaryValues = new HashMap<String, Object>();
 
         ModelConnection mc = model.createConnection();
         try {
-            keywordToUri = new HashMap<>();
-            uriToKeyword = new HashMap<>();
+            keywordToUri = new HashMap<String, Set<URI>>();
+            uriToKeyword = new HashMap<URI, String>();
 
             for (Value key : model.getSpecialValues().keySet()) {
                 if (key instanceof URI) {
@@ -212,7 +212,7 @@ public class Lexicon {
         // resolving to the same runtime value more than once (as is the case,
         // for instance, when two or more URIs mapping to a special value have
         // the same local name).
-        Set values = new HashSet<>();
+        Set values = new HashSet();
         for (URI u : options) {
             values.add(mc.canonicalValue(u));
         }

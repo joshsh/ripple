@@ -165,7 +165,7 @@ public class URITest extends RippleTestCase {
         SesameInputAdapter.parse(is, importer, "", RDFFormat.N3);
         mc.commit();
 
-        Collector<Object> cases = new Collector<>();
+        Collector<Object> cases = new Collector<Object>();
         StatementPatternQuery query = new StatementPatternQuery(null, TYPE, URITEST);
         mc.query(query, cases, false);
 

@@ -56,8 +56,8 @@ public class SesameModel implements Model {
 
         logger.fine("instantiating SesameModel");
 
-        unmappedTypes = new HashSet<>();
-        registeredTypes = new HashMap<>();
+        unmappedTypes = new HashSet<Class>();
+        registeredTypes = new HashMap<Class, List<RippleType>>();
         register(new BNodeType());
         register(new BooleanType());
         register(new JSONObjectType());
@@ -153,7 +153,7 @@ public class SesameModel implements Model {
         for (Class c : (Iterable<Class>) type.getInstanceClasses()) {
             List<RippleType> types = registeredTypes.get(c);
             if (null == types) {
-                types = new LinkedList<>();
+                types = new LinkedList<RippleType>();
                 registeredTypes.put(c, types);
             }
             types.add(type);
@@ -203,7 +203,7 @@ public class SesameModel implements Model {
         List<RippleType> types = registeredTypes.get(c);
         if (null != types) {
             for (Class d : hierarchy) {
-                List<RippleType> newTypes = new LinkedList<>();
+                List<RippleType> newTypes = new LinkedList<RippleType>();
                 newTypes.addAll(types);
                 registeredTypes.put(d, newTypes);
             }

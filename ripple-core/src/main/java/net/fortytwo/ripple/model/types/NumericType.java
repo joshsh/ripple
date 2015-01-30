@@ -28,14 +28,14 @@ public abstract class NumericType<T> implements RippleType<T> {
     protected static final Map<URI, Datatype> datatypeByUri;
 
     static {
-        datatypeByClass = new HashMap<>();
+        datatypeByClass = new HashMap<Class, Datatype>();
         datatypeByClass.put(BigDecimal.class, Datatype.DECIMAL);
         datatypeByClass.put(Double.class, Datatype.DOUBLE);
         datatypeByClass.put(Float.class, Datatype.FLOAT);
         datatypeByClass.put(Integer.class, Datatype.INTEGER);
         datatypeByClass.put(Long.class, Datatype.LONG);
 
-        datatypeByUri = new HashMap<>();
+        datatypeByUri = new HashMap<URI, Datatype>();
         datatypeByUri.put(XMLSchema.DECIMAL, Datatype.DECIMAL);
         datatypeByUri.put(XMLSchema.DOUBLE, Datatype.DOUBLE);
         datatypeByUri.put(XMLSchema.FLOAT, Datatype.FLOAT);
@@ -351,15 +351,14 @@ public abstract class NumericType<T> implements RippleType<T> {
 
         // Sesame's literals apparently don't handle these special
         // cases, so we need to check for them here.
-        switch (label) {
-            case "NaN":
-                return Double.NaN;
-            case "INF":
-                return Double.POSITIVE_INFINITY;
-            case "-INF":
-                return Double.NEGATIVE_INFINITY;
-            default:
-                return l.doubleValue();
+        if (label.equals("NaN")) {
+            return Double.NaN;
+        } else if (label.equals("INF")) {
+            return Double.POSITIVE_INFINITY;
+        } else if (label.equals("-INF")) {
+            return Double.NEGATIVE_INFINITY;
+        } else {
+            return l.doubleValue();
         }
     }
 

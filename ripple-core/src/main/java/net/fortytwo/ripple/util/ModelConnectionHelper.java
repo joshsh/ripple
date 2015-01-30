@@ -30,7 +30,7 @@ public class ModelConnectionHelper {
     public Object findSingleObject(final Object subj, final Object pred)
             throws RippleException {
         StatementPatternQuery query = new StatementPatternQuery(subj, pred, null);
-        Collector<Object> results = new Collector<>();
+        Collector<Object> results = new Collector<Object>();
         connection.query(query, results, false);
 
         return results.isEmpty() ? null : results.iterator().next();

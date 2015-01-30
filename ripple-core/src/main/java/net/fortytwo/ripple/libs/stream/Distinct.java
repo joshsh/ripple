@@ -66,7 +66,7 @@ public class Distinct extends PrimitiveStackMapping {
                           final Sink<RippleList> solutions,
                           final ModelConnection mc) throws RippleException {
             if (null == memoizer) {
-                memoizer = new ListMemoizer<>(mc.getComparator());
+                memoizer = new ListMemoizer<Object, String>(mc.getComparator());
             }
 
             if (memoizer.put(arg, MEMO)) {
