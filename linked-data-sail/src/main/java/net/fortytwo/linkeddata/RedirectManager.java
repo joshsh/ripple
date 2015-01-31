@@ -12,7 +12,7 @@ import org.openrdf.sail.SailException;
  * Linked Data URIs.
  * Persisting and looking up these redirects saves time, space, and bandwidth when multiple redirects
  * to the same document are encountered.
- * 
+ *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RedirectManager {

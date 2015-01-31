@@ -1,9 +1,10 @@
 package net.fortytwo.ripple;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
-
 
 /**
  * Read-only configuration metadata.
@@ -11,7 +12,7 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public final class Ripple {
-    private static final Logger logger = Logger.getLogger(Ripple.class.getName());
+    public static final Logger logger;
 
     public static final String RANDOM_URN_PREFIX = "urn:uuid:";
 
@@ -49,18 +50,41 @@ public final class Ripple {
 
     public static final String RIPPLE_ONTO_BASEURI = "http://fortytwo.net/2007/03/ripple/schema#";
 
-    private static final String RIPPLE_PROPERTIES = "default.properties";
-    private static final String LOG4J_PROPERTIES = "log4j.properties";
+    private static final String
+            DEFAULT_PROPERTIES = "default.properties",
+            LOGGING_PROPERTIES = "logging.properties";
 
     private static boolean initialized = false;
 
-    private static RippleProperties CONFIGURATION;
+    private static RippleProperties configuration;
 
     // TODO: get rid of these
     private static boolean useAsynchronousQueries = true;
 
     // FIXME: quiet is never used
     private static boolean quiet = false;
+
+    static {
+        try {
+            // logging configuration
+            {
+                InputStream in = Ripple.class.getResourceAsStream(LOGGING_PROPERTIES);
+                try {
+                    LogManager.getLogManager().reset();
+                    LogManager.getLogManager().readConfiguration(in);
+                } finally {
+                    in.close();
+                }
+                logger = getLogger(Ripple.class);
+            }
+        } catch (IOException e) {
+            throw new ExceptionInInitializerError(e);
+        }
+    }
+
+    public static Logger getLogger(final Class c) {
+        return Logger.getLogger(c.getName());
+    }
 
     private Ripple() {
     }
@@ -78,9 +102,9 @@ public final class Ripple {
             Properties props = new Properties();
 
             try {
-                props.load(Ripple.class.getResourceAsStream(RIPPLE_PROPERTIES));
+                props.load(Ripple.class.getResourceAsStream(DEFAULT_PROPERTIES));
             } catch (IOException e) {
-                throw new RippleException("unable to load properties file " + RIPPLE_PROPERTIES);
+                throw new RippleException("unable to load properties file " + DEFAULT_PROPERTIES);
             }
 
             for (Properties p : configuration) {
@@ -91,7 +115,7 @@ public final class Ripple {
                 props.putAll(p);
             }
 
-            Ripple.CONFIGURATION = new RippleProperties(props);
+            Ripple.configuration = new RippleProperties(props);
 
             initialized = true;
         }
@@ -105,7 +129,7 @@ public final class Ripple {
             //throw new RippleException( "Environment is not ready.  Use Ripple.initialize()." );
         }
 
-        return CONFIGURATION;
+        return configuration;
     }
 
     public static String getName() {
