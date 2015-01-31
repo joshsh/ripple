@@ -7,6 +7,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.openrdf.rio.RDFFormat;
 
@@ -41,7 +42,7 @@ public class HTTPUtils {
         initialized = true;
     }
 
-    public static HttpClient createClient() throws RippleException {
+    public static HttpClient createClient(final boolean autoRedirect) throws RippleException {
         if (!initialized) {
             initialize();
         }
@@ -53,17 +54,20 @@ public class HTTPUtils {
                         //.setStaleConnectionCheckEnabled(true)
                 .build();
 
-        HttpClient client = HttpClients.custom()
+        HttpClientBuilder builder = HttpClients.custom()
                 .setDefaultRequestConfig(defaultRequestConfig)
                         //.disableAutomaticRetries()
                         //.disableConnectionState()
                         //.disableContentCompression()
                         //.disableRedirectHandling()
                         //.useSystemProperties()
-                .build();
+                ;
+        if (!autoRedirect) {
+            // redirect manually, keeping track of eventually retrieved documents
+            builder = builder.disableRedirectHandling();
+        }
 
-        //client.execute(new HttpGet("http://targethost/homepage"));
-        return client;
+        return builder.build();
     }
 
     public static HttpGet createGetMethod(final String url) throws RippleException {

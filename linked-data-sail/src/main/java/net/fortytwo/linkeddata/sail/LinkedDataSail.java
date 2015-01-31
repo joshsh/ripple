@@ -99,6 +99,13 @@ public class LinkedDataSail extends SailBase implements StackableSail, Notifying
     }
 
     protected void shutDownInternal() throws SailException {
+        try {
+            cache.close();
+        } catch (RippleException e) {
+            // note: SailException --> RippleException --> SailException
+            throw new SailException(e);
+        }
+
         // Do not shut down the base Sail.
     }
 

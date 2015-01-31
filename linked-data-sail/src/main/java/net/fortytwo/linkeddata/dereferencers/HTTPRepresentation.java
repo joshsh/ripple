@@ -2,12 +2,16 @@ package net.fortytwo.linkeddata.dereferencers;
 
 import net.fortytwo.flow.rdf.HTTPUtils;
 import net.fortytwo.linkeddata.RDFUtils;
+import net.fortytwo.linkeddata.RedirectManager;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.openrdf.model.URI;
+import org.openrdf.model.impl.URIImpl;
+import org.openrdf.sail.SailException;
 import org.restlet.data.MediaType;
 import org.restlet.representation.StreamRepresentation;
 
@@ -23,13 +27,25 @@ import java.nio.channels.WritableByteChannel;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class HTTPRepresentation extends StreamRepresentation {
-    private final InputStream inputStream;
-    private final HttpUriRequest method;
+    private InputStream inputStream;
+    private HttpUriRequest method;
 
-    private final long idleTime;
+    // from HttpComponents docs: "the HttpClient instance and connection manager should be shared
+    // among all threads for maximum efficiency"
+    private static final HttpClient client;
+
+    static {
+        try {
+            client = HTTPUtils.createClient(false);
+        } catch (RippleException e) {
+            throw new ExceptionInInitializerError(e);
+        }
+    }
 
     // Note: the URI is immediately dereferenced
-    public HTTPRepresentation(final String uri, final String acceptHeader) throws RippleException {
+    public HTTPRepresentation(final String uri, final RedirectManager redirects, final String acceptHeader)
+            throws RippleException {
+
         super(null);
 
         URL getUrl;
@@ -38,27 +54,77 @@ public class HTTPRepresentation extends StreamRepresentation {
         } catch (MalformedURLException e) {
             throw new RippleException(e);
         }
-        method = HTTPUtils.createGetMethod(getUrl.toString());
-        HTTPUtils.setAcceptHeader(method, acceptHeader);
-        idleTime = HTTPUtils.throttleHttpRequest(method);
-
-        HttpClient client = HTTPUtils.createClient();
 
         HttpResponse response;
+        String redirectUrl = null;
+
         try {
-            response = client.execute(method);
-        } catch (IOException e) {
-            throw new RippleException(e);
+            while (true) {
+                method = HTTPUtils.createGetMethod(getUrl.toString());
+                HTTPUtils.setAcceptHeader(method, acceptHeader);
+
+                /*
+                the amount of time, in milliseconds, which was spent on a courtesy delay
+                (to avoid overloading remote servers) while creating this representation, as opposed
+                to time spent waiting for a response from the remote server or receiving packet data.
+                This is potentially important for response time analysis.
+                 */
+                long idleTime = HTTPUtils.throttleHttpRequest(method);
+
+                try {
+                    response = client.execute(method);
+                } catch (IOException e) {
+                    throw new RippleException(e);
+                }
+
+                int code = response.getStatusLine().getStatusCode();
+                int c = code / 100;
+                if (2 == c) {
+                    break;
+                } else if (3 == c) {
+                    redirectUrl = response.getFirstHeader("Location").getValue();
+
+                    try {
+                        // do not repeatedly retrieve the same document
+                        if (redirects.isExistingRedirectTo(redirectUrl)) {
+                            throw new RedirectToExistingDocumentException();
+                        }
+
+                        method.abort();
+                    } catch (SailException e) {
+                        throw new RippleException(e);
+                    }
+
+                    try {
+                        getUrl = new URL(redirectUrl);
+                    } catch (MalformedURLException e) {
+                        throw new RippleException(e);
+                    }
+                } else {
+                    throw new ErrorResponseException("" + code + " response for resource <"
+                            + StringUtils.escapeURIString(uri) + ">");
+                }
+            }
+
+            // keep the connection open only if we did not exit abnormally
+            method = null;
+        } finally {
+            // if we followed one or more redirects, record the redirection to save on future work
+            if (null != redirectUrl) {
+                try {
+                    redirects.persistRedirect(uri, redirectUrl);
+                } catch (SailException e) {
+                    throw new RippleException(e);
+                }
+            }
+
+            if (method != null) {
+                method.abort();
+                method = null;
+            }
         }
 
         InputStream is;
-
-        int code = response.getStatusLine().getStatusCode();
-
-        if (2 != code / 100) {
-            throw new ErrorResponseException("" + code + " response for resource <"
-                    + StringUtils.escapeURIString(uri) + ">");
-        }
 
         try {
             is = response.getEntity().getContent();
@@ -92,26 +158,6 @@ public class HTTPRepresentation extends StreamRepresentation {
         return inputStream;
     }
 
-    /**
-     * @return the HTTP method of this representation.
-     * This class is generally used as an internal component of LinkedDataSail,
-     * but it can also be used as a standalone tool for dereferencing Linked Data
-     * URIs, in which case access to HTTP headers and status data is useful.
-     */
-    public HttpUriRequest getMethod() {
-        return method;
-    }
-
-    /**
-     * @return the amount of time, in milliseconds, which was spent on a courtesy delay
-     * (to avoid overloading remote servers) while creating this representation, as opposed
-     * to time spent waiting for a response from the remote server or receiving packet data.
-     * This is important for accurate response time analysis.
-     */
-    public long getIdleTime() {
-        return idleTime;
-    }
-
     public void write(final OutputStream outputStream) throws IOException {
         //To change body of implemented methods use File | Settings | File Templates.
     }
@@ -137,7 +183,9 @@ public class HTTPRepresentation extends StreamRepresentation {
 
         @Override
         public void close() throws IOException {
-            method.abort();
+            if (null != method) {
+                method.abort();
+            }
 
             innerInputStream.close();
         }
@@ -152,19 +200,17 @@ public class HTTPRepresentation extends StreamRepresentation {
         public ErrorResponseException(final String message) {
             super(message);
         }
-
-        public HttpUriRequest getMethod() {
-            return method;
-        }
     }
 
     public class InvalidResponseException extends RippleException {
         public InvalidResponseException(final String message) {
             super(message);
         }
+    }
 
-        public HttpUriRequest getMethod() {
-            return method;
+    public class RedirectToExistingDocumentException extends RippleException {
+        public RedirectToExistingDocumentException() {
+            super();
         }
     }
 }

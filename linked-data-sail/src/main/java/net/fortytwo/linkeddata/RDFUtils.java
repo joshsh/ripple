@@ -77,11 +77,19 @@ public final class RDFUtils {
         return 0 <= i ? uri.substring(0, i) : uri;
     }
 
-    // Note: using hashed URIs for graph names avoids collision with resource URIs in retrieved descriptions
+    /**
+     * Creates a hashed version of a URI.
+     * This is useful for storing metadata about a URI in a graph without also linking the metadata
+     * to the original URI; it is accessible only through hashing.
+     */
+    public static String hashedUri(final String originalUri) {
+        return Ripple.RANDOM_URN_PREFIX
+                + UUID.nameUUIDFromBytes(originalUri.getBytes());
+    }
+
     public static String findGraphUri(final String uri) {
         String docUri = removeFragmentIdentifier(uri);
-        return Ripple.RANDOM_URN_PREFIX
-                + UUID.nameUUIDFromBytes(docUri.getBytes());
+        return hashedUri(docUri);
     }
 
     public static URL iriToUrl(final String iriStr) throws MalformedURLException {

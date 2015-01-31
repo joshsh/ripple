@@ -2,6 +2,7 @@ package net.fortytwo.linkeddata.dereferencers;
 
 import net.fortytwo.linkeddata.Dereferencer;
 import net.fortytwo.linkeddata.LinkedDataCache;
+import net.fortytwo.linkeddata.RedirectManager;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.StringUtils;
 import org.apache.log4j.Logger;
@@ -23,10 +24,14 @@ public class HTTPURIDereferencer implements Dereferencer {
     // FIXME: temporary
     private final LinkedDataCache linkedDataCache;
 
+    private final RedirectManager redirectManager;
+
     private final Set<String> badExtensions;
 
-    public HTTPURIDereferencer(final LinkedDataCache linkedDataCache) {
+    public HTTPURIDereferencer(final LinkedDataCache linkedDataCache,
+                               final RedirectManager redirectManager) {
         this.linkedDataCache = linkedDataCache;
+        this.redirectManager = redirectManager;
 
         badExtensions = new HashSet<String>();
 
@@ -41,7 +46,11 @@ public class HTTPURIDereferencer implements Dereferencer {
             // TODO: we can throw exceptions or return nulls to indicate an error, but we shouldn't do both
         }
 
-        return new HTTPRepresentation(uri, linkedDataCache.getAcceptHeader());
+        try {
+            return new HTTPRepresentation(uri, redirectManager, linkedDataCache.getAcceptHeader());
+        } catch (HTTPRepresentation.RedirectToExistingDocumentException e) {
+            return null;
+        }
     }
 
     public void blackListExtension(final String ext) {

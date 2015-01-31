@@ -70,7 +70,7 @@ public class Play extends PrimitiveStackMapping {
         HttpGet method = HTTPUtils.createRdfGetMethod(uri.toString());
         HTTPUtils.setAcceptHeader(method, mimeTypes);
         HTTPUtils.throttleHttpRequest(method);
-        HttpClient client = HTTPUtils.createClient();
+        HttpClient client = HTTPUtils.createClient(true);
 
         InputStream is;
 

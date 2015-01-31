@@ -2,7 +2,6 @@ package net.fortytwo.linkeddata.rdfizers;
 
 import net.fortytwo.linkeddata.CacheEntry;
 import net.fortytwo.linkeddata.Rdfizer;
-import net.fortytwo.ripple.RippleException;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFHandler;
 import org.openrdf.rio.RDFHandlerException;
@@ -38,14 +37,16 @@ public class VerbatimRdfizer implements Rdfizer {
             parser.setRDFHandler(handler);
             parser.parse(is, baseUri);
         } catch (IOException e) {
-            logger.log(Level.WARNING, "error in verbatim rdfizer: " + e.getMessage());
+            logger.log(Level.WARNING, "I/O error in " + format.getName() + " rdfizer", e);
             return CacheEntry.Status.Failure;
         } catch (RDFParseException e) {
-            logger.log(Level.WARNING, "error in verbatim rdfizer: " + e.getMessage());
+            logger.log(Level.WARNING, "RDF parsing error in " + format.getName() + " rdfizer", e);
             return CacheEntry.Status.ParseError;
         } catch (RDFHandlerException e) {
-            logger.log(Level.WARNING, "error in verbatim rdfizer: " + e.getMessage());
+            logger.log(Level.WARNING, "RDF handler error in " + format.getName() + " rdfizer", e);
             return CacheEntry.Status.Failure;
+        } catch (Throwable t) {
+            logger.log(Level.SEVERE, "ungrokked error in " + format.getName() + " rdfizer", t);
         }
 
         return CacheEntry.Status.Success;

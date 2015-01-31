@@ -60,7 +60,7 @@ public class Get extends PrimitiveStackMapping {
         HttpGet method = HTTPUtils.createGetMethod(uriStr);
         HTTPUtils.throttleHttpRequest(method);
 
-        HttpClient client = HTTPUtils.createClient();
+        HttpClient client = HTTPUtils.createClient(true);
 
         InputStream body;
 

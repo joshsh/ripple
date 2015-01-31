@@ -11,7 +11,8 @@ import org.restlet.representation.Representation;
 public interface Dereferencer {
     /**
      * @param uri a URI from which to fetch a document
-     * @return the retrieved HTTP representation
+     * @return the retrieved HTTP representation, or null if dereferencing the URI is found not to be necessary
+     * (for example, if the URI redirects to a document which has already been retrieved)
      * @throws RippleException if dereferencing the URI fails for any reason
      */
     // TODO: this method throws an exception, while Rdfizer.handle does not

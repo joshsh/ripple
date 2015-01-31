@@ -54,6 +54,7 @@ public class LinkedDataCache {
             CACHE_NS = "http://fortytwo.net/2012/02/linkeddata#";
     public static final URI
             CACHE_MEMO = new URIImpl(CACHE_NS + "memo"),
+            CACHE_REDIRECTSTO = new URIImpl(CACHE_NS + "redirectsTo"),
             CACHE_GRAPH = null;  // the default context is used for caching metadata
 
     private static final String[] NON_RDF_EXTENSIONS = {
@@ -95,6 +96,8 @@ public class LinkedDataCache {
 
     private DataStore dataStore;
 
+    private final SailConnection sailConnection;
+
     /**
      * Constructs a cache with the default settings, dereferencers, and rdfizers.
      *
@@ -105,8 +108,10 @@ public class LinkedDataCache {
     public static LinkedDataCache createDefault(final Sail sail) throws RippleException {
         LinkedDataCache cache = new LinkedDataCache(sail);
 
+        RedirectManager redirectManager = new RedirectManager(cache.sailConnection);
+
         // Add URI dereferencers.
-        HTTPURIDereferencer hdref = new HTTPURIDereferencer(cache);
+        HTTPURIDereferencer hdref = new HTTPURIDereferencer(cache, redirectManager);
         for (String x : NON_RDF_EXTENSIONS) {
             hdref.blackListExtension(x);
         }
@@ -165,11 +170,26 @@ public class LinkedDataCache {
 
         this.expirationPolicy = new DefaultCacheExpirationPolicy();
 
+        try {
+            this.sailConnection = sail.getConnection();
+            this.sailConnection.begin();
+        } catch (SailException e) {
+            throw new RippleException(e);
+        }
+
         dataStore = new DataStore() {
             public RDFSink createInputSink(final SailConnection sc) {
                 return new SesameOutputAdapter(new SailInserter(sc));
             }
         };
+    }
+
+    public void close() throws RippleException {
+        try {
+            sailConnection.close();
+        } catch (SailException e) {
+            throw new RippleException(e);
+        }
     }
 
     public void setDataStore(final DataStore dataStore) {
@@ -333,6 +353,11 @@ public class LinkedDataCache {
 
             memo.setStatus(CacheEntry.Status.DereferencerError);
             rep = dref.dereference(retrievalUri);
+
+            // a null representation indicates that dereferencing the URI would be redundant; exit early
+            if (null == rep) {
+                return CacheEntry.Status.RedirectsToCached;
+            }
 
             // We have the representation, now try to rdfize it.
 

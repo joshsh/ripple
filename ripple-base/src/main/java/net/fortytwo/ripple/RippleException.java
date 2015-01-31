@@ -8,6 +8,10 @@ package net.fortytwo.ripple;
 public class RippleException extends Exception {
     private static final long serialVersionUID = 2498405641024203574L;
 
+    public RippleException() {
+        super();
+    }
+
     public RippleException(final Throwable cause) {
         super(cause);
     }
