@@ -11,6 +11,7 @@ import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.RDF;
+import org.openrdf.model.vocabulary.XMLSchema;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
@@ -29,8 +30,8 @@ public class DefinitionsTest extends RippleTestCase {
         ListAST foobar2 = new ListAST(
                 new PlainLiteralAST("foo2"), new ListAST(new PlainLiteralAST("bar2"), new ListAST()));
         URI foobarUri = sail.getValueFactory().createURI(qe.getLexicon().getDefaultNamespace() + "foobar");
-        Literal foo = sail.getValueFactory().createLiteral("foo");
-        Literal foo2 = sail.getValueFactory().createLiteral("foo2");
+        Literal foo = sail.getValueFactory().createLiteral("foo", XMLSchema.STRING);
+        Literal foo2 = sail.getValueFactory().createLiteral("foo2", XMLSchema.STRING);
 
         Command defCmd = new DefineListCmd("foobar", foobar);
         Command undefCmd = new UndefineListCmd("foobar");
@@ -52,7 +53,6 @@ public class DefinitionsTest extends RippleTestCase {
         count = countStatements(sc.getStatements(foobarUri, null, null, false));
         assertEquals(3, count);
         obj = getSingleStatement(sc.getStatements(foobarUri, RDF.FIRST, null, false)).getObject();
-//System.out.println("obj = " + obj + " (datatype = " + ((Literal) obj).getDatatype());
         assertTrue(obj.equals(foo));
         assertFalse(obj.equals(foo2));
 

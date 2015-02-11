@@ -64,8 +64,8 @@ public class DenyTest extends RippleTestCase {
         assertReducesTo("ex:a rdfs:label.", "\"something\"^^xsd:string");
         assertReducesTo("\"something\"^^xsd:string rdfs:label~.", "ex:a");
         assertReducesTo("ex:a rdfs:label \"something\" deny.", "ex:a");
-        assertReducesTo("ex:a rdfs:label.", "\"something\"^^xsd:string");
-        assertReducesTo("\"something\"^^xsd:string rdfs:label~.", "ex:a");
+        //assertReducesTo("ex:a rdfs:label.", "\"something\"^^xsd:string");
+        //assertReducesTo("\"something\"^^xsd:string rdfs:label~.", "ex:a");
         assertReducesTo("ex:a rdfs:label \"something\"^^xsd:string deny.", "ex:a");
         assertReducesTo("ex:a rdfs:comment.");
         assertReducesTo("\"something\"^^xsd:string rdfs:label~.");

@@ -21,6 +21,7 @@ public interface RippleType<T> {
         OTHER_TYPED_LITERAL,
         PLAIN_LITERAL_WITHOUT_LANGUAGE_TAG,
         PLAIN_LITERAL_WITH_LANGUAGE_TAG,
+        STRING_TYPED_LITERAL,
     }
 
     Collection<Class> getInstanceClasses();

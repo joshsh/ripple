@@ -22,6 +22,7 @@ import net.fortytwo.ripple.model.types.SPARQLValueType;
 import net.fortytwo.ripple.model.types.SesameListType;
 import net.fortytwo.ripple.model.types.StackMappingType;
 import net.fortytwo.ripple.model.types.StackMappingWrapperType;
+import net.fortytwo.ripple.model.types.StringLiteralType;
 import net.fortytwo.ripple.model.types.StringType;
 import net.fortytwo.ripple.model.types.URIType;
 import org.openrdf.sail.Sail;
@@ -58,13 +59,17 @@ public class SesameModel implements Model {
 
         unmappedTypes = new HashSet<Class>();
         registeredTypes = new HashMap<Class, List<RippleType>>();
+
+        // register string-typed literals before other literal types
+        register(new StringLiteralType());
+        register(new LanguageTaggedLiteralType());
+        register(new NonNumericLiteralType());
+        register(new NumericLiteralType());
+
         register(new BNodeType());
         register(new BooleanType());
         register(new JSONObjectType());
-        register(new LanguageTaggedLiteralType());
-        register(new NonNumericLiteralType());
         register(new NumberType());
-        register(new NumericLiteralType());
         register(new OperatorType());
         register(new OpType());
         register(new PlainLiteralType());

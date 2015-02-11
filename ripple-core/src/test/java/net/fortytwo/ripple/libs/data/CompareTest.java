@@ -45,10 +45,10 @@ public class CompareTest extends RippleTestCase {
         assertLt("\"bar\"", "\"foo\"");
         assertGt("\"foo\"", "\"bar\"");
 
-        assertLt("\"foo\"", "\"foo\"@en");
-        assertLt("\"foobar\"", "\"foo\"@en");
-        assertGt("\"foo\"@en", "\"foo\"");
-        assertGt("\"foo\"@en", "\"foobar\"");
+        assertGt("\"foo\"", "\"foo\"@en");
+        assertGt("\"foobar\"", "\"foo\"@en");
+        assertLt("\"foo\"@en", "\"foo\"");
+        assertLt("\"foo\"@en", "\"foobar\"");
         assertEq("\"foo\"@en", "\"foo\"@en");
         assertLt("\"foo\"@en", "\"foobar\"@en");
         assertLt("\"foo\"@de", "\"foo\"@en");

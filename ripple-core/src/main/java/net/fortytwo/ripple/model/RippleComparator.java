@@ -15,22 +15,8 @@ import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
- * TODO: this comparator currently ignores the equivalence of RDF lists with native lists,
- * and of numeric values with numeric-typed literals
- * <p/>
- * literal
- * plain literal
- * plain literal without language tag
- * plain literal with language tag
- * typed literal
- * numeric typed literal
- * other typed literal
- * resource
- * list
- * operator
- * other resource
- */
+// TODO: this comparator currently ignores the equivalence of RDF lists with native lists,
+// and of numeric values with numeric-typed literals
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -95,6 +81,8 @@ public class RippleComparator implements Comparator<Object> {
                         return compareOperator(o1, o2, o1Type, o2Type);
                     case OTHER_RESOURCE:
                         return compareOtherResource(o1, o2);
+                    case STRING_TYPED_LITERAL:
+                        return compareStringTypedLiteral(o1, o2);
                     default:
                         throw new IllegalStateException();
                 }
@@ -187,6 +175,15 @@ public class RippleComparator implements Comparator<Object> {
         }
 
         return NumericType.compare(((NumericType) o1Type).findNumber(o1), ((NumericType) o2Type).findNumber(o2));
+    }
+
+    private int compareStringTypedLiteral(final Object o1,
+                                          final Object o2) throws RippleException {
+        Literal o1Lit = (Literal) modelConnection.toRDF(o1);
+        Literal o2Lit = (Literal) modelConnection.toRDF(o2);
+
+        return o1Lit.getLabel().compareTo(
+                o2Lit.getLabel());
     }
 
     private int compareOtherTypedLiteral(final Object o1,
