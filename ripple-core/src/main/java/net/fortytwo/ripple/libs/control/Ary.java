@@ -79,7 +79,7 @@ public class Ary extends PrimitiveStackMapping {
 
         int n;
 
-        n = mc.toNumericValue(stack.getFirst()).intValue();
+        n = mc.toNumber(stack.getFirst()).intValue();
         stack = stack.getRest();
 
         solutions.put(

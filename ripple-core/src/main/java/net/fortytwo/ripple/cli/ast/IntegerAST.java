@@ -2,16 +2,14 @@ package net.fortytwo.ripple.cli.ast;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.NumericValue;
 
-import java.util.regex.Pattern;
 import java.math.BigInteger;
+import java.util.regex.Pattern;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class IntegerAST extends NumberAST
-{
+public class IntegerAST extends NumberAST {
     /*
     [Definition:]   integer is derived from decimal by fixing the value of
     fractionDigits to be 0 and disallowing the trailing decimal point. This
@@ -23,39 +21,33 @@ public class IntegerAST extends NumberAST
             // Note: NaN, positive and negative infinity are apparently not allowed.
             XSD_INTEGER = Pattern.compile("[-+]?\\d+");
 
-	private final BigInteger value;
+    private final BigInteger value;
 
-    public IntegerAST( final int value )
-    {
-        this.value =  BigInteger.valueOf(value);
+    public IntegerAST(final int value) {
+        this.value = BigInteger.valueOf(value);
     }
 
-	public IntegerAST( final BigInteger value )
-	{
-		this.value = value;
+    public IntegerAST(final BigInteger value) {
+        this.value = value;
     }
 
-    public IntegerAST( final String rep )
-    {
-        if ( !XSD_INTEGER.matcher( rep ).matches() )
-        {
-            throw new IllegalArgumentException( "invalid xsd:integer value: " + rep );    
+    public IntegerAST(final String rep) {
+        if (!XSD_INTEGER.matcher(rep).matches()) {
+            throw new IllegalArgumentException("invalid xsd:integer value: " + rep);
         }
 
-        value = new BigInteger( canonicalize( rep ) );
+        value = new BigInteger(canonicalize(rep));
     }
 
-    public NumericValue getValue( final ModelConnection mc ) throws RippleException
-    {
+    public Number getValue(final ModelConnection mc) throws RippleException {
         // FIXME: xsd:integer values are constrained to the precision of Java
         // int's, whereas they are supposed to have arbitrary precision.
-        return mc.numericValue(value.intValue());
+        return value.intValue();
     }
 
-	public String toString()
-	{
+    public String toString() {
         // This will naturally be the canonical form.
         return "" + value;
-	}
+    }
 }
 

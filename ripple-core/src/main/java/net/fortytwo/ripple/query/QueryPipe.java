@@ -1,12 +1,12 @@
 package net.fortytwo.ripple.query;
 
-import net.fortytwo.flow.HistorySink;
-import net.fortytwo.flow.Tee;
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Buffer;
 import net.fortytwo.flow.Collector;
+import net.fortytwo.flow.HistorySink;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.Source;
+import net.fortytwo.flow.Tee;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.cli.Interpreter;
 import net.fortytwo.ripple.cli.ParserExceptionSink;
 import net.fortytwo.ripple.cli.RecognizerAdapter;
@@ -19,8 +19,8 @@ import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.query.commands.DefineKeywordCmd;
 import net.fortytwo.ripple.query.commands.RippleQueryCmd;
 
-import java.io.IOException;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -42,7 +42,7 @@ public class QueryPipe implements Sink<String> {
 
     public QueryPipe(final QueryEngine queryEngine,
                      final Sink<RippleList> resultSink) throws RippleException {
-        connection = queryEngine.createConnection();
+        connection = queryEngine.getConnection();
 
         resultBuffer = new Buffer<RippleList>(resultSink);
         final Object mutex = "";
@@ -89,7 +89,7 @@ public class QueryPipe implements Sink<String> {
     }
 
     public void close() throws RippleException {
-        connection.close();
+        //connection.close();
     }
 
     public void put(final InputStream input) throws RippleException {

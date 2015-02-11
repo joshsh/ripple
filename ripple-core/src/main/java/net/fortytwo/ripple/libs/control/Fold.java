@@ -7,7 +7,6 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 
 /**
  * A primitive which consumes a list, an "initial value" and a filter, then
@@ -39,7 +38,8 @@ public class Fold extends PrimitiveStackMapping {
     }
 
     public String getComment() {
-        return "l v0 p  =>  v  -- starting with value v0, sequentially push members of List l and combine with binary operator p";
+        return "l v0 p  =>  v  -- starting with value v0," +
+                " sequentially push members of List l and combine with binary operator p";
     }
 
     public void apply(final RippleList arg,
@@ -48,11 +48,11 @@ public class Fold extends PrimitiveStackMapping {
 
         RippleList stack = arg;
 
-        RippleValue l;
+        Object l;
 
-        final RippleValue f = stack.getFirst();
+        final Object f = stack.getFirst();
         stack = stack.getRest();
-        final RippleValue v = stack.getFirst();
+        final Object v = stack.getFirst();
         stack = stack.getRest();
         l = stack.getFirst();
         final RippleList rest = stack.getRest();

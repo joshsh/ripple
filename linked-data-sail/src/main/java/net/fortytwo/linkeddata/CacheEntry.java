@@ -14,19 +14,20 @@ import java.util.Map;
  */
 public class CacheEntry {
     public static enum Status {
-        Undetermined,       // to be used only when a memo is created
-        Success,            // normal outcome
-        Timeout,            // network timeout
+        BadMediaType,       // no suitable rdfizer was found
+        BadUriScheme,       // no suitable URI dereferencer was found
+        ClientError,        // 4xx HTTP error
+        DereferencerError,  // TODO: break this down into more specific conditions
+        Failure,             // all other error conditions
+        Ignored,            // don't bother dereferencing these URIs
         InvalidUri,         // bad URI
         ParseError,         // a document was received, but failed to parse
-        ClientError,        // 4xx HTTP error
-        ServerError,        // 5xx HTTP error
-        BadUriScheme,       // no suitable URI dereferencer was found
-        BadMediaType,       // no suitable rdfizer was found
-        DereferencerError,  // TODO: break this down into more specific conditions
         RdfizerError,       // TODO: break this down into more specific conditions
-        Ignored,            // don't bother dereferencing these URIs
-        Failure             // all other error conditions
+        RedirectsToCached,  // a URI 3xx-redirects to a document to which another URI previously redirected
+        ServerError,        // 5xx HTTP error
+        Success,            // normal outcome
+        Timeout,            // network timeout
+        Undetermined,       // to be used only when a memo is created
     }
 
     // memo entry keys

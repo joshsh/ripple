@@ -6,7 +6,6 @@ import net.fortytwo.ripple.libs.graph.GraphLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 
 /**
  * A primitive which consumes two resources and produces a comparison value
@@ -44,7 +43,7 @@ public class Compare extends PrimitiveStackMapping {
 
         RippleList stack = arg;
 
-        RippleValue y, x;
+        Object y, x;
 
         y = stack.getFirst();
         stack = stack.getRest();
@@ -56,7 +55,7 @@ public class Compare extends PrimitiveStackMapping {
         // Constrain the result to three possible values.
         result = (result < 0) ? -1 : (result > 0) ? 1 : 0;
 
-        solutions.put(stack.push(mc.numericValue(result)));
+        solutions.put(stack.push(result));
     }
 }
 

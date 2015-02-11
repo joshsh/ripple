@@ -7,19 +7,14 @@ import java.util.Collection;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-abstract class SimpleReadOnlyCollection<T> implements Collection<T>
-{
-    public boolean isEmpty()
-    {
+abstract class SimpleReadOnlyCollection<T> implements Collection<T> {
+    public boolean isEmpty() {
         return 0 == size();
     }
 
-    public boolean contains(final Object o)
-    {
-        for (T t : this)
-        {
-            if (o.equals(t))
-            {
+    public boolean contains(final Object o) {
+        for (T t : this) {
+            if (o.equals(t)) {
                 return true;
             }
         }
@@ -27,13 +22,11 @@ abstract class SimpleReadOnlyCollection<T> implements Collection<T>
         return false;
     }
 
-    public T[] toArray()
-    {
+    public T[] toArray() {
         T[] array = (T[]) new Object[size()];
 
         int i = 0;
-        for (T t : this)
-        {
+        for (T t : this) {
             array[i] = t;
             i++;
         }
@@ -42,22 +35,19 @@ abstract class SimpleReadOnlyCollection<T> implements Collection<T>
     }
 
     // FIXME: I'm unsure whether I've implemented this superfluous method correctly.
-    public <U> U[] toArray(U[] array)
-    {
+    public <U> U[] toArray(U[] array) {
         int size = size();
         U[] targetArray = (size <= array.length)
                 ? array
                 : (U[]) new Object[size];
 
         int i = 0;
-        for (T t : this)
-        {
+        for (T t : this) {
             targetArray[i] = (U) t;
             i++;
         }
 
-        if (size < targetArray.length)
-        {
+        if (size < targetArray.length) {
             targetArray[size] = null;
         }
 
@@ -72,11 +62,9 @@ abstract class SimpleReadOnlyCollection<T> implements Collection<T>
         throw new UnsupportedOperationException();
     }
 
-    public boolean containsAll(final Collection<?> objects)
-    {
+    public boolean containsAll(final Collection<?> objects) {
         for (Object o : objects) {
-            if (contains(o))
-            {
+            if (contains(o)) {
                 return true;
             }
         }

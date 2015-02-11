@@ -4,7 +4,6 @@ import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import org.openrdf.model.Literal;
 import org.openrdf.model.URI;
@@ -44,7 +43,7 @@ public class Type extends PrimitiveStackMapping {
 
         Value v;
 
-        v = stack.getFirst().toRDF(mc).sesameValue();
+        v = mc.toRDF(stack.getFirst());
         stack = stack.getRest();
 
         if (v instanceof Literal) {
@@ -52,7 +51,7 @@ public class Type extends PrimitiveStackMapping {
 
             if (null != type) {
                 solutions.put(
-                        stack.push(new RDFValue(type)));
+                        stack.push(type));
             }
         }
     }

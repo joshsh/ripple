@@ -6,19 +6,17 @@ import net.fortytwo.ripple.RippleException;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RDFBuffer extends RDFCollector {
-	private final RDFSink sink;
+    private final RDFSink sink;
 
-	public RDFBuffer( final RDFSink sink )
-	{
-		super();
-		this.sink = sink;
-	}
+    public RDFBuffer(final RDFSink sink) {
+        super();
+        this.sink = sink;
+    }
 
-	public void flush() throws RippleException
-	{
-            writeTo( sink );
+    public void flush() throws RippleException {
+        writeTo(sink);
 
         clear();
-	}
+    }
 }
 

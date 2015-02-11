@@ -5,7 +5,6 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.control.ControlLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
-import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.impl.sesame.SesameModelConnection;
 import net.fortytwo.ripple.query.LazyEvaluatingIterator;
@@ -58,13 +57,19 @@ public class RippleSailConnection extends SailConnectionWrapper {
     }
 
     @Override
-    public void addStatement(final Resource subject, final URI predicate, final Value object, final Resource... contexts) throws SailException {
+    public void addStatement(final Resource subject,
+                             final URI predicate,
+                             final Value object,
+                             final Resource... contexts) throws SailException {
         // When implementing this method, make sure that only RippleSesameValues are passed down
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void removeStatements(final Resource subject, final URI predicate, final Value object, final Resource... contexts) throws SailException {
+    public void removeStatements(final Resource subject,
+                                 final URI predicate,
+                                 final Value object,
+                                 final Resource... contexts) throws SailException {
         // Implement this method if/when addStatement is implemented
         throw new UnsupportedOperationException();
     }
@@ -102,14 +107,14 @@ public class RippleSailConnection extends SailConnectionWrapper {
                 RippleList stack = ((RippleSesameValue) subject).getStack();
                 //System.out.println("\tstack = " + stack);
                 if (null == stack) {
-                    stack = modelConnection.list().push(modelConnection.canonicalValue(new RDFValue(subject)));
+                    stack = modelConnection.list().push(modelConnection.canonicalValue(subject));
 
                     // Note: this may or may not be worth the extra CPU cycles.
                     ((RippleSesameValue) subject).setStack(stack);
                 }
 
                 stack = stack.push(modelConnection.canonicalValue(
-                        new RDFValue(valueFactory.nativize(predicate)))).push(Operator.OP);
+                        valueFactory.nativize(predicate))).push(Operator.OP);
                 //System.out.println("\t\tstack (new) = " + stack);
 
                 CloseableIteration<RippleList, RippleException> solutions
@@ -140,13 +145,13 @@ public class RippleSailConnection extends SailConnectionWrapper {
                 }
                 RippleList stack = ((RippleSesameValue) object).getStack();
                 if (null == stack) {
-                    stack = modelConnection.list().push(modelConnection.canonicalValue(new RDFValue(object)));
+                    stack = modelConnection.list().push(modelConnection.canonicalValue(object));
 
                     // Note: this may or may not be worth the extra CPU cycles.
                     ((RippleSesameValue) object).setStack(stack);
                 }
 
-                stack = stack.push(modelConnection.canonicalValue(new RDFValue(predicate)))
+                stack = stack.push(modelConnection.canonicalValue(predicate))
                         .push(ControlLibrary.getInverseValue())
                         .push(Operator.OP)
                         .push(Operator.OP);
@@ -228,14 +233,14 @@ public class RippleSailConnection extends SailConnectionWrapper {
                     RippleList stack = iter.next();
 
                     if (inverse) {
-                        Value subj = stack.getFirst().toRDF(modelConnection).sesameValue();
+                        Value subj = modelConnection.toRDF(stack.getFirst());
                         RippleSesameValue s = (RippleSesameValue) valueFactory.nativize(subj);
                         s.setStack(stack);
 
                         nextStatement = valueFactory.createStatement((Resource) s, predicate, object);
                         //System.out.println("nextStatement(1): " + nextStatement);
                     } else {
-                        RDFValue r = stack.getFirst().toRDF(modelConnection);
+                        Value r = modelConnection.toRDF(stack.getFirst());
                         Value obj;
                         RippleSesameValue o;
                         if (null == r) {
@@ -248,7 +253,7 @@ public class RippleSailConnection extends SailConnectionWrapper {
                             //continue;
                             o.setStack(stack);
                         } else {
-                            obj = r.sesameValue();
+                            obj = r;
                             o = (RippleSesameValue) valueFactory.nativize(obj);
                             o.setStack(stack);
                         }
@@ -276,5 +281,10 @@ public class RippleSailConnection extends SailConnectionWrapper {
         public void remove() throws SailException {
             throw new UnsupportedOperationException();
         }
+    }
+
+    @Override
+    public void begin() {
+        // Do nothing; adapt to SesameModel, which begins transactions implicitly
     }
 }

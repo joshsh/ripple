@@ -13,7 +13,7 @@ public class ListGenerator extends Operator {
     }
 
     private static StackMapping createMapping(final Source<RippleList> source) {
-        return new StackMapping(){
+        return new StackMapping() {
             public int arity() {
                 return 0;
             }

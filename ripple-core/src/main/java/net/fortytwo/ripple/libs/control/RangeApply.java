@@ -1,8 +1,12 @@
 package net.fortytwo.ripple.libs.control;
 
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
-import net.fortytwo.ripple.model.*;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.Operator;
+import net.fortytwo.ripple.model.PrimitiveStackMapping;
+import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.StackMappingWrapper;
 import net.fortytwo.ripple.model.regex.TimesQuantifier;
 
 
@@ -31,7 +35,8 @@ public class RangeApply extends PrimitiveStackMapping {
     }
 
     public String getComment() {
-        return "p min max  =>  ... p{min, max}!  -- pushes between min (inclusive) and max (inclusive) active copies of the program p, or 'executes p min times to max times'";
+        return "p min max  =>  ... p{min, max}!  -- pushes between min (inclusive)" +
+                " and max (inclusive) active copies of the program p, or 'executes p min times to max times'";
     }
 
     public void apply(final RippleList arg,
@@ -42,11 +47,11 @@ public class RangeApply extends PrimitiveStackMapping {
 
         final int min, max;
 
-        max = mc.toNumericValue(stack.getFirst()).intValue();
+        max = mc.toNumber(stack.getFirst()).intValue();
         stack = stack.getRest();
-        min = mc.toNumericValue(stack.getFirst()).intValue();
+        min = mc.toNumber(stack.getFirst()).intValue();
         stack = stack.getRest();
-        RippleValue p = stack.getFirst();
+        Object p = stack.getFirst();
         final RippleList rest = stack.getRest();
 
         Sink<Operator> opSink = new Sink<Operator>() {

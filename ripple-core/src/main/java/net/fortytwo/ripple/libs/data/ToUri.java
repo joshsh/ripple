@@ -5,8 +5,10 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.graph.GraphLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
+import org.openrdf.model.Value;
+
+import java.net.URI;
 
 /**
  * A primitive which consumes a literal value and produces the resource
@@ -42,12 +44,12 @@ public class ToUri extends PrimitiveStackMapping {
 
         RippleList stack = arg;
 
-        String s;
+        URI s;
 
-        s = mc.toString(stack.getFirst());
+        s = URI.create(mc.toString(stack.getFirst()));
         stack = stack.getRest();
 
-        RDFValue uri = mc.uriValue(s);
+        Value uri = mc.valueOf(s);
 
         solutions.put(
                 stack.push(uri));

@@ -11,47 +11,42 @@ import net.fortytwo.ripple.model.RippleList;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class Length extends PrimitiveStackMapping
-{
+public class Length extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             StringLibrary.NS_2013_03 + "length",
             StringLibrary.NS_2008_08 + "length",
             StringLibrary.NS_2007_08 + "length"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-	public Length()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "s", null, true )};
+    public Length()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("s", null, true)};
+    }
+
+    public String getComment() {
         return "s  =>  l -- where l is the length of string s";
     }
 
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-		RippleList stack = arg;
+        RippleList stack = arg;
 
-		String s;
+        String s;
 
-		s = mc.toString( stack.getFirst() );
-		stack = stack.getRest();
+        s = mc.toString(stack.getFirst());
+        stack = stack.getRest();
 
-		solutions.put(
-				stack.push( mc.numericValue(s.length()) ) );
-	}
+        solutions.put(
+                stack.push(s.length()));
+    }
 }
 

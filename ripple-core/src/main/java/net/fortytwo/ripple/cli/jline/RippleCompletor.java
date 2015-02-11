@@ -10,64 +10,54 @@ import java.util.TreeSet;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public abstract class RippleCompletor implements Completer
-{
-	private final SortedSet<String> alts;
+public abstract class RippleCompletor implements Completer {
+    private final SortedSet<String> alts;
 
-	public RippleCompletor( final Collection<String> alternatives )
-	{
-		alts = new TreeSet<String>();
+    public RippleCompletor(final Collection<String> alternatives) {
+        alts = new TreeSet<String>();
 
         for (String alternative : alternatives) {
             alts.add(alternative);
         }
-	}
+    }
 
-	protected abstract int findStartIndex( String s );
+    protected abstract int findStartIndex(String s);
 
-	public int complete( final String buffer,
-						final int cursor,
-						final List clist )
-	{
-		String start = ( null == buffer ) ? "" : buffer;
+    public int complete(final String buffer,
+                        final int cursor,
+                        final List clist) {
+        String start = (null == buffer) ? "" : buffer;
 
-		// A cursor more than one character beyond the end of the buffer doesn't
-		// make sense (does it?)
-		if ( cursor > start.length() )
-		{
-			return -1;
-		}
+        // A cursor more than one character beyond the end of the buffer doesn't
+        // make sense (does it?)
+        if (cursor > start.length()) {
+            return -1;
+        }
 
-		// Allow replacement before the end of input only if the cursor is on a
-		// (single-character) delimiter.
-		if ( cursor < start.length() )
-		{
-			String tail = start.substring( cursor, cursor + 1 );
-			if ( findStartIndex( tail ) <= 0 )
-			{
-				return -1;
-			}
+        // Allow replacement before the end of input only if the cursor is on a
+        // (single-character) delimiter.
+        if (cursor < start.length()) {
+            String tail = start.substring(cursor, cursor + 1);
+            if (findStartIndex(tail) <= 0) {
+                return -1;
+            } else {
+                start = (cursor > 0)
+                        ? start.substring(0, cursor)
+                        : "";
+            }
+        }
 
-			else
-			{
-				start = ( cursor > 0 )
-					? start.substring( 0, cursor )
-					: "";
-			}
-		}
+        int startIndex = findStartIndex(start);
 
-		int startIndex = findStartIndex( start );
+        if (startIndex < 0) {
+            return -1;
+        }
 
-		if ( startIndex < 0 )
-		{
-			return -1;
-		}
+        String pre = (start.length() == startIndex)
+                ? "" : start.substring(startIndex);
 
-		String pre = ( start.length() == startIndex )
-			? "" : start.substring( startIndex );
-
-		SortedSet<String> matches = alts.tailSet( pre );
-		boolean foundMatches = false;
+        SortedSet<String> matches = alts.tailSet(pre);
+        boolean foundMatches = false;
 
         for (String can : matches) {
             if (!(can.startsWith(pre))) {
@@ -78,7 +68,7 @@ public abstract class RippleCompletor implements Completer
             }
         }
 
-		return foundMatches ? startIndex : -1;
-	}
+        return foundMatches ? startIndex : -1;
+    }
 }
 

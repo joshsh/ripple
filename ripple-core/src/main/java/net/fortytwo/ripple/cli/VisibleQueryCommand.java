@@ -1,25 +1,22 @@
 package net.fortytwo.ripple.cli;
 
-import net.fortytwo.flow.HistorySink;
-import net.fortytwo.ripple.Ripple;
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.cli.ast.ListAST;
-import net.fortytwo.ripple.control.TaskSet;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RDFValue;
-import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StatementPatternQuery;
-import net.fortytwo.ripple.query.Command;
-import net.fortytwo.ripple.query.QueryEngine;
-import net.fortytwo.ripple.query.commands.RippleQueryCmd;
 import net.fortytwo.flow.Buffer;
+import net.fortytwo.flow.HistorySink;
 import net.fortytwo.flow.NullSink;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.Switch;
 import net.fortytwo.flow.SynchronizedSink;
 import net.fortytwo.flow.Tee;
-
+import net.fortytwo.ripple.Ripple;
+import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.cli.ast.ListAST;
+import net.fortytwo.ripple.control.TaskSet;
+import net.fortytwo.ripple.model.ModelConnection;
+import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.StatementPatternQuery;
+import net.fortytwo.ripple.query.Command;
+import net.fortytwo.ripple.query.QueryEngine;
+import net.fortytwo.ripple.query.commands.RippleQueryCmd;
 import org.openrdf.model.vocabulary.RDF;
 
 /**
@@ -28,7 +25,6 @@ import org.openrdf.model.vocabulary.RDF;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class VisibleQueryCommand extends Command {
-    private static RDFValue RDF_FIRST = new RDFValue(RDF.FIRST);
 
     private final ListAST query;
     private final HistorySink<RippleList> resultHistory;
@@ -105,12 +101,12 @@ public class VisibleQueryCommand extends Command {
         taskSet.stopWaiting();
     }
 
-    private static void dereference(final RippleValue v, final ModelConnection mc)
+    private static void dereference(final Object v, final ModelConnection mc)
             throws RippleException {
         try {
-            if (null != v.toRDF(mc)) {
-                StatementPatternQuery query = new StatementPatternQuery(v, RDF_FIRST, null);
-                mc.query(query, new NullSink<RippleValue>(), false);
+            if (null != mc.toRDF(v)) {
+                StatementPatternQuery query = new StatementPatternQuery(v, RDF.FIRST, null);
+                mc.query(query, new NullSink<RippleList>(), false);
             }
         } catch (RippleException e) {
             // (soft fail... don't even log the error)

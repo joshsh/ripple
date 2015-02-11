@@ -22,11 +22,12 @@ import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.PipedIOStream;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.commands.DefineKeywordCmd;
-import org.apache.log4j.Logger;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A command-line read-eval-print loop which coordinates user interaction with a Ripple query engine.
@@ -34,8 +35,8 @@ import java.util.List;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RippleCommandLine {
-    private static final Logger LOGGER
-            = Logger.getLogger(RippleCommandLine.class);
+    private static final Logger logger
+            = Logger.getLogger(RippleCommandLine.class.getName());
 
     private static final byte[] EOL = {'\n'};
 
@@ -52,17 +53,15 @@ public class RippleCommandLine {
 
     private int lineNumber;
 
-    ////////////////////////////////////////////////////////////////////////////
-
     /**
      * Console input:
-     * is --> filter --> consoleReaderInput --> reader --> readOut --> writeIn --> interpreter
+     * is to filter to consoleReaderInput to reader to readOut to writeIn to interpreter
      * <p/>
      * Normal output:
-     * [commands and queries] --> queryEngine.getPrintStream()
+     * [commands and queries] to queryEngine.getPrintStream()
      * <p/>
      * Error output:
-     * alert() --> queryEngine.getErrorPrintStream()
+     * alert() to queryEngine.getErrorPrintStream()
      */
     public RippleCommandLine(final QueryEngine qe, final InputStream is)
             throws RippleException {
@@ -87,11 +86,11 @@ public class RippleCommandLine {
                         readLine();
                         break;
                     case ESCAPE:
-                        LOGGER.debug("received escape event");
+                        logger.fine("received escape event");
                         abortCommands();
                         break;
                     case QUIT:
-                        LOGGER.debug("received quit event");
+                        logger.fine("received quit event");
                         abortCommands();
                         // Note: exception handling used for control
                         throw new ParserQuitException();
@@ -147,8 +146,6 @@ public class RippleCommandLine {
 //System.out.println( "done parsing" );
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     private void readLine() {
         try {
             ++lineNumber;
@@ -186,7 +183,7 @@ public class RippleCommandLine {
     }
 
     private void updateCompletors() {
-        LOGGER.debug("updating completors");
+        logger.fine("updating completors");
         List<Completer> completors = new ArrayList<Completer>();
 
         try {
@@ -218,8 +215,7 @@ public class RippleCommandLine {
                 throw new RippleException(t);
             }
         } catch (RippleException e) {
-            e.logError();
-            LOGGER.error("failed to update completors");
+            logger.log(Level.SEVERE, "failed to update completors", e);
         }
     }
 
@@ -237,8 +233,6 @@ public class RippleCommandLine {
         protected void abort() {
         }
     }
-
-    ////////////////////////////////////////////////////////////////////////////
 
     private void addCommand(final Command cmd) {
 //System.out.println( "addCommand(" + cmd + ")" );

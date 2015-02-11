@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Demo application.
@@ -24,6 +26,8 @@ import java.util.Properties;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public final class Demo {
+    private static final Logger logger = Logger.getLogger(Demo.class.getName());
+
     private Demo() {
     }
 
@@ -144,7 +148,7 @@ public final class Demo {
             }
         } catch (RippleException e) {
             System.err.println("Initialization error: " + e);
-            e.logError();
+            logger.log(Level.SEVERE, "initialization error", e);
             System.exit(1);
         }
 
@@ -157,8 +161,8 @@ public final class Demo {
         try {
             demo(System.in, System.out, System.err);
         } catch (RippleException e) {
-            System.out.println("Exited with error: " + e);
-            e.logError();
+            System.out.println("Exiting with error: " + e);
+            logger.log(Level.SEVERE, "exiting with error", e);
             System.exit(1);
         }
 

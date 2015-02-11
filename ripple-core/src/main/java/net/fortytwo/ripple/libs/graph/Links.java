@@ -5,13 +5,12 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
-import org.apache.log4j.Logger;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
+
+import java.util.logging.Logger;
 
 /**
  * A primitive which consumes a resource and produces a three-element list
@@ -24,7 +23,7 @@ public class Links extends PrimitiveStackMapping {
             GraphLibrary.NS_2013_03 + "links",
             GraphLibrary.NS_2008_08 + "links"};
 
-    private static final Logger LOGGER = Logger.getLogger(Links.class);
+    private static final Logger logger = Logger.getLogger(Links.class.getName());
 
     public String[] getIdentifiers() {
         return IDENTIFIERS;
@@ -52,31 +51,26 @@ public class Links extends PrimitiveStackMapping {
         if (model instanceof SesameModel) {
             final RippleList stack = arg;
 
-            RippleValue subj;
+            Object subj;
 
             subj = stack.getFirst();
-            //final RippleList rest = stack.getRest();
 
             Sink<Statement> stSink = new Sink<Statement>() {
                 public void put(final Statement st) throws RippleException {
                     Resource context = st.getContext();
 
-                    //RippleValue subj = bridge.get( st.getSubject() );
-                    RippleValue pred = mc.canonicalValue(new RDFValue(st.getPredicate()));
-                    RippleValue obj = mc.canonicalValue(new RDFValue(st.getObject()));
-                    RippleValue ctx = (null == context) ? mc.list() : mc.canonicalValue(new RDFValue(context));
-                    //RippleList triple = mc.list( obj ).push( pred ).push( subj );
+                    Object pred = mc.canonicalValue(st.getPredicate());
+                    Object obj = mc.canonicalValue(st.getObject());
+                    Object ctx = (null == context) ? mc.list() : mc.canonicalValue(context);
 
-                    //sink.put( arg.with(
-                    //	rest.push( triple ) ) );
                     solutions.put(stack.push(pred).push(obj).push(ctx));
                 }
             };
 
             // FIXME: only SesameModel supports getStatements()
-            mc.getStatements(subj.toRDF(mc), null, null, stSink);
+            mc.getStatements(mc.toRDF(subj), null, null, stSink);
         } else {
-            LOGGER.warn("primitive is compatible only with the Sesame model: " + this);
+            logger.warning("primitive is compatible only with the Sesame model: " + this);
         }
     }
 }

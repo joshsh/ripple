@@ -3,12 +3,10 @@ package net.fortytwo.ripple.libs.string;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.ModelConnection;
-import org.openrdf.model.Value;
 import org.openrdf.model.Literal;
 import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.XMLSchema;
 
 /**
@@ -16,8 +14,7 @@ import org.openrdf.model.vocabulary.XMLSchema;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class StringLibrary extends Library
-{
+public class StringLibrary extends Library {
     // Note: the prefix "string:" is commonly associated with this URI (per prefix.cc):
     //       http://www.w3.org/2000/10/swap/string#
     public static final String
@@ -26,9 +23,8 @@ public class StringLibrary extends Library
             NS_2007_08 = "http://fortytwo.net/2007/08/ripple/string#";
 
     public void load(final LibraryLoader.Context context)
-		throws RippleException
-	{
-        registerPrimitives( context,
+            throws RippleException {
+        registerPrimitives(context,
                 Concat.class,
                 Contains.class,
                 EndsWith.class,
@@ -46,24 +42,20 @@ public class StringLibrary extends Library
                 Substring.class,
                 ToLowerCase.class,
                 ToUpperCase.class,
-                Trim.class );
-	}
+                Trim.class);
+    }
 
-    public static RDFValue value( final String label,
-                                  final ModelConnection mc,
-                                  final RippleValue... operands ) throws RippleException
-    {
+    public static Object value(final String label,
+                               final ModelConnection mc,
+                               final Object... operands) throws RippleException {
         boolean stringTyped = false;
 
-        for ( RippleValue o : operands )
-        {
-            Value v = o.toRDF( mc ).sesameValue();
-            if ( v instanceof Literal )
-            {
-                URI datatype = ( (Literal) v ).getDatatype();
+        for (Object o : operands) {
+            Value v = mc.toRDF(o);
+            if (v instanceof Literal) {
+                URI datatype = ((Literal) v).getDatatype();
 
-                if ( null != datatype && datatype.equals( XMLSchema.STRING ) )
-                {
+                if (null != datatype && datatype.equals(XMLSchema.STRING)) {
                     stringTyped = true;
                     break;
                 }
@@ -71,8 +63,8 @@ public class StringLibrary extends Library
         }
 
         return stringTyped
-                ? mc.typedValue(label, XMLSchema.STRING)
-                : mc.plainValue(label);
+                ? mc.valueOf(label, XMLSchema.STRING)
+                : label;
     }
 }
 

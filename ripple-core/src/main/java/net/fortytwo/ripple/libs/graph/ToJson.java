@@ -5,8 +5,7 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.keyval.JSONValue;
+import net.fortytwo.ripple.model.types.JSONObjectType;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,19 +49,18 @@ public class ToJson extends PrimitiveStackMapping {
         s = mc.toString(stack.getFirst());
         stack = stack.getRest();
 
-        RippleValue json = toJson(s, mc);
+        Object json = toJson(s, mc);
 
         solutions.put(
                 stack.push(json));
     }
 
-    private RippleValue toJson(final String s,
-                               final ModelConnection mc) throws RippleException {
+    private Object toJson(final String s, final ModelConnection mc) throws RippleException {
         String st = s.trim();
         try {
             return st.startsWith("[")
-                    ? JSONValue.toRippleValue(new JSONArray(st), mc)
-                    : JSONValue.toRippleValue(new JSONObject(st), mc);
+                    ? JSONObjectType.toList(new JSONArray(st), mc)
+                    : new JSONObject(st);
         } catch (JSONException e) {
             throw new RippleException(e);
         }

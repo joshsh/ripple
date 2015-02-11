@@ -1,9 +1,7 @@
 package net.fortytwo.ripple.logo;
 
-/**
- * User: josh
- * Date: 5/15/11
- * Time: 1:27 PM
+/*
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Field {
     public final int height;

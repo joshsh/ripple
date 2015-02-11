@@ -8,7 +8,6 @@ import net.fortytwo.ripple.model.Closure;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackMapping;
 
 import java.util.LinkedList;
@@ -17,7 +16,7 @@ import java.util.List;
 /**
  * A "pull-based" program evaluator which uses Ripple's lazy evaluation strategy but generates solutions
  * incrementally based on calls to next(), rather than pushing all solutions to a stream.
- *
+ * <p/>
  * Note: this iterator is for single-threaded evaluation only.
  *
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -32,7 +31,8 @@ public class LazyEvaluatingIterator implements CloseableIteration<RippleList, Ri
                                   final ModelConnection mc) {
         this.mc = mc;
 
-        // TODO: refusing to evaluate nil stacks makes this iterator like LazyStackEvaluator, but is this really the desired behavior?
+        // TODO: refusing to evaluate nil stacks makes this iterator like LazyStackEvaluator,
+        // but is this really the desired behavior?
         if (!stack.isNil()) {
             //System.out.println("adding initial intermediate: " + stack);
             intermediates.add(stack);
@@ -81,8 +81,8 @@ public class LazyEvaluatingIterator implements CloseableIteration<RippleList, Ri
 
                 return;
             }
-            RippleValue first = left.getFirst();
-            final StackMapping f = first.getMapping();
+            Object first = left.getFirst();
+            final StackMapping f = mc.toMapping(first);
 
             if (null == f) {
                 if (right.isNil()) {
@@ -90,7 +90,7 @@ public class LazyEvaluatingIterator implements CloseableIteration<RippleList, Ri
                     solutions.add(left);
                     return;
                 } else {
-                    Closure c = new Closure(right.getFirst().getMapping(), first);
+                    Closure c = new Closure(mc.toMapping(right.getFirst()), first);
                     right = right.getRest();
                     left = left.getRest().push(new Operator(c));
                 }

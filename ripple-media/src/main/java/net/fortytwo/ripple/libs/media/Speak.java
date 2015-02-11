@@ -8,37 +8,37 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class Speak extends PrimitiveStackMapping
-{
-	private Voice singleVoice = null;
+public class Speak extends PrimitiveStackMapping {
+    private static final Logger logger = Logger.getLogger(Speak.class.getName());
+
+    private Voice singleVoice;
 
     private static final String[] IDENTIFIERS = {
             MediaLibrary.NS_2013_03 + "speak",
             MediaLibrary.NS_2008_08 + "speak",
             MediaLibrary.NS_2007_08 + "speak"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-	public Speak()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "text", null, true )};
+    public Speak()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("text", null, true)};
+    }
+
+    public String getComment() {
         return "text => text  -- has the side-effect of speaking the text";
     }
 
@@ -46,83 +46,60 @@ public class Speak extends PrimitiveStackMapping
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
 
-        String s = mc.toString( arg.getFirst() );
-		//stack = stack.getRest();
+        String s = mc.toString(arg.getFirst());
+        //stack = stack.getRest();
 
-		try
-		{
-			speak( s );
-		}
+        try {
+            speak(s);
+        } catch (RippleException e) {
+            logger.log(Level.WARNING, "error while speaking text", e);
+        }
 
-		catch ( RippleException e )
-		{
-System.out.println( "error: " + e );
-			e.logError();
-		}
+        // Pass the stack along, unaltered.
+        solutions.put(arg);
+    }
 
-		// Pass the stack along, unaltered.
-		solutions.put( arg );
-	}
+    // Note: we won't try to speak more than one expression at a time.
+    synchronized void speak(final String s)
+            throws RippleException {
+        if (null == singleVoice) {
+            createVoice();
+        }
 
-	// Note: we won't try to speak more than one expression at a time.
-	synchronized void speak( final String s )
-		throws RippleException
-	{
-		if ( null == singleVoice )
-		{
-			createVoice();
-		}
+        singleVoice.speak(s);
+    }
 
-		singleVoice.speak( s );
-	}
+    private void createVoice()
+            throws RippleException {
+        String voiceName = "kevin";
 
-	private void createVoice()
-		throws RippleException
-	{
-		String voiceName = "kevin";
+        try {
+            VoiceManager voiceManager = VoiceManager.getInstance();
+            singleVoice = voiceManager.getVoice(voiceName);
+        } catch (Throwable t) {
+            throw new RippleException(t);
+        }
 
-		try
-		{
-			VoiceManager voiceManager = VoiceManager.getInstance();
-			singleVoice = voiceManager.getVoice( voiceName );
-		}
+        if (null == singleVoice) {
+            throw new RippleException(
+                    "Cannot find a voice named " + voiceName);
+        }
 
-		catch ( Throwable t )
-		{
-			throw new RippleException( t );
-		}
+        try {
+            singleVoice.allocate();
+        } catch (Throwable t) {
+            throw new RippleException(t);
+        }
+    }
 
-		if ( null == singleVoice )
-		{
-			throw new RippleException(
-				"Cannot find a voice named " + voiceName );
-		}
-
-		try
-		{
-			singleVoice.allocate();
-		}
-
-		catch ( Throwable t )
-		{
-			throw new RippleException( t );
-		}
-	}
-
-	// Note: never called.
-	private synchronized void end() throws RippleException
-	{
-		try
-		{
-			if ( null != singleVoice )
-			{
-				singleVoice.deallocate();
-			}
-		}
-
-		catch ( Throwable t )
-		{
-			throw new RippleException( t );
-		}
-	}
+    // Note: never called.
+    private synchronized void end() throws RippleException {
+        try {
+            if (null != singleVoice) {
+                singleVoice.deallocate();
+            }
+        } catch (Throwable t) {
+            throw new RippleException(t);
+        }
+    }
 }

@@ -6,7 +6,6 @@ import net.fortytwo.ripple.libs.stack.StackLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackMapping;
 
 /**
@@ -55,7 +54,7 @@ public class And extends PrimitiveStackMapping {
         y = mc.toBoolean(stack.getFirst());
         stack = stack.getRest();
 
-        RippleValue result = mc.booleanValue(x && y);
+        boolean result = x && y;
 
         solutions.put(
                 stack.push(result));
@@ -88,11 +87,11 @@ public class And extends PrimitiveStackMapping {
                 stack = stack.getRest();
 
                 if (x) {
-                    RippleValue t = mc.booleanValue(true);
+                    Object t = true;
                     solutions.put(stack.push(t).push(t));
                 } else {
-                    RippleValue t = mc.booleanValue(true);
-                    RippleValue f = mc.booleanValue(false);
+                    Object t = true;
+                    Object f = false;
                     solutions.put(stack.push(t).push(f));
                     solutions.put(stack.push(f).push(t));
                     solutions.put(stack.push(f).push(f));

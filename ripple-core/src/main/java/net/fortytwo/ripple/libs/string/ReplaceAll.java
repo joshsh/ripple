@@ -5,7 +5,6 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 
 /**
  * A primitive which consumes a string, a regular expression and a replacement
@@ -14,66 +13,58 @@ import net.fortytwo.ripple.model.RippleValue;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class ReplaceAll extends PrimitiveStackMapping
-{
+public class ReplaceAll extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             StringLibrary.NS_2013_03 + "replace-all",
             StringLibrary.NS_2008_08 + "replaceAll",
             StringLibrary.NS_2007_08 + "replaceAll"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-	public ReplaceAll()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "s", null, true ),
-                new Parameter( "regex", null, true ),
-                new Parameter( "replacement", null, true )};
+    public ReplaceAll()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
-        return "s regex replacement  =>  s2 -- in which each occurrence of the given regular expression in s has been substituted with the given replacement";
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("s", null, true),
+                new Parameter("regex", null, true),
+                new Parameter("replacement", null, true)};
+    }
+
+    public String getComment() {
+        return "s regex replacement  =>  s2 -- in which each occurrence of the given regular expression in s" +
+                " has been substituted with the given replacement";
     }
 
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-		RippleList stack = arg;
+        RippleList stack = arg;
 
-		RippleValue regex, replacement, s;
+        Object regex, replacement, s;
         String result;
 
-		replacement = stack.getFirst();
-		stack = stack.getRest();
-		regex = stack.getFirst();
-		stack = stack.getRest();
-		s = stack.getFirst();
-		stack = stack.getRest();
+        replacement = stack.getFirst();
+        stack = stack.getRest();
+        regex = stack.getFirst();
+        stack = stack.getRest();
+        s = stack.getFirst();
+        stack = stack.getRest();
 
-		try
-		{
-			result = mc.toString( s ).replaceAll( mc.toString( regex ), mc.toString( replacement ) );
-		}
-
-		catch ( java.util.regex.PatternSyntaxException e )
-		{
-			// Hard fail (for now).
-			throw new RippleException( e );
-		}
+        try {
+            result = mc.toString(s).replaceAll(mc.toString(regex), mc.toString(replacement));
+        } catch (java.util.regex.PatternSyntaxException e) {
+            // Hard fail (for now).
+            throw new RippleException(e);
+        }
 
         solutions.put(
-                stack.push( StringLibrary.value( result, mc, replacement, regex, s ) ) );
+                stack.push(StringLibrary.value(result, mc, replacement, regex, s)));
 
-	}
+    }
 }
 

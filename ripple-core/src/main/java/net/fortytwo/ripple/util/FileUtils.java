@@ -11,47 +11,37 @@ import java.util.LinkedList;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public final class FileUtils
-{
-	public static Collection<String> getLines( final InputStream is )
-		throws RippleException
-	{
-		LinkedList<String> lines = new LinkedList<String>();
+public final class FileUtils {
+    public static Collection<String> getLines(final InputStream is)
+            throws RippleException {
+        LinkedList<String> lines = new LinkedList<String>();
 
-		try
-		{
-			BufferedReader reader = new BufferedReader(
-				new InputStreamReader( is ) );
-	
-			// Break out when end of stream is reached.
-			while ( true )
-			{
-				String line = reader.readLine();
-	
-				if ( null == line )
-				{
-					break;
-				}
+        try {
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(is));
 
-				line = line.trim();
-	
-				if ( !line.startsWith( "#" ) && !line.equals( "" ) )
-				{
-					lines.add( line );
-				}
-			}
-		}
+            // Break out when end of stream is reached.
+            while (true) {
+                String line = reader.readLine();
 
-		catch ( java.io.IOException e )
-		{
-			throw new RippleException( e );
-		}
+                if (null == line) {
+                    break;
+                }
 
-		return lines;
-	}
+                line = line.trim();
 
-	private FileUtils()
-	{
-	}
+                if (!line.startsWith("#") && !line.equals("")) {
+                    lines.add(line);
+                }
+            }
+        } catch (java.io.IOException e) {
+            throw new RippleException(e);
+        }
+
+        return lines;
+    }
+
+    private FileUtils() {
+    }
 }
 

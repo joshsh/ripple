@@ -5,8 +5,7 @@ import net.fortytwo.ripple.test.RippleTestCase;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class LexiconUpdaterTest extends RippleTestCase
-{
+public class LexiconUpdaterTest extends RippleTestCase {
     public void testNothing() throws Exception {
 
     }
@@ -60,12 +59,12 @@ public class LexiconUpdaterTest extends RippleTestCase
         }
     }
 
-	private Collection<String> getLines( final String fileName ) throws Exception
-	{
-		InputStream is = LexiconUpdaterTest.class.getResourceAsStream( fileName );
-		Collection<String> lines = FileUtils.getLines( is );
-		is.close();
-		return lines;
-	}   */
+    private Collection<String> getLines(final String fileName) throws Exception {
+        InputStream is = LexiconUpdaterTest.class.getResourceAsStream(fileName);
+        Collection<String> lines = FileUtils.getLines(is);
+        is.close();
+        return lines;
+    }
+    */
 }
 

@@ -41,30 +41,15 @@ public class RippleSailTest extends TestCase {
         addDummyData(baseSail);
 
         sc = sail.getConnection();
+        sc.begin();
     }
 
     public final void tearDown() throws Exception {
+        sc.rollback();
         sc.close();
         sail.shutDown();
         baseSail.shutDown();
     }
-
-    /*
-    public void testAll() throws Exception {
-        URI foo = vf.createURI("http://example.org/foo");
-
-        Set<Statement> set;
-
-        set = toSet(sc.getStatements(foo, RDF.FIRST, null, false));
-        for (Statement st : set) {
-            System.out.println(st);
-        }
-
-        set = toSet(sc.getStatements(foo, sail.getValueFactory().createURI("http://fortytwo.net/2013/03/ripple/control#apply"), null, false));
-        for (Statement st : set) {
-            System.out.println(st);
-        }
-    }*/
 
     private Collection<BindingSet> evaluate(final String queryStr) throws Exception {
         BindingSet bindings = new EmptyBindingSet();
@@ -274,7 +259,7 @@ public class RippleSailTest extends TestCase {
         Model model = new SesameModel(baseSail);
         StackEvaluator eval = new LazyStackEvaluator();
 
-        ModelConnection mc = model.createConnection();
+        ModelConnection mc = model.getConnection();
         try {
             Collector<StackContext, RippleException> solutions = new Collector<StackContext, RippleException>();
             RippleList stack = mc.list().push(mc.canonicalValue(new RDFValue(new URIImpl("http://example.org/foo"))))
@@ -296,9 +281,11 @@ public class RippleSailTest extends TestCase {
         Repository repo = new SailRepository(sail);
         RepositoryConnection rc = repo.getConnection();
         try {
+            rc.begin();
             rc.add(RippleSail.class.getResource("rippleSailTest.trig"), "", RDFFormat.TRIG);
             rc.commit();
         } finally {
+            rc.rollback();
             rc.close();
         }
     }

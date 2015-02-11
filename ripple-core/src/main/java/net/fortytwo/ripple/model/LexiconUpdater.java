@@ -20,188 +20,149 @@ import java.util.regex.Pattern;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class LexiconUpdater implements RDFDiffSink {
-// TODO: Unicode characters supported by the lexer / Turtle grammar
-	private static final Pattern PREFIX_PATTERN
-		= Pattern.compile( "[A-Za-z][-0-9A-Z_a-z]*" );
+    // TODO: Unicode characters supported by the lexer / Turtle grammar
+    private static final Pattern PREFIX_PATTERN
+            = Pattern.compile("[A-Za-z][-0-9A-Z_a-z]*");
 
-	private final RDFSink addSink, subSink;
+    private final RDFSink addSink, subSink;
     private final DiffSink<Statement> stSink;
     private final DiffSink<Namespace> nsSink;
     private final DiffSink<String> cmtSink;
 
-    public LexiconUpdater( final Lexicon lexicon ) throws RippleException
-    {
-		final boolean override = Ripple.getConfiguration().getBoolean(
-                Ripple.PREFER_NEWEST_NAMESPACE_DEFINITIONS );
-		final boolean allowDuplicateNamespaces = Ripple.getConfiguration().getBoolean(
-                Ripple.ALLOW_DUPLICATE_NAMESPACES );
+    public LexiconUpdater(final Lexicon lexicon) throws RippleException {
+        final boolean override = Ripple.getConfiguration().getBoolean(
+                Ripple.PREFER_NEWEST_NAMESPACE_DEFINITIONS);
+        final boolean allowDuplicateNamespaces = Ripple.getConfiguration().getBoolean(
+                Ripple.ALLOW_DUPLICATE_NAMESPACES);
 
-		addSink = new RDFSink()
-		{
-			private Sink<Statement> stSink = new Sink<Statement>()
-			{
-				public void put( final Statement st ) throws RippleException
-				{
+        addSink = new RDFSink() {
+            private Sink<Statement> stSink = new Sink<Statement>() {
+                public void put(final Statement st) throws RippleException {
 //System.out.println( "st = " + st );
-					Resource subj = st.getSubject();
-					URI pred = st.getPredicate();
-					Value obj = st.getObject();
-			
-					synchronized ( lexicon )
-					{
-						if ( subj instanceof URI )
-						{
-							lexicon.addURI( (URI) subj );
-						}
-				
-						lexicon.addURI( pred );
-				
-						if ( obj instanceof URI )
-						{
-							lexicon.addURI( (URI) obj );
-						}
-					}
-				}
-			};
+                    Resource subj = st.getSubject();
+                    URI pred = st.getPredicate();
+                    Value obj = st.getObject();
 
-			private Sink<Namespace> nsSink = new Sink<Namespace>()
-			{
-				public void put( final Namespace ns ) throws RippleException
-				{
+                    synchronized (lexicon) {
+                        if (subj instanceof URI) {
+                            lexicon.addURI((URI) subj);
+                        }
+
+                        lexicon.addURI(pred);
+
+                        if (obj instanceof URI) {
+                            lexicon.addURI((URI) obj);
+                        }
+                    }
+                }
+            };
+
+            private Sink<Namespace> nsSink = new Sink<Namespace>() {
+                public void put(final Namespace ns) throws RippleException {
 // TODO: delete me
-				}
-			};
+                }
+            };
 
-			private Sink<String> cmtSink = new Sink<String>()
-			{
-				public void put( final String comment ) throws RippleException
-				{
-				}
-			};
+            private Sink<String> cmtSink = new Sink<String>() {
+                public void put(final String comment) throws RippleException {
+                }
+            };
 
-			public Sink<Statement> statementSink()
-			{
-				return stSink;
-			}
-		
-			public Sink<Namespace> namespaceSink()
-			{
-				return nsSink;
-			}
-		
-			public Sink<String> commentSink()
-			{
-				return cmtSink;
-			}
-		};
+            public Sink<Statement> statementSink() {
+                return stSink;
+            }
+
+            public Sink<Namespace> namespaceSink() {
+                return nsSink;
+            }
+
+            public Sink<String> commentSink() {
+                return cmtSink;
+            }
+        };
 
 // TODO
-		subSink = new RDFSink()
-		{
-			private Sink<Statement> stSink = new Sink<Statement>()
-			{
-				public void put( final Statement st ) throws RippleException
-				{
-				}
-			};
+        subSink = new RDFSink() {
+            private Sink<Statement> stSink = new Sink<Statement>() {
+                public void put(final Statement st) throws RippleException {
+                }
+            };
 
-			private Sink<Namespace> nsSink = new Sink<Namespace>()
-			{
-				public void put( final Namespace ns ) throws RippleException
-				{
-				}
-			};
+            private Sink<Namespace> nsSink = new Sink<Namespace>() {
+                public void put(final Namespace ns) throws RippleException {
+                }
+            };
 
-			private Sink<String> cmtSink = new Sink<String>()
-			{
-				public void put( final String comment ) throws RippleException
-				{
-				}
-			};
+            private Sink<String> cmtSink = new Sink<String>() {
+                public void put(final String comment) throws RippleException {
+                }
+            };
 
-			public Sink<Statement> statementSink()
-			{
-				return stSink;
-			}
-		
-			public Sink<Namespace> namespaceSink()
-			{
-				return nsSink;
-			}
-		
-			public Sink<String> commentSink()
-			{
-				return cmtSink;
-			}
-		};
+            public Sink<Statement> statementSink() {
+                return stSink;
+            }
 
-        stSink = new DiffSink<Statement>()
-        {
-            public Sink<Statement> getPlus()
-            {
+            public Sink<Namespace> namespaceSink() {
+                return nsSink;
+            }
+
+            public Sink<String> commentSink() {
+                return cmtSink;
+            }
+        };
+
+        stSink = new DiffSink<Statement>() {
+            public Sink<Statement> getPlus() {
                 return addSink.statementSink();
             }
 
-            public Sink<Statement> getMinus()
-            {
+            public Sink<Statement> getMinus() {
                 return subSink.statementSink();
             }
         };
 
-        nsSink = new DiffSink<Namespace>()
-        {
-            public Sink<Namespace> getPlus()
-            {
+        nsSink = new DiffSink<Namespace>() {
+            public Sink<Namespace> getPlus() {
                 return addSink.namespaceSink();
             }
 
-            public Sink<Namespace> getMinus()
-            {
+            public Sink<Namespace> getMinus() {
                 return subSink.namespaceSink();
             }
         };
 
-        cmtSink = new DiffSink<String>()
-        {
-            public Sink<String> getPlus()
-            {
+        cmtSink = new DiffSink<String>() {
+            public Sink<String> getPlus() {
                 return addSink.commentSink();
             }
 
-            public Sink<String> getMinus()
-            {
+            public Sink<String> getMinus() {
                 return subSink.commentSink();
             }
         };
-	}
+    }
 
-	public RDFSink adderSink()
-	{
-		return addSink;
-	}
+    public RDFSink adderSink() {
+        return addSink;
+    }
 
-	public RDFSink subtractorSink()
-	{
-		return subSink;
-	}
+    public RDFSink subtractorSink() {
+        return subSink;
+    }
 
-    public DiffSink<Statement> statementSink()
-    {
+    public DiffSink<Statement> statementSink() {
         return stSink;
     }
 
-    public DiffSink<Namespace> namespaceSink()
-    {
+    public DiffSink<Namespace> namespaceSink() {
         return nsSink;
     }
 
-    public DiffSink<String> commentSink()
-    {
+    public DiffSink<String> commentSink() {
         return cmtSink;
     }
 
-    private boolean allowedNsPrefix( final String nsPrefix )
-	{
-		return PREFIX_PATTERN.matcher( nsPrefix ).matches();
-	}
+    private boolean allowedNsPrefix(final String nsPrefix) {
+        return PREFIX_PATTERN.matcher(nsPrefix).matches();
+    }
 }

@@ -11,7 +11,7 @@
 
     <groupId>net.fortytwo.ripple</groupId>
     <artifactId>ripple-all</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.2</version>
     <packaging>pom</packaging>
     <name>Ripple</name>
     <description>Semantic Web scripting language</description>
@@ -46,15 +46,15 @@
         </developer>
     </developers>
 
+    <!-- note: *not* compatible with Android 2.2.1 -->
     <properties>
-        <ripple.version>1.1-SNAPSHOT</ripple.version>
-        <sesame.version>2.7.10</sesame.version>
-        <sesametools.version>1.8</sesametools.version>
-        <tinkerpop.version>2.4.0</tinkerpop.version>
-        <restlet.version>2.1.1</restlet.version>
-        <log4j.version>1.2.17</log4j.version>
-        <slf4j.version>1.7.2</slf4j.version>
+        <httpcomponents.version>4.4</httpcomponents.version>
         <junit.version>4.11</junit.version>
+        <restlet.version>2.2.2</restlet.version>
+        <ripple.version>1.2</ripple.version>
+        <sesame.version>2.7.14</sesame.version>
+        <sesametools.version>1.9</sesametools.version>
+        <tinkerpop.version>2.6.0</tinkerpop.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
@@ -79,9 +79,30 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>2.5.1</version>
                     <configuration>
+                        <!-- keep at 1.6 for the sake of compatibility -->
                         <source>1.6</source>
                         <target>1.6</target>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>1.3.1</version>
+                    <executions>
+                        <execution>
+                            <id>enforce-dependency-convergence</id>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                            <configuration>
+                                <rules>
+                                    <DependencyConvergence/>
+                                    <requireJavaVersion>
+                                        <version>[1.6,1.8]</version>
+                                    </requireJavaVersion>
+                                </rules>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -138,19 +159,8 @@
                     <artifactId>maven-dependency-plugin</artifactId>
                     <version>2.4</version>
                 </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-gpg-plugin</artifactId>
-                    <version>1.4</version>
-                </plugin>
             </plugins>
         </pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-            </plugin>
-        </plugins>
     </build>
 
     <repositories>
@@ -160,42 +170,10 @@
             <url>http://fortytwo.net/maven2</url>
         </repository>
         <repository>
-            <id>aduna-repo</id>
-            <name>Aduna repository</name>
-            <url>http://repo.aduna-software.org/maven2/releases</url>
-        </repository>
-        <repository>
             <id>maven-restlet</id>
             <name>Public online Restlet repository</name>
             <url>http://maven.restlet.org</url>
         </repository>
     </repositories>
-
-    <profiles>
-        <profile>
-            <id>release</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.4</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
 </project>

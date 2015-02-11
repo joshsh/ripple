@@ -7,7 +7,6 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackMappingWrapper;
 
 /**
@@ -27,7 +26,8 @@ public class Inverse extends PrimitiveStackMapping {
     }
 
     public String getComment() {
-        return "consumes a mapping and produces the inverse of that mapping (or a null mapping if the inverse is not otherwise defined)";
+        return "consumes a mapping and produces the inverse of that mapping" +
+                " (or a null mapping if the inverse is not otherwise defined)";
     }
 
     public void apply(final RippleList arg,
@@ -37,11 +37,11 @@ public class Inverse extends PrimitiveStackMapping {
         RippleList stack = arg;
 
         final RippleList rest = stack.getRest();
-        RippleValue f = stack.getFirst();
+        Object f = stack.getFirst();
 
         Sink<Operator> opSink = new Sink<Operator>() {
             public void put(final Operator op) throws RippleException {
-                RippleValue inverse = new StackMappingWrapper(op.getMapping().getInverse(), mc);
+                Object inverse = new StackMappingWrapper(op.getMapping().getInverse(), mc);
                 solutions.put(rest.push(inverse));
             }
         };

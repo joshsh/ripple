@@ -6,7 +6,6 @@ import net.fortytwo.ripple.model.Closure;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackMapping;
 
 // Note: not thread-safe, on account of stop()
@@ -25,28 +24,20 @@ public class LazyStackEvaluator extends StackEvaluator {
         public EvaluatorSink(final Sink<RippleList> sink,
                              final ModelConnection mc) {
             this.sink = sink;
-            //System.out.println(this + "( " + sink + ")");
             this.mc = mc;
         }
 
         public void put(final RippleList arg)
                 throws RippleException {
-            if (stopped) {
+            if (stopped || arg.isNil()) {
                 return;
             }
 
-            //System.out.println(this + " -- stack = " + stack);
-            RippleValue first = arg.getFirst();
-            //System.out.println( "   first.isActive() = " + first.isActive() );
-            //System.out.println("   first = " + stack.getFirst());
+            Object first = arg.getFirst();
 
-            if (null != first.getMapping()) {
+            final StackMapping f = mc.toMapping(first);
+            if (null != f) {
                 RippleList rest = arg.getRest();
-                //System.out.println("   rest = " + rest);
-
-                final StackMapping f = first.getMapping();
-                //System.out.println("   f = " + f);
-                //System.out.println("   f.arity() = " + f.arity());
 
                 // Nullary functions don't need their argument stacks reduced.
                 // They shouldn't even care if the stack is empty.
@@ -60,7 +51,7 @@ public class LazyStackEvaluator extends StackEvaluator {
                     // We simply ignore stacks which can't be reduced to
                     // something with a passive item on top.
                     if (rest.isNil()) {
-                        //						sink.put( stack );
+                        // sink.put( stack );
                     } else {
                         final Sink<RippleList> thisEval = this;
                         Sink<RippleList> argSink = new Sink<RippleList>() {
@@ -80,8 +71,6 @@ public class LazyStackEvaluator extends StackEvaluator {
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
@@ -89,25 +78,13 @@ public class LazyStackEvaluator extends StackEvaluator {
             return;
         }
 
-        /*
-        Sink<StackContext, RippleException> debugSink = new Sink<StackContext, RippleException>() {
-            public void put(final StackContext ctx) throws RippleException {
-                System.out.println("yielding value: " + ctx.getStack());
-                solutions.put(ctx);
-            }
-        };
-        //*/
-
         EvaluatorSink evalSink = new EvaluatorSink(solutions, mc);
-        //EvaluatorSink evalSink = new EvaluatorSink( debugSink );
         stopped = false;
 
         try {
             evalSink.put(arg);
-        }
-
-        // Attempt to recover from stack overflow.
-        catch (StackOverflowError e) {
+        } catch (StackOverflowError e) {
+            // Attempt to recover from stack overflow.
             throw new RippleException(e);
         }
     }

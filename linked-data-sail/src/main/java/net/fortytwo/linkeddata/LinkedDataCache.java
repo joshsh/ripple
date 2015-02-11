@@ -28,7 +28,6 @@ import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
 import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
-import org.semarglproject.sesame.rdf.rdfa.RDFaFormat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,12 +48,13 @@ import java.util.Map;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class LinkedDataCache {
-    private static final Logger LOGGER = Logger.getLogger(LinkedDataCache.class);
+    private static final Logger logger = Logger.getLogger(LinkedDataCache.class);
 
     public static final String
             CACHE_NS = "http://fortytwo.net/2012/02/linkeddata#";
     public static final URI
             CACHE_MEMO = new URIImpl(CACHE_NS + "memo"),
+            CACHE_REDIRECTSTO = new URIImpl(CACHE_NS + "redirectsTo"),
             CACHE_GRAPH = null;  // the default context is used for caching metadata
 
     private static final String[] NON_RDF_EXTENSIONS = {
@@ -96,6 +96,8 @@ public class LinkedDataCache {
 
     private DataStore dataStore;
 
+    private final SailConnection sailConnection;
+
     /**
      * Constructs a cache with the default settings, dereferencers, and rdfizers.
      *
@@ -106,8 +108,10 @@ public class LinkedDataCache {
     public static LinkedDataCache createDefault(final Sail sail) throws RippleException {
         LinkedDataCache cache = new LinkedDataCache(sail);
 
+        RedirectManager redirectManager = new RedirectManager(cache.sailConnection);
+
         // Add URI dereferencers.
-        HTTPURIDereferencer hdref = new HTTPURIDereferencer(cache);
+        HTTPURIDereferencer hdref = new HTTPURIDereferencer(cache, redirectManager);
         for (String x : NON_RDF_EXTENSIONS) {
             hdref.blackListExtension(x);
         }
@@ -130,9 +134,6 @@ public class LinkedDataCache {
             throw new RippleException("no such datatype handling policy: " + p);
         }
 
-        // manually register Semargl's RDFa parser and writer, which do not have factories
-        RDFFormat.register(RDFaFormat.RDFA);
-
         // Rdfizers for registered RDF formats
         // TODO: 'tmp' is a hack to avoid a poorly-understood ConcurrentModificationException
         Collection<RDFFormat> tmp = new LinkedList<RDFFormat>();
@@ -142,9 +143,6 @@ public class LinkedDataCache {
             for (String type : f.getMIMETypes()) {
                 double qualityFactor = type.equals("application/rdf+xml") ? 1.0 : 0.5;
                 cache.addRdfizer(new MediaType(type), r, qualityFactor);
-            }
-            if (f.equals(RDFaFormat.RDFA)) {
-                cache.addRdfizer(new MediaType("text/html"), r, 0.5);
             }
         }
 
@@ -172,11 +170,26 @@ public class LinkedDataCache {
 
         this.expirationPolicy = new DefaultCacheExpirationPolicy();
 
+        try {
+            this.sailConnection = sail.getConnection();
+            this.sailConnection.begin();
+        } catch (SailException e) {
+            throw new RippleException(e);
+        }
+
         dataStore = new DataStore() {
             public RDFSink createInputSink(final SailConnection sc) {
                 return new SesameOutputAdapter(new SailInserter(sc));
             }
         };
+    }
+
+    public void close() throws RippleException {
+        try {
+            sailConnection.close();
+        } catch (SailException e) {
+            throw new RippleException(e);
+        }
     }
 
     public void setDataStore(final DataStore dataStore) {
@@ -245,20 +258,21 @@ public class LinkedDataCache {
      *
      * @param mediaType     a MIME type, e.g. "application/rdf+xml", "image/tiff"
      * @param rdfizer       the associated rdfizer
-     * @param qualityFactor a quality value ranging from 0 to 1 which expresses the client's preference for the given media type.
+     * @param qualityFactor a quality value ranging from 0 to 1 which expresses
+     *                      the client's preference for the given media type.
      *                      This value is used for HTTP content negotiation.
      */
     public void addRdfizer(final MediaType mediaType,
                            final Rdfizer rdfizer,
                            final double qualityFactor) {
-        LOGGER.info("adding RDFizer for media type " + mediaType + ": " + rdfizer);
+        logger.info("adding RDFizer for media type " + mediaType + ": " + rdfizer);
 
         if (qualityFactor <= 0 || qualityFactor > 1) {
             throw new IllegalArgumentException("quality factor must be between 0 and 1");
         }
 
         if (null != rdfizers.get(mediaType)) {
-            LOGGER.warn("overriding already-registered RDFizer for media type " + mediaType);
+            logger.warn("overriding already-registered RDFizer for media type " + mediaType);
         }
 
         MediaTypeInfo rq = new MediaTypeInfo();
@@ -277,7 +291,7 @@ public class LinkedDataCache {
      * @param dref   the associated dereferencer
      */
     public void addDereferencer(final String scheme, final Dereferencer dref) {
-        LOGGER.info("adding dereferencer for for URI scheme " + scheme + ": " + dref);
+        logger.info("adding dereferencer for for URI scheme " + scheme + ": " + dref);
 
         dereferencers.put(scheme, dref);
     }
@@ -325,7 +339,7 @@ public class LinkedDataCache {
             return CacheEntry.Status.BadUriScheme;
         }
 
-        LOGGER.info("dereferencing URI <"
+        logger.info("dereferencing <"
                 + StringUtils.escapeURIString(uri.toString()) + ">");
         //+ " at location " + mapped );
 
@@ -339,6 +353,11 @@ public class LinkedDataCache {
 
             memo.setStatus(CacheEntry.Status.DereferencerError);
             rep = dref.dereference(retrievalUri);
+
+            // a null representation indicates that dereferencing the URI would be redundant; exit early
+            if (null == rep) {
+                return CacheEntry.Status.RedirectsToCached;
+            }
 
             // We have the representation, now try to rdfize it.
 
@@ -387,9 +406,11 @@ public class LinkedDataCache {
         } finally {
             metadata.setMemo(graphUri, memo, sc);
 
+            // an autocommit happens independently of a call to LinkedDataSail#commit
             if (autoCommit) {
                 try {
                     sc.commit();
+                    sc.begin();
                 } catch (SailException e) {
                     throw new RippleException(e);
                 }
@@ -403,7 +424,7 @@ public class LinkedDataCache {
 
     /**
      * @return whether the cache commits to the triple store after each Web request
-     *         (true by default)
+     * (true by default)
      */
     public boolean isAutoCommit() {
         return autoCommit;
@@ -470,7 +491,7 @@ public class LinkedDataCache {
             msg.append(", rdfizer: ").append(memo.getRdfizer());
             msg.append("): ").append(status);
 
-            LOGGER.info(msg);
+            logger.info(msg);
         }
 
         return status;

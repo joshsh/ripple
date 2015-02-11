@@ -28,7 +28,7 @@ public class LibraryLoader extends ClassLoader {
     public class Context {
         // Note: LinkedHashMap is used because the order of added values is
         // significant.
-        private final LinkedHashMap<Value, RippleValue>
+        private final LinkedHashMap<Value, Object>
                 primaryMap,
                 aliasMap;
 
@@ -36,19 +36,19 @@ public class LibraryLoader extends ClassLoader {
 
         public Context(final ModelConnection mc) {
             this.modelConnection = mc;
-            primaryMap = new LinkedHashMap<Value, RippleValue>();
-            aliasMap = new LinkedHashMap<Value, RippleValue>();
+            primaryMap = new LinkedHashMap<Value, Object>();
+            aliasMap = new LinkedHashMap<Value, Object>();
         }
 
         public ModelConnection getModelConnection() {
             return modelConnection;
         }
 
-        public void addPrimaryValue(final Value v, final RippleValue rv) {
+        public void addPrimaryValue(final Value v, final Object rv) {
             primaryMap.put(v, rv);
         }
 
-        public void addAlias(final Value v, final RippleValue rv) {
+        public void addAlias(final Value v, final Object rv) {
             aliasMap.put(v, rv);
         }
 

@@ -3,10 +3,10 @@ package net.fortytwo.ripple.libs.math;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackMapping;
+import net.fortytwo.ripple.model.types.NumericType;
 
 /**
  * A primitive which consumes two numbers x and y and produces the number x to
@@ -47,14 +47,14 @@ public class Pow extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
 
-        NumericValue p, x, result;
+        Number p, x, result;
 
-        p = mc.toNumericValue(stack.getFirst());
+        p = mc.toNumber(stack.getFirst());
         stack = stack.getRest();
-        x = mc.toNumericValue(stack.getFirst());
+        x = mc.toNumber(stack.getFirst());
         stack = stack.getRest();
 
-        result = x.pow(p);
+        result = NumericType.pow(x, p);
 
         solutions.put(
                 stack.push(result));
@@ -80,14 +80,14 @@ public class Pow extends PrimitiveStackMapping {
                               final ModelConnection mc) throws RippleException {
                 RippleList stack = arg;
 
-                NumericValue a, c, result;
-                c = mc.toNumericValue(stack.getFirst());
+                Number a, c, result;
+                c = mc.toNumber(stack.getFirst());
                 stack = stack.getRest();
-                a = mc.toNumericValue(stack.getFirst());
+                a = mc.toNumber(stack.getFirst());
                 stack = stack.getRest();
 
                 if (a.doubleValue() > 0 && c.doubleValue() > 0) {
-                    result = mc.numericValue(Math.log(c.doubleValue()) / Math.log(a.doubleValue()));
+                    result = Math.log(c.doubleValue()) / Math.log(a.doubleValue());
                     solutions.put(stack.push(result));
                 }
             }

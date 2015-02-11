@@ -6,7 +6,8 @@ import net.fortytwo.ripple.libs.graph.GraphLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import org.apache.log4j.Logger;
+
+import java.util.logging.Logger;
 
 /**
  * A primitive which consumes a literal value and produces its xsd:double
@@ -15,8 +16,8 @@ import org.apache.log4j.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class ToDouble extends PrimitiveStackMapping {
-    private static final Logger LOGGER
-            = Logger.getLogger(ToDouble.class);
+    private static final Logger logger
+            = Logger.getLogger(ToDouble.class.getName());
 
     public String[] getIdentifiers() {
         return new String[]{
@@ -54,14 +55,14 @@ public class ToDouble extends PrimitiveStackMapping {
         double d;
 
         try {
-            d = new Double(s).doubleValue();
+            d = new Double(s);
         } catch (NumberFormatException e) {
-            LOGGER.debug("bad integer value: " + s);
+            logger.fine("bad integer value: " + s);
             return;
         }
 
         solutions.put(
-                stack.push(mc.numericValue(d)));
+                stack.push(d));
     }
 }
 

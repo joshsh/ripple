@@ -21,12 +21,14 @@ public class Amp extends PrimitiveStackMapping {
     @Override
     public Parameter[] getParameters() {
         return new Parameter[]{
-                new Parameter("factor", "the real-valued factor by which to multiply the weight of the current path", true)};
+                new Parameter("factor",
+                        "the real-valued factor by which to multiply the weight of the current path", true)};
     }
 
     @Override
     public String getComment() {
-        return "amplifies or attenuates the weight (strength or priority) of a given path by a real-valued factor.  Use in conjunction with etc:rank.";
+        return "amplifies or attenuates the weight (strength or priority) of a given path by a real-valued factor." +
+                "  Use in conjunction with etc:rank.";
     }
 
     public void apply(final RippleList arg,

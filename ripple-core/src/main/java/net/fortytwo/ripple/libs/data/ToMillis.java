@@ -41,10 +41,10 @@ public class ToMillis extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
 
         RippleList stack = arg;
-        Date d = mc.toDateValue(stack.getFirst());
+        Date d = mc.toDate(stack.getFirst());
         stack = stack.getRest();
 
         solutions.put(stack.push(
-                mc.numericValue(d.getTime())));
+                d.getTime()));
     }
 }

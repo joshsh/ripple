@@ -6,22 +6,20 @@ import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RDFValue;
-import net.fortytwo.ripple.model.RippleValue;
+import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StatementPatternQuery;
+import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.Value;
+import org.openrdf.model.vocabulary.RDF;
 
-import java.util.Random;
+import java.net.URI;
 import java.util.UUID;
 
 /**
- * User: josh
- * Date: Nov 19, 2010
- * Time: 4:21:35 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class ModelConnectionHelper {
-    private static final Random RANDOM = new Random();
 
     private final ModelConnection connection;
 
@@ -29,21 +27,21 @@ public class ModelConnectionHelper {
         this.connection = connection;
     }
 
-    public RippleValue findSingleObject(final RippleValue subj, final RippleValue pred)
+    public Object findSingleObject(final Object subj, final Object pred)
             throws RippleException {
         StatementPatternQuery query = new StatementPatternQuery(subj, pred, null);
-        Collector<RippleValue> results = new Collector<RippleValue>();
+        Collector<Object> results = new Collector<Object>();
         connection.query(query, results, false);
 
         return results.isEmpty() ? null : results.iterator().next();
     }
 
-    public void findPredicates(final RippleValue subject,
-                               final Sink<RippleValue> sink)
+    public void findPredicates(final Object subject,
+                               final Sink<Object> sink)
             throws RippleException {
         final Sink<Value> valueSink = new Sink<Value>() {
             public void put(final Value v) throws RippleException {
-                sink.put(connection.canonicalValue(new RDFValue(v)));
+                sink.put(connection.canonicalValue(v));
             }
         };
 
@@ -56,14 +54,37 @@ public class ModelConnectionHelper {
             }
         };
 
-        RDFValue v = subject.toRDF(connection);
-        // Not all RippleValues have an RDF identity.
+        Value v = connection.toRDF(subject);
+        // Not all values have an RDF identity.
         if (null != v) {
             connection.getStatements(v, null, null, predSelector);
         }
     }
 
-    public RDFValue createRandomURI() throws RippleException {
-        return connection.uriValue(Ripple.RANDOM_URN_PREFIX + UUID.randomUUID());
+    public Value createRandomURI() throws RippleException {
+        return connection.valueOf(URI.create(Ripple.RANDOM_URN_PREFIX + UUID.randomUUID()));
+    }
+
+    public static boolean isRDFList(final Object r, final ModelConnection mc) throws RippleException {
+        if (r instanceof RippleList) {
+            return true;
+        }
+
+        if (!(r instanceof Resource)) {
+            return false;
+        }
+
+        if (r.equals(RDF.NIL)) {
+            return true;
+        }
+
+        final boolean[] b = {false};
+        mc.getStatements((Resource) r, RDF.FIRST, null, new Sink<Statement>(){
+            @Override
+            public void put(Statement statement) throws RippleException {
+                b[0] = true;
+            }
+        });
+        return b[0];
     }
 }

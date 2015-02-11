@@ -5,7 +5,9 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A primitive which consumes a string and a regular expression, then produces
@@ -16,6 +18,8 @@ import net.fortytwo.ripple.model.RippleValue;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Split extends PrimitiveStackMapping {
+    private static final Logger logger = Logger.getLogger(Split.class.getName());
+
     private static final String[] IDENTIFIERS = {
             StringLibrary.NS_2013_03 + "split",
             StringLibrary.NS_2008_08 + "split",
@@ -37,7 +41,8 @@ public class Split extends PrimitiveStackMapping {
     }
 
     public String getComment() {
-        return "s regex  =>  (s1, s2, s3, ...) -- where s has been divided into substrings by occurrences of regular expression regex";
+        return "s regex  =>  (s1, s2, s3, ...) -- where s has been divided into substrings" +
+                " by occurrences of regular expression regex";
     }
 
     public void apply(final RippleList arg,
@@ -45,7 +50,7 @@ public class Split extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
 
-        RippleValue s, regex;
+        Object s, regex;
 
         regex = stack.getFirst();
         stack = stack.getRest();
@@ -64,11 +69,9 @@ public class Split extends PrimitiveStackMapping {
                         stack.push(result));
             } catch (RippleException e) {
                 // Soft fail
-                e.logError();
+                logger.log(Level.WARNING, "failed to put solution", e);
             }
-        }
-
-        catch (java.util.regex.PatternSyntaxException e) {
+        } catch (java.util.regex.PatternSyntaxException e) {
             // Hard fail (for now).
             throw new RippleException(e);
         }

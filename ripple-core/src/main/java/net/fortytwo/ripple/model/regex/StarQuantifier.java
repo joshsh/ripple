@@ -11,38 +11,33 @@ import net.fortytwo.ripple.model.StackMapping;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class StarQuantifier implements StackMapping
-{
-	private final Operator innerOperator;
+public class StarQuantifier implements StackMapping {
+    private final Operator innerOperator;
 
-	public StarQuantifier( final Operator oper )
-	{
-		innerOperator = oper;
-	}
+    public StarQuantifier(final Operator oper) {
+        innerOperator = oper;
+    }
 
-	public int arity()
-	{
-		// TODO
-		return 1;
-	}
+    public int arity() {
+        // TODO
+        return 1;
+    }
 
-	public boolean isTransparent()
-	{
-		return innerOperator.getMapping().isTransparent();
-	}
+    public boolean isTransparent() {
+        return innerOperator.getMapping().isTransparent();
+    }
 
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-		solutions.put( arg );
+        solutions.put(arg);
 
-		solutions.put( arg
-				.push( innerOperator )
-				.push( new Operator( this ) ) );
-	}
+        solutions.put(arg
+                .push(innerOperator)
+                .push(new Operator(this)));
+    }
 
-    public StackMapping getInverse() throws RippleException
-    {
+    public StackMapping getInverse() throws RippleException {
         return new NullStackMapping();
     }
 }

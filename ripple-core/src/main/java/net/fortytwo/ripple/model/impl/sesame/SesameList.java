@@ -8,10 +8,7 @@ import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
-import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackMapping;
 import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.util.ModelConnectionHelper;
 import org.openrdf.model.Value;
@@ -23,26 +20,24 @@ import java.util.Map;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class SesameList extends RippleList {
-    private static final RDFValue RDF_FIRST = new RDFValue(RDF.FIRST);
-    private static final RDFValue RDF_REST = new RDFValue(RDF.REST);
+public class SesameList<T> extends RippleList<T> {
 
     private static final RippleList NIL = new SesameList();
 
     private static Map<Value, Source<RippleList>> nativeLists = new HashMap<Value, Source<RippleList>>();
     private static Boolean memoize;
 
-    private  RDFValue rdfEquivalent;
+    private Value rdfEquivalent;
 
     public static RippleList nilList() {
         return NIL;
     }
 
-    public SesameList(final RippleValue first) {
+    public SesameList(final T first) {
         super(first, NIL);
     }
 
-    public SesameList(final RippleValue first,
+    public SesameList(final T first,
                       final RippleList rest) {
         super(first, rest);
     }
@@ -50,22 +45,22 @@ public class SesameList extends RippleList {
     // FIXME: this is temporary
     private SesameList() {
         super(null, null);
-        // Note: this is a trick to avoid null pointer exceptions in the list memoizer.
-        first = this;
+        // TODO: beware of null pointer exceptions in the list memoizer.
+        first = null;
 
-        rdfEquivalent = new RDFValue(RDF.NIL);
+        rdfEquivalent = RDF.NIL;
     }
 
     public boolean isNil() {
         return null == rest;
     }
 
-    public RippleList push(final RippleValue first) throws RippleException {
+    public RippleList push(final T first) throws RippleException {
         return new SesameList(first, this);
     }
 
     public RippleList invert() {
-        ListNode<RippleValue> in = this;
+        ListNode<T> in = this;
         RippleList out = NIL;
 
         while (NIL != in) {
@@ -76,12 +71,7 @@ public class SesameList extends RippleList {
         return out;
     }
 
-    public StackMapping getMapping() {
-        return null;
-    }
-
-    public RDFValue toRDF(final ModelConnection mc)
-            throws RippleException {
+    public Value getRDFEquivalent(final ModelConnection mc) throws RippleException {
         if (null == rdfEquivalent) {
             rdfEquivalent = new ModelConnectionHelper(mc).createRandomURI();
         }
@@ -101,9 +91,9 @@ public class SesameList extends RippleList {
                 : new SesameList(head.getFirst(), concat(head.getRest(), tail));
     }
 
-    public static void from(final RippleValue v,
-                            final Sink<RippleList> sink,
-                            final ModelConnection mc)
+    public static <T> void from(final T v,
+                                final Sink<RippleList> sink,
+                                final ModelConnection mc)
             throws RippleException {
         if (null == memoize) {
             memoize = Ripple.getConfiguration().getBoolean(Ripple.MEMOIZE_LISTS_FROM_RDF);
@@ -115,10 +105,9 @@ public class SesameList extends RippleList {
         }
 
         // If the argument is an RDF value, try to convert it to a native list.
-        else if (v instanceof RDFValue) {
+        else if (v instanceof Value) {
             if (memoize) {
-//System.out.println("looking for source for list: " + v);
-                Value rdfVal = ((RDFValue) v).toRDF(mc).sesameValue();
+                Value rdfVal = (Value) v;
                 Source<RippleList> source = nativeLists.get(rdfVal);
                 if (null == source) {
                     Collector<RippleList> coll = new Collector<RippleList>();
@@ -128,7 +117,6 @@ public class SesameList extends RippleList {
                     source = coll;
                     nativeLists.put(rdfVal, source);
                 }
-//else System.out.println("   found source for list");
 
                 source.writeTo(sink);
             } else {
@@ -140,17 +128,10 @@ public class SesameList extends RippleList {
         else {
             createConceptualList(v, sink, mc);
         }
-
-        /*
-          // Otherwise, fail.
-          else
-          {
-              throw new RippleException( "expecting " + RippleList.class + ", found " + v );
-          }*/
     }
 
     // TODO: find a better name
-    private static void createConceptualList(final RippleValue head,
+    private static void createConceptualList(final Object head,
                                              final Sink<RippleList> sink,
                                              final ModelConnection mc)
             throws RippleException {
@@ -171,21 +152,21 @@ public class SesameList extends RippleList {
     }
 
     // TODO: extend circular lists and other convergent structures
-    private static void listsFromRdf(final RippleValue head,
-                                     final Sink<RippleList> sink,
-                                     final ModelConnection mc)
+    private static <T> void listsFromRdf(final T head,
+                                         final Sink<RippleList> sink,
+                                         final ModelConnection mc)
             throws RippleException {
-        if (head.toRDF(mc).sesameValue().equals(RDF.NIL)) {
+        if (mc.toRDF(head).equals(RDF.NIL)) {
             sink.put(NIL);
         } else {
-            final Collector<RippleValue> firstValues = new Collector<RippleValue>();
+            final Collector<Object> firstValues = new Collector<Object>();
 
             final Sink<RippleList> restSink = new Sink<RippleList>() {
                 public void put(final RippleList rest) throws RippleException {
-                    Sink<RippleValue> firstSink = new Sink<RippleValue>() {
-                        public void put(final RippleValue first) throws RippleException {
+                    Sink<Object> firstSink = new Sink<Object>() {
+                        public void put(final Object first) throws RippleException {
                             SesameList list = new SesameList(first, rest);
-                            list.rdfEquivalent = head.toRDF(mc);
+                            list.rdfEquivalent = mc.toRDF(head);
                             sink.put(list);
                         }
                     };
@@ -194,8 +175,8 @@ public class SesameList extends RippleList {
                 }
             };
 
-            Sink<RippleValue> rdfRestSink = new Sink<RippleValue>() {
-                public void put(final RippleValue rest) throws RippleException {
+            Sink<Object> rdfRestSink = new Sink<Object>() {
+                public void put(final Object rest) throws RippleException {
                     // Recurse.
                     listsFromRdf(rest, restSink, mc);
                 }
@@ -215,10 +196,10 @@ public class SesameList extends RippleList {
                    }
                };*/
 
-            multiply(mc, head, RDF_FIRST, firstValues);
+            multiply(mc, head, RDF.FIRST, firstValues);
 
-            if (firstValues.size() > 0 || head.toRDF(mc).sesameValue().equals(RDF.NIL)) {
-                multiply(mc, head, RDF_REST, rdfRestSink);
+            if (firstValues.size() > 0 || mc.toRDF(head).equals(RDF.NIL)) {
+                multiply(mc, head, RDF.REST, rdfRestSink);
             } else {
                 createConceptualList(head, sink, mc);
             }
@@ -226,14 +207,14 @@ public class SesameList extends RippleList {
     }
 
     private static void multiply(final ModelConnection mc,
-                                 final RippleValue subj,
-                                 final RippleValue pred,
-                                 final Sink<RippleValue> sink) throws RippleException {
+                                 final Object subj,
+                                 final Object pred,
+                                 final Sink sink) throws RippleException {
         StatementPatternQuery query = new StatementPatternQuery(subj, pred, null);
         mc.query(query, sink, false);
     }
 
-    public void setRDF(final RDFValue id) {
+    public void setRDFEquivalent(final Value id) {
         rdfEquivalent = id;
     }
 }

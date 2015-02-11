@@ -2,13 +2,12 @@ package net.fortytwo.ripple.libs.blueprints;
 
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
-import com.tinkerpop.gremlin.groovy.jsr223.GremlinGroovyScriptEngine;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.libs.system.SystemLibrary;
 import net.fortytwo.ripple.model.Library;
 import net.fortytwo.ripple.model.LibraryLoader;
+import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RippleValue;
 
 /**
  * User: josh
@@ -21,6 +20,10 @@ public class BlueprintsLibrary extends Library {
 
     @Override
     public void load(final LibraryLoader.Context context) throws RippleException {
+        Model model = context.getModelConnection().getModel();
+        model.register(new EdgeType());
+        model.register(new VertexType());
+
         registerPrimitives(context,
                 //Edit.class,
                 Head.class,
@@ -31,34 +34,27 @@ public class BlueprintsLibrary extends Library {
         SystemLibrary.registerScriptEngine("gremlin", new GremlinWrapper());
     }
 
-    public static RippleValue createRippleValue(final Object tinker,
-                                                final ModelConnection mc) throws RippleException {
+    public static Object toRipple(final Object tinker,
+                                  final ModelConnection mc) throws RippleException {
         if (tinker instanceof Vertex) {
-            return new VertexValue((Vertex) tinker);
+            return tinker;
         } else if (tinker instanceof Edge) {
-            return new EdgeValue((Edge) tinker);
+            return tinker;
         } else if (tinker instanceof String) {
-            return mc.plainValue((String) tinker);
+            return tinker;
         } else if (tinker instanceof Double) {
-            return mc.numericValue((Double) tinker);
+            return tinker;
         } else if (tinker instanceof Integer) {
-            return mc.numericValue((Integer) tinker);
+            return tinker;
         } else if (tinker instanceof Long) {
-            return mc.numericValue((Long) tinker);
+            return tinker;
         } else if (tinker instanceof Boolean) {
-            return mc.booleanValue((Boolean) tinker);
+            return tinker;
         } else if (tinker instanceof Float) {
             // Cheat and call it a double.
-            return mc.numericValue(Double.valueOf((Float) tinker));
+            return Double.valueOf((Float) tinker);
         } else {
-            return mc.plainValue("[" + tinker.toString() + " (" + tinker.getClass() + ")]");
+            return "[" + tinker.toString() + " (" + tinker.getClass() + ")]";
         }
-    }
-
-    public static void main(final String[] args) throws Exception {
-        GremlinGroovyScriptEngine engine = new GremlinGroovyScriptEngine();
-        Object result = engine.eval("g = TinkerGraphFactory.createTinkerGraph()\ng.v(1)");
-        //result = engine.eval("g.v(1)");
-        System.out.println("" + result.getClass() + ": " + result);
     }
 }

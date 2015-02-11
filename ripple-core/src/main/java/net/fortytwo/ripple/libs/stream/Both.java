@@ -5,7 +5,9 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A filter which consumes two items and produces each item in its own stack.
@@ -13,6 +15,8 @@ import net.fortytwo.ripple.model.RippleValue;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Both extends PrimitiveStackMapping {
+    private static final Logger logger = Logger.getLogger(Both.class.getName());
+
     private static final String[] IDENTIFIERS = {
             StreamLibrary.NS_2013_03 + "both",
             StreamLibrary.NS_2008_08 + "both",
@@ -42,7 +46,7 @@ public class Both extends PrimitiveStackMapping {
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
-        RippleValue x, y;
+        Object x, y;
 
         x = stack.getFirst();
         stack = stack.getRest();
@@ -54,7 +58,7 @@ public class Both extends PrimitiveStackMapping {
             solutions.put(stack.push(y));
         } catch (RippleException e) {
             // Soft fail
-            e.logError();
+            logger.log(Level.WARNING, "failed to put solution", e);
         }
     }
 }

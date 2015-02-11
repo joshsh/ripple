@@ -1,12 +1,8 @@
-package net.fortytwo.ripple.model.keyval;
+package net.fortytwo.ripple.model;
 
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.NullStackMapping;
-import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.StackMapping;
+import net.fortytwo.ripple.model.types.KeyValueType;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -33,18 +29,18 @@ public class KeyValueMapping implements StackMapping {
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-        RippleValue x;
+        Object first;
         RippleList stack = arg;
 
-        x = stack.getFirst();
+        first = stack.getFirst();
         stack = stack.getRest();
 
-        if (x instanceof KeyValueValue) {
-            RippleValue result = ((KeyValueValue) x).getValue(key, mc);
-            solutions.put(
-                    stack.push(result));
+        RippleType t = mc.getModel().getTypeOf(first);
+        if (t instanceof KeyValueType) {
+            Object value = ((KeyValueType) t).getValue(first, key, mc);
+            solutions.put(stack.push(value));
         } else {
-            throw new RippleException("argument is not a JSON value: " + x);
+            throw new RippleException("argument is not a key/value pair: " + first);
         }
     }
 }

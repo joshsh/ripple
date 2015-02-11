@@ -31,7 +31,8 @@ public class LinkedDataSail extends SailBase implements StackableSail, Notifying
     private Sail baseSail;
 
     /**
-     * @param baseSail base Sail which provides a storage layer for aggregated RDF data (Note: the base Sail should be initialized before this Sail is used)
+     * @param baseSail base Sail which provides a storage layer for aggregated RDF data.
+     *                 Note: the base Sail should be initialized before this Sail is used.
      * @param cache    a custom WebClosure providing an RDF-document-level view of the Web
      * @throws RippleException if there is a configuration error
      */
@@ -44,7 +45,8 @@ public class LinkedDataSail extends SailBase implements StackableSail, Notifying
     }
 
     /**
-     * @param baseSail base Sail which provides a storage layer for aggregated RDF data (Note: the base Sail should be initialized before this Sail is used)
+     * @param baseSail base Sail which provides a storage layer for aggregated RDF data.
+     *                 Note: the base Sail should be initialized before this Sail is used.
      * @throws RippleException if there is a configuration error
      */
     public LinkedDataSail(final Sail baseSail)
@@ -97,6 +99,13 @@ public class LinkedDataSail extends SailBase implements StackableSail, Notifying
     }
 
     protected void shutDownInternal() throws SailException {
+        try {
+            cache.close();
+        } catch (RippleException e) {
+            // note: SailException --> RippleException --> SailException
+            throw new SailException(e);
+        }
+
         // Do not shut down the base Sail.
     }
 
@@ -107,8 +116,6 @@ public class LinkedDataSail extends SailBase implements StackableSail, Notifying
     public void setBaseSail(final Sail baseSail) {
         this.baseSail = baseSail;
     }
-
-    // Extended API ////////////////////////////////////////////////////////////
 
     /**
      * @return this LinkedDataSail's cache manager

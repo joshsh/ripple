@@ -1,11 +1,10 @@
 package net.fortytwo.ripple.cli.ast;
 
-import net.fortytwo.ripple.query.QueryEngine;
-import net.fortytwo.ripple.RippleException;
 import net.fortytwo.flow.Sink;
+import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.query.QueryEngine;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 
@@ -27,10 +26,10 @@ public class TypedLiteralAST implements AST<RippleList> {
             throws RippleException {
         Sink<RippleList> typeSink = new Sink<RippleList>() {
             public void put(final RippleList l) throws RippleException {
-                RippleValue type = l.getFirst();
-                Value t = (URI) type.toRDF(mc).sesameValue();
+                Object type = l.getFirst();
+                Value t = mc.toRDF(type);
                 if (t instanceof URI) {
-                    sink.put(mc.list().push(mc.typedValue(value, (URI) t)));
+                    sink.put(mc.list().push(mc.valueOf(value, (URI) t)));
                 } else {
                     qe.getErrorPrintStream().println("datatype does not map to a URI reference: " + type);
                 }

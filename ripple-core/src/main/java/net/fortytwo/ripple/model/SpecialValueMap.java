@@ -14,13 +14,13 @@ import java.util.Set;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SpecialValueMap {
-    private final Map<Value, RippleValue> rdfToNativeMap;
+    private final Map<Value, Object> rdfToNativeMap;
 
     /**
      * Create a new map.
      */
     public SpecialValueMap() {
-        rdfToNativeMap = new HashMap<Value, RippleValue>();
+        rdfToNativeMap = new HashMap<Value, Object>();
     }
 
     /**
@@ -28,11 +28,11 @@ public class SpecialValueMap {
      *
      * @param rdf a wrapped RDF value to map into Ripple space
      * @return a native data structure which is equated with the given RDF
-     *         value.  If there is no such data structure, the value itself.  This
-     *         method will never return <code>null</code>.
+     * value.  If there is no such data structure, the value itself.  This
+     * method will never return <code>null</code>.
      */
-    public RippleValue get(final RDFValue rdf) {
-        RippleValue rpl = rdfToNativeMap.get(rdf.sesameValue());
+    public Object get(final Value rdf) {
+        Object rpl = rdfToNativeMap.get(rdf);
 
         if (null == rpl) {
             rpl = rdf;
@@ -47,23 +47,25 @@ public class SpecialValueMap {
      * @param key   a value in RDF space
      * @param value a corresponding value in Ripple space
      */
-    public void put(final Value key, final RippleValue value) {
+    public void put(final Value key, final Object value) {
         rdfToNativeMap.put(key, value);
     }
 
     /**
      * Adds a value to the map, binding its associated RDF value back to the Ripple value.
-     * @param v the Ripple value to add
+     *
+     * @param v  the Ripple value to add
      * @param mc a transactional connection
      * @throws RippleException if the associated RDF value of the Ripple value can't be determined
      */
-    public void add(final RippleValue v, final ModelConnection mc)
+    public void add(final Object v, final ModelConnection mc)
             throws RippleException {
-        rdfToNativeMap.put(v.toRDF(mc).sesameValue(), v);
+        rdfToNativeMap.put(mc.toRDF(v), v);
     }
 
     /**
      * Removes a value from the map.
+     *
      * @param key the RDF value to remove
      */
     public void remove(final Value key) {

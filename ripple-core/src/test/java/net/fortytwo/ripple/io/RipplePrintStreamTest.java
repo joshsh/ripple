@@ -11,43 +11,41 @@ import java.io.PrintStream;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class RipplePrintStreamTest extends RippleTestCase
-{
-    public void testLiterals() throws Exception
-    {
+public class RipplePrintStreamTest extends RippleTestCase {
+    public void testLiterals() throws Exception {
         Model model = getTestModel();
         ModelConnection mc = model.createConnection();
-        QueryEngine qe = new QueryEngine( model, null, System.out, System.err );
+        QueryEngine qe = new QueryEngine(model, null, System.out, System.err);
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        RipplePrintStream ps = new RipplePrintStream( new PrintStream( bos ), qe.getLexicon() );
+        RipplePrintStream ps = new RipplePrintStream(new PrintStream(bos), qe.getLexicon());
 
-        mc.setNamespace( "xsd", "http://www.w3.org/2001/XMLSchema#", true );
+        mc.setNamespace("xsd", "http://www.w3.org/2001/XMLSchema#", true);
 
-        ps.print( mc.numericValue(42) );
-        assertEquals( "42", bos.toString() );
+        ps.print(42);
+        assertEquals("42", bos.toString());
         bos.reset();
-        ps.print( mc.numericValue(0) );
-        assertEquals( "0", bos.toString() );
+        ps.print(0);
+        assertEquals("0", bos.toString());
         bos.reset();
-        ps.print( mc.numericValue(-42) );
-        assertEquals( "-42", bos.toString() );
-        bos.reset();
-
-        ps.print( mc.numericValue(42.0) );
-        assertEquals( "42.0E0", bos.toString() );
-        bos.reset();
-        ps.print( mc.numericValue(0.0) );
-        assertEquals( "0.0E0", bos.toString() );
-        bos.reset();
-        ps.print( mc.numericValue(-42.0) );
-        assertEquals( "-42.0E0", bos.toString() );
+        ps.print(-42);
+        assertEquals("-42", bos.toString());
         bos.reset();
 
-        ps.print( mc.booleanValue(true) );
-        assertEquals( "true", bos.toString() );
+        ps.print(42.0);
+        assertEquals("42.0", bos.toString());
         bos.reset();
-        ps.print( mc.booleanValue(false) );
-        assertEquals( "false", bos.toString() );
+        ps.print(0.0);
+        assertEquals("0.0", bos.toString());
+        bos.reset();
+        ps.print(-42.0);
+        assertEquals("-42.0", bos.toString());
+        bos.reset();
+
+        ps.print(true);
+        assertEquals("true", bos.toString());
+        bos.reset();
+        ps.print(false);
+        assertEquals("false", bos.toString());
         bos.reset();
 
         //...

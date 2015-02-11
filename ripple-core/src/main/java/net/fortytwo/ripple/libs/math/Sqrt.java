@@ -3,10 +3,13 @@ package net.fortytwo.ripple.libs.math;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackMapping;
+import net.fortytwo.ripple.model.types.NumericType;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A primitive which consumes a number and produces all real square roots of the
@@ -15,7 +18,7 @@ import net.fortytwo.ripple.model.StackMapping;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Sqrt extends PrimitiveStackMapping {
-    private static final int ARITY = 1;
+    private static final Logger logger = Logger.getLogger(PrimitiveStackMapping.class.getName());
 
     private static final String[] IDENTIFIERS = {
             MathLibrary.NS_2013_03 + "sqrt",
@@ -51,7 +54,7 @@ public class Sqrt extends PrimitiveStackMapping {
 
         double a;
 
-        a = mc.toNumericValue(stack.getFirst()).doubleValue();
+        a = mc.toNumber(stack.getFirst()).doubleValue();
         stack = stack.getRest();
 
         // Apply the function only if it is defined for the given argument.
@@ -60,15 +63,13 @@ public class Sqrt extends PrimitiveStackMapping {
 
             // Yield both square roots.
             try {
-                solutions.put(
-                        stack.push(mc.numericValue(d)));
+                solutions.put(stack.push(d));
                 if (d > 0) {
-                    solutions.put(
-                            stack.push(mc.numericValue(0.0 - d)));
+                    solutions.put(stack.push(0.0 - d));
                 }
             } catch (RippleException e) {
                 // Soft fail
-                e.logError();
+                logger.log(Level.WARNING, "failed to put sqrt solution", e);
             }
         }
     }
@@ -96,12 +97,12 @@ public class Sqrt extends PrimitiveStackMapping {
                           final ModelConnection mc) throws RippleException {
             RippleList stack = arg;
 
-            NumericValue a, result;
+            Number a, result;
 
-            a = mc.toNumericValue(stack.getFirst());
+            a = mc.toNumber(stack.getFirst());
             stack = stack.getRest();
 
-            result = a.mul(a);
+            result = NumericType.mul(a, a);
 
             solutions.put(
                     stack.push(result));

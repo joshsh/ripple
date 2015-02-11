@@ -7,32 +7,25 @@ import java.util.Iterator;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public interface LexiconNew
-{
-    // relative URIs ///////////////////////////////////////////////////////////
-    
+public interface LexiconNew {
+
     /**
      * @return the base URI currently in scope
      */
     URI getBaseURI();
 
     /**
-     *
      * @param uri a relative or absolute URI reference
      */
-    void setBaseURI( String uri );
-
-    // namespaces //////////////////////////////////////////////////////////////
+    void setBaseURI(String uri);
 
     Iterator<String> getNamespacePrefixes();
 
-    URI resolveNamespacePrefix( String prefix );
+    URI resolveNamespacePrefix(String prefix);
 
-    void setNamespace( String prefix, URI uri );
-
-    // keywords ////////////////////////////////////////////////////////////////
+    void setNamespace(String prefix, URI uri);
 
     Iterator<String> getKeywords();
 
-    URI resolveKeyword( String keyword );
+    URI resolveKeyword(String keyword);
 }

@@ -1,14 +1,14 @@
 package net.fortytwo.flow.rdf.diff;
 
-import net.fortytwo.flow.rdf.RDFSink;
-import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.NullSink;
+import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.diff.DiffSink;
+import net.fortytwo.flow.rdf.RDFSink;
 import net.fortytwo.ripple.RippleException;
+import org.openrdf.model.Namespace;
+import org.openrdf.model.Statement;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
-import org.openrdf.model.Statement;
-import org.openrdf.model.Namespace;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -25,7 +25,11 @@ public class SailConnectionRDFDiffSink implements RDFDiffSink {
             public void put(final Statement statement) throws RippleException {
 //System.out.println("    adding statement: " + statement);
                 try {
-                    sailConnection.addStatement(statement.getSubject(), statement.getPredicate(), statement.getObject(), statement.getContext());
+                    sailConnection.addStatement(
+                            statement.getSubject(),
+                            statement.getPredicate(),
+                            statement.getObject(),
+                            statement.getContext());
                 } catch (SailException e) {
                     throw new RippleException(e);
                 }
@@ -35,7 +39,11 @@ public class SailConnectionRDFDiffSink implements RDFDiffSink {
         final Sink<Statement> subtractStatementSink = new Sink<Statement>() {
             public void put(final Statement statement) throws RippleException {
                 try {
-                    sailConnection.removeStatements(statement.getSubject(), statement.getPredicate(), statement.getObject(), statement.getContext());
+                    sailConnection.removeStatements(
+                            statement.getSubject(),
+                            statement.getPredicate(),
+                            statement.getObject(),
+                            statement.getContext());
                 } catch (SailException e) {
                     throw new RippleException(e);
 

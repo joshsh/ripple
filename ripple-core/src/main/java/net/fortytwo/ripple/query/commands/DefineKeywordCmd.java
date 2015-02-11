@@ -3,7 +3,6 @@ package net.fortytwo.ripple.query.commands;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.cli.ast.KeywordAST;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
 
@@ -12,10 +11,10 @@ import net.fortytwo.ripple.query.QueryEngine;
  */
 public class DefineKeywordCmd extends Command {
     private final KeywordAST name;
-    private final RippleValue value;
+    private final Object value;
 
     public DefineKeywordCmd(final KeywordAST name,
-                            final RippleValue value) {
+                            final Object value) {
         this.name = name;
         this.value = value;
     }

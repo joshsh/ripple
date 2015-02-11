@@ -5,8 +5,11 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.RippleProperties;
 import net.fortytwo.ripple.URIMap;
 import net.fortytwo.sesametools.readonly.ReadOnlySail;
+import net.fortytwo.sesametools.replay.RecorderSail;
 import org.openrdf.sail.Sail;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ServiceLoader;
 
 /**
@@ -47,6 +50,16 @@ public class SailConfiguration {
             throw new RippleException("unrecognized Sail type: " + sailType);
         }
         //System.out.println("creating Sail of type: " + sailType);
+
+        String sailLog = Ripple.getConfiguration().getString(Ripple.SAIL_LOG, null);
+        if (null != sailLog) {
+            try {
+                sail = new RecorderSail(sail, new FileOutputStream(sailLog));
+                // note: base Sail is already initialized
+            } catch (FileNotFoundException e) {
+                throw new RippleException(e);
+            }
+        }
 
         boolean readOnly = Ripple.getConfiguration().getBoolean(Ripple.READ_ONLY, false);
         if (readOnly) {

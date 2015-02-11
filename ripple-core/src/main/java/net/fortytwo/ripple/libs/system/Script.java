@@ -5,7 +5,6 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -59,7 +58,7 @@ public class Script extends PrimitiveStackMapping {
         if (null == w) {
             java.lang.System.err.println("no such script engine: " + name);
         } else {
-            RippleValue result = w.evaluate(script, mc);
+            Object result = w.evaluate(script, mc);
 
             if (null != result) {
                 solutions.put(stack.push(result));

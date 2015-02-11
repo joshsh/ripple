@@ -2,13 +2,10 @@ package net.fortytwo.ripple.scriptengine;
 
 import net.fortytwo.flow.Collector;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.config.SailConfiguration;
 import net.fortytwo.ripple.URIMap;
+import net.fortytwo.ripple.config.SailConfiguration;
 import net.fortytwo.ripple.model.Model;
-import net.fortytwo.ripple.model.NumericValue;
-import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
 import net.fortytwo.ripple.query.LazyStackEvaluator;
 import net.fortytwo.ripple.query.QueryEngine;
@@ -29,8 +26,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Reader;
 import java.net.URISyntaxException;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -107,36 +102,12 @@ public class RippleScriptEngine implements ScriptEngine {
         }
     }
 
-    // Note: objects which are not equivalent in Ripple (e.g. a wrapped URI and
-    // a wrapped xsd:anyURI-typed literal) may map to equivalent Java objects.
-    private Object toJavaObject(final RippleValue v) throws ScriptException {
-        if (v instanceof NumericValue) {
-            NumericValue n = (NumericValue) v;
-            switch (n.getDatatype()) {
-                case DECIMAL:
-                    return n.decimalValue();
-                case DOUBLE:
-                    return n.doubleValue();
-                case FLOAT:
-                    return n.floatValue();
-                case INTEGER:
-                    return n.intValue();
-                case LONG:
-                    return n.longValue();
-                default:
-                    throw new ScriptException("numeric value of unexpected type: " + v);
-            }
-        } else if (v instanceof RDFValue) {
-            return toJavaObject(((RDFValue) v).sesameValue());
-        } else if (v instanceof RippleList) {
-            RippleList l = (RippleList) v;
-            List<Object> javaList = new LinkedList<Object>();
-            for (RippleValue v2 : l.toJavaList()) {
-                javaList.add(toJavaObject(v2));
-            }
-            return javaList;
+    // TODO: temporary... kludged during a major revision of type mappings. Double-check this
+    private Object toJavaObject(final Object v) throws ScriptException {
+        if (v instanceof Value) {
+            return toJavaObject((Value) v);
         } else {
-            return v.toString();
+            return v;
         }
     }
 

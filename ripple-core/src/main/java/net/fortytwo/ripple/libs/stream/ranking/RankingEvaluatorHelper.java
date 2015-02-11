@@ -7,16 +7,15 @@ import net.fortytwo.ripple.model.Closure;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
-import net.fortytwo.ripple.model.RippleValueComparator;
+import net.fortytwo.ripple.model.RippleComparator;
 import net.fortytwo.ripple.model.StackMapping;
-import org.apache.log4j.Logger;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
+import java.util.logging.Logger;
 
 /**
  * Note: for synchronous evaluation only.
@@ -24,7 +23,7 @@ import java.util.PriorityQueue;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RankingEvaluatorHelper {
-    private static final Logger LOGGER = Logger.getLogger(RankingEvaluatorHelper.class);
+    private static final Logger logger = Logger.getLogger(RankingEvaluatorHelper.class.getName());
 
     // A prioritized queue of active (still-to-be-reduced) stacks
     private final PriorityQueue<RankingContext> queue;
@@ -33,15 +32,15 @@ public class RankingEvaluatorHelper {
     private final List<RankingContext> resultList;
 
     // A set of intermediate results.
-    private final ListMemoizer<RippleValue, RankingContext> resultMemos;
+    private final ListMemoizer<Object, RankingContext> resultMemos;
 
     public RankingEvaluatorHelper(final RippleList arg,
                                   final ModelConnection mc) {
         queue = new PriorityQueue<RankingContext>(1, comparator);
 
         resultList = new LinkedList<RankingContext>();
-        resultMemos = new ListMemoizer<RippleValue, RankingContext>(
-                new RippleValueComparator(mc));
+        resultMemos = new ListMemoizer<Object, RankingContext>(
+                new RippleComparator(mc));
 
         handleOutput(new RankingContext(arg, mc));
     }
@@ -79,7 +78,7 @@ public class RankingEvaluatorHelper {
 
     private void handleOutput(final RankingContext c) {
         //System.out.println("adding intermediate: " + c.getStack());
-        if (c.getStack().isNil() || null == c.getStack().getFirst().getMapping()) {
+        if (c.getStack().isNil() || null == c.getModelConnection().toMapping(c.getStack().getFirst())) {
             RankingContext other = resultMemos.get(c.getStack());
 
             if (null == other) {
@@ -112,27 +111,25 @@ public class RankingEvaluatorHelper {
         }
     };
 
-    ////////////////////////////////////////////////////////////////////////////
-
     private void reduce(final RippleList arg,
                         final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
         RippleList ops = mc.list();
 
         while (true) {
-            RippleValue first = stack.getFirst();
+            Object first = stack.getFirst();
 
-            if (stack.isNil() || null == first.getMapping()) {
+            if (stack.isNil() || null == mc.toMapping(first)) {
                 if (ops.isNil()) {
                     outputSink.put(stack);
                     return;
                 } else {
-                    Closure c = new Closure(ops.getFirst().getMapping(), first);
+                    Closure c = new Closure(mc.toMapping(ops.getFirst()), first);
                     stack = stack.getRest().push(new Operator(c));
                     ops = ops.getRest();
                 }
             } else {
-                StackMapping f = first.getMapping();
+                StackMapping f = mc.toMapping(first);
 
                 if (0 == f.arity()) {
                     try {
@@ -143,7 +140,7 @@ public class RankingEvaluatorHelper {
                         }
                     } catch (Throwable t) {
                         // To keep things simple, just eat any errors.
-                        LOGGER.error("error in expression reduction", t);
+                        logger.severe("error in expression reduction: " + t.getMessage());
                     }
                     return;
                 } else {

@@ -7,11 +7,10 @@ import net.fortytwo.flow.rdf.SesameInputAdapter;
 import net.fortytwo.flow.rdf.SesameOutputAdapter;
 import net.fortytwo.flow.rdf.SingleContextPipe;
 import net.fortytwo.ripple.test.RippleTestCase;
-import org.apache.log4j.Logger;
+import org.openrdf.model.Literal;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
-import org.openrdf.model.Literal;
 import org.openrdf.model.vocabulary.XMLSchema;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFParser;
@@ -28,7 +27,6 @@ import java.io.InputStream;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SesameTest extends RippleTestCase {
-    private static final Logger LOGGER = Logger.getLogger(SesameTest.class);
 
     static int countStatements(final SailConnection sc, final URI context)
             throws Exception {
@@ -134,7 +132,9 @@ public class SesameTest extends RippleTestCase {
         sail.shutDown();
     }
 
-    private void add(final Sail sail, final InputStream is, final String baseUri, final RDFFormat format) throws Exception {
+    private void add(final Sail sail, final InputStream is, final String baseUri, final RDFFormat format)
+            throws Exception {
+
         RDFParser parser = Rio.createParser(format);
         SailConnection sc = sail.getConnection();
         try {
@@ -161,7 +161,12 @@ public class SesameTest extends RippleTestCase {
         }
     }
 
-    private void add(final Sail sail, final InputStream is, final String baseUri, final RDFFormat format, final URI context) throws Exception {
+    private void add(final Sail sail,
+                     final InputStream is,
+                     final String baseUri,
+                     final RDFFormat format,
+                     final URI context) throws Exception {
+
         RDFParser parser = Rio.createParser(format);
         SailConnection sc = sail.getConnection();
         try {

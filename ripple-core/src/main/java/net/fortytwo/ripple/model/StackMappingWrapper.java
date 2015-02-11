@@ -2,68 +2,49 @@ package net.fortytwo.ripple.model;
 
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.io.RipplePrintStream;
 import net.fortytwo.ripple.util.ModelConnectionHelper;
+import org.openrdf.model.Value;
 
 /**
- * FIXME: this should probably not be a RippleValue.  Perhaps the behavior of 'invert' should change so that
- * this is not necessary.
+ * A wrapper for a stack mapping with a settable RDF equivalent
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class StackMappingWrapper implements StackMapping, RippleValue
-{
-    private final RDFValue rdfValue;
+public class StackMappingWrapper implements StackMapping {
+    private final Value rdfEquivalent;
 
     private final StackMapping innerMapping;
 
-    public StackMappingWrapper( final StackMapping wrapped, final ModelConnection mc ) throws RippleException
-    {
+    public StackMappingWrapper(final StackMapping wrapped, final ModelConnection mc) throws RippleException {
         this.innerMapping = wrapped;
-        
+
         // Uses a random identifier... not for actual use
-        rdfValue = new ModelConnectionHelper(mc).createRandomURI().toRDF(mc);
-//System.out.println("created a StackMappingWrapper: " + this + " for mapping " + innerMapping);
+        rdfEquivalent = new ModelConnectionHelper(mc).createRandomURI();
     }
 
-    public int arity()
-    {
+    public int arity() {
         return innerMapping.arity();
     }
 
-    public boolean isTransparent()
-    {
+    public boolean isTransparent() {
         return innerMapping.isTransparent();
     }
 
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-        innerMapping.apply( arg, solutions, mc );
+        innerMapping.apply(arg, solutions, mc);
     }
 
-    public StackMapping getInverse() throws RippleException
-    {
+    public StackMapping getInverse() throws RippleException {
         return innerMapping.getInverse();
     }
 
-    public RDFValue toRDF( final ModelConnection mc ) throws RippleException
-    {
-        return rdfValue;
+    public StackMapping getInnerMapping() {
+        return innerMapping;
     }
 
-    public StackMapping getMapping() {
-        return null;
-    }
-
-    public void printTo( final RipplePrintStream p ) throws RippleException
-    {
-        p.print( "[StackMappingWrapper: " );
-        p.print( innerMapping );
-        p.print( "]" );
-    }
-
-    public Type getType() {
-        return Type.OTHER_RESOURCE;
+    public Value getRDFEquivalent() {
+        return rdfEquivalent;
     }
 }

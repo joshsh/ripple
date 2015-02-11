@@ -5,12 +5,11 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
-import net.fortytwo.ripple.model.RDFValue;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
-import org.apache.log4j.Logger;
 import org.openrdf.model.Statement;
+
+import java.util.logging.Logger;
 
 /**
  * A primitive which consumes an RDF container and produces all items in the
@@ -25,7 +24,7 @@ public class Members extends PrimitiveStackMapping {
             GraphLibrary.NS_2007_08 + "contains",
             GraphLibrary.NS_2007_05 + "contains"};
 
-    private static final Logger LOGGER = Logger.getLogger(Members.class);
+    private static final Logger logger = Logger.getLogger(Members.class.getName());
 
     public String[] getIdentifiers() {
         return IDENTIFIERS;
@@ -50,13 +49,12 @@ public class Members extends PrimitiveStackMapping {
 
         Model model = mc.getModel();
         if (model instanceof SesameModel) {
-            RippleList stack = arg;
 
-            RippleValue head = stack.getFirst();
-            final RippleList rest = stack.getRest();
+            Object head = arg.getFirst();
+            final RippleList rest = arg.getRest();
 
-            final Sink<RippleValue> pushSink = new Sink<RippleValue>() {
-                public void put(final RippleValue v) throws RippleException {
+            final Sink<Object> pushSink = new Sink<Object>() {
+                public void put(final Object v) throws RippleException {
                     solutions.put(rest.push(v));
                 }
             };
@@ -64,28 +62,14 @@ public class Members extends PrimitiveStackMapping {
             Sink<Statement> stSink = new Sink<Statement>() {
                 public void put(final Statement st) throws RippleException {
                     if ('_' == st.getPredicate().getLocalName().charAt(0)) {
-                        pushSink.put(new RDFValue(st.getObject()));
+                        pushSink.put(st.getObject());
                     }
                 }
             };
 
-            mc.getStatements(head.toRDF(mc), null, null, stSink);
-
-            /*
-            int i = 1;
-            while (true) { // Break out when there are no more members to produce
-                Collector<RippleValue, RippleException> results = new Collector<RippleValue, RippleException>();
-                RDFValue pred = new RDFValue(mc.createURI(RDF.NAMESPACE + "_" + i));
-                StatementPatternQuery query = new StatementPatternQuery(head, pred, null, false);
-                mc.query(query, results);
-                if (0 == results.size()) {
-                    break;
-                }
-                results.writeTo(pushSink);
-                i++;
-            }*/
+            mc.getStatements(mc.toRDF(head), null, null, stSink);
         } else {
-            LOGGER.warn("primitive is compatible only with the Sesame model: " + this);
+            logger.warning("primitive is compatible only with the Sesame model: " + this);
         }
     }
 }

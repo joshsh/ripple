@@ -1,7 +1,6 @@
 package net.fortytwo.ripple.libs.system;
 
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.test.RippleTestCase;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Value;
@@ -18,8 +17,8 @@ public class TimeTest extends RippleTestCase {
         assertEquals(1, r.size());
         RippleList l = r.iterator().next();
         assertEquals(1, l.length());
-        RippleValue v = l.getFirst();
-        Value rv = v.toRDF(this.modelConnection).sesameValue();
+        Object v = l.getFirst();
+        Value rv = modelConnection.toRDF(v);
         assertTrue(rv instanceof Literal);
         assertEquals(XMLSchema.LONG, ((Literal) rv).getDatatype());
         long t = ((Literal) rv).longValue();

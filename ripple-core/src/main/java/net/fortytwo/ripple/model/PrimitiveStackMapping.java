@@ -1,59 +1,50 @@
 package net.fortytwo.ripple.model;
 
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.io.RipplePrintStream;
 import org.openrdf.model.Resource;
+import org.openrdf.model.Value;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
-{
+public abstract class PrimitiveStackMapping implements StackMapping {
     private final boolean transparent;
 
-	private RDFValue rdfEquivalent;
-//	private FunctionTypeAnnotation typeAnnotation = null;
+    private Value rdfEquivalent;
 
-    protected class Parameter
-    {
+    protected class Parameter {
         private String name;
         private String comment;
         private boolean isTransparent;
 
-        public Parameter( final String name,
-                          final String comment,
-                          final boolean isTransparent )
-        {
+        public Parameter(final String name,
+                         final String comment,
+                         final boolean isTransparent) {
             this.name = name;
             this.comment = comment;
             this.isTransparent = isTransparent;
         }
 
-        public String getName()
-        {
+        public String getName() {
             return name;
         }
 
-        public String getComment()
-        {
+        public String getComment() {
             return comment;
         }
 
-        public boolean getIsTransparent()
-        {
+        public boolean getIsTransparent() {
             return isTransparent;
         }
     }
 
-    public PrimitiveStackMapping( final boolean transparent )
-    {
-		this.transparent = transparent;
+    public PrimitiveStackMapping(final boolean transparent) {
+        this.transparent = transparent;
     }
-	
-	public PrimitiveStackMapping()
-    {
-		this( true );
-	}
+
+    public PrimitiveStackMapping() {
+        this(true);
+    }
 
     public abstract String[] getIdentifiers();
 
@@ -64,83 +55,54 @@ public abstract class PrimitiveStackMapping implements StackMapping, RippleValue
      */
     public abstract String getComment();
 
-    public int arity()
-    {
+    public int arity() {
         return getParameters().length;
     }
 
-    public void setRdfEquivalent( final RDFValue v, final ModelConnection mc )
-		throws RippleException
-	{
-        if ( !( v.sesameValue() instanceof Resource) )
-        {
-            throw new IllegalArgumentException( "for comparison purposes, the identifier of a PrimitiveStackMapping must be a Resource" );
+    public Value getRDFEquivalent() {
+        return rdfEquivalent;
+    }
+
+    public void setRdfEquivalent(final Value v) throws RippleException {
+        if (!(v instanceof Resource)) {
+            throw new IllegalArgumentException("for comparison purposes," +
+                    " the identifier of a PrimitiveStackMapping must be a Resource");
         }
 
         rdfEquivalent = v;
 
-//		typeAnnotation = new FunctionTypeAnnotation( v, mc );
-	}
-
-	public void printTo( final RipplePrintStream p )
-		throws RippleException
-	{
-		p.print( rdfEquivalent );
-	}
-
-	public RDFValue toRDF( final ModelConnection mc )
-		throws RippleException
-	{
-        return rdfEquivalent;
-	}
-
-	public String toString()
-	{
-        // TODO: this guards against a null rdfEquivalent value, but this should't be allowed to happen
-        return ( null == rdfEquivalent )
-                ? "[anonymous PrimitiveStackMapping]"
-                : "" + rdfEquivalent;
-	}
-
-    public StackMapping getMapping() {
-        return null;
+// typeAnnotation = new FunctionTypeAnnotation( v, mc );
     }
 
-	public boolean isTransparent()
-	{
-		return transparent;
-	}
+    public String toString() {
+        // TODO: this guards against a null rdfEquivalent value, but this should't be allowed to happen
+        return (null == rdfEquivalent)
+                ? "PrimitiveStackMapping(" + getIdentifiers()[0] + ")"
+                : "" + rdfEquivalent;
+    }
 
-    public StackMapping getInverse() throws RippleException
-    {
+    public boolean isTransparent() {
+        return transparent;
+    }
+
+    public StackMapping getInverse() throws RippleException {
         return new NullStackMapping();
     }
 
-    public boolean equals( final Object other )
-    {
-        return ( other instanceof PrimitiveStackMapping )
-                ? ( null == rdfEquivalent )
-                        ? ( null == ( (PrimitiveStackMapping) other ).rdfEquivalent )
-                        : false
-                : ( null == ( (PrimitiveStackMapping) other ).rdfEquivalent )
-                        ? false
-                        : rdfEquivalent.equals( ( (PrimitiveStackMapping) other ).rdfEquivalent );
+    public boolean equals(final Object other) {
+        return other instanceof PrimitiveStackMapping
+                && ((null == rdfEquivalent && null == ((PrimitiveStackMapping) other).rdfEquivalent)
+                || (rdfEquivalent.equals(((PrimitiveStackMapping) other).rdfEquivalent)));
     }
 
-    public int hashCode()
-    {
+    public int hashCode() {
         int code = 298357625;
 
-        if ( null != rdfEquivalent )
-        {
+        if (null != rdfEquivalent) {
             code += rdfEquivalent.hashCode();
         }
 
         return code;
-    }
-
-    public Type getType() {
-        return Type.OTHER_RESOURCE;
     }
 }
 

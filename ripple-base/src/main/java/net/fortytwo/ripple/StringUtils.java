@@ -2,7 +2,6 @@ package net.fortytwo.ripple;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -137,8 +136,7 @@ public final class StringUtils {
     }
 
     // Note: assumes a properly formatted (escaped) String argument.
-    public static String unescapeUriString(final String s)
-            throws RippleException {
+    public static String unescapeUriString(final String s) throws RippleException {
         StringBuilder sb = new StringBuilder();
         String seq;
 
@@ -294,8 +292,6 @@ public final class StringUtils {
 
         return coded;
     }
-
-    ////////////////////////////////////////////////////////////////////////////
 
     private static char toUnicodeChar(final String unicode)
             throws RippleException {

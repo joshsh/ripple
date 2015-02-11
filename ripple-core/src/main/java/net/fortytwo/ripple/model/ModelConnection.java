@@ -4,9 +4,12 @@ import info.aduna.iteration.CloseableIteration;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.Source;
 import net.fortytwo.ripple.RippleException;
+import net.fortytwo.ripple.io.RipplePrintStream;
+import org.openrdf.model.Literal;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
 import org.openrdf.query.QueryEvaluationException;
 
@@ -52,6 +55,15 @@ public interface ModelConnection {
      */
     void commit() throws RippleException;
 
+    // TODO: JavaDoc
+    void print(Object v, RipplePrintStream ps) throws RippleException;
+
+    // TODO: JavaDoc
+    Value toRDF(Object v) throws RippleException;
+
+    // TODO: JavaDoc
+    StackMapping toMapping(Object v);
+
     /**
      * Attempts to convert a Ripple value to a boolean value.
      *
@@ -59,16 +71,16 @@ public interface ModelConnection {
      * @return the resulting boolean value
      * @throws RippleException if the value cannot be converted
      */
-    boolean toBoolean(RippleValue v) throws RippleException;
+    boolean toBoolean(Object v) throws RippleException;
 
     /**
-     * Attempts to convert a Ripple value to a numeric value.
+     * Attempts to convert an object to an instance of a supported numeric type.
      *
      * @param v the value to convert.  It must be of a type which is convertible to a number.
      * @return the resulting numeric value
      * @throws RippleException if the value cannot be converted
      */
-    NumericValue toNumericValue(RippleValue v) throws RippleException;
+    Number toNumber(Object v) throws RippleException;
 
     /**
      * Attempts to convert a Ripple value to a date value.
@@ -77,17 +89,16 @@ public interface ModelConnection {
      * @return the resulting date
      * @throws RippleException if the value cannot be converted
      */
-    Date toDateValue(RippleValue v) throws RippleException;
+    Date toDate(Object v) throws RippleException;
 
     /**
-     * Attempts to convert a Ripple value to a string value.
+     * Converts an object to a string.
+     * The implementation is identical to Object.toString() except when the object is an RDF value.
      *
      * @param v the value to convert.
-     * @return the string representation of a value.  This is not identical to
-     *         Object.toString(), and may involve a loss of information.
-     * @throws RippleException if conversion fails
+     * @return the string representation of a value
      */
-    String toString(RippleValue v) throws RippleException;
+    String toString(Object v);
 
     /**
      * Attempts to convert a Ripple value to a Ripple List.
@@ -97,7 +108,7 @@ public interface ModelConnection {
      * @param sink a handler for successfully converted lists
      * @throws RippleException if conversion fails
      */
-    void toList(RippleValue v, Sink<RippleList> sink) throws RippleException;
+    void toList(Object v, Sink<RippleList> sink) throws RippleException;
 
     /**
      * Construct an RDF URI reference.
@@ -106,16 +117,16 @@ public interface ModelConnection {
      * @return the resulting RDF value
      * @throws RippleException if the argument is not a valid URI
      */
-    RDFValue uriValue(String uri) throws RippleException;
+    URI valueOf(java.net.URI uri) throws RippleException;
 
     /**
-     * Constructs a plain literal value in Ripple space.
+     * Construct a date/time value.
      *
-     * @param label the lexical form of the string
-     * @return the resulting string value
-     * @throws RippleException if the literal cannot be constructed
+     * @param d the date to convert
+     * @return the resulting RDF value
+     * @throws RippleException if the argument is not a valid date
      */
-    RDFValue plainValue(String label) throws RippleException;
+    Literal valueOf(final Date d) throws RippleException;
 
     /**
      * Constructs a language-tagged literal value in Ripple space.
@@ -125,7 +136,7 @@ public interface ModelConnection {
      * @return the resulting value
      * @throws RippleException if the literal cannot be constructed
      */
-    RDFValue languageTaggedValue(String s, String language) throws RippleException;
+    Literal valueOf(String s, String language) throws RippleException;
 
     /**
      * Constructs a typed RDF literal value.
@@ -136,52 +147,7 @@ public interface ModelConnection {
      * @throws RippleException if the arguments do not define a valid literal
      */
     // TODO: this should use an implementation-independent URI class
-    RDFValue typedValue(String label, URI datatype) throws RippleException;
-
-    /**
-     * Constructs a boolean value.
-     *
-     * @param b the primitive value to wrap
-     * @return the resulting RDF value
-     * @throws RippleException if the value cannot be constructed
-     */
-    RDFValue booleanValue(boolean b) throws RippleException;
-
-    /**
-     * Constructs an integer-typed numeric value.
-     *
-     * @param i the primitive value to wrap
-     * @return the resulting numeric value
-     * @throws RippleException if the value cannot be constructed
-     */
-    NumericValue numericValue(int i) throws RippleException;
-
-    /**
-     * Constructs a long-integer-typed numeric value.
-     *
-     * @param l the primitive value to wrap
-     * @return the resulting numeric value
-     * @throws RippleException if the value cannot be constructed
-     */
-    NumericValue numericValue(long l) throws RippleException;
-
-    /**
-     * Constructs a double-precision numeric value.
-     *
-     * @param d the primitive value to wrap
-     * @return the resulting numeric value
-     * @throws RippleException if the value cannot be constructed
-     */
-    NumericValue numericValue(double d) throws RippleException;
-
-    /**
-     * Constructs a big-decimal-typed numeric value.
-     *
-     * @param bd the primitive value to wrap
-     * @return the resulting numeric value
-     * @throws RippleException if the value cannot be constructed
-     */
-    NumericValue numericValue(BigDecimal bd) throws RippleException;
+    Literal valueOf(String label, URI datatype) throws RippleException;
 
     /**
      * Finds the "canonical" value, in Ripple space, for a given RDF value.
@@ -191,7 +157,7 @@ public interface ModelConnection {
      * @param v the RDF value to look up
      * @return the canonical value.  Always non-null.
      */
-    RippleValue canonicalValue(RDFValue v);
+    Object canonicalValue(Value v);
 
     /**
      * @return the empty list, of which there is exactly one in this model
@@ -199,9 +165,12 @@ public interface ModelConnection {
     RippleList list();
 
     /**
-     * @return the total order of Ripple values in this model
+     * Returns a comparator providing the total order of objects in this model.
+     * Only those objects with associated types in the model are expected to be compared.
+     *
+     * @return the total order of objects in this model
      */
-    Comparator<RippleValue> getComparator();
+    RippleComparator getComparator();
 
     /**
      * Define a namespace prefix.
@@ -222,7 +191,7 @@ public interface ModelConnection {
      *                     allowing new threads to be spawned in order to compute results in parallel
      * @throws RippleException if the query cannot be evaluated
      */
-    void query(StatementPatternQuery query, Sink<RippleValue> sink, boolean asynchronous) throws RippleException;
+    void query(StatementPatternQuery query, Sink sink, boolean asynchronous) throws RippleException;
 
     /**
      * Retrieves all namespaces defined in this model.
@@ -243,7 +212,7 @@ public interface ModelConnection {
      * @throws RippleException if statements cannot be retrieved
      */
     // TODO: Statements should not be part of the ModelConnection API
-    void getStatements(RDFValue subj, RDFValue pred, RDFValue obj, Sink<Statement> sink) throws RippleException;
+    void getStatements(Value subj, Value pred, Value obj, Sink<Statement> sink) throws RippleException;
 
     /**
      * Evaluates a SPARQL query against the model.
@@ -259,7 +228,7 @@ public interface ModelConnection {
      * @return a source producing all graph contexts in this model
      * @throws RippleException if contexts cannot be retrieved
      */
-    Source<RippleValue> getContexts() throws RippleException;
+    Source<Object> getContexts() throws RippleException;
 
     /**
      * Adds one or more RDF statements to the model.
@@ -268,12 +237,13 @@ public interface ModelConnection {
      * @param pred     the predicate of each statement
      * @param obj      the object of each statement
      * @param contexts the graph contexts of the statements, if any.
-     *                 For each non-null context supplied, a statement will be created and placed in the corresponding graph.
+     *                 For each non-null context supplied,
+     *                 a statement will be created and placed in the corresponding graph.
      *                 If a null context is supplied, a statement will be added to the default graph.
      *                 If no contexts are supplied, a single statement will be added to the default graph.
      * @throws RippleException if the statement(s) cannot be added
      */
-    void add(RippleValue subj, RippleValue pred, RippleValue obj, RippleValue... contexts) throws RippleException;
+    void add(Object subj, Object pred, Object obj, Object... contexts) throws RippleException;
 
     /**
      * Removes matching RDF statements from the model.
@@ -282,12 +252,13 @@ public interface ModelConnection {
      * @param pred     the predicate of each matching statement, or <code>null</code> as a wildcard
      * @param obj      the object of each matching statement, or <code>null</code> as a wildcard
      * @param contexts zero or more graph contexts for matching statements.
-     *                 For each non-null context supplied, matching statements from the corresponding graph will be removed.
+     *                 For each non-null context supplied,
+     *                 matching statements from the corresponding graph will be removed.
      *                 If a null context is supplied, matching statements from the default context will be removed.
      *                 If no contexts are supplied, matching statements from all contexts will be removed.
      * @throws RippleException if matching statements cannot be removed
      */
-    void remove(RippleValue subj, RippleValue pred, RippleValue obj, RippleValue... contexts) throws RippleException;
+    void remove(Object subj, Object pred, Object obj, Object... contexts) throws RippleException;
 
     /**
      * Adds an RDF description of the given list to the model.
@@ -297,7 +268,7 @@ public interface ModelConnection {
      *
      * @param list the list to internalize
      * @return whether the list was internalized successfully.
-     *         If this operation is unsuccessful, no statements are added to the model.
+     * If this operation is unsuccessful, no statements are added to the model.
      * @throws RippleException if internalization fails
      */
     boolean internalize(RippleList list) throws RippleException;

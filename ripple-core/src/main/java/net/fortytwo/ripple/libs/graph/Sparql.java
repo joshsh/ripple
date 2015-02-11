@@ -6,20 +6,22 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.keyval.KeyValueValue;
-import org.apache.log4j.Logger;
 import org.openrdf.query.BindingSet;
 import org.openrdf.query.QueryEvaluationException;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
- * A primitive which consumes a SPARQL query and pushes, for each result, a variable number of values onto the stack, one for each binding.
+ * A primitive which consumes a SPARQL query and pushes, for each result,
+ * a variable number of values onto the stack, one for each binding.
  * FIXME: this is very much a hack.
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Sparql extends PrimitiveStackMapping {
-    private static final Logger LOGGER
-            = Logger.getLogger(Sparql.class);
+    private static final Logger logger
+            = Logger.getLogger(Sparql.class.getName());
 
     private static final String[] IDENTIFIERS = {
             GraphLibrary.NS_2013_03 + "sparql",
@@ -58,13 +60,13 @@ public class Sparql extends PrimitiveStackMapping {
         try {
             try {
                 while (results.hasNext()) {
-                    KeyValueValue kv = new SPARQLValue(results.next());
+                    SPARQLValue kv = new SPARQLValue(results.next());
 
                     try {
                         solutions.put(stack.push(kv));
                     } catch (RippleException e) {
                         // Soft fail
-                        e.logError();
+                        logger.log(Level.WARNING, "failed to put SPARQL result", e);
                     }
                 }
             } finally {

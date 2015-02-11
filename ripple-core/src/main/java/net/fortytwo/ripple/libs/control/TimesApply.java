@@ -6,7 +6,6 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import net.fortytwo.ripple.model.StackMappingWrapper;
 import net.fortytwo.ripple.model.regex.TimesQuantifier;
 
@@ -46,9 +45,9 @@ public class TimesApply extends PrimitiveStackMapping {
 
         final int times;
 
-        times = mc.toNumericValue(stack.getFirst()).intValue();
+        times = mc.toNumber(stack.getFirst()).intValue();
         stack = stack.getRest();
-        RippleValue p = stack.getFirst();
+        Object p = stack.getFirst();
         final RippleList rest = stack.getRest();
 
         Sink<Operator> opSink = new Sink<Operator>() {

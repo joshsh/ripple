@@ -1,14 +1,13 @@
 package net.fortytwo.flow.rdf;
 
+import info.aduna.iteration.CloseableIteration;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.Source;
-import info.aduna.iteration.CloseableIteration;
 import net.fortytwo.ripple.RippleException;
 
 /**
  * @param <T>
  * @param <E>
- *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class CloseableIterationSource<T, E extends Exception> implements Source<T> {

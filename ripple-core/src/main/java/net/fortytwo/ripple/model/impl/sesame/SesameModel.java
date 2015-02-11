@@ -6,12 +6,36 @@ import net.fortytwo.ripple.model.LibraryLoader;
 import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
+import net.fortytwo.ripple.model.RippleType;
 import net.fortytwo.ripple.model.SpecialValueMap;
-import org.apache.log4j.Logger;
+import net.fortytwo.ripple.model.types.BNodeType;
+import net.fortytwo.ripple.model.types.BooleanType;
+import net.fortytwo.ripple.model.types.JSONObjectType;
+import net.fortytwo.ripple.model.types.LanguageTaggedLiteralType;
+import net.fortytwo.ripple.model.types.NonNumericLiteralType;
+import net.fortytwo.ripple.model.types.NumberType;
+import net.fortytwo.ripple.model.types.NumericLiteralType;
+import net.fortytwo.ripple.model.types.OpType;
+import net.fortytwo.ripple.model.types.OperatorType;
+import net.fortytwo.ripple.model.types.PlainLiteralType;
+import net.fortytwo.ripple.model.types.SPARQLValueType;
+import net.fortytwo.ripple.model.types.SesameListType;
+import net.fortytwo.ripple.model.types.StackMappingType;
+import net.fortytwo.ripple.model.types.StackMappingWrapperType;
+import net.fortytwo.ripple.model.types.StringLiteralType;
+import net.fortytwo.ripple.model.types.StringType;
+import net.fortytwo.ripple.model.types.URIType;
 import org.openrdf.sail.Sail;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
+import java.util.logging.Logger;
 
 /**
  * A Ripple <code>Model</code> implementation using the Sesame RDF toolkit.
@@ -19,20 +43,45 @@ import java.util.Set;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SesameModel implements Model {
-    private static final Logger LOGGER = Logger.getLogger(SesameModel.class);
+    private static final Logger logger = Logger.getLogger(SesameModel.class.getName());
+
+    private final Map<Class, List<RippleType>> registeredTypes;
+    private final Set<Class> unmappedTypes;
 
     final Sail sail;
-    SpecialValueMap specialValues;
     final Set<ModelConnection> openConnections = new LinkedHashSet<ModelConnection>();
-
+    SpecialValueMap specialValues;
 
     public SesameModel(final Sail sail) throws RippleException {
-        LOGGER.debug("instantiating SesameModel");
-
         this.sail = sail;
 
-        ModelConnection mc = createConnection();
+        logger.fine("instantiating SesameModel");
 
+        unmappedTypes = new HashSet<Class>();
+        registeredTypes = new HashMap<Class, List<RippleType>>();
+
+        // register string-typed literals before other literal types
+        register(new StringLiteralType());
+        register(new LanguageTaggedLiteralType());
+        register(new NonNumericLiteralType());
+        register(new NumericLiteralType());
+
+        register(new BNodeType());
+        register(new BooleanType());
+        register(new JSONObjectType());
+        register(new NumberType());
+        register(new OperatorType());
+        register(new OpType());
+        register(new PlainLiteralType());
+        // note: PrimitiveStackMapping types are registered on a per-primitive basis as libraries are loaded
+        register(new SesameListType());
+        register(new SPARQLValueType());
+        register(new StackMappingType());
+        register(new StackMappingWrapperType());
+        register(new StringType());
+        register(new URIType());
+
+        ModelConnection mc = createConnection();
         try {
             // TODO: eliminate this temporary value map
             specialValues = new SpecialValueMap();
@@ -51,19 +100,23 @@ public class SesameModel implements Model {
         }
     }
 
+    @Override
     public SpecialValueMap getSpecialValues() {
         return specialValues;
     }
 
+    @Override
     public ModelConnection createConnection()
             throws RippleException {
         return new SesameModelConnection(this, null);
     }
 
+    @Override
     public ModelConnection createConnection(final RDFDiffSink listener) throws RippleException {
         return new SesameModelConnection(this, listener);
     }
 
+    @Override
     public void shutDown() throws RippleException {
         // Warn of any open connections, then close them
         synchronized (openConnections) {
@@ -81,7 +134,7 @@ public class SesameModel implements Model {
                     sb.append(mc);
                 }
 
-                LOGGER.warn(sb.toString());
+                logger.warning(sb.toString());
 
                 for (ModelConnection mc : openConnections) {
                     mc.reset(true);
@@ -94,5 +147,96 @@ public class SesameModel implements Model {
     // Note: this method is not in the Model API
     public Sail getSail() {
         return sail;
+    }
+
+    @Override
+    public void register(final RippleType type) {
+        if (null == type || null == type.getInstanceClasses() || 0 == type.getInstanceClasses().size()) {
+            throw new IllegalArgumentException();
+        }
+
+        for (Class c : (Iterable<Class>) type.getInstanceClasses()) {
+            List<RippleType> types = registeredTypes.get(c);
+            if (null == types) {
+                types = new LinkedList<RippleType>();
+                registeredTypes.put(c, types);
+            }
+            types.add(type);
+        }
+    }
+
+    @Override
+    public RippleType getTypeOf(final Object instance) {
+        if (null == instance) {
+            throw new IllegalArgumentException();
+        }
+
+        Class c = instance.getClass();
+        List<RippleType> types = registeredTypes.get(c);
+
+        if (null == types) {
+            // quickly check whether this class has been marked as non mapped...
+            if (unmappedTypes.contains(c)) {
+                return null;
+            }
+
+            // ...before attempting to discover a mapped superclass or inherited interface
+            types = findTypes(c, new Stack<Class>());
+            if (null == types) {
+                return null;
+            }
+        }
+
+        // tie goes to the first matching type in order of registration
+        for (RippleType type : types) {
+            if (type.isInstance(instance)) {
+                return type;
+            }
+        }
+
+        return null;
+    }
+
+    private List<RippleType> findTypes(final Class c,
+                                       final Stack<Class> hierarchy) {
+        if (unmappedTypes.contains(c)) {
+            return null;
+        }
+
+        hierarchy.push(c);
+
+        List<RippleType> types = registeredTypes.get(c);
+        if (null != types) {
+            for (Class d : hierarchy) {
+                List<RippleType> newTypes = new LinkedList<RippleType>();
+                newTypes.addAll(types);
+                registeredTypes.put(d, newTypes);
+            }
+
+            return types;
+        }
+
+        Class sc = c.getSuperclass();
+        if (null != sc) {
+            types = findTypes(sc, hierarchy);
+            if (null != types) {
+                return types;
+            } else {
+                unmappedTypes.add(sc);
+            }
+        }
+
+        for (Class ic : c.getInterfaces()) {
+            types = findTypes(ic, hierarchy);
+            if (null != types) {
+                return types;
+            } else {
+                unmappedTypes.add(ic);
+            }
+        }
+
+        hierarchy.pop();
+        unmappedTypes.add(c);
+        return null;
     }
 }

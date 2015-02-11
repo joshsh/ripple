@@ -2,13 +2,13 @@ package net.fortytwo.flow.rdf;
 
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
-import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.URIException;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.apache.http.HttpRequest;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
 import org.openrdf.rio.RDFFormat;
 
 import java.util.Date;
@@ -42,25 +42,40 @@ public class HTTPUtils {
         initialized = true;
     }
 
-    public static HttpClient createClient() throws RippleException {
+    public static HttpClient createClient(final boolean autoRedirect) throws RippleException {
         if (!initialized) {
             initialize();
         }
 
-        HttpClient client = new HttpClient();
-        client.getParams().setParameter(HttpMethodParams.RETRY_HANDLER,
-                new DefaultHttpMethodRetryHandler());
-//        client.getParams().setConnectionManagerTimeout( Ripple.httpConnectionTimeout() );
-        client.getParams().setParameter("http.connection.timeout", (int) connectionTimeout);
-        client.getParams().setParameter("http.socket.timeout", (int) connectionTimeout);
-        return client;
+        RequestConfig defaultRequestConfig = RequestConfig.custom()
+                .setSocketTimeout((int) connectionTimeout)
+                .setConnectTimeout((int) connectionTimeout)
+                .setConnectionRequestTimeout((int) connectionTimeout)
+                        //.setStaleConnectionCheckEnabled(true)
+                .build();
+
+        HttpClientBuilder builder = HttpClients.custom()
+                .setDefaultRequestConfig(defaultRequestConfig)
+                        //.disableAutomaticRetries()
+                        //.disableConnectionState()
+                        //.disableContentCompression()
+                        //.disableRedirectHandling()
+                        //.useSystemProperties()
+                ;
+        if (!autoRedirect) {
+            // redirect manually, keeping track of eventually retrieved documents
+            builder = builder.disableRedirectHandling();
+        }
+
+        return builder.build();
     }
 
-    public static HttpMethod createGetMethod(final String url) throws RippleException {
-        HttpMethod method;
+    public static HttpGet createGetMethod(final String url) throws RippleException {
+
+        HttpGet method;
 
         try {
-            method = new GetMethod(url);
+            method = new HttpGet(url);
         } catch (Throwable t) {
             throw new RippleException(t);
         }
@@ -70,11 +85,11 @@ public class HTTPUtils {
         return method;
     }
 
-    public static PostMethod createPostMethod(final String url) throws RippleException {
-        PostMethod method;
+    public static HttpPost createPostMethod(final String url) throws RippleException {
+        HttpPost method;
 
         try {
-            method = new PostMethod(url);
+            method = new HttpPost(url);
         } catch (Throwable t) {
             throw new RippleException(t);
         }
@@ -84,10 +99,8 @@ public class HTTPUtils {
         return method;
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
-    public static HttpMethod createRdfGetMethod(final String url) throws RippleException {
-        HttpMethod method = createGetMethod(url);
+    public static HttpGet createRdfGetMethod(final String url) throws RippleException {
+        HttpGet method = createGetMethod(url);
 
         StringBuilder sb = new StringBuilder();
         boolean first = true;
@@ -106,33 +119,31 @@ public class HTTPUtils {
         return method;
     }
 
-    public static PostMethod createSparqlUpdateMethod(final String url) throws RippleException {
-        PostMethod method = createPostMethod(url);
+    public static HttpPost createSparqlUpdateMethod(final String url) throws RippleException {
+        HttpPost method = createPostMethod(url);
         setContentTypeHeader(method, SPARQL_QUERY);
         return method;
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
-    public static void setContentTypeHeader(final HttpMethod method, final String value)
+    public static void setContentTypeHeader(final HttpRequest method, final String value)
             throws RippleException {
         try {
-            method.setRequestHeader(CONTENT_TYPE, value);
+            method.setHeader(CONTENT_TYPE, value);
         } catch (Throwable t) {
             throw new RippleException(t);
         }
     }
 
-    public static void setAcceptHeader(final HttpMethod method, final String value)
+    public static void setAcceptHeader(final HttpRequest method, final String value)
             throws RippleException {
         try {
-            method.setRequestHeader(ACCEPT, value);
+            method.setHeader(ACCEPT, value);
         } catch (Throwable t) {
             throw new RippleException(t);
         }
     }
 
-    public static void setAcceptHeader(final HttpMethod method, final String[] mimeTypes)
+    public static void setAcceptHeader(final HttpRequest method, final String[] mimeTypes)
             throws RippleException {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < mimeTypes.length; i++) {
@@ -146,8 +157,6 @@ public class HTTPUtils {
         setAcceptHeader(method, sb.toString());
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     /**
      * Enforces crawler etiquette with respect to timing of HTTP requests.
      * That is, it avoids the Ripple client making a nuisance of itself by
@@ -156,18 +165,12 @@ public class HTTPUtils {
      *
      * @return the amount of time, in milliseconds, that is spent idling for the sake of crawler etiquette
      */
-    public static long throttleHttpRequest(final HttpMethod method) throws RippleException {
+    public static long throttleHttpRequest(final HttpRequest method) throws RippleException {
         if (!initialized) {
             initialize();
         }
 
-        String host;
-
-        try {
-            host = method.getURI().getHost();
-        } catch (URIException e) {
-            throw new RippleException(e);
-        }
+        String host = method.getRequestLine().getUri();
 
         // Some connections (e.g. file system operations) have no host.  Don't
         // bother regulating them.
@@ -199,7 +202,7 @@ public class HTTPUtils {
             // Wait if necessary.
             if (w > 0) {
                 try {
-//LOGGER.info( "    waiting " + w + " milliseconds" );
+//logger.info( "    waiting " + w + " milliseconds" );
                     Thread.sleep(w);
                 } catch (InterruptedException e) {
                     throw new RippleException(e);
@@ -212,10 +215,8 @@ public class HTTPUtils {
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
-    private static void setAgent(final HttpMethod method) {
-        method.setRequestHeader(USER_AGENT, Ripple.getName() + "/" + Ripple.getVersion());
+    private static void setAgent(final HttpRequest method) {
+        method.setHeader(USER_AGENT, Ripple.getName() + "/" + Ripple.getVersion());
     }
 }
 

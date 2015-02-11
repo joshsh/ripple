@@ -6,7 +6,8 @@ import net.fortytwo.ripple.libs.graph.GraphLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import org.apache.log4j.Logger;
+
+import java.util.logging.Logger;
 
 /**
  * A primitive which consumes a literal value and produces its xsd:integer
@@ -14,10 +15,9 @@ import org.apache.log4j.Logger;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class ToInteger extends PrimitiveStackMapping
-{
-	private static final Logger LOGGER
-		= Logger.getLogger( ToInteger.class );
+public class ToInteger extends PrimitiveStackMapping {
+    private static final Logger logger
+            = Logger.getLogger(ToInteger.class.getName());
 
     private static final String[] IDENTIFIERS = {
             DataLibrary.NS_2013_03 + "to-integer",
@@ -25,25 +25,21 @@ public class ToInteger extends PrimitiveStackMapping
             GraphLibrary.NS_2007_08 + "toInteger",
             GraphLibrary.NS_2007_05 + "toInteger"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-	public ToInteger()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "x", null, true )};
+    public ToInteger()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("x", null, true)};
+    }
+
+    public String getComment() {
         return "x  =>  x as integer literal";
     }
 
@@ -51,28 +47,24 @@ public class ToInteger extends PrimitiveStackMapping
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
 
-		RippleList stack = arg;
+        RippleList stack = arg;
 
-		String s;
+        String s;
 
-		s = mc.toString( stack.getFirst() );
-		stack = stack.getRest();
+        s = mc.toString(stack.getFirst());
+        stack = stack.getRest();
 
-		int i;
+        int i;
 
-		try
-		{
-			i = new Integer( s ).intValue();
-		}
+        try {
+            i = new Integer(s).intValue();
+        } catch (NumberFormatException e) {
+            logger.fine("bad integer value: " + s);
+            return;
+        }
 
-		catch ( NumberFormatException e )
-		{
-			LOGGER.debug( "bad integer value: " + s );
-			return;
-		}
-
-		solutions.put(
-				stack.push( mc.numericValue(i) ) );
-	}
+        solutions.put(
+                stack.push(i));
+    }
 }
 

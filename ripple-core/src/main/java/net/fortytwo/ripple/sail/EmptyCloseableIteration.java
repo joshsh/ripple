@@ -3,10 +3,8 @@ package net.fortytwo.ripple.sail;
 import info.aduna.iteration.CloseableIteration;
 
 /**
- *
  * @param <T>
  * @param <E>
- *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class EmptyCloseableIteration<T, E extends Exception> implements CloseableIteration<T, E> {

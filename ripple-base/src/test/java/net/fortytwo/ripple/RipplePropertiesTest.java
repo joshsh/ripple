@@ -7,15 +7,13 @@ import java.util.Date;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class RipplePropertiesTest extends TestCase
-{
-    public void testDates() throws Exception
-    {
+public class RipplePropertiesTest extends TestCase {
+    public void testDates() throws Exception {
         RippleProperties props = new RippleProperties();
 
-        props.setDate( "prop1", new Date( 0 ) );
+        props.setDate("prop1", new Date(0));
         //assertEquals( "1969-12-31T17:00:00-0700", props.getString( "prop1" ) );
-        assertEquals( 0, props.getDate( "prop1" ).getTime() );
+        assertEquals(0, props.getDate("prop1").getTime());
 
         /* FIXME: restore me
         props.setString( "prop2", "2008-02-29T00:00:00-0800" );

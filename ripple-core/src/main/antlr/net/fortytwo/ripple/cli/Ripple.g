@@ -283,9 +283,7 @@ options
 
         catch ( RippleException e )
         {
-            e.logError();
-            System.exit( 1 );
-            return null;
+            throw new IllegalStateException(e);
         }
     }
 }

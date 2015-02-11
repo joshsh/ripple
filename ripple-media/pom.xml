@@ -12,7 +12,7 @@
     <parent>
         <groupId>net.fortytwo.ripple</groupId>
         <artifactId>ripple-all</artifactId>
-        <version>1.1-SNAPSHOT</version>
+        <version>1.2</version>
     </parent>
 
     <properties>
@@ -33,10 +33,9 @@
           </dependency>-->
 
         <dependency>
-            <groupId>edu.cmu</groupId>
+            <groupId>edu.cmu.sphinx</groupId>
             <artifactId>sphinx</artifactId>
-            <version>4</version>
-            <type>jar</type>
+            <version>4-jjs</version>
         </dependency>
 
         <dependency>

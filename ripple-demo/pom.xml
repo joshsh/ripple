@@ -12,7 +12,7 @@
     <parent>
         <groupId>net.fortytwo.ripple</groupId>
         <artifactId>ripple-all</artifactId>
-        <version>1.1-SNAPSHOT</version>
+        <version>1.2</version>
     </parent>
 
     <dependencies>
@@ -37,6 +37,11 @@
             <version>${sesametools.version}</version>
         </dependency>
         <dependency>
+            <groupId>net.fortytwo.sesametools</groupId>
+            <artifactId>replay-sail</artifactId>
+            <version>${sesametools.version}</version>
+        </dependency>
+        <dependency>
             <groupId>urbanophile</groupId>
             <artifactId>java-getopt</artifactId>
             <version>1.0.9</version>
@@ -55,11 +60,6 @@
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-repository-sail</artifactId>
             <version>${sesame.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.franz.ag</groupId>
-            <artifactId>agsail</artifactId>
-            <version>3.3</version>
         </dependency>
 
         <dependency>

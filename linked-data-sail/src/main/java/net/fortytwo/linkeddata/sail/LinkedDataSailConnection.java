@@ -23,6 +23,9 @@ import org.openrdf.sail.SailException;
 import org.openrdf.sail.helpers.NotifyingSailConnectionBase;
 import org.openrdf.sail.helpers.SailBase;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * A connection to a LinkedDataSail
  *
@@ -30,12 +33,12 @@ import org.openrdf.sail.helpers.SailBase;
  */
 public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
 
+    private static final Logger logger = Logger.getLogger(LinkedDataSailConnection.class.getName());
+
     private final ValueFactory valueFactory;
     private final LinkedDataCache linkedDataCache;
 
     private SailConnection baseConnection;
-
-    ////////////////////////////////////////////////////////////////////////////
 
     public synchronized void addConnectionListener(final SailConnectionListener listener) {
         if (baseConnection instanceof NotifyingSailConnection) {
@@ -44,9 +47,9 @@ public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
     }
 
     protected void addStatementInternal(final Resource subj,
-                             final URI pred,
-                             final Value obj,
-                             final Resource... contexts) throws SailException {
+                                        final URI pred,
+                                        final Value obj,
+                                        final Resource... contexts) throws SailException {
         baseConnection.addStatement(subj, pred, obj, contexts);
     }
 
@@ -59,6 +62,7 @@ public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
     }
 
     protected synchronized void closeInternal() throws SailException {
+        baseConnection.rollback();
         baseConnection.close();
     }
 
@@ -124,14 +128,15 @@ public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
     }
 
     protected void removeStatementsInternal(final Resource subj,
-                                 final URI pred,
-                                 final Value obj,
-                                 final Resource... context) throws SailException {
+                                            final URI pred,
+                                            final Value obj,
+                                            final Resource... context) throws SailException {
         baseConnection.removeStatements(subj, pred, obj, context);
     }
 
     protected void rollbackInternal() throws SailException {
         baseConnection.rollback();
+        //baseConnection.begin();
     }
 
     protected void setNamespaceInternal(final String prefix, final String name)
@@ -147,8 +152,6 @@ public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
         baseConnection.begin();
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     LinkedDataSailConnection(final SailBase sail,
                              final Sail baseSail,
                              final LinkedDataCache linkedDataCache) throws SailException {
@@ -161,13 +164,11 @@ public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
         baseConnection = baseSail.getConnection();
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     private void retrieveUri(final URI uri) {
         try {
             linkedDataCache.retrieveUri(uri, baseConnection);
         } catch (RippleException e) {
-            e.logError();
+            logger.log(Level.SEVERE, "failed to retrieve URI", e);
         }
     }
 

@@ -61,13 +61,13 @@ public class Lexicon {
     private final Map<String, String> prefixToUri;
     private final Map<String, String> uriToPrefix;
     private final Collection<String> allQNames;
-    private final Map<String, RippleValue> temporaryValues;
+    private final Map<String, Object> temporaryValues;
 
     public Lexicon(final Model model) throws RippleException {
         prefixToUri = new HashMap<String, String>();
         uriToPrefix = new HashMap<String, String>();
         allQNames = new ArrayList<String>();
-        temporaryValues = new HashMap<String, RippleValue>();
+        temporaryValues = new HashMap<String, Object>();
 
         ModelConnection mc = model.createConnection();
         try {
@@ -124,7 +124,7 @@ public class Lexicon {
 
     private boolean isPrimaryValue(final Value key,
                                    final ModelConnection mc) throws RippleException {
-        Value mapsTo = mc.canonicalValue(new RDFValue(key)).toRDF(mc).sesameValue();
+        Value mapsTo = mc.toRDF(mc.canonicalValue(key));
         return key.equals(mapsTo);
     }
 
@@ -202,7 +202,7 @@ public class Lexicon {
     }
 
     public void resolveKeyword(final String keyword,
-                               final Sink<RippleValue> solutions,
+                               final Sink solutions,
                                final ModelConnection mc,
                                final PrintStream errors)
             throws RippleException {
@@ -212,12 +212,12 @@ public class Lexicon {
         // resolving to the same runtime value more than once (as is the case,
         // for instance, when two or more URIs mapping to a special value have
         // the same local name).
-        Set<RippleValue> values = new HashSet<RippleValue>();
+        Set values = new HashSet();
         for (URI u : options) {
-            values.add(mc.canonicalValue(new RDFValue(u)));
+            values.add(mc.canonicalValue(u));
         }
 
-        RippleValue t = temporaryValues.get(keyword);
+        Object t = temporaryValues.get(keyword);
         if (null != t) {
             values.add(t);
         }
@@ -228,14 +228,14 @@ public class Lexicon {
             errors.println("Warning: keyword '" + keyword + "' is ambiguous\n");
         }
 
-        for (RippleValue v : values) {
+        for (Object v : values) {
             solutions.put(v);
         }
     }
 
     public void uriForQName(final String nsPrefix,
                             final String localName,
-                            final Sink<RippleValue> sink,
+                            final Sink sink,
                             final ModelConnection mc,
                             final PrintStream errors) throws RippleException {
         String ns = getNamespaceUri(nsPrefix);
@@ -244,7 +244,7 @@ public class Lexicon {
             errors.println("Warning: prefix '" + nsPrefix + "' does not identify a namespace\n");
         } else {
             // TODO: using URIImpl is a bit of a hack
-            sink.put(mc.canonicalValue(new RDFValue(new URIImpl(ns + localName))));
+            sink.put(mc.canonicalValue(new URIImpl(ns + localName)));
         }
     }
 
@@ -258,11 +258,10 @@ public class Lexicon {
         return uri;
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     /**
      * Defines a new prefix:namespace pair.
-     * In order to maintain a one-to-one mapping of prefixes and URIs, any namespaces in which the given prefix or URI exist will be removed
+     * In order to maintain a one-to-one mapping of prefixes and URIs,
+     * any namespaces in which the given prefix or URI exist will be removed
      * before the new namespace is added.
      *
      * @param prefix the prefix of the namespace, e.g. <code>"foaf"</code>
@@ -288,7 +287,8 @@ public class Lexicon {
 
     /**
      * Removes a namespace definition.
-     * In order to maintain a one-to-one mapping of prefixes and URIs, both prefix and URI of an existing namespace will be unbound.
+     * In order to maintain a one-to-one mapping of prefixes and URIs,
+     * both prefix and URI of an existing namespace will be unbound.
      *
      * @param prefix the prefix of the namespace to remove
      */
@@ -333,10 +333,8 @@ public class Lexicon {
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
     public void putTemporaryValue(final String name,
-                                  final RippleValue value) {
+                                  final Object value) {
         temporaryValues.put(name, value);
     }
 }

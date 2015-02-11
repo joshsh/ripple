@@ -3,9 +3,9 @@ package net.fortytwo.ripple.libs.math;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
+import net.fortytwo.ripple.model.types.NumericType;
 
 /**
  * A primitive which consumes a number and produces its sign.  This has three
@@ -14,50 +14,45 @@ import net.fortytwo.ripple.model.RippleList;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class Sign extends PrimitiveStackMapping
-{
+public class Sign extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             MathLibrary.NS_2013_03 + "sign",
             MathLibrary.NS_2008_08 + "sign",
             MathLibrary.NS_2007_08 + "signum",
             MathLibrary.NS_2007_05 + "sign"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-	public Sign()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "x", null, true )};
+    public Sign()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("x", null, true)};
+    }
+
+    public String getComment() {
         return "x  =>  sign of x (-1, 0, or +1)";
     }
 
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-		RippleList stack = arg;
+        RippleList stack = arg;
 
-		NumericValue a, result;
+        Number a, result;
 
-		a = mc.toNumericValue( stack.getFirst() );
-		stack = stack.getRest();
+        a = mc.toNumber(stack.getFirst());
+        stack = stack.getRest();
 
-		result = mc.numericValue(a.sign());
+        result = NumericType.sign(a);
 
-		solutions.put(
-				stack.push( result ) );
-	}
+        solutions.put(
+                stack.push(result));
+    }
 }
 

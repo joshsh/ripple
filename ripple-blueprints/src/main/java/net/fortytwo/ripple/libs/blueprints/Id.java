@@ -6,12 +6,9 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 
 /**
- * User: josh
- * Date: 4/5/11
- * Time: 8:11 PM
+ * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Id extends PrimitiveStackMapping {
     @Override
@@ -37,12 +34,12 @@ public class Id extends PrimitiveStackMapping {
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
         RippleList stack = arg;
-        RippleValue first = stack.getFirst();
+        Object first = stack.getFirst();
         stack = stack.getRest();
 
-        if (first instanceof ElementValue) {
-            Element el = ((ElementValue) first).getElement();
-            solutions.put(stack.push(BlueprintsLibrary.createRippleValue(el.getId(), mc)));
+        if (first instanceof Element) {
+            Element el = (Element) first;
+            solutions.put(stack.push(BlueprintsLibrary.toRipple(el.getId(), mc)));
         }
     }
 }

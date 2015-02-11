@@ -7,9 +7,10 @@ import net.fortytwo.ripple.RippleException;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public interface RDFDiffSource {
-	RDFSource adderSource();
-	RDFSource subtractorSource();
+    RDFSource adderSource();
 
-	void writeTo( RDFDiffSink sink ) throws RippleException;
+    RDFSource subtractorSource();
+
+    void writeTo(RDFDiffSink sink) throws RippleException;
 }
 

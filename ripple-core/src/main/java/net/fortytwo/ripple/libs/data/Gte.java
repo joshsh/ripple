@@ -5,7 +5,6 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 
 /**
  * A primitive which consumes two items x and y and produces a Boolean value of
@@ -14,31 +13,26 @@ import net.fortytwo.ripple.model.RippleValue;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class Gte extends PrimitiveStackMapping
-{
+public class Gte extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             DataLibrary.NS_2013_03 + "gte"};
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-	public Gte()
-		throws RippleException
-	{
-		super();
-	}
-
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "x", null, true ),
-                new Parameter( "y", null, true )};
+    public Gte()
+            throws RippleException {
+        super();
     }
 
-    public String getComment()
-    {
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("x", null, true),
+                new Parameter("y", null, true)};
+    }
+
+    public String getComment() {
         return "x y  =>  b  -- where b is true if x >= y, otherwise false";
     }
 
@@ -46,19 +40,19 @@ public class Gte extends PrimitiveStackMapping
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
 
-		RippleList stack = arg;
+        RippleList stack = arg;
 
-		RippleValue a, b, result;
+        Object a, b, result;
 
-		b = stack.getFirst();
-		stack = stack.getRest();
-		a = stack.getFirst();
-		stack = stack.getRest();
+        b = stack.getFirst();
+        stack = stack.getRest();
+        a = stack.getFirst();
+        stack = stack.getRest();
 
-		result = mc.booleanValue(mc.getComparator().compare(a, b) >= 0);
+        result = mc.getComparator().compare(a, b) >= 0;
 
-		solutions.put(
-				stack.push( result ) );
-	}
+        solutions.put(
+                stack.push(result));
+    }
 }
 

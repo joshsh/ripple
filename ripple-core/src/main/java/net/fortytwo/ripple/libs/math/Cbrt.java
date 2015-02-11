@@ -3,18 +3,17 @@ package net.fortytwo.ripple.libs.math;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.NumericValue;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackMapping;
+import net.fortytwo.ripple.model.types.NumericType;
 
 /**
  * A primitive which consumes a number and produces its real cube root.
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class Cbrt extends PrimitiveStackMapping
-{
+public class Cbrt extends PrimitiveStackMapping {
     private static final String[] IDENTIFIERS = {
             MathLibrary.NS_2013_03 + "cbrt",
             MathLibrary.NS_2008_08 + "cbrt",
@@ -22,66 +21,57 @@ public class Cbrt extends PrimitiveStackMapping
 
     private final StackMapping self;
 
-    public String[] getIdentifiers()
-    {
+    public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-	public Cbrt()
-		throws RippleException
-	{
-		super();
+    public Cbrt()
+            throws RippleException {
+        super();
 
         this.self = this;
     }
 
-    public Parameter[] getParameters()
-    {
-        return new Parameter[] {
-                new Parameter( "x", null, true )};
+    public Parameter[] getParameters() {
+        return new Parameter[]{
+                new Parameter("x", null, true)};
     }
 
-    public String getComment()
-    {
+    public String getComment() {
         return "x  =>  real cube root of x";
     }
 
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-		RippleList stack = arg;
+        RippleList stack = arg;
 
-		NumericValue a, result;
+        Number a, result;
 
-		a = mc.toNumericValue( stack.getFirst() );
-		stack = stack.getRest();
+        a = mc.toNumber(stack.getFirst());
+        stack = stack.getRest();
 
-		result = mc.numericValue(Math.cbrt(a.doubleValue()));
+        result = Math.cbrt(a.doubleValue());
 
-		solutions.put(
-				stack.push( result ) );
+        solutions.put(
+                stack.push(result));
     }
 
     @Override
-    public StackMapping getInverse()
-    {
+    public StackMapping getInverse() {
         return new Cube();
     }
 
-    private class Cube implements StackMapping
-    {
-        public int arity()
-        {
+    private class Cube implements StackMapping {
+        public int arity() {
             return 1;
         }
 
-        public StackMapping getInverse() throws RippleException
-        {
+        public StackMapping getInverse() throws RippleException {
             return self;
         }
 
-        public boolean isTransparent()
-        {
+        public boolean isTransparent() {
             return true;
         }
 
@@ -90,15 +80,15 @@ public class Cbrt extends PrimitiveStackMapping
                           final ModelConnection mc) throws RippleException {
             RippleList stack = arg;
 
-            NumericValue a, result;
+            Number a, result;
 
-            a = mc.toNumericValue( stack.getFirst() );
+            a = mc.toNumber(stack.getFirst());
             stack = stack.getRest();
 
-            result = a.mul( a ).mul( a );
+            result = NumericType.mul(a, NumericType.mul(a,a));
 
             solutions.put(
-                    stack.push( result ) );
+                    stack.push(result));
         }
     }
 }

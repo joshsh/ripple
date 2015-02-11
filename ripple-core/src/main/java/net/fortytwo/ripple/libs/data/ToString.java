@@ -6,7 +6,6 @@ import net.fortytwo.ripple.libs.graph.GraphLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-import net.fortytwo.ripple.model.RippleValue;
 import org.openrdf.model.vocabulary.XMLSchema;
 
 /**
@@ -47,13 +46,13 @@ public class ToString extends PrimitiveStackMapping {
 
         RippleList stack = arg;
 
-        RippleValue v;
+        Object v;
 
         v = stack.getFirst();
         stack = stack.getRest();
 
         solutions.put(
-                stack.push(mc.typedValue(mc.toString(v), XMLSchema.STRING)));
+                stack.push(mc.valueOf(mc.toString(v), XMLSchema.STRING)));
     }
 }
 

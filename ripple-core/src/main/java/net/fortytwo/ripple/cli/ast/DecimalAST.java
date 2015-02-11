@@ -2,7 +2,6 @@ package net.fortytwo.ripple.cli.ast;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.NumericValue;
 
 import java.math.BigDecimal;
 import java.util.regex.Pattern;
@@ -10,8 +9,7 @@ import java.util.regex.Pattern;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class DecimalAST extends NumberAST
-{
+public class DecimalAST extends NumberAST {
     /*
     decimal has a lexical representation consisting of a finite-length sequence
     of decimal digits (#x30-#x39) separated by a period as a decimal indicator.
@@ -21,44 +19,38 @@ public class DecimalAST extends NumberAST
     12678967.543233, +100000.00, 210.
     */
     private static final Pattern
-            // TODO: apparently, digits after the decimal point are not required, but are digits before the decimal point required?
+            // TODO: apparently, digits after the decimal point are not required,
+            // but are digits before the decimal point required?
             // Note: NaN, positive and negative infinity are apparently not allowed.
             XSD_DECIMAL = Pattern.compile("[-+]?\\d+([.]\\d*)?");
 
     private final BigDecimal value;
 
-	public DecimalAST( final BigDecimal value )
-	{
-		this.value = value;
-	}
+    public DecimalAST(final BigDecimal value) {
+        this.value = value;
+    }
 
     /**
-     *
      * @param rep the string representation of an xsd:decimal value
      */
-    public DecimalAST( final String rep )
-    {
-        if ( !XSD_DECIMAL.matcher( rep ).matches() )
-        {
-            throw new IllegalArgumentException( "invalid xsd:decimal value: " + rep );
+    public DecimalAST(final String rep) {
+        if (!XSD_DECIMAL.matcher(rep).matches()) {
+            throw new IllegalArgumentException("invalid xsd:decimal value: " + rep);
         }
 
-        value = new BigDecimal( canonicalize( rep ) );
+        value = new BigDecimal(canonicalize(rep));
     }
 
-    public NumericValue getValue( final ModelConnection mc ) throws RippleException
-    {
-        return mc.numericValue(value);
+    public Number getValue(final ModelConnection mc) throws RippleException {
+        return value;
     }
 
-    public String toString()
-	{
-		String s = value.toString();
+    public String toString() {
+        String s = value.toString();
 
         // Add a decimal point, if necessary, to make this an unambiguous
         // xsd:decimal value in Ripple syntax.
-        if ( !s.contains( "." ) )
-        {
+        if (!s.contains(".")) {
             s += ".0";
         }
 
