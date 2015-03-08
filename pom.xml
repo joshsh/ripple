@@ -67,7 +67,6 @@
         <module>ripple-demo</module>
         <module>ripple-flow</module>
         <module>ripple-flow-rdf</module>
-        <module>ripple-media</module>
         <module>ripple-scriptengine</module>
     </modules>
 
