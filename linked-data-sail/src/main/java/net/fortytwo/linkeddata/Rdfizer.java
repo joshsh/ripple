@@ -6,7 +6,7 @@ import java.io.InputStream;
 
 /**
  * An object which consumes a document and extracts RDF statements from it,
- * creating an RDF document.
+ * creating an RDF graph.
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */

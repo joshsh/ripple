@@ -184,6 +184,16 @@ public class LinkedDataCache {
         };
     }
 
+    public void clear() throws RippleException {
+        try {
+            this.sailConnection.clear();
+            this.sailConnection.commit();
+            this.sailConnection.begin();
+        } catch (SailException e) {
+            throw new RippleException(e);
+        }
+    }
+
     public void close() throws RippleException {
         try {
             sailConnection.close();
