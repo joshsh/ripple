@@ -96,7 +96,7 @@ public class LinkedDataCache {
 
     private DataStore dataStore;
 
-    private final SailConnection sailConnection;
+    private final ThreadLocal<SailConnection> sailConnection = new ThreadLocal<SailConnection>();
 
     /**
      * Constructs a cache with the default settings, dereferencers, and rdfizers.
@@ -108,7 +108,7 @@ public class LinkedDataCache {
     public static LinkedDataCache createDefault(final Sail sail) throws RippleException {
         LinkedDataCache cache = new LinkedDataCache(sail);
 
-        RedirectManager redirectManager = new RedirectManager(cache.sailConnection);
+        RedirectManager redirectManager = new RedirectManager(cache.sailConnection.get());
 
         // Add URI dereferencers.
         HTTPURIDereferencer hdref = new HTTPURIDereferencer(cache, redirectManager);
@@ -171,8 +171,8 @@ public class LinkedDataCache {
         this.expirationPolicy = new DefaultCacheExpirationPolicy();
 
         try {
-            this.sailConnection = sail.getConnection();
-            this.sailConnection.begin();
+            this.sailConnection.set(sail.getConnection());
+            this.sailConnection.get().begin();
         } catch (SailException e) {
             throw new RippleException(e);
         }
@@ -186,9 +186,9 @@ public class LinkedDataCache {
 
     public void clear() throws RippleException {
         try {
-            this.sailConnection.clear();
-            this.sailConnection.commit();
-            this.sailConnection.begin();
+            this.sailConnection.get().clear();
+            this.sailConnection.get().commit();
+            this.sailConnection.get().begin();
         } catch (SailException e) {
             throw new RippleException(e);
         }
@@ -196,10 +196,14 @@ public class LinkedDataCache {
 
     public void close() throws RippleException {
         try {
-            sailConnection.close();
+            sailConnection.get().close();
         } catch (SailException e) {
             throw new RippleException(e);
         }
+    }
+
+    public SailConnection getSailConnection() {
+        return sailConnection.get();
     }
 
     public void setDataStore(final DataStore dataStore) {
