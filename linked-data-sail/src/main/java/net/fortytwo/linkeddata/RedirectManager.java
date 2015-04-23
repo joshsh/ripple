@@ -22,7 +22,12 @@ public class RedirectManager {
         this.connection = connection;
     }
 
-    public boolean isExistingRedirectTo(final String documentUri) throws SailException {
+    /**
+     * Finds whether any URI has already been dereferenced which redirects to the given document URI
+     * @param documentUri the URI of a possible Linked Data document
+     * @return whether any URI has already been dereferenced which redirects to the given document URI
+     */
+    public boolean existsRedirectTo(final String documentUri) throws SailException {
         URI hashedDocumentUri = new URIImpl(RDFUtils.hashedUri(documentUri));
 
         CloseableIteration<? extends Statement, SailException> iter
@@ -34,6 +39,11 @@ public class RedirectManager {
         }
     }
 
+    /**
+     * Persistently stores the fact that the given thing URI has been found to redirect to the given document URI
+     * @param thingUri the URI of a non-information resource
+     * @param documentUri the URI to which the original URI has been redirected
+     */
     public void persistRedirect(final String thingUri, final String documentUri) throws SailException {
         URI hashedThingUri = new URIImpl(RDFUtils.hashedUri(thingUri));
         URI hashedDocumentUri = new URIImpl(RDFUtils.hashedUri(documentUri));

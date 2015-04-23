@@ -96,7 +96,8 @@ public class LinkedDataCache {
 
     private DataStore dataStore;
 
-    private final ThreadLocal<SailConnection> sailConnection = new ThreadLocal<SailConnection>();
+    // single connection shared among all accessing threads
+    private final SailConnection sailConnection;
 
     /**
      * Constructs a cache with the default settings, dereferencers, and rdfizers.
@@ -108,7 +109,7 @@ public class LinkedDataCache {
     public static LinkedDataCache createDefault(final Sail sail) throws RippleException {
         LinkedDataCache cache = new LinkedDataCache(sail);
 
-        RedirectManager redirectManager = new RedirectManager(cache.sailConnection.get());
+        RedirectManager redirectManager = new RedirectManager(cache.getSailConnection());
 
         // Add URI dereferencers.
         HTTPURIDereferencer hdref = new HTTPURIDereferencer(cache, redirectManager);
@@ -162,6 +163,13 @@ public class LinkedDataCache {
      * @throws RippleException if there is a configuration error
      */
     public LinkedDataCache(final Sail sail) throws RippleException {
+        try {
+            sailConnection = sail.getConnection();
+            sailConnection.begin();
+        } catch (SailException e) {
+            throw new RippleException(e);
+        }
+
         int capacity = Ripple.getConfiguration().getInt(LinkedDataSail.MEMORY_CACHE_CAPACITY);
         this.metadata = new CachingMetadata(capacity, sail.getValueFactory());
 
@@ -170,13 +178,6 @@ public class LinkedDataCache {
 
         this.expirationPolicy = new DefaultCacheExpirationPolicy();
 
-        try {
-            this.sailConnection.set(sail.getConnection());
-            this.sailConnection.get().begin();
-        } catch (SailException e) {
-            throw new RippleException(e);
-        }
-
         dataStore = new DataStore() {
             public RDFSink createInputSink(final SailConnection sc) {
                 return new SesameOutputAdapter(new SailInserter(sc));
@@ -184,26 +185,32 @@ public class LinkedDataCache {
         };
     }
 
-    public void clear() throws RippleException {
+    public synchronized void clear() throws RippleException {
+        SailConnection sc = getSailConnection();
+
         try {
-            this.sailConnection.get().clear();
-            this.sailConnection.get().commit();
-            this.sailConnection.get().begin();
+            sc.clear();
+            sc.commit();
+            sc.begin();
         } catch (SailException e) {
             throw new RippleException(e);
         }
     }
 
-    public void close() throws RippleException {
+    // note: only closes in one thread
+    public synchronized void close() throws RippleException {
         try {
-            sailConnection.get().close();
+            SailConnection sc = getSailConnection();
+            if (null != sc) {
+                sc.close();
+            }
         } catch (SailException e) {
             throw new RippleException(e);
         }
     }
 
-    public SailConnection getSailConnection() {
-        return sailConnection.get();
+    public synchronized SailConnection getSailConnection() throws RippleException {
+        return sailConnection;
     }
 
     public void setDataStore(final DataStore dataStore) {

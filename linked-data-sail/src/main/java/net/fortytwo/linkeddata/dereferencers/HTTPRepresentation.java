@@ -20,11 +20,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class HTTPRepresentation extends StreamRepresentation {
+    private static final Logger logger = Logger.getLogger(HTTPRepresentation.class.getName());
+
     private InputStream inputStream;
     private HttpUriRequest method;
 
@@ -36,6 +40,7 @@ public class HTTPRepresentation extends StreamRepresentation {
         try {
             client = HTTPUtils.createClient(false);
         } catch (RippleException e) {
+            logger.log(Level.SEVERE, "failed to initialize", e);
             throw new ExceptionInInitializerError(e);
         }
     }
@@ -84,7 +89,7 @@ public class HTTPRepresentation extends StreamRepresentation {
 
                     try {
                         // do not repeatedly retrieve the same document
-                        if (redirects.isExistingRedirectTo(redirectUrl)) {
+                        if (redirects.existsRedirectTo(redirectUrl)) {
                             throw new RedirectToExistingDocumentException();
                         }
 
