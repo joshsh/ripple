@@ -36,6 +36,10 @@ public class CachingMetadata {
         miss = new CacheEntry();
     }
 
+    public void clear() {
+        memos.clear();
+    }
+
     public CacheEntry getMemo(final String graphUri,
                               final SailConnection sc) throws RippleException {
         CacheEntry memo = memos.get(graphUri);

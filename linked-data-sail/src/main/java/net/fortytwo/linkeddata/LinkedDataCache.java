@@ -186,8 +186,9 @@ public class LinkedDataCache {
     }
 
     public synchronized void clear() throws RippleException {
-        SailConnection sc = getSailConnection();
+        metadata.clear();
 
+        SailConnection sc = getSailConnection();
         try {
             sc.clear();
             sc.commit();
@@ -377,7 +378,8 @@ public class LinkedDataCache {
 
             // a null representation indicates that dereferencing the URI would be redundant; exit early
             if (null == rep) {
-                return CacheEntry.Status.RedirectsToCached;
+                memo.setStatus(CacheEntry.Status.RedirectsToCached);
+                return memo.getStatus();
             }
 
             // We have the representation, now try to rdfize it.
@@ -503,7 +505,7 @@ public class LinkedDataCache {
                                         final CacheEntry memo) {
         CacheEntry.Status status = memo.getStatus();
 
-        if (CacheEntry.Status.Success != status) {
+        if (CacheEntry.Status.Success != status && CacheEntry.Status.RedirectsToCached != status) {
             StringBuilder msg = new StringBuilder("Failed to dereference URI <"
                     + StringUtils.escapeURIString(uri.toString()) + "> (");
 

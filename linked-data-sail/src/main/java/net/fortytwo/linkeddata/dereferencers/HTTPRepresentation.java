@@ -48,7 +48,6 @@ public class HTTPRepresentation extends StreamRepresentation {
     // Note: the URI is immediately dereferenced
     public HTTPRepresentation(final String uri, final RedirectManager redirects, final String acceptHeader)
             throws RippleException {
-
         super(null);
 
         URL getUrl;
@@ -149,7 +148,6 @@ public class HTTPRepresentation extends StreamRepresentation {
                     + StringUtils.escapeURIString(uri) + ">");
         }
         MediaType mt = new MediaType(mtStr);
-//System.out.println( "discovered media type is: " + mt );
         setMediaType(mt);
     }
 
