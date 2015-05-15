@@ -16,9 +16,10 @@ public class CacheEntry {
     public static enum Status {
         BadMediaType,       // no suitable rdfizer was found
         BadUriScheme,       // no suitable URI dereferencer was found
+        CacheLookup,           // used when a memo for a newly-encountered URI is first created
         ClientError,        // 4xx HTTP error
         DereferencerError,  // TODO: break this down into more specific conditions
-        Failure,             // all other error conditions
+        Failure,            // all other error conditions
         Ignored,            // don't bother dereferencing these URIs
         InvalidUri,         // bad URI
         ParseError,         // a document was received, but failed to parse
@@ -27,7 +28,7 @@ public class CacheEntry {
         ServerError,        // 5xx HTTP error
         Success,            // normal outcome
         Timeout,            // network timeout
-        Undetermined,       // to be used only when a memo is created
+        Undetermined,       // used for lookup operations in progress
     }
 
     // memo entry keys
@@ -48,10 +49,6 @@ public class CacheEntry {
     private MediaType mediaType;
     private String dereferencer;
     private String rdfizer;
-
-    public CacheEntry() {
-        this(Status.Undetermined);
-    }
 
     public CacheEntry(final Status status) {
         this.status = status;

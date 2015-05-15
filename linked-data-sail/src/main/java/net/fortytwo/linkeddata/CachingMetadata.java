@@ -24,16 +24,11 @@ public class CachingMetadata {
 
     private final ValueFactory valueFactory;
 
-    // A special context memo to indicate an already-known persistence miss.
-    private final CacheEntry miss;
-
     public CachingMetadata(final int capacity,
                            final ValueFactory valueFactory) throws RippleException {
         memos = new InMemoryCache(capacity);
 
         this.valueFactory = valueFactory;
-
-        miss = new CacheEntry();
     }
 
     public void clear() {
@@ -48,36 +43,36 @@ public class CachingMetadata {
         if (null == memo) {
             // Attempt to retrieve the memo from the persistent store.
             try {
-                memo = retrieveMemo(graphUri, sc);
+                return retrieveMemo(graphUri, sc);
             } catch (SailException e) {
                 throw new RippleException(e);
-            }
-
-            if (null == memo) {
-                // There is no such memo.  Cache the "miss" value to avoid future retrieval attempts.
-                memos.put(graphUri, miss);
-            } else {
-                // The memo exists.  Cache it.
-                memos.put(graphUri, memo);
             }
         }
 
         return memo;
     }
 
-    // Writes caching metadata to the base Sail.
-    // Note: for now, this metadata resides in the null context.
+    /**
+     * Writes metadata to the in-memory cache and, optionally, to the Sail.
+     * Note: for now, this metadata resides in the null context.
+     *
+     * @param graphUri the graph URI of the cached data source
+     * @param memo     the memo object representing the state of the data source
+     * @param sc       a connection to the Sail, or null if only the in-memory cache should be updated
+     * @throws RippleException
+     */
     public void setMemo(final String graphUri,
                         final CacheEntry memo,
                         final SailConnection sc) throws RippleException {
+        memos.put(graphUri, memo);
+
         try {
-            URI s = valueFactory.createURI(graphUri);
-
-            Literal memoLit = valueFactory.createLiteral(memo.toString());
-            sc.removeStatements(s, LinkedDataCache.CACHE_MEMO, null, LinkedDataCache.CACHE_GRAPH);
-            sc.addStatement(s, LinkedDataCache.CACHE_MEMO, memoLit, LinkedDataCache.CACHE_GRAPH);
-
-            memos.put(graphUri, memo);
+            if (null != sc) {
+                URI s = valueFactory.createURI(graphUri);
+                Literal memoLit = valueFactory.createLiteral(memo.toString());
+                sc.removeStatements(s, LinkedDataCache.CACHE_MEMO, null, LinkedDataCache.CACHE_GRAPH);
+                sc.addStatement(s, LinkedDataCache.CACHE_MEMO, memoLit, LinkedDataCache.CACHE_GRAPH);
+            }
         } catch (SailException e) {
             throw new RippleException(e);
         }

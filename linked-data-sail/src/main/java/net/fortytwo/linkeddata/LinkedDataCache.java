@@ -16,6 +16,7 @@ import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.StringUtils;
 import net.fortytwo.ripple.URIMap;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
@@ -70,6 +71,8 @@ public class LinkedDataCache {
             "rtf", "sea", "sit", "sitx", "sql", "svg", "swf", "sys", "tar", "tif",
             "ttf", "uue", "vb", "vcd", "wav", "wks", "wma", "wmv", "wpd", "wps",
             "ws", /*"xhtml",*/ "xll", "xls", "yps", "zip"};
+
+    private final int MINIMUM_CAPACITY = 100;
 
     private final CachingMetadata metadata;
     private final ValueFactory valueFactory;
@@ -171,6 +174,11 @@ public class LinkedDataCache {
         }
 
         int capacity = Ripple.getConfiguration().getInt(LinkedDataSail.MEMORY_CACHE_CAPACITY);
+        if (capacity < MINIMUM_CAPACITY) {
+            logger.log(Level.WARN, "LinkedDataSail.MEMORY_CACHE_CAPACITY is suspiciously low. Using "
+                    + MINIMUM_CAPACITY);
+        }
+
         this.metadata = new CachingMetadata(capacity, sail.getValueFactory());
 
         this.valueFactory = sail.getValueFactory();
@@ -319,28 +327,64 @@ public class LinkedDataCache {
     }
 
     /**
+     * Retrieves caching metadata for a URI if it exists, but does not dereference the URI or modify the cache.
+     *
+     * @param uri the URI to look up
+     * @param sc  a connection to a Sail
+     * @return the current status of the URI, or null if it does not exist in the cache
+     */
+    public CacheEntry.Status peek(final URI uri,
+                                  final SailConnection sc) throws RippleException {
+        return peekOrRetrieve(uri, sc, false);
+    }
+
+    /**
      * Retrieves caching metadata for a URI, possibly dereferencing a document from the Web first.
      *
-     * @param uri the URI to dereference
+     * @param uri the URI to look up and possibly dereference
      * @param sc  a connection to a Sail
      * @return the result of the dereferencing operation
-     * @throws RippleException if retrieval fails for any reason
      */
-    public CacheEntry.Status retrieveUri(final URI uri,
-                                         final SailConnection sc) throws RippleException {
-        // Find the named graph which stores all information associated with this URI
-        String graphUri = RDFUtils.findGraphUri(uri.toString());
+    public CacheEntry.Status retrieve(final URI uri,
+                                      final SailConnection sc) throws RippleException {
+        return peekOrRetrieve(uri, sc, true);
+    }
 
-        // Note: there is potential for a race condition if two threads access URIs with the
-        // same memo concurrently.
-        // However, there are no problematic outcomes for such a race condition (apart from the minor
-        // concern of a document being retrieved twice) as long as the threads use different SailConnections.
+    // Look up and create the memo for a URI in one atomic operation, avoiding races between threads
+    // The status of a URI in the cache is Undetermined until the retrieval operation is completed.
+    private synchronized CacheEntry getSetMemo(final URI uri,
+                                              final String graphUri,
+                                              final SailConnection sc,
+                                              final boolean doRetrieve) throws RippleException {
         CacheEntry memo = metadata.getMemo(graphUri, sc);
 
         // If there is already a (non-expired) entry for this URI, just return its status.
         if (null != memo && !expirationPolicy.isExpired(uri.toString(), memo)) {
-            return memo.getStatus();
+            return memo;
         }
+
+        if (!doRetrieve) {
+            return null;
+        }
+
+        memo = new CacheEntry(CacheEntry.Status.Undetermined);
+        metadata.setMemo(graphUri, memo, null);
+        memo.setStatus(CacheEntry.Status.CacheLookup);
+        return memo;
+    }
+
+    private CacheEntry.Status peekOrRetrieve(final URI uri,
+                                             final SailConnection sc,
+                                             final boolean doRetrieve) throws RippleException {
+        // Find the named graph which stores all information associated with this URI
+        String graphUri = RDFUtils.findGraphUri(uri.toString());
+
+        CacheEntry memo = getSetMemo(uri, graphUri, sc, doRetrieve);
+        CacheEntry.Status status = null == memo ? null : memo.getStatus();
+        if (null == status || status != CacheEntry.Status.CacheLookup) {
+            return status;
+        }
+        memo.setStatus(CacheEntry.Status.Undetermined);
 
         // This URI should be treated as a "black box" once created;
         // it need not resemble the URI it was created from.
@@ -363,9 +407,7 @@ public class LinkedDataCache {
 
         logger.info("dereferencing <"
                 + StringUtils.escapeURIString(uri.toString()) + ">");
-        //+ " at location " + mapped );
 
-        memo = new CacheEntry(CacheEntry.Status.Undetermined);
         memo.setDereferencer(dref.getClass().getName());
 
         // Note: from this point on, we are committed to actually dereferencing the URI,
