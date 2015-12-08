@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 /**
  * A data collector which stores data items in the order it receives them.
- * <p/>
+ *
  * Note: while this class is not actually thread-safe, put() may safely be
  * called while writeTo() is in progress.
  *

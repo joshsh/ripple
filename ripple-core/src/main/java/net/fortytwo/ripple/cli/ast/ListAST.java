@@ -28,6 +28,9 @@ public class ListAST extends ListNode<AST> implements AST<RippleList> {
 
     /**
      * Constructs a list AST with the given first element and rest.
+     *
+     * @param first first element of the list
+     * @param rest  rest of the list
      */
     public ListAST(final AST first, final ListAST rest) {
 //System.out.println( "first = " + first + ", rest = " + rest );

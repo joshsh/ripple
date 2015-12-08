@@ -58,7 +58,15 @@ public class Split extends PrimitiveStackMapping {
         stack = stack.getRest();
 
         try {
-            String[] array = mc.toString(s).split(mc.toString(regex));
+            String regexStr = mc.toString(regex);
+            if (0 == regexStr.length()) {
+                // splitting on an empty string is undefined in Ripple.
+                // JDK 1.7 and 1.8 appear to handle this case differently.
+                // Simply produce no solutions.
+                return;
+            }
+
+            String[] array = mc.toString(s).split(regexStr);
             RippleList result = mc.list();
             for (int i = array.length - 1; i >= 0; i--) {
                 result = result.push(StringLibrary.value(array[i], mc, s, regex));

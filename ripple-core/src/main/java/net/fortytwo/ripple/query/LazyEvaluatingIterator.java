@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * A "pull-based" program evaluator which uses Ripple's lazy evaluation strategy but generates solutions
  * incrementally based on calls to next(), rather than pushing all solutions to a stream.
- * <p/>
+ * 
  * Note: this iterator is for single-threaded evaluation only.
  *
  * @author Joshua Shinavier (http://fortytwo.net)
