@@ -9,8 +9,6 @@ import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.URIImpl;
 import org.openrdf.sail.SailException;
 import org.restlet.data.MediaType;
 import org.restlet.representation.StreamRepresentation;
@@ -22,11 +20,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class HTTPRepresentation extends StreamRepresentation {
+    private static final Logger logger = Logger.getLogger(HTTPRepresentation.class.getName());
+
     private InputStream inputStream;
     private HttpUriRequest method;
 
@@ -38,6 +40,7 @@ public class HTTPRepresentation extends StreamRepresentation {
         try {
             client = HTTPUtils.createClient(false);
         } catch (RippleException e) {
+            logger.log(Level.SEVERE, "failed to initialize", e);
             throw new ExceptionInInitializerError(e);
         }
     }
@@ -45,7 +48,6 @@ public class HTTPRepresentation extends StreamRepresentation {
     // Note: the URI is immediately dereferenced
     public HTTPRepresentation(final String uri, final RedirectManager redirects, final String acceptHeader)
             throws RippleException {
-
         super(null);
 
         URL getUrl;
@@ -86,7 +88,7 @@ public class HTTPRepresentation extends StreamRepresentation {
 
                     try {
                         // do not repeatedly retrieve the same document
-                        if (redirects.isExistingRedirectTo(redirectUrl)) {
+                        if (redirects.existsRedirectTo(redirectUrl)) {
                             throw new RedirectToExistingDocumentException();
                         }
 
@@ -146,7 +148,6 @@ public class HTTPRepresentation extends StreamRepresentation {
                     + StringUtils.escapeURIString(uri) + ">");
         }
         MediaType mt = new MediaType(mtStr);
-//System.out.println( "discovered media type is: " + mt );
         setMediaType(mt);
     }
 

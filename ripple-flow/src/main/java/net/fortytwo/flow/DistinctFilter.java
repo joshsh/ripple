@@ -9,7 +9,7 @@ import java.util.Set;
  * A "filter" pipeline which allows each distinct data item to pass only once.
  * Duplicates are filtered out rather than being passed to the downstream sink.
  *
- * @param <T>
+ * @param <T> the type of element handled by this filter
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class DistinctFilter<T> implements Sink<T> {

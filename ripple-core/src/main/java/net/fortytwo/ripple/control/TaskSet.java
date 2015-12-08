@@ -14,9 +14,7 @@ public class TaskSet {
 
     private final Sink<Task> completedTaskSink = new Sink<Task>() {
         public synchronized void put(final Task task) throws RippleException {
-//System.out.println( "put( " + task + ")" );
             count--;
-//System.out.println( "    [-] count is now: " + count );
 
             if (0 == count) {
                 notify();
@@ -25,10 +23,8 @@ public class TaskSet {
     };
 
     public void add(final Task task) throws RippleException {
-//System.out.println( "add( " + task + ")" );
         synchronized (completedTaskSink) {
             count++;
-//System.out.println( "    [+] count is now: " + count );
         }
 
         Scheduler.add(task, completedTaskSink);
@@ -40,7 +36,6 @@ public class TaskSet {
      * executing.
      */
     public void waitUntilEmpty() throws RippleException {
-//System.out.println( "[" + this + "].waitUntilEmpty()" );
         synchronized (completedTaskSink) {
             if (count > 0) {
                 try {
@@ -50,7 +45,6 @@ public class TaskSet {
                 }
             }
         }
-//System.out.println( "    done." );
     }
 
     public void stopWaiting() {

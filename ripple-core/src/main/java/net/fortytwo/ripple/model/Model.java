@@ -7,7 +7,7 @@ import net.fortytwo.ripple.RippleException;
  * A gateway between an RDF data store and the native Ripple environment of stacks and streams.
  * Most of the things you can do in Ripple involve a <code>ModelConnection</code>,
  * which provides transactional access to a <code>Model</code>.
- * <p/>
+ *
  * Native Ripple values are totally ordered in a Model,
  * and each one maps to exactly one RDF resource.
  *

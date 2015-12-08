@@ -24,8 +24,6 @@ public class Buffer<T> extends Collector<T> {
 
     /**
      * Empties the buffer, pushing the collected data items in FIFO order to the downstream sink
-     *
-     * @throws RippleException
      */
     public void flush() throws RippleException {
         writeTo(sink);

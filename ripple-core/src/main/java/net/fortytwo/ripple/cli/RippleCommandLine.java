@@ -56,10 +56,10 @@ public class RippleCommandLine {
     /**
      * Console input:
      * is to filter to consoleReaderInput to reader to readOut to writeIn to interpreter
-     * <p/>
+     *
      * Normal output:
      * [commands and queries] to queryEngine.getPrintStream()
-     * <p/>
+     *
      * Error output:
      * alert() to queryEngine.getErrorPrintStream()
      */

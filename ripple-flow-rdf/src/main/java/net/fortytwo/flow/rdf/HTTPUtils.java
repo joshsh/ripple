@@ -11,7 +11,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.openrdf.rio.RDFFormat;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,29 +27,27 @@ public class HTTPUtils {
             SPARQL_QUERY = "application/sparql-query",
             USER_AGENT = "User-Agent";
 
-    private static final Map<String, Date> LAST_REQUEST_BY_HOST = new HashMap<String, Date>();
+    private static final Map<String, Long> lastRequestByHost = new HashMap<String, Long>();
 
-    private static long courtesyInterval;
-    private static long connectionTimeout;
-    private static boolean initialized = false;
+    private static final long COURTESY_INTERVAL;
+    private static final long CONNECTION_TIMEOUT;
 
-    private static void initialize() throws RippleException {
-        courtesyInterval = Ripple.getConfiguration().getLong(
-                Ripple.HTTPCONNECTION_COURTESY_INTERVAL);
-        connectionTimeout = Ripple.getConfiguration().getLong(
-                Ripple.HTTPCONNECTION_TIMEOUT);
-        initialized = true;
+    static {
+        try {
+            COURTESY_INTERVAL = Ripple.getConfiguration().getLong(
+                    Ripple.HTTPCONNECTION_COURTESY_INTERVAL);
+            CONNECTION_TIMEOUT = Ripple.getConfiguration().getLong(
+                    Ripple.HTTPCONNECTION_TIMEOUT);
+        } catch (RippleException e) {
+            throw new ExceptionInInitializerError(e);
+        }
     }
 
     public static HttpClient createClient(final boolean autoRedirect) throws RippleException {
-        if (!initialized) {
-            initialize();
-        }
-
         RequestConfig defaultRequestConfig = RequestConfig.custom()
-                .setSocketTimeout((int) connectionTimeout)
-                .setConnectTimeout((int) connectionTimeout)
-                .setConnectionRequestTimeout((int) connectionTimeout)
+                .setSocketTimeout((int) CONNECTION_TIMEOUT)
+                .setConnectTimeout((int) CONNECTION_TIMEOUT)
+                .setConnectionRequestTimeout((int) CONNECTION_TIMEOUT)
                         //.setStaleConnectionCheckEnabled(true)
                 .build();
 
@@ -58,9 +55,9 @@ public class HTTPUtils {
                 .setDefaultRequestConfig(defaultRequestConfig)
                         //.disableAutomaticRetries()
                         //.disableConnectionState()
-                        //.disableContentCompression()
-                        //.disableRedirectHandling()
-                        //.useSystemProperties()
+                .disableContentCompression()  // automatic compression can derail content negotiation
+                //.disableRedirectHandling()
+                //.useSystemProperties()
                 ;
         if (!autoRedirect) {
             // redirect manually, keeping track of eventually retrieved documents
@@ -166,57 +163,66 @@ public class HTTPUtils {
      * @return the amount of time, in milliseconds, that is spent idling for the sake of crawler etiquette
      */
     public static long throttleHttpRequest(final HttpRequest method) throws RippleException {
-        if (!initialized) {
-            initialize();
-        }
-
-        String host = method.getRequestLine().getUri();
+        String uri = method.getRequestLine().getUri();
 
         // Some connections (e.g. file system operations) have no host.  Don't
         // bother regulating them.
-        if (null != host && host.length() > 0) {
-            Date now = new Date();
-            long delay = courtesyInterval;
-
-            Date lastRequest;
-            long w = 0;
-
-            synchronized (LAST_REQUEST_BY_HOST) {
-                lastRequest = LAST_REQUEST_BY_HOST.get(host);
-
-                // We've already made a request of this host.
-                if (null != lastRequest) {
-                    // If it hasn't been long enough since the last request from the same
-                    // host, wait a bit before issuing a new request.
-                    if (now.getTime() - lastRequest.getTime() < delay) {
-                        w = lastRequest.getTime() + delay - now.getTime();
-                    }
-                }
-
-                // Record the projected start time of the request beforehand, to
-                // avoid any other requests being scheduled without knowledge of
-                // this one.
-                LAST_REQUEST_BY_HOST.put(host, new Date(w + now.getTime()));
-            }
-
-            // Wait if necessary.
-            if (w > 0) {
-                try {
-//logger.info( "    waiting " + w + " milliseconds" );
-                    Thread.sleep(w);
-                } catch (InterruptedException e) {
-                    throw new RippleException(e);
-                }
-            }
-
-            return System.currentTimeMillis() - now.getTime();
-        } else {
+        if (null == uri || 0 == uri.length() || !(uri.startsWith("http://") || uri.startsWith("https://"))) {
             return 0;
         }
+
+        String host = uri.substring(uri.indexOf("//") + 2);
+        int i = host.indexOf("/");
+        if (i > 0) {
+            host = host.substring(0, i);
+        }
+        i = host.indexOf("#");
+        if (i > 0) {
+            host = host.substring(0, i);
+        }
+
+        long now = System.currentTimeMillis();
+
+        Long lastRequest;
+        long w = 0;
+
+        synchronized (lastRequestByHost) {
+            lastRequest = lastRequestByHost.get(host);
+
+            // We've already made a request of this host.
+            if (null != lastRequest) {
+                // If it hasn't been long enough since the last request from the same
+                // host, wait a bit before issuing a new request.
+                if (now - lastRequest < COURTESY_INTERVAL) {
+                    w = lastRequest + COURTESY_INTERVAL - now;
+                }
+            }
+
+            // Record the projected start time of the request beforehand, to
+            // avoid any other requests being scheduled without knowledge of
+            // this one.
+            lastRequestByHost.put(host, w + now);
+        }
+
+        // Wait if necessary.
+        if (w > 0) {
+            try {
+                Thread.sleep(w);
+            } catch (InterruptedException e) {
+                throw new RippleException(e);
+            }
+        }
+
+        return System.currentTimeMillis() - now;
     }
 
     private static void setAgent(final HttpRequest method) {
         method.setHeader(USER_AGENT, Ripple.getName() + "/" + Ripple.getVersion());
+    }
+
+    public static void main(final String[] args) throws RippleException {
+        HttpClient client = createClient(true);
+        //System.out.println("done");
     }
 }
 

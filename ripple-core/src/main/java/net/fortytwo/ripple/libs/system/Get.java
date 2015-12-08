@@ -64,8 +64,20 @@ public class Get extends PrimitiveStackMapping {
 
         InputStream body;
 
+        HttpResponse response;
+
         try {
-            HttpResponse response = client.execute(method);
+            response = client.execute(method);
+        } catch (Throwable t) {
+            throw new RippleException(t);
+        }
+
+        int code = response.getStatusLine().getStatusCode();
+        if (2 != code / 100) {
+            throw new RippleException("response code " + code + " for resource at " + uriStr);
+        }
+
+        try {
             body = response.getEntity().getContent();
         } catch (Throwable t) {
             throw new RippleException(t);

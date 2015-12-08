@@ -166,7 +166,7 @@ public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
 
     private void retrieveUri(final URI uri) {
         try {
-            linkedDataCache.retrieveUri(uri, baseConnection);
+            linkedDataCache.retrieve(uri, baseConnection);
         } catch (RippleException e) {
             logger.log(Level.SEVERE, "failed to retrieve URI", e);
         }
