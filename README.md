@@ -3,13 +3,13 @@
 ![Ripple logo|width=420px|height=100px](https://github.com/joshsh/ripple/wiki/graphics/ripple-logo-text-medium.png)
 
 Welcome to the Ripple wiki!
-Ripple is a declarative, stack-oriented dataflow language for exploring the Semantic Web and other multi-relational networks.
+Ripple is a functional, stack-based query language for Linked Data and other RDF data sources.
 Ripple programs resemble path expressions as in [XPath](http://www.w3.org/TR/xpath/)
 and postfix-style procedures as in
 [Forth](http://en.wikipedia.org/wiki/Forth_&#40;programming_language\&#41;).
 Every program has an [RDF](http://www.w3.org/RDF/) representation,
 so you can embed programs in the Web of Data as well as querying against it.
-This implementation is written in Java and includes an interactive command-line interpreter as well as a query API which interoperates with [Sesame 2.0](http://openrdf.org/).
+The implementation is written in Java and includes an interactive command-line interpreter as well as a query API which interoperates with [Sesame 2.0](http://openrdf.org/).
 
 ## Contents
 
@@ -28,7 +28,7 @@ This implementation is written in Java and includes an interactive command-line 
         * [graph library](https://github.com/joshsh/ripple/wiki/graph-library): reading and writing RDF statements, SPARQL support, key/value objects and JSON
         * [logic library](https://github.com/joshsh/ripple/wiki/logic-library): boolean algebra
         * [math library](https://github.com/joshsh/ripple/wiki/math-library): arithmetic, roots and exponentials, trigonometry 
-        * [stack library](https://github.com/joshsh/ripple/wiki/stack-library): list- and stack-oriented primitives inherited from [Joy](http://en.wikipedia.org/wiki/Joy_(programming_language)
+        * [stack library](https://github.com/joshsh/ripple/wiki/stack-library): list- and stack-oriented primitives inherited from [Joy](http://en.wikipedia.org/wiki/Joy_(programming_language))
         * [stream library](https://github.com/joshsh/ripple/wiki/stream-library): stream splitting and intersection, filters for deduplication and pruning, closed-world operations
         * [string library](https://github.com/joshsh/ripple/wiki/string-library): string manipulation
         * [system library](https://github.com/joshsh/ripple/wiki/system-library): system calls and network operations, other scripting languages
@@ -39,8 +39,9 @@ This implementation is written in Java and includes an interactive command-line 
     * [Ripple configuration properties](https://github.com/joshsh/ripple/wiki/Ripple-configuration-properties)
     * [LinkedDataSail](https://github.com/joshsh/ripple/wiki/LinkedDataSail): Ripple's dynamic view of the Web of Data
     * [Naming conventions](https://github.com/joshsh/ripple/wiki/Naming-conventions) for Ripple programs
+    * [creating a Ripple library](https://github.com/joshsh/ripple/wiki/creating-a-Ripple-library)
 * External links
+    * Ripple [JavaDocs](http://fortytwo.net/projects/ripple/api/latest)
     * [Functional programs as Linked Data](http://sunsite.informatik.rwth-aachen.de/Publications/CEUR-WS/Vol-248/paper10.pdf) (the original paper on Ripple)
     * The [demo screencast](http://ripple.googlecode.com/svn/trunk/docs/screencast/index.html) from the [SFSW 2007 Scripting Challenge](http://web.archive.org/web/20120326083323/http://www.semanticscripting.org/SFSW2007/)
-    * [ripple.fortytwo.net](http://ripple.fortytwo.net) (the Ripple blog)
-    * [clj-ripple](https://github.com/eduardoejp/clj-ripple): a library for embedding Ripple in Clojure.  Sweet!
+
