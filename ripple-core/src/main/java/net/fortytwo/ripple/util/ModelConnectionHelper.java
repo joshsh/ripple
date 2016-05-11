@@ -40,17 +40,17 @@ public class ModelConnectionHelper {
                                final Sink<Object> sink)
             throws RippleException {
         final Sink<Value> valueSink = new Sink<Value>() {
-            public void put(final Value v) throws RippleException {
-                sink.put(connection.canonicalValue(v));
+            public void accept(final Value v) throws RippleException {
+                sink.accept(connection.canonicalValue(v));
             }
         };
 
         Sink<Statement> predSelector = new Sink<Statement>() {
             Sink<Value> predSink = new DistinctFilter<Value>(valueSink);
 
-            public void put(final Statement st) throws RippleException {
+            public void accept(final Statement st) throws RippleException {
                 //TODO: don't create a new RdfValue before checking for uniqueness
-                predSink.put(st.getPredicate());
+                predSink.accept(st.getPredicate());
             }
         };
 
@@ -81,7 +81,7 @@ public class ModelConnectionHelper {
         final boolean[] b = {false};
         mc.getStatements((Resource) r, RDF.FIRST, null, new Sink<Statement>(){
             @Override
-            public void put(Statement statement) throws RippleException {
+            public void accept(Statement statement) throws RippleException {
                 b[0] = true;
             }
         });

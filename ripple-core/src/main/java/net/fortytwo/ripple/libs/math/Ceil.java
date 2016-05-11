@@ -49,7 +49,7 @@ public class Ceil extends PrimitiveStackMapping {
 
         result = (int) Math.ceil(a.doubleValue());
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 }

@@ -6,10 +6,10 @@ import net.fortytwo.flow.rdf.RDFSink;
 import net.fortytwo.flow.rdf.diff.RDFDiffSink;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
+import org.openrdf.model.IRI;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 
 import java.util.regex.Pattern;
@@ -37,34 +37,34 @@ public class LexiconUpdater implements RDFDiffSink {
 
         addSink = new RDFSink() {
             private Sink<Statement> stSink = new Sink<Statement>() {
-                public void put(final Statement st) throws RippleException {
+                public void accept(final Statement st) throws RippleException {
 //System.out.println( "st = " + st );
                     Resource subj = st.getSubject();
-                    URI pred = st.getPredicate();
+                    IRI pred = st.getPredicate();
                     Value obj = st.getObject();
 
                     synchronized (lexicon) {
-                        if (subj instanceof URI) {
-                            lexicon.addURI((URI) subj);
+                        if (subj instanceof IRI) {
+                            lexicon.addURI((IRI) subj);
                         }
 
                         lexicon.addURI(pred);
 
-                        if (obj instanceof URI) {
-                            lexicon.addURI((URI) obj);
+                        if (obj instanceof IRI) {
+                            lexicon.addURI((IRI) obj);
                         }
                     }
                 }
             };
 
             private Sink<Namespace> nsSink = new Sink<Namespace>() {
-                public void put(final Namespace ns) throws RippleException {
+                public void accept(final Namespace ns) throws RippleException {
 // TODO: delete me
                 }
             };
 
             private Sink<String> cmtSink = new Sink<String>() {
-                public void put(final String comment) throws RippleException {
+                public void accept(final String comment) throws RippleException {
                 }
             };
 
@@ -84,17 +84,17 @@ public class LexiconUpdater implements RDFDiffSink {
 // TODO
         subSink = new RDFSink() {
             private Sink<Statement> stSink = new Sink<Statement>() {
-                public void put(final Statement st) throws RippleException {
+                public void accept(final Statement st) throws RippleException {
                 }
             };
 
             private Sink<Namespace> nsSink = new Sink<Namespace>() {
-                public void put(final Namespace ns) throws RippleException {
+                public void accept(final Namespace ns) throws RippleException {
                 }
             };
 
             private Sink<String> cmtSink = new Sink<String>() {
-                public void put(final String comment) throws RippleException {
+                public void accept(final String comment) throws RippleException {
                 }
             };
 

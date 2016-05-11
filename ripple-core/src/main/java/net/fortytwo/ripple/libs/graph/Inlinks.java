@@ -54,14 +54,14 @@ public class Inlinks extends PrimitiveStackMapping {
             final RippleList rest = arg.getRest();
 
             Sink<Statement> stSink = new Sink<Statement>() {
-                public void put(final Statement st) throws RippleException {
+                public void accept(final Statement st) throws RippleException {
                     Resource context = st.getContext();
 
                     Object subj = mc.canonicalValue(st.getSubject());
                     Object pred = mc.canonicalValue(st.getPredicate());
                     Object ctx = (null == context) ? mc.list() : mc.canonicalValue(context);
 
-                    solutions.put(rest.push(subj).push(pred).push(obj).push(ctx));
+                    solutions.accept(rest.push(subj).push(pred).push(obj).push(ctx));
                 }
             };
 

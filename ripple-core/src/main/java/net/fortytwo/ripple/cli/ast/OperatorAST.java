@@ -91,7 +91,7 @@ public class OperatorAST implements AST<RippleList> {
                 throw new RippleException("unhandled operator type: " + type);
         }
 
-        sink.put(l);
+        sink.accept(l);
     }
 
     public String toString() {

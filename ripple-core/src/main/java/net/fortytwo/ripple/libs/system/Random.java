@@ -42,7 +42,7 @@ public class Random extends PrimitiveStackMapping {
 
         result = Math.random();
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 }

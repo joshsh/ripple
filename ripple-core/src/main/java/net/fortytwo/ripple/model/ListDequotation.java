@@ -40,10 +40,10 @@ public class ListDequotation implements StackMapping {
                 if (null != m) {
                     StackMapping inverse = m.getInverse();
                     out = out.getRest().push(new Operator(inverse));
-                    solutions.put(out);
+                    solutions.accept(out);
                 }
             } else {
-                solutions.put(out);
+                solutions.accept(out);
             }
         }
     }

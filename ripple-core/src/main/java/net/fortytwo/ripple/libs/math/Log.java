@@ -52,7 +52,7 @@ public class Log extends PrimitiveStackMapping {
         if (a > 0) {
             result = Math.log(a);
 
-            solutions.put(
+            solutions.accept(
                     stack.push(result));
         }
     }

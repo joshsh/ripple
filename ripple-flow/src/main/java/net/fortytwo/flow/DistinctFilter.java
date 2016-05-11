@@ -31,9 +31,9 @@ public class DistinctFilter<T> implements Sink<T> {
      * @param t the data item being passed
      * @throws RippleException if a data handling error occurs
      */
-    public void put(final T t) throws RippleException {
+    public void accept(final T t) throws RippleException {
         if (set.add(t)) {
-            sink.put(t);
+            sink.accept(t);
         }
     }
 }

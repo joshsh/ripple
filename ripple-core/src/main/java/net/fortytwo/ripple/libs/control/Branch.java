@@ -57,7 +57,7 @@ public class Branch extends PrimitiveStackMapping {
 
         Object result = mc.toBoolean(b) ? trueProg : falseProg;
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result).push(Operator.OP));
     }
 }

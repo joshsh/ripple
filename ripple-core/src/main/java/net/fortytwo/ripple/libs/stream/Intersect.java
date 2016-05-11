@@ -54,9 +54,9 @@ public class Intersect extends PrimitiveStackMapping {
         stack = stack.getRest();
 
         Operator inner = new Operator(new IntersectInner());
-        solutions.put(
+        solutions.accept(
                 stack.push(rtrue).push(Operator.OP).push(true).push(inner));
-        solutions.put(
+        solutions.accept(
                 stack.push(rfalse).push(Operator.OP).push(false).push(inner));
     }
 
@@ -94,7 +94,7 @@ public class Intersect extends PrimitiveStackMapping {
             trueMemoizer.put(stack, MEMO);
 
             if (null != falseMemoizer && null != falseMemoizer.get(stack)) {
-                sink.put(stack);
+                sink.accept(stack);
             }
         }
 
@@ -110,7 +110,7 @@ public class Intersect extends PrimitiveStackMapping {
             falseMemoizer.put(stack, MEMO);
 
             if (null != trueMemoizer && null != trueMemoizer.get(stack)) {
-                sink.put(stack);
+                sink.accept(stack);
             }
         }
 

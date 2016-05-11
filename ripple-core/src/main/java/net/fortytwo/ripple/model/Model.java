@@ -2,12 +2,15 @@ package net.fortytwo.ripple.model;
 
 import net.fortytwo.flow.rdf.diff.RDFDiffSink;
 import net.fortytwo.ripple.RippleException;
+import org.openrdf.IsolationLevel;
+
+import java.util.List;
 
 /**
  * A gateway between an RDF data store and the native Ripple environment of stacks and streams.
  * Most of the things you can do in Ripple involve a <code>ModelConnection</code>,
  * which provides transactional access to a <code>Model</code>.
- *
+ * <p>
  * Native Ripple values are totally ordered in a Model,
  * and each one maps to exactly one RDF resource.
  *
@@ -27,10 +30,19 @@ public interface Model {
      */
     ModelConnection createConnection(RDFDiffSink listener) throws RippleException;
 
-    // TODO: JavaDoc
+    /**
+     * Adds support for a given data type to this model
+     *
+     * @param type a Ripple data type
+     */
     void register(RippleType type);
 
-    // TODO: JavaDoc
+    /**
+     * Finds the Ripple type, if any, for the given object in this model
+     *
+     * @param instance the object to check
+     * @return the associated Ripple type, if any
+     */
     RippleType getTypeOf(Object instance);
 
     /**
@@ -44,4 +56,10 @@ public interface Model {
      * @throws RippleException if anything goes wrong
      */
     void shutDown() throws RippleException;
+
+    // TODO: JavaDoc
+    List<IsolationLevel> getSupportedIsolationLevels();
+
+    // TODO: Javadoc
+    IsolationLevel getDefaultIsolationLevel();
 }

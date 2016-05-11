@@ -66,6 +66,6 @@ public class AssertInContext extends PrimitiveStackMapping {
         // Sail.
         mc.commit();
 
-        solutions.put(stack.push(subj));
+        solutions.accept(stack.push(subj));
     }
 }

@@ -63,9 +63,9 @@ public class Sqrt extends PrimitiveStackMapping {
 
             // Yield both square roots.
             try {
-                solutions.put(stack.push(d));
+                solutions.accept(stack.push(d));
                 if (d > 0) {
-                    solutions.put(stack.push(0.0 - d));
+                    solutions.accept(stack.push(0.0 - d));
                 }
             } catch (RippleException e) {
                 // Soft fail
@@ -104,7 +104,7 @@ public class Sqrt extends PrimitiveStackMapping {
 
             result = NumericType.mul(a, a);
 
-            solutions.put(
+            solutions.accept(
                     stack.push(result));
         }
     }

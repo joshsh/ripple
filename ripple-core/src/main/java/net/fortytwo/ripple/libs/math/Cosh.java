@@ -12,7 +12,6 @@ import net.fortytwo.ripple.model.RippleList;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Cosh extends PrimitiveStackMapping {
-    private static final int ARITY = 1;
 
     private static final String[] IDENTIFIERS = {
             MathLibrary.NS_2013_03 + "cosh",
@@ -49,7 +48,7 @@ public class Cosh extends PrimitiveStackMapping {
 
         result = Math.cosh(a.doubleValue());
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 }

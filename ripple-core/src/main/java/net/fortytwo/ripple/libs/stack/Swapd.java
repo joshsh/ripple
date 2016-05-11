@@ -51,7 +51,7 @@ public class Swapd extends PrimitiveStackMapping {
         x = stack.getFirst();
         stack = stack.getRest();
 
-        solutions.put(
+        solutions.accept(
                 stack.push(y).push(x).push(z));
     }
 }

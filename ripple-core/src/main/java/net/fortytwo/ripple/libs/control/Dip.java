@@ -49,7 +49,7 @@ public class Dip extends PrimitiveStackMapping {
         x = stack.getFirst();
         stack = stack.getRest();
 
-        solutions.put(
+        solutions.accept(
                 stack.push(y).push(Operator.OP).push(x));
     }
 }

@@ -65,9 +65,9 @@ public class VisibleQueryCommand extends Command {
                 new NullSink<RippleList>());
 
         Sink<RippleList> derefSink = new Sink<RippleList>() {
-            public void put(final RippleList list) throws RippleException {
+            public void accept(final RippleList list) throws RippleException {
                 dereference(list.getFirst(), mc);
-                results.put(list);
+                results.accept(list);
             }
         };
 

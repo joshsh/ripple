@@ -61,7 +61,7 @@ public class ToDouble extends PrimitiveStackMapping {
             return;
         }
 
-        solutions.put(
+        solutions.accept(
                 stack.push(d));
     }
 }

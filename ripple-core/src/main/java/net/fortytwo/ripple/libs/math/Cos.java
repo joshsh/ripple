@@ -49,7 +49,7 @@ public class Cos extends PrimitiveStackMapping {
 
         result = Math.cos(a.doubleValue());
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 

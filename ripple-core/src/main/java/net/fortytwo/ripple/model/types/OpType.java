@@ -33,10 +33,10 @@ public class OpType extends SimpleType<Op> {
             final RippleList rest = arg.getRest();
 
             Sink<Operator> opSink = new Sink<Operator>() {
-                public void put(final Operator oper)
+                public void accept(final Operator oper)
                         throws RippleException {
                     Operator inv = new Operator(oper.getMapping().getInverse());
-                    solutions.put(rest.push(inv));
+                    solutions.accept(rest.push(inv));
                 }
             };
 
@@ -72,9 +72,9 @@ public class OpType extends SimpleType<Op> {
             final RippleList rest = arg.getRest();
 
             Sink<Operator> opSink = new Sink<Operator>() {
-                public void put(final Operator oper)
+                public void accept(final Operator oper)
                         throws RippleException {
-                    solutions.put(rest.push(oper));
+                    solutions.accept(rest.push(oper));
                 }
             };
 

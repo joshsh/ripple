@@ -30,8 +30,8 @@ public class ListGenerator extends Operator {
                               final Sink<RippleList> solutions,
                               final ModelConnection mc) throws RippleException {
                 Sink<RippleList> s = new Sink<RippleList>() {
-                    public void put(final RippleList l) throws RippleException {
-                        solutions.put(arg.push(l.invert()));
+                    public void accept(final RippleList l) throws RippleException {
+                        solutions.accept(arg.push(l.invert()));
                     }
                 };
 

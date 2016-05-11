@@ -24,7 +24,8 @@ import net.fortytwo.ripple.model.types.StackMappingType;
 import net.fortytwo.ripple.model.types.StackMappingWrapperType;
 import net.fortytwo.ripple.model.types.StringLiteralType;
 import net.fortytwo.ripple.model.types.StringType;
-import net.fortytwo.ripple.model.types.URIType;
+import net.fortytwo.ripple.model.types.IRIType;
+import org.openrdf.IsolationLevel;
 import org.openrdf.sail.Sail;
 
 import java.util.HashMap;
@@ -79,7 +80,7 @@ public class SesameModel implements Model {
         register(new StackMappingType());
         register(new StackMappingWrapperType());
         register(new StringType());
-        register(new URIType());
+        register(new IRIType());
 
         ModelConnection mc = createConnection();
         try {
@@ -238,5 +239,15 @@ public class SesameModel implements Model {
         hierarchy.pop();
         unmappedTypes.add(c);
         return null;
+    }
+
+    @Override
+    public List<IsolationLevel> getSupportedIsolationLevels() {
+        return sail.getSupportedIsolationLevels();
+    }
+
+    @Override
+    public IsolationLevel getDefaultIsolationLevel() {
+        return sail.getDefaultIsolationLevel();
     }
 }

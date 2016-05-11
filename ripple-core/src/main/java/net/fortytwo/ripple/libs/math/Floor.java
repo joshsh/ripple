@@ -49,7 +49,7 @@ public class Floor extends PrimitiveStackMapping {
 
         result = (int) Math.floor(a.doubleValue());
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 }

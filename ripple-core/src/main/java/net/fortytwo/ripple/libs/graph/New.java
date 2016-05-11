@@ -45,7 +45,7 @@ public class New extends PrimitiveStackMapping {
                 new ModelConnectionHelper(mc).createRandomURI());
 //System.out.println( "Creating a new node" );
 
-        solutions.put(result);
+        solutions.accept(result);
     }
 }
 

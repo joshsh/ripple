@@ -27,7 +27,7 @@ public class LazyStackEvaluator extends StackEvaluator {
             this.mc = mc;
         }
 
-        public void put(final RippleList arg)
+        public void accept(final RippleList arg)
                 throws RippleException {
             if (stopped || arg.isNil()) {
                 return;
@@ -55,18 +55,18 @@ public class LazyStackEvaluator extends StackEvaluator {
                     } else {
                         final Sink<RippleList> thisEval = this;
                         Sink<RippleList> argSink = new Sink<RippleList>() {
-                            public void put(final RippleList arg) throws RippleException {
+                            public void accept(final RippleList arg) throws RippleException {
                                 Closure c = new Closure(f, arg.getFirst());
-                                new EvaluatorSink(thisEval, mc).put(arg.getRest().push(new Operator(c)));
+                                new EvaluatorSink(thisEval, mc).accept(arg.getRest().push(new Operator(c)));
                             }
                         };
 
                         // Reduce the argument portion of the stack.
-                        new EvaluatorSink(argSink, mc).put(arg.getRest());
+                        new EvaluatorSink(argSink, mc).accept(arg.getRest());
                     }
                 }
             } else {
-                sink.put(arg);
+                sink.accept(arg);
             }
         }
     }
@@ -82,7 +82,7 @@ public class LazyStackEvaluator extends StackEvaluator {
         stopped = false;
 
         try {
-            evalSink.put(arg);
+            evalSink.accept(arg);
         } catch (StackOverflowError e) {
             // Attempt to recover from stack overflow.
             throw new RippleException(e);

@@ -51,7 +51,7 @@ public class ToUri extends PrimitiveStackMapping {
 
         Value uri = mc.valueOf(s);
 
-        solutions.put(
+        solutions.accept(
                 stack.push(uri));
     }
 }

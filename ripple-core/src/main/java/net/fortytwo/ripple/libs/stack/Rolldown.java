@@ -52,7 +52,7 @@ public class Rolldown extends PrimitiveStackMapping {
         x = stack.getFirst();
         stack = stack.getRest();
 
-        solutions.put(
+        solutions.accept(
                 stack.push(y).push(z).push(x));
     }
 }

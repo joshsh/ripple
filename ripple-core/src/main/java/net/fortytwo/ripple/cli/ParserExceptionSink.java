@@ -21,7 +21,7 @@ public class ParserExceptionSink implements Sink<Exception> {
         errorPrintStream = ps;
     }
 
-    public void put(final Exception e) throws RippleException {
+    public void accept(final Exception e) throws RippleException {
         // This happens, for instance, when the parser receives a value
         // which is too large for the target data type.  Non-fatal.
         if (e instanceof NumberFormatException) {

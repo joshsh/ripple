@@ -35,26 +35,26 @@ public class QueryPipeTest extends RippleTestCase {
 
         // A simple expression.
         results.clear();
-        qp.put("2 3 add .\n");
+        qp.accept("2 3 add .\n");
         expected.clear();
-        expected.put(createStack(mc, five));
+        expected.accept(createStack(mc, five));
         assertCollectorsEqual(expected, results);
 
         // A slightly more complex expression.
         results.clear();
-        qp.put("105"
+        qp.accept("105"
                 + " ((1 2 3 4 5) 0 add fold.) {7}"
                 + " add {6} sub.\n");
         expected.clear();
-        expected.put(createStack(mc, zero));
+        expected.accept(createStack(mc, zero));
         assertCollectorsEqual(expected, results);
 
         // A branching expression.
         results.clear();
-        qp.put("(1 2) each. 3 add.\n");
+        qp.accept("(1 2) each. 3 add.\n");
         expected.clear();
-        expected.put(createStack(mc, four));
-        expected.put(createStack(mc, five));
+        expected.accept(createStack(mc, four));
+        expected.accept(createStack(mc, five));
         assertCollectorsEqual(expected, results);
 
         qp.close();
@@ -93,17 +93,17 @@ public class QueryPipeTest extends RippleTestCase {
                 expr[j] = bytes[rand.nextInt(bytes.length)];
             }
             String s = new String(expr);
-            qp.put(new String(expr));
+            qp.accept(new String(expr));
 
-            qp.put(".\n");
-            qp.put(".\n");
-            qp.put(".\n");
+            qp.accept(".\n");
+            qp.accept(".\n");
+            qp.accept(".\n");
 
             // Now make sure the pipe still works.
             results.clear();
-            qp.put("2 3 add.\n");
+            qp.accept("2 3 add.\n");
             expected.clear();
-            expected.put(createStack(mc, five));
+            expected.accept(createStack(mc, five));
             assertCollectorsEqual(expected, results);
         }
 

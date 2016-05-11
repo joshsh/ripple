@@ -56,7 +56,7 @@ public class AssertTest extends RippleTestCase {
         assertReducesTo("ex:a rdfs:comment.");
         assertReducesTo("ex:a rdfs:comment \"something\" assert.", "ex:a");
         assertReducesTo("ex:a rdfs:comment.", "\"something\"");
-        assertReducesTo("\"something\" rdfs:comment~.", "ex:a");
+        assertReducesTo("\"something\" rdfs:comment~. distinct.", "ex:a");
 
         modelConnection.remove(null, null, modelConnection.valueOf("something", XMLSchema.STRING));
         modelConnection.commit();

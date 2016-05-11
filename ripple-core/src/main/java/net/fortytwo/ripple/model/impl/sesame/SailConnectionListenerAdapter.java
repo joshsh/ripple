@@ -24,7 +24,7 @@ public class SailConnectionListenerAdapter implements SailConnectionListener {
 
     public void statementAdded(final Statement st) {
         try {
-            addSink.put(st);
+            addSink.accept(st);
         } catch (RippleException e) {
             logger.warning("Unhandled exception" + e.getMessage());
         }
@@ -32,7 +32,7 @@ public class SailConnectionListenerAdapter implements SailConnectionListener {
 
     public void statementRemoved(final Statement st) {
         try {
-            subSink.put(st);
+            subSink.accept(st);
         } catch (RippleException e) {
             logger.warning("Unhandled exception" + e.getMessage());
         }

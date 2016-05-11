@@ -3,18 +3,20 @@ package net.fortytwo.linkeddata;
 import net.fortytwo.flow.rdf.SesameOutputAdapter;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
-import org.apache.jena.iri.IRI;
-import org.apache.jena.iri.IRIFactory;
+import org.openrdf.model.IRI;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
+import org.openrdf.model.impl.SimpleValueFactory;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFWriter;
 import org.openrdf.rio.Rio;
 
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -59,7 +61,7 @@ public final class RDFUtils {
             String s = removeFragmentIdentifier((subject).toString());
 
             try {
-                return valueFactory.createURI(s);
+                return valueFactory.createIRI(s);
             } catch (Throwable t) {
                 throw new RippleException(t);
             }
@@ -92,14 +94,7 @@ public final class RDFUtils {
         return hashedUri(docUri);
     }
 
-    public static URL iriToUrl(final String iriStr) throws MalformedURLException {
-        IRIFactory f = new IRIFactory();
-        IRI iri = f.create(iriStr);
-        boolean includeWarnings = false;
-        if (iri.hasViolation(includeWarnings)) {
-            logger.warning("IRI has syntax violation: " + iriStr);
-        }
-
-        return iri.toURL();
+    public static URL iriToUrl(final String iriStr) throws MalformedURLException, UnsupportedEncodingException {
+        return new URL(iriStr);
     }
 }

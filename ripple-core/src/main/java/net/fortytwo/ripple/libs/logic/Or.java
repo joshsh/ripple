@@ -56,7 +56,7 @@ public class Or extends PrimitiveStackMapping {
 
         boolean result = x || y;
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 
@@ -89,12 +89,12 @@ public class Or extends PrimitiveStackMapping {
                 if (x) {
                     Object t = true;
                     Object f = false;
-                    solutions.put(stack.push(t).push(t));
-                    solutions.put(stack.push(t).push(f));
-                    solutions.put(stack.push(f).push(t));
+                    solutions.accept(stack.push(t).push(t));
+                    solutions.accept(stack.push(t).push(f));
+                    solutions.accept(stack.push(f).push(t));
                 } else {
                     Object f = false;
-                    solutions.put(stack.push(f).push(f));
+                    solutions.accept(stack.push(f).push(f));
                 }
             }
         };

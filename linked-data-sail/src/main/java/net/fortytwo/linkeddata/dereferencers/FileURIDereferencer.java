@@ -14,6 +14,7 @@ import java.io.OutputStream;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -24,12 +25,12 @@ public class FileURIDereferencer implements Dereferencer {
     }
 
     public static MediaType findMediaType(final String uri) throws RippleException {
-        RDFFormat format = RDFFormat.forFileName(uri);
-        if (null == format) {
+        Optional<RDFFormat> format = RDFFormat.matchFileName(uri, null);
+        if (!format.isPresent()) {
             throw new RippleException("no matching media type for " + uri);
         }
 
-        List<String> types = format.getMIMETypes();
+        List<String> types = format.get().getMIMETypes();
         if (0 == types.size()) {
             throw new IllegalStateException("RDF format has no media type(s): " + format);
         }

@@ -44,7 +44,7 @@ public class RippleListTest extends RippleTestCase {
         final Collector<RippleList> allowed = new Collector<RippleList>();
 
         Sink<RippleList> verifySink = new Sink<RippleList>() {
-            public void put(final RippleList list) throws RippleException {
+            public void accept(final RippleList list) throws RippleException {
                 boolean found = false;
 
                 for (Iterator<RippleList> iter = allowed.iterator(); iter.hasNext(); ) {
@@ -65,41 +65,41 @@ public class RippleListTest extends RippleTestCase {
         Value l2a = mc.valueOf("2a", XMLSchema.STRING);
         Value l2b = mc.valueOf("2b", XMLSchema.STRING);
 
-        head = createURI("urn:test.RippleListTest.FromRdfTest#simpleList", mc);
+        head = createIRI("urn:test.RippleListTest.FromRdfTest#simpleList", mc);
         created.clear();
         mc.toList(head, created);
         assertEquals(1, created.size());
         allowed.clear();
-        allowed.put(mc.list().push(l2).push(l1));
+        allowed.accept(mc.list().push(l2).push(l1));
         created.writeTo(verifySink);
 
-        head = createURI("urn:test.RippleListTest.FromRdfTest#firstBranchingList", mc);
+        head = createIRI("urn:test.RippleListTest.FromRdfTest#firstBranchingList", mc);
         created.clear();
         mc.toList(head, created);
         assertEquals(2, created.size());
         allowed.clear();
-        allowed.put(mc.list().push(l2).push(l1a));
-        allowed.put(mc.list().push(l2).push(l1b));
+        allowed.accept(mc.list().push(l2).push(l1a));
+        allowed.accept(mc.list().push(l2).push(l1b));
         created.writeTo(verifySink);
 
-        head = createURI("urn:test.RippleListTest.FromRdfTest#restBranchingList", mc);
+        head = createIRI("urn:test.RippleListTest.FromRdfTest#restBranchingList", mc);
         created.clear();
         mc.toList(head, created);
         assertEquals(2, created.size());
         allowed.clear();
-        allowed.put(mc.list().push(l2a).push(l1));
-        allowed.put(mc.list().push(l2b).push(l1));
+        allowed.accept(mc.list().push(l2a).push(l1));
+        allowed.accept(mc.list().push(l2b).push(l1));
         created.writeTo(verifySink);
 
-        head = createURI("urn:test.RippleListTest.FromRdfTest#firstAndRestBranchingList", mc);
+        head = createIRI("urn:test.RippleListTest.FromRdfTest#firstAndRestBranchingList", mc);
         created.clear();
         mc.toList(head, created);
         assertEquals(4, created.size());
         allowed.clear();
-        allowed.put(mc.list().push(l2a).push(l1a));
-        allowed.put(mc.list().push(l2a).push(l1b));
-        allowed.put(mc.list().push(l2b).push(l1a));
-        allowed.put(mc.list().push(l2b).push(l1b));
+        allowed.accept(mc.list().push(l2a).push(l1a));
+        allowed.accept(mc.list().push(l2a).push(l1b));
+        allowed.accept(mc.list().push(l2b).push(l1a));
+        allowed.accept(mc.list().push(l2b).push(l1b));
         created.writeTo(verifySink);
 
         // Note: the circular list is not tested.

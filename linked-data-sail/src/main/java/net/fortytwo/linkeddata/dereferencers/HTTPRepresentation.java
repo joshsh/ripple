@@ -16,6 +16,7 @@ import org.restlet.representation.StreamRepresentation;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.ReadableByteChannel;
@@ -46,14 +47,16 @@ public class HTTPRepresentation extends StreamRepresentation {
     }
 
     // Note: the URI is immediately dereferenced
-    public HTTPRepresentation(final String uri, final RedirectManager redirects, final String acceptHeader)
+    public HTTPRepresentation(final String iri, final RedirectManager redirects, final String acceptHeader)
             throws RippleException {
         super(null);
 
         URL getUrl;
         try {
-            getUrl = RDFUtils.iriToUrl(uri);
+            getUrl = RDFUtils.iriToUrl(iri);
         } catch (MalformedURLException e) {
+            throw new RippleException(e);
+        } catch (UnsupportedEncodingException e) {
             throw new RippleException(e);
         }
 
@@ -104,7 +107,7 @@ public class HTTPRepresentation extends StreamRepresentation {
                     }
                 } else {
                     throw new ErrorResponseException("" + code + " response for resource <"
-                            + StringUtils.escapeURIString(uri) + ">");
+                            + StringUtils.escapeURIString(iri) + ">");
                 }
             }
 
@@ -114,7 +117,7 @@ public class HTTPRepresentation extends StreamRepresentation {
             // if we followed one or more redirects, record the redirection to save on future work
             if (null != redirectUrl) {
                 try {
-                    redirects.persistRedirect(uri, redirectUrl);
+                    redirects.persistRedirect(iri, redirectUrl);
                 } catch (SailException e) {
                     throw new RippleException(e);
                 }
@@ -139,13 +142,13 @@ public class HTTPRepresentation extends StreamRepresentation {
         Header h = response.getFirstHeader(HTTPUtils.CONTENT_TYPE);
         if (null == h) {
             throw new InvalidResponseException("no content-type header served for resource <"
-                    + StringUtils.escapeURIString(uri) + ">");
+                    + StringUtils.escapeURIString(iri) + ">");
         }
 
         String mtStr = h.getValue().split(";")[0];
         if (null == mtStr || 0 == mtStr.length()) {
             throw new InvalidResponseException("no media type found for resource <"
-                    + StringUtils.escapeURIString(uri) + ">");
+                    + StringUtils.escapeURIString(iri) + ">");
         }
         MediaType mt = new MediaType(mtStr);
         setMediaType(mt);

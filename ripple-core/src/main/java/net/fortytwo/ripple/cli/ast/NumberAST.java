@@ -16,7 +16,7 @@ public abstract class NumberAST implements AST<RippleList> {
                          final QueryEngine qe,
                          final ModelConnection mc)
             throws RippleException {
-        sink.put(mc.list().push(getValue(mc)));
+        sink.accept(mc.list().push(getValue(mc)));
     }
 
     // Strip off leading "+" from mantissa and/or exponent.

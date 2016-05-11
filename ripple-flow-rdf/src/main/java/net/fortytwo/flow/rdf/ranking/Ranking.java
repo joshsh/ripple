@@ -1,12 +1,12 @@
 package net.fortytwo.flow.rdf.ranking;
 
 import info.aduna.iteration.CloseableIteration;
+import org.openrdf.model.IRI;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
 import org.openrdf.model.Value;
-import org.openrdf.model.impl.LiteralImpl;
-import org.openrdf.model.impl.URIImpl;
+import org.openrdf.model.ValueFactory;
+import org.openrdf.model.impl.SimpleValueFactory;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
 
@@ -16,7 +16,9 @@ import java.util.Random;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Ranking {
-    public static final URI INDEX = new URIImpl("http://example.org/index");
+    private static final ValueFactory valueFactory = SimpleValueFactory.getInstance();
+
+    public static final IRI INDEX = valueFactory.createIRI("http://example.org/index");
 
     private static final boolean INCLUDE_INFERRED = false;
 
@@ -30,7 +32,7 @@ public class Ranking {
     public static boolean getStatements(final SailConnection sc,
                                         final Handler<Statement, HandlerException> handler,
                                         final Resource subject,
-                                        final URI predicate,
+                                        final IRI predicate,
                                         final Value object) throws HandlerException {
         try {
             CloseableIteration<? extends Statement, SailException> iter
@@ -52,14 +54,14 @@ public class Ranking {
     public static boolean traverseForward(final SailConnection sc,
                                           final Handler<Value, HandlerException> handler,
                                           final Resource subject,
-                                          final URI... predicates) throws HandlerException {
+                                          final IRI... predicates) throws HandlerException {
         final Handler<Statement, HandlerException> objectGrabber = new Handler<Statement, HandlerException>() {
             public boolean handle(Statement st) throws HandlerException {
                 return handler.handle(st.getObject());
             }
         };
 
-        for (URI p : predicates) {
+        for (IRI p : predicates) {
             if (!getStatements(sc, objectGrabber, subject, p, null)) {
                 return false;
             }
@@ -72,14 +74,14 @@ public class Ranking {
     public static boolean traverseBackward(final SailConnection sc,
                                            final Handler<Value, HandlerException> handler,
                                            final Resource object,
-                                           final URI... predicates) throws HandlerException {
+                                           final IRI... predicates) throws HandlerException {
         final Handler<Statement, HandlerException> subjectGrabber = new Handler<Statement, HandlerException>() {
             public boolean handle(Statement st) throws HandlerException {
                 return handler.handle(st.getSubject());
             }
         };
 
-        for (URI p : predicates) {
+        for (IRI p : predicates) {
             if (!getStatements(sc, subjectGrabber, null, p, object)) {
                 return false;
             }
@@ -95,7 +97,7 @@ public class Ranking {
 
         try {
             CloseableIteration<? extends Statement, SailException> iter
-                    = sc.getStatements(null, INDEX, new LiteralImpl("" + i), false);
+                    = sc.getStatements(null, INDEX, valueFactory.createLiteral("" + i), false);
             try {
                 r = iter.next().getSubject();
             } finally {

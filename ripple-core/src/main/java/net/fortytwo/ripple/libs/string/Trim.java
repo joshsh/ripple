@@ -46,7 +46,7 @@ public class Trim extends PrimitiveStackMapping {
 
         String result = mc.toString(s).trim();
 
-        solutions.put(
+        solutions.accept(
                 stack.push(StringLibrary.value(result, mc, s)));
     }
 }

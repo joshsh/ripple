@@ -53,7 +53,7 @@ public class Mul extends PrimitiveStackMapping {
 
         result = NumericType.mul(a, b);
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 

@@ -6,10 +6,8 @@ import org.apache.http.HttpRequest;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
-import org.openrdf.rio.RDFFormat;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -82,6 +80,7 @@ public class HTTPUtils {
         return method;
     }
 
+    /*
     public static HttpPost createPostMethod(final String url) throws RippleException {
         HttpPost method;
 
@@ -131,14 +130,6 @@ public class HTTPUtils {
         }
     }
 
-    public static void setAcceptHeader(final HttpRequest method, final String value)
-            throws RippleException {
-        try {
-            method.setHeader(ACCEPT, value);
-        } catch (Throwable t) {
-            throw new RippleException(t);
-        }
-    }
 
     public static void setAcceptHeader(final HttpRequest method, final String[] mimeTypes)
             throws RippleException {
@@ -152,6 +143,16 @@ public class HTTPUtils {
         }
 
         setAcceptHeader(method, sb.toString());
+    }
+    */
+
+    public static void setAcceptHeader(final HttpRequest method, final String value)
+            throws RippleException {
+        try {
+            method.setHeader(ACCEPT, value);
+        } catch (Throwable t) {
+            throw new RippleException(t);
+        }
     }
 
     /**
@@ -218,11 +219,6 @@ public class HTTPUtils {
 
     private static void setAgent(final HttpRequest method) {
         method.setHeader(USER_AGENT, Ripple.getName() + "/" + Ripple.getVersion());
-    }
-
-    public static void main(final String[] args) throws RippleException {
-        HttpClient client = createClient(true);
-        //System.out.println("done");
     }
 }
 

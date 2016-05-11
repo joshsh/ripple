@@ -107,9 +107,7 @@ public class QueryPipe implements Sink<String> {
         resultBuffer.flush();
     }
 
-    public void put(final String expr) throws RippleException {
-//        System.out.println("interpreting query: " + expr);
-//System.exit(1);
+    public void accept(final String expr) throws RippleException {
         InputStream input = new ByteArrayInputStream((expr + "\n").getBytes());
 
         try {

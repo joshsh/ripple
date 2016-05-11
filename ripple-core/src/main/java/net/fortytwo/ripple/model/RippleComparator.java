@@ -12,6 +12,7 @@ import org.openrdf.model.Value;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -117,12 +118,12 @@ public class RippleComparator implements Comparator<Object> {
                 URI datatype = ((Literal) sesameValue).getDatatype();
 
                 if (null == datatype) {
-                    String language = ((Literal) sesameValue).getLanguage();
+                    Optional<String> language = ((Literal) sesameValue).getLanguage();
 
-                    if (null == language) {
-                        return RippleType.Category.PLAIN_LITERAL_WITHOUT_LANGUAGE_TAG;
-                    } else {
+                    if (language.isPresent()) {
                         return RippleType.Category.PLAIN_LITERAL_WITH_LANGUAGE_TAG;
+                    } else {
+                        return RippleType.Category.PLAIN_LITERAL_WITHOUT_LANGUAGE_TAG;
                     }
                 } else {
                     if (NumericType.isNumericLiteral((Literal) sesameValue)) {
@@ -156,8 +157,8 @@ public class RippleComparator implements Comparator<Object> {
         Literal o1Lit = (Literal) modelConnection.toRDF(o1);
         Literal o2Lit = (Literal) modelConnection.toRDF(o2);
 
-        int c = o1Lit.getLanguage().compareTo(
-                o2Lit.getLanguage());
+        int c = o1Lit.getLanguage().get().compareTo(
+                o2Lit.getLanguage().get());
         if (0 == c) {
             return o1Lit.getLabel().compareTo(
                     o2Lit.getLabel());
@@ -212,7 +213,7 @@ public class RippleComparator implements Comparator<Object> {
                         = new Collector<RippleList>();
                 Collector<RippleList> o2Lists
                         = new Collector<RippleList>();
-                o1Lists.put((RippleList) o1);
+                o1Lists.accept((RippleList) o1);
                 modelConnection.toList(o2, o2Lists);
                 return compareListCollectors(o1Lists, o2Lists);
             }
@@ -223,7 +224,7 @@ public class RippleComparator implements Comparator<Object> {
                 Collector<RippleList> o2Lists
                         = new Collector<RippleList>();
                 modelConnection.toList(o1, o1Lists);
-                o2Lists.put((RippleList) o2);
+                o2Lists.accept((RippleList) o2);
                 return compareListCollectors(o1Lists, o2Lists);
             } else {
                 Collector<RippleList> o1Lists

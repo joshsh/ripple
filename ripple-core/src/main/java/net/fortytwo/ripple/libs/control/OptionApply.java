@@ -47,8 +47,8 @@ public class OptionApply extends PrimitiveStackMapping {
         final RippleList rest = stack.getRest();
 
         Sink<Operator> opSink = new Sink<Operator>() {
-            public void put(final Operator op) throws RippleException {
-                solutions.put(rest.push(
+            public void accept(final Operator op) throws RippleException {
+                solutions.accept(rest.push(
                         new StackMappingWrapper(new OptionalQuantifier(op), mc)));
             }
         };

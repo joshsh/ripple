@@ -58,7 +58,7 @@ public class Substring extends PrimitiveStackMapping {
 
         try {
             result = mc.toString(s).substring(begin, end);
-            solutions.put(
+            solutions.accept(
                     stack.push(StringLibrary.value(result, mc, s)));
         } catch (IndexOutOfBoundsException e) {
             // Silent fail.

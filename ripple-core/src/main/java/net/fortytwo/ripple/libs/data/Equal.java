@@ -54,6 +54,6 @@ public class Equal extends PrimitiveStackMapping {
         //       Literals).
         result = 0 == mc.getComparator().compare(a, b);
 
-        solutions.put(stack.push(result));
+        solutions.accept(stack.push(result));
     }
 }

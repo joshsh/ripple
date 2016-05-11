@@ -43,7 +43,7 @@ public class Pop extends PrimitiveStackMapping {
         stack = stack.getRest();
 
         if (!stack.isNil()) {
-            solutions.put(stack);
+            solutions.accept(stack);
         }
     }
 }

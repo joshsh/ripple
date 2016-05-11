@@ -54,7 +54,7 @@ public class Ary extends PrimitiveStackMapping {
         public void apply(final RippleList arg,
                           final Sink<RippleList> solutions,
                           final ModelConnection mc) throws RippleException {
-            solutions.put(arg);
+            solutions.accept(arg);
         }
 
         public boolean isTransparent() {
@@ -82,7 +82,7 @@ public class Ary extends PrimitiveStackMapping {
         n = mc.toNumber(stack.getFirst()).intValue();
         stack = stack.getRest();
 
-        solutions.put(
+        solutions.accept(
                 stack.push(new Operator(new NaryId(n))));
     }
 }

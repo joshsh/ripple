@@ -16,7 +16,7 @@ import net.fortytwo.ripple.query.QueryPipe;
 import net.fortytwo.ripple.query.StackEvaluator;
 import org.junit.After;
 import org.junit.Before;
-import org.openrdf.model.URI;
+import org.openrdf.model.IRI;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.model.vocabulary.RDFS;
 import org.openrdf.model.vocabulary.XMLSchema;
@@ -217,7 +217,7 @@ public abstract class RippleTestCase extends TestCase {
         QueryEngine qe = getTestQueryEngine();
 
         QueryPipe actualPipe = new QueryPipe(qe, results);
-        actualPipe.put(from + "\n");
+        actualPipe.accept(from + "\n");
         actualPipe.close();
 
         Collection<RippleList> c = new LinkedList<RippleList>();
@@ -236,19 +236,19 @@ public abstract class RippleTestCase extends TestCase {
         QueryEngine qe = getTestQueryEngine();
 
         QueryPipe actualPipe = new QueryPipe(qe, actual);
-        actualPipe.put(from + "\n");
+        actualPipe.accept(from + "\n");
         actualPipe.close();
 
         QueryPipe expectedPipe = new QueryPipe(qe, expected);
         for (String t : to) {
-            expectedPipe.put(t + "\n");
+            expectedPipe.accept(t + "\n");
         }
         expectedPipe.close();
 
         assertCollectorsEqual(expected, actual);
     }
 
-    protected URI createURI(final String s,
+    protected IRI createIRI(final String s,
                             final ModelConnection mc) throws RippleException {
         return mc.valueOf(java.net.URI.create(s));
     }

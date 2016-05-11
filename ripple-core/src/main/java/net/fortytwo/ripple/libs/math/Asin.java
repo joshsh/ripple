@@ -53,7 +53,7 @@ public class Asin extends PrimitiveStackMapping {
         if (a >= -1 && a <= 1) {
             result = Math.asin(a);
 
-            solutions.put(
+            solutions.accept(
                     stack.push(result));
         }
     }

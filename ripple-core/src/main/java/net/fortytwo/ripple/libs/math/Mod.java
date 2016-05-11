@@ -55,7 +55,7 @@ public class Mod extends PrimitiveStackMapping {
         if (!NumericType.isZero(b)) {
             result = NumericType.mod(a, b);
 
-            solutions.put(
+            solutions.accept(
                     stack.push(result));
         }
     }

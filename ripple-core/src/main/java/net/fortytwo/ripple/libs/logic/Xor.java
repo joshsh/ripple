@@ -56,7 +56,7 @@ public class Xor extends PrimitiveStackMapping {
 
         Object result = (x && !y) || (!x && y);
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 
@@ -89,11 +89,11 @@ public class Xor extends PrimitiveStackMapping {
                 if (x) {
                     Object t = true;
                     Object f = false;
-                    solutions.put(stack.push(t).push(f));
-                    solutions.put(stack.push(f).push(t));
+                    solutions.accept(stack.push(t).push(f));
+                    solutions.accept(stack.push(f).push(t));
                 } else {
                     Object f = false;
-                    solutions.put(stack.push(f).push(f));
+                    solutions.accept(stack.push(f).push(f));
                 }
             }
         };

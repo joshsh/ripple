@@ -46,8 +46,8 @@ public class Unswons extends PrimitiveStackMapping {
         final RippleList rest = arg.getRest();
 
         Sink<RippleList> listSink = new Sink<RippleList>() {
-            public void put(final RippleList list) throws RippleException {
-                solutions.put(
+            public void accept(final RippleList list) throws RippleException {
+                solutions.accept(
                         rest.push(list.getRest()).push(list.getFirst()));
             }
         };

@@ -56,7 +56,7 @@ public class And extends PrimitiveStackMapping {
 
         boolean result = x && y;
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 
@@ -88,13 +88,13 @@ public class And extends PrimitiveStackMapping {
 
                 if (x) {
                     Object t = true;
-                    solutions.put(stack.push(t).push(t));
+                    solutions.accept(stack.push(t).push(t));
                 } else {
                     Object t = true;
                     Object f = false;
-                    solutions.put(stack.push(t).push(f));
-                    solutions.put(stack.push(f).push(t));
-                    solutions.put(stack.push(f).push(f));
+                    solutions.accept(stack.push(t).push(f));
+                    solutions.accept(stack.push(f).push(t));
+                    solutions.accept(stack.push(f).push(f));
                 }
             }
         };

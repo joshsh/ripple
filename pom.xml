@@ -11,7 +11,7 @@
 
     <groupId>net.fortytwo.ripple</groupId>
     <artifactId>ripple-all</artifactId>
-    <version>1.3</version>
+    <version>1.4-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Ripple</name>
     <description>Semantic Web scripting language</description>
@@ -48,25 +48,25 @@
 
     <!-- note: *not* compatible with Android 2.2.1 -->
     <properties>
-        <httpcomponents.version>4.4</httpcomponents.version>
+        <httpcomponents.version>4.5.2</httpcomponents.version>
         <junit.version>4.12</junit.version>
         <restlet.version>2.2.2</restlet.version>
-        <ripple.version>1.3</ripple.version>
-        <sesame.version>2.7.14</sesame.version>
-        <sesametools.version>1.9</sesametools.version>
+        <ripple.version>1.4-SNAPSHOT</ripple.version>
+        <sesame.version>4.1.2</sesame.version>
+        <sesametools.version>2.0-SNAPSHOT</sesametools.version>
         <tinkerpop.version>2.6.0</tinkerpop.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <modules>
-        <module>linked-data-sail</module>
         <module>ripple-base</module>
         <module>ripple-blueprints</module>
         <module>ripple-core</module>
         <module>ripple-demo</module>
         <module>ripple-flow</module>
         <module>ripple-flow-rdf</module>
+        <module>linked-data-sail</module>
         <module>ripple-scriptengine</module>
     </modules>
 
@@ -161,13 +161,5 @@
             </plugins>
         </pluginManagement>
     </build>
-
-    <repositories>
-        <repository>
-            <id>maven-restlet</id>
-            <name>Public online Restlet repository</name>
-            <url>http://maven.restlet.org</url>
-        </repository>
-    </repositories>
 
 </project>

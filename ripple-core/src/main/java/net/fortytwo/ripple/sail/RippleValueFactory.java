@@ -2,23 +2,31 @@ package net.fortytwo.ripple.sail;
 
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.StringUtils;
+import net.fortytwo.ripple.model.RippleList;
 import org.openrdf.model.BNode;
+import org.openrdf.model.IRI;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.ValueFactory;
+import org.openrdf.model.impl.LiteralImpl;
+import org.openrdf.model.impl.SimpleLiteral;
 import org.openrdf.sail.SailException;
 
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RippleValueFactory implements ValueFactory {
     public static final String STRING_NAMESPACE = "urn:string:";
+
+    private static final Random random = new Random();
 
     private final ValueFactory base;
 
@@ -27,7 +35,7 @@ public class RippleValueFactory implements ValueFactory {
     }
 
     public Value nativize(final Value other) throws SailException {
-        if (other instanceof URI) {
+        if (other instanceof IRI) {
             String s = other.stringValue();
             if (s.startsWith(STRING_NAMESPACE)) {
                 try {
@@ -36,14 +44,14 @@ public class RippleValueFactory implements ValueFactory {
                     throw new SailException(e);
                 }
             } else {
-                return createURI(other.stringValue());
+                return createIRI(other.stringValue());
             }
         } else if (other instanceof Literal) {
             Literal l = (Literal) other;
             if (null != l.getDatatype()) {
                 return createLiteral(l.getLabel(), l.getDatatype());
-            } else if (null != l.getLanguage()) {
-                return createLiteral(l.getLabel(), l.getLanguage());
+            } else if (l.getLanguage().isPresent()) {
+                return createLiteral(l.getLabel(), l.getLanguage().get());
             } else {
                 return createLiteral(l.getLabel());
             }
@@ -55,12 +63,12 @@ public class RippleValueFactory implements ValueFactory {
     }
 
     @Override
-    public URI createURI(String s) {
+    public IRI createIRI(String s) {
         return new RippleURI(s);
     }
 
     @Override
-    public URI createURI(String s, String s1) {
+    public IRI createIRI(String s, String s1) {
         return new RippleURI(s + s1);
     }
 
@@ -85,7 +93,7 @@ public class RippleValueFactory implements ValueFactory {
     }
 
     @Override
-    public Literal createLiteral(String s, URI uri) {
+    public Literal createLiteral(String s, IRI uri) {
         return new RippleLiteral(s, uri);
     }
 
@@ -132,6 +140,16 @@ public class RippleValueFactory implements ValueFactory {
     }
 
     @Override
+    public Literal createLiteral(BigDecimal bigDecimal) {
+        throw new UnsupportedOperationException("big numbers are not yet supported");
+    }
+
+    @Override
+    public Literal createLiteral(BigInteger bigInteger) {
+        throw new UnsupportedOperationException("big numbers are not yet supported");
+    }
+
+    @Override
     public Literal createLiteral(XMLGregorianCalendar xmlGregorianCalendar) {
         Literal other = base.createLiteral(xmlGregorianCalendar);
         return new RippleLiteral(other.getLabel(), other.getDatatype());
@@ -144,13 +162,56 @@ public class RippleValueFactory implements ValueFactory {
     }
 
     @Override
-    public Statement createStatement(Resource resource, URI uri, Value value) {
+    public Statement createStatement(Resource resource, IRI uri, Value value) {
         // Note: it is assumed that the argument values were also produced by this ValueFactory.
         return base.createStatement(resource, uri, value);
     }
 
     @Override
-    public Statement createStatement(Resource resource, URI uri, Value value, Resource resource1) {
+    public Statement createStatement(Resource resource, IRI uri, Value value, Resource resource1) {
         return base.createStatement(resource, uri, value, resource1);
+    }
+
+    /**
+     * @author Joshua Shinavier (http://fortytwo.net)
+     */
+    public class RippleLiteral extends SimpleLiteral implements RippleSesameValue, BNode {
+        private RippleList list = null;
+
+        public RippleLiteral(String label) {
+            super(label);
+        }
+
+        public RippleLiteral(String label, String language) {
+            super(label, language);
+        }
+
+        public RippleLiteral(String label, IRI datatype) {
+            super(label, datatype);
+        }
+
+        @Override
+        public RippleList getStack() {
+            return list;
+        }
+
+        @Override
+        public void setStack(final RippleList list) {
+            this.list = list;
+        }
+
+        @Override
+        public Value getNativeValue() {
+            return this.getLanguage().isPresent()
+                    ? base.createLiteral(this.getLabel(), this.getLanguage().get())
+                    : null != this.getDatatype()
+                    ? base.createLiteral(this.getLabel(), this.getDatatype())
+                    : base.createLiteral(this.getLabel());
+        }
+
+        @Override
+        public String getID() {
+            return "rl" + random.nextInt(Integer.MAX_VALUE);
+        }
     }
 }

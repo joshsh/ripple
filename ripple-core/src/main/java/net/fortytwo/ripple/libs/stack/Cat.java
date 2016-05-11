@@ -55,11 +55,11 @@ public class Cat extends PrimitiveStackMapping {
         final Collector<RippleList> firstLists = new Collector<RippleList>();
 
         Sink<RippleList> listSink = new Sink<RippleList>() {
-            public void put(final RippleList list2) throws RippleException {
+            public void accept(final RippleList list2) throws RippleException {
                 Sink<RippleList> catSink = new Sink<RippleList>() {
-                    public void put(final RippleList list1) throws RippleException {
+                    public void accept(final RippleList list1) throws RippleException {
                         RippleList result = list2.concat(list1);
-                        solutions.put(
+                        solutions.accept(
                                 rest.push(result));
                     }
                 };

@@ -73,7 +73,7 @@ public class Split extends PrimitiveStackMapping {
             }
 
             try {
-                solutions.put(
+                solutions.accept(
                         stack.push(result));
             } catch (RippleException e) {
                 // Soft fail

@@ -51,7 +51,7 @@ public class Of extends PrimitiveStackMapping {
         final RippleList rest = stack.getRest();
 
         Sink<RippleList> listSink = new Sink<RippleList>() {
-            public void put(RippleList list) throws RippleException {
+            public void accept(RippleList list) throws RippleException {
                 if (i < 1) {
                     throw new RippleException("list index out of bounds" +
                             " (keep in mind that 'at' begins counting at 1): " + i);
@@ -64,7 +64,7 @@ public class Of extends PrimitiveStackMapping {
                     }
                 }
 
-                solutions.put(
+                solutions.accept(
                         rest.push(list.getFirst()));
             }
         };

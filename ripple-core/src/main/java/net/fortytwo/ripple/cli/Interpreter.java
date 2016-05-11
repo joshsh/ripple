@@ -35,28 +35,23 @@ public class Interpreter {
     public void parse() throws RippleException {
         active = true;
 
-//System.out.println( "-- parse" );
         // Break out when a @quit directive is encountered or a fatal error is
         // thrown.
         while (active) {
-//System.out.println( "-- construct" );
             RippleLexer lexer = new RippleLexer(input);
             lexer.initialize(recognizerAdapter);
             RippleParser parser = new RippleParser(lexer);
             parser.initialize(recognizerAdapter);
 
             try {
-//System.out.println( "-- antlr" );
                 parser.nt_Document();
 
                 // If the parser has exited normally, then we're done.
-//System.out.println( "-- normal exit" );
                 active = false;
             }
 
             // The parser has received a quit command.
             catch (ParserQuitException e) {
-//System.out.println( "-- quit" );
                 logger.fine("quit() called on Interpreter");
 
                 active = false;
@@ -69,7 +64,7 @@ public class Interpreter {
             // All other errors are assumed to be non-fatal.
             catch (Exception e) {
                 // Handle non-fatal errors in an application-specific way.
-                exceptionSink.put(e);
+                exceptionSink.accept(e);
             }
 
             // If there's anything in the input buffer, it's because the parser

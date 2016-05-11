@@ -23,7 +23,7 @@ public class SesameOutputAdapter implements RDFSink {
         this.handler = handler;
 
         stSink = new Sink<Statement>() {
-            public void put(final Statement st) throws RippleException {
+            public void accept(final Statement st) throws RippleException {
                 try {
                     handler.handleStatement(st);
                 } catch (RDFHandlerException e) {
@@ -33,7 +33,7 @@ public class SesameOutputAdapter implements RDFSink {
         };
 
         nsSink = new Sink<Namespace>() {
-            public void put(final Namespace ns) throws RippleException {
+            public void accept(final Namespace ns) throws RippleException {
                 try {
                     handler.handleNamespace(ns.getPrefix(), ns.getName());
                 } catch (RDFHandlerException e) {
@@ -43,7 +43,7 @@ public class SesameOutputAdapter implements RDFSink {
         };
 
         cmtSink = new Sink<String>() {
-            public void put(final String comment) throws RippleException {
+            public void accept(final String comment) throws RippleException {
                 try {
                     handler.handleComment(comment);
                 } catch (RDFHandlerException e) {

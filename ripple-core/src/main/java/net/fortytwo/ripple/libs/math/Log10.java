@@ -57,7 +57,7 @@ public class Log10 extends PrimitiveStackMapping {
         if (a > 0) {
             result = Math.log10(a);
 
-            solutions.put(
+            solutions.accept(
                     stack.push(result));
         }
     }
@@ -91,7 +91,7 @@ public class Log10 extends PrimitiveStackMapping {
 
             result = NumericType.pow(10, x);
 
-            solutions.put(
+            solutions.accept(
                     stack.push(result));
         }
     }

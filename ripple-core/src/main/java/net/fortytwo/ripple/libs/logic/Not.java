@@ -50,7 +50,7 @@ public class Not extends PrimitiveStackMapping {
 
         Object result = !x;
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 

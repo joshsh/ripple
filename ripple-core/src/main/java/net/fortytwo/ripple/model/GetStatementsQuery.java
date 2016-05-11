@@ -5,13 +5,13 @@ import net.fortytwo.flow.Buffer;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.sail.RippleSesameValue;
+import org.openrdf.model.IRI;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.ValueFactory;
-import org.openrdf.model.impl.ValueFactoryImpl;
+import org.openrdf.model.impl.SimpleValueFactory;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.model.vocabulary.XMLSchema;
 import org.openrdf.sail.SailConnection;
@@ -27,16 +27,16 @@ public class GetStatementsQuery {
         }
     }
 
-    public enum Type {SP_O, PO_S, SO_P}
+    private enum Type {SP_O, PO_S, SO_P}
 
     // TODO: make this into a configuration property, or find another solution
     private static final boolean STRING_LITERALS_EQUIVALENT_TO_PLAIN_LITERALS = true;
 
-    // FIXME: this is temporary
-    private static final ValueFactory VALUE_FACTORY = new ValueFactoryImpl();
+    // TODO: use model-specific factory
+    private static final ValueFactory valueFactory = SimpleValueFactory.getInstance();
 
     public final Resource subject;
-    public final URI predicate;
+    public final IRI predicate;
     public final Value object;
     public final Resource[] contexts;
     public Type type = Type.SP_O;
@@ -72,12 +72,10 @@ public class GetStatementsQuery {
 
             for (int i = 0; i < rippleContexts.length; i++) {
                 Resource context = getResource(rippleContexts[i], mc);
-//System.out.println("context is: " + context);
 
                 // rdf:nil is a special case -- as a analysis name in Ripple, it
                 // actually represents the null analysis.
                 if (null != context && context.equals(RDF.NIL)) {
-//                    System.out.println("    context is null");
                     context = null;
                 }
 
@@ -88,8 +86,8 @@ public class GetStatementsQuery {
         }
     }
 
-    private URI getURI(final Object rv, final ModelConnection mc) throws RippleException, ClassCastException {
-        return (URI) mc.toRDF(rv);
+    private IRI getURI(final Object rv, final ModelConnection mc) throws RippleException, ClassCastException {
+        return (IRI) mc.toRDF(rv);
     }
 
     private Resource getResource(final Object rv, final ModelConnection mc)
@@ -109,12 +107,12 @@ public class GetStatementsQuery {
         if (STRING_LITERALS_EQUIVALENT_TO_PLAIN_LITERALS
                 && null != object
                 && object instanceof Literal) {
-            URI datatype = ((Literal) object).getDatatype();
+            IRI datatype = ((Literal) object).getDatatype();
             if (null == datatype) {
-                Literal newObj = VALUE_FACTORY.createLiteral(((Literal) object).getLabel(), XMLSchema.STRING);
+                Literal newObj = valueFactory.createLiteral(((Literal) object).getLabel(), XMLSchema.STRING);
                 getStatementsPrivate(results, sc, subject, predicate, newObj);
             } else if (XMLSchema.STRING == datatype) {
-                Literal newObj = VALUE_FACTORY.createLiteral(((Literal) object).getLabel());
+                Literal newObj = valueFactory.createLiteral(((Literal) object).getLabel());
                 getStatementsPrivate(results, sc, subject, predicate, newObj);
             }
         }
@@ -123,7 +121,7 @@ public class GetStatementsQuery {
     private void getStatementsPrivate(final Sink<Statement> results,
                                       final SailConnection sc,
                                       Resource subject,
-                                      URI predicate,
+                                      IRI predicate,
                                       Value object) throws RippleException {
         if (null != object && object instanceof RippleSesameValue) {
             object = ((RippleSesameValue) object).getNativeValue();
@@ -143,10 +141,9 @@ public class GetStatementsQuery {
         // Perform the query and collect results.
         try {
             stmtIter = sc.getStatements(subject, predicate, object, false, contexts);
-//stmtIter.enableDuplicateFilter();
             try {
                 while (stmtIter.hasNext()) {
-                    buffer.put(stmtIter.next());
+                    buffer.accept(stmtIter.next());
                 }
             } finally {
                 stmtIter.close();
@@ -160,7 +157,7 @@ public class GetStatementsQuery {
 
     public void getValues(final SailConnection sc, final Sink<Value> results) throws RippleException {
         Sink<Statement> stSink = new Sink<Statement>() {
-            public void put(final Statement st) throws RippleException {
+            public void accept(final Statement st) throws RippleException {
                 Value result;
 
                 switch (type) {
@@ -177,7 +174,7 @@ public class GetStatementsQuery {
                         throw new RippleException("unhandled query type: " + type);
                 }
 
-                results.put(result);
+                results.accept(result);
             }
         };
 

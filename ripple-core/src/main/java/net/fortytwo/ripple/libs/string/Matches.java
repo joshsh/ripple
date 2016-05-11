@@ -55,7 +55,7 @@ public class Matches extends PrimitiveStackMapping {
         try {
             result = s.matches(regex);
 
-            solutions.put(
+            solutions.accept(
                     stack.push(result));
         } catch (java.util.regex.PatternSyntaxException e) {
             // Hard fail (for now).

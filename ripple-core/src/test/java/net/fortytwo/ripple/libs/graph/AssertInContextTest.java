@@ -62,14 +62,14 @@ public class AssertInContextTest extends RippleTestCase {
         assertReducesTo("ex:a rdfs:comment ex:ctx1 in-context.");
         assertReducesTo("ex:a rdfs:comment \"something\" ex:ctx1 assert-in-context.", "ex:a");
         assertReducesTo("ex:a rdfs:comment ex:ctx1 in-context.", "\"something\"");
-        assertReducesTo("\"something\" rdfs:comment ex:ctx1 in-context~.", "ex:a");
+        assertReducesTo("\"something\" rdfs:comment ex:ctx1 in-context~. distinct.", "ex:a");
 
         modelConnection.remove(null, null, modelConnection.valueOf("something", XMLSchema.STRING));
         modelConnection.commit();
         assertReducesTo("ex:a rdfs:label ex:ctx1 in-context.");
         assertReducesTo("ex:a rdfs:label \"something\"^^xsd:string ex:ctx1 assert-in-context.", "ex:a");
         assertReducesTo("ex:a rdfs:label ex:ctx1 in-context.", "\"something\"^^xsd:string");
-        assertReducesTo("\"something\"^^xsd:string rdfs:label ex:ctx1 in-context~.", "ex:a");
+        assertReducesTo("\"something\"^^xsd:string rdfs:label ex:ctx1 in-context~. distinct.", "ex:a");
     }
 
     public void testNullContext() throws Exception {
@@ -81,9 +81,19 @@ public class AssertInContextTest extends RippleTestCase {
         assertReducesTo("ex:q rdfs:label () in-context.", "\"q\"");
         assertReducesTo("ex:q rdfs:label.", "\"q\"");
         assertReducesTo("ex:q rdfs:label ex:wrongContext in-context.");
-        assertReducesTo("\"q\" rdfs:label () in-context~.", "ex:q");
-        assertReducesTo("\"q\" rdfs:label~.", "ex:q");
+        assertReducesTo("\"q\" rdfs:label () in-context~. distinct.", "ex:q");
+        assertReducesTo("\"q\" rdfs:label~. distinct.", "ex:q");
         assertReducesTo("\"q\" rdfs:label ex:wrongContext in-context~.");
+    }
+
+    public void testTmp() throws Exception {
+        reduce("@prefix ex: <http://example.org/assert-in-context-test/>");
+
+        modelConnection.remove(null, null, "q");
+        modelConnection.commit();
+        assertReducesTo("ex:q rdfs:label \"q\" () assert-in-context.", "ex:q");
+
+        assertReducesTo("\"q\" rdfs:label () in-context~. distinct.", "ex:q");
     }
 
     public void testImpossibleStatements() throws Exception {

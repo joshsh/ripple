@@ -55,7 +55,7 @@ public class Compare extends PrimitiveStackMapping {
         // Constrain the result to three possible values.
         result = (result < 0) ? -1 : (result > 0) ? 1 : 0;
 
-        solutions.put(stack.push(result));
+        solutions.accept(stack.push(result));
     }
 }
 

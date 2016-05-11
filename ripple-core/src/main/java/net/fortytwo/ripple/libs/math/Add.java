@@ -54,7 +54,7 @@ public class Add extends PrimitiveStackMapping {
 
         result = NumericType.add(a, b);
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 

@@ -33,9 +33,9 @@ public class SynchronizedSink<T> implements Sink<T> {
         this(other, other);
     }
 
-    public void put(final T t) throws RippleException {
+    public void accept(final T t) throws RippleException {
         synchronized (mutex) {
-            sink.put(t);
+            sink.accept(t);
         }
     }
 

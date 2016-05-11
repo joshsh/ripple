@@ -54,7 +54,7 @@ public class Concat extends PrimitiveStackMapping {
 
         result = mc.toString(strB) + mc.toString(strA);
 
-        solutions.put(
+        solutions.accept(
                 stack.push(StringLibrary.value(result, mc, strA, strB)));
     }
 }

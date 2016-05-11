@@ -55,7 +55,7 @@ public class Gt extends PrimitiveStackMapping {
 
         result = mc.getComparator().compare(a, b) > 0;
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 }

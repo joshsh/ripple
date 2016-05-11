@@ -1,15 +1,17 @@
 package net.fortytwo.linkeddata;
 
 import info.aduna.iteration.CloseableIteration;
-import junit.framework.TestCase;
 import net.fortytwo.linkeddata.sail.LinkedDataSail;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.URIMap;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.openrdf.model.IRI;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
-import org.openrdf.model.impl.URIImpl;
+import org.openrdf.model.impl.SimpleValueFactory;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryConnection;
@@ -21,13 +23,18 @@ import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
 import org.openrdf.sail.memory.MemoryStore;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class LinkedDataSailTest extends TestCase {
+public class LinkedDataSailIT {
+    private static final ValueFactory valueFactory = SimpleValueFactory.getInstance();
+
     private Sail baseSail;
     private LinkedDataSail sail;
 
+    @Before
     public void setUp() throws Exception {
         Ripple.initialize();
 
@@ -41,7 +48,7 @@ public class LinkedDataSailTest extends TestCase {
         // Here, we define a mapping to a local file, so dereferencing
         // succeeds.
         map.put("http://www.holygoat.co.uk/owl/redwood/0.1/tags/Tagging",
-                LinkedDataSailTest.class.getResource("tags.owl").toString());
+                LinkedDataSailIT.class.getResource("tags.owl").toString());
 
         LinkedDataCache wc = LinkedDataCache.createDefault(baseSail);
         wc.setURIMap(map);
@@ -49,16 +56,18 @@ public class LinkedDataSailTest extends TestCase {
         sail.initialize();
     }
 
+    @After
     public void tearDown() throws Exception {
         sail.shutDown();
         baseSail.shutDown();
     }
 
+    @Test
     public void testDereferencer() throws Exception {
         long count;
         boolean includeInferred = false;
         ValueFactory vf = sail.getValueFactory();
-        URI tagging = vf.createURI("http://www.holygoat.co.uk/owl/redwood/0.1/tags/Tagging");
+        IRI tagging = vf.createIRI("http://www.holygoat.co.uk/owl/redwood/0.1/tags/Tagging");
 
         SailConnection sc = sail.getConnection();
         try {
@@ -71,13 +80,14 @@ public class LinkedDataSailTest extends TestCase {
         }
     }
 
+    @Test
     public void testCountStatements() throws Exception {
         ValueFactory vf = sail.getValueFactory();
-        URI ctxA = vf.createURI("urn:org.example.test.countStatementsTest#");
-        URI uri1 = vf.createURI("urn:org.example.test#uri1");
-        URI uri2 = vf.createURI("urn:org.example.test#uri2");
-        URI uri3 = vf.createURI("urn:org.example.test#uri3");
-        URI[] uris = {uri1, uri2, uri3};
+        IRI ctxA = vf.createIRI("urn:org.example.test.countStatementsTest#");
+        IRI uri1 = vf.createIRI("urn:org.example.test#uri1");
+        IRI uri2 = vf.createIRI("urn:org.example.test#uri2");
+        IRI uri3 = vf.createIRI("urn:org.example.test#uri3");
+        IRI[] uris = {uri1, uri2, uri3};
 
         SailConnection sc = baseSail.getConnection();
         try {
@@ -145,7 +155,7 @@ public class LinkedDataSailTest extends TestCase {
                 SailConnection sc = sail.getConnection();
                 try {
                     sc.begin();
-                    sc.getStatements(new URIImpl("http://rdf.freebase.com/rdf/en.stephen_fry"), null, null, false);
+                    sc.getStatements(valueFactory.createIRI("http://rdf.freebase.com/rdf/en.stephen_fry"), null, null, false);
                     sc.commit();
                 } finally {
                     sc.close();

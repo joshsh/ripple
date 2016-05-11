@@ -25,14 +25,14 @@ public class LinkedDataCacheTest {
         assertTrue(header.contains("text/n3;q=0.5"));
         assertTrue(header.contains("application/rdf+json;q=0.5"));
         assertTrue(header.contains("application/ld+json;q=0.5"));
-        assertTrue(header.contains("application/xhtml+xml;q=0.5"));
+        //assertTrue(header.contains("application/xhtml+xml;q=0.5"));
+        //assertTrue(header.contains("application/html;q=0.5"));
+        //assertTrue(header.contains("text/html;q=0.5"));
         assertTrue(header.contains("text/turtle;q=0.5"));
         assertTrue(header.contains("text/x-nquads;q=0.5"));
         assertTrue(header.contains("text/rdf+n3;q=0.5"));
-        assertTrue(header.contains("application/html;q=0.5"));
         assertTrue(header.contains("application/trix;q=0.5"));
         assertTrue(header.contains("application/x-binary-rdf;q=0.5"));
-        assertTrue(header.contains("text/html;q=0.5"));
         assertTrue(header.contains("image/jpeg;q=0.4"));
         assertTrue(header.contains("image/tiff;q=0.4"));
         assertTrue(header.contains("image/tiff-fx;q=0.4"));

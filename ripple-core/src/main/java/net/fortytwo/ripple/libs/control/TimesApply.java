@@ -51,8 +51,8 @@ public class TimesApply extends PrimitiveStackMapping {
         final RippleList rest = stack.getRest();
 
         Sink<Operator> opSink = new Sink<Operator>() {
-            public void put(final Operator op) throws RippleException {
-                solutions.put(rest.push(
+            public void accept(final Operator op) throws RippleException {
+                solutions.accept(rest.push(
                         new StackMappingWrapper(new TimesQuantifier(op, times, times), mc)));
             }
         };

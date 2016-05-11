@@ -40,7 +40,7 @@ public class Head extends PrimitiveStackMapping {
 
         if (first instanceof Edge) {
             Edge edge = (Edge) first;
-            solutions.put(stack.push(edge.getVertex(Direction.IN)));
+            solutions.accept(stack.push(edge.getVertex(Direction.IN)));
         }
     }
 
@@ -74,7 +74,7 @@ public class Head extends PrimitiveStackMapping {
                 Vertex vertex = (Vertex) first;
 
                 for (Edge edge : vertex.getEdges(Direction.IN)) {
-                    solutions.put(stack.push(edge));
+                    solutions.accept(stack.push(edge));
                 }
             }
         }

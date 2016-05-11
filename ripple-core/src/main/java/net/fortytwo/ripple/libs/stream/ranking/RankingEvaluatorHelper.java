@@ -101,7 +101,7 @@ public class RankingEvaluatorHelper {
     };
 
     private final Sink<RippleList> outputSink = new Sink<RippleList>() {
-        public void put(final RippleList c) throws RippleException {
+        public void accept(final RippleList c) throws RippleException {
             //System.out.println("got this output: " + c.getStack());
             // TODO
             /*
@@ -121,7 +121,7 @@ public class RankingEvaluatorHelper {
 
             if (stack.isNil() || null == mc.toMapping(first)) {
                 if (ops.isNil()) {
-                    outputSink.put(stack);
+                    outputSink.accept(stack);
                     return;
                 } else {
                     Closure c = new Closure(mc.toMapping(ops.getFirst()), first);
@@ -161,7 +161,7 @@ public class RankingEvaluatorHelper {
             this.mc = mc;
         }
 
-        public void put(final RippleList arg) throws RippleException {
+        public void accept(final RippleList arg) throws RippleException {
             RippleList stack = arg;
 
             RippleList cur = ops;

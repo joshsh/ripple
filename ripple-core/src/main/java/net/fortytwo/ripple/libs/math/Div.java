@@ -56,7 +56,7 @@ public class Div extends PrimitiveStackMapping {
         if (!NumericType.isZero(b)) {
             result = NumericType.div(a, b);
 
-            solutions.put(
+            solutions.accept(
                     stack.push(result));
         }
     }

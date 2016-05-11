@@ -1,10 +1,9 @@
 package net.fortytwo.linkeddata.sail;
 
 import info.aduna.iteration.CloseableIteration;
-import net.fortytwo.ripple.RippleException;
+import org.openrdf.model.IRI;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.query.QueryEvaluationException;
@@ -33,7 +32,7 @@ public class SailConnectionTripleSource implements TripleSource {
     }
 
     public CloseableIteration<? extends Statement, QueryEvaluationException> getStatements(
-            final Resource subj, final URI pred, final Value obj, final Resource... contexts) {
+            final Resource subj, final IRI pred, final Value obj, final Resource... contexts) {
         try {
             return new QueryEvaluationIteration(
                     sailConnection.getStatements(subj, pred, obj, includeInferred, contexts));

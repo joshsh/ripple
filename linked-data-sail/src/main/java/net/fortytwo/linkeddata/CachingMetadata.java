@@ -2,9 +2,9 @@ package net.fortytwo.linkeddata;
 
 import info.aduna.iteration.CloseableIteration;
 import net.fortytwo.ripple.RippleException;
+import org.openrdf.model.IRI;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
@@ -68,7 +68,7 @@ public class CachingMetadata {
 
         try {
             if (null != sc) {
-                URI s = valueFactory.createURI(graphUri);
+                IRI s = valueFactory.createIRI(graphUri);
                 Literal memoLit = valueFactory.createLiteral(memo.toString());
                 sc.removeStatements(s, LinkedDataCache.CACHE_MEMO, null, LinkedDataCache.CACHE_GRAPH);
                 sc.addStatement(s, LinkedDataCache.CACHE_MEMO, memoLit, LinkedDataCache.CACHE_GRAPH);
@@ -85,7 +85,7 @@ public class CachingMetadata {
         CloseableIteration<? extends Statement, SailException> iter;
 
         iter = sc.getStatements(
-                valueFactory.createURI(graphUri),
+                valueFactory.createIRI(graphUri),
                 LinkedDataCache.CACHE_MEMO,
                 null,
                 false,

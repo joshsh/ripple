@@ -174,7 +174,7 @@ public final class Scheduler {
                     // Even tasks which failed with a throwable are put into
                     // the appropriate completed task sink.
                     try {
-                        currentTaskItem.sink.put(currentTaskItem.task);
+                        currentTaskItem.sink.accept(currentTaskItem.task);
                     } catch (Throwable t) {
                         logThrowable(t);
                     }

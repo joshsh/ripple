@@ -64,7 +64,7 @@ public class While extends PrimitiveStackMapping {
             for (Operator criterionOp : criterionOps) {
                 StackMapping a = new WhileApplicator(programOp, criterionOp);
 
-                solutions.put(stack.push(new Operator(a)));
+                solutions.accept(stack.push(new Operator(a)));
             }
         }
     }
@@ -103,9 +103,9 @@ public class While extends PrimitiveStackMapping {
             if (b) {
                 StackMapping a = new WhileApplicator(program, criterion);
                 RippleList stack = originalStack.push(program).push(new Operator(a));
-                solutions.put(stack);
+                solutions.accept(stack);
             } else {
-                solutions.put(originalStack);
+                solutions.accept(originalStack);
             }
         }
     }
@@ -140,7 +140,7 @@ public class While extends PrimitiveStackMapping {
             RippleList stack = arg;
             StackMapping d = new WhileDecider(stack, program, criterion);
 
-            solutions.put(stack.push(criterion).push(new Operator(d)));
+            solutions.accept(stack.push(criterion).push(new Operator(d)));
         }
     }
 }

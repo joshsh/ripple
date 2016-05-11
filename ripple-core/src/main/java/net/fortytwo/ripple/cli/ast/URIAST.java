@@ -37,7 +37,7 @@ public class URIAST implements AST<RippleList> {
                          final ModelConnection mc)
             throws RippleException {
         Value v = mc.valueOf(value);
-        sink.put(mc.list().push(mc.canonicalValue(v)));
+        sink.accept(mc.list().push(mc.canonicalValue(v)));
     }
 
     public String toString() {

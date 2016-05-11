@@ -8,16 +8,18 @@ import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.impl.sesame.SesameModelConnection;
 import net.fortytwo.ripple.query.LazyEvaluatingIterator;
+import org.openrdf.model.IRI;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
 import org.openrdf.query.Dataset;
 import org.openrdf.query.QueryEvaluationException;
 import org.openrdf.query.algebra.TupleExpr;
+import org.openrdf.query.algebra.evaluation.EvaluationStrategy;
 import org.openrdf.query.algebra.evaluation.TripleSource;
 import org.openrdf.query.algebra.evaluation.impl.EvaluationStrategyImpl;
+import org.openrdf.query.algebra.evaluation.impl.SimpleEvaluationStrategy;
 import org.openrdf.sail.SailException;
 import org.openrdf.sail.helpers.SailConnectionWrapper;
 
@@ -43,7 +45,7 @@ public class RippleSailConnection extends SailConnectionWrapper {
             final boolean includeInferred) throws SailException {
         try {
             TripleSource tripleSource = new SailConnectionTripleSource(this, valueFactory, includeInferred);
-            EvaluationStrategyImpl strategy = new EvaluationStrategyImpl(tripleSource, dataset);
+            EvaluationStrategy strategy = new SimpleEvaluationStrategy(tripleSource, dataset, null);
             return strategy.evaluate(query, bindings);
         } catch (QueryEvaluationException e) {
             throw new SailException(e);
@@ -58,7 +60,7 @@ public class RippleSailConnection extends SailConnectionWrapper {
 
     @Override
     public void addStatement(final Resource subject,
-                             final URI predicate,
+                             final IRI predicate,
                              final Value object,
                              final Resource... contexts) throws SailException {
         // When implementing this method, make sure that only RippleSesameValues are passed down
@@ -67,7 +69,7 @@ public class RippleSailConnection extends SailConnectionWrapper {
 
     @Override
     public void removeStatements(final Resource subject,
-                                 final URI predicate,
+                                 final IRI predicate,
                                  final Value object,
                                  final Resource... contexts) throws SailException {
         // Implement this method if/when addStatement is implemented
@@ -83,7 +85,7 @@ public class RippleSailConnection extends SailConnectionWrapper {
     @Override
     public CloseableIteration<? extends Statement, SailException> getStatements(
             Resource subject,
-            URI predicate,
+            IRI predicate,
             Value object,
             final boolean includeInferred,
             final Resource... contexts) throws SailException {
@@ -91,7 +93,7 @@ public class RippleSailConnection extends SailConnectionWrapper {
 
         try {
             //if (null != predicate) {
-            //    predicate = (URI) valueFactory.nativize(predicate);
+            //    predicate = (IRI) valueFactory.nativize(predicate);
             //}
 
             // An "all wildcards" query, or a query with a wildcard predicate, just goes to the base SailConnection
@@ -188,7 +190,7 @@ public class RippleSailConnection extends SailConnectionWrapper {
         private final CloseableIteration<RippleList, RippleException> iter;
         private final boolean inverse;
         private final Resource subject;
-        private final URI predicate;
+        private final IRI predicate;
         private final Value object;
         // TODO: use contexts?
         private final Resource[] contexts;
@@ -198,7 +200,7 @@ public class RippleSailConnection extends SailConnectionWrapper {
         public SolutionIteration(CloseableIteration<RippleList, RippleException> iter,
                                  boolean inverse,
                                  Resource subject,
-                                 URI predicate,
+                                 IRI predicate,
                                  Value object,
                                  Resource... contexts) throws SailException {
             this.iter = iter;

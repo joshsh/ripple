@@ -63,7 +63,7 @@ public class Sparql extends PrimitiveStackMapping {
                     SPARQLValue kv = new SPARQLValue(results.next());
 
                     try {
-                        solutions.put(stack.push(kv));
+                        solutions.accept(stack.push(kv));
                     } catch (RippleException e) {
                         // Soft fail
                         logger.log(Level.WARNING, "failed to put SPARQL result", e);

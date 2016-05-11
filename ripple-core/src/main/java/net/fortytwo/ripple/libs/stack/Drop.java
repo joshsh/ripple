@@ -53,10 +53,10 @@ public class Drop extends PrimitiveStackMapping {
         final RippleList rest = stack.getRest();
 
         Sink<RippleList> listSink = new Sink<RippleList>() {
-            public void put(final RippleList list) throws RippleException {
+            public void accept(final RippleList list) throws RippleException {
                 RippleList result = drop(list, n);
                 if (null != result) {
-                    solutions.put(
+                    solutions.accept(
                             rest.push(result));
                 }
             }

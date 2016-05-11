@@ -64,18 +64,12 @@ public class LazyEvaluatingIterator implements CloseableIteration<RippleList, Ri
 
     private void reduce(final RippleList stack) throws RippleException {
 
-        //System.out.println("evaluating: " + stack);
         RippleList left = stack;
         RippleList right = mc.list();
 
         while (true) {
-            //System.out.println("--");
-            //System.out.println("\tleft: " + left);
-            //System.out.println("\tright: " + right);
-
             if (left.isNil()) {
                 if (right.isNil()) {
-                    //System.out.println("adding solution: " + left);
                     solutions.add(left);
                 }
 
@@ -86,7 +80,6 @@ public class LazyEvaluatingIterator implements CloseableIteration<RippleList, Ri
 
             if (null == f) {
                 if (right.isNil()) {
-                    //System.out.println("adding solution: " + left);
                     solutions.add(left);
                     return;
                 } else {
@@ -108,7 +101,6 @@ public class LazyEvaluatingIterator implements CloseableIteration<RippleList, Ri
                             cur = cur.getRest();
                         }
 
-                        //System.out.println("adding intermediate: " + i);
                         intermediates.add(i);
                     }
                     return;
@@ -142,7 +134,7 @@ public class LazyEvaluatingIterator implements CloseableIteration<RippleList, Ri
                         = new LazyEvaluatingIterator(arg, mc);
                 try {
                     while (iter.hasNext() && !stopped) {
-                        solutions.put(iter.next());
+                        solutions.accept(iter.next());
                     }
                 } finally {
                     iter.close();

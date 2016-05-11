@@ -25,7 +25,7 @@ public class CloseableIterationSource<T, E extends Exception> implements Source<
         try {
             try {
                 while (iteration.hasNext()) {
-                    sink.put(iteration.next());
+                    sink.accept(iteration.next());
                 }
             } finally {
                 close();

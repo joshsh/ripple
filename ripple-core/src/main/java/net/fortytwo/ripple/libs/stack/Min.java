@@ -45,7 +45,7 @@ public class Min extends PrimitiveStackMapping {
         final RippleList rest = arg.getRest();
 
         Sink<RippleList> listSink = new Sink<RippleList>() {
-            public void put(RippleList list) throws RippleException {
+            public void accept(RippleList list) throws RippleException {
                 Object result = null;
                 while (!list.isNil()) {
                     Object v = list.getFirst();
@@ -57,7 +57,7 @@ public class Min extends PrimitiveStackMapping {
                 }
 
                 if (null != result) {
-                    solutions.put(
+                    solutions.accept(
                             rest.push(result));
                 }
             }

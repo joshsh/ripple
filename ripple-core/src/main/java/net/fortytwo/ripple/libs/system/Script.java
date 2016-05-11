@@ -61,7 +61,7 @@ public class Script extends PrimitiveStackMapping {
             Object result = w.evaluate(script, mc);
 
             if (null != result) {
-                solutions.put(stack.push(result));
+                solutions.accept(stack.push(result));
             }
         }
     }

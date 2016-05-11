@@ -40,7 +40,7 @@ public class Apply extends PrimitiveStackMapping {
                       final ModelConnection mc) throws RippleException {
 
 // hack...
-        solutions.put(arg.push(Operator.OP));
+        solutions.accept(arg.push(Operator.OP));
     }
 }
 

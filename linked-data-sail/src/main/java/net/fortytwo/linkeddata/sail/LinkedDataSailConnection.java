@@ -3,18 +3,19 @@ package net.fortytwo.linkeddata.sail;
 import info.aduna.iteration.CloseableIteration;
 import net.fortytwo.linkeddata.LinkedDataCache;
 import net.fortytwo.ripple.RippleException;
+import org.openrdf.model.IRI;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.query.BindingSet;
 import org.openrdf.query.Dataset;
 import org.openrdf.query.QueryEvaluationException;
 import org.openrdf.query.algebra.TupleExpr;
+import org.openrdf.query.algebra.evaluation.EvaluationStrategy;
 import org.openrdf.query.algebra.evaluation.TripleSource;
-import org.openrdf.query.algebra.evaluation.impl.EvaluationStrategyImpl;
+import org.openrdf.query.algebra.evaluation.impl.SimpleEvaluationStrategy;
 import org.openrdf.sail.NotifyingSailConnection;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailConnection;
@@ -47,7 +48,7 @@ public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
     }
 
     protected void addStatementInternal(final Resource subj,
-                                        final URI pred,
+                                        final IRI pred,
                                         final Value obj,
                                         final Resource... contexts) throws SailException {
         baseConnection.addStatement(subj, pred, obj, contexts);
@@ -79,7 +80,7 @@ public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
         // Decompose queries into getStatements operations so we can dereference URIs.
         try {
             TripleSource tripleSource = new SailConnectionTripleSource(this, valueFactory, includeInferred);
-            EvaluationStrategyImpl strategy = new EvaluationStrategyImpl(tripleSource, dataset);
+            EvaluationStrategy strategy = new SimpleEvaluationStrategy(tripleSource, dataset, null);
 
             return strategy.evaluate(tupleExpr, bindings);
         } catch (QueryEvaluationException e) {
@@ -104,7 +105,7 @@ public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
 
     protected CloseableIteration<? extends Statement, SailException> getStatementsInternal(
             final Resource subj,
-            final URI pred,
+            final IRI pred,
             final Value obj,
             final boolean includeInferred,
             final Resource... contexts) throws SailException {
@@ -128,7 +129,7 @@ public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
     }
 
     protected void removeStatementsInternal(final Resource subj,
-                                            final URI pred,
+                                            final IRI pred,
                                             final Value obj,
                                             final Resource... context) throws SailException {
         baseConnection.removeStatements(subj, pred, obj, context);
@@ -164,7 +165,7 @@ public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
         baseConnection = baseSail.getConnection();
     }
 
-    private void retrieveUri(final URI uri) {
+    private void retrieveUri(final IRI uri) {
         try {
             linkedDataCache.retrieve(uri, baseConnection);
         } catch (RippleException e) {
@@ -173,25 +174,25 @@ public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
     }
 
     private void extendClosureToStatement(final Resource subj,
-                                          final URI pred,
+                                          final IRI pred,
                                           final Value obj,
                                           final Resource... contexts) throws SailException {
-        if (linkedDataCache.getDereferenceSubjects() && null != subj && subj instanceof URI) {
-            retrieveUri((URI) subj);
+        if (linkedDataCache.getDereferenceSubjects() && null != subj && subj instanceof IRI) {
+            retrieveUri((IRI) subj);
         }
 
         if (linkedDataCache.getDereferencePredicates() && null != pred) {
             retrieveUri(pred);
         }
 
-        if (linkedDataCache.getDereferenceObjects() && null != obj && obj instanceof URI) {
-            retrieveUri((URI) obj);
+        if (linkedDataCache.getDereferenceObjects() && null != obj && obj instanceof IRI) {
+            retrieveUri((IRI) obj);
         }
 
         if (linkedDataCache.getDereferenceContexts()) {
             for (Resource ctx : contexts) {
-                if (null != ctx && ctx instanceof URI) {
-                    retrieveUri((URI) ctx);
+                if (null != ctx && ctx instanceof IRI) {
+                    retrieveUri((IRI) ctx);
                 }
             }
         }

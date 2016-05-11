@@ -44,7 +44,7 @@ public class ToMillis extends PrimitiveStackMapping {
         Date d = mc.toDate(stack.getFirst());
         stack = stack.getRest();
 
-        solutions.put(stack.push(
+        solutions.accept(stack.push(
                 d.getTime()));
     }
 }

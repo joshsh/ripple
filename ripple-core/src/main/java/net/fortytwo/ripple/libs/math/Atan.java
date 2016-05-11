@@ -49,7 +49,7 @@ public class Atan extends PrimitiveStackMapping {
 
         result = Math.atan(a.doubleValue());
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 

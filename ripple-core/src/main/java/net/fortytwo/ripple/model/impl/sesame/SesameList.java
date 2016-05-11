@@ -101,7 +101,7 @@ public class SesameList<T> extends RippleList<T> {
 
         // If already a list...
         if (v instanceof RippleList) {
-            sink.put((RippleList) v);
+            sink.accept((RippleList) v);
         }
 
         // If the argument is an RDF value, try to convert it to a native list.
@@ -148,7 +148,7 @@ public class SesameList<T> extends RippleList<T> {
           Operator.createOperator( head, opSink, mc );
           */
 
-        sink.put(new SesameList(Operator.OP).push(head));
+        sink.accept(new SesameList(Operator.OP).push(head));
     }
 
     // TODO: extend circular lists and other convergent structures
@@ -157,17 +157,17 @@ public class SesameList<T> extends RippleList<T> {
                                          final ModelConnection mc)
             throws RippleException {
         if (mc.toRDF(head).equals(RDF.NIL)) {
-            sink.put(NIL);
+            sink.accept(NIL);
         } else {
             final Collector<Object> firstValues = new Collector<Object>();
 
             final Sink<RippleList> restSink = new Sink<RippleList>() {
-                public void put(final RippleList rest) throws RippleException {
+                public void accept(final RippleList rest) throws RippleException {
                     Sink<Object> firstSink = new Sink<Object>() {
-                        public void put(final Object first) throws RippleException {
+                        public void accept(final Object first) throws RippleException {
                             SesameList list = new SesameList(first, rest);
                             list.rdfEquivalent = mc.toRDF(head);
-                            sink.put(list);
+                            sink.accept(list);
                         }
                     };
 
@@ -176,7 +176,7 @@ public class SesameList<T> extends RippleList<T> {
             };
 
             Sink<Object> rdfRestSink = new Sink<Object>() {
-                public void put(final Object rest) throws RippleException {
+                public void accept(final Object rest) throws RippleException {
                     // Recurse.
                     listsFromRdf(rest, restSink, mc);
                 }

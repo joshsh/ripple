@@ -54,8 +54,8 @@ public class Both extends PrimitiveStackMapping {
         stack = stack.getRest();
 
         try {
-            solutions.put(stack.push(x));
-            solutions.put(stack.push(y));
+            solutions.accept(stack.push(x));
+            solutions.accept(stack.push(y));
         } catch (RippleException e) {
             // Soft fail
             logger.log(Level.WARNING, "failed to put solution", e);

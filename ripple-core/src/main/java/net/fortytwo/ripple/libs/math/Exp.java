@@ -49,7 +49,7 @@ public class Exp extends PrimitiveStackMapping {
 
         result = Math.exp(a.doubleValue());
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 

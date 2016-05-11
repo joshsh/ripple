@@ -52,7 +52,7 @@ public class Rotate extends PrimitiveStackMapping {
         x = stack.getFirst();
         stack = stack.getRest();
 
-        solutions.put(
+        solutions.accept(
                 stack.push(z).push(y).push(x));
     }
 }

@@ -46,15 +46,15 @@ public class RDFPredicateMapping implements StackMapping {
                                             final ModelConnection mc) throws RippleException {
         if (subject instanceof RippleList) {
             if (predicate.equals(RDF.TYPE)) {
-                solutions.put(rest.push(mc.valueOf(URI.create(RDF.LIST.toString()))));
+                solutions.accept(rest.push(mc.valueOf(URI.create(RDF.LIST.toString()))));
             } else if (!((RippleList) subject).isNil()) {
                 //System.out.println("" + subject + " " + predicate);
                 if (predicate.equals(RDF.FIRST)) {
                     Object f = ((RippleList) subject).getFirst();
-                    solutions.put(rest.push(f));
+                    solutions.accept(rest.push(f));
                 } else if (predicate.equals(RDF.REST)) {
                     RippleList r = ((RippleList) subject).getRest();
-                    solutions.put(rest.push(r));
+                    solutions.accept(rest.push(r));
                 }
             }
         }
@@ -124,11 +124,11 @@ public class RDFPredicateMapping implements StackMapping {
             this.sink = sink;
         }
 
-        public void put(final Object v) throws RippleException {
+        public void accept(final Object v) throws RippleException {
             try {
                 //System.out.println("got Ripple value: " + v);
                 // Note: relies on this mapping's arity being equal to 1
-                sink.put(arg.getRest().push(v));
+                sink.accept(arg.getRest().push(v));
             } catch (RippleException e) {
                 // Soft fail
                 logger.log(Level.WARNING, "failed to put solution", e);

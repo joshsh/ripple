@@ -48,7 +48,7 @@ public class Distinct extends PrimitiveStackMapping {
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
 
-        solutions.put(
+        solutions.accept(
                 arg.push(
                         new Operator(
                                 new DistinctInner())));
@@ -70,7 +70,7 @@ public class Distinct extends PrimitiveStackMapping {
             }
 
             if (memoizer.put(arg, MEMO)) {
-                solutions.put(arg);
+                solutions.accept(arg);
             }
         }
 

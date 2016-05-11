@@ -50,7 +50,7 @@ public class Limit extends PrimitiveStackMapping {
         lim = mc.toNumber(stack.getFirst()).intValue();
         stack = stack.getRest();
 
-        solutions.put(
+        solutions.accept(
                 stack.push(
                         new Operator(
                                 new LimitInner((long) lim))));
@@ -73,7 +73,7 @@ public class Limit extends PrimitiveStackMapping {
                           final ModelConnection mc) throws RippleException {
             if (count < limit) {
                 count++;
-                solutions.put(arg);
+                solutions.accept(arg);
             }
         }
 

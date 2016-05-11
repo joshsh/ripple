@@ -54,9 +54,9 @@ public class Require extends PrimitiveStackMapping {
         final RippleList rest = stack.getRest();
 
         Sink<Operator> opSink = new Sink<Operator>() {
-            public void put(final Operator op) throws RippleException {
+            public void accept(final Operator op) throws RippleException {
                 CriterionApplicator applicator = new CriterionApplicator(op);
-                solutions.put(rest.push(new Operator(applicator)));
+                solutions.accept(rest.push(new Operator(applicator)));
             }
         };
 
@@ -92,7 +92,7 @@ public class Require extends PrimitiveStackMapping {
             Decider decider = new Decider(stack);
 
             // Apply the criterion, sending the result into the Decider.
-            solutions.put(stack.push(criterion).push(new Operator(decider)));
+            solutions.accept(stack.push(criterion).push(new Operator(decider)));
         }
     }
 
@@ -126,7 +126,7 @@ public class Require extends PrimitiveStackMapping {
             stack = stack.getRest();
 
             if (mc.toBoolean(b)) {
-                solutions.put(rest);
+                solutions.accept(rest);
             }
         }
     }

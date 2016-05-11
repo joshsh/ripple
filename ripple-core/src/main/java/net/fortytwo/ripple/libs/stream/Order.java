@@ -57,7 +57,7 @@ public class Order extends PrimitiveStackMapping {
             Collections.sort(all, mc.getComparator());
 
             for (RippleList l : all) {
-                solutions.put(l);
+                solutions.accept(l);
             }
         } finally {
             Ripple.enableAsynchronousQueries(a);

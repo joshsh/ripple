@@ -24,11 +24,6 @@ public final class Ripple {
             RESULT_VIEW_MAX_PREDICATES = "net.fortytwo.ripple.cli.resultViewMaxPredicates",
             RESULT_VIEW_PRINT_ENTIRE_STACK = "net.fortytwo.ripple.cli.resultViewPrintEntireStack",
             MAX_WORKER_THREADS = "net.fortytwo.ripple.control.maxWorkerThreads",
-            ALLEGROSAIL_HOST = "net.fortytwo.ripple.demo.allegroSailHost",
-            ALLEGROSAIL_PORT = "net.fortytwo.ripple.demo.allegroSailPort",
-            ALLEGROSAIL_START = "net.fortytwo.ripple.demo.allegroSailStart",
-            ALLEGROSAIL_NAME = "net.fortytwo.ripple.demo.allegroSailName",
-            ALLEGROSAIL_DIRECTORY = "net.fortytwo.ripple.demo.allegroSailDirectory",
             LINKEDDATASAIL_BASE_SAIL = "net.fortytwo.ripple.demo.linkedDataSailBaseSail",
             MEMORYSTORE_PERSIST_FILE = "net.fortytwo.ripple.demo.memoryStorePersistFile",
             NATIVESTORE_DIRECTORY = "net.fortytwo.ripple.demo.nativeStoreDirectory",
@@ -44,9 +39,7 @@ public final class Ripple {
             USE_BLANK_NODES = "net.fortytwo.ripple.model.useBlankNodes",
             MEMOIZE_LISTS_FROM_RDF = "net.fortytwo.ripple.model.memoizeListsFromRdf",
             DEFAULT_NAMESPACE = "net.fortytwo.ripple.model.defaultNamespace",
-            VERSION = "net.fortytwo.ripple.version",
-    // TODO: .........
-    USE_ASYNCHRONOUS_QUERIES = "";
+            VERSION = "net.fortytwo.ripple.version";
 
     public static final String RIPPLE_ONTO_BASEURI = "http://fortytwo.net/2007/03/ripple/schema#";
 

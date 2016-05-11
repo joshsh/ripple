@@ -12,8 +12,8 @@ import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.QueryPipe;
 import net.fortytwo.ripple.query.StackEvaluator;
 import org.openrdf.model.BNode;
+import org.openrdf.model.IRI;
 import org.openrdf.model.Literal;
-import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.XMLSchema;
 
@@ -32,7 +32,6 @@ import java.net.URISyntaxException;
  */
 public class RippleScriptEngine implements ScriptEngine {
     private final ScriptEngineFactory factory;
-    private final SailConfiguration sailConfig;
     private final Model model;
     //private final QueryEngine queryEngine;
     private final QueryPipe queryPipe;
@@ -45,7 +44,7 @@ public class RippleScriptEngine implements ScriptEngine {
         results = new Collector<RippleList>();
 
         URIMap uriMap = new URIMap();
-        sailConfig = new SailConfiguration(uriMap);
+        SailConfiguration sailConfig = new SailConfiguration(uriMap);
 
         // TODO: shutDown on failure
         model = new SesameModel(sailConfig.getSail());
@@ -83,7 +82,7 @@ public class RippleScriptEngine implements ScriptEngine {
         results.clear();
 
         try {
-            queryPipe.put(script);
+            queryPipe.accept(script);
         } catch (RippleException e) {
             throw new ScriptException(e);
         }
@@ -112,7 +111,7 @@ public class RippleScriptEngine implements ScriptEngine {
     }
 
     private Object toJavaObject(final Value v) throws ScriptException {
-        if (v instanceof URI) {
+        if (v instanceof IRI) {
             try {
                 return new java.net.URI(v.toString());
             } catch (URISyntaxException e) {
@@ -120,7 +119,7 @@ public class RippleScriptEngine implements ScriptEngine {
             }
         } else if (v instanceof Literal) {
             Literal l = (Literal) v;
-            URI datatype = l.getDatatype();
+            IRI datatype = l.getDatatype();
             if (null == datatype) {
                 return l.getLabel();
             } else if (XMLSchema.STRING.equals(datatype)) {

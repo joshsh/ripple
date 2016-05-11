@@ -71,7 +71,7 @@ public class TurtleView implements Sink<RippleList> {
      * @param stack the stack to print.  May not be a nil list.
      * @throws RippleException if something goes awry
      */
-    public void put(final RippleList stack) throws RippleException {
+    public void accept(final RippleList stack) throws RippleException {
         // Grab the topmost item on the stack.
         Object subject = stack.getFirst();
 

@@ -54,15 +54,15 @@ public class Members extends PrimitiveStackMapping {
             final RippleList rest = arg.getRest();
 
             final Sink<Object> pushSink = new Sink<Object>() {
-                public void put(final Object v) throws RippleException {
-                    solutions.put(rest.push(v));
+                public void accept(final Object v) throws RippleException {
+                    solutions.accept(rest.push(v));
                 }
             };
 
             Sink<Statement> stSink = new Sink<Statement>() {
-                public void put(final Statement st) throws RippleException {
+                public void accept(final Statement st) throws RippleException {
                     if ('_' == st.getPredicate().getLocalName().charAt(0)) {
-                        pushSink.put(st.getObject());
+                        pushSink.accept(st.getObject());
                     }
                 }
             };

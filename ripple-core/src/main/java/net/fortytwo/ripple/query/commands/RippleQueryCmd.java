@@ -30,11 +30,11 @@ public class RippleQueryCmd extends Command {
         final Collector<RippleList> expressions = new Collector<RippleList>();
 
         final Sink<RippleList> exprSink = new Sink<RippleList>() {
-            public void put(final RippleList l) throws RippleException {
+            public void accept(final RippleList l) throws RippleException {
                 // Note: the first element of the list will also be a list
                 final RippleList stack = ((RippleList) l.getFirst()).invert();
 
-                expressions.put(stack);
+                expressions.accept(stack);
             }
         };
 
@@ -44,12 +44,11 @@ public class RippleQueryCmd extends Command {
 
         final Sink<RippleList> evaluatorSink = new Sink<RippleList>() {
             // Note: v will always be a list.
-            public void put(final RippleList l) throws RippleException {
+            public void accept(final RippleList l) throws RippleException {
                 evaluator.apply(l, sink, mc);
             }
         };
 
-//System.out.println( "evaluating: " + listAst );
         expressions.writeTo(evaluatorSink);
     }
 

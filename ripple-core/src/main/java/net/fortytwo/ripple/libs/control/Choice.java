@@ -57,7 +57,7 @@ public class Choice extends PrimitiveStackMapping {
 
         Object result = mc.toBoolean(b) ? t : f;
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 }

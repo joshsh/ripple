@@ -40,9 +40,9 @@ public class Inverse extends PrimitiveStackMapping {
         Object f = stack.getFirst();
 
         Sink<Operator> opSink = new Sink<Operator>() {
-            public void put(final Operator op) throws RippleException {
+            public void accept(final Operator op) throws RippleException {
                 Object inverse = new StackMappingWrapper(op.getMapping().getInverse(), mc);
-                solutions.put(rest.push(inverse));
+                solutions.accept(rest.push(inverse));
             }
         };
 

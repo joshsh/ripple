@@ -47,7 +47,7 @@ public class Popd extends PrimitiveStackMapping {
         stack = stack.getRest();
         stack = stack.getRest();
 
-        solutions.put(
+        solutions.accept(
                 stack.push(y));
     }
 }

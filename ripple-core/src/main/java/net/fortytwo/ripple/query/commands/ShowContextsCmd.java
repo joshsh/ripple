@@ -18,7 +18,7 @@ public class ShowContextsCmd extends Command {
         Sink<Object> printSink = new Sink<Object>() {
             private int i = 0;
 
-            public void put(final Object v) throws RippleException {
+            public void accept(final Object v) throws RippleException {
                 ps.print("[" + i++ + "] ");
                 ps.println(v);
             }

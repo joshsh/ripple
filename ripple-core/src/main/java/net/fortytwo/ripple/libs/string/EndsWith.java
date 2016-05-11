@@ -52,7 +52,7 @@ public class EndsWith extends PrimitiveStackMapping {
 
         result = s.endsWith(affix);
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 }

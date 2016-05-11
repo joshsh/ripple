@@ -1,9 +1,10 @@
 package net.fortytwo.linkeddata;
 
 import info.aduna.iteration.CloseableIteration;
+import org.openrdf.model.IRI;
 import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.URIImpl;
+import org.openrdf.model.ValueFactory;
+import org.openrdf.model.impl.SimpleValueFactory;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
 
@@ -16,6 +17,8 @@ import org.openrdf.sail.SailException;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RedirectManager {
+    private static final ValueFactory valueFactory = SimpleValueFactory.getInstance();
+    
     private final SailConnection connection;
 
     public RedirectManager(SailConnection connection) {
@@ -28,7 +31,7 @@ public class RedirectManager {
      * @return whether any URI has already been dereferenced which redirects to the given document URI
      */
     public boolean existsRedirectTo(final String documentUri) throws SailException {
-        URI hashedDocumentUri = new URIImpl(RDFUtils.hashedUri(documentUri));
+        IRI hashedDocumentUri = valueFactory.createIRI(RDFUtils.hashedUri(documentUri));
 
         CloseableIteration<? extends Statement, SailException> iter
                 = connection.getStatements(null, LinkedDataCache.CACHE_REDIRECTSTO, hashedDocumentUri, false);
@@ -45,8 +48,8 @@ public class RedirectManager {
      * @param documentUri the URI to which the original URI has been redirected
      */
     public void persistRedirect(final String thingUri, final String documentUri) throws SailException {
-        URI hashedThingUri = new URIImpl(RDFUtils.hashedUri(thingUri));
-        URI hashedDocumentUri = new URIImpl(RDFUtils.hashedUri(documentUri));
+        IRI hashedThingUri = valueFactory.createIRI(RDFUtils.hashedUri(thingUri));
+        IRI hashedDocumentUri = valueFactory.createIRI(RDFUtils.hashedUri(documentUri));
 
         connection.removeStatements(hashedThingUri, LinkedDataCache.CACHE_REDIRECTSTO, null);
         connection.addStatement(hashedThingUri, LinkedDataCache.CACHE_REDIRECTSTO, hashedDocumentUri);

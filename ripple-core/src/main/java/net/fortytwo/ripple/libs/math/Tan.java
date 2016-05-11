@@ -49,7 +49,7 @@ public class Tan extends PrimitiveStackMapping {
 // TODO: check for undefined values
         double d = Math.tan(a);
 
-        solutions.put(
+        solutions.accept(
                 stack.push(d));
     }
 

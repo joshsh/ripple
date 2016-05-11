@@ -8,9 +8,9 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.util.ModelConnectionHelper;
-import org.openrdf.model.URI;
+import org.openrdf.model.IRI;
 import org.openrdf.model.Value;
-import org.openrdf.model.impl.URIImpl;
+import org.openrdf.model.impl.SimpleValueFactory;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.model.vocabulary.RDFS;
 import org.openrdf.rio.RDFFormat;
@@ -25,20 +25,22 @@ import java.io.InputStreamReader;
 public class URITest extends RippleTestCase {
     private static final String URI_NS = "http://id.ninebynine.org/wip/2004/uritest/";
 
-    private static final URI
+    private static final SimpleValueFactory factory = SimpleValueFactory.getInstance();
+
+    private static final IRI
             COMMENT = RDFS.COMMENT,
             LABEL = RDFS.LABEL,
             TYPE = RDF.TYPE,
-            BASE = new URIImpl(URI_NS + "base"),
-            FRAG = new URIImpl(URI_NS + "frag"),
-            PATH = new URIImpl(URI_NS + "path"),
-            PORT = new URIImpl(URI_NS + "port"),
-            QUERY = new URIImpl(URI_NS + "query"),
-            REG = new URIImpl(URI_NS + "reg"),
-            SCHEME = new URIImpl(URI_NS + "scheme"),
-            TEST = new URIImpl(URI_NS + "test"),
-            URITEST = new URIImpl(URI_NS + "UriTest"),
-            USER = new URIImpl(URI_NS + "user");
+            BASE = factory.createIRI(URI_NS + "base"),
+            FRAG = factory.createIRI(URI_NS + "frag"),
+            PATH = factory.createIRI(URI_NS + "path"),
+            PORT = factory.createIRI(URI_NS + "port"),
+            QUERY = factory.createIRI(URI_NS + "query"),
+            REG = factory.createIRI(URI_NS + "reg"),
+            SCHEME = factory.createIRI(URI_NS + "scheme"),
+            TEST = factory.createIRI(URI_NS + "test"),
+            URITEST = factory.createIRI(URI_NS + "UriTest"),
+            USER = factory.createIRI(URI_NS + "user");
 
     private enum TestType {
         ABSID("AbsId"),
@@ -115,20 +117,20 @@ public class URITest extends RippleTestCase {
 
             System.out.println("r = " + r);
             type = TestType.find(
-                    ((URI) mc.toRDF(h.findSingleObject(r, TEST))).getLocalName());
+                    ((IRI) mc.toRDF(h.findSingleObject(r, TEST))).getLocalName());
             System.out.println("    type = " + type);
         }
 
         public void test(final ModelConnection mc)
                 throws Exception {
             String fakeBase = "http://example.org/";
-            URI uri;
+            IRI uri;
 
             switch (type) {
 //              case ABSID:
                 case ABSRF:
                     assertFalse(null == base);
-                    uri = createURI(base, mc);
+                    uri = createIRI(base, mc);
                     break;
 //              case ABS2REL:
 //              case DECOMP:
@@ -183,7 +185,7 @@ public class URITest extends RippleTestCase {
                                final String localName,
                                final ModelConnection mc)
             throws Exception {
-        URI uriCreated = createURI(uri, mc);
+        IRI uriCreated = createIRI(uri, mc);
         String nsCreated = uriCreated.getNamespace();
         String localNameCreated = uriCreated.getLocalName();
 

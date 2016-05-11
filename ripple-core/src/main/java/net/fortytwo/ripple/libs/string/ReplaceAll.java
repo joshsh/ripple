@@ -62,7 +62,7 @@ public class ReplaceAll extends PrimitiveStackMapping {
             throw new RippleException(e);
         }
 
-        solutions.put(
+        solutions.accept(
                 stack.push(StringLibrary.value(result, mc, replacement, regex, s)));
 
     }

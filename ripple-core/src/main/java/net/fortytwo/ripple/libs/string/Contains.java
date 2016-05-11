@@ -47,7 +47,7 @@ public class Contains extends PrimitiveStackMapping {
 
         boolean result = a.contains(b);
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 }

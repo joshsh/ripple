@@ -51,7 +51,7 @@ public class Sign extends PrimitiveStackMapping {
 
         result = NumericType.sign(a);
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 }

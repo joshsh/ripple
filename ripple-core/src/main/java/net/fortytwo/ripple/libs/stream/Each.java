@@ -52,10 +52,10 @@ public class Each extends PrimitiveStackMapping {
         final RippleList rest = arg.getRest();
 
         Sink<RippleList> listSink = new Sink<RippleList>() {
-            public void put(RippleList list) throws RippleException {
+            public void accept(RippleList list) throws RippleException {
                 while (!list.isNil()) {
                     try {
-                        solutions.put(
+                        solutions.accept(
                                 rest.push(list.getFirst()));
                     } catch (RippleException e) {
                         // Soft fail

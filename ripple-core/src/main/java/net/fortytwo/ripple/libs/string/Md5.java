@@ -44,7 +44,7 @@ public class Md5 extends PrimitiveStackMapping {
         stack = stack.getRest();
 
         String result = StringUtils.md5SumOf(mc.toString(a));
-        solutions.put(stack.push(
+        solutions.accept(stack.push(
                 StringLibrary.value(result, mc, a)));
     }
 }

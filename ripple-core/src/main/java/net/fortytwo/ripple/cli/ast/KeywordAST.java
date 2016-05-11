@@ -29,8 +29,8 @@ public class KeywordAST implements AST<RippleList> {
                          final ModelConnection mc)
             throws RippleException {
         Sink<Object> uriSink = new Sink<Object>() {
-            public void put(final Object v) throws RippleException {
-                sink.put(mc.list().push(v));
+            public void accept(final Object v) throws RippleException {
+                sink.accept(mc.list().push(v));
             }
         };
 

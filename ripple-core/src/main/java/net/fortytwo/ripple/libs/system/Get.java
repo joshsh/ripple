@@ -111,7 +111,7 @@ public class Get extends PrimitiveStackMapping {
             throw new RippleException(t);
         }
 
-        solutions.put(stack.push(mc.valueOf(result, XMLSchema.STRING)));
+        solutions.accept(stack.push(mc.valueOf(result, XMLSchema.STRING)));
     }
 }
 

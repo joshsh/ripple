@@ -56,14 +56,14 @@ public class Links extends PrimitiveStackMapping {
             subj = stack.getFirst();
 
             Sink<Statement> stSink = new Sink<Statement>() {
-                public void put(final Statement st) throws RippleException {
+                public void accept(final Statement st) throws RippleException {
                     Resource context = st.getContext();
 
                     Object pred = mc.canonicalValue(st.getPredicate());
                     Object obj = mc.canonicalValue(st.getObject());
                     Object ctx = (null == context) ? mc.list() : mc.canonicalValue(context);
 
-                    solutions.put(stack.push(pred).push(obj).push(ctx));
+                    solutions.accept(stack.push(pred).push(obj).push(ctx));
                 }
             };
 

@@ -24,7 +24,7 @@ public class RDFImporter implements RDFSink {
         final boolean override = Ripple.getConfiguration().getBoolean(Ripple.PREFER_NEWEST_NAMESPACE_DEFINITIONS);
 
         stSink = new Sink<Statement>() {
-            public void put(final Statement st) throws RippleException {
+            public void accept(final Statement st) throws RippleException {
 //System.out.println( "adding statement: " + st );
                 if (0 == contexts.length) {
                     mc.add(st.getSubject(),
@@ -42,13 +42,13 @@ public class RDFImporter implements RDFSink {
         };
 
         nsSink = new Sink<Namespace>() {
-            public void put(final Namespace ns) throws RippleException {
+            public void accept(final Namespace ns) throws RippleException {
                 mc.setNamespace(ns.getPrefix(), ns.getName(), override);
             }
         };
 
         cmtSink = new Sink<String>() {
-            public void put(final String comment) throws RippleException {
+            public void accept(final String comment) throws RippleException {
             }
         };
     }

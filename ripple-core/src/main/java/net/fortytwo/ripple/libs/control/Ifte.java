@@ -61,7 +61,7 @@ public class Ifte extends PrimitiveStackMapping {
         RippleList newStack = stack.push(criterion).push(Operator.OP)
                 .push(new Operator(inner));
 
-        solutions.put(newStack);
+        solutions.accept(newStack);
     }
 
     private class IfteInner implements StackMapping {
@@ -98,7 +98,7 @@ public class Ifte extends PrimitiveStackMapping {
                     ? originalStack.push(trueProgram).push(Operator.OP)
                     : originalStack.push(falseProgram).push(Operator.OP);
 
-            solutions.put(stack);
+            solutions.accept(stack);
         }
     }
 }

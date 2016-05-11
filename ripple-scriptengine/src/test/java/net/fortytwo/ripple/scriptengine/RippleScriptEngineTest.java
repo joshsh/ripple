@@ -18,6 +18,8 @@ public class RippleScriptEngineTest extends TestCase {
             Ripple.initialize();
         }
 
+        initialized = true;
+
         ScriptEngineFactory factory = new RippleScriptEngineFactory();
         engine = factory.getScriptEngine();
     }
@@ -26,7 +28,6 @@ public class RippleScriptEngineTest extends TestCase {
     }
 
     public void testSimple() throws Exception {
-        //System.out.println(engine.eval("2 3 add. .").getClass());
         assertEquals(5, engine.eval("2 3 add.\n"));
         assertEquals("foobar", engine.eval("\"foo\" \"bar\" strCat.\n"));
     }

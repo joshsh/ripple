@@ -64,7 +64,7 @@ public class System extends PrimitiveStackMapping {
             throw new RippleException(e);
         }
 
-        solutions.put(
+        solutions.accept(
                 stack.push(exitCode)
                         .push(normalOutput)
                         .push(errorOutput));

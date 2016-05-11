@@ -56,9 +56,9 @@ public class Map extends PrimitiveStackMapping {
         Operator.createOperator(mappingVal, operators, mc);
 
         Sink<RippleList> listSink = new Sink<RippleList>() {
-            public void put(final RippleList list) throws RippleException {
+            public void accept(final RippleList list) throws RippleException {
                 if (list.isNil()) {
-                    solutions.put(rest.push(list));
+                    solutions.accept(rest.push(list));
                 }
 
                 // TODO: this is probably a little more complicated than it needs to be
@@ -68,7 +68,7 @@ public class Map extends PrimitiveStackMapping {
 
                     for (Operator operator : operators) {
                         StackMapping inner = new InnerMapping(mc.list(), inverted.getRest(), operator);
-                        solutions.put(rest.push(f).push(mappingVal).push(Operator.OP).push(new Operator(inner)));
+                        solutions.accept(rest.push(f).push(mappingVal).push(Operator.OP).push(new Operator(inner)));
                     }
                 }
             }
@@ -113,13 +113,13 @@ public class Map extends PrimitiveStackMapping {
             RippleList newListRest = constructedList.push(first);
 
             if (invertedListHead.isNil()) {
-                solutions.put(stack.push(newListRest));
+                solutions.accept(stack.push(newListRest));
             } else {
                 // The stack to operate on
                 RippleList restStack = stack.push(invertedListHead.getFirst()).push(operator);
 
                 StackMapping restMapping = new InnerMapping(newListRest, invertedListHead.getRest(), operator);
-                solutions.put(restStack.push(new Operator(restMapping)));
+                solutions.accept(restStack.push(new Operator(restMapping)));
             }
         }
     }

@@ -38,7 +38,7 @@ public class KeyValueMapping implements StackMapping {
         RippleType t = mc.getModel().getTypeOf(first);
         if (t instanceof KeyValueType) {
             Object value = ((KeyValueType) t).getValue(first, key, mc);
-            solutions.put(stack.push(value));
+            solutions.accept(stack.push(value));
         } else {
             throw new RippleException("argument is not a key/value pair: " + first);
         }

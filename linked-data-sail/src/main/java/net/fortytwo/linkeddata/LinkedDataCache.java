@@ -18,12 +18,13 @@ import net.fortytwo.ripple.StringUtils;
 import net.fortytwo.ripple.URIMap;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.openrdf.model.URI;
+import org.openrdf.model.IRI;
 import org.openrdf.model.ValueFactory;
-import org.openrdf.model.impl.URIImpl;
+import org.openrdf.model.impl.SimpleValueFactory;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFHandler;
 import org.openrdf.rio.RDFParser;
+import org.openrdf.rio.RDFParserRegistry;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
@@ -43,7 +44,7 @@ import java.util.Map;
 
 /**
  * A manager for a dynamic set of RDF graphs collected from the Web.
- * The cache uses configurable URI dereferencers and RDFizers to fetch and translate documents,
+ * The cache uses configurable IRI dereferencers and RDFizers to fetch and translate documents,
  * and connects to an RDF triple store which provides a unified view of the Web of Data.
  *
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -51,11 +52,13 @@ import java.util.Map;
 public class LinkedDataCache {
     private static final Logger logger = Logger.getLogger(LinkedDataCache.class);
 
+    private static final ValueFactory constValueFactory =  SimpleValueFactory.getInstance();
+
     public static final String
             CACHE_NS = "http://fortytwo.net/2012/02/linkeddata#";
-    public static final URI
-            CACHE_MEMO = new URIImpl(CACHE_NS + "memo"),
-            CACHE_REDIRECTSTO = new URIImpl(CACHE_NS + "redirectsTo"),
+    public static final IRI
+            CACHE_MEMO = constValueFactory.createIRI(CACHE_NS + "memo"),
+            CACHE_REDIRECTSTO = constValueFactory.createIRI(CACHE_NS + "redirectsTo"),
             CACHE_GRAPH = null;  // the default context is used for caching metadata
 
     private static final String[] NON_RDF_EXTENSIONS = {
@@ -72,7 +75,7 @@ public class LinkedDataCache {
             "ttf", "uue", "vb", "vcd", "wav", "wks", "wma", "wmv", "wpd", "wps",
             "ws", /*"xhtml",*/ "xll", "xls", "yps", "zip"};
 
-    private final int MINIMUM_CAPACITY = 100;
+    private static final int MINIMUM_CAPACITY = 100;
 
     private final CachingMetadata metadata;
     private final ValueFactory valueFactory;
@@ -94,7 +97,7 @@ public class LinkedDataCache {
     private final Map<MediaType, MediaTypeInfo> rdfizers
             = new HashMap<MediaType, MediaTypeInfo>();
 
-    // Maps URI schemes to Dereferencers
+    // Maps IRI schemes to Dereferencers
     private final Map<String, Dereferencer> dereferencers = new HashMap<String, Dereferencer>();
 
     private DataStore dataStore;
@@ -114,7 +117,7 @@ public class LinkedDataCache {
 
         RedirectManager redirectManager = new RedirectManager(cache.getSailConnection());
 
-        // Add URI dereferencers.
+        // Add IRI dereferencers.
         HTTPURIDereferencer hdref = new HTTPURIDereferencer(cache, redirectManager);
         for (String x : NON_RDF_EXTENSIONS) {
             hdref.blackListExtension(x);
@@ -141,7 +144,7 @@ public class LinkedDataCache {
         // Rdfizers for registered RDF formats
         // TODO: 'tmp' is a hack to avoid a poorly-understood ConcurrentModificationException
         Collection<RDFFormat> tmp = new LinkedList<RDFFormat>();
-        tmp.addAll(RDFFormat.values());
+        tmp.addAll(RDFParserRegistry.getInstance().getKeys());
         for (RDFFormat f : tmp) {
             Rdfizer r = new VerbatimRdfizer(f, datatypeHandling);
             for (String type : f.getMIMETypes()) {
@@ -315,44 +318,44 @@ public class LinkedDataCache {
     }
 
     /**
-     * Associates a dereferencer with a given URI scheme.
+     * Associates a dereferencer with a given IRI scheme.
      *
-     * @param scheme the name of the URI scheme (e.g. "http", "ftp", "file", "jar")
+     * @param scheme the name of the IRI scheme (e.g. "http", "ftp", "file", "jar")
      * @param dref   the associated dereferencer
      */
     public void addDereferencer(final String scheme, final Dereferencer dref) {
-        logger.info("adding dereferencer for for URI scheme " + scheme + ": " + dref);
+        logger.info("adding dereferencer for for IRI scheme " + scheme + ": " + dref);
 
         dereferencers.put(scheme, dref);
     }
 
     /**
-     * Retrieves caching metadata for a URI if it exists, but does not dereference the URI or modify the cache.
+     * Retrieves caching metadata for a IRI if it exists, but does not dereference the IRI or modify the cache.
      *
-     * @param uri the URI to look up
+     * @param iri the IRI to look up
      * @param sc  a connection to a Sail
      * @return the current status of the URI, or null if it does not exist in the cache
      */
-    public CacheEntry.Status peek(final URI uri,
+    public CacheEntry.Status peek(final IRI iri,
                                   final SailConnection sc) throws RippleException {
-        return peekOrRetrieve(uri, sc, false);
+        return peekOrRetrieve(iri, sc, false);
     }
 
     /**
      * Retrieves caching metadata for a URI, possibly dereferencing a document from the Web first.
      *
-     * @param uri the URI to look up and possibly dereference
+     * @param iri the IRI to look up and possibly dereference
      * @param sc  a connection to a Sail
      * @return the result of the dereferencing operation
      */
-    public CacheEntry.Status retrieve(final URI uri,
+    public CacheEntry.Status retrieve(final IRI iri,
                                       final SailConnection sc) throws RippleException {
-        return peekOrRetrieve(uri, sc, true);
+        return peekOrRetrieve(iri, sc, true);
     }
 
-    // Look up and create the memo for a URI in one atomic operation, avoiding races between threads
-    // The status of a URI in the cache is Undetermined until the retrieval operation is completed.
-    private synchronized CacheEntry getSetMemo(final URI uri,
+    // Look up and create the memo for a IRI in one atomic operation, avoiding races between threads
+    // The status of a IRI in the cache is Undetermined until the retrieval operation is completed.
+    private synchronized CacheEntry getSetMemo(final IRI uri,
                                               final String graphUri,
                                               final SailConnection sc,
                                               final boolean doRetrieve) throws RippleException {
@@ -373,7 +376,7 @@ public class LinkedDataCache {
         return memo;
     }
 
-    private CacheEntry.Status peekOrRetrieve(final URI uri,
+    private CacheEntry.Status peekOrRetrieve(final IRI uri,
                                              final SailConnection sc,
                                              final boolean doRetrieve) throws RippleException {
         // Find the named graph which stores all information associated with this URI
@@ -386,8 +389,8 @@ public class LinkedDataCache {
         }
         memo.setStatus(CacheEntry.Status.Undetermined);
 
-        // This URI should be treated as a "black box" once created;
-        // it need not resemble the URI it was created from.
+        // This IRI should be treated as a "black box" once created;
+        // it need not resemble the IRI it was created from.
         String retrievalUri;
 
         String mapped = null == uriMap ? uri.toString() : uriMap.get(uri.toString());
@@ -418,7 +421,7 @@ public class LinkedDataCache {
             memo.setStatus(CacheEntry.Status.DereferencerError);
             rep = dref.dereference(retrievalUri);
 
-            // a null representation indicates that dereferencing the URI would be redundant; exit early
+            // a null representation indicates that dereferencing the IRI would be redundant; exit early
             if (null == rep) {
                 memo.setStatus(CacheEntry.Status.RedirectsToCached);
                 return memo.getStatus();
@@ -440,7 +443,7 @@ public class LinkedDataCache {
             RDFBuffer buffer = new RDFBuffer(adder);
 
             // Note: any context information in the source document is discarded.
-            RDFSink pipe = new SingleContextPipe(buffer, valueFactory.createURI(graphUri), valueFactory);
+            RDFSink pipe = new SingleContextPipe(buffer, valueFactory.createIRI(graphUri), valueFactory);
 
             RDFHandler handler = new SesameInputAdapter(useBlankNodes
                     ? pipe
@@ -453,7 +456,7 @@ public class LinkedDataCache {
                 throw new RippleException(e);
             }
 
-            // Use the namespace portion of the original URI as the base URI for the retrieved RDF document.
+            // Use the namespace portion of the original IRI as the base IRI for the retrieved RDF document.
             String baseUri = uri.getNamespace();
 
             memo.setStatus(rfiz.rdfize(is, handler, baseUri));
@@ -461,7 +464,7 @@ public class LinkedDataCache {
             // Only update the graph in the triple store if the operation was successful.
             if (CacheEntry.Status.Success == memo.getStatus()) {
                 try {
-                    sc.removeStatements(null, null, null, valueFactory.createURI(graphUri));
+                    sc.removeStatements(null, null, null, valueFactory.createIRI(graphUri));
                 } catch (SailException e) {
                     throw new RippleException(e);
                 }
@@ -543,12 +546,12 @@ public class LinkedDataCache {
         this.derefContexts = flag;
     }
 
-    private CacheEntry.Status logStatus(final URI uri,
+    private CacheEntry.Status logStatus(final IRI uri,
                                         final CacheEntry memo) {
         CacheEntry.Status status = memo.getStatus();
 
         if (CacheEntry.Status.Success != status && CacheEntry.Status.RedirectsToCached != status) {
-            StringBuilder msg = new StringBuilder("Failed to dereference URI <"
+            StringBuilder msg = new StringBuilder("Failed to dereference IRI <"
                     + StringUtils.escapeURIString(uri.toString()) + "> (");
 
             msg.append("dereferencer: ").append(memo.getDereferencer());

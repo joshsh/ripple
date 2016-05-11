@@ -51,7 +51,7 @@ public class ToJson extends PrimitiveStackMapping {
 
         Object json = toJson(s, mc);
 
-        solutions.put(
+        solutions.accept(
                 stack.push(json));
     }
 

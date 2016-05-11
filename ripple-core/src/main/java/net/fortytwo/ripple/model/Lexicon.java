@@ -6,9 +6,10 @@ import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.cli.jline.LexicalCompletor;
-import org.openrdf.model.URI;
+import org.openrdf.model.IRI;
 import org.openrdf.model.Value;
-import org.openrdf.model.impl.URIImpl;
+import org.openrdf.model.ValueFactory;
+import org.openrdf.model.impl.SimpleValueFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -56,12 +57,14 @@ public class Lexicon {
             NAME_OR_PREFIX = Pattern.compile("(" + NAME_START_CHAR_NOUSC + ")(" + NAME_CHAR + ")*"),
             NAME_NOT_PREFIX = Pattern.compile("_(" + NAME_CHAR + ")*");
 
-    private final Map<String, Set<URI>> keywordToUri;
-    private final Map<URI, String> uriToKeyword;
+    private final Map<String, Set<IRI>> keywordToUri;
+    private final Map<IRI, String> uriToKeyword;
     private final Map<String, String> prefixToUri;
     private final Map<String, String> uriToPrefix;
     private final Collection<String> allQNames;
     private final Map<String, Object> temporaryValues;
+
+    private final ValueFactory valueFactory = SimpleValueFactory.getInstance();
 
     public Lexicon(final Model model) throws RippleException {
         prefixToUri = new HashMap<String, String>();
@@ -71,20 +74,20 @@ public class Lexicon {
 
         ModelConnection mc = model.createConnection();
         try {
-            keywordToUri = new HashMap<String, Set<URI>>();
-            uriToKeyword = new HashMap<URI, String>();
+            keywordToUri = new HashMap<String, Set<IRI>>();
+            uriToKeyword = new HashMap<IRI, String>();
 
             for (Value key : model.getSpecialValues().keySet()) {
-                if (key instanceof URI) {
+                if (key instanceof IRI) {
                     // The keyword for a special URI is its local part.
-                    String keyword = ((URI) key).getLocalName();
+                    String keyword = ((IRI) key).getLocalName();
 
-                    Set<URI> siblings = keywordToUri.get(keyword);
+                    Set<IRI> siblings = keywordToUri.get(keyword);
 
                     // If there is no existing value for the key, simply add it.
                     if (null == siblings) {
-                        siblings = new HashSet<URI>();
-                        siblings.add((URI) key);
+                        siblings = new HashSet<IRI>();
+                        siblings.add((IRI) key);
                         keywordToUri.put(keyword, siblings);
                     } else {
                         boolean thisIsPrimary = isPrimaryValue(key, mc);
@@ -96,12 +99,12 @@ public class Lexicon {
                                 siblings.clear();
                             }
 
-                            siblings.add((URI) key);
+                            siblings.add((IRI) key);
                         } else {
                             // Alias values may only be added if there are no
                             // competing primary values.
                             if (!othersArePrimary) {
-                                siblings.add((URI) key);
+                                siblings.add((IRI) key);
                             }
                         }
                     }
@@ -111,7 +114,7 @@ public class Lexicon {
             // Assign keywords to URIs only after the final configuration
             // has been determined.
             for (String keyword : keywordToUri.keySet()) {
-                for (URI uri : keywordToUri.get(keyword)) {
+                for (IRI uri : keywordToUri.get(keyword)) {
                     uriToKeyword.put(uri, keyword);
                 }
             }
@@ -139,12 +142,12 @@ public class Lexicon {
                 || NAME_NOT_PREFIX.matcher(localName).matches();
     }
 
-    public Set<URI> uriForKeyword(final String localName) {
-        Set<URI> result = keywordToUri.get(localName);
+    public Set<IRI> uriForKeyword(final String localName) {
+        Set<IRI> result = keywordToUri.get(localName);
 
         // If there are no results, return an empty list instead of null.
         return (null == result)
-                ? new HashSet<URI>()
+                ? new HashSet<IRI>()
                 : result;
     }
 
@@ -152,7 +155,7 @@ public class Lexicon {
         return prefixToUri.get(prefix);
     }
 
-    public String findSymbol(final URI uri) {
+    public String findSymbol(final IRI uri) {
         // Does it have a keyword?
         String symbol = uriToKeyword.get(uri);
 
@@ -206,14 +209,14 @@ public class Lexicon {
                                final ModelConnection mc,
                                final PrintStream errors)
             throws RippleException {
-        Collection<URI> options = uriForKeyword(keyword);
+        Collection<IRI> options = uriForKeyword(keyword);
 
         // Creating a set of values eliminates the possibility of a keyword
         // resolving to the same runtime value more than once (as is the case,
         // for instance, when two or more URIs mapping to a special value have
         // the same local name).
         Set values = new HashSet();
-        for (URI u : options) {
+        for (IRI u : options) {
             values.add(mc.canonicalValue(u));
         }
 
@@ -229,7 +232,7 @@ public class Lexicon {
         }
 
         for (Object v : values) {
-            solutions.put(v);
+            solutions.accept(v);
         }
     }
 
@@ -244,7 +247,7 @@ public class Lexicon {
             errors.println("Warning: prefix '" + nsPrefix + "' does not identify a namespace\n");
         } else {
             // TODO: using URIImpl is a bit of a hack
-            sink.put(mc.canonicalValue(new URIImpl(ns + localName)));
+            sink.accept(mc.canonicalValue(valueFactory.createIRI(ns + localName)));
         }
     }
 
@@ -300,7 +303,7 @@ public class Lexicon {
     }
 
     // Note: assumes that the same URI will not be added twice.
-    public void addURI(final URI uri) throws RippleException {
+    public void addURI(final IRI uri) throws RippleException {
         // If possible, add a qualified name as well.
         String prefix = uriToPrefix.get(uri.getNamespace());
         if (null != prefix) {

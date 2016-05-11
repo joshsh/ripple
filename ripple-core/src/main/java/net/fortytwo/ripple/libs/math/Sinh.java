@@ -47,7 +47,7 @@ public class Sinh extends PrimitiveStackMapping {
 
         result = Math.sinh(a.doubleValue());
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 }

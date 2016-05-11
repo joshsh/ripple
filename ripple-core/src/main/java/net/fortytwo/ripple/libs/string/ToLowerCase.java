@@ -46,7 +46,7 @@ public class ToLowerCase extends PrimitiveStackMapping {
 
         String result = mc.toString(s).toLowerCase();
 
-        solutions.put(
+        solutions.accept(
                 stack.push(StringLibrary.value(result, mc, s)));
     }
 }

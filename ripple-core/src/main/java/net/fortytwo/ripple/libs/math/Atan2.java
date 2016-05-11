@@ -51,7 +51,7 @@ public class Atan2 extends PrimitiveStackMapping {
         if (x != 0 || y != 0) {
             result = Math.atan2(x, y);
 
-            solutions.put(
+            solutions.accept(
                     stack.push(result));
         }
     }

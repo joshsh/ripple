@@ -47,7 +47,7 @@ public class Tanh extends PrimitiveStackMapping {
 
         result = Math.tanh(a.doubleValue());
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 }

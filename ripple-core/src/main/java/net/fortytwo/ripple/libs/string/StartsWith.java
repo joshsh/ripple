@@ -52,7 +52,7 @@ public class StartsWith extends PrimitiveStackMapping {
 
         result = s.startsWith(affix);
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 }

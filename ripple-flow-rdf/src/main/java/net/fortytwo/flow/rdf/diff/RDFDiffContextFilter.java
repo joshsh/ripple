@@ -27,7 +27,7 @@ public final class RDFDiffContextFilter implements RDFDiffSink {
         contextToCollectorMap = new HashMap<Resource, RDFDiffCollector>();
 
         final Sink<Statement> stAddSink = new Sink<Statement>() {
-            public void put(final Statement st) throws RippleException {
+            public void accept(final Statement st) throws RippleException {
                 Resource context = st.getContext();
 
                 RDFDiffCollector sink = contextToCollectorMap.get(context);
@@ -36,12 +36,12 @@ public final class RDFDiffContextFilter implements RDFDiffSink {
                     contextToCollectorMap.put(context, sink);
                 }
 
-                sink.adderSink().statementSink().put(st);
+                sink.adderSink().statementSink().accept(st);
             }
         };
 
         final Sink<Statement> stSubSink = new Sink<Statement>() {
-            public void put(final Statement st) throws RippleException {
+            public void accept(final Statement st) throws RippleException {
                 Resource context = st.getContext();
 
                 RDFDiffCollector sink = contextToCollectorMap.get(context);
@@ -50,31 +50,31 @@ public final class RDFDiffContextFilter implements RDFDiffSink {
                     contextToCollectorMap.put(context, sink);
                 }
 
-                sink.subtractorSink().statementSink().put(st);
+                sink.subtractorSink().statementSink().accept(st);
             }
         };
 
         final Sink<Namespace> nsAddSink = new Sink<Namespace>() {
-            public void put(final Namespace ns) throws RippleException {
-                contextToCollectorMap.get(null).adderSink().namespaceSink().put(ns);
+            public void accept(final Namespace ns) throws RippleException {
+                contextToCollectorMap.get(null).adderSink().namespaceSink().accept(ns);
             }
         };
 
         final Sink<Namespace> nsSubSink = new Sink<Namespace>() {
-            public void put(final Namespace ns) throws RippleException {
-                contextToCollectorMap.get(null).subtractorSink().namespaceSink().put(ns);
+            public void accept(final Namespace ns) throws RippleException {
+                contextToCollectorMap.get(null).subtractorSink().namespaceSink().accept(ns);
             }
         };
 
         final Sink<String> cmtAddSink = new Sink<String>() {
-            public void put(final String comment) throws RippleException {
-                contextToCollectorMap.get(null).adderSink().commentSink().put(comment);
+            public void accept(final String comment) throws RippleException {
+                contextToCollectorMap.get(null).adderSink().commentSink().accept(comment);
             }
         };
 
         final Sink<String> cmtSubSink = new Sink<String>() {
-            public void put(final String comment) throws RippleException {
-                contextToCollectorMap.get(null).subtractorSink().commentSink().put(comment);
+            public void accept(final String comment) throws RippleException {
+                contextToCollectorMap.get(null).subtractorSink().commentSink().accept(comment);
             }
         };
 

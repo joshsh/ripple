@@ -22,7 +22,7 @@ public class SailConnectionRDFDiffSink implements RDFDiffSink {
 
     public SailConnectionRDFDiffSink(final SailConnection sailConnection) {
         final Sink<Statement> addStatementSink = new Sink<Statement>() {
-            public void put(final Statement statement) throws RippleException {
+            public void accept(final Statement statement) throws RippleException {
 //System.out.println("    adding statement: " + statement);
                 try {
                     sailConnection.addStatement(
@@ -37,7 +37,7 @@ public class SailConnectionRDFDiffSink implements RDFDiffSink {
         };
 
         final Sink<Statement> subtractStatementSink = new Sink<Statement>() {
-            public void put(final Statement statement) throws RippleException {
+            public void accept(final Statement statement) throws RippleException {
                 try {
                     sailConnection.removeStatements(
                             statement.getSubject(),
@@ -52,7 +52,7 @@ public class SailConnectionRDFDiffSink implements RDFDiffSink {
         };
 
         final Sink<Namespace> addNamespaceSink = new Sink<Namespace>() {
-            public void put(final Namespace namespace) throws RippleException {
+            public void accept(final Namespace namespace) throws RippleException {
                 try {
                     sailConnection.setNamespace(namespace.getPrefix(), namespace.getName());
                 } catch (SailException e) {
@@ -62,7 +62,7 @@ public class SailConnectionRDFDiffSink implements RDFDiffSink {
         };
 
         final Sink<Namespace> subtractNamespaceSink = new Sink<Namespace>() {
-            public void put(final Namespace namespace) throws RippleException {
+            public void accept(final Namespace namespace) throws RippleException {
                 String name = null;
                 try {
                     name = sailConnection.getNamespace(namespace.getPrefix());

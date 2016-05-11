@@ -50,7 +50,7 @@ public class Neg extends PrimitiveStackMapping {
 
         result = NumericType.neg(a);
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 

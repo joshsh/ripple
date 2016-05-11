@@ -53,7 +53,7 @@ public class Dipd extends PrimitiveStackMapping {
         x = stack.getFirst();
         stack = stack.getRest();
 
-        solutions.put(
+        solutions.accept(
                 stack.push(z).push(Operator.OP).push(x).push(y));
     }
 }

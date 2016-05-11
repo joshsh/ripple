@@ -39,7 +39,7 @@ public class Id extends PrimitiveStackMapping {
 
         if (first instanceof Element) {
             Element el = (Element) first;
-            solutions.put(stack.push(BlueprintsLibrary.toRipple(el.getId(), mc)));
+            solutions.accept(stack.push(BlueprintsLibrary.toRipple(el.getId(), mc)));
         }
     }
 }

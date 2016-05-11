@@ -21,13 +21,13 @@ public class SingleContextPipe implements RDFSink {
         final Sink<Statement> otherStSink = sink.statementSink();
 
         stSink = new Sink<Statement>() {
-            public void put(final Statement st) throws RippleException {
+            public void accept(final Statement st) throws RippleException {
                 Statement newSt;
 
                 newSt = valueFactory.createStatement(
                         st.getSubject(), st.getPredicate(), st.getObject(), context);
 
-                otherStSink.put(newSt);
+                otherStSink.accept(newSt);
             }
         };
 
