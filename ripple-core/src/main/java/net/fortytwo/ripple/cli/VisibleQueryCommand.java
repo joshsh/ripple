@@ -17,6 +17,8 @@ import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.commands.RippleQueryCmd;
+import org.openrdf.model.IRI;
+import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.RDF;
 
 /**
@@ -101,7 +103,8 @@ public class VisibleQueryCommand extends Command {
 
     private static void dereference(final Object v, final ModelConnection mc) {
         try {
-            if (null != mc.toRDF(v)) {
+            Value rdfValue = mc.toRDF(v);
+            if (null != rdfValue && rdfValue instanceof IRI) {
                 StatementPatternQuery query = new StatementPatternQuery(v, RDF.FIRST, null);
                 mc.query(query, new NullSink<RippleList>(), false);
             }

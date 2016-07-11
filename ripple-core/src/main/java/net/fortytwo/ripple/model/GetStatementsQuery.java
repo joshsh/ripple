@@ -25,6 +25,10 @@ public class GetStatementsQuery {
         public InvalidQueryException(final String message) {
             super(message);
         }
+
+        public InvalidQueryException(final String message, final Throwable cause) {
+            super(message, cause);
+        }
     }
 
     private enum Type {SP_O, PO_S, SO_P}
@@ -43,46 +47,42 @@ public class GetStatementsQuery {
 
     public GetStatementsQuery(final StatementPatternQuery patternQuery,
                               final ModelConnection mc) throws RippleException {
-        try {
-            switch (patternQuery.getPattern()) {
-                case SP_O:
-                    type = Type.SP_O;
-                    subject = getResource(patternQuery.getSubject(), mc);
-                    predicate = getURI(patternQuery.getPredicate(), mc);
-                    object = null;
-                    break;
-                case PO_S:
-                    type = Type.PO_S;
-                    subject = null;
-                    predicate = getURI(patternQuery.getPredicate(), mc);
-                    object = getValue(patternQuery.getObject(), mc);
-                    break;
-                case SO_P:
-                    type = Type.SO_P;
-                    subject = getResource(patternQuery.getSubject(), mc);
-                    predicate = null;
-                    object = getValue(patternQuery.getObject(), mc);
-                    break;
-                default:
-                    throw new InvalidQueryException("unsupported query pattern: " + patternQuery.getPattern());
+        switch (patternQuery.getPattern()) {
+            case SP_O:
+                type = Type.SP_O;
+                subject = getResource(patternQuery.getSubject(), mc);
+                predicate = getURI(patternQuery.getPredicate(), mc);
+                object = null;
+                break;
+            case PO_S:
+                type = Type.PO_S;
+                subject = null;
+                predicate = getURI(patternQuery.getPredicate(), mc);
+                object = getValue(patternQuery.getObject(), mc);
+                break;
+            case SO_P:
+                type = Type.SO_P;
+                subject = getResource(patternQuery.getSubject(), mc);
+                predicate = null;
+                object = getValue(patternQuery.getObject(), mc);
+                break;
+            default:
+                throw new InvalidQueryException("unsupported query pattern: " + patternQuery.getPattern());
+        }
+
+        Object[] rippleContexts = patternQuery.getContexts();
+        this.contexts = new Resource[rippleContexts.length];
+
+        for (int i = 0; i < rippleContexts.length; i++) {
+            Resource context = getResource(rippleContexts[i], mc);
+
+            // rdf:nil is a special case -- as a analysis name in Ripple, it
+            // actually represents the null analysis.
+            if (null != context && context.equals(RDF.NIL)) {
+                context = null;
             }
 
-            Object[] rippleContexts = patternQuery.getContexts();
-            this.contexts = new Resource[rippleContexts.length];
-
-            for (int i = 0; i < rippleContexts.length; i++) {
-                Resource context = getResource(rippleContexts[i], mc);
-
-                // rdf:nil is a special case -- as a analysis name in Ripple, it
-                // actually represents the null analysis.
-                if (null != context && context.equals(RDF.NIL)) {
-                    context = null;
-                }
-
-                this.contexts[i] = context;
-            }
-        } catch (ClassCastException e) {
-            throw new InvalidQueryException("value could not be cast to the appropriate Sesame type");
+            this.contexts[i] = context;
         }
     }
 
@@ -91,10 +91,15 @@ public class GetStatementsQuery {
     }
 
     private Resource getResource(final Object rv, final ModelConnection mc)
-            throws RippleException, ClassCastException {
+            throws RippleException {
 
         Value v = mc.toRDF(rv);
-        return null == v ? null : (Resource) v;
+
+        try {
+            return null == v ? null : (Resource) v;
+        } catch (ClassCastException e) {
+            throw new InvalidQueryException("value could not be cast to Resource: " + v.stringValue(), e);
+        }
     }
 
     private Value getValue(final Object rv, final ModelConnection mc) throws RippleException {

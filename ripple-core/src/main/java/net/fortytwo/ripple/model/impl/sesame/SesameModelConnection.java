@@ -509,7 +509,7 @@ public class SesameModelConnection implements ModelConnection {
             try {
                 sesameQuery = new GetStatementsQuery(query, this);
             } catch (GetStatementsQuery.InvalidQueryException e) {
-                logger.info("invalid query: " + e.getMessage());
+                logger.warn("invalid query: " + e.getMessage(), e);
                 return;
             }
 
@@ -521,7 +521,6 @@ public class SesameModelConnection implements ModelConnection {
                 reset(true);
                 throw e;
             }
-            //getStatements( query.subject, query.predicate, query.object, stSink, query.includeInferred );
         }
     }
 
