@@ -1,11 +1,13 @@
 package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class WhileTest extends RippleTestCase {
+    @Test
     public void testSimple() throws Exception {
         assertReducesTo("0 (10 lt.) (1 add.) while.", "10");
         assertReducesTo("0 (10 gt.) (1 add.) while.", "0");
@@ -15,6 +17,7 @@ public class WhileTest extends RippleTestCase {
         assertReducesTo("42 (pop. false) (1 add.) while.", "42");
     }
 
+    @Test
     public void testNonBooleanValues() throws Exception {
         assertReducesTo("42 (108) (1 add.) while.", "42");
     }

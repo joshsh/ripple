@@ -23,8 +23,7 @@ public class Exp extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Exp()
-            throws RippleException {
+    public Exp() {
         super();
     }
 

@@ -22,8 +22,7 @@ public class EndsWith extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public EndsWith()
-            throws RippleException {
+    public EndsWith() {
         super();
     }
 

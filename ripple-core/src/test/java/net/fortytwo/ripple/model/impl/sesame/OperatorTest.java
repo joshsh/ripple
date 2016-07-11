@@ -11,11 +11,15 @@ import net.fortytwo.ripple.model.NullStackMapping;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.RDFPredicateMapping;
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.rio.RDFFormat;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -39,6 +43,7 @@ public class OperatorTest extends RippleTestCase {
                     + "    rdf:rest rdf:nil ];\n"
                     + ".";
 
+    @Test
     public void testCreateOperator() throws Exception {
         Model model = getTestModel();
         ModelConnection mc = model.createConnection();
@@ -49,7 +54,7 @@ public class OperatorTest extends RippleTestCase {
         mc.commit();
         is.close();
 
-        Collector<Operator> ops = new Collector<Operator>();
+        Collector<Operator> ops = new Collector<>();
         Object arg;
         String a1 = "1";
         String a2 = "2";

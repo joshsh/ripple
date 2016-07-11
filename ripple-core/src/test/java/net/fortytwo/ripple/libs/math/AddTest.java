@@ -1,16 +1,21 @@
 package net.fortytwo.ripple.libs.math;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class AddTest extends RippleTestCase {
+    @Test
     public void testSingleSolution() throws Exception {
         assertReducesTo("2 2 add.", "4");
         assertReducesTo("2 -2.0 add.", "0");
     }
 
+    @Test
     public void testSpecialValues() throws Exception {
         assertFalse(4 < Double.NaN);
         assertFalse(4 > Double.NaN);
@@ -37,6 +42,7 @@ public class AddTest extends RippleTestCase {
         assertReducesTo("4 4 add.", "8");
     }
 
+    @Test
     public void testInverse() throws Exception {
         assertReducesTo("2 5.0 add~.", "-3");
         assertReducesTo("2 0 add~.", "2");

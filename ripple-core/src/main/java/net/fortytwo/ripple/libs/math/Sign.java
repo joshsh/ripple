@@ -25,8 +25,7 @@ public class Sign extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Sign()
-            throws RippleException {
+    public Sign() {
         super();
     }
 

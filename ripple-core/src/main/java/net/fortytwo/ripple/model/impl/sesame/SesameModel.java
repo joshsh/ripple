@@ -51,7 +51,7 @@ public class SesameModel implements Model {
     private final Set<Class> unmappedTypes;
 
     final Sail sail;
-    final Set<ModelConnection> openConnections = new LinkedHashSet<ModelConnection>();
+    final Set<ModelConnection> openConnections = new LinkedHashSet<>();
     SpecialValueMap specialValues;
 
     public SesameModel(final Sail sail) throws RippleException {
@@ -59,8 +59,8 @@ public class SesameModel implements Model {
 
         logger.info("instantiating SesameModel");
 
-        unmappedTypes = new HashSet<Class>();
-        registeredTypes = new HashMap<Class, List<RippleType>>();
+        unmappedTypes = new HashSet<>();
+        registeredTypes = new HashMap<>();
 
         // register string-typed literals before other literal types
         register(new StringLiteralType());
@@ -160,7 +160,7 @@ public class SesameModel implements Model {
         for (Class c : (Iterable<Class>) type.getInstanceClasses()) {
             List<RippleType> types = registeredTypes.get(c);
             if (null == types) {
-                types = new LinkedList<RippleType>();
+                types = new LinkedList<>();
                 registeredTypes.put(c, types);
             }
             types.add(type);
@@ -183,7 +183,7 @@ public class SesameModel implements Model {
             }
 
             // ...before attempting to discover a mapped superclass or inherited interface
-            types = findTypes(c, new Stack<Class>());
+            types = findTypes(c, new Stack<>());
             if (null == types) {
                 return null;
             }
@@ -210,7 +210,7 @@ public class SesameModel implements Model {
         List<RippleType> types = registeredTypes.get(c);
         if (null != types) {
             for (Class d : hierarchy) {
-                List<RippleType> newTypes = new LinkedList<RippleType>();
+                List<RippleType> newTypes = new LinkedList<>();
                 newTypes.addAll(types);
                 registeredTypes.put(d, newTypes);
             }

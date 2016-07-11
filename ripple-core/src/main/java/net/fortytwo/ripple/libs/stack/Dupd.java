@@ -23,8 +23,7 @@ public class Dupd extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Dupd()
-            throws RippleException {
+    public Dupd() {
         super();
     }
 

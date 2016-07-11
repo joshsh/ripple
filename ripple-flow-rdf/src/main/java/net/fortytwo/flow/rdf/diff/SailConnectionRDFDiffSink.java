@@ -21,64 +21,55 @@ public class SailConnectionRDFDiffSink implements RDFDiffSink {
     private final DiffSink<String> cmtSink;
 
     public SailConnectionRDFDiffSink(final SailConnection sailConnection) {
-        final Sink<Statement> addStatementSink = new Sink<Statement>() {
-            public void accept(final Statement statement) throws RippleException {
-//System.out.println("    adding statement: " + statement);
-                try {
-                    sailConnection.addStatement(
-                            statement.getSubject(),
-                            statement.getPredicate(),
-                            statement.getObject(),
-                            statement.getContext());
-                } catch (SailException e) {
-                    throw new RippleException(e);
-                }
+        final Sink<Statement> addStatementSink = statement -> {
+            try {
+                sailConnection.addStatement(
+                        statement.getSubject(),
+                        statement.getPredicate(),
+                        statement.getObject(),
+                        statement.getContext());
+            } catch (SailException e) {
+                throw new RippleException(e);
             }
         };
 
-        final Sink<Statement> subtractStatementSink = new Sink<Statement>() {
-            public void accept(final Statement statement) throws RippleException {
-                try {
-                    sailConnection.removeStatements(
-                            statement.getSubject(),
-                            statement.getPredicate(),
-                            statement.getObject(),
-                            statement.getContext());
-                } catch (SailException e) {
-                    throw new RippleException(e);
+        final Sink<Statement> subtractStatementSink = statement -> {
+            try {
+                sailConnection.removeStatements(
+                        statement.getSubject(),
+                        statement.getPredicate(),
+                        statement.getObject(),
+                        statement.getContext());
+            } catch (SailException e) {
+                throw new RippleException(e);
 
-                }
             }
         };
 
-        final Sink<Namespace> addNamespaceSink = new Sink<Namespace>() {
-            public void accept(final Namespace namespace) throws RippleException {
-                try {
-                    sailConnection.setNamespace(namespace.getPrefix(), namespace.getName());
-                } catch (SailException e) {
-                    throw new RippleException(e);
-                }
+        final Sink<Namespace> addNamespaceSink = namespace -> {
+            try {
+                sailConnection.setNamespace(namespace.getPrefix(), namespace.getName());
+            } catch (SailException e) {
+                throw new RippleException(e);
             }
         };
 
-        final Sink<Namespace> subtractNamespaceSink = new Sink<Namespace>() {
-            public void accept(final Namespace namespace) throws RippleException {
-                String name = null;
-                try {
-                    name = sailConnection.getNamespace(namespace.getPrefix());
+        final Sink<Namespace> subtractNamespaceSink = namespace -> {
+            String name = null;
+            try {
+                name = sailConnection.getNamespace(namespace.getPrefix());
 
-                    if (null != name && name.equals(namespace.getName())) {
-                        sailConnection.removeNamespace(namespace.getPrefix());
-                    }
-                } catch (SailException e) {
-                    throw new RippleException(e);
+                if (null != name && name.equals(namespace.getName())) {
+                    sailConnection.removeNamespace(namespace.getPrefix());
                 }
+            } catch (SailException e) {
+                throw new RippleException(e);
             }
         };
 
-        final Sink<String> addCommentSink = new NullSink<String>();
+        final Sink<String> addCommentSink = new NullSink<>();
 
-        final Sink<String> subtractCommentSink = new NullSink<String>();
+        final Sink<String> subtractCommentSink = new NullSink<>();
 
         addSink = new RDFSink() {
             public Sink<Statement> statementSink() {

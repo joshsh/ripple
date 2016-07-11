@@ -25,8 +25,7 @@ public class Div extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Div()
-            throws RippleException {
+    public Div() {
         super();
     }
 

@@ -23,8 +23,7 @@ public class Sin extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Sin()
-            throws RippleException {
+    public Sin() {
         super();
     }
 

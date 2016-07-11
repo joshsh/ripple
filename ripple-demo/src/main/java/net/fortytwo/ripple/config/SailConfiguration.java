@@ -31,7 +31,7 @@ public class SailConfiguration {
         sail = createSail(sailType, uriMap);
     }
 
-    public Sail getSail() throws RippleException {
+    public Sail getSail() {
         return sail;
     }
 

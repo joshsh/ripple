@@ -1,6 +1,7 @@
 package net.fortytwo.ripple.libs.stream;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 /**
  * Author: josh
@@ -8,6 +9,7 @@ import net.fortytwo.ripple.test.RippleTestCase;
  * Time: 1:42:20 PM
  */
 public class LimitTest extends RippleTestCase {
+    @Test
     public void testLimitLessThanSizeOfInput() throws Exception {
         assertReducesTo("42 0 limit.");
         assertReducesTo("42 (dup. both.) {1} 1 limit.", "42");
@@ -17,12 +19,14 @@ public class LimitTest extends RippleTestCase {
         assertReducesTo("(1 2 3) each. 2 limit.", "1", "2");
     }
 
+    @Test
     public void testLimitEqualsSizeOfInput() throws Exception {
         assertReducesTo("() each. 0 limit.");
         assertReducesTo("42 1 limit.", "42");
         assertReducesTo("2 3 both. 2 limit.", "2", "3");
     }
 
+    @Test
     public void testLimitGreaterThanSizeOfInput() throws Exception {
         assertReducesTo("() each. 1 limit.");
         assertReducesTo("42 2 limit.", "42");

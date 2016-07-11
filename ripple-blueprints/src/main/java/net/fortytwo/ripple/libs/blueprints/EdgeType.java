@@ -27,7 +27,7 @@ public class EdgeType extends KeyValueType<Edge> {
     @Override
     public Object getValue(Edge instance, String key, ModelConnection mc) throws RippleException {
         Object result = instance.getProperty(key);
-        return null == result ? null : BlueprintsLibrary.toRipple(result, mc);
+        return null == result ? null : BlueprintsLibrary.toRipple(result);
     }
 
     @Override

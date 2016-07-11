@@ -26,7 +26,7 @@ public class Map extends PrimitiveStackMapping {
                 StackLibrary.NS_2008_08 + "map"};
     }
 
-    public Map() throws RippleException {
+    public Map() {
         super();
     }
 
@@ -52,24 +52,22 @@ public class Map extends PrimitiveStackMapping {
 
         // Note: it is simply assumed that these mappings have a production of
         // exactly one item.
-        final Collector<Operator> operators = new Collector<Operator>();
+        final Collector<Operator> operators = new Collector<>();
         Operator.createOperator(mappingVal, operators, mc);
 
-        Sink<RippleList> listSink = new Sink<RippleList>() {
-            public void accept(final RippleList list) throws RippleException {
-                if (list.isNil()) {
-                    solutions.accept(rest.push(list));
-                }
+        Sink<RippleList> listSink = list -> {
+            if (list.isNil()) {
+                solutions.accept(rest.push(list));
+            }
 
-                // TODO: this is probably a little more complicated than it needs to be
-                else {
-                    RippleList inverted = list.invert();
-                    Object f = inverted.getFirst();
+            // TODO: this is probably a little more complicated than it needs to be
+            else {
+                RippleList inverted = list.invert();
+                Object f = inverted.getFirst();
 
-                    for (Operator operator : operators) {
-                        StackMapping inner = new InnerMapping(mc.list(), inverted.getRest(), operator);
-                        solutions.accept(rest.push(f).push(mappingVal).push(Operator.OP).push(new Operator(inner)));
-                    }
+                for (Operator operator : operators) {
+                    StackMapping inner = new InnerMapping(mc.list(), inverted.getRest(), operator);
+                    solutions.accept(rest.push(f).push(mappingVal).push(Operator.OP).push(new Operator(inner)));
                 }
             }
         };
@@ -78,9 +76,9 @@ public class Map extends PrimitiveStackMapping {
     }
 
     private class InnerMapping implements StackMapping {
-        private RippleList invertedListHead;
-        private RippleList constructedList;
-        private Operator operator;
+        private final RippleList invertedListHead;
+        private final RippleList constructedList;
+        private final Operator operator;
 
         public InnerMapping(final RippleList constructedList,
                             final RippleList invertedListHead,

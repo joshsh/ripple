@@ -2,25 +2,26 @@ package net.fortytwo.ripple.libs.data;
 
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 import java.util.Collection;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class CompareTest extends RippleTestCase {
-    // The only three possible values of analysis:compare.
-    private static final double
-            LT = -1.0,
-            GT = 1.0,
-            EQ = 0.0;
 
+    @Test
     public void testURIs() throws Exception {
         assertEq("rdfs:label", "rdfs:label");
         assertLt("rdfs:comment", "rdfs:label");
         assertGt("rdfs:label", "rdfs:comment");
     }
 
+    @Test
     public void testNumericValues() throws Exception {
         assertEq("42", "42");
         assertEq("42", "42.00");
@@ -37,6 +38,7 @@ public class CompareTest extends RippleTestCase {
         assertGt("\"42.1\"^^xsd:double", "\"42\"^^xsd:integer");
     }
 
+    @Test
     public void testPlainLiterals() throws Exception {
         assertEq("\"\"", "\"\"");
         assertLt("\"\"", "\"foo\"");
@@ -57,6 +59,7 @@ public class CompareTest extends RippleTestCase {
         assertGt("\"foo\"@en", "\"foobar\"@de");
     }
 
+    @Test
     public void testTypedLiterals() throws Exception {
         assertEq("\"\"^^xsd:string", "\"\"^^xsd:string");
         assertGt("\"foo\"^^xsd:string", "\"\"^^xsd:string");
@@ -69,10 +72,12 @@ public class CompareTest extends RippleTestCase {
         assertGt("\"http://example.org\"^^xsd:string", "\"http://example.org\"^^xsd:anyURI");
     }
 
+    @Test
     public void testBlankNodes() throws Exception {
         // TODO
     }
 
+    @Test
     public void testLists() throws Exception {
         assertEq("()", "()");
         assertGt("(1)", "()");
@@ -99,6 +104,7 @@ public class CompareTest extends RippleTestCase {
     }
 
     // Note: for now, boolean values are simply Literals
+    @Test
     public void testBooleans() throws Exception {
         assertEq("true", "true");
         assertGt("true", "false");
@@ -106,39 +112,19 @@ public class CompareTest extends RippleTestCase {
         assertEq("false", "false");
     }
 
+    @Test
     public void testPrimitives() throws Exception {
         assertEq("dup", "dup");
         assertLt("dup", "swap");
         assertGt("swap", "dup");
     }
 
+    @Test
     public void testHeterogeneousValues() throws Exception {
         // Compare plain literals with typed literals.
         assertGt("\"foo\"", "\"foo\"^^xsd:string");
         assertLt("\"foo\"^^xsd:string", "\"foo\"");
 
         // TODO: compare objects of different types, once the rules for doing so are better defined.
-    }
-
-    private void assertLt(final String expr1, final String expr2) throws Exception {
-        assertEquals(LT, compare(expr1, expr2));
-    }
-
-    private void assertGt(final String expr1, final String expr2) throws Exception {
-        assertEquals(GT, compare(expr1, expr2));
-    }
-
-    private void assertEq(final String expr1, final String expr2) throws Exception {
-        assertEquals(EQ, compare(expr1, expr2));
-    }
-
-    private double compare(final String expr1, final String expr2) throws Exception {
-        Collection<RippleList> results = reduce(expr1 + " " + expr2 + " compare.");
-        assertEquals(1, results.size());
-        RippleList l = results.iterator().next();
-        assertEquals(1, l.length());
-        Object v = l.getFirst();
-        assertTrue(v instanceof Number);
-        return ((Number) v).doubleValue();
     }
 }

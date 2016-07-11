@@ -21,8 +21,7 @@ public class Lte extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Lte()
-            throws RippleException {
+    public Lte() {
         super();
     }
 

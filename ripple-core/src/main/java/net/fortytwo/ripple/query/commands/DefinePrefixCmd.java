@@ -30,7 +30,7 @@ public class DefinePrefixCmd extends Command {
 
     public void execute(final QueryEngine qe, final ModelConnection mc)
             throws RippleException {
-        Collector<RippleList> sink = new Collector<RippleList>();
+        Collector<RippleList> sink = new Collector<>();
         uri.evaluate(sink, qe, mc);
 
         if (sink.size() == 0) {

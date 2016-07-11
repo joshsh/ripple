@@ -22,8 +22,7 @@ public class Lang extends PrimitiveStackMapping {
                 DataLibrary.NS_XML + "lang"};
     }
 
-    public Lang()
-            throws RippleException {
+    public Lang() {
         super();
     }
 

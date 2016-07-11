@@ -24,8 +24,7 @@ public class Count extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Count()
-            throws RippleException {
+    public Count() {
         super();
     }
 
@@ -48,7 +47,7 @@ public class Count extends PrimitiveStackMapping {
         boolean a = Ripple.asynchronousQueries();
         Ripple.enableAsynchronousQueries(false);
         try {
-            Collector<RippleList> s = new Collector<RippleList>();
+            Collector<RippleList> s = new Collector<>();
             StackEvaluator e = new LazyStackEvaluator();
             e.apply(arg.push(Operator.OP), s, mc);
             int count = s.size();

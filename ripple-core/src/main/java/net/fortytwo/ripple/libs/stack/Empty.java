@@ -21,8 +21,7 @@ public class Empty extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Empty()
-            throws RippleException {
+    public Empty() {
         super();
     }
 
@@ -38,19 +37,16 @@ public class Empty extends PrimitiveStackMapping {
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-        RippleList stack = arg;
 
         Object l;
 
-        l = stack.getFirst();
-        final RippleList rest = stack.getRest();
+        l = arg.getFirst();
+        final RippleList rest = arg.getRest();
 
-        Sink<RippleList> listSink = new Sink<RippleList>() {
-            public void accept(final RippleList list) throws RippleException {
-                boolean result = list.isNil();
-                solutions.accept(
-                        rest.push(result));
-            }
+        Sink<RippleList> listSink = list -> {
+            boolean result = list.isNil();
+            solutions.accept(
+                    rest.push(result));
         };
 
         mc.toList(l, listSink);

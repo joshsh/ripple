@@ -10,7 +10,7 @@ import java.util.LinkedList;
  * @author Joshua Shinavier (http://fortytwo.net
  */
 public class TaskQueue extends Task {
-    private final LinkedList<Task> queue = new LinkedList<Task>();
+    private final LinkedList<Task> queue = new LinkedList<>();
 
     public void add(final Task task) {
 //System.out.println( "[" + this + "]add( " + task + ")" );

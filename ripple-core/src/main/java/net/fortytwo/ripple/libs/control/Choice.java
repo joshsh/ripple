@@ -25,8 +25,7 @@ public class Choice extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Choice()
-            throws RippleException {
+    public Choice() {
         super();
     }
 

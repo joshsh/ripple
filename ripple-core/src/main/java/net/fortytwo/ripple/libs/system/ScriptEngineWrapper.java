@@ -12,7 +12,7 @@ import javax.script.ScriptException;
 public abstract class ScriptEngineWrapper {
     private final ScriptEngine scriptEngine;
 
-    public ScriptEngineWrapper(ScriptEngine scriptEngine) {
+    protected ScriptEngineWrapper(ScriptEngine scriptEngine) {
         this.scriptEngine = scriptEngine;
     }
 

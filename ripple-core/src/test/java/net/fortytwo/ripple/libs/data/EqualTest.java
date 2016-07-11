@@ -1,11 +1,13 @@
 package net.fortytwo.ripple.libs.data;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class EqualTest extends RippleTestCase {
+    @Test
     public void testSimple() throws Exception {
         assertReducesTo("42 42 equal.", "true");
         assertReducesTo("42 6 9 mul. equal.", "false");
@@ -37,6 +39,7 @@ public class EqualTest extends RippleTestCase {
 //        assertReducesTo( "rdf:nil () equal.", "true" );
     }
 
+    @Test
     public void testPlainLiterals() throws Exception {
         assertReducesTo("\"foo\" \"foo\" equal.", "true");
         assertReducesTo("\"foo\" \"bar\" equal.", "false");
@@ -53,12 +56,14 @@ public class EqualTest extends RippleTestCase {
         assertReducesTo("\"http://example.org\" \"http://example.org\"^^xsd:anyURI equal.", "false");
     }
 
+    @Test
     public void testNumericLiterals() throws Exception {
         // ...
 
         assertReducesTo("2 3 add.", "5");
     }
 
+    @Test
     public void testLists() throws Exception {
         assertReducesTo("() () equal.", "true");
         assertReducesTo("rdf:nil () equal.", "true");
@@ -70,6 +75,7 @@ public class EqualTest extends RippleTestCase {
         assertReducesTo("(42) () equal.", "false");
     }
 
+    @Test
     public void testListTransparency() throws Exception {
         assertReducesTo("(2 dup.) (2 2) equal.", "false");
     }

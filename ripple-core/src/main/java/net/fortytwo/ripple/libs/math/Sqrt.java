@@ -30,8 +30,7 @@ public class Sqrt extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Sqrt()
-            throws RippleException {
+    public Sqrt() {
         super();
 
         this.self = this;

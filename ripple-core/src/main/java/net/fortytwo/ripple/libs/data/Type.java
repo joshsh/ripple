@@ -21,8 +21,7 @@ public class Type extends PrimitiveStackMapping {
                 DataLibrary.NS_XSD + "type"};
     }
 
-    public Type()
-            throws RippleException {
+    public Type() {
         super();
     }
 

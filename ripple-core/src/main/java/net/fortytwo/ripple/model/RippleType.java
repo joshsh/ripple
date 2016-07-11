@@ -5,14 +5,13 @@ import net.fortytwo.ripple.io.RipplePrintStream;
 import org.openrdf.model.Value;
 
 import java.util.Collection;
-import java.util.Comparator;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public interface RippleType<T> {
     // TODO: rpl:op may not be handled consistently.
-    public enum Category {
+    enum Category {
         KEYVALUE_VALUE,
         LIST,
         NUMERIC_TYPED_LITERAL,

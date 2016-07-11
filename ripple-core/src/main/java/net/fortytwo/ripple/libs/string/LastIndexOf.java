@@ -22,8 +22,7 @@ public class LastIndexOf extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public LastIndexOf()
-            throws RippleException {
+    public LastIndexOf() {
         super();
     }
 

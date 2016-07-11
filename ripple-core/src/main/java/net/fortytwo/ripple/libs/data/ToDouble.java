@@ -26,8 +26,7 @@ public class ToDouble extends PrimitiveStackMapping {
                 GraphLibrary.NS_2007_05 + "toDouble"};
     }
 
-    public ToDouble()
-            throws RippleException {
+    public ToDouble() {
         super();
     }
 

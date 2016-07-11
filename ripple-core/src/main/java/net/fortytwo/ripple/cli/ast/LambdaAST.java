@@ -20,13 +20,9 @@ public class LambdaAST extends ListAST {
 
     public LambdaAST(List<String> boundVars, ListAST expression) {
         ListAST expr = expression;
-//System.out.println( "original: " + expr );
 
-        for (int i = 0; i < boundVars.size(); i++) {
-//System.out.println( "replacing variable " + boundVars.get( i ));
-            String boundVariable = boundVars.get(i);
+        for (String boundVariable : boundVars) {
             expr = toConcatenativeExpression(boundVariable, expr);
-//System.out.println( "    intermediate: " + expr );
         }
 
         this.first = expr.getFirst();
@@ -35,8 +31,6 @@ public class LambdaAST extends ListAST {
 
     private static ListAST toConcatenativeExpression(final String boundVariable, final ListAST expression) {
         int fo = firstOccurrence(boundVariable, expression);
-        //System.out.println("(1) first occurrence of " + boundVariable + " in " + expression + " is " + fo );
-        //        int count = countOccurrences( boundVariable, expression );
 
         if (0 > fo) {
             return expression
@@ -68,7 +62,6 @@ public class LambdaAST extends ListAST {
                 }
                 i++;
                 fo = firstOccurrence(boundVariable, expr);
-//     System.out.println("(2) first occurrence of " + boundVariable + " in " + expr + " is " + fo );
             }
 
             return expr;

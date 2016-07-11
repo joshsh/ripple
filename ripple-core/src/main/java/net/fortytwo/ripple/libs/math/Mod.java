@@ -24,8 +24,7 @@ public class Mod extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Mod()
-            throws RippleException {
+    public Mod() {
         super();
     }
 

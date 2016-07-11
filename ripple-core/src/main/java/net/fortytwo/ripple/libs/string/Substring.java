@@ -23,8 +23,7 @@ public class Substring extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Substring()
-            throws RippleException {
+    public Substring() {
         super();
     }
 

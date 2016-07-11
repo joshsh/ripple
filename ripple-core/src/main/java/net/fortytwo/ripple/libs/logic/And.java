@@ -23,7 +23,7 @@ public class And extends PrimitiveStackMapping {
 
     private final StackMapping self = this;
 
-    public And() throws RippleException {
+    public And() {
         super();
     }
 

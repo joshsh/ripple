@@ -55,8 +55,6 @@ public class HTTPRepresentation extends StreamRepresentation {
             getUrl = RDFUtils.iriToUrl(iri);
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException(e);
-        } catch (UnsupportedEncodingException e) {
-            throw new IllegalArgumentException(e);
         }
 
         HttpResponse response;
@@ -161,7 +159,7 @@ public class HTTPRepresentation extends StreamRepresentation {
      * closed
      */
     private class HttpRepresentationInputStream extends InputStream {
-        private InputStream innerInputStream;
+        private final InputStream innerInputStream;
 
         public HttpRepresentationInputStream(final InputStream is) {
             innerInputStream = is;

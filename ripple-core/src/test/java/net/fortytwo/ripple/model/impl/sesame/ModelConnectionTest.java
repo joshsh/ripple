@@ -2,12 +2,16 @@ package net.fortytwo.ripple.model.impl.sesame;
 
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 import org.openrdf.model.IRI;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class ModelConnectionTest extends RippleTestCase {
+    @Test
     public void testCreateURI() throws Exception {
         ModelConnection mc = getTestModel().createConnection();
 
@@ -58,6 +62,7 @@ public class ModelConnectionTest extends RippleTestCase {
     }
 
 /*
+    @Test
     public void testCountStatements() throws Exception
     {
         ModelConnection mc = getTestModel().getConnection( "for CountStatementsTest" );

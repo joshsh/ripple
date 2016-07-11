@@ -30,7 +30,7 @@ public class Members extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Members() throws RippleException {
+    public Members() {
         super();
     }
 
@@ -53,17 +53,11 @@ public class Members extends PrimitiveStackMapping {
             Object head = arg.getFirst();
             final RippleList rest = arg.getRest();
 
-            final Sink<Object> pushSink = new Sink<Object>() {
-                public void accept(final Object v) throws RippleException {
-                    solutions.accept(rest.push(v));
-                }
-            };
+            final Sink<Object> pushSink = v -> solutions.accept(rest.push(v));
 
-            Sink<Statement> stSink = new Sink<Statement>() {
-                public void accept(final Statement st) throws RippleException {
-                    if ('_' == st.getPredicate().getLocalName().charAt(0)) {
-                        pushSink.accept(st.getObject());
-                    }
+            Sink<Statement> stSink = st -> {
+                if ('_' == st.getPredicate().getLocalName().charAt(0)) {
+                    pushSink.accept(st.getObject());
                 }
             };
 

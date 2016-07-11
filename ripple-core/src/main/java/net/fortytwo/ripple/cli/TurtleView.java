@@ -93,7 +93,7 @@ public class TurtleView implements Sink<RippleList> {
         printStream.print("\n");
 
         if (showEdges && !stack.isNil()) {
-            Collector<Object> predicates = new Collector<Object>();
+            Collector<Object> predicates = new Collector<>();
             helper.findPredicates(subject, predicates);
 
             int predCount = 0;
@@ -115,7 +115,7 @@ public class TurtleView implements Sink<RippleList> {
                 modelConnection.print(predicate, printStream);
                 printStream.print("\n");
 
-                Collector<Object> objects = new Collector<Object>();
+                Collector<Object> objects = new Collector<>();
                 StatementPatternQuery query = new StatementPatternQuery(subject, predicate, null);
                 modelConnection.query(query, objects, false);
 
@@ -123,7 +123,7 @@ public class TurtleView implements Sink<RippleList> {
 
                 Collection<Object> objColl;
                 if (deduplicateObjects) {
-                    objColl = new HashSet<Object>();
+                    objColl = new HashSet<>();
                     objColl.addAll(objects);
                 } else {
                     objColl = objects;

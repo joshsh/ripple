@@ -23,7 +23,7 @@ public class RangeApply extends PrimitiveStackMapping {
                 ControlLibrary.NS_2013_03 + "range-apply"};
     }
 
-    public RangeApply() throws RippleException {
+    public RangeApply() {
         super();
     }
 

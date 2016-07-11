@@ -13,9 +13,9 @@ public abstract class PrimitiveStackMapping implements StackMapping {
     private Value rdfEquivalent;
 
     protected class Parameter {
-        private String name;
-        private String comment;
-        private boolean isTransparent;
+        private final String name;
+        private final String comment;
+        private final boolean isTransparent;
 
         public Parameter(final String name,
                          final String comment,
@@ -38,17 +38,17 @@ public abstract class PrimitiveStackMapping implements StackMapping {
         }
     }
 
-    public PrimitiveStackMapping(final boolean transparent) {
+    protected PrimitiveStackMapping(final boolean transparent) {
         this.transparent = transparent;
     }
 
-    public PrimitiveStackMapping() {
+    protected PrimitiveStackMapping() {
         this(true);
     }
 
     public abstract String[] getIdentifiers();
 
-    public abstract Parameter[] getParameters();
+    protected abstract Parameter[] getParameters();
 
     /**
      * @return a comment about the primitive.  May be null.
@@ -63,7 +63,7 @@ public abstract class PrimitiveStackMapping implements StackMapping {
         return rdfEquivalent;
     }
 
-    public void setRdfEquivalent(final Value v) throws RippleException {
+    public void setRdfEquivalent(final Value v) {
         if (!(v instanceof Resource)) {
             throw new IllegalArgumentException("for comparison purposes," +
                     " the identifier of a PrimitiveStackMapping must be a Resource");

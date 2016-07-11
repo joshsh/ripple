@@ -1,11 +1,13 @@
 package net.fortytwo.ripple.libs.math;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class ModTest extends RippleTestCase {
+    @Test
     public void testSingleSolution() throws Exception {
         assertReducesTo("2 2 mod.", "0");
         assertReducesTo("47 7 mod.", "5");
@@ -14,11 +16,13 @@ public class ModTest extends RippleTestCase {
         assertReducesTo("42.2 21.01 mod.", "0.18");
     }
 
+    @Test
     public void testOutOfRangeArgument() throws Exception {
         assertReducesTo("2 0 mod.");
         assertReducesTo("0 0 mod.");
     }
 
+    @Test
     public void testSpecialValues() throws Exception {
         assertReducesTo("\"NaN\"^^xsd:double \"NaN\"^^xsd:double mod.", "\"NaN\"^^xsd:double");
         assertReducesTo("\"NaN\"^^xsd:double \"INF\"^^xsd:double mod.", "\"NaN\"^^xsd:double");

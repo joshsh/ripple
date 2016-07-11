@@ -8,16 +8,18 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class LazyEvaluatorTest extends RippleTestCase {
+    @Test
     public void testSimple() throws Exception {
         ModelConnection mc = getTestModel().createConnection();
         Evaluator<RippleList, RippleList, ModelConnection> eval = new LazyStackEvaluator();
-        Collector<RippleList> expected = new Collector<RippleList>();
-        final Collector<RippleList> actual = new Collector<RippleList>();
+        Collector<RippleList> expected = new Collector<>();
+        final Collector<RippleList> actual = new Collector<>();
         RippleList input;
 
         Object op = Operator.OP;

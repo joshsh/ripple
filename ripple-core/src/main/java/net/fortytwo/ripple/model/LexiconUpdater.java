@@ -36,36 +36,28 @@ public class LexiconUpdater implements RDFDiffSink {
                 Ripple.ALLOW_DUPLICATE_NAMESPACES);
 
         addSink = new RDFSink() {
-            private Sink<Statement> stSink = new Sink<Statement>() {
-                public void accept(final Statement st) throws RippleException {
-//System.out.println( "st = " + st );
-                    Resource subj = st.getSubject();
-                    IRI pred = st.getPredicate();
-                    Value obj = st.getObject();
+            private final Sink<Statement> stSink = st -> {
+                Resource subj = st.getSubject();
+                IRI pred = st.getPredicate();
+                Value obj = st.getObject();
 
-                    synchronized (lexicon) {
-                        if (subj instanceof IRI) {
-                            lexicon.addURI((IRI) subj);
-                        }
+                synchronized (lexicon) {
+                    if (subj instanceof IRI) {
+                        lexicon.addURI((IRI) subj);
+                    }
 
-                        lexicon.addURI(pred);
+                    lexicon.addURI(pred);
 
-                        if (obj instanceof IRI) {
-                            lexicon.addURI((IRI) obj);
-                        }
+                    if (obj instanceof IRI) {
+                        lexicon.addURI((IRI) obj);
                     }
                 }
             };
 
-            private Sink<Namespace> nsSink = new Sink<Namespace>() {
-                public void accept(final Namespace ns) throws RippleException {
-// TODO: delete me
-                }
+            private final Sink<Namespace> nsSink = ns -> {
             };
 
-            private Sink<String> cmtSink = new Sink<String>() {
-                public void accept(final String comment) throws RippleException {
-                }
+            private final Sink<String> cmtSink = comment -> {
             };
 
             public Sink<Statement> statementSink() {
@@ -81,21 +73,14 @@ public class LexiconUpdater implements RDFDiffSink {
             }
         };
 
-// TODO
         subSink = new RDFSink() {
-            private Sink<Statement> stSink = new Sink<Statement>() {
-                public void accept(final Statement st) throws RippleException {
-                }
+            private final Sink<Statement> stSink = st -> {
             };
 
-            private Sink<Namespace> nsSink = new Sink<Namespace>() {
-                public void accept(final Namespace ns) throws RippleException {
-                }
+            private final Sink<Namespace> nsSink = ns -> {
             };
 
-            private Sink<String> cmtSink = new Sink<String>() {
-                public void accept(final String comment) throws RippleException {
-                }
+            private final Sink<String> cmtSink = comment -> {
             };
 
             public Sink<Statement> statementSink() {

@@ -20,10 +20,10 @@ public class RippleScriptEngineFactory implements ScriptEngineFactory {
     private final List<String> extensions;
 
     public RippleScriptEngineFactory() {
-        names = new ArrayList<String>();
+        names = new ArrayList<>();
         names.add(NAME);
 
-        extensions = new ArrayList<String>();
+        extensions = new ArrayList<>();
         extensions.add("rpl");
     }
 
@@ -42,7 +42,7 @@ public class RippleScriptEngineFactory implements ScriptEngineFactory {
 
     public List<String> getMimeTypes() {
         // Ripple script files currently don't have a MIME type.
-        return new ArrayList<String>();
+        return new ArrayList<>();
     }
 
     public List<String> getNames() {

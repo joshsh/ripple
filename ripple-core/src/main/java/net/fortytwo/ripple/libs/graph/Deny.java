@@ -23,8 +23,7 @@ public class Deny extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Deny()
-            throws RippleException {
+    public Deny() {
         super();
     }
 

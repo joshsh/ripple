@@ -26,8 +26,7 @@ public class Log10 extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Log10()
-            throws RippleException {
+    public Log10() {
         super();
 
         this.self = this;

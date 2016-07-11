@@ -12,7 +12,7 @@ import java.util.Map;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class CacheEntry {
-    public static enum Status {
+    public enum Status {
         BadMediaType,       // no suitable rdfizer was found
         BadUriScheme,       // no suitable URI dereferencer was found
         CacheLookup,           // used when a memo for a newly-encountered URI is first created
@@ -91,8 +91,8 @@ public class CacheEntry {
         return mediaType;
     }
 
-    public Map<String, String> getKeyValues() {
-        Map<String, String> map = new HashMap<String, String>();
+    private Map<String, String> getKeyValues() {
+        Map<String, String> map = new HashMap<>();
 
         if (null != this.status) {
             map.put(STATUS,
@@ -164,16 +164,22 @@ public class CacheEntry {
 
     private void addEntry(final String key,
                           final String value) throws ParseException {
-        if (key.equals(STATUS)) {
-            this.status = Status.valueOf(value);
-        } else if (key.equals(TIMESTAMP)) {
-            this.timestamp = TIMESTAMP_FORMAT.parse(value);
-        } else if (key.equals(MEDIATYPE)) {
-            this.mediaType = new MediaType(value);
-        } else if (key.equals(DEREFERENCER)) {
-            this.dereferencer = value;
-        } else if (key.equals(RDFIZER)) {
-            this.rdfizer = value;
+        switch (key) {
+            case STATUS:
+                this.status = Status.valueOf(value);
+                break;
+            case TIMESTAMP:
+                this.timestamp = TIMESTAMP_FORMAT.parse(value);
+                break;
+            case MEDIATYPE:
+                this.mediaType = new MediaType(value);
+                break;
+            case DEREFERENCER:
+                this.dereferencer = value;
+                break;
+            case RDFIZER:
+                this.rdfizer = value;
+                break;
         }
     }
 }

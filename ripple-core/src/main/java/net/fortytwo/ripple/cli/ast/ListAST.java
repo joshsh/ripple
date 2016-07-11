@@ -74,11 +74,7 @@ public class ListAST extends ListNode<AST> implements AST<RippleList> {
                          final QueryEngine qe,
                          final ModelConnection mc)
             throws RippleException {
-        Sink<RippleList> listSink = new Sink<RippleList>() {
-            public void accept(final RippleList l) throws RippleException {
-                sink.accept(mc.list().push(l));
-            }
-        };
+        Sink<RippleList> listSink = l -> sink.accept(mc.list().push(l));
 
         createLists(this, listSink, qe, mc);
     }
@@ -112,19 +108,13 @@ public class ListAST extends ListNode<AST> implements AST<RippleList> {
         if (astList.isNil()) {
             sink.accept(mc.list());
         } else {
-            final Collector<RippleList> firstValues = new Collector<RippleList>();
+            final Collector<RippleList> firstValues = new Collector<>();
             astList.getFirst().evaluate(firstValues, qe, mc);
 
-            Sink<RippleList> restSink = new Sink<RippleList>() {
-                public void accept(final RippleList rest) throws RippleException {
-                    Sink<RippleList> firstSink = new Sink<RippleList>() {
-                        public void accept(final RippleList f) throws RippleException {
-                            sink.accept(f.concat(rest));
-                        }
-                    };
+            Sink<RippleList> restSink = rest1 -> {
+                Sink<RippleList> firstSink = f -> sink.accept(f.concat(rest1));
 
-                    firstValues.writeTo(firstSink);
-                }
+                firstValues.writeTo(firstSink);
             };
 
             createLists(astList.getRest(), restSink, qe, mc);

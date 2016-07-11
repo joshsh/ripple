@@ -41,7 +41,7 @@ public class RippleScriptEngine implements ScriptEngine {
     public RippleScriptEngine(final ScriptEngineFactory factory) throws RippleException {
         this.factory = factory;
 
-        results = new Collector<RippleList>();
+        results = new Collector<>();
 
         URIMap uriMap = new URIMap();
         SailConfiguration sailConfig = new SailConfiguration(uriMap);
@@ -163,16 +163,13 @@ public class RippleScriptEngine implements ScriptEngine {
     public Object eval(final Reader reader) throws ScriptException {
         // TODO: use reader stream (instead of converting to a String)
         try {
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            try {
+            try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
                 int ch;
                 while (-1 != (ch = reader.read())) {
                     bos.write(ch);
                 }
 
                 return eval(bos.toString());
-            } finally {
-                bos.close();
             }
         } catch (IOException e) {
             throw new ScriptException(e);

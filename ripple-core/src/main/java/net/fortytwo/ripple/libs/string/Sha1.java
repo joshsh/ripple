@@ -24,8 +24,7 @@ public class Sha1 extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Sha1()
-            throws RippleException {
+    public Sha1() {
         super();
     }
 

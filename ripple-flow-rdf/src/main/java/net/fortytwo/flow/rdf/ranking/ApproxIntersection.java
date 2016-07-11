@@ -10,7 +10,7 @@ public class ApproxIntersection<T, E extends Exception> extends ApproxFairOperat
 
     public WeightedVector<T> currentResult() {
         if (0 == operands.length) {
-            return new WeightedVector<T>();
+            return new WeightedVector<>();
         } else {
             WeightedVector<T> cur = operands[0].currentResult();
 

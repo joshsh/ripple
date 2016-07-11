@@ -24,8 +24,7 @@ public class Concat extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Concat()
-            throws RippleException {
+    public Concat() {
         super();
     }
 

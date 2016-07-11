@@ -23,8 +23,7 @@ public class Rollup extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Rollup()
-            throws RippleException {
+    public Rollup() {
         super();
     }
 

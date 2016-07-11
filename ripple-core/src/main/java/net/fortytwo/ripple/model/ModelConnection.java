@@ -224,9 +224,8 @@ public interface ModelConnection {
 
     /**
      * @return a source producing all graph contexts in this model
-     * @throws RippleException if contexts cannot be retrieved
      */
-    Source<Object> getContexts() throws RippleException;
+    Source<Object> getContexts();
 
     /**
      * Adds one or more RDF statements to the model.
@@ -265,11 +264,10 @@ public interface ModelConnection {
      * as well as those of any lists it contains, recursively.
      *
      * @param list the list to internalize
-     * @return whether the list was internalized successfully.
      * If this operation is unsuccessful, no statements are added to the model.
      * @throws RippleException if internalization fails
      */
-    boolean internalize(RippleList list) throws RippleException;
+    void internalize(RippleList list) throws RippleException;
 
     /**
      * Complete any still-executing tasks.

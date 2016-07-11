@@ -8,6 +8,7 @@ import net.fortytwo.ripple.io.RDFImporter;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.XMLSchema;
 import org.openrdf.rio.RDFFormat;
@@ -15,10 +16,14 @@ import org.openrdf.rio.RDFFormat;
 import java.io.InputStream;
 import java.util.Iterator;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RippleListTest extends RippleTestCase {
+    @Test
     public void testListRDFEquivalence() throws Exception {
         assertReducesTo("(1 2 3) rdf:rest.", "(2 3)");
         assertReducesTo("(1 2 3) rdf:rest. rdf:first.", "2");
@@ -30,6 +35,7 @@ public class RippleListTest extends RippleTestCase {
         */
     }
 
+    @Test
     public void testFromRDF() throws Exception {
         final ModelConnection mc = getTestModel().createConnection();
 
@@ -40,22 +46,20 @@ public class RippleListTest extends RippleTestCase {
         is.close();
 
         Value head;
-        Collector<RippleList> created = new Collector<RippleList>();
-        final Collector<RippleList> allowed = new Collector<RippleList>();
+        Collector<RippleList> created = new Collector<>();
+        final Collector<RippleList> allowed = new Collector<>();
 
-        Sink<RippleList> verifySink = new Sink<RippleList>() {
-            public void accept(final RippleList list) throws RippleException {
-                boolean found = false;
+        Sink<RippleList> verifySink = list -> {
+            boolean found = false;
 
-                for (Iterator<RippleList> iter = allowed.iterator(); iter.hasNext(); ) {
-                    if (0 == mc.getComparator().compare(iter.next(), list)) {
-                        found = true;
-                        break;
-                    }
+            for (Iterator<RippleList> iter = allowed.iterator(); iter.hasNext(); ) {
+                if (0 == mc.getComparator().compare(iter.next(), list)) {
+                    found = true;
+                    break;
                 }
-
-                assertTrue(found);
             }
+
+            assertTrue(found);
         };
 
         Value l1 = mc.valueOf("1", XMLSchema.STRING);
@@ -107,6 +111,7 @@ public class RippleListTest extends RippleTestCase {
         mc.close();
     }
 
+    @Test
     public void testListConcatenation() throws Exception {
         ModelConnection mc = getTestModel().createConnection();
         Object

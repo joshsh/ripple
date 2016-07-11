@@ -26,8 +26,7 @@ public class Limit extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Limit()
-            throws RippleException {
+    public Limit() {
         super();
     }
 
@@ -57,7 +56,8 @@ public class Limit extends PrimitiveStackMapping {
     }
 
     protected class LimitInner implements StackMapping {
-        private long count, limit;
+        private long count;
+        private final long limit;
 
         public int arity() {
             return 1;

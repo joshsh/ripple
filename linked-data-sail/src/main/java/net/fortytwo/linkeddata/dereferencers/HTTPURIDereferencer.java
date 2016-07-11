@@ -34,7 +34,7 @@ public class HTTPURIDereferencer implements Dereferencer {
         this.linkedDataCache = linkedDataCache;
         this.redirectManager = redirectManager;
 
-        badExtensions = new HashSet<String>();
+        badExtensions = new HashSet<>();
 
     }
 

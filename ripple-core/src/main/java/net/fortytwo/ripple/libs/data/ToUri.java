@@ -24,8 +24,7 @@ public class ToUri extends PrimitiveStackMapping {
                 GraphLibrary.NS_2007_08 + "toUri"};
     }
 
-    public ToUri()
-            throws RippleException {
+    public ToUri() {
         super();
     }
 

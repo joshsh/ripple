@@ -23,8 +23,7 @@ public class Cos extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Cos()
-            throws RippleException {
+    public Cos() {
         super();
     }
 

@@ -34,8 +34,7 @@ public class BlueprintsLibrary extends Library {
         SystemLibrary.registerScriptEngine("gremlin", new GremlinWrapper());
     }
 
-    public static Object toRipple(final Object tinker,
-                                  final ModelConnection mc) throws RippleException {
+    public static Object toRipple(final Object tinker) {
         if (tinker instanceof Vertex) {
             return tinker;
         } else if (tinker instanceof Edge) {

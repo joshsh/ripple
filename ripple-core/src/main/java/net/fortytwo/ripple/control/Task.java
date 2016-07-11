@@ -47,10 +47,8 @@ public abstract class Task {
             stopProtected();
 
             if (null != children) {
-                for (Task child : children) {
-//System.out.println( "    stopping child: " + child );
-                    child.stop();
-                }
+                //System.out.println( "    stopping child: " + child );
+                children.forEach(net.fortytwo.ripple.control.Task::stop);
             }
         }
     }
@@ -81,7 +79,7 @@ public abstract class Task {
             logger.error("attempted to add a child to a finished task");
         } else {
             if (null == children) {
-                children = new LinkedList<Task>();
+                children = new LinkedList<>();
             }
 
             children.add(child);

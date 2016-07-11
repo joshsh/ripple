@@ -21,8 +21,7 @@ public class Tanh extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Tanh()
-            throws RippleException {
+    public Tanh() {
         super();
     }
 

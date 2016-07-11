@@ -32,7 +32,7 @@ public class ToMillis extends PrimitiveStackMapping {
         return "converts an xsd:dateTime value to milliseconds since the Unix epoch";
     }
 
-    public ToMillis() throws RippleException {
+    public ToMillis() {
         super();
     }
 

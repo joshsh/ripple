@@ -24,8 +24,7 @@ public class ToJson extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public ToJson()
-            throws RippleException {
+    public ToJson() {
         super();
     }
 

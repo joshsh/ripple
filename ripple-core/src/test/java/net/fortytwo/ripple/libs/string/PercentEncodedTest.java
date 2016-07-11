@@ -1,11 +1,13 @@
 package net.fortytwo.ripple.libs.string;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class PercentEncodedTest extends RippleTestCase {
+    @Test
     public void testAll() throws Exception {
         assertReducesTo("\"one\" percentEncode.", "\"one\"");
         assertReducesTo("\"one two\" percentEncode.", "\"one%20two\"");

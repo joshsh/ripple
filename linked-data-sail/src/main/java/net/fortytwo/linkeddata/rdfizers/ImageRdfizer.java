@@ -121,8 +121,7 @@ public class ImageRdfizer implements Rdfizer {
                     sb.append(", ");
                 }
                 Node n = map.item(i);
-                sb.append(n.getNodeName() + "=" + n.getNodeValue());
-                //sb.append( "\n" ).append( indent ).append( "attr: " ).append(n.getLocalName());
+                sb.append(n.getNodeName()).append("=").append(n.getNodeValue());
             }
             sb.append("}");
         }

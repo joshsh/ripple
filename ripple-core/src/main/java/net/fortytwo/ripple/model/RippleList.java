@@ -78,7 +78,7 @@ public abstract class RippleList<T> extends ListNode<T> {
         return cur.getFirst();
     }
 
-    public abstract RippleList push(T v) throws RippleException;
+    public abstract RippleList push(T v);
 
     public abstract RippleList invert();
 
@@ -157,7 +157,7 @@ public abstract class RippleList<T> extends ListNode<T> {
      * @return a Java list of the items in this list.  This is purely a convenience method.
      */
     public List<T> toJavaList() {
-        LinkedList<T> javaList = new LinkedList<T>();
+        LinkedList<T> javaList = new LinkedList<>();
 
         ListNode<T> cur = this;
         while (!cur.isNil()) {

@@ -27,8 +27,7 @@ public class Branch extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Branch()
-            throws RippleException {
+    public Branch() {
         super();
     }
 

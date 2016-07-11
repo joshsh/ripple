@@ -23,7 +23,7 @@ public class PlusApply extends PrimitiveStackMapping {
                 ControlLibrary.NS_2013_03 + "plus-apply"};
     }
 
-    public PlusApply() throws RippleException {
+    public PlusApply() {
         super();
     }
 
@@ -40,16 +40,11 @@ public class PlusApply extends PrimitiveStackMapping {
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
 
-        RippleList stack = arg;
-        Object first = stack.getFirst();
-        final RippleList rest = stack.getRest();
+        Object first = arg.getFirst();
+        final RippleList rest = arg.getRest();
 
-        Sink<Operator> opSink = new Sink<Operator>() {
-            public void accept(final Operator op) throws RippleException {
-                solutions.accept(rest.push(
-                        new StackMappingWrapper(new PlusQuantifier(op), mc)));
-            }
-        };
+        Sink<Operator> opSink = op -> solutions.accept(rest.push(
+                new StackMappingWrapper(new PlusQuantifier(op), mc)));
 
         Operator.createOperator(first, opSink, mc);
     }

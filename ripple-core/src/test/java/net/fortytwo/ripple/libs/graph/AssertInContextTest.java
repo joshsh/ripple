@@ -1,12 +1,14 @@
 package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 import org.openrdf.model.vocabulary.XMLSchema;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class AssertInContextTest extends RippleTestCase {
+    @Test
     public void testSimple() throws Exception {
         reduce("@prefix ex: <http://example.org/assert-in-context-test/>");
         assertReducesTo("ex:a rdf:type.");
@@ -45,6 +47,7 @@ public class AssertInContextTest extends RippleTestCase {
 
     }
 
+    @Test
     public void testLiteralObjects() throws Exception {
         reduce("@prefix ex: <http://example.org/assert-in-context-test/>");
 
@@ -72,6 +75,7 @@ public class AssertInContextTest extends RippleTestCase {
         assertReducesTo("\"something\"^^xsd:string rdfs:label ex:ctx1 in-context~. distinct.", "ex:a");
     }
 
+    @Test
     public void testNullContext() throws Exception {
         reduce("@prefix ex: <http://example.org/assert-in-context-test/>");
 
@@ -86,6 +90,7 @@ public class AssertInContextTest extends RippleTestCase {
         assertReducesTo("\"q\" rdfs:label ex:wrongContext in-context~.");
     }
 
+    @Test
     public void testTmp() throws Exception {
         reduce("@prefix ex: <http://example.org/assert-in-context-test/>");
 
@@ -96,6 +101,7 @@ public class AssertInContextTest extends RippleTestCase {
         assertReducesTo("\"q\" rdfs:label () in-context~. distinct.", "ex:q");
     }
 
+    @Test
     public void testImpossibleStatements() throws Exception {
         reduce("@prefix ex: <http://example.org/assert-in-context-test/>");
 

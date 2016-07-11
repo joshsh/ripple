@@ -24,8 +24,7 @@ public class Sub extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Sub()
-            throws RippleException {
+    public Sub() {
         super();
     }
 

@@ -16,7 +16,6 @@ public class AnnotatedAST implements AST<RippleList> {
 
     public AnnotatedAST(final AST inner, final Properties props) {
         innerAst = inner;
-        Properties props1 = props;
     }
 
     public void evaluate(Sink<RippleList> sink,

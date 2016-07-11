@@ -23,8 +23,7 @@ public class Matches extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Matches()
-            throws RippleException {
+    public Matches() {
         super();
     }
 

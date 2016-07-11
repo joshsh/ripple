@@ -27,8 +27,7 @@ public class Or extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Or()
-            throws RippleException {
+    public Or() {
         super();
     }
 

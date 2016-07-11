@@ -10,7 +10,6 @@ import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.Value;
 import org.openrdf.model.ValueFactory;
-import org.openrdf.model.impl.LiteralImpl;
 import org.openrdf.model.impl.SimpleLiteral;
 import org.openrdf.sail.SailException;
 
@@ -24,7 +23,7 @@ import java.util.Random;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RippleValueFactory implements ValueFactory {
-    public static final String STRING_NAMESPACE = "urn:string:";
+    private static final String STRING_NAMESPACE = "urn:string:";
 
     private static final Random random = new Random();
 

@@ -9,9 +9,9 @@ public enum EvaluationOrder {
     EAGER("eager"),
     LAZY("lazy");
 
-    private String name;
+    private final String name;
 
-    private EvaluationOrder(final String name) {
+    EvaluationOrder(final String name) {
         this.name = name;
     }
 

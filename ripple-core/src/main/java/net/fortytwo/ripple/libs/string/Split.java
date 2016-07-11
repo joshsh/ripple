@@ -28,8 +28,7 @@ public class Split extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Split()
-            throws RippleException {
+    public Split() {
         super();
     }
 

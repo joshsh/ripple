@@ -39,7 +39,7 @@ public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
     private final ValueFactory valueFactory;
     private final LinkedDataCache linkedDataCache;
 
-    private SailConnection baseConnection;
+    private final SailConnection baseConnection;
 
     public synchronized void addConnectionListener(final SailConnectionListener listener) {
         if (baseConnection instanceof NotifyingSailConnection) {

@@ -1,11 +1,13 @@
 package net.fortytwo.ripple.libs.string;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class IndexOfTest extends RippleTestCase {
+    @Test
     public void testAll() throws Exception {
         assertReducesTo("\"one\" \"one\" indexOf.", "0");
         assertReducesTo("\"one\" \"two\" indexOf.", "-1");

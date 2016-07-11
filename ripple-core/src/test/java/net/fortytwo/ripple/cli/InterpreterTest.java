@@ -1,24 +1,27 @@
 package net.fortytwo.ripple.cli;
 
-import junit.framework.TestCase;
 import net.fortytwo.flow.Collector;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.cli.ast.KeywordAST;
 import net.fortytwo.ripple.cli.ast.ListAST;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.PipedIOStream;
+import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import static org.junit.Assert.fail;
+
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class InterpreterTest extends TestCase {
+public class InterpreterTest extends RippleTestCase {
     private static final long WAIT_INTERVAL = 100l;
-    private static final byte[] NEWLINE = {'\n'};
 
     private int lineNumber;
 
@@ -36,7 +39,7 @@ public class InterpreterTest extends TestCase {
 
         final PipedIOStream pio = new PipedIOStream();
 
-        Collector<Exception> exceptions = new Collector<Exception>();
+        Collector<Exception> exceptions = new Collector<>();
         RecognizerAdapter ra = new RecognizerAdapter(System.err) {
             @Override
             protected void handleQuery(ListAST query) throws RippleException {
@@ -60,14 +63,12 @@ public class InterpreterTest extends TestCase {
         };
         final Interpreter interpreter = new Interpreter(ra, pio, exceptions);
 
-        Thread interpreterThread = new Thread(new Runnable() {
-            public void run() {
-                try {
-                    interpreter.parse();
-                } catch (Exception e) {
-                    // Throw out the error, for now.
-                    e.printStackTrace();
-                }
+        Thread interpreterThread = new Thread(() -> {
+            try {
+                interpreter.parse();
+            } catch (Exception e) {
+                // Throw out the error, for now.
+                e.printStackTrace();
             }
         }, "InterpreterTest thread");
 
@@ -121,6 +122,8 @@ public class InterpreterTest extends TestCase {
         pio.close();
     }
 
+    @Ignore
+    @Test
     public void testNothing() throws Exception {
     }
 }

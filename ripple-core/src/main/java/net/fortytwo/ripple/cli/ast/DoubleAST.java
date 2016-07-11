@@ -1,8 +1,5 @@
 package net.fortytwo.ripple.cli.ast;
 
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.model.ModelConnection;
-
 import java.math.BigDecimal;
 import java.util.regex.Pattern;
 
@@ -43,47 +40,51 @@ public class DoubleAST extends NumberAST {
             throw new IllegalArgumentException("invalid xsd:double value: " + rep);
         }
 
-        if (rep.equals("NaN")) {
-            value = Double.NaN;
-        } else if (rep.equals("INF")) {
-            value = Double.POSITIVE_INFINITY;
-        } else if (rep.equals("-INF")) {
-            value = Double.NEGATIVE_INFINITY;
-        } else {
-            String s = canonicalize(rep);
+        switch (rep) {
+            case "NaN":
+                value = Double.NaN;
+                break;
+            case "INF":
+                value = Double.POSITIVE_INFINITY;
+                break;
+            case "-INF":
+                value = Double.NEGATIVE_INFINITY;
+                break;
+            default:
+                String s = canonicalize(rep);
 
-            // TODO: what happens when the number represented by the mantissa
-            // or exponent portion of the number is larger than Long.MAX_VALUE?
-            BigDecimal mantissa, exponent;
-            int i = s.indexOf("e");
+                // TODO: what happens when the number represented by the mantissa
+                // or exponent portion of the number is larger than Long.MAX_VALUE?
+                BigDecimal mantissa, exponent;
+                int i = s.indexOf("e");
 
-            // Exponent is omitted, assumed to be 0.
-            if (-1 == i) {
-                mantissa = new BigDecimal(s);
-                exponent = BigDecimal.ZERO;
-            }
+                // Exponent is omitted, assumed to be 0.
+                if (-1 == i) {
+                    mantissa = new BigDecimal(s);
+                    exponent = BigDecimal.ZERO;
+                }
 
-            // Exponent is given.
-            else {
-                mantissa = new BigDecimal(s.substring(0, i));
-                exponent = new BigDecimal(s.substring(1 + i));
-            }
+                // Exponent is given.
+                else {
+                    mantissa = new BigDecimal(s.substring(0, i));
+                    exponent = new BigDecimal(s.substring(1 + i));
+                }
 
-            if (0 <= mantissa.abs().compareTo(SUP_MANTISSA)) {
-                throw new IllegalArgumentException("mantissa of xsd:double number is out of range: " + rep);
-            }
+                if (0 <= mantissa.abs().compareTo(SUP_MANTISSA)) {
+                    throw new IllegalArgumentException("mantissa of xsd:double number is out of range: " + rep);
+                }
 
-            if (0 > exponent.compareTo(MIN_EXPONENT)
-                    || 0 < exponent.compareTo(MAX_EXPONENT)) {
-                throw new IllegalArgumentException("exponent of xsd:double number is out of range: " + rep);
-            }
+                if (0 > exponent.compareTo(MIN_EXPONENT)
+                        || 0 < exponent.compareTo(MAX_EXPONENT)) {
+                    throw new IllegalArgumentException("exponent of xsd:double number is out of range: " + rep);
+                }
 
-//System.out.println("mantissa = " + mantissa + ", exponent = " + exponent);
-            value = mantissa.doubleValue() * Math.pow(10, exponent.doubleValue());
+                value = mantissa.doubleValue() * Math.pow(10, exponent.doubleValue());
+                break;
         }
     }
 
-    public Number getValue(final ModelConnection mc) throws RippleException {
+    public Number getValue() {
         return value;
     }
 

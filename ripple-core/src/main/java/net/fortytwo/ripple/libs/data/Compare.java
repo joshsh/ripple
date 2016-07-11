@@ -22,8 +22,7 @@ public class Compare extends PrimitiveStackMapping {
                 GraphLibrary.NS_2007_05 + "compare"};
     }
 
-    public Compare()
-            throws RippleException {
+    public Compare() {
         super();
     }
 

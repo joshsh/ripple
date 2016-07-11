@@ -1,13 +1,17 @@
 package net.fortytwo.ripple;
 
 import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.util.Date;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class RipplePropertiesTest extends TestCase {
+public class RipplePropertiesTest {
+    @Test
     public void testDates() throws Exception {
         RippleProperties props = new RippleProperties();
 

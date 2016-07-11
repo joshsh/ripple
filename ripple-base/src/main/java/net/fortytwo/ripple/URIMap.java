@@ -23,7 +23,7 @@ public class URIMap {
     private boolean upToDate = true;
 
     public URIMap() {
-        map = new Hashtable<String, String>();
+        map = new Hashtable<>();
 
         // Avoid NullPointerException of get() before update().
         update();

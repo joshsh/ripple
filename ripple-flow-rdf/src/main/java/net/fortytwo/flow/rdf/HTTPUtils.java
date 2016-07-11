@@ -32,12 +32,7 @@ import java.util.Map;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class HTTPUtils {
-    public static final String
-            ACCEPT = "Accept",
-            BODY = "Body",
-            CONTENT_TYPE = "Content-Type",
-            SPARQL_QUERY = "application/sparql-query",
-            USER_AGENT = "User-Agent";
+    public static final String USER_AGENT = "User-Agent";
 
     private static final Map<String, Long> lastRequestByHost = new HashMap<>();
 
@@ -56,10 +51,6 @@ public class HTTPUtils {
     }
 
     public static HttpClient createClient(final boolean autoRedirect) throws RippleException {
-
-
-
-
 
         RequestConfig defaultRequestConfig = RequestConfig.custom()
                 .setSocketTimeout((int) CONNECTION_TIMEOUT)
@@ -91,16 +82,8 @@ public class HTTPUtils {
     private static void ignoreSSLErrors(final HttpClientBuilder builder) throws RippleException {
         SSLContext sslContext;
         try {
-            sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
-                public boolean isTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-                    return true;
-                }
-            }).build();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RippleException(e);
-        } catch (KeyManagementException e) {
-            throw new RippleException(e);
-        } catch (KeyStoreException e) {
+            sslContext = new SSLContextBuilder().loadTrustMaterial(null, (arg0, arg1) -> true).build();
+        } catch (NoSuchAlgorithmException | KeyManagementException | KeyStoreException e) {
             throw new RippleException(e);
         }
         builder.setSslcontext(sslContext);
@@ -115,7 +98,7 @@ public class HTTPUtils {
         builder.setConnectionManager(connMgr);
     }
 
-    public static HttpGet createGetMethod(final String url) throws RippleException {
+    public static HttpGet createGetMethod(final String url) {
 
         HttpGet method;
 
@@ -126,84 +109,19 @@ public class HTTPUtils {
         return method;
     }
 
-    /*
-    public static HttpPost createPostMethod(final String url) throws RippleException {
-        HttpPost method;
-
-            method = new HttpPost(url);
-
-        setAgent(method);
-
-        return method;
-    }
-
-    public static HttpGet createRdfGetMethod(final String url) throws RippleException {
-        HttpGet method = createGetMethod(url);
-
-        StringBuilder sb = new StringBuilder();
-        boolean first = true;
-        for (RDFFormat f : RDFFormat.values()) {
-            if (first) {
-                first = false;
-            } else {
-                sb.append(", ");
-            }
-
-            sb.append(f.getDefaultMIMEType());
-        }
-
-        setAcceptHeader(method, sb.toString());
-
-        return method;
-    }
-
-    public static HttpPost createSparqlUpdateMethod(final String url) throws RippleException {
-        HttpPost method = createPostMethod(url);
-        setContentTypeHeader(method, SPARQL_QUERY);
-        return method;
-    }
-
-    public static void setContentTypeHeader(final HttpRequest method, final String value)
-            throws RippleException {
-            method.setHeader(CONTENT_TYPE, value);
-    }
-
-
-    public static void setAcceptHeader(final HttpRequest method, final String[] mimeTypes)
-            throws RippleException {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < mimeTypes.length; i++) {
-            if (i > 0) {
-                sb.append(", ");
-            }
-
-            sb.append(mimeTypes[i]);
-        }
-
-        setAcceptHeader(method, sb.toString());
-    }
-    */
-
-    public static void setAcceptHeader(final HttpRequest method, final String value)
-            throws RippleException {
-        method.setHeader(ACCEPT, value);
-    }
-
     /**
      * Enforces crawler etiquette with respect to timing of HTTP requests.
      * That is, it avoids the Ripple client making a nuisance of itself by
      * making too many requests, too quickly, of the same host.
      * TODO: request and respect robots.txt, if present.
-     *
-     * @return the amount of time, in milliseconds, that is spent idling for the sake of crawler etiquette
      */
-    public static long throttleHttpRequest(final HttpRequest method) throws RippleException {
+    public static void throttleHttpRequest(final HttpRequest method) throws RippleException {
         String uri = method.getRequestLine().getUri();
 
         // Some connections (e.g. file system operations) have no host.  Don't
         // bother regulating them.
         if (null == uri || 0 == uri.length() || !(uri.startsWith("http://") || uri.startsWith("https://"))) {
-            return 0;
+            return;
         }
 
         String host = uri.substring(uri.indexOf("//") + 2);
@@ -247,8 +165,6 @@ public class HTTPUtils {
                 throw new RippleException(e);
             }
         }
-
-        return System.currentTimeMillis() - now;
     }
 
     private static void setAgent(final HttpRequest method) {

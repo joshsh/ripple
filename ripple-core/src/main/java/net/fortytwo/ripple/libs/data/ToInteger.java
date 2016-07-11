@@ -28,8 +28,7 @@ public class ToInteger extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public ToInteger()
-            throws RippleException {
+    public ToInteger() {
         super();
     }
 

@@ -21,8 +21,7 @@ public class Gte extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Gte()
-            throws RippleException {
+    public Gte() {
         super();
     }
 

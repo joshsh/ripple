@@ -13,6 +13,7 @@ import net.fortytwo.ripple.query.StackEvaluator;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -26,8 +27,7 @@ public class Order extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Order()
-            throws RippleException {
+    public Order() {
         super();
     }
 
@@ -46,14 +46,11 @@ public class Order extends PrimitiveStackMapping {
         boolean a = Ripple.asynchronousQueries();
         Ripple.enableAsynchronousQueries(false);
         try {
-            Collector<RippleList> s = new Collector<RippleList>();
+            Collector<RippleList> s = new Collector<>();
             StackEvaluator e = new LazyStackEvaluator();
             e.apply(arg, s, mc);
 
-            List<RippleList> all = new LinkedList<RippleList>();
-            for (RippleList c : s) {
-                all.add(c);
-            }
+            List<RippleList> all = s.stream().collect(Collectors.toCollection(() -> new LinkedList<>()));
             Collections.sort(all, mc.getComparator());
 
             for (RippleList l : all) {

@@ -28,7 +28,7 @@ public class While extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public While() throws RippleException {
+    public While() {
         super();
     }
 
@@ -54,10 +54,10 @@ public class While extends PrimitiveStackMapping {
         stack = stack.getRest();
 
         Collector<Operator> programOps
-                = new Collector<Operator>();
+                = new Collector<>();
         Operator.createOperator(program, programOps, mc);
         Collector<Operator> criterionOps
-                = new Collector<Operator>();
+                = new Collector<>();
         Operator.createOperator(criterion, criterionOps, mc);
 
         for (Operator programOp : programOps) {
@@ -137,10 +137,9 @@ public class While extends PrimitiveStackMapping {
                           final Sink<RippleList> solutions,
                           final ModelConnection mc) throws RippleException {
 
-            RippleList stack = arg;
-            StackMapping d = new WhileDecider(stack, program, criterion);
+            StackMapping d = new WhileDecider(arg, program, criterion);
 
-            solutions.accept(stack.push(criterion).push(new Operator(d)));
+            solutions.accept(arg.push(criterion).push(new Operator(d)));
         }
     }
 }

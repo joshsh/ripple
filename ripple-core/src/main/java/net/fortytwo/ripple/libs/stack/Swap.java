@@ -22,8 +22,7 @@ public class Swap extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Swap()
-            throws RippleException {
+    public Swap() {
         super();
     }
 

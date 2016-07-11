@@ -24,16 +24,14 @@ public class TypedLiteralAST implements AST<RippleList> {
                          final QueryEngine qe,
                          final ModelConnection mc)
             throws RippleException {
-        Sink<RippleList> typeSink = new Sink<RippleList>() {
-            public void accept(final RippleList l) throws RippleException {
-                Object type = l.getFirst();
-                Value t = mc.toRDF(type);
-                if (t instanceof IRI) {
-                    Object p = mc.valueOf(value, (IRI) t);
-                    sink.accept(mc.list().push(p));
-                } else {
-                    qe.getErrorPrintStream().println("datatype does not map to a URI reference: " + type);
-                }
+        Sink<RippleList> typeSink = l -> {
+            Object type1 = l.getFirst();
+            Value t = mc.toRDF(type1);
+            if (t instanceof IRI) {
+                Object p = mc.valueOf(value, (IRI) t);
+                sink.accept(mc.list().push(p));
+            } else {
+                qe.getErrorPrintStream().println("datatype does not map to a URI reference: " + type1);
             }
         };
 

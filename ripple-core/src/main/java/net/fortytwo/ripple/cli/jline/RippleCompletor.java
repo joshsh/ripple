@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -14,11 +15,9 @@ public abstract class RippleCompletor implements Completer {
     private final SortedSet<String> alts;
 
     public RippleCompletor(final Collection<String> alternatives) {
-        alts = new TreeSet<String>();
+        alts = new TreeSet<>();
 
-        for (String alternative : alternatives) {
-            alts.add(alternative);
-        }
+        alts.addAll(alternatives.stream().collect(Collectors.toList()));
     }
 
     protected abstract int findStartIndex(String s);

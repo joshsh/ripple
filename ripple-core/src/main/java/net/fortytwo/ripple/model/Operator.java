@@ -20,7 +20,7 @@ public class Operator {
     }
 
     // Note: only for URI values (Literals are handled in createOperator)
-    private Operator(final Value pred) throws RippleException {
+    private Operator(final Value pred) {
         mapping = new RDFPredicateMapping(StatementPatternQuery.Pattern.SP_O, pred, null);
     }
 
@@ -76,11 +76,7 @@ public class Operator {
         // the available RDF statements, and create the appropriate object.
         if (v instanceof Value) {
             if (ModelConnectionHelper.isRDFList(v, mc)) {
-                Sink<RippleList> listSink = new Sink<RippleList>() {
-                    public void accept(final RippleList list) throws RippleException {
-                        opSink.accept(new Operator(list));
-                    }
-                };
+                Sink<RippleList> listSink = list -> opSink.accept(new Operator(list));
 
                 mc.toList(v, listSink);
                 return;

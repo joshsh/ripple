@@ -22,8 +22,7 @@ public class Swapd extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Swapd()
-            throws RippleException {
+    public Swapd() {
         super();
     }
 

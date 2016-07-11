@@ -25,8 +25,7 @@ public class Cbrt extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Cbrt()
-            throws RippleException {
+    public Cbrt() {
         super();
 
         this.self = this;

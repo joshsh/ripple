@@ -23,8 +23,7 @@ public class Log extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Log()
-            throws RippleException {
+    public Log() {
         super();
     }
 

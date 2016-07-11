@@ -25,17 +25,17 @@ public abstract class NumericType<T> implements RippleType<T> {
     }
 
     protected static final Map<Class, Datatype> datatypeByClass;
-    protected static final Map<IRI, Datatype> datatypeByUri;
+    private static final Map<IRI, Datatype> datatypeByUri;
 
     static {
-        datatypeByClass = new HashMap<Class, Datatype>();
+        datatypeByClass = new HashMap<>();
         datatypeByClass.put(BigDecimal.class, Datatype.DECIMAL);
         datatypeByClass.put(Double.class, Datatype.DOUBLE);
         datatypeByClass.put(Float.class, Datatype.FLOAT);
         datatypeByClass.put(Integer.class, Datatype.INTEGER);
         datatypeByClass.put(Long.class, Datatype.LONG);
 
-        datatypeByUri = new HashMap<IRI, Datatype>();
+        datatypeByUri = new HashMap<>();
         datatypeByUri.put(XMLSchema.DECIMAL, Datatype.DECIMAL);
         datatypeByUri.put(XMLSchema.DOUBLE, Datatype.DOUBLE);
         datatypeByUri.put(XMLSchema.FLOAT, Datatype.FLOAT);
@@ -85,7 +85,7 @@ public abstract class NumericType<T> implements RippleType<T> {
         }
     }
 
-    protected Value toRDF(final Number instance, final Datatype datatype, final ModelConnection mc) throws RippleException {
+    protected Value toRDF(final Number instance, final Datatype datatype, final ModelConnection mc) {
         SesameModelConnection smc = (SesameModelConnection) mc;
         Value rdfEquivalent;
 
@@ -134,7 +134,7 @@ public abstract class NumericType<T> implements RippleType<T> {
         return p;
     }
 
-    public static Datatype datatypeOf(final Number a, final Number b) {
+    private static Datatype datatypeOf(final Number a, final Number b) {
         Datatype da = datatypeOf(a);
         Datatype db = datatypeOf(b);
 
@@ -351,14 +351,15 @@ public abstract class NumericType<T> implements RippleType<T> {
 
         // Sesame's literals apparently don't handle these special
         // cases, so we need to check for them here.
-        if (label.equals("NaN")) {
-            return Double.NaN;
-        } else if (label.equals("INF")) {
-            return Double.POSITIVE_INFINITY;
-        } else if (label.equals("-INF")) {
-            return Double.NEGATIVE_INFINITY;
-        } else {
-            return l.doubleValue();
+        switch (label) {
+            case "NaN":
+                return Double.NaN;
+            case "INF":
+                return Double.POSITIVE_INFINITY;
+            case "-INF":
+                return Double.NEGATIVE_INFINITY;
+            default:
+                return l.doubleValue();
         }
     }
 

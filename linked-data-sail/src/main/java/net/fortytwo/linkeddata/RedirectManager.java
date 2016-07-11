@@ -34,12 +34,9 @@ public class RedirectManager {
     public boolean existsRedirectTo(final String documentUri) throws SailException {
         IRI hashedDocumentUri = valueFactory.createIRI(RDFUtils.hashedUri(documentUri));
 
-        CloseableIteration<? extends Statement, SailException> iter
-                = connection.getStatements(null, LinkedDataCache.CACHE_REDIRECTSTO, hashedDocumentUri, false);
-        try {
+        try (CloseableIteration<? extends Statement, SailException> iter
+                     = connection.getStatements(null, LinkedDataCache.CACHE_REDIRECTSTO, hashedDocumentUri, false)) {
             return iter.hasNext();
-        } finally {
-            iter.close();
         }
     }
 

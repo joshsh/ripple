@@ -46,7 +46,7 @@ public class JSONObjectType extends KeyValueType<JSONObject> {
 
     @Override
     public Collection<String> getKeys(final JSONObject instance) {
-        List<String> keys = new LinkedList<String>();
+        List<String> keys = new LinkedList<>();
         Iterator i = instance.keys();
         while (i.hasNext()) {
             Object key = i.next();
@@ -83,7 +83,7 @@ public class JSONObjectType extends KeyValueType<JSONObject> {
         return cur;
     }
 
-    public static Object toNative(final Object v, final ModelConnection mc) throws RippleException {
+    private static Object toNative(final Object v, final ModelConnection mc) throws RippleException {
         return v instanceof JSONArray ? toList((JSONArray) v, mc) : v;
     }
 }

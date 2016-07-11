@@ -29,8 +29,7 @@ public class Links extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Links()
-            throws RippleException {
+    public Links() {
         super();
     }
 
@@ -49,22 +48,19 @@ public class Links extends PrimitiveStackMapping {
 
         Model model = mc.getModel();
         if (model instanceof SesameModel) {
-            final RippleList stack = arg;
 
             Object subj;
 
-            subj = stack.getFirst();
+            subj = arg.getFirst();
 
-            Sink<Statement> stSink = new Sink<Statement>() {
-                public void accept(final Statement st) throws RippleException {
-                    Resource context = st.getContext();
+            Sink<Statement> stSink = st -> {
+                Resource context = st.getContext();
 
-                    Object pred = mc.canonicalValue(st.getPredicate());
-                    Object obj = mc.canonicalValue(st.getObject());
-                    Object ctx = (null == context) ? mc.list() : mc.canonicalValue(context);
+                Object pred = mc.canonicalValue(st.getPredicate());
+                Object obj = mc.canonicalValue(st.getObject());
+                Object ctx = (null == context) ? mc.list() : mc.canonicalValue(context);
 
-                    solutions.accept(stack.push(pred).push(obj).push(ctx));
-                }
+                solutions.accept(arg.push(pred).push(obj).push(ctx));
             };
 
             // FIXME: only SesameModel supports getStatements()

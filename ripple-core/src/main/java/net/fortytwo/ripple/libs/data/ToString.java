@@ -26,8 +26,7 @@ public class ToString extends PrimitiveStackMapping {
                 GraphLibrary.NS_2007_05 + "toString"};
     }
 
-    public ToString()
-            throws RippleException {
+    public ToString() {
         super();
     }
 

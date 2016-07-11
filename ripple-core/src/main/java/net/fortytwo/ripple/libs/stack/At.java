@@ -13,7 +13,7 @@ import net.fortytwo.ripple.model.RippleList;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class At extends PrimitiveStackMapping {
-    public static final String[] IDENTIFIERS = {
+    private static final String[] IDENTIFIERS = {
             StackLibrary.NS_2013_03 + "at",
             StackLibrary.NS_2008_08 + "at",
             StackLibrary.NS_2007_08 + "at",
@@ -23,8 +23,7 @@ public class At extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public At()
-            throws RippleException {
+    public At() {
         super();
     }
 
@@ -48,26 +47,24 @@ public class At extends PrimitiveStackMapping {
         Object l = stack.getFirst();
         final RippleList rest = stack.getRest();
 
-        Sink<RippleList> listSink = new Sink<RippleList>() {
-            public void accept(RippleList list) throws RippleException {
+        Sink<RippleList> listSink = list -> {
+            if (list.isNil()) {
+                throw new RippleException("list index out of bounds: " + index);
+            }
+
+            if (index < 1) {
+                throw new RippleException("list index out of bounds (note: 'at' begins counting at 1): " + index);
+            }
+
+            for (int j = 1; j < index; j++) {
+                list = list.getRest();
                 if (list.isNil()) {
                     throw new RippleException("list index out of bounds: " + index);
                 }
-
-                if (index < 1) {
-                    throw new RippleException("list index out of bounds (note: 'at' begins counting at 1): " + index);
-                }
-
-                for (int j = 1; j < index; j++) {
-                    list = list.getRest();
-                    if (list.isNil()) {
-                        throw new RippleException("list index out of bounds: " + index);
-                    }
-                }
-
-                solutions.accept(
-                        rest.push(list.getFirst()));
             }
+
+            solutions.accept(
+                    rest.push(list.getFirst()));
         };
 
         mc.toList(l, listSink);

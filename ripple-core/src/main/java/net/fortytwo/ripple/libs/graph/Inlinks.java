@@ -29,8 +29,7 @@ public class Inlinks extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Inlinks()
-            throws RippleException {
+    public Inlinks() {
         super();
     }
 
@@ -53,16 +52,14 @@ public class Inlinks extends PrimitiveStackMapping {
             final Object obj = arg.getFirst();
             final RippleList rest = arg.getRest();
 
-            Sink<Statement> stSink = new Sink<Statement>() {
-                public void accept(final Statement st) throws RippleException {
-                    Resource context = st.getContext();
+            Sink<Statement> stSink = st -> {
+                Resource context = st.getContext();
 
-                    Object subj = mc.canonicalValue(st.getSubject());
-                    Object pred = mc.canonicalValue(st.getPredicate());
-                    Object ctx = (null == context) ? mc.list() : mc.canonicalValue(context);
+                Object subj = mc.canonicalValue(st.getSubject());
+                Object pred = mc.canonicalValue(st.getPredicate());
+                Object ctx = (null == context) ? mc.list() : mc.canonicalValue(context);
 
-                    solutions.accept(rest.push(subj).push(pred).push(obj).push(ctx));
-                }
+                solutions.accept(rest.push(subj).push(pred).push(obj).push(ctx));
             };
 
             mc.getStatements(null, null, mc.toRDF(obj), stSink);

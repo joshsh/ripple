@@ -41,8 +41,7 @@ public class Get extends PrimitiveStackMapping {
         return "issues a GET request and produces the received data as a string";
     }
 
-    public Get()
-            throws RippleException {
+    public Get() {
         super();
     }
 
@@ -86,7 +85,7 @@ public class Get extends PrimitiveStackMapping {
         try {
             BufferedReader br = new BufferedReader(
                     new InputStreamReader(body));
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             String nextLine = "";
             boolean first = true;
             while ((nextLine = br.readLine()) != null) {

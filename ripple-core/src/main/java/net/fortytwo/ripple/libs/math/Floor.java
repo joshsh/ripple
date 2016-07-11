@@ -23,8 +23,7 @@ public class Floor extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Floor()
-            throws RippleException {
+    public Floor() {
         super();
     }
 

@@ -6,6 +6,7 @@ import net.fortytwo.ripple.cli.ast.PlainLiteralAST;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 import org.openrdf.model.IRI;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Statement;
@@ -16,10 +17,15 @@ import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class DefinitionsTest extends RippleTestCase {
+    @Test
     public void testDefinitions() throws Exception {
         Sail sail = getTestSail();
         SailConnection sc = sail.getConnection();

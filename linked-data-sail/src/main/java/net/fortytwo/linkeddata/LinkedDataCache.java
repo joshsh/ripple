@@ -50,7 +50,7 @@ public class LinkedDataCache {
 
     private static final ValueFactory constValueFactory = SimpleValueFactory.getInstance();
 
-    public static final String
+    private static final String
             CACHE_NS = "http://fortytwo.net/2012/02/linkeddata#";
     public static final IRI
             CACHE_MEMO = constValueFactory.createIRI(CACHE_NS + "memo"),
@@ -90,10 +90,10 @@ public class LinkedDataCache {
 
     // Maps media types to Rdfizers
     private final Map<MediaType, MediaTypeInfo> rdfizers
-            = new HashMap<MediaType, MediaTypeInfo>();
+            = new HashMap<>();
 
     // Maps IRI schemes to Dereferencers
-    private final Map<String, Dereferencer> dereferencers = new HashMap<String, Dereferencer>();
+    private final Map<String, Dereferencer> dereferencers = new HashMap<>();
 
     private DataStore dataStore;
 
@@ -137,7 +137,7 @@ public class LinkedDataCache {
 
         // Rdfizers for registered RDF formats
         // TODO: 'tmp' is a hack to avoid a poorly-understood ConcurrentModificationException
-        Collection<RDFFormat> tmp = new LinkedList<RDFFormat>();
+        Collection<RDFFormat> tmp = new LinkedList<>();
         tmp.addAll(RDFParserRegistry.getInstance().getKeys());
         for (RDFFormat f : tmp) {
             Rdfizer r = new VerbatimRdfizer(f, datatypeHandling);
@@ -161,7 +161,7 @@ public class LinkedDataCache {
     /**
      * @param sail underlying triple store for the cache
      */
-    public LinkedDataCache(final Sail sail) {
+    private LinkedDataCache(final Sail sail) {
         sailConnection = sail.getConnection();
         sailConnection.begin();
 
@@ -178,11 +178,7 @@ public class LinkedDataCache {
 
         this.expirationPolicy = new DefaultCacheExpirationPolicy();
 
-        dataStore = new DataStore() {
-            public Consumer<Statement> createConsumer(final SailConnection sc) {
-                return new SesameOutputAdapter(new SailInserter(sc));
-            }
-        };
+        dataStore = sc -> new SesameOutputAdapter(new SailInserter(sc));
     }
 
     public synchronized void clear() {
@@ -202,7 +198,7 @@ public class LinkedDataCache {
         }
     }
 
-    public synchronized SailConnection getSailConnection() {
+    private synchronized SailConnection getSailConnection() {
         return sailConnection;
     }
 
@@ -220,12 +216,8 @@ public class LinkedDataCache {
 
             // Order from highest quality to lowest.
             Comparator<MediaTypeInfo> comparator
-                    = new Comparator<MediaTypeInfo>() {
-                public int compare(final MediaTypeInfo first,
-                                   final MediaTypeInfo second) {
-                    return first.quality < second.quality ? 1 : first.quality > second.quality ? -1 : 0;
-                }
-            };
+                    = (first1, second)
+                    -> first1.quality < second.quality ? 1 : first1.quality > second.quality ? -1 : 0;
 
             MediaTypeInfo[] array = new MediaTypeInfo[rdfizers.size()];
             rdfizers.values().toArray(array);
@@ -260,9 +252,9 @@ public class LinkedDataCache {
      *                      the client's preference for the given media type.
      *                      This value is used for HTTP content negotiation.
      */
-    public void addRdfizer(final MediaType mediaType,
-                           final Rdfizer rdfizer,
-                           final double qualityFactor) {
+    private void addRdfizer(final MediaType mediaType,
+                            final Rdfizer rdfizer,
+                            final double qualityFactor) {
         logger.info("adding RDFizer for media type " + mediaType + ": " + rdfizer);
 
         if (qualityFactor <= 0 || qualityFactor > 1) {
@@ -288,7 +280,7 @@ public class LinkedDataCache {
      * @param scheme the name of the IRI scheme (e.g. "http", "ftp", "file", "jar")
      * @param dref   the associated dereferencer
      */
-    public void addDereferencer(final String scheme, final Dereferencer dref) {
+    private void addDereferencer(final String scheme, final Dereferencer dref) {
         logger.info("adding dereferencer for for IRI scheme " + scheme + ": " + dref);
 
         dereferencers.put(scheme, dref);
@@ -327,7 +319,7 @@ public class LinkedDataCache {
         CacheEntry memo = metadata.getMemo(graphUri, sc);
 
         // If there is already a (non-expired) entry for this URI, just return its status.
-        if (null != memo && !expirationPolicy.isExpired(uri.toString(), memo)) {
+        if (null != memo && !expirationPolicy.isExpired(memo)) {
             return memo;
         }
 
@@ -404,7 +396,7 @@ public class LinkedDataCache {
             memo.setRdfizer(rfiz.getClass().getName());
 
             Consumer<Statement> adder = dataStore.createConsumer(sc);
-            Buffer<Statement> buffer = new Buffer<Statement>(adder);
+            Buffer<Statement> buffer = new Buffer<>(adder);
 
             // Note: any context information in the source document is discarded.
             Consumer<Statement> pipe = new SingleContextPipe(buffer, valueFactory.createIRI(graphUri));
@@ -529,14 +521,13 @@ public class LinkedDataCache {
     }
 
     private class DefaultCacheExpirationPolicy implements CacheExpirationPolicy {
-        private long cacheLifetime;
+        private final long cacheLifetime;
 
         public DefaultCacheExpirationPolicy() {
             cacheLifetime = Long.valueOf(LinkedDataSail.getProperty(LinkedDataSail.CACHE_LIFETIME, "604800")) * 1000L;
         }
 
-        public boolean isExpired(final String uri,
-                                 final CacheEntry entry) {
+        public boolean isExpired(final CacheEntry entry) {
             Date last = entry.getTimestamp();
             return null != last
                     && System.currentTimeMillis() - last.getTime() >= cacheLifetime;
@@ -574,7 +565,7 @@ public class LinkedDataCache {
 
     private class Buffer<T> implements Consumer<T> {
         private final Consumer<T> wrapped;
-        private final List<T> buffer = new LinkedList<T>();
+        private final List<T> buffer = new LinkedList<>();
 
         public Buffer(final Consumer<T> wrapped) {
             this.wrapped = wrapped;
@@ -586,9 +577,7 @@ public class LinkedDataCache {
         }
 
         public void flush() {
-            for (T t : buffer) {
-                wrapped.accept(t);
-            }
+            buffer.forEach(wrapped::accept);
             buffer.clear();
         }
     }
@@ -642,7 +631,7 @@ public class LinkedDataCache {
     }
 
     private class SesameOutputAdapter implements Consumer<Statement> {
-        private RDFHandler handler;
+        private final RDFHandler handler;
 
         public SesameOutputAdapter(final RDFHandler handler) {
             this.handler = handler;

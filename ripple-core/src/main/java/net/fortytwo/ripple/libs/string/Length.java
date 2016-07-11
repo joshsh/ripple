@@ -21,8 +21,7 @@ public class Length extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Length()
-            throws RippleException {
+    public Length() {
         super();
     }
 

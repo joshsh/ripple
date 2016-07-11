@@ -25,8 +25,7 @@ public class PercentEncoded extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public PercentEncoded()
-            throws RippleException {
+    public PercentEncoded() {
         super();
     }
 

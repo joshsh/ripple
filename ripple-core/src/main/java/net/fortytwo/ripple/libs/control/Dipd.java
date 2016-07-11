@@ -22,8 +22,7 @@ public class Dipd extends PrimitiveStackMapping {
                 StackLibrary.NS_2007_05 + "dipd"};
     }
 
-    public Dipd()
-            throws RippleException {
+    public Dipd() {
         super();
     }
 

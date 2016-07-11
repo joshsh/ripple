@@ -23,8 +23,7 @@ public class New extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public New()
-            throws RippleException {
+    public New() {
         super();
     }
 

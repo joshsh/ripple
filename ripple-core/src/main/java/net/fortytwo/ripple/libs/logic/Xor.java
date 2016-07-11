@@ -27,8 +27,7 @@ public class Xor extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Xor()
-            throws RippleException {
+    public Xor() {
         super();
     }
 

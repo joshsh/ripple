@@ -22,8 +22,7 @@ public class DenyInContext extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public DenyInContext()
-            throws RippleException {
+    public DenyInContext() {
         super();
     }
 

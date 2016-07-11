@@ -23,8 +23,8 @@ import java.util.List;
  */
 public class LazyEvaluatingIterator implements CloseableIteration<RippleList, RippleException> {
 
-    private final List<RippleList> intermediates = new LinkedList<RippleList>();
-    private final List<RippleList> solutions = new LinkedList<RippleList>();
+    private final List<RippleList> intermediates = new LinkedList<>();
+    private final List<RippleList> solutions = new LinkedList<>();
     private final ModelConnection mc;
 
     public LazyEvaluatingIterator(final RippleList stack,
@@ -89,7 +89,7 @@ public class LazyEvaluatingIterator implements CloseableIteration<RippleList, Ri
                 }
             } else {
                 if (0 == f.arity()) {
-                    Collector<RippleList> results = new Collector<RippleList>();
+                    Collector<RippleList> results = new Collector<>();
                     // Note: synchronous evaluation is required
                     // Note: stack context is trivial
                     f.apply(left.getRest(), results, mc);
@@ -130,14 +130,10 @@ public class LazyEvaluatingIterator implements CloseableIteration<RippleList, Ri
                           final Sink<RippleList> solutions,
                           final ModelConnection mc) throws RippleException {
             try {
-                CloseableIteration<RippleList, RippleException> iter
-                        = new LazyEvaluatingIterator(arg, mc);
-                try {
+                try (CloseableIteration<RippleList, RippleException> iter = new LazyEvaluatingIterator(arg, mc)) {
                     while (iter.hasNext() && !stopped) {
                         solutions.accept(iter.next());
                     }
-                } finally {
-                    iter.close();
                 }
             } finally {
                 stopped = false;

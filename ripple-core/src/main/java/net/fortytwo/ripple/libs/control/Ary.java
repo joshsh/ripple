@@ -26,8 +26,7 @@ public class Ary extends PrimitiveStackMapping {
                 StackLibrary.NS_2007_05 + "ary"};
     }
 
-    public Ary()
-            throws RippleException {
+    public Ary() {
         super();
     }
 
@@ -41,7 +40,7 @@ public class Ary extends PrimitiveStackMapping {
     }
 
     private class NaryId implements StackMapping {
-        private int n;
+        private final int n;
 
         public NaryId(final int arity) {
             n = arity;

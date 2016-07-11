@@ -22,8 +22,7 @@ import java.util.Optional;
 public class RipplePrintStream extends PrintStream {
     private final Lexicon lexicon;
 
-    public RipplePrintStream(final OutputStream out, final Lexicon lexicon)
-            throws RippleException {
+    public RipplePrintStream(final OutputStream out, final Lexicon lexicon) {
         super(out);
         this.lexicon = lexicon;
     }
@@ -45,7 +44,7 @@ public class RipplePrintStream extends PrintStream {
         }
     }
 
-    public void print(final Statement st) throws RippleException {
+    private void print(final Statement st) throws RippleException {
         print("    ");
         print(st.getSubject());
 
@@ -67,7 +66,7 @@ public class RipplePrintStream extends PrintStream {
         print("<" + StringUtils.escapeURIString(uri.toString()) + ">");
     }
 
-    private void printURI(final IRI uri) throws RippleException {
+    private void printURI(final IRI uri) {
         String symbol = lexicon.findSymbol(uri);
 
         if (null == symbol) {

@@ -4,14 +4,18 @@ import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RipplePrintStreamTest extends RippleTestCase {
+    @Test
     public void testLiterals() throws Exception {
         Model model = getTestModel();
         ModelConnection mc = model.createConnection();

@@ -13,8 +13,8 @@ public class LexicalCompletor extends RippleCompletor {
     }
 
     private boolean isDelimiter(final char c) {
-        for (int i = 0; i < DELIMITERS.length; i++) {
-            if (DELIMITERS[i] == c) {
+        for (char DELIMITER : DELIMITERS) {
+            if (DELIMITER == c) {
                 return true;
             }
         }

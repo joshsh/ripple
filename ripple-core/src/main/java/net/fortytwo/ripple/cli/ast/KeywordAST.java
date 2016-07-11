@@ -28,11 +28,7 @@ public class KeywordAST implements AST<RippleList> {
                          final QueryEngine qe,
                          final ModelConnection mc)
             throws RippleException {
-        Sink<Object> uriSink = new Sink<Object>() {
-            public void accept(final Object v) throws RippleException {
-                sink.accept(mc.list().push(v));
-            }
-        };
+        Sink<Object> uriSink = v -> sink.accept(mc.list().push(v));
 
         qe.getLexicon().resolveKeyword(name, uriSink, mc, qe.getErrorPrintStream());
     }

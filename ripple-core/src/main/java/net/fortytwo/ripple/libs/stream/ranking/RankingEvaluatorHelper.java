@@ -37,10 +37,10 @@ public class RankingEvaluatorHelper {
 
     public RankingEvaluatorHelper(final RippleList arg,
                                   final ModelConnection mc) {
-        queue = new PriorityQueue<RankingContext>(1, comparator);
+        queue = new PriorityQueue<>(1, comparator);
 
-        resultList = new LinkedList<RankingContext>();
-        resultMemos = new ListMemoizer<Object, RankingContext>(
+        resultList = new LinkedList<>();
+        resultMemos = new ListMemoizer<>(
                 new RippleComparator(mc));
 
         handleOutput(new RankingContext(arg, mc));
@@ -93,23 +93,13 @@ public class RankingEvaluatorHelper {
         }
     }
 
-    private final Comparator<RankingContext> comparator = new Comparator<RankingContext>() {
-        public int compare(final RankingContext first,
-                           final RankingContext second) {
-            // This orders items from highest to lowest priority.
-            return ((Double) second.getPriority()).compareTo(first.getPriority());
-        }
+    private final Comparator<RankingContext> comparator = (first, second) -> {
+        // This orders items from highest to lowest priority.
+        return ((Double) second.getPriority()).compareTo(first.getPriority());
     };
 
-    private final Sink<RippleList> outputSink = new Sink<RippleList>() {
-        public void accept(final RippleList c) throws RippleException {
-            //System.out.println("got this output: " + c.getStack());
-            // TODO
-            /*
-            if (c instanceof RankingContext) {
-                handleOutput((RankingContext) c);
-            } */
-        }
+    private final Sink<RippleList> outputSink = c -> {
+        // TODO
     };
 
     private void reduce(final RippleList arg,

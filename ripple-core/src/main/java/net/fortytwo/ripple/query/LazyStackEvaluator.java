@@ -18,7 +18,7 @@ public class LazyStackEvaluator extends StackEvaluator {
     private boolean stopped = true;
 
     protected class EvaluatorSink implements Sink<RippleList> {
-        private Sink<RippleList> sink;
+        private final Sink<RippleList> sink;
         private final ModelConnection mc;
 
         public EvaluatorSink(final Sink<RippleList> sink,
@@ -50,15 +50,11 @@ public class LazyStackEvaluator extends StackEvaluator {
                 else {
                     // We simply ignore stacks which can't be reduced to
                     // something with a passive item on top.
-                    if (rest.isNil()) {
-                        // sink.put( stack );
-                    } else {
+                    if (!rest.isNil()) {
                         final Sink<RippleList> thisEval = this;
-                        Sink<RippleList> argSink = new Sink<RippleList>() {
-                            public void accept(final RippleList arg) throws RippleException {
-                                Closure c = new Closure(f, arg.getFirst());
-                                new EvaluatorSink(thisEval, mc).accept(arg.getRest().push(new Operator(c)));
-                            }
+                        Sink<RippleList> argSink = arg1 -> {
+                            Closure c = new Closure(f, arg1.getFirst());
+                            new EvaluatorSink(thisEval, mc).accept(arg1.getRest().push(new Operator(c)));
                         };
 
                         // Reduce the argument portion of the stack.

@@ -27,8 +27,7 @@ public class Pow extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Pow()
-            throws RippleException {
+    public Pow() {
         super();
     }
 

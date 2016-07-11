@@ -23,8 +23,7 @@ public class ReplaceAll extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public ReplaceAll()
-            throws RippleException {
+    public ReplaceAll() {
         super();
     }
 

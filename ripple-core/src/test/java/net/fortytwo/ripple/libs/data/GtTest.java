@@ -1,11 +1,13 @@
 package net.fortytwo.ripple.libs.data;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class GtTest extends RippleTestCase {
+    @Test
     public void testSingleSolution() throws Exception {
         assertReducesTo("1 1 gt.", "false");
         assertReducesTo("1.1 1 gt.", "true");
@@ -15,6 +17,7 @@ public class GtTest extends RippleTestCase {
         assertReducesTo("-42 -0.5 gt.", "false");
     }
 
+    @Test
     public void testSpecialValues() throws Exception {
         assertReducesTo("\"NaN\"^^xsd:double \"NaN\"^^xsd:double gt.", "false");
         assertReducesTo("\"NaN\"^^xsd:double \"INF\"^^xsd:double gt.", "true");

@@ -25,8 +25,7 @@ public class Lt extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Lt()
-            throws RippleException {
+    public Lt() {
         super();
     }
 

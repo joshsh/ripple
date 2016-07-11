@@ -30,8 +30,7 @@ public class Require extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Require()
-            throws RippleException {
+    public Require() {
         super();
     }
 
@@ -49,22 +48,19 @@ public class Require extends PrimitiveStackMapping {
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
 
-        RippleList stack = arg;
-        Object mapping = stack.getFirst();
-        final RippleList rest = stack.getRest();
+        Object mapping = arg.getFirst();
+        final RippleList rest = arg.getRest();
 
-        Sink<Operator> opSink = new Sink<Operator>() {
-            public void accept(final Operator op) throws RippleException {
-                CriterionApplicator applicator = new CriterionApplicator(op);
-                solutions.accept(rest.push(new Operator(applicator)));
-            }
+        Sink<Operator> opSink = op -> {
+            CriterionApplicator applicator = new CriterionApplicator(op);
+            solutions.accept(rest.push(new Operator(applicator)));
         };
 
         Operator.createOperator(mapping, opSink, mc);
     }
 
     private class CriterionApplicator implements StackMapping {
-        private Operator criterion;
+        private final Operator criterion;
 
         public CriterionApplicator(final Operator criterion) {
             this.criterion = criterion;
@@ -88,16 +84,15 @@ public class Require extends PrimitiveStackMapping {
                           final Sink<RippleList> solutions,
                           final ModelConnection mc) throws RippleException {
 
-            RippleList stack = arg;
-            Decider decider = new Decider(stack);
+            Decider decider = new Decider(arg);
 
             // Apply the criterion, sending the result into the Decider.
-            solutions.accept(stack.push(criterion).push(new Operator(decider)));
+            solutions.accept(arg.push(criterion).push(new Operator(decider)));
         }
     }
 
     private class Decider implements StackMapping {
-        private RippleList rest;
+        private final RippleList rest;
 
         public Decider(final RippleList rest) {
             this.rest = rest;
@@ -123,7 +118,6 @@ public class Require extends PrimitiveStackMapping {
             RippleList stack = arg;
 
             b = stack.getFirst();
-            stack = stack.getRest();
 
             if (mc.toBoolean(b)) {
                 solutions.accept(rest);

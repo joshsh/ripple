@@ -22,8 +22,7 @@ public class ToLowerCase extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public ToLowerCase()
-            throws RippleException {
+    public ToLowerCase() {
         super();
     }
 

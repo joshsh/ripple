@@ -34,16 +34,12 @@ public class Inverse extends PrimitiveStackMapping {
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
 
-        RippleList stack = arg;
+        final RippleList rest = arg.getRest();
+        Object f = arg.getFirst();
 
-        final RippleList rest = stack.getRest();
-        Object f = stack.getFirst();
-
-        Sink<Operator> opSink = new Sink<Operator>() {
-            public void accept(final Operator op) throws RippleException {
-                Object inverse = new StackMappingWrapper(op.getMapping().getInverse(), mc);
-                solutions.accept(rest.push(inverse));
-            }
+        Sink<Operator> opSink = op -> {
+            Object inverse = new StackMappingWrapper(op.getMapping().getInverse(), mc);
+            solutions.accept(rest.push(inverse));
         };
 
         Operator.createOperator(f, opSink, mc);

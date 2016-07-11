@@ -1,11 +1,13 @@
 package net.fortytwo.ripple.libs.math;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class AbsTest extends RippleTestCase {
+    @Test
     public void testSingleSolution() throws Exception {
         assertReducesTo("2 abs.", "2");
         assertReducesTo("0 abs.", "0");
@@ -22,12 +24,14 @@ public class AbsTest extends RippleTestCase {
         assertReducesTo("-1.001 abs.", "1.001");
     }
 
+    @Test
     public void testSpecialValues() throws Exception {
         assertReducesTo("\"NaN\"^^xsd:double abs.", "\"NaN\"^^xsd:double");
         assertReducesTo("\"INF\"^^xsd:double abs.", "\"INF\"^^xsd:double");
         assertReducesTo("\"-INF\"^^xsd:double abs.", "\"INF\"^^xsd:double");
     }
 
+    @Test
     public void testInverseMapping() throws Exception {
         assertReducesTo("0 abs~.", "0");
         assertReducesTo("42.0 abs~.", "-42.0", "42.0");

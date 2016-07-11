@@ -89,7 +89,7 @@ public class Collector<T> extends SimpleReadOnlyCollection<T> implements Sink<T>
     }
 
     private class Node {
-        public T value;
+        public final T value;
         public Node next;
 
         public Node(final T value, final Node next) {

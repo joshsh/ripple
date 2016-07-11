@@ -22,8 +22,7 @@ public class Cosh extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Cosh()
-            throws RippleException {
+    public Cosh() {
         super();
     }
 

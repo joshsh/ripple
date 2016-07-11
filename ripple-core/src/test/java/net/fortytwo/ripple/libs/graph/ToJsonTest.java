@@ -2,6 +2,7 @@ package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.ripple.StringUtils;
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -9,6 +10,7 @@ import net.fortytwo.ripple.test.RippleTestCase;
 public class ToJsonTest extends RippleTestCase {
     //  <http://api.twitter.com/1/geo/id/dc3747428fa88cab.json> get. toJson. "place_type". .
 
+    @Test
     public void testSimple() throws Exception {
         String json = "\"" + StringUtils.escapeString("{\n" +
                 "            \"intVal\": 42,\n" +

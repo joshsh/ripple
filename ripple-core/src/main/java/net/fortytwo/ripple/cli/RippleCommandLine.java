@@ -37,17 +37,13 @@ import java.util.List;
 public class RippleCommandLine {
     private static final Logger logger = LoggerFactory.getLogger(RippleCommandLine.class);
 
-    private static final byte[] EOL = {'\n'};
-
     private final PipedIOStream writeIn;
-    //private PipedInputStream  writeIn;
-    //private PipedOutputStream readOut;
     private final ThreadedInputStream consoleReaderInput;
     private final Interpreter interpreter;
     private final ConsoleReader reader;
     private final QueryEngine queryEngine;
     private final HistorySink<RippleList> queryResultHistory
-            = new HistorySink<RippleList>(2);
+            = new HistorySink<>(2);
     private final TaskQueue taskQueue = new TaskQueue();
 
     private int lineNumber;
@@ -102,7 +98,7 @@ public class RippleCommandLine {
             protected void handleAssignment(KeywordAST name) throws RippleException {
                 Source<RippleList> source = queryResultHistory.get(0);
                 if (null == source) {
-                    source = new Collector<RippleList>();
+                    source = new Collector<>();
                 }
 
                 addCommand(new DefineKeywordCmd(name, new ListGenerator(source)));
@@ -124,13 +120,8 @@ public class RippleCommandLine {
         } catch (Throwable t) {
             throw new RippleException(t);
         }
-        jline.Terminal term = reader.getTerminal();
-//System.out.println( "reader.getTerminal() = " + term );
 
         writeIn = new PipedIOStream();
-        //writeIn.write(32);
-        //writeIn = new PipedInputStream();
-        //readOut = new PipedOutputStream( writeIn );
 
         // Initialize completors.
         updateCompletors();
@@ -142,14 +133,12 @@ public class RippleCommandLine {
     public void run() throws RippleException {
         lineNumber = 0;
         interpreter.parse();
-//System.out.println( "done parsing" );
     }
 
     private void readLine() {
         try {
             ++lineNumber;
             String prefix = "" + lineNumber + ")  ";
-            //String prefix = "" + lineNumber + " >>  ";
             String expr = "";
             String line;
             do {
@@ -170,8 +159,6 @@ public class RippleCommandLine {
             // Add a newline character so the lexer will call readLine()
             // again when it gets there.
             //       writeIn.write(EOL);
-
-            writeIn.flush();
         } catch (java.io.IOException e) {
             alert("IOException: " + e.toString());
         }
@@ -183,7 +170,7 @@ public class RippleCommandLine {
 
     private void updateCompletors() {
         logger.trace("updating completors");
-        List<Completer> completors = new ArrayList<Completer>();
+        List<Completer> completors = new ArrayList<>();
 
         try {
             Lexicon lex = queryEngine.getLexicon();
@@ -192,7 +179,7 @@ public class RippleCommandLine {
                 completors.add(lex.getCompletor());
             }
 
-            ArrayList<String> directives = new ArrayList<String>();
+            ArrayList<String> directives = new ArrayList<>();
             directives.add("@help");
             directives.add("@list");
             directives.add("@prefix");
@@ -234,13 +221,11 @@ public class RippleCommandLine {
     }
 
     private void addCommand(final Command cmd) {
-//System.out.println( "addCommand(" + cmd + ")" );
         cmd.setQueryEngine(queryEngine);
         taskQueue.add(cmd);
     }
 
     private void executeCommands() throws RippleException {
-//System.out.println( "executeCommands()" );
         Scheduler.add(taskQueue);
 
         consoleReaderInput.setEager(true);
@@ -256,7 +241,6 @@ public class RippleCommandLine {
     }
 
     private void abortCommands() {
-//System.out.println( "abortCommands()" );
         taskQueue.stop();
     }
 }

@@ -50,19 +50,17 @@ public class Each extends PrimitiveStackMapping {
         l = arg.getFirst();
         final RippleList rest = arg.getRest();
 
-        Sink<RippleList> listSink = new Sink<RippleList>() {
-            public void accept(RippleList list) throws RippleException {
-                while (!list.isNil()) {
-                    try {
-                        solutions.accept(
-                                rest.push(list.getFirst()));
-                    } catch (RippleException e) {
-                        // Soft fail
-                        logger.warn("failed to put solution", e);
-                    }
-
-                    list = list.getRest();
+        Sink<RippleList> listSink = list -> {
+            while (!list.isNil()) {
+                try {
+                    solutions.accept(
+                            rest.push(list.getFirst()));
+                } catch (RippleException e) {
+                    // Soft fail
+                    logger.warn("failed to put solution", e);
                 }
+
+                list = list.getRest();
             }
         };
 

@@ -31,9 +31,7 @@ public abstract class Library {
         try {
             prim = c.newInstance();
             prim.setRdfEquivalent(mc.valueOf(URI.create(prim.getIdentifiers()[0])));
-        } catch (InstantiationException e) {
-            throw new RippleException(e);
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             throw new RippleException(e);
         }
 

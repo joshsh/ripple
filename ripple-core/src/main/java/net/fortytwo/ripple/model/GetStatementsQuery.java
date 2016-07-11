@@ -35,11 +35,11 @@ public class GetStatementsQuery {
     // TODO: use model-specific factory
     private static final ValueFactory valueFactory = SimpleValueFactory.getInstance();
 
-    public final Resource subject;
-    public final IRI predicate;
-    public final Value object;
-    public final Resource[] contexts;
-    public Type type = Type.SP_O;
+    private final Resource subject;
+    private final IRI predicate;
+    private final Value object;
+    private final Resource[] contexts;
+    private Type type = Type.SP_O;
 
     public GetStatementsQuery(final StatementPatternQuery patternQuery,
                               final ModelConnection mc) throws RippleException {
@@ -101,7 +101,7 @@ public class GetStatementsQuery {
         return mc.toRDF(rv);
     }
 
-    public void getStatements(final SailConnection sc, final Sink<Statement> results) throws RippleException {
+    private void getStatements(final SailConnection sc, final Sink<Statement> results) throws RippleException {
         getStatementsPrivate(results, sc, subject, predicate, object);
 
         if (STRING_LITERALS_EQUIVALENT_TO_PLAIN_LITERALS
@@ -133,7 +133,7 @@ public class GetStatementsQuery {
         //       the one below closes, which currently causes Sesame to
         //       deadlock.  Even using a separate RepositoryConnection for
         //       each RepositoryResult doesn't seem to help.
-        Buffer<Statement> buffer = new Buffer<Statement>(results);
+        Buffer<Statement> buffer = new Buffer<>(results);
         CloseableIteration<? extends Statement, SailException> stmtIter;
 
 //TODO: use CloseableIterationSource
@@ -156,26 +156,24 @@ public class GetStatementsQuery {
     }
 
     public void getValues(final SailConnection sc, final Sink<Value> results) throws RippleException {
-        Sink<Statement> stSink = new Sink<Statement>() {
-            public void accept(final Statement st) throws RippleException {
-                Value result;
+        Sink<Statement> stSink = st -> {
+            Value result;
 
-                switch (type) {
-                    case SP_O:
-                        result = st.getObject();
-                        break;
-                    case PO_S:
-                        result = st.getSubject();
-                        break;
-                    case SO_P:
-                        result = st.getPredicate();
-                        break;
-                    default:
-                        throw new RippleException("unhandled query type: " + type);
-                }
-
-                results.accept(result);
+            switch (type) {
+                case SP_O:
+                    result = st.getObject();
+                    break;
+                case PO_S:
+                    result = st.getSubject();
+                    break;
+                case SO_P:
+                    result = st.getPredicate();
+                    break;
+                default:
+                    throw new RippleException("unhandled query type: " + type);
             }
+
+            results.accept(result);
         };
 
         getStatements(sc, stSink);

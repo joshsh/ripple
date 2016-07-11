@@ -33,7 +33,7 @@ public class Time extends PrimitiveStackMapping {
         return "produces the current time in milliseconds since the Unix epoch";
     }
 
-    public Time() throws RippleException {
+    public Time() {
         super();
     }
 

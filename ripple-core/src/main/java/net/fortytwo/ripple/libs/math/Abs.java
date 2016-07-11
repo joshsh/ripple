@@ -27,8 +27,7 @@ public class Abs extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Abs()
-            throws RippleException {
+    public Abs() {
         super();
     }
 
@@ -64,7 +63,7 @@ public class Abs extends PrimitiveStackMapping {
         return absInverse;
     }
 
-    private StackMapping absInverse = new StackMapping() {
+    private final StackMapping absInverse = new StackMapping() {
         public int arity() {
             return ARITY;
         }

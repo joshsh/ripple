@@ -19,7 +19,7 @@ public class Top extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Top() throws RippleException {
+    public Top() {
         super();
     }
 

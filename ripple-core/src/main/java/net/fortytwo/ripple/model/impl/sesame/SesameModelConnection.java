@@ -62,10 +62,10 @@ public class SesameModelConnection implements ModelConnection {
     // instantiate this factory lazily, for the sake of Android applications which don't support javax
     private static DatatypeFactory DATATYPE_FACTORY;
 
-    protected final SesameModel model;
-    protected SailConnection sailConnection;
-    protected final RDFDiffSink listenerSink;
-    protected final ValueFactory valueFactory;
+    private final SesameModel model;
+    private SailConnection sailConnection;
+    private final RDFDiffSink listenerSink;
+    private final ValueFactory valueFactory;
     private final TaskSet taskSet = new TaskSet();
     private final RippleComparator comparator;
 
@@ -145,7 +145,7 @@ public class SesameModelConnection implements ModelConnection {
             sailConnection.commit();
             sailConnection.begin();
         } catch (SailReadOnlyException e) {
-            handleSailReadOnlyException(e);
+            handleSailReadOnlyException();
         } catch (Throwable t) {
             throw new RippleException(t);
         }
@@ -218,11 +218,10 @@ public class SesameModelConnection implements ModelConnection {
         } else {
             Value rdf = toRDF(rv);
             if (null != rdf) {
-                Value vl = rdf;
-                if (vl instanceof Literal) {
-                    IRI datatype = ((Literal) vl).getDatatype();
+                if (rdf instanceof Literal) {
+                    IRI datatype = ((Literal) rdf).getDatatype();
                     return (null != datatype && XMLSchema.BOOLEAN.equals(datatype)
-                            && ((Literal) vl).getLabel().equals("true"));
+                            && ((Literal) rdf).getLabel().equals("true"));
                 }
             }
 
@@ -303,7 +302,7 @@ public class SesameModelConnection implements ModelConnection {
                 }
             }
         } catch (SailReadOnlyException e) {
-            handleSailReadOnlyException(e);
+            handleSailReadOnlyException();
         } catch (SailException e) {
             reset(true);
             throw new RippleException(e);
@@ -372,7 +371,7 @@ public class SesameModelConnection implements ModelConnection {
                 }
             }
         } catch (SailReadOnlyException e) {
-            handleSailReadOnlyException(e);
+            handleSailReadOnlyException();
         } catch (SailException e) {
             reset(true);
             throw new RippleException(e);
@@ -488,7 +487,7 @@ public class SesameModelConnection implements ModelConnection {
                 }
             }
         } catch (SailReadOnlyException e) {
-            handleSailReadOnlyException(e);
+            handleSailReadOnlyException();
         } catch (Throwable t) {
             reset(true);
             throw new RippleException(t);
@@ -514,11 +513,7 @@ public class SesameModelConnection implements ModelConnection {
                 return;
             }
 
-            Sink<Value> valueSink = new Sink<Value>() {
-                public void accept(final Value val) throws RippleException {
-                    sink.accept(canonicalValue(val));
-                }
-            };
+            Sink<Value> valueSink = val -> sink.accept(canonicalValue(val));
 
             try {
                 sesameQuery.getValues(sailConnection, valueSink);
@@ -534,11 +529,11 @@ public class SesameModelConnection implements ModelConnection {
     public Source<Namespace> getNamespaces() throws RippleException {
         ensureOpen();
 
-        Collector<Namespace> results = new Collector<Namespace>();
+        Collector<Namespace> results = new Collector<>();
         Source<Namespace> source;
 
         try {
-            source = new CloseableIterationSource<Namespace, SailException>(
+            source = new CloseableIterationSource<>(
                     (CloseableIteration<Namespace, SailException>) sailConnection.getNamespaces());
         } catch (SailException e) {
             throw new RippleException(e);
@@ -570,8 +565,8 @@ public class SesameModelConnection implements ModelConnection {
             //       the one below closes, which currently causes Sesame to
             //       deadlock.  Even using a separate RepositoryConnection for
             //       each RepositoryResult doesn't seem to help.
-            Buffer<Statement> buffer = new Buffer<Statement>(sink);
-            CloseableIteration<? extends Statement, SailException> stmtIter = null;
+            Buffer<Statement> buffer = new Buffer<>(sink);
+            CloseableIteration<? extends Statement, SailException> stmtIter;
 
             //TODO: use CloseableIterationSource
 
@@ -629,38 +624,35 @@ public class SesameModelConnection implements ModelConnection {
     }
 
     @Override
-    public Source<Object> getContexts()
-            throws RippleException {
+    public Source<Object> getContexts() {
         ensureOpen();
 
-        return new Source<Object>() {
-            public void writeTo(Sink<Object> sink) throws RippleException {
-                try {
-                    CloseableIteration<? extends Resource, SailException> iter
-                            = sailConnection.getContextIDs();
+        return sink -> {
+            try {
+                CloseableIteration<? extends Resource, SailException> iter
+                        = sailConnection.getContextIDs();
 
-                    while (iter.hasNext()) {
-                        sink.accept(iter.next());
-                    }
-
-                    iter.close();
-                } catch (SailException e) {
-                    throw new RippleException(e);
+                while (iter.hasNext()) {
+                    sink.accept(iter.next());
                 }
+
+                iter.close();
+            } catch (SailException e) {
+                throw new RippleException(e);
             }
         };
     }
 
     @Override
-    public boolean internalize(final RippleList list) throws RippleException {
+    public void internalize(final RippleList list) throws RippleException {
         ensureOpen();
 
-        Collector<Statement> buffer = new Collector<Statement>();
+        Collector<Statement> buffer = new Collector<>();
 
         // Handle circular lists (in the unlikely event that some implementation allows them) sanely.
         // TODO: handle list containment cycles (e.g. list containing a list containing the original list) as well.
         // These are actually more likely than circular lists.
-        Set<Value> alreadyInterned = new HashSet<Value>();
+        Set<Value> alreadyInterned = new HashSet<>();
 
         RippleList cur = list;
         Value id = toRDF(cur);
@@ -675,7 +667,7 @@ public class SesameModelConnection implements ModelConnection {
 
             if (null == firstRdf) {
                 System.err.println("list item has no RDF identity: " + cur.getFirst());
-                return false;
+                return;
             }
 
             if (cur.getFirst() instanceof RippleList) {
@@ -699,7 +691,6 @@ public class SesameModelConnection implements ModelConnection {
         RDFImporter importer = new RDFImporter(this);
         buffer.writeTo(importer.statementSink());
 
-        return true;
     }
 
     private synchronized void openSailConnection()
@@ -736,7 +727,7 @@ public class SesameModelConnection implements ModelConnection {
                 logger.error("tried to close an already-closed connection");
             }
         } catch (SailReadOnlyException e) {
-            handleSailReadOnlyException(e);
+            handleSailReadOnlyException();
         } catch (Throwable t) {
             throw new RippleException(t);
         }
@@ -750,7 +741,7 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
-    private void handleSailReadOnlyException(final SailReadOnlyException e) {
+    private void handleSailReadOnlyException() {
         // For now, ignore these exceptions.
     }
 
@@ -785,7 +776,7 @@ public class SesameModelConnection implements ModelConnection {
 
         protected void stopProtected() {
             synchronized (query) {
-                sink = new NullSink<T>();
+                sink = new NullSink<>();
             }
         }
     }

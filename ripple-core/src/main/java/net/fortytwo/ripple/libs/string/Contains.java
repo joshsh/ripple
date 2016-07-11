@@ -21,7 +21,7 @@ public class Contains extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Contains() throws RippleException {
+    public Contains() {
         super();
     }
 

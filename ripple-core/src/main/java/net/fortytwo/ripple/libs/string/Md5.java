@@ -21,8 +21,7 @@ public class Md5 extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Md5()
-            throws RippleException {
+    public Md5() {
         super();
     }
 

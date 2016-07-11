@@ -23,8 +23,7 @@ public class Rotated extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Rotated()
-            throws RippleException {
+    public Rotated() {
         super();
     }
 

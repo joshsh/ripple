@@ -1,11 +1,13 @@
 package net.fortytwo.ripple.libs.string;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Md5Test extends RippleTestCase {
+    @Test
     public void testAll() throws Exception {
         assertReducesTo("\"mailto:josh@fortytwo.net\" md5.", "\"64af9cc78fee2cc44f6109df1c2442d5\"");
         assertReducesTo("\"foo\" md5.", "\"acbd18db4cc2f85cedef654fccc4a4d8\"");

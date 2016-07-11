@@ -30,7 +30,7 @@ public class HistorySink<T> implements Sink<T> {
         }
 
         this.capacity = capacity;
-        history = new LinkedList<Collector<T>>();
+        history = new LinkedList<>();
 
         len = 0;
     }
@@ -39,7 +39,7 @@ public class HistorySink<T> implements Sink<T> {
      * Advances to the next step in the history
      */
     public void advance() {
-        current = new Collector<T>();
+        current = new Collector<>();
         history.addFirst(current);
 
         len++;

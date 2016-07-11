@@ -1,11 +1,13 @@
 package net.fortytwo.ripple.libs.stream;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class DistinctTest extends RippleTestCase {
+    @Test
     public void testSimple() throws Exception {
         assertReducesTo("(2 3) each. distinct.", "2", "3");
         assertReducesTo("(2 3 2) each. distinct.", "2", "3");
@@ -14,6 +16,7 @@ public class DistinctTest extends RippleTestCase {
         assertReducesTo("((1 2) (2 1) (1 2)) each. distinct.", "(1 2)", "(2 1)");
     }
 
+    @Test
     public void testListEquivalence() throws Exception {
         assertReducesTo("(() rdf:nil) each. distinct.", "()");
 
@@ -23,6 +26,7 @@ public class DistinctTest extends RippleTestCase {
         assertReducesTo(":foo rdf:rest.", "(2 3)", "(2 3)");
     }
 
+    @Test
     public void testArity() throws Exception {
         // 'distinct' currently has an arity of exactly one, regardless of the
         // depth to which the stack should be reduced to determine equality
@@ -31,6 +35,7 @@ public class DistinctTest extends RippleTestCase {
         assertReducesTo("(1 1 2) (1 dup. 2) both. apply. distinct.", "1 1 2", "1 dup. 2");
     }
 
+    @Test
     public void testListTransparency() throws Exception {
         // Lists are currently not transparent to 'distinct'
         assertReducesTo("(2 2) (2 dup.) both. distinct.", "(2 2)", "(2 dup.)");

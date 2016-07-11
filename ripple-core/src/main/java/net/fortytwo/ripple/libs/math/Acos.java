@@ -23,8 +23,7 @@ public class Acos extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Acos()
-            throws RippleException {
+    public Acos() {
         super();
     }
 

@@ -22,8 +22,7 @@ public class AssertInContext extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public AssertInContext()
-            throws RippleException {
+    public AssertInContext() {
         super();
     }
 

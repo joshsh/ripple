@@ -10,13 +10,13 @@ import net.fortytwo.ripple.query.QueryEngine;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public abstract class NumberAST implements AST<RippleList> {
-    public abstract Number getValue(ModelConnection mc) throws RippleException;
+    public abstract Number getValue();
 
     public void evaluate(final Sink<RippleList> sink,
                          final QueryEngine qe,
                          final ModelConnection mc)
             throws RippleException {
-        sink.accept(mc.list().push(getValue(mc)));
+        sink.accept(mc.list().push(getValue()));
     }
 
     // Strip off leading "+" from mantissa and/or exponent.

@@ -32,9 +32,9 @@ public final class Demo {
     private Demo() {
     }
 
-    public static void demo(final InputStream in,
-                            final PrintStream out,
-                            final PrintStream err)
+    private static void demo(final InputStream in,
+                             final PrintStream out,
+                             final PrintStream err)
             throws RippleException {
         // Create a Sesame triple store.
         URIMap uriMap = new URIMap();

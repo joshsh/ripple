@@ -13,7 +13,7 @@ import java.util.Set;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class DistinctFilter<T> implements Sink<T> {
-    private final Set<T> set = new HashSet<T>();
+    private final Set<T> set = new HashSet<>();
     private final Sink<T> sink;
 
     /**

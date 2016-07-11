@@ -33,7 +33,7 @@ public class LinkedDataSailIT {
     private LinkedDataSail sail;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         baseSail = new MemoryStore();
         baseSail.initialize();
 
@@ -55,7 +55,7 @@ public class LinkedDataSailIT {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         sail.shutDown();
         baseSail.shutDown();
     }
@@ -160,8 +160,7 @@ public class LinkedDataSailIT {
                 sail.shutDown();
             }
 
-            RepositoryConnection rc = repo.getConnection();
-            try {
+            try (RepositoryConnection rc = repo.getConnection()) {
                 rc.export(new RDFHandler() {
                     public void startRDF() throws RDFHandlerException {
                     }
@@ -179,8 +178,6 @@ public class LinkedDataSailIT {
                     public void handleComment(String s) throws RDFHandlerException {
                     }
                 });
-            } finally {
-                rc.close();
             }
         } finally {
             baseSail.shutDown();

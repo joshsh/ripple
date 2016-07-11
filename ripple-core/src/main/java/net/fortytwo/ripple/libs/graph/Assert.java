@@ -23,8 +23,7 @@ public class Assert extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Assert()
-            throws RippleException {
+    public Assert() {
         super();
     }
 

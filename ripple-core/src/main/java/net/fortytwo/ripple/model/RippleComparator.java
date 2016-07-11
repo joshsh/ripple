@@ -2,7 +2,6 @@ package net.fortytwo.ripple.model;
 
 import net.fortytwo.flow.Collector;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.model.types.KeyValueType;
 import net.fortytwo.ripple.model.types.NumericType;
 import net.fortytwo.ripple.util.ModelConnectionHelper;
 import org.openrdf.model.Literal;
@@ -170,7 +169,7 @@ public class RippleComparator implements Comparator<Object> {
     private int compareNumericTypedLiteral(final Object o1,
                                            final Object o2,
                                            final RippleType o1Type,
-                                           final RippleType o2Type) throws RippleException {
+                                           final RippleType o2Type) {
         if (!(o1Type instanceof NumericType && o2Type instanceof NumericType)) {
             throw new IllegalStateException();
         }
@@ -210,9 +209,9 @@ public class RippleComparator implements Comparator<Object> {
                 return compareNativeLists((RippleList) o1, (RippleList) o2);
             } else {
                 Collector<RippleList> o1Lists
-                        = new Collector<RippleList>();
+                        = new Collector<>();
                 Collector<RippleList> o2Lists
-                        = new Collector<RippleList>();
+                        = new Collector<>();
                 o1Lists.accept((RippleList) o1);
                 modelConnection.toList(o2, o2Lists);
                 return compareListCollectors(o1Lists, o2Lists);
@@ -220,17 +219,17 @@ public class RippleComparator implements Comparator<Object> {
         } else {
             if (o2 instanceof RippleList) {
                 Collector<RippleList> o1Lists
-                        = new Collector<RippleList>();
+                        = new Collector<>();
                 Collector<RippleList> o2Lists
-                        = new Collector<RippleList>();
+                        = new Collector<>();
                 modelConnection.toList(o1, o1Lists);
                 o2Lists.accept((RippleList) o2);
                 return compareListCollectors(o1Lists, o2Lists);
             } else {
                 Collector<RippleList> o1Lists
-                        = new Collector<RippleList>();
+                        = new Collector<>();
                 Collector<RippleList> o2Lists
-                        = new Collector<RippleList>();
+                        = new Collector<>();
                 modelConnection.toList(o1, o1Lists);
                 modelConnection.toList(o2, o2Lists);
                 return compareListCollectors(o1Lists, o2Lists);
@@ -243,7 +242,7 @@ public class RippleComparator implements Comparator<Object> {
                                      final RippleType o1Type,
                                      final RippleType o2Type) {
         if (o1Type == o2Type) {
-            return ((KeyValueType) o1Type).compare(o1, o2, modelConnection);
+            return o1Type.compare(o1, o2, modelConnection);
         } else {
             return o1Type.getClass().getName().compareTo(o2Type.getClass().getName());
         }
@@ -252,7 +251,7 @@ public class RippleComparator implements Comparator<Object> {
     private int compareOperator(final Object o1,
                                 final Object o2,
                                 final RippleType o1Type,
-                                final RippleType o2Type) throws RippleException {
+                                final RippleType o2Type) {
         if (o1 instanceof PrimitiveStackMapping && o2 instanceof PrimitiveStackMapping) {
             return o1Type.compare(o1, o2, modelConnection);
         } else {
@@ -273,7 +272,7 @@ public class RippleComparator implements Comparator<Object> {
     }
 
     private int compareNativeLists(final RippleList l1,
-                                   final RippleList l2) throws RippleException {
+                                   final RippleList l2) {
         RippleList cur1 = l1;
         RippleList cur2 = l2;
 
@@ -341,15 +340,10 @@ public class RippleComparator implements Comparator<Object> {
         }
     }
 
-    public class RippleListComparator implements Comparator<RippleList> {
+    private class RippleListComparator implements Comparator<RippleList> {
         public int compare(final RippleList l1,
                            final RippleList l2) {
-            try {
-                return compareNativeLists(l1, l2);
-            } catch (RippleException e) {
-                logger.warn("failed to compare " + l1 + " and " + l2, e);
-                return 0;
-            }
+            return compareNativeLists(l1, l2);
         }
     }
 }

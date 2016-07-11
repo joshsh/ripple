@@ -24,8 +24,7 @@ public class Mul extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Mul()
-            throws RippleException {
+    public Mul() {
         super();
     }
 

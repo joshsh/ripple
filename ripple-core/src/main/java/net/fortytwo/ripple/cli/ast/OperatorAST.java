@@ -73,8 +73,8 @@ public class OperatorAST implements AST<RippleList> {
                 l = mc.list().push(Operator.OP)
                         .push(Operator.OP)
                         .push(ControlLibrary.getRangeApplyValue())
-                        .push(max.getValue(mc))
-                        .push(min.getValue(mc));
+                        .push(max.getValue())
+                        .push(min.getValue());
                 break;
             case Star:
                 l = mc.list().push(Operator.OP)
@@ -85,7 +85,7 @@ public class OperatorAST implements AST<RippleList> {
                 l = mc.list().push(Operator.OP)
                         .push(Operator.OP)
                         .push(ControlLibrary.getTimesApplyValue())
-                        .push(min.getValue(mc));
+                        .push(min.getValue());
                 break;
             default:
                 throw new RippleException("unhandled operator type: " + type);

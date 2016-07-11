@@ -22,8 +22,7 @@ public class Popd extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Popd()
-            throws RippleException {
+    public Popd() {
         super();
     }
 

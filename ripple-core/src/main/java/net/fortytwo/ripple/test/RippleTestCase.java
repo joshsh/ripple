@@ -1,7 +1,6 @@
 package net.fortytwo.ripple.test;
 
 import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
 import net.fortytwo.flow.Collector;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
@@ -31,19 +30,31 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.stream.Collectors;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public abstract class RippleTestCase extends TestCase {
+public abstract class RippleTestCase {
     // TODO: add a shutdown hook to clean up these objects
     private static Sail sail = null;
     private static URIMap uriMap = null;
     private static Model model = null;
     private static QueryEngine queryEngine = null;
 
+    // The only three possible values of analysis:compare.
+    private static final double
+            LT = -1.0,
+            GT = 1.0,
+            EQ = 0.0;
+
+    protected static final double ASSERTEQUALS_EPSILON = 0.001;
+
     protected ModelConnection modelConnection = null;
-    protected Comparator<Object> comparator = null;
+    private Comparator<Object> comparator = null;
 
     @Before
     public void setUp() throws Exception {
@@ -177,7 +188,7 @@ public abstract class RippleTestCase extends TestCase {
         }
     }
 
-    protected void assertRippleEquals(final Object first, final Object second) throws Exception {
+    protected void assertRippleEquals(final Object first, final Object second) {
         int cmp = comparator.compare(first, second);
         if (0 != cmp) {
             throw new AssertionFailedError("expected <" + first + "> but was <" + second + ">");
@@ -186,7 +197,7 @@ public abstract class RippleTestCase extends TestCase {
 
     protected Collection<RippleList> reduce(final InputStream from) throws RippleException {
         Collector<RippleList>
-                results = new Collector<RippleList>();
+                results = new Collector<>();
 
         QueryEngine qe = getTestQueryEngine();
 
@@ -194,10 +205,7 @@ public abstract class RippleTestCase extends TestCase {
         actualPipe.put(from);
         actualPipe.close();
 
-        Collection<RippleList> c = new LinkedList<RippleList>();
-        for (RippleList result : results) {
-            c.add(result);
-        }
+        Collection<RippleList> c = results.stream().collect(Collectors.toCollection(() -> new LinkedList<>()));
 
         return c;
     }
@@ -214,7 +222,7 @@ public abstract class RippleTestCase extends TestCase {
 
     protected Collection<RippleList> reduce(final String from) throws RippleException {
         Collector<RippleList>
-                results = new Collector<RippleList>();
+                results = new Collector<>();
 
         QueryEngine qe = getTestQueryEngine();
 
@@ -222,18 +230,15 @@ public abstract class RippleTestCase extends TestCase {
         actualPipe.accept(from + "\n");
         actualPipe.close();
 
-        Collection<RippleList> c = new LinkedList<RippleList>();
-        for (RippleList result : results) {
-            c.add(result);
-        }
+        Collection<RippleList> c = results.stream().collect(Collectors.toCollection(() -> new LinkedList<>()));
 
         return c;
     }
 
     protected void assertReducesTo(final String from, final String... to) throws Exception {
         Collector<RippleList>
-                expected = new Collector<RippleList>(),
-                actual = new Collector<RippleList>();
+                expected = new Collector<>(),
+                actual = new Collector<>();
 
         QueryEngine qe = getTestQueryEngine();
 
@@ -253,5 +258,27 @@ public abstract class RippleTestCase extends TestCase {
     protected IRI createIRI(final String s,
                             final ModelConnection mc) throws RippleException {
         return mc.valueOf(java.net.URI.create(s));
+    }
+
+    private double compare(final String expr1, final String expr2) throws Exception {
+        Collection<RippleList> results = reduce(expr1 + " " + expr2 + " compare.");
+        assertEquals(1, results.size());
+        RippleList l = results.iterator().next();
+        assertEquals(1, l.length());
+        Object v = l.getFirst();
+        assertTrue(v instanceof Number);
+        return ((Number) v).doubleValue();
+    }
+
+    protected void assertLt(final String expr1, final String expr2) throws Exception {
+        assertEquals(LT, compare(expr1, expr2), ASSERTEQUALS_EPSILON);
+    }
+
+    protected void assertGt(final String expr1, final String expr2) throws Exception {
+        assertEquals(GT, compare(expr1, expr2), ASSERTEQUALS_EPSILON);
+    }
+
+    protected void assertEq(final String expr1, final String expr2) throws Exception {
+        assertEquals(EQ, compare(expr1, expr2), ASSERTEQUALS_EPSILON);
     }
 }

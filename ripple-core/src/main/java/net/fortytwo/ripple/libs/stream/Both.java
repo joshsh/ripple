@@ -26,8 +26,7 @@ public class Both extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Both()
-            throws RippleException {
+    public Both() {
         super();
     }
 

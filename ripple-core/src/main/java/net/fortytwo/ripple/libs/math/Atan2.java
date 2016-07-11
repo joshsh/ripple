@@ -20,8 +20,7 @@ public class Atan2 extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Atan2()
-            throws RippleException {
+    public Atan2() {
         super();
     }
 

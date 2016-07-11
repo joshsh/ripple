@@ -34,17 +34,17 @@ public class RDFSpreadVector implements WeightedVectorApproximation<Resource, Ha
         this.sailConnection = sailConnection;
         this.seeds = seeds;
 
-        curGen = new LinkedList<Resource>();
+        curGen = new LinkedList<>();
         curGen.addAll(Arrays.asList(seeds));
 
-        nextGen = new LinkedList<Resource>();
+        nextGen = new LinkedList<>();
 
         weight = 1.0;
     }
 
     public WeightedVector<Resource> currentResult() {
         // Note: don't normalize the intermediate vector, in case we continue extending it.
-        WeightedVector<Resource> normed = new WeightedVector<Resource>(vector);
+        WeightedVector<Resource> normed = new WeightedVector<>(vector);
 
         for (Resource s : seeds) {
             normed.setWeight(s, 0.0);
@@ -76,18 +76,16 @@ public class RDFSpreadVector implements WeightedVectorApproximation<Resource, Ha
         return cycles;
     }
 
-    public void stepRelated(final SailConnection sc,
-                            final Resource resource,
-                            final double weight,
-                            final WeightedVector<Resource> result,
-                            final Queue<Resource> resources) throws HandlerException {
+    private void stepRelated(final SailConnection sc,
+                             final Resource resource,
+                             final double weight,
+                             final WeightedVector<Resource> result,
+                             final Queue<Resource> resources) throws HandlerException {
         if (0 < inPredicates.length) {
-            Handler<Resource, HandlerException> inHandler = new Handler<Resource, HandlerException>() {
-                public boolean handle(final Resource r) throws HandlerException {
-                    result.addWeight(r, weight);
-                    resources.offer(r);
-                    return true;
-                }
+            Handler<Resource, HandlerException> inHandler = r -> {
+                result.addWeight(r, weight);
+                resources.offer(r);
+                return true;
             };
 
             Ranking.traverseBackward(sc,
@@ -97,12 +95,10 @@ public class RDFSpreadVector implements WeightedVectorApproximation<Resource, Ha
         }
 
         if (0 < outPredicates.length) {
-            Handler<Resource, HandlerException> outHandler = new Handler<Resource, HandlerException>() {
-                public boolean handle(final Resource r) throws HandlerException {
-                    result.addWeight(r, weight);
-                    resources.offer(r);
-                    return true;
-                }
+            Handler<Resource, HandlerException> outHandler = r -> {
+                result.addWeight(r, weight);
+                resources.offer(r);
+                return true;
             };
 
             Ranking.traverseForward(sc,

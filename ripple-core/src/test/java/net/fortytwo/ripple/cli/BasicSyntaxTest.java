@@ -1,16 +1,19 @@
 package net.fortytwo.ripple.cli;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class BasicSyntaxTest extends RippleTestCase {
+    @Test
     public void testWhitespaceInLists() throws Exception {
         assertReducesTo("( )", "()");
         assertReducesTo("(42 )", "( 42)");
     }
 
+    @Test
     public void testWhitespaceBetweenListItems() throws Exception {
         assertReducesTo("2 3 add.", "5");
         assertReducesTo("2 3 add .", "5");
@@ -26,6 +29,7 @@ public class BasicSyntaxTest extends RippleTestCase {
         assertIllegal("2 .2");
     }
 
+    @Test
     public void testPotentiallyAmbiguousSyntax() throws Exception {
         assertReducesTo("2 +3 add.", "5");
         assertReducesTo("2 +3", "2 3");
@@ -40,6 +44,7 @@ public class BasicSyntaxTest extends RippleTestCase {
         assertIllegal("42 to -string.");
     }
 
+    @Test
     public void testPostPositionKeywords() throws Exception {
         assertReducesTo("1 2 3 = x", "1 2 3");
         assertReducesTo("x", "(1 2 3)");

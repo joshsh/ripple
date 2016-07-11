@@ -21,8 +21,7 @@ public class Sinh extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Sinh()
-            throws RippleException {
+    public Sinh() {
         super();
     }
 

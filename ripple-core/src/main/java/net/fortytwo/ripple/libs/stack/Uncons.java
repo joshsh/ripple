@@ -23,8 +23,7 @@ public class Uncons extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Uncons()
-            throws RippleException {
+    public Uncons() {
         super();
     }
 
@@ -40,19 +39,14 @@ public class Uncons extends PrimitiveStackMapping {
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-        RippleList stack = arg;
 
         Object l;
 
-        l = stack.getFirst();
-        final RippleList rest = stack.getRest();
+        l = arg.getFirst();
+        final RippleList rest = arg.getRest();
 
-        Sink<RippleList> listSink = new Sink<RippleList>() {
-            public void accept(final RippleList list) throws RippleException {
-                solutions.accept(
-                        rest.push(list.getFirst()).push(list.getRest()));
-            }
-        };
+        Sink<RippleList> listSink = list -> solutions.accept(
+                rest.push(list.getFirst()).push(list.getRest()));
 
         mc.toList(l, listSink);
     }

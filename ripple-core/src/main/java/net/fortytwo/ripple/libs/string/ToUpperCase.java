@@ -22,8 +22,7 @@ public class ToUpperCase extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public ToUpperCase()
-            throws RippleException {
+    public ToUpperCase() {
         super();
     }
 

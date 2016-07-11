@@ -1,15 +1,10 @@
 package net.fortytwo.linkeddata.util;
 
 import net.fortytwo.linkeddata.sail.LinkedDataSail;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.ValueFactory;
 
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 
 /**
@@ -46,7 +41,7 @@ public final class RDFUtils {
         return hashedUri(docUri);
     }
 
-    public static URL iriToUrl(final String iriStr) throws MalformedURLException, UnsupportedEncodingException {
+    public static URL iriToUrl(final String iriStr) throws MalformedURLException {
         return new URL(iriStr);
     }
 }

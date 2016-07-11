@@ -24,8 +24,7 @@ public class Neg extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Neg()
-            throws RippleException {
+    public Neg() {
         super();
     }
 

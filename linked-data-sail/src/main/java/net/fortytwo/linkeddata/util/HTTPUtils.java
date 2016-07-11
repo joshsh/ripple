@@ -29,7 +29,7 @@ public class HTTPUtils {
             SPARQL_QUERY = "application/sparql-query",
             USER_AGENT = "User-Agent";
 
-    private static final Map<String, Long> lastRequestByHost = new HashMap<String, Long>();
+    private static final Map<String, Long> lastRequestByHost = new HashMap<>();
 
     private static final long COURTESY_INTERVAL;
     private static final long CONNECTION_TIMEOUT;

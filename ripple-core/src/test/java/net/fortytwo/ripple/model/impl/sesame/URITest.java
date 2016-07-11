@@ -1,29 +1,24 @@
 package net.fortytwo.ripple.model.impl.sesame;
 
-import net.fortytwo.flow.Collector;
-import net.fortytwo.flow.rdf.SesameInputAdapter;
 import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.io.RDFImporter;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.test.RippleTestCase;
-import net.fortytwo.ripple.util.ModelConnectionHelper;
+import org.junit.Test;
 import org.openrdf.model.IRI;
 import org.openrdf.model.Value;
-import org.openrdf.model.impl.SimpleValueFactory;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.model.vocabulary.RDFS;
-import org.openrdf.rio.RDFFormat;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class URITest extends RippleTestCase {
 
+    @Test
     public void testValueOf() throws Exception {
         String s = "http://example.org/foo";
         java.net.URI u = java.net.URI.create(s);
@@ -45,6 +40,7 @@ public class URITest extends RippleTestCase {
         assertEquals(localNameCreated, localName);
     }
 
+    @Test
     public void testURINamespace() throws Exception {
         ModelConnection mc = getTestModel().createConnection();
 

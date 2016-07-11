@@ -16,7 +16,7 @@ public class Script extends PrimitiveStackMapping {
     private final Map<String, ScriptEngineWrapper> scriptEngines;
 
     public Script() {
-        scriptEngines = new HashMap<String, ScriptEngineWrapper>();
+        scriptEngines = new HashMap<>();
     }
 
     public void addScriptEngine(final String name,

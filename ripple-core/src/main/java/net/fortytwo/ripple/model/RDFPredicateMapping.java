@@ -116,8 +116,8 @@ public class RDFPredicateMapping implements StackMapping {
     }
 
     private class ValueSink implements Sink<Object> {
-        private Sink<RippleList> sink;
-        private RippleList arg;
+        private final Sink<RippleList> sink;
+        private final RippleList arg;
 
         public ValueSink(final RippleList arg, final Sink<RippleList> sink) {
             this.arg = arg;

@@ -20,8 +20,7 @@ public class Random extends PrimitiveStackMapping {
                 MathLibrary.NS_2007_08 + "random"};
     }
 
-    public Random()
-            throws RippleException {
+    public Random() {
         super();
     }
 
@@ -36,14 +35,13 @@ public class Random extends PrimitiveStackMapping {
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-        RippleList stack = arg;
 
         Number result;
 
         result = Math.random();
 
         solutions.accept(
-                stack.push(result));
+                arg.push(result));
     }
 }
 

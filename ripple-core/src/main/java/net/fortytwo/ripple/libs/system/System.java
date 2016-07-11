@@ -34,8 +34,7 @@ public class System extends PrimitiveStackMapping {
         return "makes a system call to the underlying operating system";
     }
 
-    public System()
-            throws RippleException {
+    public System() {
         super();
     }
 
@@ -58,9 +57,7 @@ public class System extends PrimitiveStackMapping {
             exitCode = p.waitFor();
             normalOutput = readInputStream(p.getInputStream(), OUTPUT_MAXLEN);
             errorOutput = readInputStream(p.getErrorStream(), OUTPUT_MAXLEN);
-        } catch (IOException e) {
-            throw new RippleException(e);
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RippleException(e);
         }
 

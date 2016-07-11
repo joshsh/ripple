@@ -23,8 +23,7 @@ public class Asin extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Asin()
-            throws RippleException {
+    public Asin() {
         super();
     }
 

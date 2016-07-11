@@ -8,7 +8,6 @@ import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
 import org.openrdf.model.IRI;
-import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 
 /**
@@ -33,7 +32,7 @@ public class DefineListCmd extends Command {
 
     public void execute(final QueryEngine qe, final ModelConnection mc)
             throws RippleException {
-        Collector<RippleList> expressions = new Collector<RippleList>();
+        Collector<RippleList> expressions = new Collector<>();
         list.evaluate(expressions, qe, mc);
 
         if (expressions.size() == 0) {

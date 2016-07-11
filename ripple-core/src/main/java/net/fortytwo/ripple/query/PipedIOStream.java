@@ -10,7 +10,7 @@ import java.io.InputStream;
  *
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class PipedIOStream extends InputStream //, OutputStream
+public class PipedIOStream extends InputStream
 {
     private static final int BUFFER_EXPANSION = 2;
     private static final int DEFAULT_INITIAL_SIZE = 200;
@@ -63,7 +63,7 @@ public class PipedIOStream extends InputStream //, OutputStream
         }
     }
 
-    public synchronized void write(int b) throws IOException {
+    private synchronized void write(int b) throws IOException {
         if (null == data) {
             throw new IOException("can't write: pipe has been closed");
         }
@@ -90,8 +90,8 @@ public class PipedIOStream extends InputStream //, OutputStream
     }
 
     public void write(final byte[] b) throws IOException {
-        for (int i = 0; i < b.length; i++) {
-            write(b[i]);
+        for (byte aB : b) {
+            write(aB);
         }
     }
 
@@ -112,8 +112,5 @@ public class PipedIOStream extends InputStream //, OutputStream
         }
 
         return i;
-    }
-
-    public void flush() throws IOException {
     }
 }

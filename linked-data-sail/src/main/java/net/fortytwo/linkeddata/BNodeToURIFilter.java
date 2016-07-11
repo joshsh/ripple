@@ -17,7 +17,7 @@ public class BNodeToURIFilter implements Consumer<Statement> {
 
     private final Consumer<Statement> wrapped;
 
-    private ValueFactory valueFactory;
+    private final ValueFactory valueFactory;
 
     public BNodeToURIFilter(final Consumer<Statement> wrapped, final ValueFactory vf) {
         valueFactory = vf;

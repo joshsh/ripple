@@ -22,8 +22,7 @@ public class Trim extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Trim()
-            throws RippleException {
+    public Trim() {
         super();
     }
 

@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Defines a mapping between keywords and URIs, and between namespace prefixes
@@ -67,15 +68,15 @@ public class Lexicon {
     private final ValueFactory valueFactory = SimpleValueFactory.getInstance();
 
     public Lexicon(final Model model) throws RippleException {
-        prefixToUri = new HashMap<String, String>();
-        uriToPrefix = new HashMap<String, String>();
-        allQNames = new ArrayList<String>();
-        temporaryValues = new HashMap<String, Object>();
+        prefixToUri = new HashMap<>();
+        uriToPrefix = new HashMap<>();
+        allQNames = new ArrayList<>();
+        temporaryValues = new HashMap<>();
 
         ModelConnection mc = model.createConnection();
         try {
-            keywordToUri = new HashMap<String, Set<IRI>>();
-            uriToKeyword = new HashMap<IRI, String>();
+            keywordToUri = new HashMap<>();
+            uriToKeyword = new HashMap<>();
 
             for (Value key : model.getSpecialValues().keySet()) {
                 if (key instanceof IRI) {
@@ -86,7 +87,7 @@ public class Lexicon {
 
                     // If there is no existing value for the key, simply add it.
                     if (null == siblings) {
-                        siblings = new HashSet<IRI>();
+                        siblings = new HashSet<>();
                         siblings.add((IRI) key);
                         keywordToUri.put(keyword, siblings);
                     } else {
@@ -142,12 +143,12 @@ public class Lexicon {
                 || NAME_NOT_PREFIX.matcher(localName).matches();
     }
 
-    public Set<IRI> uriForKeyword(final String localName) {
+    private Set<IRI> uriForKeyword(final String localName) {
         Set<IRI> result = keywordToUri.get(localName);
 
         // If there are no results, return an empty list instead of null.
         return (null == result)
-                ? new HashSet<IRI>()
+                ? new HashSet<>()
                 : result;
     }
 
@@ -178,25 +179,17 @@ public class Lexicon {
         return symbol;
     }
 
-    public Completer getCompletor() throws RippleException {
+    public Completer getCompletor() {
         Set<String> keywords = keywordToUri.keySet();
         Set<String> prefixes = prefixToUri.keySet();
 
         int size = keywords.size() + prefixes.size() + allQNames.size();
         if (0 < size) {
-            Collection<String> alts = new ArrayList<String>();
+            Collection<String> alts = keywords.stream().collect(Collectors.toList());
 
-            for (String keyword : keywords) {
-                alts.add(keyword);
-            }
+            alts.addAll(allQNames.stream().collect(Collectors.toList()));
 
-            for (String allQName : allQNames) {
-                alts.add(allQName);
-            }
-
-            for (String prefixe : prefixes) {
-                alts.add(prefixe + ":");
-            }
+            alts.addAll(prefixes.stream().map(prefixe -> prefixe + ":").collect(Collectors.toList()));
 
             return new LexicalCompletor(alts);
         } else {
@@ -215,10 +208,7 @@ public class Lexicon {
         // resolving to the same runtime value more than once (as is the case,
         // for instance, when two or more URIs mapping to a special value have
         // the same local name).
-        Set values = new HashSet();
-        for (IRI u : options) {
-            values.add(mc.canonicalValue(u));
-        }
+        Set values = options.stream().map(mc::canonicalValue).collect(Collectors.toSet());
 
         Object t = temporaryValues.get(keyword);
         if (null != t) {
@@ -303,7 +293,7 @@ public class Lexicon {
     }
 
     // Note: assumes that the same URI will not be added twice.
-    public void addURI(final IRI uri) throws RippleException {
+    public void addURI(final IRI uri) {
         // If possible, add a qualified name as well.
         String prefix = uriToPrefix.get(uri.getNamespace());
         if (null != prefix) {
@@ -314,8 +304,7 @@ public class Lexicon {
 
     public void addCommonNamespaces(final ModelConnection mc) throws RippleException {
         try {
-            InputStream is = Ripple.class.getResourceAsStream("common-namespaces.txt");
-            try {
+            try (InputStream is = Ripple.class.getResourceAsStream("common-namespaces.txt")) {
                 BufferedReader br = new BufferedReader(new InputStreamReader(is));
                 String l;
                 while ((l = br.readLine()) != null) {
@@ -328,8 +317,6 @@ public class Lexicon {
                         setNamespace(prefix, uri, mc);
                     }
                 }
-            } finally {
-                is.close();
             }
         } catch (IOException e) {
             throw new RippleException(e);

@@ -22,8 +22,7 @@ public class IndexOf extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public IndexOf()
-            throws RippleException {
+    public IndexOf() {
         super();
     }
 

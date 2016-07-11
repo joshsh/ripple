@@ -25,8 +25,7 @@ public class Gt extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Gt()
-            throws RippleException {
+    public Gt() {
         super();
     }
 

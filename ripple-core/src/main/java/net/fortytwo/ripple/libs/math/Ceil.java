@@ -23,8 +23,7 @@ public class Ceil extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Ceil()
-            throws RippleException {
+    public Ceil() {
         super();
     }
 

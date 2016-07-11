@@ -23,8 +23,7 @@ public class Tan extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Tan()
-            throws RippleException {
+    public Tan() {
         super();
     }
 

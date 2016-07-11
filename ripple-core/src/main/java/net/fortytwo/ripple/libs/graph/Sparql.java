@@ -30,8 +30,7 @@ public class Sparql extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Sparql()
-            throws RippleException {
+    public Sparql() {
         super();
     }
 
@@ -53,11 +52,8 @@ public class Sparql extends PrimitiveStackMapping {
         String query = mc.toString(stack.getFirst());
         stack = stack.getRest();
 
-        CloseableIteration<? extends BindingSet, QueryEvaluationException> results
-                = mc.evaluate(query);
-
         try {
-            try {
+            try (CloseableIteration<? extends BindingSet, QueryEvaluationException> results = mc.evaluate(query)) {
                 while (results.hasNext()) {
                     SPARQLValue kv = new SPARQLValue(results.next());
 
@@ -68,8 +64,6 @@ public class Sparql extends PrimitiveStackMapping {
                         logger.warn("failed to put SPARQL result", e);
                     }
                 }
-            } finally {
-                results.close();
             }
         } catch (QueryEvaluationException e) {
             throw new RippleException(e);

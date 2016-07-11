@@ -1,12 +1,14 @@
 package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 import org.openrdf.model.vocabulary.XMLSchema;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class DenyInContextTest extends RippleTestCase {
+    @Test
     public void testSimple() throws Exception {
         reduce("@prefix ex: <http://example.org/denyInTest/> .");
 
@@ -46,6 +48,7 @@ public class DenyInContextTest extends RippleTestCase {
         assertReducesTo("() rdf:type ex:ctx1 in-context~.");
     }
 
+    @Test
     public void testLiteralObjects() throws Exception {
         reduce("@prefix ex: <http://example.org/deny-in-contextTest/>.");
 
@@ -99,6 +102,7 @@ public class DenyInContextTest extends RippleTestCase {
         assertReducesTo("\"something\"^^xsd:string rdfs:label ex:ctx1 in-context~.");
     }
 
+    @Test
     public void testNullContext() throws Exception {
         reduce("@prefix ex: <http://example.org/assert-in-contextTest/>.");
 

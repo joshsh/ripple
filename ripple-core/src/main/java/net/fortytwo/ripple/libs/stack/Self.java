@@ -23,8 +23,7 @@ public class Self extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Self()
-            throws RippleException {
+    public Self() {
         super();
     }
 

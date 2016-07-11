@@ -5,6 +5,7 @@ import net.fortytwo.ripple.model.Model;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 import java.io.PrintStream;
 import java.util.Random;
@@ -17,14 +18,15 @@ public class QueryPipeTest extends RippleTestCase {
             REPEAT = 10,
             MIN_EXPR_LENGTH = 0,
             MAX_EXPR_LENGTH = 50;
-    private Random rand = new Random();
+    private final Random rand = new Random();
 
+    @Test
     public void testQueries() throws Exception {
         Model model = getTestModel();
         StackEvaluator eval = new LazyStackEvaluator();
         QueryEngine qe = new QueryEngine(model, eval, System.out, System.err);
-        Collector<RippleList> expected = new Collector<RippleList>();
-        Collector<RippleList> results = new Collector<RippleList>();
+        Collector<RippleList> expected = new Collector<>();
+        Collector<RippleList> results = new Collector<>();
         QueryPipe qp = new QueryPipe(qe, results);
         ModelConnection mc = qe.getConnection();
 
@@ -61,6 +63,7 @@ public class QueryPipeTest extends RippleTestCase {
         //mc.close();
     }
 
+    @Test
     public void testFuzz() throws Exception {
         Model model = getTestModel();
         StackEvaluator eval = new LazyStackEvaluator();
@@ -69,8 +72,8 @@ public class QueryPipeTest extends RippleTestCase {
         PrintStream errStream = new PrintStream(new NullOutputStream());
 
         QueryEngine qe = new QueryEngine(model, eval, System.out, errStream);
-        Collector<RippleList> expected = new Collector<RippleList>();
-        Collector<RippleList> results = new Collector<RippleList>();
+        Collector<RippleList> expected = new Collector<>();
+        Collector<RippleList> results = new Collector<>();
         QueryPipe qp = new QueryPipe(qe, results);
         ModelConnection mc = qe.getConnection();
 
@@ -92,7 +95,6 @@ public class QueryPipeTest extends RippleTestCase {
             for (int j = 0; j < len; j++) {
                 expr[j] = bytes[rand.nextInt(bytes.length)];
             }
-            String s = new String(expr);
             qp.accept(new String(expr));
 
             qp.accept(".\n");
@@ -108,6 +110,5 @@ public class QueryPipeTest extends RippleTestCase {
         }
 
         qp.close();
-        //mc.close();
     }
 }

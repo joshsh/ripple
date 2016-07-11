@@ -14,7 +14,7 @@ import java.util.LinkedList;
 public final class FileUtils {
     public static Collection<String> getLines(final InputStream is)
             throws RippleException {
-        LinkedList<String> lines = new LinkedList<String>();
+        LinkedList<String> lines = new LinkedList<>();
 
         try {
             BufferedReader reader = new BufferedReader(
