@@ -6,9 +6,23 @@ import org.apache.http.HttpRequest;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.config.Registry;
+import org.apache.http.config.RegistryBuilder;
+import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.apache.http.ssl.SSLContextBuilder;
+import org.apache.http.ssl.TrustStrategy;
 
+import javax.net.ssl.SSLContext;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +39,7 @@ public class HTTPUtils {
             SPARQL_QUERY = "application/sparql-query",
             USER_AGENT = "User-Agent";
 
-    private static final Map<String, Long> lastRequestByHost = new HashMap<String, Long>();
+    private static final Map<String, Long> lastRequestByHost = new HashMap<>();
 
     private static final long COURTESY_INTERVAL;
     private static final long CONNECTION_TIMEOUT;
@@ -42,6 +56,11 @@ public class HTTPUtils {
     }
 
     public static HttpClient createClient(final boolean autoRedirect) throws RippleException {
+
+
+
+
+
         RequestConfig defaultRequestConfig = RequestConfig.custom()
                 .setSocketTimeout((int) CONNECTION_TIMEOUT)
                 .setConnectTimeout((int) CONNECTION_TIMEOUT)
@@ -62,7 +81,38 @@ public class HTTPUtils {
             builder = builder.disableRedirectHandling();
         }
 
+        ignoreSSLErrors(builder);
+
         return builder.build();
+    }
+
+    // Set up a Trust Strategy that allows all certificates
+    // See: http://literatejava.com/networks/ignore-ssl-certificate-errors-apache-httpclient-4-4/
+    private static void ignoreSSLErrors(final HttpClientBuilder builder) throws RippleException {
+        SSLContext sslContext;
+        try {
+            sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
+                public boolean isTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+                    return true;
+                }
+            }).build();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RippleException(e);
+        } catch (KeyManagementException e) {
+            throw new RippleException(e);
+        } catch (KeyStoreException e) {
+            throw new RippleException(e);
+        }
+        builder.setSslcontext(sslContext);
+
+        SSLConnectionSocketFactory sslSocketFactory = new SSLConnectionSocketFactory(sslContext);
+        Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
+                .register("http", PlainConnectionSocketFactory.getSocketFactory())
+                .register("https", sslSocketFactory)
+                .build();
+
+        PoolingHttpClientConnectionManager connMgr = new PoolingHttpClientConnectionManager( socketFactoryRegistry);
+        builder.setConnectionManager(connMgr);
     }
 
     public static HttpGet createGetMethod(final String url) throws RippleException {

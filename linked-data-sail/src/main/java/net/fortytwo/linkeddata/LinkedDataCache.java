@@ -528,7 +528,6 @@ public class LinkedDataCache {
         return (null == rq) ? null : rq.rdfizer;
     }
 
-
     private class DefaultCacheExpirationPolicy implements CacheExpirationPolicy {
         private long cacheLifetime;
 
