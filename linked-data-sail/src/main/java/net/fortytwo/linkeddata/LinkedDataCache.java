@@ -198,7 +198,7 @@ public class LinkedDataCache {
         }
     }
 
-    private synchronized SailConnection getSailConnection() {
+    public synchronized SailConnection getSailConnection() {
         return sailConnection;
     }
 
