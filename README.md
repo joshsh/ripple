@@ -9,7 +9,7 @@ and postfix-style procedures as in
 [Forth](http://en.wikipedia.org/wiki/Forth_&#40;programming_language\&#41;).
 Every program has an [RDF](http://www.w3.org/RDF/) representation,
 so you can embed programs in the Web of Data as well as querying against it.
-The implementation is written in Java and includes an interactive command-line interpreter as well as a query API which interoperates with [Sesame 2.0](http://openrdf.org/).
+The implementation is written in Java and includes an interactive command-line interpreter as well as a query API which interoperates with [Sesame 4.1](http://rdf4j.org/).
 
 ## Contents
 
