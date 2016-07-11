@@ -1,28 +1,22 @@
 package net.fortytwo.linkeddata;
 
-import net.fortytwo.flow.rdf.RDFBuffer;
-import net.fortytwo.flow.rdf.RDFSink;
-import net.fortytwo.flow.rdf.SailInserter;
-import net.fortytwo.flow.rdf.SesameInputAdapter;
-import net.fortytwo.flow.rdf.SesameOutputAdapter;
-import net.fortytwo.flow.rdf.SingleContextPipe;
 import net.fortytwo.linkeddata.dereferencers.FileURIDereferencer;
 import net.fortytwo.linkeddata.dereferencers.HTTPURIDereferencer;
 import net.fortytwo.linkeddata.dereferencers.JarURIDereferencer;
 import net.fortytwo.linkeddata.rdfizers.ImageRdfizer;
 import net.fortytwo.linkeddata.rdfizers.VerbatimRdfizer;
 import net.fortytwo.linkeddata.sail.LinkedDataSail;
-import net.fortytwo.ripple.Ripple;
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.StringUtils;
-import net.fortytwo.ripple.URIMap;
+import net.fortytwo.linkeddata.util.RDFUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.openrdf.model.IRI;
+import org.openrdf.model.Resource;
+import org.openrdf.model.Statement;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.SimpleValueFactory;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFHandler;
+import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParser;
 import org.openrdf.rio.RDFParserRegistry;
 import org.openrdf.sail.Sail;
@@ -40,7 +34,9 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * A manager for a dynamic set of RDF graphs collected from the Web.
@@ -52,7 +48,7 @@ import java.util.Map;
 public class LinkedDataCache {
     private static final Logger logger = Logger.getLogger(LinkedDataCache.class);
 
-    private static final ValueFactory constValueFactory =  SimpleValueFactory.getInstance();
+    private static final ValueFactory constValueFactory = SimpleValueFactory.getInstance();
 
     public static final String
             CACHE_NS = "http://fortytwo.net/2012/02/linkeddata#";
@@ -81,7 +77,6 @@ public class LinkedDataCache {
     private final ValueFactory valueFactory;
     private final boolean useBlankNodes;
 
-    private URIMap uriMap;
     private boolean autoCommit = true;
 
     private boolean derefSubjects = true;
@@ -110,9 +105,8 @@ public class LinkedDataCache {
      *
      * @param sail the underlying triple store for the cache
      * @return the default cache
-     * @throws RippleException if construction fails for any reason
      */
-    public static LinkedDataCache createDefault(final Sail sail) throws RippleException {
+    public static LinkedDataCache createDefault(final Sail sail) {
         LinkedDataCache cache = new LinkedDataCache(sail);
 
         RedirectManager redirectManager = new RedirectManager(cache.getSailConnection());
@@ -128,7 +122,7 @@ public class LinkedDataCache {
         cache.addDereferencer("jar", new JarURIDereferencer());
 
         RDFParser.DatatypeHandling datatypeHandling;
-        String p = Ripple.getConfiguration().getString(LinkedDataSail.DATATYPE_HANDLING_POLICY);
+        String p = LinkedDataSail.getProperty(LinkedDataSail.DATATYPE_HANDLING_POLICY, "ignore");
         datatypeHandling
                 = p.equals("ignore")
                 ? RDFParser.DatatypeHandling.IGNORE
@@ -138,7 +132,7 @@ public class LinkedDataCache {
                 ? RDFParser.DatatypeHandling.NORMALIZE
                 : null;
         if (null == datatypeHandling) {
-            throw new RippleException("no such datatype handling policy: " + p);
+            throw new IllegalStateException("no such datatype handling policy: " + p);
         }
 
         // Rdfizers for registered RDF formats
@@ -166,17 +160,12 @@ public class LinkedDataCache {
 
     /**
      * @param sail underlying triple store for the cache
-     * @throws RippleException if there is a configuration error
      */
-    public LinkedDataCache(final Sail sail) throws RippleException {
-        try {
-            sailConnection = sail.getConnection();
-            sailConnection.begin();
-        } catch (SailException e) {
-            throw new RippleException(e);
-        }
+    public LinkedDataCache(final Sail sail) {
+        sailConnection = sail.getConnection();
+        sailConnection.begin();
 
-        int capacity = Ripple.getConfiguration().getInt(LinkedDataSail.MEMORY_CACHE_CAPACITY);
+        int capacity = Integer.valueOf(LinkedDataSail.getProperty(LinkedDataSail.MEMORY_CACHE_CAPACITY, "10000"));
         if (capacity < MINIMUM_CAPACITY) {
             logger.log(Level.WARN, "LinkedDataSail.MEMORY_CACHE_CAPACITY is suspiciously low. Using "
                     + MINIMUM_CAPACITY);
@@ -185,64 +174,40 @@ public class LinkedDataCache {
         this.metadata = new CachingMetadata(capacity, sail.getValueFactory());
 
         this.valueFactory = sail.getValueFactory();
-        useBlankNodes = Ripple.getConfiguration().getBoolean(Ripple.USE_BLANK_NODES);
+        useBlankNodes = Boolean.valueOf(LinkedDataSail.getProperty(LinkedDataSail.USE_BLANK_NODES, "false"));
 
         this.expirationPolicy = new DefaultCacheExpirationPolicy();
 
         dataStore = new DataStore() {
-            public RDFSink createInputSink(final SailConnection sc) {
+            public Consumer<Statement> createConsumer(final SailConnection sc) {
                 return new SesameOutputAdapter(new SailInserter(sc));
             }
         };
     }
 
-    public synchronized void clear() throws RippleException {
+    public synchronized void clear() {
         metadata.clear();
 
         SailConnection sc = getSailConnection();
-        try {
-            sc.clear();
-            sc.commit();
-            sc.begin();
-        } catch (SailException e) {
-            throw new RippleException(e);
-        }
+        sc.clear();
+        sc.commit();
+        sc.begin();
     }
 
     // note: only closes in one thread
-    public synchronized void close() throws RippleException {
-        try {
-            SailConnection sc = getSailConnection();
-            if (null != sc) {
-                sc.close();
-            }
-        } catch (SailException e) {
-            throw new RippleException(e);
+    public synchronized void close() {
+        SailConnection sc = getSailConnection();
+        if (null != sc) {
+            sc.close();
         }
     }
 
-    public synchronized SailConnection getSailConnection() throws RippleException {
+    public synchronized SailConnection getSailConnection() {
         return sailConnection;
     }
 
     public void setDataStore(final DataStore dataStore) {
         this.dataStore = dataStore;
-    }
-
-    /**
-     * @return an application-specific mapping for URIs dereferenced by the cache, or null no mapping is used
-     */
-    public URIMap getURIMap() {
-        return uriMap;
-    }
-
-    /**
-     * Defines an application-specific mapping for URIs dereferenced by the cache, in the manner of a Web proxy.
-     *
-     * @param map the mapping
-     */
-    public void setURIMap(final URIMap map) {
-        this.uriMap = map;
     }
 
     /**
@@ -337,7 +302,7 @@ public class LinkedDataCache {
      * @return the current status of the URI, or null if it does not exist in the cache
      */
     public CacheEntry.Status peek(final IRI iri,
-                                  final SailConnection sc) throws RippleException {
+                                  final SailConnection sc) throws IOException {
         return peekOrRetrieve(iri, sc, false);
     }
 
@@ -349,16 +314,16 @@ public class LinkedDataCache {
      * @return the result of the dereferencing operation
      */
     public CacheEntry.Status retrieve(final IRI iri,
-                                      final SailConnection sc) throws RippleException {
+                                      final SailConnection sc) throws IOException {
         return peekOrRetrieve(iri, sc, true);
     }
 
     // Look up and create the memo for a IRI in one atomic operation, avoiding races between threads
     // The status of a IRI in the cache is Undetermined until the retrieval operation is completed.
     private synchronized CacheEntry getSetMemo(final IRI uri,
-                                              final String graphUri,
-                                              final SailConnection sc,
-                                              final boolean doRetrieve) throws RippleException {
+                                               final String graphUri,
+                                               final SailConnection sc,
+                                               final boolean doRetrieve) {
         CacheEntry memo = metadata.getMemo(graphUri, sc);
 
         // If there is already a (non-expired) entry for this URI, just return its status.
@@ -378,7 +343,7 @@ public class LinkedDataCache {
 
     private CacheEntry.Status peekOrRetrieve(final IRI uri,
                                              final SailConnection sc,
-                                             final boolean doRetrieve) throws RippleException {
+                                             final boolean doRetrieve) throws IOException {
         // Find the named graph which stores all information associated with this URI
         String graphUri = RDFUtils.findGraphUri(uri.toString());
 
@@ -393,8 +358,7 @@ public class LinkedDataCache {
         // it need not resemble the IRI it was created from.
         String retrievalUri;
 
-        String mapped = null == uriMap ? uri.toString() : uriMap.get(uri.toString());
-        retrievalUri = RDFUtils.removeFragmentIdentifier(mapped);
+        retrievalUri = RDFUtils.removeFragmentIdentifier(uri.toString());
 
         Dereferencer dref;
 
@@ -409,7 +373,7 @@ public class LinkedDataCache {
         }
 
         logger.info("dereferencing <"
-                + StringUtils.escapeURIString(uri.toString()) + ">");
+                + uri.toString() + ">");
 
         memo.setDereferencer(dref.getClass().getName());
 
@@ -439,22 +403,18 @@ public class LinkedDataCache {
 
             memo.setRdfizer(rfiz.getClass().getName());
 
-            RDFSink adder = dataStore.createInputSink(sc);
-            RDFBuffer buffer = new RDFBuffer(adder);
+            Consumer<Statement> adder = dataStore.createConsumer(sc);
+            Buffer<Statement> buffer = new Buffer<Statement>(adder);
 
             // Note: any context information in the source document is discarded.
-            RDFSink pipe = new SingleContextPipe(buffer, valueFactory.createIRI(graphUri), valueFactory);
+            Consumer<Statement> pipe = new SingleContextPipe(buffer, valueFactory.createIRI(graphUri));
 
             RDFHandler handler = new SesameInputAdapter(useBlankNodes
                     ? pipe
                     : new BNodeToURIFilter(pipe, valueFactory));
 
             InputStream is;
-            try {
-                is = rep.getStream();
-            } catch (IOException e) {
-                throw new RippleException(e);
-            }
+            is = rep.getStream();
 
             // Use the namespace portion of the original IRI as the base IRI for the retrieved RDF document.
             String baseUri = uri.getNamespace();
@@ -463,11 +423,7 @@ public class LinkedDataCache {
 
             // Only update the graph in the triple store if the operation was successful.
             if (CacheEntry.Status.Success == memo.getStatus()) {
-                try {
-                    sc.removeStatements(null, null, null, valueFactory.createIRI(graphUri));
-                } catch (SailException e) {
-                    throw new RippleException(e);
-                }
+                sc.removeStatements(null, null, null, valueFactory.createIRI(graphUri));
 
                 buffer.flush();
             }
@@ -476,12 +432,8 @@ public class LinkedDataCache {
 
             // an autocommit happens independently of a call to LinkedDataSail#commit
             if (autoCommit) {
-                try {
-                    sc.commit();
-                    sc.begin();
-                } catch (SailException e) {
-                    throw new RippleException(e);
-                }
+                sc.commit();
+                sc.begin();
             }
 
             logStatus(uri, memo);
@@ -552,7 +504,7 @@ public class LinkedDataCache {
 
         if (CacheEntry.Status.Success != status && CacheEntry.Status.RedirectsToCached != status) {
             StringBuilder msg = new StringBuilder("Failed to dereference IRI <"
-                    + StringUtils.escapeURIString(uri.toString()) + "> (");
+                    + uri.toString() + "> (");
 
             msg.append("dereferencer: ").append(memo.getDereferencer());
             msg.append(", media type: ").append(memo.getMediaType());
@@ -571,7 +523,7 @@ public class LinkedDataCache {
         return dereferencers.get(scheme);
     }
 
-    private Rdfizer chooseRdfizer(final MediaType mediaType) throws RippleException {
+    private Rdfizer chooseRdfizer(final MediaType mediaType) {
         MediaTypeInfo rq = rdfizers.get(mediaType);
         return (null == rq) ? null : rq.rdfizer;
     }
@@ -580,8 +532,8 @@ public class LinkedDataCache {
     private class DefaultCacheExpirationPolicy implements CacheExpirationPolicy {
         private long cacheLifetime;
 
-        public DefaultCacheExpirationPolicy() throws RippleException {
-            cacheLifetime = Ripple.getConfiguration().getLong(LinkedDataSail.CACHE_LIFETIME) * 1000;
+        public DefaultCacheExpirationPolicy() {
+            cacheLifetime = Long.valueOf(LinkedDataSail.getProperty(LinkedDataSail.CACHE_LIFETIME, "604800")) * 1000L;
         }
 
         public boolean isExpired(final String uri,
@@ -599,6 +551,107 @@ public class LinkedDataCache {
     }
 
     public interface DataStore {
-        RDFSink createInputSink(SailConnection sc);
+        Consumer<Statement> createConsumer(SailConnection sc);
+    }
+
+    private class SingleContextPipe implements Consumer<Statement> {
+        private final Consumer<Statement> stSink;
+        private final Resource context;
+
+        public SingleContextPipe(final Consumer<Statement> stSink,
+                                 final Resource context) {
+            this.stSink = stSink;
+            this.context = context;
+        }
+
+        @Override
+        public void accept(Statement st) {
+            Statement newSt = valueFactory.createStatement(
+                    st.getSubject(), st.getPredicate(), st.getObject(), context);
+
+            stSink.accept(newSt);
+        }
+    }
+
+    private class Buffer<T> implements Consumer<T> {
+        private final Consumer<T> wrapped;
+        private final List<T> buffer = new LinkedList<T>();
+
+        public Buffer(final Consumer<T> wrapped) {
+            this.wrapped = wrapped;
+        }
+
+        @Override
+        public void accept(T t) {
+            buffer.add(t);
+        }
+
+        public void flush() {
+            for (T t : buffer) {
+                wrapped.accept(t);
+            }
+            buffer.clear();
+        }
+    }
+
+    private abstract class StatementConsumerRDFHandler implements RDFHandler {
+        @Override
+        public void handleComment(final String comment) {
+        }
+
+        @Override
+        public void handleNamespace(final String prefix, final String uri) {
+        }
+
+        @Override
+        public void startRDF() {
+        }
+
+        @Override
+        public void endRDF() {
+        }
+    }
+
+    private class SesameInputAdapter extends StatementConsumerRDFHandler {
+        private final Consumer<Statement> stSink;
+
+        public SesameInputAdapter(final Consumer<Statement> stSink) {
+            this.stSink = stSink;
+        }
+
+        @Override
+        public void handleStatement(final Statement st) {
+            stSink.accept(st);
+        }
+    }
+
+    public class SailInserter extends StatementConsumerRDFHandler {
+        private final SailConnection sailConnection;
+
+        public SailInserter(final SailConnection sailConnection) {
+            this.sailConnection = sailConnection;
+        }
+
+        @Override
+        public void handleStatement(final Statement st) throws RDFHandlerException {
+            try {
+                sailConnection.addStatement(st.getSubject(), st.getPredicate(), st.getObject(), st.getContext());
+            } catch (SailException e) {
+                throw new RDFHandlerException(e);
+            }
+        }
+    }
+
+    private class SesameOutputAdapter implements Consumer<Statement> {
+        private RDFHandler handler;
+
+        public SesameOutputAdapter(final RDFHandler handler) {
+            this.handler = handler;
+        }
+
+        @Override
+        public void accept(Statement st) {
+            handler.handleStatement(st);
+        }
     }
 }

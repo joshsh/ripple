@@ -9,12 +9,12 @@ import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 // TODO: this comparator currently ignores the equivalence of RDF lists with native lists,
 // and of numeric values with numeric-typed literals
@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RippleComparator implements Comparator<Object> {
-    private static final Logger logger = Logger.getLogger(RippleComparator.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(RippleComparator.class.getName());
 
     private final ModelConnection modelConnection;
     private final Comparator<RippleList> listComparator;
@@ -91,7 +91,7 @@ public class RippleComparator implements Comparator<Object> {
                 return c;
             }
         } catch (RippleException e) {
-            logger.log(Level.WARNING, "failed to compare " + o1 + " and " + o2, e);
+            logger.warn("failed to compare " + o1 + " and " + o2, e);
             return 0;
         }
     }
@@ -347,7 +347,7 @@ public class RippleComparator implements Comparator<Object> {
             try {
                 return compareNativeLists(l1, l2);
             } catch (RippleException e) {
-                logger.log(Level.WARNING, "failed to compare " + l1 + " and " + l2, e);
+                logger.warn("failed to compare " + l1 + " and " + l2, e);
                 return 0;
             }
         }

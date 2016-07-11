@@ -6,6 +6,7 @@ import net.fortytwo.ripple.test.RippleTestCase;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class ApplicationSyntaxTest extends RippleTestCase {
+
     public void testWhitespace() throws Exception {
         // White space is allowed between a quantifier and an application symbol.
         assertReducesTo("1 (10 add.){2}", "21");

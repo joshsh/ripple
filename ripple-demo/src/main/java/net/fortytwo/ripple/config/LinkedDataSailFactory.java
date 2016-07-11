@@ -24,7 +24,7 @@ public class LinkedDataSailFactory implements SailFactory {
 
         Sail base = config.createSail(baseSailType, uriMap);
         LinkedDataCache cache = LinkedDataCache.createDefault(base);
-        cache.setURIMap(uriMap);
+        //cache.setURIMap(uriMap);
         Sail sail = new LinkedDataSail(base, cache);
         try {
             // Note: base Sail is already initialized.

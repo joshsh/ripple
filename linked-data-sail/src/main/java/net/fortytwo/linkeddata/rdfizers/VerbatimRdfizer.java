@@ -8,17 +8,17 @@ import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.RDFParser;
 import org.openrdf.rio.Rio;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class VerbatimRdfizer implements Rdfizer {
-    private static final Logger logger = Logger.getLogger(VerbatimRdfizer.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(VerbatimRdfizer.class);
 
     private final RDFFormat format;
     private final RDFParser parser;
@@ -37,16 +37,16 @@ public class VerbatimRdfizer implements Rdfizer {
             parser.setRDFHandler(handler);
             parser.parse(is, baseUri);
         } catch (IOException e) {
-            logger.log(Level.WARNING, "I/O error in " + format.getName() + " rdfizer", e);
+            logger.warn("I/O error in " + format.getName() + " rdfizer", e);
             return CacheEntry.Status.Failure;
         } catch (RDFParseException e) {
-            logger.log(Level.WARNING, "RDF parsing error in " + format.getName() + " rdfizer", e);
+            logger.warn("RDF parsing error in " + format.getName() + " rdfizer", e);
             return CacheEntry.Status.ParseError;
         } catch (RDFHandlerException e) {
-            logger.log(Level.WARNING, "RDF handler error in " + format.getName() + " rdfizer", e);
+            logger.warn("RDF handler error in " + format.getName() + " rdfizer", e);
             return CacheEntry.Status.Failure;
         } catch (Throwable t) {
-            logger.log(Level.SEVERE, "ungrokked error in " + format.getName() + " rdfizer", t);
+            logger.error("unclassified error in " + format.getName() + " rdfizer", t);
         }
 
         return CacheEntry.Status.Success;

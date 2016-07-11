@@ -7,9 +7,8 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.StackMapping;
 import net.fortytwo.ripple.model.types.NumericType;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A primitive which consumes a number and produces all real square roots of the
@@ -18,7 +17,7 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Sqrt extends PrimitiveStackMapping {
-    private static final Logger logger = Logger.getLogger(PrimitiveStackMapping.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(PrimitiveStackMapping.class.getName());
 
     private static final String[] IDENTIFIERS = {
             MathLibrary.NS_2013_03 + "sqrt",
@@ -69,7 +68,7 @@ public class Sqrt extends PrimitiveStackMapping {
                 }
             } catch (RippleException e) {
                 // Soft fail
-                logger.log(Level.WARNING, "failed to put sqrt solution", e);
+                logger.warn("failed to put sqrt solution", e);
             }
         }
     }

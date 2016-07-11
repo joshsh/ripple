@@ -10,15 +10,14 @@ import org.openrdf.query.QueryEvaluationException;
 import org.openrdf.query.algebra.evaluation.TripleSource;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SailConnectionTripleSource implements TripleSource {
-    private static final Logger logger = Logger.getLogger(SailConnectionTripleSource.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(SailConnectionTripleSource.class.getName());
 
     private final SailConnection sailConnection;
     private final ValueFactory valueFactory;
@@ -38,7 +37,7 @@ public class SailConnectionTripleSource implements TripleSource {
             return new QueryEvaluationIteration(
                     sailConnection.getStatements(subj, pred, obj, includeInferred, contexts));
         } catch (SailException e) {
-            logger.log(Level.WARNING, "query evaluation failed", e);
+            logger.warn("query evaluation failed", e);
             return new EmptyCloseableIteration<Statement, QueryEvaluationException>();
         }
     }

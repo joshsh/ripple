@@ -5,9 +5,8 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A primitive which consumes a string and a regular expression, then produces
@@ -18,7 +17,7 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Split extends PrimitiveStackMapping {
-    private static final Logger logger = Logger.getLogger(Split.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(Split.class.getName());
 
     private static final String[] IDENTIFIERS = {
             StringLibrary.NS_2013_03 + "split",
@@ -77,7 +76,7 @@ public class Split extends PrimitiveStackMapping {
                         stack.push(result));
             } catch (RippleException e) {
                 // Soft fail
-                logger.log(Level.WARNING, "failed to put solution", e);
+                logger.warn("failed to put solution", e);
             }
         } catch (java.util.regex.PatternSyntaxException e) {
             // Hard fail (for now).

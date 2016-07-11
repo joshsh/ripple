@@ -5,16 +5,16 @@ import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.RDF;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URI;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RDFPredicateMapping implements StackMapping {
-    private static final Logger logger = Logger.getLogger(RDFPredicateMapping.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(RDFPredicateMapping.class.getName());
 
     private static final int ARITY = 1;
 
@@ -131,7 +131,7 @@ public class RDFPredicateMapping implements StackMapping {
                 sink.accept(arg.getRest().push(v));
             } catch (RippleException e) {
                 // Soft fail
-                logger.log(Level.WARNING, "failed to put solution", e);
+                logger.warn("failed to put solution", e);
             }
         }
     }

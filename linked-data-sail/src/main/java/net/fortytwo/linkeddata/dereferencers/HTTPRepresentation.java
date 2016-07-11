@@ -1,10 +1,9 @@
 package net.fortytwo.linkeddata.dereferencers;
 
-import net.fortytwo.flow.rdf.HTTPUtils;
-import net.fortytwo.linkeddata.RDFUtils;
+import net.fortytwo.linkeddata.util.HTTPUtils;
+import net.fortytwo.linkeddata.util.RDFUtils;
 import net.fortytwo.linkeddata.RedirectManager;
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.StringUtils;
+import net.fortytwo.linkeddata.util.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -40,7 +39,7 @@ public class HTTPRepresentation extends StreamRepresentation {
     static {
         try {
             client = HTTPUtils.createClient(false);
-        } catch (RippleException e) {
+        } catch (Exception e) {
             logger.log(Level.SEVERE, "failed to initialize", e);
             throw new ExceptionInInitializerError(e);
         }
@@ -48,16 +47,16 @@ public class HTTPRepresentation extends StreamRepresentation {
 
     // Note: the URI is immediately dereferenced
     public HTTPRepresentation(final String iri, final RedirectManager redirects, final String acceptHeader)
-            throws RippleException {
+            throws IOException {
         super(null);
 
         URL getUrl;
         try {
             getUrl = RDFUtils.iriToUrl(iri);
         } catch (MalformedURLException e) {
-            throw new RippleException(e);
+            throw new IllegalArgumentException(e);
         } catch (UnsupportedEncodingException e) {
-            throw new RippleException(e);
+            throw new IllegalArgumentException(e);
         }
 
         HttpResponse response;
@@ -76,12 +75,7 @@ public class HTTPRepresentation extends StreamRepresentation {
                  */
                 long idleTime = HTTPUtils.throttleHttpRequest(method);
 
-                try {
-                    response = client.execute(method);
-                } catch (IOException e) {
-                    throw new RippleException(e);
-                }
-
+                response = client.execute(method);
                 int code = response.getStatusLine().getStatusCode();
                 int c = code / 100;
                 if (2 == c) {
@@ -89,21 +83,17 @@ public class HTTPRepresentation extends StreamRepresentation {
                 } else if (3 == c) {
                     redirectUrl = response.getFirstHeader("Location").getValue();
 
-                    try {
-                        // do not repeatedly retrieve the same document
-                        if (redirects.existsRedirectTo(redirectUrl)) {
-                            throw new RedirectToExistingDocumentException();
-                        }
-
-                        method.abort();
-                    } catch (SailException e) {
-                        throw new RippleException(e);
+                    // do not repeatedly retrieve the same document
+                    if (redirects.existsRedirectTo(redirectUrl)) {
+                        throw new RedirectToExistingDocumentException();
                     }
+
+                    method.abort();
 
                     try {
                         getUrl = new URL(redirectUrl);
                     } catch (MalformedURLException e) {
-                        throw new RippleException(e);
+                        throw new IOException(e);
                     }
                 } else {
                     throw new ErrorResponseException("" + code + " response for resource <"
@@ -119,7 +109,7 @@ public class HTTPRepresentation extends StreamRepresentation {
                 try {
                     redirects.persistRedirect(iri, redirectUrl);
                 } catch (SailException e) {
-                    throw new RippleException(e);
+                    throw new IOException(e);
                 }
             }
 
@@ -131,11 +121,7 @@ public class HTTPRepresentation extends StreamRepresentation {
 
         InputStream is;
 
-        try {
-            is = response.getEntity().getContent();
-        } catch (IOException e) {
-            throw new RippleException(e);
-        }
+        is = response.getEntity().getContent();
 
         inputStream = new HttpRepresentationInputStream(is);
 
@@ -200,19 +186,29 @@ public class HTTPRepresentation extends StreamRepresentation {
         }
     }
 
-    public class ErrorResponseException extends RippleException {
+    public class HTTPException extends IOException {
+        public HTTPException() {
+            super();
+        }
+
+        public HTTPException(final String message) {
+            super(message);
+        }
+    }
+
+    public class ErrorResponseException extends HTTPException {
         public ErrorResponseException(final String message) {
             super(message);
         }
     }
 
-    public class InvalidResponseException extends RippleException {
+    public class InvalidResponseException extends HTTPException {
         public InvalidResponseException(final String message) {
             super(message);
         }
     }
 
-    public class RedirectToExistingDocumentException extends RippleException {
+    public class RedirectToExistingDocumentException extends HTTPException {
         public RedirectToExistingDocumentException() {
             super();
         }

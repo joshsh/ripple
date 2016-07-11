@@ -1,6 +1,5 @@
 package net.fortytwo.linkeddata;
 
-import net.fortytwo.ripple.RippleException;
 import org.restlet.data.MediaType;
 
 import java.text.ParseException;
@@ -59,10 +58,9 @@ public class CacheEntry {
      * Constructs a cache entry from a set of key/value pairs
      *
      * @param keyValues the key/value pairs defining the entry
-     * @throws RippleException if a parse error occurs
      */
     // TODO: parse error handling
-    public CacheEntry(final String keyValues) throws RippleException {
+    public CacheEntry(final String keyValues) {
         String[] props = keyValues.split(",");
         for (String prop : props) {
             int eq = prop.indexOf('=');
@@ -72,7 +70,7 @@ public class CacheEntry {
             try {
                 addEntry(key, value);
             } catch (ParseException e) {
-                throw new RippleException(e);
+                throw new IllegalArgumentException(e);
             }
         }
     }

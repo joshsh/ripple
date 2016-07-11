@@ -47,6 +47,8 @@ public abstract class RippleTestCase extends TestCase {
 
     @Before
     public void setUp() throws Exception {
+        Ripple.initialize();
+
         modelConnection = getTestModel().createConnection();
         comparator = modelConnection.getComparator();
 

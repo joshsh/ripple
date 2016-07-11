@@ -1,13 +1,13 @@
 package net.fortytwo.linkeddata.dereferencers;
 
 import net.fortytwo.linkeddata.Dereferencer;
-import net.fortytwo.ripple.RippleException;
 import org.openrdf.rio.RDFFormat;
 import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StreamRepresentation;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -20,14 +20,14 @@ import java.util.Optional;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class FileURIDereferencer implements Dereferencer {
-    public Representation dereference(final String uri) throws RippleException {
+    public Representation dereference(final String uri) {
         return new FileRepresentation(uri);
     }
 
-    public static MediaType findMediaType(final String uri) throws RippleException {
+    public static MediaType findMediaType(final String uri) {
         Optional<RDFFormat> format = RDFFormat.matchFileName(uri, null);
         if (!format.isPresent()) {
-            throw new RippleException("no matching media type for " + uri);
+            throw new IllegalArgumentException("no matching media type for " + uri);
         }
 
         List<String> types = format.get().getMIMETypes();
@@ -41,13 +41,13 @@ public class FileURIDereferencer implements Dereferencer {
     private class FileRepresentation extends StreamRepresentation {
         private InputStream inputStream;
 
-        public FileRepresentation(final String uri) throws RippleException {
+        public FileRepresentation(final String uri) {
             super(findMediaType(uri));
 
             try {
                 inputStream = new FileInputStream(uri.substring(5));
-            } catch (IOException e) {
-                throw new RippleException(e);
+            } catch (FileNotFoundException e) {
+                throw new IllegalArgumentException(e);
             }
         }
 

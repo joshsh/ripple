@@ -4,16 +4,16 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.cli.ast.KeywordAST;
 import net.fortytwo.ripple.cli.ast.ListAST;
 import net.fortytwo.ripple.query.Command;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.PrintStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public abstract class RecognizerAdapter {
-    private static final Logger logger = Logger.getLogger(RecognizerAdapter.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(RecognizerAdapter.class);
     private final PrintStream errorStream;
 
     // A helper variable for the lexer and parser.
@@ -36,7 +36,7 @@ public abstract class RecognizerAdapter {
             handleQuery(query);
         } catch (RippleException e) {
             errorStream.println("\nQuery error: " + e + "\n");
-            logger.log(Level.WARNING, "query error", e);
+            logger.warn("query error", e);
         }
     }
 
@@ -45,7 +45,7 @@ public abstract class RecognizerAdapter {
             handleCommand(cmd);
         } catch (RippleException e) {
             errorStream.println("\nCommand error: " + e + "\n");
-            logger.log(Level.WARNING, "command error", e);
+            logger.warn("command error", e);
         }
     }
 
@@ -54,7 +54,7 @@ public abstract class RecognizerAdapter {
             handleEvent(event);
         } catch (RippleException e) {
             errorStream.println("\nEvent error: " + e + "\n");
-            logger.log(Level.WARNING, "event error", e);
+            logger.warn("event error", e);
         }
     }
 

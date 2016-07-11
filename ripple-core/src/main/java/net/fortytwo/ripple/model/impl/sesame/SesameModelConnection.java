@@ -42,6 +42,8 @@ import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailConnectionListener;
 import org.openrdf.sail.SailException;
 import org.openrdf.sail.SailReadOnlyException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -50,14 +52,12 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SesameModelConnection implements ModelConnection {
-    private static final Logger logger = Logger.getLogger(ModelConnection.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(ModelConnection.class);
 
     // instantiate this factory lazily, for the sake of Android applications which don't support javax
     private static DatatypeFactory DATATYPE_FACTORY;
@@ -173,7 +173,7 @@ public class SesameModelConnection implements ModelConnection {
 
         RippleType type = model.getTypeOf(v);
         if (null == type) {
-            logger.warning("no type for object of class " + v.getClass());
+            logger.warn("no type for object of class " + v.getClass());
             return null;
         } else {
             return type.toRDF(v, this);
@@ -188,7 +188,7 @@ public class SesameModelConnection implements ModelConnection {
 
         RippleType type = model.getTypeOf(v);
         if (null == type) {
-            logger.warning("no type for object of class " + v.getClass());
+            logger.warn("no type for object of class " + v.getClass());
 
             // TODO: temporary
             return null;
@@ -510,7 +510,7 @@ public class SesameModelConnection implements ModelConnection {
             try {
                 sesameQuery = new GetStatementsQuery(query, this);
             } catch (GetStatementsQuery.InvalidQueryException e) {
-                logger.fine("invalid query: " + e.getMessage());
+                logger.info("invalid query: " + e.getMessage());
                 return;
             }
 
@@ -587,7 +587,7 @@ public class SesameModelConnection implements ModelConnection {
                             buffer.accept(st);
                         } catch (RippleException e) {
                             // Soft fail
-                            logger.log(Level.WARNING, "buffer failure", e);
+                            logger.warn("buffer failure", e);
                         }
                     }
                 } finally {
@@ -733,7 +733,7 @@ public class SesameModelConnection implements ModelConnection {
                 sailConnection.close();
             } else {
                 // Don't throw an exception: we could easily end up in a loop.
-                logger.severe("tried to close an already-closed connection");
+                logger.error("tried to close an already-closed connection");
             }
         } catch (SailReadOnlyException e) {
             handleSailReadOnlyException(e);

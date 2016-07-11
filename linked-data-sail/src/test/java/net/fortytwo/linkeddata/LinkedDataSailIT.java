@@ -2,8 +2,6 @@ package net.fortytwo.linkeddata;
 
 import info.aduna.iteration.CloseableIteration;
 import net.fortytwo.linkeddata.sail.LinkedDataSail;
-import net.fortytwo.ripple.Ripple;
-import net.fortytwo.ripple.URIMap;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,11 +34,10 @@ public class LinkedDataSailIT {
 
     @Before
     public void setUp() throws Exception {
-        Ripple.initialize();
-
         baseSail = new MemoryStore();
         baseSail.initialize();
 
+        /*
         URIMap map = new URIMap();
 
         // This is an example where HttpDereferencer fails by requesting the
@@ -49,9 +46,10 @@ public class LinkedDataSailIT {
         // succeeds.
         map.put("http://www.holygoat.co.uk/owl/redwood/0.1/tags/Tagging",
                 LinkedDataSailIT.class.getResource("tags.owl").toString());
+        */
 
         LinkedDataCache wc = LinkedDataCache.createDefault(baseSail);
-        wc.setURIMap(map);
+        //wc.setURIMap(map);
         sail = new LinkedDataSail(baseSail, wc);
         sail.initialize();
     }
@@ -141,8 +139,6 @@ public class LinkedDataSailIT {
 
     // For debugging/experimentation
     public static void main(final String[] args) throws Exception {
-        Ripple.initialize();
-
         Sail baseSail = new MemoryStore();
         baseSail.initialize();
 

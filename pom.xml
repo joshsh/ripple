@@ -32,9 +32,9 @@
     </licenses>
 
     <scm>
-        <url>git@github.com:joshsh/sesametools.git</url>
-        <connection>scm:git:git@github.com:joshsh/sesametools.git</connection>
-        <developerConnection>scm:git:git@github.com:joshsh/sesametools.git</developerConnection>
+        <url>git@github.com:joshsh/ripple.git</url>
+        <connection>scm:git:git@github.com:joshsh/ripple.git</connection>
+        <developerConnection>scm:git:git@github.com:joshsh/ripple.git</developerConnection>
     </scm>
 
     <developers>
@@ -53,7 +53,8 @@
         <restlet.version>2.2.2</restlet.version>
         <ripple.version>1.4-SNAPSHOT</ripple.version>
         <sesame.version>4.1.2</sesame.version>
-        <sesametools.version>2.0-SNAPSHOT</sesametools.version>
+        <sesametools.version>1.10</sesametools.version>
+        <slf4j.version>1.7.10</slf4j.version>
         <tinkerpop.version>2.6.0</tinkerpop.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -76,11 +77,10 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>2.5.1</version>
+                    <version>3.5.1</version>
                     <configuration>
-                        <!-- keep at 1.6 for the sake of compatibility -->
-                        <source>1.6</source>
-                        <target>1.6</target>
+                        <source>1.8</source>
+                        <target>1.8</target>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -96,7 +96,7 @@
                                 <rules>
                                     <DependencyConvergence/>
                                     <requireJavaVersion>
-                                        <version>[1.6,)</version>
+                                        <version>[1.8,)</version>
                                     </requireJavaVersion>
                                 </rules>
                             </configuration>

@@ -22,12 +22,12 @@ import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.PipedIOStream;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.commands.DefineKeywordCmd;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A command-line read-eval-print loop which coordinates user interaction with a Ripple query engine.
@@ -35,8 +35,7 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RippleCommandLine {
-    private static final Logger logger
-            = Logger.getLogger(RippleCommandLine.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(RippleCommandLine.class);
 
     private static final byte[] EOL = {'\n'};
 
@@ -86,11 +85,11 @@ public class RippleCommandLine {
                         readLine();
                         break;
                     case ESCAPE:
-                        logger.fine("received escape event");
+                        logger.trace("received escape event");
                         abortCommands();
                         break;
                     case QUIT:
-                        logger.fine("received quit event");
+                        logger.trace("received quit event");
                         abortCommands();
                         // Note: exception handling used for control
                         throw new ParserQuitException();
@@ -183,7 +182,7 @@ public class RippleCommandLine {
     }
 
     private void updateCompletors() {
-        logger.fine("updating completors");
+        logger.trace("updating completors");
         List<Completer> completors = new ArrayList<Completer>();
 
         try {
@@ -215,7 +214,7 @@ public class RippleCommandLine {
                 throw new RippleException(t);
             }
         } catch (RippleException e) {
-            logger.log(Level.SEVERE, "failed to update completors", e);
+            logger.error("failed to update completors", e);
         }
     }
 

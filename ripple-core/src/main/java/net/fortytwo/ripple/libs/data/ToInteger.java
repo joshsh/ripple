@@ -6,8 +6,8 @@ import net.fortytwo.ripple.libs.graph.GraphLibrary;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A primitive which consumes a literal value and produces its xsd:integer
@@ -16,8 +16,7 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class ToInteger extends PrimitiveStackMapping {
-    private static final Logger logger
-            = Logger.getLogger(ToInteger.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(ToInteger.class.getName());
 
     private static final String[] IDENTIFIERS = {
             DataLibrary.NS_2013_03 + "to-integer",
@@ -57,9 +56,9 @@ public class ToInteger extends PrimitiveStackMapping {
         int i;
 
         try {
-            i = new Integer(s).intValue();
+            i = new Integer(s);
         } catch (NumberFormatException e) {
-            logger.fine("bad integer value: " + s);
+            logger.trace("bad integer value: " + s);
             return;
         }
 

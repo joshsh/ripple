@@ -8,8 +8,8 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
 import org.openrdf.model.Statement;
-
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A primitive which consumes an RDF container and produces all items in the
@@ -24,7 +24,7 @@ public class Members extends PrimitiveStackMapping {
             GraphLibrary.NS_2007_08 + "contains",
             GraphLibrary.NS_2007_05 + "contains"};
 
-    private static final Logger logger = Logger.getLogger(Members.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(Members.class);
 
     public String[] getIdentifiers() {
         return IDENTIFIERS;
@@ -69,7 +69,7 @@ public class Members extends PrimitiveStackMapping {
 
             mc.getStatements(mc.toRDF(head), null, null, stSink);
         } else {
-            logger.warning("primitive is compatible only with the Sesame model: " + this);
+            logger.warn("primitive is compatible only with the Sesame model: " + this);
         }
     }
 }

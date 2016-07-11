@@ -2,17 +2,17 @@ package net.fortytwo.ripple.cli;
 
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.logging.Logger;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Interpreter {
-    private static final Logger logger
-            = Logger.getLogger(Interpreter.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(Interpreter.class);
 
     private final RecognizerAdapter recognizerAdapter;
     private final InputStream input;
@@ -52,7 +52,7 @@ public class Interpreter {
 
             // The parser has received a quit command.
             catch (ParserQuitException e) {
-                logger.fine("quit() called on Interpreter");
+                logger.trace("quit() called on Interpreter");
 
                 active = false;
             }

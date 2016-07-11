@@ -1,13 +1,14 @@
-package net.fortytwo.flow.rdf;
+package net.fortytwo.linkeddata.util;
 
-import net.fortytwo.ripple.Ripple;
-import net.fortytwo.ripple.RippleException;
+import net.fortytwo.linkeddata.sail.LinkedDataSail;
 import org.apache.http.HttpRequest;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +18,10 @@ import java.util.Map;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
+// see also HTTPUtils in ripple-flow-rdf
 public class HTTPUtils {
+    private static final Logger logger = LoggerFactory.getLogger(HTTPUtils.class);
+
     public static final String
             ACCEPT = "Accept",
             BODY = "Body",
@@ -32,16 +36,16 @@ public class HTTPUtils {
 
     static {
         try {
-            COURTESY_INTERVAL = Ripple.getConfiguration().getLong(
-                    Ripple.HTTPCONNECTION_COURTESY_INTERVAL);
-            CONNECTION_TIMEOUT = Ripple.getConfiguration().getLong(
-                    Ripple.HTTPCONNECTION_TIMEOUT);
-        } catch (RippleException e) {
+            COURTESY_INTERVAL = Long.valueOf(LinkedDataSail.getProperty(
+                    LinkedDataSail.HTTPCONNECTION_COURTESY_INTERVAL, "500"));
+            CONNECTION_TIMEOUT = Long.valueOf(LinkedDataSail.getProperty(
+                    LinkedDataSail.HTTPCONNECTION_TIMEOUT, "10000"));
+        } catch (Exception e) {
             throw new ExceptionInInitializerError(e);
         }
     }
 
-    public static HttpClient createClient(final boolean autoRedirect) throws RippleException {
+    public static HttpClient createClient(final boolean autoRedirect) {
         RequestConfig defaultRequestConfig = RequestConfig.custom()
                 .setSocketTimeout((int) CONNECTION_TIMEOUT)
                 .setConnectTimeout((int) CONNECTION_TIMEOUT)
@@ -65,7 +69,7 @@ public class HTTPUtils {
         return builder.build();
     }
 
-    public static HttpGet createGetMethod(final String url) throws RippleException {
+    public static HttpGet createGetMethod(final String url) {
 
         HttpGet method;
 
@@ -76,66 +80,7 @@ public class HTTPUtils {
         return method;
     }
 
-    /*
-    public static HttpPost createPostMethod(final String url) throws RippleException {
-        HttpPost method;
-
-            method = new HttpPost(url);
-
-        setAgent(method);
-
-        return method;
-    }
-
-    public static HttpGet createRdfGetMethod(final String url) throws RippleException {
-        HttpGet method = createGetMethod(url);
-
-        StringBuilder sb = new StringBuilder();
-        boolean first = true;
-        for (RDFFormat f : RDFFormat.values()) {
-            if (first) {
-                first = false;
-            } else {
-                sb.append(", ");
-            }
-
-            sb.append(f.getDefaultMIMEType());
-        }
-
-        setAcceptHeader(method, sb.toString());
-
-        return method;
-    }
-
-    public static HttpPost createSparqlUpdateMethod(final String url) throws RippleException {
-        HttpPost method = createPostMethod(url);
-        setContentTypeHeader(method, SPARQL_QUERY);
-        return method;
-    }
-
-    public static void setContentTypeHeader(final HttpRequest method, final String value)
-            throws RippleException {
-            method.setHeader(CONTENT_TYPE, value);
-    }
-
-
-    public static void setAcceptHeader(final HttpRequest method, final String[] mimeTypes)
-            throws RippleException {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < mimeTypes.length; i++) {
-            if (i > 0) {
-                sb.append(", ");
-            }
-
-            sb.append(mimeTypes[i]);
-        }
-
-        setAcceptHeader(method, sb.toString());
-    }
-    */
-
-    public static void setAcceptHeader(final HttpRequest method, final String value)
-            throws RippleException {
+    public static void setAcceptHeader(final HttpRequest method, final String value) {
         method.setHeader(ACCEPT, value);
     }
 
@@ -147,7 +92,7 @@ public class HTTPUtils {
      *
      * @return the amount of time, in milliseconds, that is spent idling for the sake of crawler etiquette
      */
-    public static long throttleHttpRequest(final HttpRequest method) throws RippleException {
+    public static long throttleHttpRequest(final HttpRequest method) {
         String uri = method.getRequestLine().getUri();
 
         // Some connections (e.g. file system operations) have no host.  Don't
@@ -194,7 +139,7 @@ public class HTTPUtils {
             try {
                 Thread.sleep(w);
             } catch (InterruptedException e) {
-                throw new RippleException(e);
+                logger.warn("interrupted while sleeping", e);
             }
         }
 
@@ -202,7 +147,8 @@ public class HTTPUtils {
     }
 
     private static void setAgent(final HttpRequest method) {
-        method.setHeader(USER_AGENT, Ripple.getName() + "/" + Ripple.getVersion());
+        method.setHeader(USER_AGENT, "LinkedDataSail/${project.version}");
     }
 }
+
 

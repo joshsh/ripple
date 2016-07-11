@@ -2,7 +2,6 @@ package net.fortytwo.linkeddata.sail;
 
 import info.aduna.iteration.CloseableIteration;
 import net.fortytwo.linkeddata.LinkedDataCache;
-import net.fortytwo.ripple.RippleException;
 import org.openrdf.model.IRI;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Resource;
@@ -23,9 +22,10 @@ import org.openrdf.sail.SailConnectionListener;
 import org.openrdf.sail.SailException;
 import org.openrdf.sail.helpers.NotifyingSailConnectionBase;
 import org.openrdf.sail.helpers.SailBase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.IOException;
 
 /**
  * A connection to a LinkedDataSail
@@ -34,7 +34,7 @@ import java.util.logging.Logger;
  */
 public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
 
-    private static final Logger logger = Logger.getLogger(LinkedDataSailConnection.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(LinkedDataSailConnection.class);
 
     private final ValueFactory valueFactory;
     private final LinkedDataCache linkedDataCache;
@@ -168,8 +168,8 @@ public class LinkedDataSailConnection extends NotifyingSailConnectionBase {
     private void retrieveUri(final IRI uri) {
         try {
             linkedDataCache.retrieve(uri, baseConnection);
-        } catch (RippleException e) {
-            logger.log(Level.SEVERE, "failed to retrieve URI", e);
+        } catch (IOException e) {
+            logger.error("failed to retrieve URI", e);
         }
     }
 

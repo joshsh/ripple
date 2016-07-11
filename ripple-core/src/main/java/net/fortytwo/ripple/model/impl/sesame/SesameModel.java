@@ -27,6 +27,8 @@ import net.fortytwo.ripple.model.types.StringType;
 import net.fortytwo.ripple.model.types.IRIType;
 import org.openrdf.IsolationLevel;
 import org.openrdf.sail.Sail;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -36,7 +38,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
-import java.util.logging.Logger;
 
 /**
  * A Ripple <code>Model</code> implementation using the Sesame RDF toolkit.
@@ -44,7 +45,7 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SesameModel implements Model {
-    private static final Logger logger = Logger.getLogger(SesameModel.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(SesameModel.class);
 
     private final Map<Class, List<RippleType>> registeredTypes;
     private final Set<Class> unmappedTypes;
@@ -56,7 +57,7 @@ public class SesameModel implements Model {
     public SesameModel(final Sail sail) throws RippleException {
         this.sail = sail;
 
-        logger.fine("instantiating SesameModel");
+        logger.info("instantiating SesameModel");
 
         unmappedTypes = new HashSet<Class>();
         registeredTypes = new HashMap<Class, List<RippleType>>();
@@ -135,7 +136,7 @@ public class SesameModel implements Model {
                     sb.append(mc);
                 }
 
-                logger.warning(sb.toString());
+                logger.warn(sb.toString());
 
                 for (ModelConnection mc : openConnections) {
                     mc.reset(true);

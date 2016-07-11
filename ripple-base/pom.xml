@@ -28,6 +28,18 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- to allow Sesame log4j dependency to be handled in Ripple.initialize().
+         The version should match Sesame's dependency -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

@@ -1,5 +1,6 @@
 package net.fortytwo.linkeddata;
 
+import net.fortytwo.linkeddata.util.RDFUtils;
 import org.junit.Test;
 
 import java.net.URL;
