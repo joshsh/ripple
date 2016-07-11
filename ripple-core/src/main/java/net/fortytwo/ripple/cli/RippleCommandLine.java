@@ -22,12 +22,12 @@ import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.PipedIOStream;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.commands.DefineKeywordCmd;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A command-line read-eval-print loop which coordinates user interaction with a Ripple query engine.
@@ -35,20 +35,15 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RippleCommandLine {
-    private static final Logger logger
-            = Logger.getLogger(RippleCommandLine.class.getName());
-
-    private static final byte[] EOL = {'\n'};
+    private static final Logger logger = LoggerFactory.getLogger(RippleCommandLine.class);
 
     private final PipedIOStream writeIn;
-    //private PipedInputStream  writeIn;
-    //private PipedOutputStream readOut;
     private final ThreadedInputStream consoleReaderInput;
     private final Interpreter interpreter;
     private final ConsoleReader reader;
     private final QueryEngine queryEngine;
     private final HistorySink<RippleList> queryResultHistory
-            = new HistorySink<RippleList>(2);
+            = new HistorySink<>(2);
     private final TaskQueue taskQueue = new TaskQueue();
 
     private int lineNumber;
@@ -86,11 +81,11 @@ public class RippleCommandLine {
                         readLine();
                         break;
                     case ESCAPE:
-                        logger.fine("received escape event");
+                        logger.trace("received escape event");
                         abortCommands();
                         break;
                     case QUIT:
-                        logger.fine("received quit event");
+                        logger.trace("received quit event");
                         abortCommands();
                         // Note: exception handling used for control
                         throw new ParserQuitException();
@@ -103,7 +98,7 @@ public class RippleCommandLine {
             protected void handleAssignment(KeywordAST name) throws RippleException {
                 Source<RippleList> source = queryResultHistory.get(0);
                 if (null == source) {
-                    source = new Collector<RippleList>();
+                    source = new Collector<>();
                 }
 
                 addCommand(new DefineKeywordCmd(name, new ListGenerator(source)));
@@ -125,13 +120,8 @@ public class RippleCommandLine {
         } catch (Throwable t) {
             throw new RippleException(t);
         }
-        jline.Terminal term = reader.getTerminal();
-//System.out.println( "reader.getTerminal() = " + term );
 
         writeIn = new PipedIOStream();
-        //writeIn.write(32);
-        //writeIn = new PipedInputStream();
-        //readOut = new PipedOutputStream( writeIn );
 
         // Initialize completors.
         updateCompletors();
@@ -143,14 +133,12 @@ public class RippleCommandLine {
     public void run() throws RippleException {
         lineNumber = 0;
         interpreter.parse();
-//System.out.println( "done parsing" );
     }
 
     private void readLine() {
         try {
             ++lineNumber;
             String prefix = "" + lineNumber + ")  ";
-            //String prefix = "" + lineNumber + " >>  ";
             String expr = "";
             String line;
             do {
@@ -171,8 +159,6 @@ public class RippleCommandLine {
             // Add a newline character so the lexer will call readLine()
             // again when it gets there.
             //       writeIn.write(EOL);
-
-            writeIn.flush();
         } catch (java.io.IOException e) {
             alert("IOException: " + e.toString());
         }
@@ -183,8 +169,8 @@ public class RippleCommandLine {
     }
 
     private void updateCompletors() {
-        logger.fine("updating completors");
-        List<Completer> completors = new ArrayList<Completer>();
+        logger.trace("updating completors");
+        List<Completer> completors = new ArrayList<>();
 
         try {
             Lexicon lex = queryEngine.getLexicon();
@@ -193,7 +179,7 @@ public class RippleCommandLine {
                 completors.add(lex.getCompletor());
             }
 
-            ArrayList<String> directives = new ArrayList<String>();
+            ArrayList<String> directives = new ArrayList<>();
             directives.add("@help");
             directives.add("@list");
             directives.add("@prefix");
@@ -215,7 +201,7 @@ public class RippleCommandLine {
                 throw new RippleException(t);
             }
         } catch (RippleException e) {
-            logger.log(Level.SEVERE, "failed to update completors", e);
+            logger.error("failed to update completors", e);
         }
     }
 
@@ -235,13 +221,11 @@ public class RippleCommandLine {
     }
 
     private void addCommand(final Command cmd) {
-//System.out.println( "addCommand(" + cmd + ")" );
         cmd.setQueryEngine(queryEngine);
         taskQueue.add(cmd);
     }
 
     private void executeCommands() throws RippleException {
-//System.out.println( "executeCommands()" );
         Scheduler.add(taskQueue);
 
         consoleReaderInput.setEager(true);
@@ -257,7 +241,6 @@ public class RippleCommandLine {
     }
 
     private void abortCommands() {
-//System.out.println( "abortCommands()" );
         taskQueue.stop();
     }
 }

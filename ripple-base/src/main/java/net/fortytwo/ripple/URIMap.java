@@ -1,17 +1,19 @@
 package net.fortytwo.ripple;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
 /*
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class URIMap {
-    private static final Logger logger = Logger.getLogger(URIMap.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(URIMap.class);
 
     private final Map<String, String> map;
 
@@ -21,14 +23,13 @@ public class URIMap {
     private boolean upToDate = true;
 
     public URIMap() {
-        map = new Hashtable<String, String>();
+        map = new Hashtable<>();
 
         // Avoid NullPointerException of get() before update().
         update();
     }
 
-    private String getPrivate(String urlStr)
-            throws RippleException {
+    private String getPrivate(String urlStr) {
         // Strip off the fragment identifier, if any.
         int i = urlStr.lastIndexOf('#');
         if (i >= 0) {
@@ -52,7 +53,7 @@ public class URIMap {
         toUris = new String[fromUris.length];
         for (int i = 0; i < fromUris.length; i++) {
             toUris[i] = map.get(fromUris[i]);
-            logger.fine("map " + fromUris[i] + " to " + toUris[i]);
+            logger.trace("map " + fromUris[i] + " to " + toUris[i]);
         }
 
         upToDate = true;
@@ -72,7 +73,7 @@ public class URIMap {
         map.put(from, to);
     }
 
-    public String get(final String uri) throws RippleException {
+    public String get(final String uri) {
         if (!upToDate) {
             update();
         }

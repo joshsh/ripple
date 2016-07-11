@@ -23,8 +23,7 @@ public class Exp extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Exp()
-            throws RippleException {
+    public Exp() {
         super();
     }
 
@@ -49,7 +48,7 @@ public class Exp extends PrimitiveStackMapping {
 
         result = Math.exp(a.doubleValue());
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 

@@ -3,12 +3,10 @@ package net.fortytwo.ripple.io;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.StringUtils;
 import net.fortytwo.ripple.model.Lexicon;
-import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RippleType;
 import org.openrdf.model.BNode;
+import org.openrdf.model.IRI;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.XMLSchema;
 
@@ -16,6 +14,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.util.Iterator;
+import java.util.Optional;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -23,8 +22,7 @@ import java.util.Iterator;
 public class RipplePrintStream extends PrintStream {
     private final Lexicon lexicon;
 
-    public RipplePrintStream(final OutputStream out, final Lexicon lexicon)
-            throws RippleException {
+    public RipplePrintStream(final OutputStream out, final Lexicon lexicon) {
         super(out);
         this.lexicon = lexicon;
     }
@@ -34,8 +32,8 @@ public class RipplePrintStream extends PrintStream {
             throw new NullPointerException();
         }
 
-        if (v instanceof URI) {
-            printURI((URI) v);
+        if (v instanceof IRI) {
+            printURI((IRI) v);
         } else if (v instanceof Literal) {
             printLiteral((Literal) v);
         } else if (v instanceof BNode) {
@@ -46,7 +44,7 @@ public class RipplePrintStream extends PrintStream {
         }
     }
 
-    public void print(final Statement st) throws RippleException {
+    private void print(final Statement st) throws RippleException {
         print("    ");
         print(st.getSubject());
 
@@ -64,11 +62,11 @@ public class RipplePrintStream extends PrintStream {
         }
     }
 
-    private void printURIRef(final URI uri) {
+    private void printURIRef(final IRI uri) {
         print("<" + StringUtils.escapeURIString(uri.toString()) + ">");
     }
 
-    private void printURI(final URI uri) throws RippleException {
+    private void printURI(final IRI uri) {
         String symbol = lexicon.findSymbol(uri);
 
         if (null == symbol) {
@@ -80,7 +78,7 @@ public class RipplePrintStream extends PrintStream {
 
     // TODO: handle literals with special types but whose labels are badly formatted.
     private void printLiteral(final Literal l) throws RippleException {
-        URI datatype = l.getDatatype();
+        IRI datatype = l.getDatatype();
         String label = l.getLabel();
 
         if (null != datatype) {
@@ -108,13 +106,13 @@ public class RipplePrintStream extends PrintStream {
             printEscapedString(label);
         }
 
-        String language = l.getLanguage();
-        if (null != language) {
-            print("@" + language);
+        Optional<String> language = l.getLanguage();
+        if (language.isPresent()) {
+            print("@" + language.get());
         }
     }
 
-    public void printTypedLiteral(final String label, final URI datatype) throws RippleException {
+    public void printTypedLiteral(final String label, final IRI datatype) throws RippleException {
         printEscapedString(label);
         print("^^");
         printURI(datatype);

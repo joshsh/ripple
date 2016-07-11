@@ -23,8 +23,7 @@ public class Acos extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Acos()
-            throws RippleException {
+    public Acos() {
         super();
     }
 
@@ -54,7 +53,7 @@ public class Acos extends PrimitiveStackMapping {
         if (a >= -1 && a <= 1) {
             result = Math.acos(a);
 
-            solutions.put(
+            solutions.accept(
                     stack.push(result));
         }
     }

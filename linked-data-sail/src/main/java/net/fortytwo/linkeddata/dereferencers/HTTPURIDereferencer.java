@@ -3,11 +3,12 @@ package net.fortytwo.linkeddata.dereferencers;
 import net.fortytwo.linkeddata.Dereferencer;
 import net.fortytwo.linkeddata.LinkedDataCache;
 import net.fortytwo.linkeddata.RedirectManager;
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.StringUtils;
+import net.fortytwo.linkeddata.util.StringUtils;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.restlet.representation.Representation;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,22 +34,25 @@ public class HTTPURIDereferencer implements Dereferencer {
         this.linkedDataCache = linkedDataCache;
         this.redirectManager = redirectManager;
 
-        badExtensions = new HashSet<String>();
+        badExtensions = new HashSet<>();
 
     }
 
-    public Representation dereference(final String uri) throws RippleException {
+    public Representation dereference(final String uri) {
         // Don't dereference a URI which appears to point to a file which is not
         // an RDF document.
         int l = uri.lastIndexOf('.');
         if (l >= 0 && badExtensions.contains(uri.substring(l + 1))) {
-            throw new RippleException("URI <" + StringUtils.escapeURIString(uri) + "> has blacklisted extension");
+            throw new IllegalArgumentException("URI <" + StringUtils.escapeURIString(uri) + "> has blacklisted extension");
             // TODO: we can throw exceptions or return nulls to indicate an error, but we shouldn't do both
         }
 
         try {
             return new HTTPRepresentation(uri, redirectManager, linkedDataCache.getAcceptHeader());
         } catch (HTTPRepresentation.RedirectToExistingDocumentException e) {
+            return null;
+        } catch (IOException e) {
+            logger.log(Level.ERROR, "failed to dereference URI " + uri, e);
             return null;
         }
     }

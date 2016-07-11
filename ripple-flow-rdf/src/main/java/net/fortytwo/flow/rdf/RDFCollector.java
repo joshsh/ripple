@@ -15,9 +15,9 @@ public class RDFCollector extends RDFSource implements RDFSink {
     private final Collector<String> comments;
 
     public RDFCollector() {
-        statements = new Collector<Statement>();
-        namespaces = new Collector<Namespace>();
-        comments = new Collector<String>();
+        statements = new Collector<>();
+        namespaces = new Collector<>();
+        comments = new Collector<>();
     }
 
     public Sink<Statement> statementSink() {

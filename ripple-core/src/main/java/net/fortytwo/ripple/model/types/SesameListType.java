@@ -3,7 +3,6 @@ package net.fortytwo.ripple.model.types;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RipplePrintStream;
 import net.fortytwo.ripple.model.ModelConnection;
-import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleType;
 import net.fortytwo.ripple.model.StackMapping;
 import net.fortytwo.ripple.model.impl.sesame.SesameList;

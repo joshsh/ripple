@@ -13,11 +13,9 @@ import java.util.Properties;
  */
 public class AnnotatedAST implements AST<RippleList> {
     private final AST innerAst;
-    private final Properties props;
 
     public AnnotatedAST(final AST inner, final Properties props) {
         innerAst = inner;
-        this.props = props;
     }
 
     public void evaluate(Sink<RippleList> sink,

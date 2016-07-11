@@ -9,9 +9,9 @@ public enum EvaluationStyle {
     APPLICATIVE("applicative"),
     COMPOSITIONAL("compositional");
 
-    private String name;
+    private final String name;
 
-    private EvaluationStyle(final String name) {
+    EvaluationStyle(final String name) {
         this.name = name;
     }
 

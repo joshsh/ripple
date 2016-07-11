@@ -1,11 +1,13 @@
 package net.fortytwo.ripple.libs.math;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SinTest extends RippleTestCase {
+    @Test
     public void testSingleSolution() throws Exception {
         assertReducesTo("0 sin.", "0");
         assertReducesTo("1.5707963267948966 sin.", "1");
@@ -13,12 +15,14 @@ public class SinTest extends RippleTestCase {
         assertReducesTo("3.141592653589793 4 div. sin.", "0.7071067811865475");
     }
 
+    @Test
     public void testSpecialValues() throws Exception {
         assertReducesTo("\"NaN\"^^xsd:double sin.", "\"NaN\"^^xsd:double");
         assertReducesTo("\"INF\"^^xsd:double sin.", "\"NaN\"^^xsd:double");
         assertReducesTo("\"-INF\"^^xsd:double sin.", "\"NaN\"^^xsd:double");
     }
 
+    @Test
     public void testInverse() throws Exception {
         assertReducesTo("0 sin~.", "0");
         assertReducesTo("0.7071067811865475 sin~.", "0.7853981633974482");

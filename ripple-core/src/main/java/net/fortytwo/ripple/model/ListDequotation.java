@@ -22,10 +22,9 @@ public class ListDequotation implements StackMapping {
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-        RippleList stack = arg;
 
         RippleList in = list;
-        RippleList out = stack;
+        RippleList out = arg;
 
         while (!in.isNil()) {
             out = out.push(in.getFirst());
@@ -40,10 +39,10 @@ public class ListDequotation implements StackMapping {
                 if (null != m) {
                     StackMapping inverse = m.getInverse();
                     out = out.getRest().push(new Operator(inverse));
-                    solutions.put(out);
+                    solutions.accept(out);
                 }
             } else {
-                solutions.put(out);
+                solutions.accept(out);
             }
         }
     }

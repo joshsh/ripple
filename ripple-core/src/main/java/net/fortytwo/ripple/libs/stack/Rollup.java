@@ -23,8 +23,7 @@ public class Rollup extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Rollup()
-            throws RippleException {
+    public Rollup() {
         super();
     }
 
@@ -52,7 +51,7 @@ public class Rollup extends PrimitiveStackMapping {
         x = stack.getFirst();
         stack = stack.getRest();
 
-        solutions.put(
+        solutions.accept(
                 stack.push(z).push(x).push(y));
     }
 }

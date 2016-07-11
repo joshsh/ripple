@@ -30,9 +30,9 @@ public class StarQuantifier implements StackMapping {
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-        solutions.put(arg);
+        solutions.accept(arg);
 
-        solutions.put(arg
+        solutions.accept(arg
                 .push(innerOperator)
                 .push(new Operator(this)));
     }

@@ -22,8 +22,7 @@ public class EndsWith extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public EndsWith()
-            throws RippleException {
+    public EndsWith() {
         super();
     }
 
@@ -52,7 +51,7 @@ public class EndsWith extends PrimitiveStackMapping {
 
         result = s.endsWith(affix);
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 }

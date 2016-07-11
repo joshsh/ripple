@@ -5,8 +5,8 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
+import org.openrdf.model.IRI;
 import org.openrdf.model.Literal;
-import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 
 /**
@@ -21,8 +21,7 @@ public class Type extends PrimitiveStackMapping {
                 DataLibrary.NS_XSD + "type"};
     }
 
-    public Type()
-            throws RippleException {
+    public Type() {
         super();
     }
 
@@ -47,10 +46,10 @@ public class Type extends PrimitiveStackMapping {
         stack = stack.getRest();
 
         if (v instanceof Literal) {
-            URI type = ((Literal) v).getDatatype();
+            IRI type = ((Literal) v).getDatatype();
 
             if (null != type) {
-                solutions.put(
+                solutions.accept(
                         stack.push(type));
             }
         }

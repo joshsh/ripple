@@ -22,8 +22,7 @@ public class Pop extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Pop()
-            throws RippleException {
+    public Pop() {
         super();
     }
 
@@ -43,7 +42,7 @@ public class Pop extends PrimitiveStackMapping {
         stack = stack.getRest();
 
         if (!stack.isNil()) {
-            solutions.put(stack);
+            solutions.accept(stack);
         }
     }
 }

@@ -23,8 +23,7 @@ public class Rotate extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Rotate()
-            throws RippleException {
+    public Rotate() {
         super();
     }
 
@@ -52,7 +51,7 @@ public class Rotate extends PrimitiveStackMapping {
         x = stack.getFirst();
         stack = stack.getRest();
 
-        solutions.put(
+        solutions.accept(
                 stack.push(z).push(y).push(x));
     }
 }

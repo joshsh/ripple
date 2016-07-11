@@ -1,10 +1,9 @@
 package net.fortytwo.linkeddata;
 
 import info.aduna.iteration.CloseableIteration;
-import net.fortytwo.ripple.RippleException;
+import org.openrdf.model.IRI;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
@@ -25,7 +24,7 @@ public class CachingMetadata {
     private final ValueFactory valueFactory;
 
     public CachingMetadata(final int capacity,
-                           final ValueFactory valueFactory) throws RippleException {
+                           final ValueFactory valueFactory) {
         memos = new InMemoryCache(capacity);
 
         this.valueFactory = valueFactory;
@@ -36,17 +35,13 @@ public class CachingMetadata {
     }
 
     public CacheEntry getMemo(final String graphUri,
-                              final SailConnection sc) throws RippleException {
+                              final SailConnection sc) {
         CacheEntry memo = memos.get(graphUri);
 
         // If the memo is not cached
         if (null == memo) {
             // Attempt to retrieve the memo from the persistent store.
-            try {
-                return retrieveMemo(graphUri, sc);
-            } catch (SailException e) {
-                throw new RippleException(e);
-            }
+            return retrieveMemo(graphUri, sc);
         }
 
         return memo;
@@ -59,33 +54,28 @@ public class CachingMetadata {
      * @param graphUri the graph URI of the cached data source
      * @param memo     the memo object representing the state of the data source
      * @param sc       a connection to the Sail, or null if only the in-memory cache should be updated
-     * @throws RippleException
      */
     public void setMemo(final String graphUri,
                         final CacheEntry memo,
-                        final SailConnection sc) throws RippleException {
+                        final SailConnection sc) {
         memos.put(graphUri, memo);
 
-        try {
-            if (null != sc) {
-                URI s = valueFactory.createURI(graphUri);
-                Literal memoLit = valueFactory.createLiteral(memo.toString());
-                sc.removeStatements(s, LinkedDataCache.CACHE_MEMO, null, LinkedDataCache.CACHE_GRAPH);
-                sc.addStatement(s, LinkedDataCache.CACHE_MEMO, memoLit, LinkedDataCache.CACHE_GRAPH);
-            }
-        } catch (SailException e) {
-            throw new RippleException(e);
+        if (null != sc) {
+            IRI s = valueFactory.createIRI(graphUri);
+            Literal memoLit = valueFactory.createLiteral(memo.toString());
+            sc.removeStatements(s, LinkedDataCache.CACHE_MEMO, null, LinkedDataCache.CACHE_GRAPH);
+            sc.addStatement(s, LinkedDataCache.CACHE_MEMO, memoLit, LinkedDataCache.CACHE_GRAPH);
         }
     }
 
     // Restores dereferencer state by reading success and failure memos from
     // the last session (if present).
     private CacheEntry retrieveMemo(final String graphUri,
-                                    final SailConnection sc) throws SailException, RippleException {
+                                    final SailConnection sc) throws SailException {
         CloseableIteration<? extends Statement, SailException> iter;
 
         iter = sc.getStatements(
-                valueFactory.createURI(graphUri),
+                valueFactory.createIRI(graphUri),
                 LinkedDataCache.CACHE_MEMO,
                 null,
                 false,

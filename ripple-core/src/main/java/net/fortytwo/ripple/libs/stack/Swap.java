@@ -22,8 +22,7 @@ public class Swap extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Swap()
-            throws RippleException {
+    public Swap() {
         super();
     }
 
@@ -48,7 +47,7 @@ public class Swap extends PrimitiveStackMapping {
         x = stack.getFirst();
         stack = stack.getRest();
 
-        solutions.put(
+        solutions.accept(
                 stack.push(y).push(x));
     }
 }

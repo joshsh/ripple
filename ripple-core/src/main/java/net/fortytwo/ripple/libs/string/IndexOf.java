@@ -22,8 +22,7 @@ public class IndexOf extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public IndexOf()
-            throws RippleException {
+    public IndexOf() {
         super();
     }
 
@@ -51,7 +50,7 @@ public class IndexOf extends PrimitiveStackMapping {
         stack = stack.getRest();
 
         result = str.indexOf(substr);
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 }

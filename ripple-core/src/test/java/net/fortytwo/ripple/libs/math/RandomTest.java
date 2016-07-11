@@ -2,21 +2,27 @@ package net.fortytwo.ripple.libs.math;
 
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RandomTest extends RippleTestCase {
+    @Test
     public void testSingleSolution() throws Exception {
         Collection<RippleList> results;
         RippleList l;
         Object v;
         double d;
-        Set<Double> values = new HashSet<Double>();
+        Set<Double> values = new HashSet<>();
 
         for (int i = 0; i < 1000; i++) {
             results = reduce("random.");

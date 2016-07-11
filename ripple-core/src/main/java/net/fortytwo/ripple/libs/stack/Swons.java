@@ -23,8 +23,7 @@ public class Swons extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Swons()
-            throws RippleException {
+    public Swons() {
         super();
     }
 
@@ -50,12 +49,8 @@ public class Swons extends PrimitiveStackMapping {
         l = stack.getFirst();
         final RippleList rest = stack.getRest();
 
-        Sink<RippleList> listSink = new Sink<RippleList>() {
-            public void put(final RippleList list) throws RippleException {
-                solutions.put(
-                        rest.push(list.push(x)));
-            }
-        };
+        Sink<RippleList> listSink = list -> solutions.accept(
+                rest.push(list.push(x)));
 
         mc.toList(l, listSink);
     }

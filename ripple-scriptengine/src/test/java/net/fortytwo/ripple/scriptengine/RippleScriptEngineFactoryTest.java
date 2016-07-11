@@ -2,22 +2,29 @@ package net.fortytwo.ripple.scriptengine;
 
 import junit.framework.TestCase;
 import net.fortytwo.ripple.Ripple;
+import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
 import java.util.List;
 import java.util.Properties;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class RippleScriptEngineFactoryTest extends TestCase {
+public class RippleScriptEngineFactoryTest extends RippleTestCase {
     @Override
     public void setUp() throws Exception {
         Properties config = new Properties();
         Ripple.initialize(config);
     }
 
+    @Test
     public void testInfo() throws Exception {
         ScriptEngineFactory f = new RippleScriptEngineFactory();
 
@@ -41,6 +48,7 @@ public class RippleScriptEngineFactoryTest extends TestCase {
         assertEquals(0, mimeTypes.size());
     }
 
+    @Test
     public void testGetMethodCallSyntax() throws Exception {
         ScriptEngineFactory f = new RippleScriptEngineFactory();
 
@@ -51,6 +59,7 @@ public class RippleScriptEngineFactoryTest extends TestCase {
                 f.getMethodCallSyntax("1", "add", "2"));
     }
 
+    @Test
     public void testGetProgram() throws Exception {
         ScriptEngineFactory f = new RippleScriptEngineFactory();
 
@@ -62,14 +71,19 @@ public class RippleScriptEngineFactoryTest extends TestCase {
                 f.getProgram("ex:bob foaf:name >> .", "1 2 add >> 5 mul >>"));
     }
 
+    @Ignore
+    @Test
     public void testGetParameter() throws Exception {
         // TODO
     }
 
+    @Ignore
+    @Test
     public void testGetOutputStatement() throws Exception {
         // TODO
     }
 
+    @Test
     public void testGetScriptEngine() throws Exception {
         ScriptEngineFactory f = new RippleScriptEngineFactory();
         ScriptEngine e = f.getScriptEngine();

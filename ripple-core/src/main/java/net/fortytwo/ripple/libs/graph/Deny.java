@@ -23,8 +23,7 @@ public class Deny extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Deny()
-            throws RippleException {
+    public Deny() {
         super();
     }
 
@@ -64,7 +63,7 @@ public class Deny extends PrimitiveStackMapping {
         // Sail.
         mc.commit();
 
-        solutions.put(stack.push(subj));
+        solutions.accept(stack.push(subj));
     }
 }
 

@@ -9,9 +9,9 @@ public enum ExpressionOrder {
     DIAGRAMMATIC("diagrammatic"),
     ANTIDIAGRAMMATIC("antidiagrammatic");
 
-    private String name;
+    private final String name;
 
-    private ExpressionOrder(final String n) {
+    ExpressionOrder(final String n) {
         name = n;
     }
 

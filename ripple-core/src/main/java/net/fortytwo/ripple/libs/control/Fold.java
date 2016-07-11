@@ -25,8 +25,7 @@ public class Fold extends PrimitiveStackMapping {
                 StackLibrary.NS_2007_05 + "fold"};
     }
 
-    public Fold()
-            throws RippleException {
+    public Fold() {
         super();
     }
 
@@ -57,21 +56,18 @@ public class Fold extends PrimitiveStackMapping {
         l = stack.getFirst();
         final RippleList rest = stack.getRest();
 
-        Sink<RippleList> listSink = new Sink<RippleList>() {
-            public void put(final RippleList list) throws RippleException {
-                //RippleList lList = list.invert();
-                RippleList lList = list;
-                RippleList result = rest.push(v);
+        Sink<RippleList> listSink = list -> {
+            RippleList lList = list;
+            RippleList result = rest.push(v);
 
-                while (!lList.isNil()) {
-                    result = result.push(lList.getFirst())
-                            .push(f)
-                            .push(Operator.OP);
-                    lList = lList.getRest();
-                }
-
-                solutions.put(result);
+            while (!lList.isNil()) {
+                result = result.push(lList.getFirst())
+                        .push(f)
+                        .push(Operator.OP);
+                lList = lList.getRest();
             }
+
+            solutions.accept(result);
         };
 
         mc.toList(l, listSink);

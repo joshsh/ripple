@@ -22,8 +22,7 @@ public class ToLowerCase extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public ToLowerCase()
-            throws RippleException {
+    public ToLowerCase() {
         super();
     }
 
@@ -46,7 +45,7 @@ public class ToLowerCase extends PrimitiveStackMapping {
 
         String result = mc.toString(s).toLowerCase();
 
-        solutions.put(
+        solutions.accept(
                 stack.push(StringLibrary.value(result, mc, s)));
     }
 }

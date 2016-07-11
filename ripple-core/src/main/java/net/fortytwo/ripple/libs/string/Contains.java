@@ -21,7 +21,7 @@ public class Contains extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Contains() throws RippleException {
+    public Contains() {
         super();
     }
 
@@ -47,7 +47,7 @@ public class Contains extends PrimitiveStackMapping {
 
         boolean result = a.contains(b);
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 }

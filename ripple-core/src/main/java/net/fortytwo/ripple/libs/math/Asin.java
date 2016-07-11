@@ -23,8 +23,7 @@ public class Asin extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Asin()
-            throws RippleException {
+    public Asin() {
         super();
     }
 
@@ -53,7 +52,7 @@ public class Asin extends PrimitiveStackMapping {
         if (a >= -1 && a <= 1) {
             result = Math.asin(a);
 
-            solutions.put(
+            solutions.accept(
                     stack.push(result));
         }
     }

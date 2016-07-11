@@ -30,7 +30,7 @@ public class HistorySink<T> implements Sink<T> {
         }
 
         this.capacity = capacity;
-        history = new LinkedList<Collector<T>>();
+        history = new LinkedList<>();
 
         len = 0;
     }
@@ -39,7 +39,7 @@ public class HistorySink<T> implements Sink<T> {
      * Advances to the next step in the history
      */
     public void advance() {
-        current = new Collector<T>();
+        current = new Collector<>();
         history.addFirst(current);
 
         len++;
@@ -55,8 +55,8 @@ public class HistorySink<T> implements Sink<T> {
      * @param t the data item being passed
      * @throws RippleException if a data handling error occurs
      */
-    public void put(final T t) throws RippleException {
-        current.put(t);
+    public void accept(final T t) throws RippleException {
+        current.accept(t);
     }
 
     /**

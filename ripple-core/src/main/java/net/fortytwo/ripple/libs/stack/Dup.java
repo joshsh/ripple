@@ -23,8 +23,7 @@ public class Dup extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Dup()
-            throws RippleException {
+    public Dup() {
         super();
     }
 
@@ -46,7 +45,7 @@ public class Dup extends PrimitiveStackMapping {
         x = stack.getFirst();
         stack = stack.getRest();
 
-        solutions.put(
+        solutions.accept(
                 stack.push(x).push(x));
     }
 }

@@ -1,15 +1,16 @@
 package net.fortytwo.ripple.control;
 
 import net.fortytwo.ripple.RippleException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.LinkedList;
-import java.util.logging.Logger;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public abstract class Task {
-    private static final Logger logger = Logger.getLogger(Task.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(Task.class.getName());
 
     private LinkedList<Task> children = null;
     private boolean finished = true, stopped = false;
@@ -46,10 +47,8 @@ public abstract class Task {
             stopProtected();
 
             if (null != children) {
-                for (Task child : children) {
-//System.out.println( "    stopping child: " + child );
-                    child.stop();
-                }
+                //System.out.println( "    stopping child: " + child );
+                children.forEach(net.fortytwo.ripple.control.Task::stop);
             }
         }
     }
@@ -77,10 +76,10 @@ public abstract class Task {
     public synchronized void addChild(final Task child) {
 //System.out.println( "[" + this + "].addChild(" + child + ")" );
         if (finished) {
-            logger.severe("attempted to add a child to a finished task");
+            logger.error("attempted to add a child to a finished task");
         } else {
             if (null == children) {
-                children = new LinkedList<Task>();
+                children = new LinkedList<>();
             }
 
             children.add(child);

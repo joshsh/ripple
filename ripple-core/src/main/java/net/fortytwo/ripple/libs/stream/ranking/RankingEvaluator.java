@@ -38,7 +38,7 @@ public class RankingEvaluator extends StackEvaluator {
 
         for (RankingContext c : h.getResults()) {
             //System.out.println("solution: " + c.getStack());
-            solutions.put(c.getStack().getRest().push(c.getPriority()));
+            solutions.accept(c.getStack().getRest().push(c.getPriority()));
         }
     }
 }

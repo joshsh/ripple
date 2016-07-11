@@ -1,11 +1,13 @@
 package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class MapTest extends RippleTestCase {
+    @Test
     public void testAll() throws Exception {
         // Note: 'map' is eager in that the values in the produced list are
         // fully reduced.

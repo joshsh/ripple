@@ -4,17 +4,16 @@ import net.fortytwo.flow.NullSink;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public final class Scheduler {
-    private static final Logger logger = Logger.getLogger(Scheduler.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(Scheduler.class);
 
     private static Scheduler singleInstance = null;
     private static long workerThreadCount = 0;
@@ -33,7 +32,7 @@ public final class Scheduler {
     }
 
     public static void add(final Task task) throws RippleException {
-        add(task, new NullSink<Task>());
+        add(task, new NullSink<>());
     }
 
     private synchronized static long nextWorkerId() {
@@ -41,9 +40,9 @@ public final class Scheduler {
     }
 
     private Scheduler() throws RippleException {
-        taskQueue = new LinkedList<TaskItem>();
-        allRunnables = new LinkedList<WorkerRunnable>();
-        waitingRunnables = new LinkedList<WorkerRunnable>();
+        taskQueue = new LinkedList<>();
+        allRunnables = new LinkedList<>();
+        waitingRunnables = new LinkedList<>();
 
         maxThreads = Ripple.getConfiguration().getInt(Ripple.MAX_WORKER_THREADS);
     }
@@ -53,12 +52,10 @@ public final class Scheduler {
         // some time.
         task.begin();
 
-//System.out.println( "[" + this + "]addPrivate( " + task + ", ... )" );
         // Add the new task as a child of the currently executing task.
         Thread currentThread = Thread.currentThread();
         if (currentThread instanceof WorkerThread) {
             Task parent = ((WorkerThread) currentThread).getCurrentTask();
-//System.out.println( "    parent = " + parent );
             parent.addChild(task);
         }
 
@@ -71,7 +68,6 @@ public final class Scheduler {
             // of threads waiting for a task.  Notify the first in line that
             // a task is available.
             if (1 == taskQueue.size() && waitingRunnables.size() > 0) {
-//System.out.println( "    ( 1 == taskQueue.size() && waitingRunnables.size() > 0 )" );
                 WorkerRunnable r = waitingRunnables.removeFirst();
 
                 // Remove a task from the queue immediately.
@@ -86,26 +82,18 @@ public final class Scheduler {
             // If there are more tasks than threads, and we have not reached the
             // maximum number of threads, then start a new one.
             else if (allRunnables.size() < maxThreads) {
-//System.out.println( "    taskQueue.size() > allRunnables.size() && allRunnables.size() < maxThreads" );
                 WorkerRunnable r = new WorkerRunnable();
                 allRunnables.add(r);
                 Thread t = new WorkerThread(r);
                 t.start();
             }
-//else
-//System.out.println( "Could not start a new thread" );
         }
-//System.out.println( "    ### total number of worker runnables: " + allRunnables.size() );
-//System.out.println( "    waitingRunnables.size(): " + waitingRunnables.size() );
-//System.out.println( "    taskQueue.size(): " + taskQueue.size() );
     }
 
     // has not been tested
     public void stopAll() {
         synchronized (allRunnables) {
-            Iterator<WorkerRunnable> iter = allRunnables.iterator();
-            while (iter.hasNext()) {
-                WorkerRunnable r = iter.next();
+            for (WorkerRunnable r : allRunnables) {
                 Task task = r.getCurrentTask();
                 if (null != task) {
                     task.stop();
@@ -115,8 +103,8 @@ public final class Scheduler {
     }
 
     private class TaskItem {
-        public Task task;
-        public Sink<Task> sink;
+        public final Task task;
+        public final Sink<Task> sink;
 
         public TaskItem(final Task task, final Sink<Task> sink) {
             this.task = task;
@@ -125,7 +113,7 @@ public final class Scheduler {
     }
 
     private class WorkerThread extends Thread {
-        private WorkerRunnable runnable;
+        private final WorkerRunnable runnable;
         private final long id;
 
         public WorkerThread(final WorkerRunnable r) {
@@ -145,13 +133,11 @@ public final class Scheduler {
         private TaskItem currentTaskItem = null;
 
         public void run() {
-//System.out.println( "[" + this + "]run()" );
             // Continue waiting for and executing tasks indefinitely.
             while (true) {
                 if (null == currentTaskItem) {
                     // Try to remove a task from the queue.
                     synchronized (taskQueue) {
-//System.out.println( "    testing queue" );
                         if (taskQueue.size() > 0) {
                             currentTaskItem = taskQueue.removeFirst();
                         }
@@ -160,9 +146,7 @@ public final class Scheduler {
 
                 // If a task was found in the queue, execute it.
                 if (null != currentTaskItem) {
-//System.out.println( "    found a task to execute" );
                     try {
-//System.out.println( "    executing task: " + currentTaskItem.task );
                         currentTaskItem.task.execute();
                     }
 
@@ -174,7 +158,7 @@ public final class Scheduler {
                     // Even tasks which failed with a throwable are put into
                     // the appropriate completed task sink.
                     try {
-                        currentTaskItem.sink.put(currentTaskItem.task);
+                        currentTaskItem.sink.accept(currentTaskItem.task);
                     } catch (Throwable t) {
                         logThrowable(t);
                     }
@@ -185,7 +169,6 @@ public final class Scheduler {
                 // If there are no tasks in the queue, add this Runnable to a
                 // list and wait.
                 else {
-//System.out.println( "    adding self to waiting queue" );
                     synchronized (taskQueue) {
                         waitingRunnables.addLast(this);
                     }
@@ -194,7 +177,7 @@ public final class Scheduler {
                         try {
                             wait();
                         } catch (InterruptedException e) {
-                            logger.warning("worker runnable interrupted while waiting for new tasks");
+                            logger.warn("worker runnable interrupted while waiting for new tasks");
                         }
                     }
                 }
@@ -203,9 +186,9 @@ public final class Scheduler {
 
         private void logThrowable(final Throwable t) {
             if (t instanceof InterruptedException) {
-                logger.warning("task interrupted: " + currentTaskItem.task);
+                logger.warn("task interrupted: " + currentTaskItem.task);
             } else {
-                logger.log(Level.SEVERE, "exception in scheduler", t);
+                logger.error("exception in scheduler", t);
             }
         }
 

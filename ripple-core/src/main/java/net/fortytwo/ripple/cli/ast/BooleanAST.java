@@ -20,7 +20,7 @@ public class BooleanAST implements AST<RippleList> {
                          final QueryEngine qe,
                          final ModelConnection mc)
             throws RippleException {
-        sink.put(mc.list().push(value));
+        sink.accept(mc.list().push(value));
     }
 
     public String toString() {

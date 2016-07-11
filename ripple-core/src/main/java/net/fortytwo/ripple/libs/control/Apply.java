@@ -22,7 +22,7 @@ public class Apply extends PrimitiveStackMapping {
                 StackLibrary.NS_2007_05 + "i"};
     }
 
-    public Apply() throws RippleException {
+    public Apply() {
         super();
     }
 
@@ -38,9 +38,8 @@ public class Apply extends PrimitiveStackMapping {
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-
 // hack...
-        solutions.put(arg.push(Operator.OP));
+        solutions.accept(arg.push(Operator.OP));
     }
 }
 

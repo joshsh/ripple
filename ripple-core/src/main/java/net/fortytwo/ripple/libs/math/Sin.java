@@ -23,8 +23,7 @@ public class Sin extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Sin()
-            throws RippleException {
+    public Sin() {
         super();
     }
 
@@ -49,7 +48,7 @@ public class Sin extends PrimitiveStackMapping {
 
         result = Math.sin(a.doubleValue());
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 

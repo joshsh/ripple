@@ -21,8 +21,7 @@ public class Gte extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Gte()
-            throws RippleException {
+    public Gte() {
         super();
     }
 
@@ -51,7 +50,7 @@ public class Gte extends PrimitiveStackMapping {
 
         result = mc.getComparator().compare(a, b) >= 0;
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 }

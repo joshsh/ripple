@@ -1,16 +1,14 @@
 package net.fortytwo.ripple.model;
 
-import net.fortytwo.ripple.RippleException;
-
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class StackContext implements Cloneable {
-    protected final ModelConnection modelConnection;
+    private final ModelConnection modelConnection;
 
     protected RippleList stack;
 
-    public StackContext(final RippleList stack, final ModelConnection mc) {
+    protected StackContext(final RippleList stack, final ModelConnection mc) {
         this.stack = stack;
         this.modelConnection = mc;
     }

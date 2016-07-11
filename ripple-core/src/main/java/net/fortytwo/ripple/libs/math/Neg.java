@@ -24,8 +24,7 @@ public class Neg extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Neg()
-            throws RippleException {
+    public Neg() {
         super();
     }
 
@@ -50,7 +49,7 @@ public class Neg extends PrimitiveStackMapping {
 
         result = NumericType.neg(a);
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 

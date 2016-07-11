@@ -16,7 +16,6 @@ import java.util.ServiceLoader;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SailConfiguration {
-    private final String sailType;
     private final Sail sail;
     private final ServiceLoader<SailFactory> loader;
 
@@ -28,11 +27,11 @@ public class SailConfiguration {
         loader = ServiceLoader.load(SailFactory.class);
 
         RippleProperties props = Ripple.getConfiguration();
-        sailType = props.getString(Ripple.SAIL_TYPE).trim();
+        String sailType = props.getString(Ripple.SAIL_TYPE).trim();
         sail = createSail(sailType, uriMap);
     }
 
-    public Sail getSail() throws RippleException {
+    public Sail getSail() {
         return sail;
     }
 
@@ -49,7 +48,6 @@ public class SailConfiguration {
         if (null == sail) {
             throw new RippleException("unrecognized Sail type: " + sailType);
         }
-        //System.out.println("creating Sail of type: " + sailType);
 
         String sailLog = Ripple.getConfiguration().getString(Ripple.SAIL_LOG, null);
         if (null != sailLog) {
@@ -68,9 +66,4 @@ public class SailConfiguration {
 
         return sail;
     }
-
-    /*public static void main(final String[] args) throws Exception {
-        URIMap map = new URIMap();
-        SailConfiguration c = new SailConfiguration(map);
-    }*/
 }

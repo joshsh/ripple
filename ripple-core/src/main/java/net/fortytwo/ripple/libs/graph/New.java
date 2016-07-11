@@ -23,8 +23,7 @@ public class New extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public New()
-            throws RippleException {
+    public New() {
         super();
     }
 
@@ -45,7 +44,7 @@ public class New extends PrimitiveStackMapping {
                 new ModelConnectionHelper(mc).createRandomURI());
 //System.out.println( "Creating a new node" );
 
-        solutions.put(result);
+        solutions.accept(result);
     }
 }
 

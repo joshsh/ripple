@@ -1,6 +1,7 @@
 package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -8,6 +9,7 @@ import net.fortytwo.ripple.test.RippleTestCase;
 public class InContextTest extends RippleTestCase {
     // Note: the tests for assertIn and denyIn also test inContext.
 
+    @Test
     public void testSimple() throws Exception {
         // Identical statements in two different contexts.
         reduce("@prefix ex: <http://example.org/inContextTest1/>.");

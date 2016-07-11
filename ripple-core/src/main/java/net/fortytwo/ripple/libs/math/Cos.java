@@ -23,8 +23,7 @@ public class Cos extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Cos()
-            throws RippleException {
+    public Cos() {
         super();
     }
 
@@ -49,7 +48,7 @@ public class Cos extends PrimitiveStackMapping {
 
         result = Math.cos(a.doubleValue());
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 

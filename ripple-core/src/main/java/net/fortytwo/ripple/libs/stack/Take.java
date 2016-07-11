@@ -21,7 +21,7 @@ public class Take extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Take() throws RippleException {
+    public Take() {
         super();
     }
 
@@ -52,13 +52,11 @@ public class Take extends PrimitiveStackMapping {
         final Object l = stack.getFirst();
         final RippleList rest = stack.getRest();
 
-        Sink<RippleList> listSink = new Sink<RippleList>() {
-            public void put(final RippleList list) throws RippleException {
-                RippleList result = take(list, n, mc.list());
-                if (null != result) {
-                    solutions.put(
-                            rest.push(result));
-                }
+        Sink<RippleList> listSink = list -> {
+            RippleList result = take(list, n, mc.list());
+            if (null != result) {
+                solutions.accept(
+                        rest.push(result));
             }
         };
 

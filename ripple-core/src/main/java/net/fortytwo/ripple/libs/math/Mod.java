@@ -24,8 +24,7 @@ public class Mod extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Mod()
-            throws RippleException {
+    public Mod() {
         super();
     }
 
@@ -55,7 +54,7 @@ public class Mod extends PrimitiveStackMapping {
         if (!NumericType.isZero(b)) {
             result = NumericType.mod(a, b);
 
-            solutions.put(
+            solutions.accept(
                     stack.push(result));
         }
     }

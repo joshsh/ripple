@@ -1,11 +1,13 @@
 package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class IfteTest extends RippleTestCase {
+    @Test
     public void testSimple() throws Exception {
         assertReducesTo("42 (true) (1) (2) ifte.", "42 1");
         assertReducesTo("42 (false) (1) (2) ifte.", "42 2");
@@ -18,6 +20,7 @@ public class IfteTest extends RippleTestCase {
         assertReducesTo("42 (2 sub. 40 equal.) (2 mul.) id ifte.", "84");
     }
 
+    @Test
     public void testNonBooleanValues() throws Exception {
         assertReducesTo("42 (108) (1) (2) ifte.", "42 2");
     }

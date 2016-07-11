@@ -14,9 +14,9 @@ public class RDFTee implements RDFSink {
     private final Sink<String> commentTee;
 
     public RDFTee(final RDFSink sinkA, final RDFSink sinkB) {
-        statementTee = new Tee<Statement>(sinkA.statementSink(), sinkB.statementSink());
-        namespaceTee = new Tee<Namespace>(sinkA.namespaceSink(), sinkB.namespaceSink());
-        commentTee = new Tee<String>(sinkA.commentSink(), sinkB.commentSink());
+        statementTee = new Tee<>(sinkA.statementSink(), sinkB.statementSink());
+        namespaceTee = new Tee<>(sinkA.namespaceSink(), sinkB.namespaceSink());
+        commentTee = new Tee<>(sinkA.commentSink(), sinkB.commentSink());
     }
 
     public Sink<Statement> statementSink() {

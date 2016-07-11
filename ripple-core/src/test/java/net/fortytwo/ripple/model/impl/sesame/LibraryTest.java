@@ -3,13 +3,19 @@ package net.fortytwo.ripple.model.impl.sesame;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 import java.net.URI;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class LibraryTest extends RippleTestCase {
+    @Test
     public void testPrimitiveAlias() throws Exception {
         ModelConnection mc = this.modelConnection;
 
@@ -27,6 +33,7 @@ public class LibraryTest extends RippleTestCase {
         assertEquals(dup05Val, dup08Val);
     }
 
+    @Test
     public void testAliasInExpression() throws Exception {
         assertReducesTo("<http://fortytwo.net/2007/05/ripple/stack#dup>",
                 "<http://fortytwo.net/2007/08/ripple/stack#dup>");
@@ -34,6 +41,7 @@ public class LibraryTest extends RippleTestCase {
         assertReducesTo("2 <http://fortytwo.net/2007/08/ripple/stack#dup>.", "2 2");
     }
 
+    @Test
     public void testAliasesAsKeywords() throws Exception {
         assertReducesTo("dup", "<http://fortytwo.net/2007/05/ripple/stack#dup>");
         assertReducesTo("2 dup.", "2 <http://fortytwo.net/2007/05/ripple/stack#dup>.");

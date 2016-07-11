@@ -22,7 +22,7 @@ public class Equal extends PrimitiveStackMapping {
                 GraphLibrary.NS_2007_05 + "equal"};
     }
 
-    public Equal() throws RippleException {
+    public Equal() {
         super();
     }
 
@@ -54,6 +54,6 @@ public class Equal extends PrimitiveStackMapping {
         //       Literals).
         result = 0 == mc.getComparator().compare(a, b);
 
-        solutions.put(stack.push(result));
+        solutions.accept(stack.push(result));
     }
 }

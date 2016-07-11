@@ -3,15 +3,19 @@ package net.fortytwo.ripple.cli;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 import org.openrdf.model.Literal;
 import org.openrdf.model.vocabulary.XMLSchema;
 
 import java.util.Collection;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class DatatypeSyntaxTest extends RippleTestCase {
+    @Test
     public void testBoolean() throws Exception {
         Collection<RippleList> results;
         RippleList stack;
@@ -37,6 +41,7 @@ public class DatatypeSyntaxTest extends RippleTestCase {
         mc.close();
     }
 
+    @Test
     public void testInteger() throws Exception {
         Collection<RippleList> results;
         RippleList stack;
@@ -89,6 +94,7 @@ public class DatatypeSyntaxTest extends RippleTestCase {
         mc.close();
     }
 
+    @Test
     public void testDouble() throws Exception {
         Collection<RippleList> results;
         RippleList stack;
@@ -161,6 +167,7 @@ public class DatatypeSyntaxTest extends RippleTestCase {
         mc.close();
     }
 
+    @Test
     public void testDecimal() throws Exception {
         Collection<RippleList> results;
         RippleList stack;

@@ -13,7 +13,7 @@ public class LanguageTaggedLiteralType extends RDFValueType<Literal> {
 
     @Override
     public boolean isInstance(Literal instance) {
-        return null != instance.getLanguage();
+        return instance.getLanguage().isPresent();
     }
 
     @Override
@@ -23,7 +23,7 @@ public class LanguageTaggedLiteralType extends RDFValueType<Literal> {
 
     @Override
     public int compare(Literal o1, Literal o2, ModelConnection mc) {
-        int c = o1.getLanguage().compareTo(o2.getLanguage());
+        int c = o1.getLanguage().get().compareTo(o2.getLanguage().get());
         return 0 == c ? o1.getLabel().compareTo(o2.getLabel()) : c;
     }
 }

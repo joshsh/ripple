@@ -1,12 +1,14 @@
 package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 import org.openrdf.model.vocabulary.XMLSchema;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class DenyInContextTest extends RippleTestCase {
+    @Test
     public void testSimple() throws Exception {
         reduce("@prefix ex: <http://example.org/denyInTest/> .");
 
@@ -46,6 +48,7 @@ public class DenyInContextTest extends RippleTestCase {
         assertReducesTo("() rdf:type ex:ctx1 in-context~.");
     }
 
+    @Test
     public void testLiteralObjects() throws Exception {
         reduce("@prefix ex: <http://example.org/deny-in-contextTest/>.");
 
@@ -72,8 +75,8 @@ public class DenyInContextTest extends RippleTestCase {
         assertReducesTo("ex:a rdfs:comment \"something\" ex:ctx1 assert-in-context.", "ex:a");
         assertReducesTo("ex:a rdfs:comment.", "\"something\"");
         assertReducesTo("ex:a rdfs:comment ex:ctx1 in-context.", "\"something\"");
-        assertReducesTo("\"something\" rdfs:comment~.", "ex:a");
-        assertReducesTo("\"something\" rdfs:comment ex:ctx1 in-context~.", "ex:a");
+        assertReducesTo("\"something\" rdfs:comment~. distinct.", "ex:a");
+        assertReducesTo("\"something\" rdfs:comment ex:ctx1 in-context~. distinct.", "ex:a");
         assertReducesTo("ex:a rdfs:comment \"something\" ex:ctx1 deny-in-context.", "ex:a");
         assertReducesTo("ex:a rdfs:comment.");
         assertReducesTo("ex:a rdfs:comment ex:ctx1 in-context.");
@@ -85,8 +88,8 @@ public class DenyInContextTest extends RippleTestCase {
         assertReducesTo("ex:a rdfs:label \"something\"^^xsd:string ex:ctx1 assert-in-context.", "ex:a");
         assertReducesTo("ex:a rdfs:label.", "\"something\"^^xsd:string");
         assertReducesTo("ex:a rdfs:label ex:ctx1 in-context.", "\"something\"^^xsd:string");
-        assertReducesTo("\"something\"^^xsd:string rdfs:label~.", "ex:a");
-        assertReducesTo("\"something\"^^xsd:string rdfs:label ex:ctx1 in-context~.", "ex:a");
+        assertReducesTo("\"something\"^^xsd:string rdfs:label~. distinct.", "ex:a");
+        assertReducesTo("\"something\"^^xsd:string rdfs:label ex:ctx1 in-context~. distinct.", "ex:a");
         assertReducesTo("ex:a rdfs:label \"something\" ex:ctx1 deny-in-context.", "ex:a");
         assertReducesTo("ex:a rdfs:label.");
         assertReducesTo("ex:a rdfs:label ex:ctx1 in-context.");
@@ -99,6 +102,7 @@ public class DenyInContextTest extends RippleTestCase {
         assertReducesTo("\"something\"^^xsd:string rdfs:label ex:ctx1 in-context~.");
     }
 
+    @Test
     public void testNullContext() throws Exception {
         reduce("@prefix ex: <http://example.org/assert-in-contextTest/>.");
 

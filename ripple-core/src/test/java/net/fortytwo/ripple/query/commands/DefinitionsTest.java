@@ -6,9 +6,10 @@ import net.fortytwo.ripple.cli.ast.PlainLiteralAST;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
+import org.openrdf.model.IRI;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.model.vocabulary.XMLSchema;
@@ -16,10 +17,15 @@ import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class DefinitionsTest extends RippleTestCase {
+    @Test
     public void testDefinitions() throws Exception {
         Sail sail = getTestSail();
         SailConnection sc = sail.getConnection();
@@ -29,7 +35,7 @@ public class DefinitionsTest extends RippleTestCase {
                 new PlainLiteralAST("foo"), new ListAST(new PlainLiteralAST("bar"), new ListAST()));
         ListAST foobar2 = new ListAST(
                 new PlainLiteralAST("foo2"), new ListAST(new PlainLiteralAST("bar2"), new ListAST()));
-        URI foobarUri = sail.getValueFactory().createURI(qe.getLexicon().getDefaultNamespace() + "foobar");
+        IRI foobarUri = sail.getValueFactory().createIRI(qe.getLexicon().getDefaultNamespace() + "foobar");
         Literal foo = sail.getValueFactory().createLiteral("foo", XMLSchema.STRING);
         Literal foo2 = sail.getValueFactory().createLiteral("foo2", XMLSchema.STRING);
 

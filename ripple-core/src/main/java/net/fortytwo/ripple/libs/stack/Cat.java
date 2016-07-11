@@ -24,8 +24,7 @@ public class Cat extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Cat()
-            throws RippleException {
+    public Cat() {
         super();
     }
 
@@ -50,22 +49,17 @@ public class Cat extends PrimitiveStackMapping {
         stack = stack.getRest();
         l2 = stack.getFirst();
         final RippleList rest = stack.getRest();
-//System.out.println("l1 = " + l1 + ", l2 = " + l2);
 
-        final Collector<RippleList> firstLists = new Collector<RippleList>();
+        final Collector<RippleList> firstLists = new Collector<>();
 
-        Sink<RippleList> listSink = new Sink<RippleList>() {
-            public void put(final RippleList list2) throws RippleException {
-                Sink<RippleList> catSink = new Sink<RippleList>() {
-                    public void put(final RippleList list1) throws RippleException {
-                        RippleList result = list2.concat(list1);
-                        solutions.put(
-                                rest.push(result));
-                    }
-                };
+        Sink<RippleList> listSink = list2 -> {
+            Sink<RippleList> catSink = list1 -> {
+                RippleList result = list2.concat(list1);
+                solutions.accept(
+                        rest.push(result));
+            };
 
-                firstLists.writeTo(catSink);
-            }
+            firstLists.writeTo(catSink);
         };
 
         mc.toList(l1, firstLists);

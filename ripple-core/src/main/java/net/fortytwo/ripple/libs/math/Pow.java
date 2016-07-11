@@ -27,8 +27,7 @@ public class Pow extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Pow()
-            throws RippleException {
+    public Pow() {
         super();
     }
 
@@ -56,7 +55,7 @@ public class Pow extends PrimitiveStackMapping {
 
         result = NumericType.pow(x, p);
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 
@@ -88,7 +87,7 @@ public class Pow extends PrimitiveStackMapping {
 
                 if (a.doubleValue() > 0 && c.doubleValue() > 0) {
                     result = Math.log(c.doubleValue()) / Math.log(a.doubleValue());
-                    solutions.put(stack.push(result));
+                    solutions.accept(stack.push(result));
                 }
             }
         };

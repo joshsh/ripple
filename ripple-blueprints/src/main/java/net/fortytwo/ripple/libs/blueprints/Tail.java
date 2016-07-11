@@ -44,7 +44,7 @@ public class Tail extends PrimitiveStackMapping {
 
         if (first instanceof Edge) {
             Edge edge = (Edge) first;
-            solutions.put(stack.push(edge.getVertex(Direction.OUT)));
+            solutions.accept(stack.push(edge.getVertex(Direction.OUT)));
         }
     }
 
@@ -83,7 +83,7 @@ public class Tail extends PrimitiveStackMapping {
                 Vertex vertex = (Vertex) first;
 
                 for (Edge edge : vertex.getEdges(Direction.OUT)) {
-                    solutions.put(stack.push(edge));
+                    solutions.accept(stack.push(edge));
                 }
             }
         }

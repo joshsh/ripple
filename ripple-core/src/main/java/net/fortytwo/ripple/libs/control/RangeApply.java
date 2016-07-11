@@ -23,7 +23,7 @@ public class RangeApply extends PrimitiveStackMapping {
                 ControlLibrary.NS_2013_03 + "range-apply"};
     }
 
-    public RangeApply() throws RippleException {
+    public RangeApply() {
         super();
     }
 
@@ -55,8 +55,8 @@ public class RangeApply extends PrimitiveStackMapping {
         final RippleList rest = stack.getRest();
 
         Sink<Operator> opSink = new Sink<Operator>() {
-            public void put(final Operator op) throws RippleException {
-                solutions.put(rest.push(
+            public void accept(final Operator op) throws RippleException {
+                solutions.accept(rest.push(
                         new StackMappingWrapper(new TimesQuantifier(op, min, max), mc)));
             }
         };

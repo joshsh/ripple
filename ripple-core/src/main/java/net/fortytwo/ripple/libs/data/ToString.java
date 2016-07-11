@@ -26,8 +26,7 @@ public class ToString extends PrimitiveStackMapping {
                 GraphLibrary.NS_2007_05 + "toString"};
     }
 
-    public ToString()
-            throws RippleException {
+    public ToString() {
         super();
     }
 
@@ -51,7 +50,7 @@ public class ToString extends PrimitiveStackMapping {
         v = stack.getFirst();
         stack = stack.getRest();
 
-        solutions.put(
+        solutions.accept(
                 stack.push(mc.valueOf(mc.toString(v), XMLSchema.STRING)));
     }
 }

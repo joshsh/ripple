@@ -1,12 +1,14 @@
 package net.fortytwo.ripple.libs.string;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class PercentDecodedTest extends RippleTestCase {
     // Note: currently identical to UrlDecode test
+    @Test
     public void testAll() throws Exception {
         assertReducesTo("\"one\" percent-decoded.", "\"one\"");
         assertReducesTo("\"one+two\" percent-decoded.", "\"one two\"");

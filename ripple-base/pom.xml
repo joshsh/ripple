@@ -12,7 +12,7 @@
     <parent>
         <groupId>net.fortytwo.ripple</groupId>
         <artifactId>ripple-all</artifactId>
-        <version>1.3</version>
+        <version>1.4</version>
     </parent>
 
     <dependencies>
@@ -20,11 +20,25 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>${httpcomponents.version}</version>
+            <exclusions>
+                <!-- conflict with Sesame -->
+                <exclusion>
+                    <groupId>commons-codec</groupId>
+                    <artifactId>commons-codec</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- to allow Sesame log4j dependency to be handled in Ripple.initialize().
+         The version should match Sesame's dependency -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.restlet.jse</groupId>
-            <artifactId>org.restlet</artifactId>
-            <version>${restlet.version}</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

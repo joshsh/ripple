@@ -33,7 +33,7 @@ public class Time extends PrimitiveStackMapping {
         return "produces the current time in milliseconds since the Unix epoch";
     }
 
-    public Time() throws RippleException {
+    public Time() {
         super();
     }
 
@@ -41,7 +41,7 @@ public class Time extends PrimitiveStackMapping {
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
 
-        solutions.put(arg.push(
+        solutions.accept(arg.push(
                 System.currentTimeMillis()));
     }
 }

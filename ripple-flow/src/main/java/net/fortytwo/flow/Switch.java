@@ -30,8 +30,8 @@ public class Switch<T> implements Sink<T> {
      * @param t the data item being passed
      * @throws RippleException if a data handling error occurs
      */
-    public void put(final T t) throws RippleException {
-        ((state) ? left : right).put(t);
+    public void accept(final T t) throws RippleException {
+        ((state) ? left : right).accept(t);
     }
 
     /**

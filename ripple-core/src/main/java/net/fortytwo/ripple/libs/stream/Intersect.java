@@ -29,7 +29,7 @@ public class Intersect extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Intersect() throws RippleException {
+    public Intersect() {
         super();
     }
 
@@ -54,9 +54,9 @@ public class Intersect extends PrimitiveStackMapping {
         stack = stack.getRest();
 
         Operator inner = new Operator(new IntersectInner());
-        solutions.put(
+        solutions.accept(
                 stack.push(rtrue).push(Operator.OP).push(true).push(inner));
-        solutions.put(
+        solutions.accept(
                 stack.push(rfalse).push(Operator.OP).push(false).push(inner));
     }
 
@@ -88,13 +88,13 @@ public class Intersect extends PrimitiveStackMapping {
             RippleList stack = arg.getRest();
 
             if (null == trueMemoizer) {
-                trueMemoizer = new ListMemoizer<Object, String>(mc.getComparator());
+                trueMemoizer = new ListMemoizer<>(mc.getComparator());
             }
 
             trueMemoizer.put(stack, MEMO);
 
             if (null != falseMemoizer && null != falseMemoizer.get(stack)) {
-                sink.put(stack);
+                sink.accept(stack);
             }
         }
 
@@ -104,13 +104,13 @@ public class Intersect extends PrimitiveStackMapping {
             RippleList stack = arg.getRest();
 
             if (null == falseMemoizer) {
-                falseMemoizer = new ListMemoizer<Object, String>(mc.getComparator());
+                falseMemoizer = new ListMemoizer<>(mc.getComparator());
             }
 
             falseMemoizer.put(stack, MEMO);
 
             if (null != trueMemoizer && null != trueMemoizer.get(stack)) {
-                sink.put(stack);
+                sink.accept(stack);
             }
         }
 

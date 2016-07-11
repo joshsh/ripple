@@ -23,8 +23,7 @@ public class Assert extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Assert()
-            throws RippleException {
+    public Assert() {
         super();
     }
 
@@ -64,7 +63,7 @@ public class Assert extends PrimitiveStackMapping {
         // Sail.
         mc.commit();
 
-        solutions.put(stack.push(subj));
+        solutions.accept(stack.push(subj));
     }
 }
 

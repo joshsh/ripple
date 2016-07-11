@@ -22,8 +22,7 @@ public class Dipd extends PrimitiveStackMapping {
                 StackLibrary.NS_2007_05 + "dipd"};
     }
 
-    public Dipd()
-            throws RippleException {
+    public Dipd() {
         super();
     }
 
@@ -53,7 +52,7 @@ public class Dipd extends PrimitiveStackMapping {
         x = stack.getFirst();
         stack = stack.getRest();
 
-        solutions.put(
+        solutions.accept(
                 stack.push(z).push(Operator.OP).push(x).push(y));
     }
 }

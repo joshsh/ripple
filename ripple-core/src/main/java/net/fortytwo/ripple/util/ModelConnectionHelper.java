@@ -30,7 +30,7 @@ public class ModelConnectionHelper {
     public Object findSingleObject(final Object subj, final Object pred)
             throws RippleException {
         StatementPatternQuery query = new StatementPatternQuery(subj, pred, null);
-        Collector<Object> results = new Collector<Object>();
+        Collector<Object> results = new Collector<>();
         connection.query(query, results, false);
 
         return results.isEmpty() ? null : results.iterator().next();
@@ -39,18 +39,14 @@ public class ModelConnectionHelper {
     public void findPredicates(final Object subject,
                                final Sink<Object> sink)
             throws RippleException {
-        final Sink<Value> valueSink = new Sink<Value>() {
-            public void put(final Value v) throws RippleException {
-                sink.put(connection.canonicalValue(v));
-            }
-        };
+        final Sink<Value> valueSink = v -> sink.accept(connection.canonicalValue(v));
 
         Sink<Statement> predSelector = new Sink<Statement>() {
-            Sink<Value> predSink = new DistinctFilter<Value>(valueSink);
+            final Sink<Value> predSink = new DistinctFilter<>(valueSink);
 
-            public void put(final Statement st) throws RippleException {
+            public void accept(final Statement st) throws RippleException {
                 //TODO: don't create a new RdfValue before checking for uniqueness
-                predSink.put(st.getPredicate());
+                predSink.accept(st.getPredicate());
             }
         };
 
@@ -79,12 +75,7 @@ public class ModelConnectionHelper {
         }
 
         final boolean[] b = {false};
-        mc.getStatements((Resource) r, RDF.FIRST, null, new Sink<Statement>(){
-            @Override
-            public void put(Statement statement) throws RippleException {
-                b[0] = true;
-            }
-        });
+        mc.getStatements((Resource) r, RDF.FIRST, null, statement -> b[0] = true);
         return b[0];
     }
 }

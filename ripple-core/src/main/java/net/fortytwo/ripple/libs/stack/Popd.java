@@ -22,8 +22,7 @@ public class Popd extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Popd()
-            throws RippleException {
+    public Popd() {
         super();
     }
 
@@ -47,7 +46,7 @@ public class Popd extends PrimitiveStackMapping {
         stack = stack.getRest();
         stack = stack.getRest();
 
-        solutions.put(
+        solutions.accept(
                 stack.push(y));
     }
 }

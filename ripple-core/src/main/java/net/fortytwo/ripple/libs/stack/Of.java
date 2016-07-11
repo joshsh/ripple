@@ -23,8 +23,7 @@ public class Of extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Of()
-            throws RippleException {
+    public Of() {
         super();
     }
 
@@ -50,23 +49,21 @@ public class Of extends PrimitiveStackMapping {
         final int i = mc.toNumber(stack.getFirst()).intValue();
         final RippleList rest = stack.getRest();
 
-        Sink<RippleList> listSink = new Sink<RippleList>() {
-            public void put(RippleList list) throws RippleException {
-                if (i < 1) {
-                    throw new RippleException("list index out of bounds" +
-                            " (keep in mind that 'at' begins counting at 1): " + i);
-                }
-
-                for (int j = 1; j < i; j++) {
-                    list = list.getRest();
-                    if (list.isNil()) {
-                        throw new RippleException("list index out of bounds: " + i);
-                    }
-                }
-
-                solutions.put(
-                        rest.push(list.getFirst()));
+        Sink<RippleList> listSink = list -> {
+            if (i < 1) {
+                throw new RippleException("list index out of bounds" +
+                        " (keep in mind that 'at' begins counting at 1): " + i);
             }
+
+            for (int j = 1; j < i; j++) {
+                list = list.getRest();
+                if (list.isNil()) {
+                    throw new RippleException("list index out of bounds: " + i);
+                }
+            }
+
+            solutions.accept(
+                    rest.push(list.getFirst()));
         };
 
         mc.toList(l, listSink);

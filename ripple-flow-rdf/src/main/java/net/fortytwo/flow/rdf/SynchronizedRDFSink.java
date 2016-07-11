@@ -14,9 +14,9 @@ public class SynchronizedRDFSink implements RDFSink {
     private final SynchronizedSink<String> comSink;
 
     public SynchronizedRDFSink(final RDFSink sink, final Object mutex) {
-        stSink = new SynchronizedSink<Statement>(sink.statementSink(), mutex);
-        nsSink = new SynchronizedSink<Namespace>(sink.namespaceSink(), mutex);
-        comSink = new SynchronizedSink<String>(sink.commentSink(), mutex);
+        stSink = new SynchronizedSink<>(sink.statementSink(), mutex);
+        nsSink = new SynchronizedSink<>(sink.namespaceSink(), mutex);
+        comSink = new SynchronizedSink<>(sink.commentSink(), mutex);
     }
 
     public Sink<Statement> statementSink() {

@@ -9,7 +9,7 @@ public class ApproxUnion<T, E extends Exception> extends ApproxFairOperation<T, 
     }
 
     public WeightedVector<T> currentResult() {
-        WeightedVector<T> cur = new WeightedVector<T>();
+        WeightedVector<T> cur = new WeightedVector<>();
 
         for (WeightedVectorApproximation<T, E> o : operands) {
             cur = cur.add(o.currentResult());

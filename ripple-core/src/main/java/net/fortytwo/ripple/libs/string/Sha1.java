@@ -24,8 +24,7 @@ public class Sha1 extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Sha1()
-            throws RippleException {
+    public Sha1() {
         super();
     }
 
@@ -47,7 +46,7 @@ public class Sha1 extends PrimitiveStackMapping {
         stack = stack.getRest();
 
         String result = StringUtils.sha1SumOf(mc.toString(a));
-        solutions.put(
+        solutions.accept(
                 stack.push(StringLibrary.value(result, mc, a)));
     }
 }

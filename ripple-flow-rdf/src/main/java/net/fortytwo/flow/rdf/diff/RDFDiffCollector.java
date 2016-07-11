@@ -44,7 +44,7 @@ public class RDFDiffCollector implements RDFDiffSource, RDFDiffSink {
             }
         };
 
-        cmtSink = new NullDiffSink<String>();
+        cmtSink = new NullDiffSink<>();
     }
 
     public DiffSink<Statement> statementSink() {

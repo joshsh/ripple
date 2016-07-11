@@ -22,8 +22,7 @@ public class StartsWith extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public StartsWith()
-            throws RippleException {
+    public StartsWith() {
         super();
     }
 
@@ -52,7 +51,7 @@ public class StartsWith extends PrimitiveStackMapping {
 
         result = s.startsWith(affix);
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 }

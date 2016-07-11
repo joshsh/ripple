@@ -29,7 +29,7 @@ public class Collector<T> extends SimpleReadOnlyCollection<T> implements Sink<T>
      * @param t the data item being passed
      * @throws RippleException if a data handling error occurs
      */
-    public void put(final T t) throws RippleException {
+    public void accept(final T t) throws RippleException {
         Node n = new Node(t, null);
 
         if (null == first) {
@@ -56,7 +56,7 @@ public class Collector<T> extends SimpleReadOnlyCollection<T> implements Sink<T>
             // eventually be passed into the sink as well (even if clear()
             // is called).
             try {
-                sink.put(cur.value);
+                sink.accept(cur.value);
             } catch (RippleException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
@@ -89,7 +89,7 @@ public class Collector<T> extends SimpleReadOnlyCollection<T> implements Sink<T>
     }
 
     private class Node {
-        public T value;
+        public final T value;
         public Node next;
 
         public Node(final T value, final Node next) {

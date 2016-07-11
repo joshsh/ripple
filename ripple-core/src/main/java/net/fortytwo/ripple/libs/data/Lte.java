@@ -21,8 +21,7 @@ public class Lte extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Lte()
-            throws RippleException {
+    public Lte() {
         super();
     }
 
@@ -51,7 +50,7 @@ public class Lte extends PrimitiveStackMapping {
 
         result = mc.getComparator().compare(a, b) <= 0;
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 }

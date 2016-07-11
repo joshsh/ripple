@@ -1,10 +1,9 @@
 package net.fortytwo.linkeddata.dereferencers;
 
-import net.fortytwo.flow.rdf.HTTPUtils;
-import net.fortytwo.linkeddata.RDFUtils;
+import net.fortytwo.linkeddata.util.HTTPUtils;
+import net.fortytwo.linkeddata.util.RDFUtils;
 import net.fortytwo.linkeddata.RedirectManager;
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.StringUtils;
+import net.fortytwo.linkeddata.util.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -16,6 +15,7 @@ import org.restlet.representation.StreamRepresentation;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.ReadableByteChannel;
@@ -39,22 +39,22 @@ public class HTTPRepresentation extends StreamRepresentation {
     static {
         try {
             client = HTTPUtils.createClient(false);
-        } catch (RippleException e) {
+        } catch (Exception e) {
             logger.log(Level.SEVERE, "failed to initialize", e);
             throw new ExceptionInInitializerError(e);
         }
     }
 
     // Note: the URI is immediately dereferenced
-    public HTTPRepresentation(final String uri, final RedirectManager redirects, final String acceptHeader)
-            throws RippleException {
+    public HTTPRepresentation(final String iri, final RedirectManager redirects, final String acceptHeader)
+            throws IOException {
         super(null);
 
         URL getUrl;
         try {
-            getUrl = RDFUtils.iriToUrl(uri);
+            getUrl = RDFUtils.iriToUrl(iri);
         } catch (MalformedURLException e) {
-            throw new RippleException(e);
+            throw new IllegalArgumentException(e);
         }
 
         HttpResponse response;
@@ -73,12 +73,7 @@ public class HTTPRepresentation extends StreamRepresentation {
                  */
                 long idleTime = HTTPUtils.throttleHttpRequest(method);
 
-                try {
-                    response = client.execute(method);
-                } catch (IOException e) {
-                    throw new RippleException(e);
-                }
-
+                response = client.execute(method);
                 int code = response.getStatusLine().getStatusCode();
                 int c = code / 100;
                 if (2 == c) {
@@ -86,25 +81,21 @@ public class HTTPRepresentation extends StreamRepresentation {
                 } else if (3 == c) {
                     redirectUrl = response.getFirstHeader("Location").getValue();
 
-                    try {
-                        // do not repeatedly retrieve the same document
-                        if (redirects.existsRedirectTo(redirectUrl)) {
-                            throw new RedirectToExistingDocumentException();
-                        }
-
-                        method.abort();
-                    } catch (SailException e) {
-                        throw new RippleException(e);
+                    // do not repeatedly retrieve the same document
+                    if (redirects.existsRedirectTo(redirectUrl)) {
+                        throw new RedirectToExistingDocumentException();
                     }
+
+                    method.abort();
 
                     try {
                         getUrl = new URL(redirectUrl);
                     } catch (MalformedURLException e) {
-                        throw new RippleException(e);
+                        throw new IOException(e);
                     }
                 } else {
                     throw new ErrorResponseException("" + code + " response for resource <"
-                            + StringUtils.escapeURIString(uri) + ">");
+                            + StringUtils.escapeURIString(iri) + ">");
                 }
             }
 
@@ -114,9 +105,9 @@ public class HTTPRepresentation extends StreamRepresentation {
             // if we followed one or more redirects, record the redirection to save on future work
             if (null != redirectUrl) {
                 try {
-                    redirects.persistRedirect(uri, redirectUrl);
+                    redirects.persistRedirect(iri, redirectUrl);
                 } catch (SailException e) {
-                    throw new RippleException(e);
+                    throw new IOException(e);
                 }
             }
 
@@ -128,24 +119,20 @@ public class HTTPRepresentation extends StreamRepresentation {
 
         InputStream is;
 
-        try {
-            is = response.getEntity().getContent();
-        } catch (IOException e) {
-            throw new RippleException(e);
-        }
+        is = response.getEntity().getContent();
 
         inputStream = new HttpRepresentationInputStream(is);
 
         Header h = response.getFirstHeader(HTTPUtils.CONTENT_TYPE);
         if (null == h) {
             throw new InvalidResponseException("no content-type header served for resource <"
-                    + StringUtils.escapeURIString(uri) + ">");
+                    + StringUtils.escapeURIString(iri) + ">");
         }
 
         String mtStr = h.getValue().split(";")[0];
         if (null == mtStr || 0 == mtStr.length()) {
             throw new InvalidResponseException("no media type found for resource <"
-                    + StringUtils.escapeURIString(uri) + ">");
+                    + StringUtils.escapeURIString(iri) + ">");
         }
         MediaType mt = new MediaType(mtStr);
         setMediaType(mt);
@@ -172,7 +159,7 @@ public class HTTPRepresentation extends StreamRepresentation {
      * closed
      */
     private class HttpRepresentationInputStream extends InputStream {
-        private InputStream innerInputStream;
+        private final InputStream innerInputStream;
 
         public HttpRepresentationInputStream(final InputStream is) {
             innerInputStream = is;
@@ -197,19 +184,29 @@ public class HTTPRepresentation extends StreamRepresentation {
         }
     }
 
-    public class ErrorResponseException extends RippleException {
+    public class HTTPException extends IOException {
+        public HTTPException() {
+            super();
+        }
+
+        public HTTPException(final String message) {
+            super(message);
+        }
+    }
+
+    public class ErrorResponseException extends HTTPException {
         public ErrorResponseException(final String message) {
             super(message);
         }
     }
 
-    public class InvalidResponseException extends RippleException {
+    public class InvalidResponseException extends HTTPException {
         public InvalidResponseException(final String message) {
             super(message);
         }
     }
 
-    public class RedirectToExistingDocumentException extends RippleException {
+    public class RedirectToExistingDocumentException extends HTTPException {
         public RedirectToExistingDocumentException() {
             super();
         }

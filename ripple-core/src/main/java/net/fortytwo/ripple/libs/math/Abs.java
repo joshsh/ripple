@@ -27,8 +27,7 @@ public class Abs extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Abs()
-            throws RippleException {
+    public Abs() {
         super();
     }
 
@@ -55,7 +54,7 @@ public class Abs extends PrimitiveStackMapping {
 
         result = NumericType.abs(a);
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 
@@ -64,7 +63,7 @@ public class Abs extends PrimitiveStackMapping {
         return absInverse;
     }
 
-    private StackMapping absInverse = new StackMapping() {
+    private final StackMapping absInverse = new StackMapping() {
         public int arity() {
             return ARITY;
         }
@@ -91,13 +90,13 @@ public class Abs extends PrimitiveStackMapping {
             // Negative values are not the absolute value of any number.
             if (a.doubleValue() >= 0) {
                 // Push the number itself.
-                solutions.put(
+                solutions.accept(
                         stack.push(a));
 
                 // If the number is nonzero, also push its negation.
                 if (a.doubleValue() > 0) {
                     Number neg = NumericType.neg(a);
-                    solutions.put(
+                    solutions.accept(
                             stack.push(neg));
                 }
             }

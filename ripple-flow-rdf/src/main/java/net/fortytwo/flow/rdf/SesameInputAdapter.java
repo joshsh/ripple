@@ -35,9 +35,8 @@ public class SesameInputAdapter implements RDFHandler {
      * Handles a comment.
      */
     public void handleComment(final String comment) {
-//System.out.println( "handleComment(\"" + comment + "\")" );
         try {
-            cmtSink.put(comment);
+            cmtSink.accept(comment);
         } catch (Exception e) {
             // Log the error, but continue.
             logError(e);
@@ -48,9 +47,8 @@ public class SesameInputAdapter implements RDFHandler {
      * Handles a namespace declaration/definition.
      */
     public void handleNamespace(final String prefix, final String uri) {
-//System.out.println( "handleNamespace(" + prefix + ", " + uri + ")" );
         try {
-            nsSink.put(new NamespaceImpl(prefix, uri));
+            nsSink.accept(new NamespaceImpl(prefix, uri));
         } catch (Exception e) {
             // Log the error, but continue.
             logError(e);
@@ -61,9 +59,8 @@ public class SesameInputAdapter implements RDFHandler {
      * Handles a statement.
      */
     public void handleStatement(final Statement st) {
-//System.out.println( "handleStatement(" + st + ")" );
         try {
-            stSink.put(st);
+            stSink.accept(st);
         } catch (Exception e) {
             // Log the error, but continue.
             logError(e);
@@ -87,24 +84,18 @@ public class SesameInputAdapter implements RDFHandler {
         System.err.println("Error: " + e);
     }
 
-    public static RDFFormat parse(final InputStream is,
-                                  final RDFSink sink,
-                                  final String baseUri,
-                                  final RDFFormat format) throws RippleException {
+    public static void parse(final InputStream is,
+                             final RDFSink sink,
+                             final String baseUri,
+                             final RDFFormat format) throws RippleException {
         RDFParser parser = Rio.createParser(format);
         parser.setRDFHandler(new SesameInputAdapter(sink));
 
         try {
             parser.parse(is, baseUri);
-        } catch (IOException e) {
-            throw new RippleException(e);
-        } catch (RDFParseException e) {
-            throw new RippleException(e);
-        } catch (RDFHandlerException e) {
+        } catch (IOException | RDFParseException | RDFHandlerException e) {
             throw new RippleException(e);
         }
-
-        return format;
     }
 }
 

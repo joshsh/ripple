@@ -9,9 +9,9 @@ public enum ExpressionAssociativity {
     LEFT("left"),
     RIGHT("right");
 
-    private String name;
+    private final String name;
 
-    private ExpressionAssociativity(final String n) {
+    ExpressionAssociativity(final String n) {
         name = n;
     }
 

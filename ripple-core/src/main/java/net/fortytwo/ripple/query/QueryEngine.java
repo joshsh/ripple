@@ -62,7 +62,7 @@ public class QueryEngine {
         connection.commit();
     }
 
-    public ModelConnection getConnection() throws RippleException {
+    public ModelConnection getConnection() {
         return connection;
     }
 

@@ -7,6 +7,5 @@ package net.fortytwo.linkeddata;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public interface CacheExpirationPolicy {
-    boolean isExpired(String uri,
-                      CacheEntry entry);
+    boolean isExpired(CacheEntry entry);
 }

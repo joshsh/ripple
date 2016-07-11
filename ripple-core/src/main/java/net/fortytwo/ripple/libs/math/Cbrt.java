@@ -25,8 +25,7 @@ public class Cbrt extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Cbrt()
-            throws RippleException {
+    public Cbrt() {
         super();
 
         this.self = this;
@@ -53,7 +52,7 @@ public class Cbrt extends PrimitiveStackMapping {
 
         result = Math.cbrt(a.doubleValue());
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 
@@ -87,7 +86,7 @@ public class Cbrt extends PrimitiveStackMapping {
 
             result = NumericType.mul(a, NumericType.mul(a,a));
 
-            solutions.put(
+            solutions.accept(
                     stack.push(result));
         }
     }

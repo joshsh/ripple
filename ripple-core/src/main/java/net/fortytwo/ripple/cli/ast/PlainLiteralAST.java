@@ -30,7 +30,7 @@ public class PlainLiteralAST implements AST<RippleList> {
         Object v = (null == language)
                 ? value
                 : mc.valueOf(value, language);
-        sink.put(mc.list().push(v));
+        sink.accept(mc.list().push(v));
     }
 
     public String toString() {

@@ -8,8 +8,8 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
 import org.openrdf.model.Statement;
-
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A primitive which consumes an RDF container and produces all items in the
@@ -24,13 +24,13 @@ public class Members extends PrimitiveStackMapping {
             GraphLibrary.NS_2007_08 + "contains",
             GraphLibrary.NS_2007_05 + "contains"};
 
-    private static final Logger logger = Logger.getLogger(Members.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(Members.class);
 
     public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-    public Members() throws RippleException {
+    public Members() {
         super();
     }
 
@@ -53,23 +53,17 @@ public class Members extends PrimitiveStackMapping {
             Object head = arg.getFirst();
             final RippleList rest = arg.getRest();
 
-            final Sink<Object> pushSink = new Sink<Object>() {
-                public void put(final Object v) throws RippleException {
-                    solutions.put(rest.push(v));
-                }
-            };
+            final Sink<Object> pushSink = v -> solutions.accept(rest.push(v));
 
-            Sink<Statement> stSink = new Sink<Statement>() {
-                public void put(final Statement st) throws RippleException {
-                    if ('_' == st.getPredicate().getLocalName().charAt(0)) {
-                        pushSink.put(st.getObject());
-                    }
+            Sink<Statement> stSink = st -> {
+                if ('_' == st.getPredicate().getLocalName().charAt(0)) {
+                    pushSink.accept(st.getObject());
                 }
             };
 
             mc.getStatements(mc.toRDF(head), null, null, stSink);
         } else {
-            logger.warning("primitive is compatible only with the Sesame model: " + this);
+            logger.warn("primitive is compatible only with the Sesame model: " + this);
         }
     }
 }

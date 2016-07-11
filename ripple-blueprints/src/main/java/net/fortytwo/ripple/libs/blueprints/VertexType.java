@@ -27,7 +27,7 @@ public class VertexType extends KeyValueType<Vertex> {
     @Override
     public Object getValue(Vertex instance, String key, ModelConnection mc) throws RippleException {
         Object result = instance.getProperty(key);
-        return null == result ? null : BlueprintsLibrary.toRipple(result, mc);
+        return null == result ? null : BlueprintsLibrary.toRipple(result);
     }
 
     @Override

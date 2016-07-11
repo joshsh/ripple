@@ -26,8 +26,7 @@ public class Limit extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Limit()
-            throws RippleException {
+    public Limit() {
         super();
     }
 
@@ -50,14 +49,15 @@ public class Limit extends PrimitiveStackMapping {
         lim = mc.toNumber(stack.getFirst()).intValue();
         stack = stack.getRest();
 
-        solutions.put(
+        solutions.accept(
                 stack.push(
                         new Operator(
                                 new LimitInner((long) lim))));
     }
 
     protected class LimitInner implements StackMapping {
-        private long count, limit;
+        private long count;
+        private final long limit;
 
         public int arity() {
             return 1;
@@ -73,7 +73,7 @@ public class Limit extends PrimitiveStackMapping {
                           final ModelConnection mc) throws RippleException {
             if (count < limit) {
                 count++;
-                solutions.put(arg);
+                solutions.accept(arg);
             }
         }
 

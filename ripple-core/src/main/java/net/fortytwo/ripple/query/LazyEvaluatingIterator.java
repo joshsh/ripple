@@ -23,8 +23,8 @@ import java.util.List;
  */
 public class LazyEvaluatingIterator implements CloseableIteration<RippleList, RippleException> {
 
-    private final List<RippleList> intermediates = new LinkedList<RippleList>();
-    private final List<RippleList> solutions = new LinkedList<RippleList>();
+    private final List<RippleList> intermediates = new LinkedList<>();
+    private final List<RippleList> solutions = new LinkedList<>();
     private final ModelConnection mc;
 
     public LazyEvaluatingIterator(final RippleList stack,
@@ -64,18 +64,12 @@ public class LazyEvaluatingIterator implements CloseableIteration<RippleList, Ri
 
     private void reduce(final RippleList stack) throws RippleException {
 
-        //System.out.println("evaluating: " + stack);
         RippleList left = stack;
         RippleList right = mc.list();
 
         while (true) {
-            //System.out.println("--");
-            //System.out.println("\tleft: " + left);
-            //System.out.println("\tright: " + right);
-
             if (left.isNil()) {
                 if (right.isNil()) {
-                    //System.out.println("adding solution: " + left);
                     solutions.add(left);
                 }
 
@@ -86,7 +80,6 @@ public class LazyEvaluatingIterator implements CloseableIteration<RippleList, Ri
 
             if (null == f) {
                 if (right.isNil()) {
-                    //System.out.println("adding solution: " + left);
                     solutions.add(left);
                     return;
                 } else {
@@ -96,7 +89,7 @@ public class LazyEvaluatingIterator implements CloseableIteration<RippleList, Ri
                 }
             } else {
                 if (0 == f.arity()) {
-                    Collector<RippleList> results = new Collector<RippleList>();
+                    Collector<RippleList> results = new Collector<>();
                     // Note: synchronous evaluation is required
                     // Note: stack context is trivial
                     f.apply(left.getRest(), results, mc);
@@ -108,7 +101,6 @@ public class LazyEvaluatingIterator implements CloseableIteration<RippleList, Ri
                             cur = cur.getRest();
                         }
 
-                        //System.out.println("adding intermediate: " + i);
                         intermediates.add(i);
                     }
                     return;
@@ -138,14 +130,10 @@ public class LazyEvaluatingIterator implements CloseableIteration<RippleList, Ri
                           final Sink<RippleList> solutions,
                           final ModelConnection mc) throws RippleException {
             try {
-                CloseableIteration<RippleList, RippleException> iter
-                        = new LazyEvaluatingIterator(arg, mc);
-                try {
+                try (CloseableIteration<RippleList, RippleException> iter = new LazyEvaluatingIterator(arg, mc)) {
                     while (iter.hasNext() && !stopped) {
-                        solutions.put(iter.next());
+                        solutions.accept(iter.next());
                     }
-                } finally {
-                    iter.close();
                 }
             } finally {
                 stopped = false;

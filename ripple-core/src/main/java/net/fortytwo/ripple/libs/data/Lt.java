@@ -25,8 +25,7 @@ public class Lt extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Lt()
-            throws RippleException {
+    public Lt() {
         super();
     }
 
@@ -54,7 +53,7 @@ public class Lt extends PrimitiveStackMapping {
 
         result = mc.getComparator().compare(a, b) < 0;
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 }

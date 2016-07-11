@@ -4,16 +4,16 @@ import antlr.RecognitionException;
 import antlr.TokenStreamException;
 import net.fortytwo.flow.Sink;
 import net.fortytwo.ripple.RippleException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.PrintStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class ParserExceptionSink implements Sink<Exception> {
-    private static final Logger logger = Logger.getLogger(ParserExceptionSink.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(ParserExceptionSink.class);
 
     private final PrintStream errorPrintStream;
 
@@ -21,7 +21,7 @@ public class ParserExceptionSink implements Sink<Exception> {
         errorPrintStream = ps;
     }
 
-    public void put(final Exception e) throws RippleException {
+    public void accept(final Exception e) throws RippleException {
         // This happens, for instance, when the parser receives a value
         // which is too large for the target data type.  Non-fatal.
         if (e instanceof NumberFormatException) {
@@ -38,7 +38,7 @@ public class ParserExceptionSink implements Sink<Exception> {
             alert("Parser error: " + e.toString());
         } else {
             alert("Ungrokked error (see log for details): " + e.toString());
-            logger.log(Level.SEVERE, "parser error", e);
+            logger.error("parser error", e);
         }
     }
 

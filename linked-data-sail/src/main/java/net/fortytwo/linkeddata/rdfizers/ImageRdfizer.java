@@ -2,8 +2,9 @@ package net.fortytwo.linkeddata.rdfizers;
 
 import net.fortytwo.linkeddata.CacheEntry;
 import net.fortytwo.linkeddata.Rdfizer;
-import net.fortytwo.ripple.RippleException;
 import org.openrdf.rio.RDFHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -15,8 +16,6 @@ import javax.imageio.stream.ImageInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 // TODO: follow instructions at http://www.barregren.se/blog/how-query-exif-and-iptc-java-image-i-o-api
 // example images: http://www.exif.org/samples/
@@ -26,7 +25,7 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class ImageRdfizer implements Rdfizer {
-    private static final Logger logger = Logger.getLogger(ImageRdfizer.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(ImageRdfizer.class);
 
     private static boolean initialized = false;
 
@@ -101,11 +100,11 @@ public class ImageRdfizer implements Rdfizer {
 
                 return CacheEntry.Status.Success;
             } else {
-                logger.log(Level.WARNING, "could not find a reader for image");
+                logger.warn("could not find a reader for image");
                 return CacheEntry.Status.RdfizerError;
             }
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "image rdfization error", e);
+            logger.error("image rdfization error", e);
             return CacheEntry.Status.RdfizerError;
         }
     }
@@ -122,8 +121,7 @@ public class ImageRdfizer implements Rdfizer {
                     sb.append(", ");
                 }
                 Node n = map.item(i);
-                sb.append(n.getNodeName() + "=" + n.getNodeValue());
-                //sb.append( "\n" ).append( indent ).append( "attr: " ).append(n.getLocalName());
+                sb.append(n.getNodeName()).append("=").append(n.getNodeValue());
             }
             sb.append("}");
         }

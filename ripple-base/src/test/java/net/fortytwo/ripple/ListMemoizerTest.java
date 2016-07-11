@@ -1,14 +1,20 @@
 package net.fortytwo.ripple;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.util.Comparator;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class ListMemoizerTest extends TestCase {
+public class ListMemoizerTest {
 
+    @Test
     public void testEmptyMemoizer() throws Exception {
         ListMemoizer<String, Integer> m = createMemoizer();
 
@@ -17,6 +23,7 @@ public class ListMemoizerTest extends TestCase {
         assertNull(m.get(createList("foo", "bar")));
     }
 
+    @Test
     public void testPaths() throws Exception {
         ListMemoizer<String, Integer> m = createMemoizer();
 
@@ -35,6 +42,7 @@ public class ListMemoizerTest extends TestCase {
         assertEquals((Integer) 3, m.get(createList("the", "quick", "brown")));
     }
 
+    @Test
     public void testAsSetOfLists() throws Exception {
         ListMemoizer<String, Integer> m = createMemoizer();
 
@@ -46,6 +54,7 @@ public class ListMemoizerTest extends TestCase {
         assertFalse(m.put(createList("one", "two", "three"), 42));
     }
 
+    @Test
     public void testRemove() throws Exception {
         ListMemoizer<String, Integer> m = createMemoizer();
 
@@ -71,14 +80,14 @@ public class ListMemoizerTest extends TestCase {
     }
 
     private ListMemoizer<String, Integer> createMemoizer() {
-        return new ListMemoizer<String, Integer>(new StringComparator());
+        return new ListMemoizer<>(new StringComparator());
     }
 
     private SimpleList<String> createList(final String... args) {
-        SimpleList<String> l = new SimpleList<String>();
+        SimpleList<String> l = new SimpleList<>();
 
         for (String arg : args) {
-            l = new SimpleList<String>(arg, l);
+            l = new SimpleList<>(arg, l);
         }
 
         return l;

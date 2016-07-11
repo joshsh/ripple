@@ -17,6 +17,8 @@ import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.commands.RippleQueryCmd;
+import org.openrdf.model.IRI;
+import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.RDF;
 
 /**
@@ -53,22 +55,20 @@ public class VisibleQueryCommand extends Command {
         TurtleView view = new TurtleView(
                 qe.getPrintStream(), mc);
 
-        Buffer<RippleList> buffer = doBuffer ? new Buffer<RippleList>(view) : null;
+        Buffer<RippleList> buffer = doBuffer ? new Buffer<>(view) : null;
 
-        Sink<RippleList> med = new SynchronizedSink<RippleList>(
+        Sink<RippleList> med = new SynchronizedSink<>(
                 (doBuffer
                         ? buffer
                         : view));
 
-        results = new Switch<RippleList>(
-                new Tee<RippleList>(med, resultHistory),
-                new NullSink<RippleList>());
+        results = new Switch<>(
+                new Tee<>(med, resultHistory),
+                new NullSink<>());
 
-        Sink<RippleList> derefSink = new Sink<RippleList>() {
-            public void put(final RippleList list) throws RippleException {
-                dereference(list.getFirst(), mc);
-                results.put(list);
-            }
+        Sink<RippleList> derefSink = list -> {
+            dereference(list.getFirst(), mc);
+            results.accept(list);
         };
 
         Command cmd = new RippleQueryCmd(query, derefSink);
@@ -101,10 +101,10 @@ public class VisibleQueryCommand extends Command {
         taskSet.stopWaiting();
     }
 
-    private static void dereference(final Object v, final ModelConnection mc)
-            throws RippleException {
+    private static void dereference(final Object v, final ModelConnection mc) {
         try {
-            if (null != mc.toRDF(v)) {
+            Value rdfValue = mc.toRDF(v);
+            if (null != rdfValue && rdfValue instanceof IRI) {
                 StatementPatternQuery query = new StatementPatternQuery(v, RDF.FIRST, null);
                 mc.query(query, new NullSink<RippleList>(), false);
             }

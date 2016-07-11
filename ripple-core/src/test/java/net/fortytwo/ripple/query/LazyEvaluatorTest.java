@@ -8,16 +8,18 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class LazyEvaluatorTest extends RippleTestCase {
+    @Test
     public void testSimple() throws Exception {
         ModelConnection mc = getTestModel().createConnection();
         Evaluator<RippleList, RippleList, ModelConnection> eval = new LazyStackEvaluator();
-        Collector<RippleList> expected = new Collector<RippleList>();
-        final Collector<RippleList> actual = new Collector<RippleList>();
+        Collector<RippleList> expected = new Collector<>();
+        final Collector<RippleList> actual = new Collector<>();
         RippleList input;
 
         Object op = Operator.OP;
@@ -34,7 +36,7 @@ public class LazyEvaluatorTest extends RippleTestCase {
         // (1 2) -> (1 2)
         input = createStack(mc, one, two);
         expected.clear();
-        expected.put(createStack(mc, one, two));
+        expected.accept(createStack(mc, one, two));
         actual.clear();
         eval.apply(input, actual, mc);
         assertCollectorsEqual(expected, actual);
@@ -43,7 +45,7 @@ public class LazyEvaluatorTest extends RippleTestCase {
         // (1 /dup) -> (1 1)
         input = createStack(mc, one, dup, op);
         expected.clear();
-        expected.put(createStack(mc, one, one));
+        expected.accept(createStack(mc, one, one));
         actual.clear();
         eval.apply(input, actual, mc);
         assertCollectorsEqual(expected, actual);
@@ -52,7 +54,7 @@ public class LazyEvaluatorTest extends RippleTestCase {
         // (1 /dup /dup) -> (1 1 1)
         input = createStack(mc, one, dup, op, dup, op);
         expected.clear();
-        expected.put(createStack(mc, one, one, one));
+        expected.accept(createStack(mc, one, one, one));
         actual.clear();
         eval.apply(input, actual, mc);
         assertCollectorsEqual(expected, actual);
@@ -77,8 +79,8 @@ public class LazyEvaluatorTest extends RippleTestCase {
         // (1 /sqrt /dup) -> (1 1), (-1, -1)
         input = createStack(mc, one, sqrt, op, dup, op);
         expected.clear();
-        expected.put(createStack(mc, one, one));
-        expected.put(createStack(mc, minusone, minusone));
+        expected.accept(createStack(mc, one, one));
+        expected.accept(createStack(mc, minusone, minusone));
         actual.clear();
         eval.apply(input, actual, mc);
         assertCollectorsEqual(expected, actual);
@@ -87,7 +89,7 @@ public class LazyEvaluatorTest extends RippleTestCase {
         // (2 /dup 1) -> (2 /dup 1)
         input = createStack(mc, two, dup, op, one);
         expected.clear();
-        expected.put(createStack(mc, two, dup, op, one));
+        expected.accept(createStack(mc, two, dup, op, one));
         actual.clear();
         eval.apply(input, actual, mc);
         assertCollectorsEqual(expected, actual);
@@ -96,7 +98,7 @@ public class LazyEvaluatorTest extends RippleTestCase {
         // ((2 /dup)) -> ((2 /dup))
         input = createStack(mc, createQueue(mc, two, dup, op));
         expected.clear();
-        expected.put(createStack(mc, createQueue(mc, two, dup, op)));
+        expected.accept(createStack(mc, createQueue(mc, two, dup, op)));
         actual.clear();
         eval.apply(input, actual, mc);
         assertCollectorsEqual(expected, actual);
@@ -105,7 +107,7 @@ public class LazyEvaluatorTest extends RippleTestCase {
         // (2 /(1 /dup)) -> (2 1 1)
         input = createStack(mc, two, createQueue(mc, one, dup, op), op);
         expected.clear();
-        expected.put(createStack(mc, two, one, one));
+        expected.accept(createStack(mc, two, one, one));
         actual.clear();
         eval.apply(input, actual, mc);
         assertCollectorsEqual(expected, actual);
@@ -114,8 +116,8 @@ public class LazyEvaluatorTest extends RippleTestCase {
         // (1 /sqrt /abs)
         input = createStack(mc, one, sqrt, op, abs, op);
         expected.clear();
-        expected.put(createStack(mc, one));
-        expected.put(createStack(mc, one));
+        expected.accept(createStack(mc, one));
+        expected.accept(createStack(mc, one));
         actual.clear();
         eval.apply(input, actual, mc);
         assertCollectorsEqual(expected, actual);

@@ -21,8 +21,8 @@ public class ShowPrefixesCmd extends Command {
         final RipplePrintStream ps = qe.getPrintStream();
 
         // Create a map of prefixes to names and find the longest prefix.
-        Map<String, String> prefixesToNames = new HashMap<String, String>();
-        Collector<Namespace> coll = new Collector<Namespace>();
+        Map<String, String> prefixesToNames = new HashMap<>();
+        Collector<Namespace> coll = new Collector<>();
         mc.getNamespaces().writeTo(coll);
         int max = 0;
         int j = 0;

@@ -1,11 +1,13 @@
 package net.fortytwo.ripple.libs.stack;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class CatTest extends RippleTestCase {
+    @Test
     public void testSimpleNativeLists() throws Exception {
         assertReducesTo("(42) () cat.", "(42)");
         assertReducesTo("() (42) cat.", "(42)");
@@ -13,6 +15,7 @@ public class CatTest extends RippleTestCase {
         assertReducesTo("(1 2) (3 4) cat.", "(1 2 3 4)");
     }
 
+    @Test
     public void testRDFLists() throws Exception {
         assertReducesTo("(42) rdf:nil cat.", "(42)");
         assertReducesTo("rdf:nil (42) cat.", "(42)");
@@ -30,6 +33,7 @@ public class CatTest extends RippleTestCase {
                 + ":myList :myList cat.", "(1 2 3 1 2 3)");
     }
 
+    @Test
     public void testProgramListEquivalence() throws Exception {
         assertReducesTo("42 42 cat.", "(42. 42.)");
         assertReducesTo("42 42 cat..");

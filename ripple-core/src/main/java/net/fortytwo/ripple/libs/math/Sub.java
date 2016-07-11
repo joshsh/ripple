@@ -24,8 +24,7 @@ public class Sub extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Sub()
-            throws RippleException {
+    public Sub() {
         super();
     }
 
@@ -53,7 +52,7 @@ public class Sub extends PrimitiveStackMapping {
 
         result = NumericType.sub(a, b);
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 

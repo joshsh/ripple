@@ -13,7 +13,7 @@ public class TaskSet {
     private int count = 0;
 
     private final Sink<Task> completedTaskSink = new Sink<Task>() {
-        public synchronized void put(final Task task) throws RippleException {
+        public synchronized void accept(final Task task) throws RippleException {
             count--;
 
             if (0 == count) {

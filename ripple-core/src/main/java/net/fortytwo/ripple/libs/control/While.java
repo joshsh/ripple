@@ -28,7 +28,7 @@ public class While extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public While() throws RippleException {
+    public While() {
         super();
     }
 
@@ -54,17 +54,17 @@ public class While extends PrimitiveStackMapping {
         stack = stack.getRest();
 
         Collector<Operator> programOps
-                = new Collector<Operator>();
+                = new Collector<>();
         Operator.createOperator(program, programOps, mc);
         Collector<Operator> criterionOps
-                = new Collector<Operator>();
+                = new Collector<>();
         Operator.createOperator(criterion, criterionOps, mc);
 
         for (Operator programOp : programOps) {
             for (Operator criterionOp : criterionOps) {
                 StackMapping a = new WhileApplicator(programOp, criterionOp);
 
-                solutions.put(stack.push(new Operator(a)));
+                solutions.accept(stack.push(new Operator(a)));
             }
         }
     }
@@ -103,9 +103,9 @@ public class While extends PrimitiveStackMapping {
             if (b) {
                 StackMapping a = new WhileApplicator(program, criterion);
                 RippleList stack = originalStack.push(program).push(new Operator(a));
-                solutions.put(stack);
+                solutions.accept(stack);
             } else {
-                solutions.put(originalStack);
+                solutions.accept(originalStack);
             }
         }
     }
@@ -137,10 +137,9 @@ public class While extends PrimitiveStackMapping {
                           final Sink<RippleList> solutions,
                           final ModelConnection mc) throws RippleException {
 
-            RippleList stack = arg;
-            StackMapping d = new WhileDecider(stack, program, criterion);
+            StackMapping d = new WhileDecider(arg, program, criterion);
 
-            solutions.put(stack.push(criterion).push(new Operator(d)));
+            solutions.accept(arg.push(criterion).push(new Operator(d)));
         }
     }
 }

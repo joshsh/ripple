@@ -2,12 +2,12 @@ package net.fortytwo.ripple.sail;
 
 import net.fortytwo.ripple.model.RippleList;
 import org.openrdf.model.Value;
-import org.openrdf.model.impl.URIImpl;
+import org.openrdf.model.impl.SimpleIRI;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class RippleURI extends URIImpl implements RippleSesameValue {
+public class RippleURI extends SimpleIRI implements RippleSesameValue {
     private RippleList list = null;
 
     public RippleURI(String uriString) {

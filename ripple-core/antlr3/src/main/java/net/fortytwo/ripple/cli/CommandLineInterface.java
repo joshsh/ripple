@@ -37,8 +37,6 @@ public class CommandLineInterface {
     private static final byte[] EOL = {'\n'};
 
     private final PipedIOStream writeIn;
-    //private PipedInputStream  writeIn;
-    //private PipedOutputStream readOut;
     private final ThreadedInputStream consoleReaderInput;
     private final Interpreter interpreter;
     private final ConsoleReader reader;
@@ -136,12 +134,8 @@ public class CommandLineInterface {
             throw new RippleException(t);
         }
         jline.Terminal term = reader.getTerminal();
-//System.out.println( "reader.getTerminal() = " + term );
 
         writeIn = new PipedIOStream();
-        //writeIn.write(32);
-        //writeIn = new PipedInputStream();
-        //readOut = new PipedOutputStream( writeIn );
 
         // Initialize completors.
         updateCompletors();
@@ -153,17 +147,13 @@ public class CommandLineInterface {
     public void run() throws RippleException {
         lineNumber = 0;
         interpreter.parse();
-//System.out.println( "done parsing" );
     }
 
     private void readLine() {
         try {
             ++lineNumber;
             String prefix = "" + lineNumber + ")  ";
-            System.out.println("reading a line");
-            System.out.println("    consoleReaderInput.available() = " + consoleReaderInput.available());
             String line = reader.readLine(prefix);
-            System.out.println("done reading the line: " + line);
 
             if (null != line) {
                 // Feed the line to the lexer.
@@ -173,11 +163,7 @@ public class CommandLineInterface {
 
                 // Add a newline character so the lexer will call readLine()
                 // again when it gets there.
-//                readOut.write( EOL );
                 writeIn.write(EOL);
-
-                writeIn.flush();
-//                readOut.flush();
             }
         } catch (java.io.IOException e) {
             alert("IOException: " + e.toString());
@@ -237,13 +223,11 @@ public class CommandLineInterface {
     }
 
     private void addCommand(final Command cmd) {
-//System.out.println( "addCommand(" + cmd + ")" );
         cmd.setQueryEngine(queryEngine);
         taskQueue.add(cmd);
     }
 
     private void executeCommands() throws RippleException {
-//System.out.println( "executeCommands()" );
         Scheduler.add(taskQueue);
 
         consoleReaderInput.setEager(true);
@@ -259,7 +243,6 @@ public class CommandLineInterface {
     }
 
     private void abortCommands() {
-//System.out.println( "abortCommands()" );
         taskQueue.stop();
     }
 }

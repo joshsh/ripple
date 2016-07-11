@@ -10,7 +10,7 @@ import net.fortytwo.flow.NullSink;
  */
 public class NullDiffSink<T> implements DiffSink<T>
 {
-    private final Sink<T> nullSink = new NullSink<T>();
+    private final Sink<T> nullSink = new NullSink<>();
 
     public Sink<T> getPlus()
     {

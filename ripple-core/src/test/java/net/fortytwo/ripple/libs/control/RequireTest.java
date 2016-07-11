@@ -1,11 +1,13 @@
 package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RequireTest extends RippleTestCase {
+    @Test
     public void testSimple() throws Exception {
         assertReducesTo("2 3 (add. 5 equal.) require.", "2 3");
         assertReducesTo("2 3 (add. 6 equal.) require.");
@@ -16,6 +18,7 @@ public class RequireTest extends RippleTestCase {
         assertReducesTo("false not require.", "false");
     }
 
+    @Test
     public void testArity() throws Exception {
         // Currently 'require' demands exactly two arguments, regardless of the
         // arity of the criterion function.
@@ -23,6 +26,7 @@ public class RequireTest extends RippleTestCase {
         assertReducesTo("1 1 add. 3 (add. 5 equal.) require.", "1 1 add. 3");
     }
 
+    @Test
     public void testNonBooleanValues() throws Exception {
         assertReducesTo("42 id require.");
         assertReducesTo("42 not require.", "42");

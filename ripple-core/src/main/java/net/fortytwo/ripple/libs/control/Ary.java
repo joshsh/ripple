@@ -26,8 +26,7 @@ public class Ary extends PrimitiveStackMapping {
                 StackLibrary.NS_2007_05 + "ary"};
     }
 
-    public Ary()
-            throws RippleException {
+    public Ary() {
         super();
     }
 
@@ -41,7 +40,7 @@ public class Ary extends PrimitiveStackMapping {
     }
 
     private class NaryId implements StackMapping {
-        private int n;
+        private final int n;
 
         public NaryId(final int arity) {
             n = arity;
@@ -54,7 +53,7 @@ public class Ary extends PrimitiveStackMapping {
         public void apply(final RippleList arg,
                           final Sink<RippleList> solutions,
                           final ModelConnection mc) throws RippleException {
-            solutions.put(arg);
+            solutions.accept(arg);
         }
 
         public boolean isTransparent() {
@@ -82,7 +81,7 @@ public class Ary extends PrimitiveStackMapping {
         n = mc.toNumber(stack.getFirst()).intValue();
         stack = stack.getRest();
 
-        solutions.put(
+        solutions.accept(
                 stack.push(new Operator(new NaryId(n))));
     }
 }

@@ -5,16 +5,16 @@ import net.fortytwo.ripple.Ripple;
 import net.fortytwo.ripple.RippleException;
 import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.RDF;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URI;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RDFPredicateMapping implements StackMapping {
-    private static final Logger logger = Logger.getLogger(RDFPredicateMapping.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(RDFPredicateMapping.class.getName());
 
     private static final int ARITY = 1;
 
@@ -46,15 +46,15 @@ public class RDFPredicateMapping implements StackMapping {
                                             final ModelConnection mc) throws RippleException {
         if (subject instanceof RippleList) {
             if (predicate.equals(RDF.TYPE)) {
-                solutions.put(rest.push(mc.valueOf(URI.create(RDF.LIST.toString()))));
+                solutions.accept(rest.push(mc.valueOf(URI.create(RDF.LIST.toString()))));
             } else if (!((RippleList) subject).isNil()) {
                 //System.out.println("" + subject + " " + predicate);
                 if (predicate.equals(RDF.FIRST)) {
                     Object f = ((RippleList) subject).getFirst();
-                    solutions.put(rest.push(f));
+                    solutions.accept(rest.push(f));
                 } else if (predicate.equals(RDF.REST)) {
                     RippleList r = ((RippleList) subject).getRest();
-                    solutions.put(rest.push(r));
+                    solutions.accept(rest.push(r));
                 }
             }
         }
@@ -116,22 +116,22 @@ public class RDFPredicateMapping implements StackMapping {
     }
 
     private class ValueSink implements Sink<Object> {
-        private Sink<RippleList> sink;
-        private RippleList arg;
+        private final Sink<RippleList> sink;
+        private final RippleList arg;
 
         public ValueSink(final RippleList arg, final Sink<RippleList> sink) {
             this.arg = arg;
             this.sink = sink;
         }
 
-        public void put(final Object v) throws RippleException {
+        public void accept(final Object v) throws RippleException {
             try {
                 //System.out.println("got Ripple value: " + v);
                 // Note: relies on this mapping's arity being equal to 1
-                sink.put(arg.getRest().push(v));
+                sink.accept(arg.getRest().push(v));
             } catch (RippleException e) {
                 // Soft fail
-                logger.log(Level.WARNING, "failed to put solution", e);
+                logger.warn("failed to put solution", e);
             }
         }
     }

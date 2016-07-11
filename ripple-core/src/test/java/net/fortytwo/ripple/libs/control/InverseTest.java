@@ -1,11 +1,13 @@
 package net.fortytwo.ripple.libs.control;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class InverseTest extends RippleTestCase {
+    @Test
     public void testAll() throws Exception {
         // Invert primitive functions
         assertReducesTo("2 3 add inverse..", "-1");
@@ -16,6 +18,7 @@ public class InverseTest extends RippleTestCase {
                 + "136 1 add. rdf:first inverse...", "137 69");
     }
 
+    @Test
     public void testInverseListPredicates() throws Exception {
         reduce("@list lintilla42: 1331 137");
 

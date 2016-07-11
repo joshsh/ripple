@@ -23,7 +23,7 @@ public class TimesApply extends PrimitiveStackMapping {
                 ControlLibrary.NS_2013_03 + "times-apply"};
     }
 
-    public TimesApply() throws RippleException {
+    public TimesApply() {
         super();
     }
 
@@ -50,12 +50,8 @@ public class TimesApply extends PrimitiveStackMapping {
         Object p = stack.getFirst();
         final RippleList rest = stack.getRest();
 
-        Sink<Operator> opSink = new Sink<Operator>() {
-            public void put(final Operator op) throws RippleException {
-                solutions.put(rest.push(
-                        new StackMappingWrapper(new TimesQuantifier(op, times, times), mc)));
-            }
-        };
+        Sink<Operator> opSink = op -> solutions.accept(rest.push(
+                new StackMappingWrapper(new TimesQuantifier(op, times, times), mc)));
 
         Operator.createOperator(p, opSink, mc);
     }

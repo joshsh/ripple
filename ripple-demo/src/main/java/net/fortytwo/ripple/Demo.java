@@ -9,7 +9,10 @@ import net.fortytwo.ripple.model.impl.sesame.SesameModel;
 import net.fortytwo.ripple.query.LazyStackEvaluator;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.query.StackEvaluator;
+import org.apache.log4j.BasicConfigurator;
 import org.openrdf.sail.Sail;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,8 +20,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Demo application.
@@ -26,14 +27,14 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public final class Demo {
-    private static final Logger logger = Logger.getLogger(Demo.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(Demo.class);
 
     private Demo() {
     }
 
-    public static void demo(final InputStream in,
-                            final PrintStream out,
-                            final PrintStream err)
+    private static void demo(final InputStream in,
+                             final PrintStream out,
+                             final PrintStream err)
             throws RippleException {
         // Create a Sesame triple store.
         URIMap uriMap = new URIMap();
@@ -74,13 +75,16 @@ public final class Demo {
     }
 
     public static void main(final String[] args) {
+        BasicConfigurator.configure();
+
         // Default values.
-        boolean quiet = false, showVersion = false, showHelp = false;
+        boolean showVersion = false, showHelp = false;
         File configFile = null;
 
         // Long options are available but are not advertised.
         LongOpt[] longOptions = {
                 new LongOpt("help", LongOpt.NO_ARGUMENT, null, 'h'),
+                // TODO: unused
                 new LongOpt("quiet", LongOpt.NO_ARGUMENT, null, 'q'),
                 new LongOpt("version", LongOpt.NO_ARGUMENT, null, 'v')};
 
@@ -94,7 +98,6 @@ public final class Demo {
                     break;
                 case 'q':
                 case 1:
-                    quiet = true;
                     break;
                 case 'v':
                 case 2:
@@ -148,21 +151,15 @@ public final class Demo {
             }
         } catch (RippleException e) {
             System.err.println("Initialization error: " + e);
-            logger.log(Level.SEVERE, "initialization error", e);
+            logger.error("initialization error", e);
             System.exit(1);
         }
-
-        Ripple.setQuiet(quiet);
-// System.out.println( "quiet = " + quiet );
-// System.out.println( "showVersion = " + showVersion );
-// System.out.println( "format = " + format );
-// System.out.println( "store = " + store );
 
         try {
             demo(System.in, System.out, System.err);
         } catch (RippleException e) {
             System.out.println("Exiting with error: " + e);
-            logger.log(Level.SEVERE, "exiting with error", e);
+            logger.error("exiting with error", e);
             System.exit(1);
         }
 

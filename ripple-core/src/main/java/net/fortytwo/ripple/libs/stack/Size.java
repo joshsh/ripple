@@ -23,8 +23,7 @@ public class Size extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Size()
-            throws RippleException {
+    public Size() {
         super();
     }
 
@@ -40,19 +39,16 @@ public class Size extends PrimitiveStackMapping {
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-        RippleList stack = arg;
 
         Object l;
 
-        l = stack.getFirst();
-        final RippleList rest = stack.getRest();
+        l = arg.getFirst();
+        final RippleList rest = arg.getRest();
 
-        Sink<RippleList> listSink = new Sink<RippleList>() {
-            public void put(final RippleList list) throws RippleException {
-                int result = list.length();
-                solutions.put(
-                        rest.push(result));
-            }
+        Sink<RippleList> listSink = list -> {
+            int result = list.length();
+            solutions.accept(
+                    rest.push(result));
         };
 
         mc.toList(l, listSink);

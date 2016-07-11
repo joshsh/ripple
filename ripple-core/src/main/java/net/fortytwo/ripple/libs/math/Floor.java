@@ -23,8 +23,7 @@ public class Floor extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Floor()
-            throws RippleException {
+    public Floor() {
         super();
     }
 
@@ -49,7 +48,7 @@ public class Floor extends PrimitiveStackMapping {
 
         result = (int) Math.floor(a.doubleValue());
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 }

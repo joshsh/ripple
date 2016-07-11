@@ -22,8 +22,7 @@ public class Scrap extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Scrap()
-            throws RippleException {
+    public Scrap() {
         super();
     }
 

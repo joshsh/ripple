@@ -5,16 +5,14 @@ import net.fortytwo.flow.Sink;
 import net.fortytwo.flow.Source;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.io.RipplePrintStream;
+import org.openrdf.model.IRI;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
 import org.openrdf.query.QueryEvaluationException;
 
-import java.math.BigDecimal;
-import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -117,7 +115,7 @@ public interface ModelConnection {
      * @return the resulting RDF value
      * @throws RippleException if the argument is not a valid URI
      */
-    URI valueOf(java.net.URI uri) throws RippleException;
+    IRI valueOf(java.net.URI uri) throws RippleException;
 
     /**
      * Construct a date/time value.
@@ -147,7 +145,7 @@ public interface ModelConnection {
      * @throws RippleException if the arguments do not define a valid literal
      */
     // TODO: this should use an implementation-independent URI class
-    Literal valueOf(String label, URI datatype) throws RippleException;
+    Literal valueOf(String label, IRI datatype) throws RippleException;
 
     /**
      * Finds the "canonical" value, in Ripple space, for a given RDF value.
@@ -226,9 +224,8 @@ public interface ModelConnection {
 
     /**
      * @return a source producing all graph contexts in this model
-     * @throws RippleException if contexts cannot be retrieved
      */
-    Source<Object> getContexts() throws RippleException;
+    Source<Object> getContexts();
 
     /**
      * Adds one or more RDF statements to the model.
@@ -267,11 +264,10 @@ public interface ModelConnection {
      * as well as those of any lists it contains, recursively.
      *
      * @param list the list to internalize
-     * @return whether the list was internalized successfully.
      * If this operation is unsuccessful, no statements are added to the model.
      * @throws RippleException if internalization fails
      */
-    boolean internalize(RippleList list) throws RippleException;
+    void internalize(RippleList list) throws RippleException;
 
     /**
      * Complete any still-executing tasks.

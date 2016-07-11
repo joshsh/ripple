@@ -1,7 +1,6 @@
 package net.fortytwo.linkeddata.sail;
 
 import net.fortytwo.linkeddata.LinkedDataCache;
-import net.fortytwo.ripple.RippleException;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.sail.NotifyingSail;
 import org.openrdf.sail.NotifyingSailConnection;
@@ -24,21 +23,32 @@ public class LinkedDataSail extends SailBase implements StackableSail, Notifying
     public static final String
             CACHE_LIFETIME = "net.fortytwo.linkeddata.cacheLifetime",
             DATATYPE_HANDLING_POLICY = "net.fortytwo.linkeddata.datatypeHandlingPolicy",
-            MEMORY_CACHE_CAPACITY = "net.fortytwo.linkeddata.memoryCacheCapacity";
+            MEMORY_CACHE_CAPACITY = "net.fortytwo.linkeddata.memoryCacheCapacity",
+            USE_BLANK_NODES = "net.fortytwo.linkeddata.useBlankNodes",
+            HTTPCONNECTION_COURTESY_INTERVAL = "net.fortytwo.linkeddata.httpConnectionCourtesyInterval",
+            HTTPCONNECTION_TIMEOUT = "net.fortytwo.linkeddata.httpConnectionTimeout";
+
+    public static final String RANDOM_URN_PREFIX = "urn:uuid:";
 
     private final LinkedDataCache cache;
 
     private Sail baseSail;
 
+    public static String getProperty(String name, String defaultValue) {
+        String value = System.getProperty(name);
+        if (null == value) {
+            value = defaultValue;
+        }
+        return value;
+    }
+
     /**
      * @param baseSail base Sail which provides a storage layer for aggregated RDF data.
      *                 Note: the base Sail should be initialized before this Sail is used.
      * @param cache    a custom WebClosure providing an RDF-document-level view of the Web
-     * @throws RippleException if there is a configuration error
      */
     public LinkedDataSail(final Sail baseSail,
-                          final LinkedDataCache cache)
-            throws RippleException {
+                          final LinkedDataCache cache) {
         this.baseSail = baseSail;
 
         this.cache = cache;
@@ -47,10 +57,8 @@ public class LinkedDataSail extends SailBase implements StackableSail, Notifying
     /**
      * @param baseSail base Sail which provides a storage layer for aggregated RDF data.
      *                 Note: the base Sail should be initialized before this Sail is used.
-     * @throws RippleException if there is a configuration error
      */
-    public LinkedDataSail(final Sail baseSail)
-            throws RippleException {
+    public LinkedDataSail(final Sail baseSail) {
         this(baseSail, LinkedDataCache.createDefault(baseSail));
     }
 
@@ -99,12 +107,7 @@ public class LinkedDataSail extends SailBase implements StackableSail, Notifying
     }
 
     protected void shutDownInternal() throws SailException {
-        try {
-            cache.close();
-        } catch (RippleException e) {
-            // note: SailException --> RippleException --> SailException
-            throw new SailException(e);
-        }
+        cache.close();
 
         // Do not shut down the base Sail.
     }

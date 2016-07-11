@@ -23,8 +23,7 @@ public class Rolldownd extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Rolldownd()
-            throws RippleException {
+    public Rolldownd() {
         super();
     }
 
@@ -55,7 +54,7 @@ public class Rolldownd extends PrimitiveStackMapping {
         x = stack.getFirst();
         stack = stack.getRest();
 
-        solutions.put(
+        solutions.accept(
                 stack.push(y).push(z).push(x).push(w));
     }
 }

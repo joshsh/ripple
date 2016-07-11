@@ -22,8 +22,7 @@ public class DenyInContext extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public DenyInContext()
-            throws RippleException {
+    public DenyInContext() {
         super();
     }
 
@@ -66,6 +65,6 @@ public class DenyInContext extends PrimitiveStackMapping {
         // Sail.
         mc.commit();
 
-        solutions.put(stack.push(subj));
+        solutions.accept(stack.push(subj));
     }
 }

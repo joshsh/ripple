@@ -14,7 +14,7 @@ public abstract class RDFPredicateStackMapping extends PrimitiveStackMapping {
     private final boolean inverted;
     protected StackMapping inverse;
 
-    public RDFPredicateStackMapping(final boolean inverted) throws RippleException {
+    public RDFPredicateStackMapping(final boolean inverted) {
         super();
 
         this.inverted = inverted;
@@ -26,8 +26,7 @@ public abstract class RDFPredicateStackMapping extends PrimitiveStackMapping {
     }
 
     protected RDFPredicateMapping getMapping(final Value predicate,
-                                             final Value context)
-            throws RippleException {
+                                             final Value context) {
         StatementPatternQuery.Pattern type = inverted
                 ? StatementPatternQuery.Pattern.PO_S
                 : StatementPatternQuery.Pattern.SP_O;

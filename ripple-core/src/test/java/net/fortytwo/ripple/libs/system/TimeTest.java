@@ -2,16 +2,21 @@ package net.fortytwo.ripple.libs.system;
 
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.XMLSchema;
 
 import java.util.Collection;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class TimeTest extends RippleTestCase {
+    @Test
     public void testAll() throws Exception {
         Collection<RippleList> r = reduce("time.");
         assertEquals(1, r.size());

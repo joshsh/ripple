@@ -23,8 +23,7 @@ public class Cons extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Cons()
-            throws RippleException {
+    public Cons() {
         super();
     }
 
@@ -49,12 +48,8 @@ public class Cons extends PrimitiveStackMapping {
         final Object x = stack.getFirst();
         final RippleList rest = stack.getRest();
 
-        Sink<RippleList> listSink = new Sink<RippleList>() {
-            public void put(final RippleList list) throws RippleException {
-                solutions.put(
-                        rest.push(list.push(x)));
-            }
-        };
+        Sink<RippleList> listSink = list -> solutions.accept(
+                rest.push(list.push(x)));
 
         mc.toList(l, listSink);
     }

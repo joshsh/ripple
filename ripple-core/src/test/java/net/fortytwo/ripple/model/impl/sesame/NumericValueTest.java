@@ -5,6 +5,7 @@ import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.types.NumericType;
 import net.fortytwo.ripple.test.RippleTestCase;
 import net.fortytwo.ripple.util.FileUtils;
+import org.junit.Test;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -12,10 +13,14 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class NumericValueTest extends RippleTestCase {
+    @Test
     public void testValues() throws Exception {
         Model model = getTestModel();
         ModelConnection mc = model.createConnection();
@@ -46,18 +51,18 @@ public class NumericValueTest extends RippleTestCase {
         // Create a double literal
         l = 42.0;
         assertEquals(NumericType.Datatype.DOUBLE, NumericType.datatypeOf(l));
-        assertEquals(42.0, l.doubleValue());
+        assertEquals(42.0, l.doubleValue(), ASSERTEQUALS_EPSILON);
         l = 0.0;
         assertEquals(NumericType.Datatype.DOUBLE, NumericType.datatypeOf(l));
-        assertEquals(0.0, l.doubleValue());
+        assertEquals(0.0, l.doubleValue(), ASSERTEQUALS_EPSILON);
         l = -42.0;
         assertEquals(NumericType.Datatype.DOUBLE, NumericType.datatypeOf(l));
-        assertEquals(-42.0, l.doubleValue());
+        assertEquals(-42.0, l.doubleValue(), ASSERTEQUALS_EPSILON);
 
         InputStream is = ModelTest.class.getResourceAsStream("numericLiteralTest.txt");
         Iterator<String> lines = FileUtils.getLines(is).iterator();
         is.close();
-        Map<String, Integer> argsForFunc = new HashMap<String, Integer>();
+        Map<String, Integer> argsForFunc = new HashMap<>();
         argsForFunc.put("abs", 1);
         argsForFunc.put("neg", 1);
         argsForFunc.put("add", 2);
@@ -94,24 +99,33 @@ public class NumericValueTest extends RippleTestCase {
             Throwable thrown = null;
 
             try {
-                if (func.equals("abs")) {
-                    actualResult = NumericType.abs(args[0]);
-                } else if (func.equals("neg")) {
-                    actualResult = NumericType.neg(args[0]);
-                } else if (func.equals("add")) {
-                    actualResult = NumericType.add(args[0], args[1]);
-                } else if (func.equals("sub")) {
-                    actualResult = NumericType.sub(args[0], args[1]);
-                } else if (func.equals("mul")) {
-                    actualResult = NumericType.mul(args[0], args[1]);
-                } else if (func.equals("div")) {
-                    actualResult = NumericType.div(args[0], args[1]);
-                } else if (func.equals("mod")) {
-                    actualResult = NumericType.mod(args[0], args[1]);
-                } else if (func.equals("pow")) {
-                    actualResult = NumericType.pow(args[0], args[1]);
-                } else {
-                    throw new Exception("bad function: " + func);
+                switch (func) {
+                    case "abs":
+                        actualResult = NumericType.abs(args[0]);
+                        break;
+                    case "neg":
+                        actualResult = NumericType.neg(args[0]);
+                        break;
+                    case "add":
+                        actualResult = NumericType.add(args[0], args[1]);
+                        break;
+                    case "sub":
+                        actualResult = NumericType.sub(args[0], args[1]);
+                        break;
+                    case "mul":
+                        actualResult = NumericType.mul(args[0], args[1]);
+                        break;
+                    case "div":
+                        actualResult = NumericType.div(args[0], args[1]);
+                        break;
+                    case "mod":
+                        actualResult = NumericType.mod(args[0], args[1]);
+                        break;
+                    case "pow":
+                        actualResult = NumericType.pow(args[0], args[1]);
+                        break;
+                    default:
+                        throw new Exception("bad function: " + func);
                 }
             } catch (Throwable t) {
                 thrown = t;
@@ -164,6 +178,7 @@ public class NumericValueTest extends RippleTestCase {
         return l;
     }
 
+    @Test
     public void testTypes() throws Exception {
         Number
                 intLit = 5,
@@ -265,6 +280,7 @@ public class NumericValueTest extends RippleTestCase {
     }
 
     /*
+    @Test
     public void testEquality()
             throws Exception {
         // int == int

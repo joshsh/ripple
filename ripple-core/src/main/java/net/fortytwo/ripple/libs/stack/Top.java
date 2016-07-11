@@ -19,7 +19,7 @@ public class Top extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Top() throws RippleException {
+    public Top() {
         super();
     }
 
@@ -35,7 +35,7 @@ public class Top extends PrimitiveStackMapping {
     public void apply(final RippleList arg,
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
-        solutions.put(mc.list().push(arg.getFirst()));
+        solutions.accept(mc.list().push(arg.getFirst()));
     }
 }
 

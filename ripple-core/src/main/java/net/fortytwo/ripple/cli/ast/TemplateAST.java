@@ -7,12 +7,10 @@ public class TemplateAST extends ListAST {
     public TemplateAST(final ListAST template, final ListAST expression) {
         ListAST expr = expression;
 
-        ListAST params = template;//.invert();
+        ListAST params = template;
         while (!params.isNil()) {
-//System.out.println("params = " + params);
-//System.out.println("    expr = " + expr);
             AST p = params.getFirst();
-//System.out.println("    p = " + p);
+
             if (p instanceof ListAST) {
                 expr = new TemplateAST((ListAST) p, expr)
                         .push(new OperatorAST());

@@ -26,24 +26,20 @@ public class Diff<T> implements DiffSink<T>, DiffSource<T> {
     private final Sink<T> minusSink;
 
     public Diff() {
-        changes = new LinkedList<Change>();
+        changes = new LinkedList<>();
 
-        plusSink = new Sink<T>() {
-            public void put(final T t) throws RippleException {
-                Change ch = new Change();
-                ch.value = t;
-                ch.action = Action.Add;
-                changes.addLast(ch);
-            }
+        plusSink = t -> {
+            Change ch = new Change();
+            ch.value = t;
+            ch.action = Action.Add;
+            changes.addLast(ch);
         };
 
-        minusSink = new Sink<T>() {
-            public void put(final T t) throws RippleException {
-                Change ch = new Change();
-                ch.value = t;
-                ch.action = Action.Remove;
-                changes.addLast(ch);
-            }
+        minusSink = t -> {
+            Change ch = new Change();
+            ch.value = t;
+            ch.action = Action.Remove;
+            changes.addLast(ch);
         };
     }
 
@@ -71,10 +67,10 @@ public class Diff<T> implements DiffSink<T>, DiffSource<T> {
         for (Change ch : changes) {
             switch (ch.action) {
                 case Add:
-                    otherPlusSink.put(ch.value);
+                    otherPlusSink.accept(ch.value);
                     break;
                 case Remove:
-                    otherMinusSink.put(ch.value);
+                    otherMinusSink.accept(ch.value);
                     break;
                 default:
                     // FIXME

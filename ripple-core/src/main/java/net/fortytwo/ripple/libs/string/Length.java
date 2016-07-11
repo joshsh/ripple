@@ -21,8 +21,7 @@ public class Length extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Length()
-            throws RippleException {
+    public Length() {
         super();
     }
 
@@ -45,7 +44,7 @@ public class Length extends PrimitiveStackMapping {
         s = mc.toString(stack.getFirst());
         stack = stack.getRest();
 
-        solutions.put(
+        solutions.accept(
                 stack.push(s.length()));
     }
 }

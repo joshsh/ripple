@@ -22,8 +22,7 @@ public class ToUpperCase extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public ToUpperCase()
-            throws RippleException {
+    public ToUpperCase() {
         super();
     }
 
@@ -46,7 +45,7 @@ public class ToUpperCase extends PrimitiveStackMapping {
 
         String result = mc.toString(s).toUpperCase();
 
-        solutions.put(
+        solutions.accept(
                 stack.push(StringLibrary.value(result, mc, s)));
     }
 }

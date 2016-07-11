@@ -1,12 +1,14 @@
 package net.fortytwo.ripple.libs.graph;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 import org.openrdf.model.vocabulary.XMLSchema;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class DenyTest extends RippleTestCase {
+    @Test
     public void testSimple() throws Exception {
         reduce("@prefix ex: <http://example.org/denyTest/> .");
 
@@ -33,6 +35,7 @@ public class DenyTest extends RippleTestCase {
         assertReducesTo("() rdf:type~.");
     }
 
+    @Test
     public void testLiteralObjects() throws Exception {
         reduce("@prefix ex: <http://example.org/denyTest/>.");
 
@@ -54,7 +57,7 @@ public class DenyTest extends RippleTestCase {
         modelConnection.commit();
         assertReducesTo("ex:a rdfs:comment \"something\" assert.", "ex:a");
         assertReducesTo("ex:a rdfs:comment.", "\"something\"");
-        assertReducesTo("\"something\" rdfs:comment~.", "ex:a");
+        assertReducesTo("\"something\" rdfs:comment~. distinct.", "ex:a");
         assertReducesTo("ex:a rdfs:comment \"something\" deny.", "ex:a");
         assertReducesTo("ex:a rdfs:comment.");
 
@@ -62,7 +65,7 @@ public class DenyTest extends RippleTestCase {
         modelConnection.commit();
         assertReducesTo("ex:a rdfs:label \"something\"^^xsd:string assert.", "ex:a");
         assertReducesTo("ex:a rdfs:label.", "\"something\"^^xsd:string");
-        assertReducesTo("\"something\"^^xsd:string rdfs:label~.", "ex:a");
+        assertReducesTo("\"something\"^^xsd:string rdfs:label~. distinct.", "ex:a");
         assertReducesTo("ex:a rdfs:label \"something\" deny.", "ex:a");
         //assertReducesTo("ex:a rdfs:label.", "\"something\"^^xsd:string");
         //assertReducesTo("\"something\"^^xsd:string rdfs:label~.", "ex:a");

@@ -9,8 +9,8 @@ import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.impl.sesame.SesameModel;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
-
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A primitive which consumes a resource and produces a three-element list
@@ -23,14 +23,13 @@ public class Inlinks extends PrimitiveStackMapping {
             GraphLibrary.NS_2013_03 + "inlinks",
             GraphLibrary.NS_2008_08 + "inlinks"};
 
-    private static final Logger logger = Logger.getLogger(Inlinks.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(Inlinks.class);
 
     public String[] getIdentifiers() {
         return IDENTIFIERS;
     }
 
-    public Inlinks()
-            throws RippleException {
+    public Inlinks() {
         super();
     }
 
@@ -53,21 +52,19 @@ public class Inlinks extends PrimitiveStackMapping {
             final Object obj = arg.getFirst();
             final RippleList rest = arg.getRest();
 
-            Sink<Statement> stSink = new Sink<Statement>() {
-                public void put(final Statement st) throws RippleException {
-                    Resource context = st.getContext();
+            Sink<Statement> stSink = st -> {
+                Resource context = st.getContext();
 
-                    Object subj = mc.canonicalValue(st.getSubject());
-                    Object pred = mc.canonicalValue(st.getPredicate());
-                    Object ctx = (null == context) ? mc.list() : mc.canonicalValue(context);
+                Object subj = mc.canonicalValue(st.getSubject());
+                Object pred = mc.canonicalValue(st.getPredicate());
+                Object ctx = (null == context) ? mc.list() : mc.canonicalValue(context);
 
-                    solutions.put(rest.push(subj).push(pred).push(obj).push(ctx));
-                }
+                solutions.accept(rest.push(subj).push(pred).push(obj).push(ctx));
             };
 
             mc.getStatements(null, null, mc.toRDF(obj), stSink);
         } else {
-            logger.warning("primitive is compatible only with the Sesame model: " + this);
+            logger.warn("primitive is compatible only with the Sesame model: " + this);
         }
     }
 }

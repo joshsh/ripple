@@ -31,8 +31,7 @@ public class Distinct extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Distinct()
-            throws RippleException {
+    public Distinct() {
         super();
     }
 
@@ -48,7 +47,7 @@ public class Distinct extends PrimitiveStackMapping {
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
 
-        solutions.put(
+        solutions.accept(
                 arg.push(
                         new Operator(
                                 new DistinctInner())));
@@ -66,11 +65,11 @@ public class Distinct extends PrimitiveStackMapping {
                           final Sink<RippleList> solutions,
                           final ModelConnection mc) throws RippleException {
             if (null == memoizer) {
-                memoizer = new ListMemoizer<Object, String>(mc.getComparator());
+                memoizer = new ListMemoizer<>(mc.getComparator());
             }
 
             if (memoizer.put(arg, MEMO)) {
-                solutions.put(arg);
+                solutions.accept(arg);
             }
         }
 

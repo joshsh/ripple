@@ -45,7 +45,7 @@ public class KeyValues extends PrimitiveStackMapping {
             Collection<String> keys = ((KeyValueType) t).getKeys(first);
             for (String key : keys) {
                 Object value = ((KeyValueType) t).getValue(first, key, mc);
-                solutions.put(stack.push(key).push(value));
+                solutions.accept(stack.push(key).push(value));
             }
         }
     }

@@ -9,13 +9,14 @@ import net.fortytwo.ripple.model.Operator;
 import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.model.RippleComparator;
 import net.fortytwo.ripple.model.StackMapping;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
-import java.util.logging.Logger;
 
 /**
  * Note: for synchronous evaluation only.
@@ -23,7 +24,7 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class RankingEvaluatorHelper {
-    private static final Logger logger = Logger.getLogger(RankingEvaluatorHelper.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(RankingEvaluatorHelper.class.getName());
 
     // A prioritized queue of active (still-to-be-reduced) stacks
     private final PriorityQueue<RankingContext> queue;
@@ -36,10 +37,10 @@ public class RankingEvaluatorHelper {
 
     public RankingEvaluatorHelper(final RippleList arg,
                                   final ModelConnection mc) {
-        queue = new PriorityQueue<RankingContext>(1, comparator);
+        queue = new PriorityQueue<>(1, comparator);
 
-        resultList = new LinkedList<RankingContext>();
-        resultMemos = new ListMemoizer<Object, RankingContext>(
+        resultList = new LinkedList<>();
+        resultMemos = new ListMemoizer<>(
                 new RippleComparator(mc));
 
         handleOutput(new RankingContext(arg, mc));
@@ -92,23 +93,13 @@ public class RankingEvaluatorHelper {
         }
     }
 
-    private final Comparator<RankingContext> comparator = new Comparator<RankingContext>() {
-        public int compare(final RankingContext first,
-                           final RankingContext second) {
-            // This orders items from highest to lowest priority.
-            return ((Double) second.getPriority()).compareTo(first.getPriority());
-        }
+    private final Comparator<RankingContext> comparator = (first, second) -> {
+        // This orders items from highest to lowest priority.
+        return ((Double) second.getPriority()).compareTo(first.getPriority());
     };
 
-    private final Sink<RippleList> outputSink = new Sink<RippleList>() {
-        public void put(final RippleList c) throws RippleException {
-            //System.out.println("got this output: " + c.getStack());
-            // TODO
-            /*
-            if (c instanceof RankingContext) {
-                handleOutput((RankingContext) c);
-            } */
-        }
+    private final Sink<RippleList> outputSink = c -> {
+        // TODO
     };
 
     private void reduce(final RippleList arg,
@@ -121,7 +112,7 @@ public class RankingEvaluatorHelper {
 
             if (stack.isNil() || null == mc.toMapping(first)) {
                 if (ops.isNil()) {
-                    outputSink.put(stack);
+                    outputSink.accept(stack);
                     return;
                 } else {
                     Closure c = new Closure(mc.toMapping(ops.getFirst()), first);
@@ -140,7 +131,7 @@ public class RankingEvaluatorHelper {
                         }
                     } catch (Throwable t) {
                         // To keep things simple, just eat any errors.
-                        logger.severe("error in expression reduction: " + t.getMessage());
+                        logger.error("error in expression reduction: " + t.getMessage());
                     }
                     return;
                 } else {
@@ -161,7 +152,7 @@ public class RankingEvaluatorHelper {
             this.mc = mc;
         }
 
-        public void put(final RippleList arg) throws RippleException {
+        public void accept(final RippleList arg) throws RippleException {
             RippleList stack = arg;
 
             RippleList cur = ops;

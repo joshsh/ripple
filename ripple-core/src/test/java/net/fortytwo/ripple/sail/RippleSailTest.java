@@ -2,6 +2,10 @@ package net.fortytwo.ripple.sail;
 
 import info.aduna.iteration.CloseableIteration;
 import junit.framework.TestCase;
+import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Statement;
 import org.openrdf.query.BindingSet;
@@ -23,16 +27,21 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class RippleSailTest extends TestCase {
+public class RippleSailTest extends RippleTestCase {
     private Sail baseSail;
     private Sail sail;
     private SailConnection sc;
-    private SPARQLParser parser = new SPARQLParser();
+    private final SPARQLParser parser = new SPARQLParser();
 
+    @Before
     public final void setUp() throws Exception {
+        super.setUp();
+
         baseSail = new MemoryStore();
         baseSail.initialize();
         sail = new RippleSail(baseSail);
@@ -44,20 +53,23 @@ public class RippleSailTest extends TestCase {
         sc.begin();
     }
 
+    @After
     public final void tearDown() throws Exception {
+        super.tearDown();
+
         sc.rollback();
         sc.close();
         sail.shutDown();
         baseSail.shutDown();
     }
 
-    private Collection<BindingSet> evaluate(final String queryStr) throws Exception {
+    private Collection<BindingSet> evaluate(final String queryStr) {
         BindingSet bindings = new EmptyBindingSet();
         String baseURI = "http://example.org/baseUri#";
         ParsedQuery query;
         CloseableIteration<? extends BindingSet, QueryEvaluationException> results;
         query = parser.parseQuery(queryStr, baseURI);
-        Collection<BindingSet> coll = new LinkedList<BindingSet>();
+        Collection<BindingSet> coll = new LinkedList<>();
         results = sc.evaluate(query.getTupleExpr(), query.getDataset(), bindings, false);
         try {
             while (results.hasNext()) {
@@ -69,6 +81,7 @@ public class RippleSailTest extends TestCase {
         return coll;
     }
 
+    @Test
     public void testSparqlForward() throws Exception {
         Collection<BindingSet> results;
 
@@ -90,6 +103,7 @@ public class RippleSailTest extends TestCase {
         assertEquals("2", ((Literal) results.iterator().next().getValue("f")).getLabel());
     }
 
+    @Test
     public void testLiteralIntermediates() throws Exception {
         Collection<BindingSet> results;
 
@@ -104,6 +118,7 @@ public class RippleSailTest extends TestCase {
         assertEquals("5", ((Literal) results.iterator().next().getValue("sum")).getLabel());
     }
 
+    @Test
     public void testLiteralSubjects() throws Exception {
         Collection<BindingSet> results;
 
@@ -117,6 +132,7 @@ public class RippleSailTest extends TestCase {
         assertEquals("10.0", ((Literal) results.iterator().next().getValue("result")).getLabel());
     }
 
+    @Test
     public void testLiteralPredicates() throws Exception {
         Collection<BindingSet> results;
 
@@ -131,6 +147,7 @@ public class RippleSailTest extends TestCase {
         assertEquals("true", ((Literal) results.iterator().next().getValue("result")).getLabel());
     }
 
+    @Test
     public void testSparqlPropertyPaths() throws Exception {
         Collection<BindingSet> results;
 
@@ -159,6 +176,7 @@ public class RippleSailTest extends TestCase {
         assertEquals("-2", ((Literal) results.iterator().next().getValue("n")).getLabel());
     }
 
+    @Test
     public void testListDequotation() throws Exception {
         Collection<BindingSet> results;
 
@@ -182,6 +200,7 @@ public class RippleSailTest extends TestCase {
         assertEquals("5", ((Literal) results.iterator().next().getValue("n")).getLabel());
     }
 
+    @Test
     public void testSparqlInverseProperties() throws Exception {
         Collection<BindingSet> results;
 
@@ -195,6 +214,7 @@ public class RippleSailTest extends TestCase {
         assertEquals("9", ((Literal) results.iterator().next().getValue("n")).getLabel());
     }
 
+    @Test
     public void testSparqlFilterEquals() throws Exception {
         Collection<BindingSet> results;
 
@@ -218,6 +238,7 @@ public class RippleSailTest extends TestCase {
         assertEquals(1, results.size());
     }
 
+    @Test
     public void testEquality() throws Exception {
         Collection<BindingSet> results;
 
@@ -238,6 +259,7 @@ public class RippleSailTest extends TestCase {
     }
 
     // Comparison follows SPARQL semantics.
+    @Test
     public void testComparison() throws Exception {
         Collection<BindingSet> results;
 
@@ -252,7 +274,8 @@ public class RippleSailTest extends TestCase {
     }
 
     /*
-    public void testNothing() throws Exception {
+     @Test
+     public void testNothing() throws Exception {
         // This is necessary in order to avoid race conditions.
         Ripple.enableAsynchronousQueries(false);
 
@@ -287,18 +310,6 @@ public class RippleSailTest extends TestCase {
         } finally {
             rc.rollback();
             rc.close();
-        }
-    }
-
-    private Set<Statement> toSet(final CloseableIteration<? extends Statement, SailException> i) throws SailException {
-        try {
-            Set<Statement> set = new HashSet<Statement>();
-            while (i.hasNext()) {
-                set.add(i.next());
-            }
-            return set;
-        } finally {
-            i.close();
         }
     }
 }

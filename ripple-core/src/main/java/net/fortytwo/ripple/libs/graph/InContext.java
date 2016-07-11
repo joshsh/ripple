@@ -57,7 +57,7 @@ public class InContext extends RDFPredicateStackMapping {
 
         RDFPredicateMapping mapping = getMapping(pred, context);
 
-        solutions.put(
+        solutions.accept(
                 stack.push(new Operator(mapping)));
     }
 }

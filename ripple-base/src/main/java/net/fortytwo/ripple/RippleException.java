@@ -19,4 +19,8 @@ public class RippleException extends Exception {
     public RippleException(final String msg) {
         super(msg);
     }
+
+    public RippleException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }

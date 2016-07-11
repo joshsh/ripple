@@ -25,8 +25,7 @@ public class Sign extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Sign()
-            throws RippleException {
+    public Sign() {
         super();
     }
 
@@ -51,7 +50,7 @@ public class Sign extends PrimitiveStackMapping {
 
         result = NumericType.sign(a);
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 }

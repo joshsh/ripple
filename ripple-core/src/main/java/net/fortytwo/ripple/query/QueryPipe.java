@@ -37,17 +37,17 @@ public class QueryPipe implements Sink<String> {
     private final Sink<Exception> parserExceptionSink;
     private final Buffer<RippleList> resultBuffer;
     private final HistorySink<RippleList> queryResultHistory
-            = new HistorySink<RippleList>(1);
+            = new HistorySink<>(1);
     private final ModelConnection connection;
 
     public QueryPipe(final QueryEngine queryEngine,
                      final Sink<RippleList> resultSink) throws RippleException {
         connection = queryEngine.getConnection();
 
-        resultBuffer = new Buffer<RippleList>(resultSink);
+        resultBuffer = new Buffer<>(resultSink);
         final Object mutex = "";
 
-        final Sink<RippleList> resultTee = new Tee<RippleList>
+        final Sink<RippleList> resultTee = new Tee<>
                 (resultBuffer, queryResultHistory);
 
         recognizerAdapter = new RecognizerAdapter(queryEngine.getErrorPrintStream()) {
@@ -72,7 +72,7 @@ public class QueryPipe implements Sink<String> {
             protected void handleAssignment(KeywordAST name) throws RippleException {
                 Source<RippleList> source = queryResultHistory.get(0);
                 if (null == source) {
-                    source = new Collector<RippleList>();
+                    source = new Collector<>();
                 }
 
                 new DefineKeywordCmd(name, new ListGenerator(source)).execute(queryEngine, connection);
@@ -88,7 +88,7 @@ public class QueryPipe implements Sink<String> {
         return connection;
     }
 
-    public void close() throws RippleException {
+    public void close() {
         //connection.close();
     }
 
@@ -107,16 +107,11 @@ public class QueryPipe implements Sink<String> {
         resultBuffer.flush();
     }
 
-    public void put(final String expr) throws RippleException {
-//        System.out.println("interpreting query: " + expr);
-//System.exit(1);
-        InputStream input = new ByteArrayInputStream((expr + "\n").getBytes());
+    public void accept(final String expr) throws RippleException {
 
         try {
-            try {
+            try (InputStream input = new ByteArrayInputStream((expr + "\n").getBytes())) {
                 put(input);
-            } finally {
-                input.close();
             }
         } catch (IOException e) {
             throw new RippleException(e);

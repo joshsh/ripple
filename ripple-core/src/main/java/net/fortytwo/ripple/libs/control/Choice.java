@@ -25,8 +25,7 @@ public class Choice extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Choice()
-            throws RippleException {
+    public Choice() {
         super();
     }
 
@@ -57,7 +56,7 @@ public class Choice extends PrimitiveStackMapping {
 
         Object result = mc.toBoolean(b) ? t : f;
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 }

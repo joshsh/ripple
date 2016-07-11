@@ -2,39 +2,43 @@ package net.fortytwo.ripple.model.impl.sesame;
 
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.test.RippleTestCase;
-import org.openrdf.model.URI;
+import org.junit.Test;
+import org.openrdf.model.IRI;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class ModelConnectionTest extends RippleTestCase {
+    @Test
     public void testCreateURI() throws Exception {
         ModelConnection mc = getTestModel().createConnection();
 
-        URI uri;
+        IRI uri;
         String localName, namespace;
 
         // Hash namespaces.
 
-        uri = createURI("http://example.org/foo#bar", mc);
+        uri = createIRI("http://example.org/foo#bar", mc);
         localName = uri.getLocalName();
         namespace = uri.getNamespace();
         assertEquals(localName, "bar");
         assertEquals(namespace, "http://example.org/foo#");
 
-        uri = createURI("http://example.org/foo#", mc);
+        uri = createIRI("http://example.org/foo#", mc);
         localName = uri.getLocalName();
         namespace = uri.getNamespace();
         assertEquals(localName, "");
         assertEquals(namespace, "http://example.org/foo#");
 
-        uri = createURI("http://example.org/ns/foo/#bar", mc);
+        uri = createIRI("http://example.org/ns/foo/#bar", mc);
         localName = uri.getLocalName();
         namespace = uri.getNamespace();
         assertEquals(localName, "bar");
         assertEquals(namespace, "http://example.org/ns/foo/#");
 
-        uri = createURI("http://example.org/ns/foo/#", mc);
+        uri = createIRI("http://example.org/ns/foo/#", mc);
         localName = uri.getLocalName();
         namespace = uri.getNamespace();
         assertEquals(localName, "");
@@ -42,13 +46,13 @@ public class ModelConnectionTest extends RippleTestCase {
 
         // Slash namespaces.
 
-        uri = createURI("http://example.org/ns/foo/bar", mc);
+        uri = createIRI("http://example.org/ns/foo/bar", mc);
         localName = uri.getLocalName();
         namespace = uri.getNamespace();
         assertEquals(localName, "bar");
         assertEquals(namespace, "http://example.org/ns/foo/");
 
-        uri = createURI("http://example.org/ns/foo/", mc);
+        uri = createIRI("http://example.org/ns/foo/", mc);
         localName = uri.getLocalName();
         namespace = uri.getNamespace();
         assertEquals(localName, "");
@@ -58,6 +62,7 @@ public class ModelConnectionTest extends RippleTestCase {
     }
 
 /*
+    @Test
     public void testCountStatements() throws Exception
     {
         ModelConnection mc = getTestModel().getConnection( "for CountStatementsTest" );

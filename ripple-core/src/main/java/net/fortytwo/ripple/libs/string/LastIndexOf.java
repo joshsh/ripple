@@ -22,8 +22,7 @@ public class LastIndexOf extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public LastIndexOf()
-            throws RippleException {
+    public LastIndexOf() {
         super();
     }
 
@@ -52,7 +51,7 @@ public class LastIndexOf extends PrimitiveStackMapping {
         stack = stack.getRest();
 
         result = str.lastIndexOf(substr);
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 }

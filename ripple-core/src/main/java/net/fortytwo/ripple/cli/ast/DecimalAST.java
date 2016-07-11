@@ -1,8 +1,5 @@
 package net.fortytwo.ripple.cli.ast;
 
-import net.fortytwo.ripple.RippleException;
-import net.fortytwo.ripple.model.ModelConnection;
-
 import java.math.BigDecimal;
 import java.util.regex.Pattern;
 
@@ -41,7 +38,7 @@ public class DecimalAST extends NumberAST {
         value = new BigDecimal(canonicalize(rep));
     }
 
-    public Number getValue(final ModelConnection mc) throws RippleException {
+    public Number getValue() {
         return value;
     }
 

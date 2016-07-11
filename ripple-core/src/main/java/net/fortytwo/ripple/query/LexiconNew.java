@@ -1,6 +1,6 @@
 package net.fortytwo.ripple.query;
 
-import org.openrdf.model.URI;
+import org.openrdf.model.IRI;
 
 import java.util.Iterator;
 
@@ -12,7 +12,7 @@ public interface LexiconNew {
     /**
      * @return the base URI currently in scope
      */
-    URI getBaseURI();
+    IRI getBaseURI();
 
     /**
      * @param uri a relative or absolute URI reference
@@ -21,11 +21,11 @@ public interface LexiconNew {
 
     Iterator<String> getNamespacePrefixes();
 
-    URI resolveNamespacePrefix(String prefix);
+    IRI resolveNamespacePrefix(String prefix);
 
-    void setNamespace(String prefix, URI uri);
+    void setNamespace(String prefix, IRI uri);
 
     Iterator<String> getKeywords();
 
-    URI resolveKeyword(String keyword);
+    IRI resolveKeyword(String keyword);
 }

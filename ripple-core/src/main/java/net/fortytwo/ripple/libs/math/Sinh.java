@@ -21,8 +21,7 @@ public class Sinh extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Sinh()
-            throws RippleException {
+    public Sinh() {
         super();
     }
 
@@ -47,7 +46,7 @@ public class Sinh extends PrimitiveStackMapping {
 
         result = Math.sinh(a.doubleValue());
 
-        solutions.put(
+        solutions.accept(
                 stack.push(result));
     }
 }

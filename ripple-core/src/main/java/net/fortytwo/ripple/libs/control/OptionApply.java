@@ -25,7 +25,7 @@ public class OptionApply extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public OptionApply() throws RippleException {
+    public OptionApply() {
         super();
     }
 
@@ -42,16 +42,11 @@ public class OptionApply extends PrimitiveStackMapping {
                       final Sink<RippleList> solutions,
                       final ModelConnection mc) throws RippleException {
 
-        RippleList stack = arg;
-        Object first = stack.getFirst();
-        final RippleList rest = stack.getRest();
+        Object first = arg.getFirst();
+        final RippleList rest = arg.getRest();
 
-        Sink<Operator> opSink = new Sink<Operator>() {
-            public void put(final Operator op) throws RippleException {
-                solutions.put(rest.push(
-                        new StackMappingWrapper(new OptionalQuantifier(op), mc)));
-            }
-        };
+        Sink<Operator> opSink = op -> solutions.accept(rest.push(
+                new StackMappingWrapper(new OptionalQuantifier(op), mc)));
 
         Operator.createOperator(first, opSink, mc);
     }

@@ -24,8 +24,7 @@ public class ToJson extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public ToJson()
-            throws RippleException {
+    public ToJson() {
         super();
     }
 
@@ -51,7 +50,7 @@ public class ToJson extends PrimitiveStackMapping {
 
         Object json = toJson(s, mc);
 
-        solutions.put(
+        solutions.accept(
                 stack.push(json));
     }
 

@@ -1,11 +1,13 @@
 package net.fortytwo.ripple.libs.math;
 
 import net.fortytwo.ripple.test.RippleTestCase;
+import org.junit.Test;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class FloorTest extends RippleTestCase {
+    @Test
     public void testSingleSolution() throws Exception {
         assertReducesTo("1 floor.", "1");
         assertReducesTo("1.1 floor.", "1");
@@ -14,6 +16,7 @@ public class FloorTest extends RippleTestCase {
         assertReducesTo("-42.0000001 floor.", "-43");
     }
 
+    @Test
     public void testSpecialValues() throws Exception {
         assertReducesTo("\"NaN\"^^xsd:double floor.", "0");
 

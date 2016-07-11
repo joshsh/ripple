@@ -35,16 +35,16 @@ public class TimesQuantifier implements StackMapping {
                       final ModelConnection mc) throws RippleException {
 
         if (0 == min) {
-            solutions.put(arg);
+            solutions.accept(arg);
         }
 
         if (max > 0) {
             if (1 == max) {
-                solutions.put(arg.push(innerOperator));
+                solutions.accept(arg.push(innerOperator));
             } else {
                 int newMin = (0 == min) ? 0 : min - 1, newMax = max - 1;
 
-                solutions.put(arg
+                solutions.accept(arg
                         .push(innerOperator)
                         .push(new Operator(new TimesQuantifier(innerOperator, newMin, newMax))));
             }

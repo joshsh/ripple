@@ -6,8 +6,6 @@ import net.fortytwo.flow.Source;
 import net.fortytwo.ripple.RippleException;
 
 /**
- * @param <T>
- * @param <E>
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class CloseableIterationSource<T, E extends Exception> implements Source<T> {
@@ -25,7 +23,7 @@ public class CloseableIterationSource<T, E extends Exception> implements Source<
         try {
             try {
                 while (iteration.hasNext()) {
-                    sink.put(iteration.next());
+                    sink.accept(iteration.next());
                 }
             } finally {
                 close();

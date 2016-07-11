@@ -5,9 +5,8 @@ import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.ModelConnection;
 import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A filter which consumes two items and produces each item in its own stack.
@@ -15,7 +14,7 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class Both extends PrimitiveStackMapping {
-    private static final Logger logger = Logger.getLogger(Both.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(Both.class.getName());
 
     private static final String[] IDENTIFIERS = {
             StreamLibrary.NS_2013_03 + "both",
@@ -27,8 +26,7 @@ public class Both extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Both()
-            throws RippleException {
+    public Both() {
         super();
     }
 
@@ -54,11 +52,11 @@ public class Both extends PrimitiveStackMapping {
         stack = stack.getRest();
 
         try {
-            solutions.put(stack.push(x));
-            solutions.put(stack.push(y));
+            solutions.accept(stack.push(x));
+            solutions.accept(stack.push(y));
         } catch (RippleException e) {
             // Soft fail
-            logger.log(Level.WARNING, "failed to put solution", e);
+            logger.warn("failed to put solution", e);
         }
     }
 }

@@ -8,9 +8,8 @@ import net.fortytwo.ripple.model.PrimitiveStackMapping;
 import net.fortytwo.ripple.model.RippleList;
 import org.openrdf.query.BindingSet;
 import org.openrdf.query.QueryEvaluationException;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A primitive which consumes a SPARQL query and pushes, for each result,
@@ -21,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class Sparql extends PrimitiveStackMapping {
     private static final Logger logger
-            = Logger.getLogger(Sparql.class.getName());
+            = LoggerFactory.getLogger(Sparql.class.getName());
 
     private static final String[] IDENTIFIERS = {
             GraphLibrary.NS_2013_03 + "sparql",
@@ -31,8 +30,7 @@ public class Sparql extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Sparql()
-            throws RippleException {
+    public Sparql() {
         super();
     }
 
@@ -54,23 +52,18 @@ public class Sparql extends PrimitiveStackMapping {
         String query = mc.toString(stack.getFirst());
         stack = stack.getRest();
 
-        CloseableIteration<? extends BindingSet, QueryEvaluationException> results
-                = mc.evaluate(query);
-
         try {
-            try {
+            try (CloseableIteration<? extends BindingSet, QueryEvaluationException> results = mc.evaluate(query)) {
                 while (results.hasNext()) {
                     SPARQLValue kv = new SPARQLValue(results.next());
 
                     try {
-                        solutions.put(stack.push(kv));
+                        solutions.accept(stack.push(kv));
                     } catch (RippleException e) {
                         // Soft fail
-                        logger.log(Level.WARNING, "failed to put SPARQL result", e);
+                        logger.warn("failed to put SPARQL result", e);
                     }
                 }
-            } finally {
-                results.close();
             }
         } catch (QueryEvaluationException e) {
             throw new RippleException(e);

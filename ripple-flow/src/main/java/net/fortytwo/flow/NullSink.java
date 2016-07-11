@@ -9,7 +9,7 @@ import net.fortytwo.ripple.RippleException;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class NullSink<T> implements Sink<T> {
-    public void put(final T t) throws RippleException {
+    public void accept(final T t) throws RippleException {
         // Do nothing.
     }
 }

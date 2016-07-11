@@ -8,6 +8,8 @@ import net.fortytwo.ripple.model.RippleList;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Value;
 
+import java.util.Optional;
+
 /**
  * A primitive which consumes a plain literal value and produces its language
  * tag (or an empty string if the literal has no language tag).
@@ -20,8 +22,7 @@ public class Lang extends PrimitiveStackMapping {
                 DataLibrary.NS_XML + "lang"};
     }
 
-    public Lang()
-            throws RippleException {
+    public Lang() {
         super();
     }
 
@@ -41,17 +42,16 @@ public class Lang extends PrimitiveStackMapping {
         RippleList stack = arg;
 
         Value v;
-        String result;
 
         v = mc.toRDF(stack.getFirst());
         stack = stack.getRest();
 
         if (v instanceof Literal) {
-            result = ((Literal) v).getLanguage();
+            Optional<String> result = ((Literal) v).getLanguage();
 
-            if (null != result) {
-                solutions.put(
-                        stack.push(result));
+            if (result.isPresent()) {
+                solutions.accept(
+                        stack.push(result.get()));
             }
         }
     }

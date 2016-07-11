@@ -6,7 +6,6 @@ import net.fortytwo.ripple.util.ModelConnectionHelper;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Value;
-import org.openrdf.model.vocabulary.RDF;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -21,7 +20,7 @@ public class Operator {
     }
 
     // Note: only for URI values (Literals are handled in createOperator)
-    private Operator(final Value pred) throws RippleException {
+    private Operator(final Value pred) {
         mapping = new RDFPredicateMapping(StatementPatternQuery.Pattern.SP_O, pred, null);
     }
 
@@ -58,30 +57,26 @@ public class Operator {
                                       final ModelConnection mc) throws RippleException {
         // A function becomes active.
         if (v instanceof StackMapping) {
-            opSink.put(new Operator((StackMapping) v));
+            opSink.accept(new Operator((StackMapping) v));
             return;
         }
 
         // A list is dequoted.
         else if (v instanceof RippleList) {
-            opSink.put(new Operator((RippleList) v));
+            opSink.accept(new Operator((RippleList) v));
             return;
         }
 
         // A string becomes a key
         else if (v instanceof String) {
-            opSink.put(new Operator((String) v));
+            opSink.accept(new Operator((String) v));
         }
 
         // This is the messy part.  Attempt to guess the type of the object from
         // the available RDF statements, and create the appropriate object.
         if (v instanceof Value) {
             if (ModelConnectionHelper.isRDFList(v, mc)) {
-                Sink<RippleList> listSink = new Sink<RippleList>() {
-                    public void put(final RippleList list) throws RippleException {
-                        opSink.put(new Operator(list));
-                    }
-                };
+                Sink<RippleList> listSink = list -> opSink.accept(new Operator(list));
 
                 mc.toList(v, listSink);
                 return;
@@ -89,20 +84,20 @@ public class Operator {
                 Value sv = ((Value) v);
 
                 if (sv instanceof Literal) {
-                    opSink.put(new Operator(((Literal) sv).getLabel()));
+                    opSink.accept(new Operator(((Literal) sv).getLabel()));
                     return;
                 }
 
                 // An RDF resource not otherwise recognizable becomes a predicate filter.
                 else if (sv instanceof Resource) {
-                    opSink.put(new Operator((Value) v));
+                    opSink.accept(new Operator((Value) v));
                     return;
                 }
             }
         }
 
         // Anything else becomes an active nullary filter with no output.
-        opSink.put(new Operator(new NullStackMapping()));
+        opSink.accept(new Operator(new NullStackMapping()));
     }
 }
 

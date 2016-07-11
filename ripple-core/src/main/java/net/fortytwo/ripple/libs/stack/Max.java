@@ -21,8 +21,7 @@ public class Max extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Max()
-            throws RippleException {
+    public Max() {
         super();
     }
 
@@ -44,23 +43,21 @@ public class Max extends PrimitiveStackMapping {
         l = arg.getFirst();
         final RippleList rest = arg.getRest();
 
-        Sink<RippleList> listSink = new Sink<RippleList>() {
-            public void put(RippleList list) throws RippleException {
-                Object result = null;
-                while (!list.isNil()) {
-                    Object v = list.getFirst();
+        Sink<RippleList> listSink = list -> {
+            Object result = null;
+            while (!list.isNil()) {
+                Object v = list.getFirst();
 
-                    if (null == result || mc.getComparator().compare(v, result) > 0) {
-                        result = v;
-                    }
-
-                    list = list.getRest();
+                if (null == result || mc.getComparator().compare(v, result) > 0) {
+                    result = v;
                 }
 
-                if (null != result) {
-                    solutions.put(
-                            rest.push(result));
-                }
+                list = list.getRest();
+            }
+
+            if (null != result) {
+                solutions.accept(
+                        rest.push(result));
             }
         };
 

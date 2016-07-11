@@ -22,8 +22,7 @@ public class PercentDecoded extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public PercentDecoded()
-            throws RippleException {
+    public PercentDecoded() {
         super();
     }
 
@@ -45,7 +44,7 @@ public class PercentDecoded extends PrimitiveStackMapping {
         stack = stack.getRest();
 
         String result = StringUtils.percentDecode(mc.toString(a));
-        solutions.put(
+        solutions.accept(
                 stack.push(StringLibrary.value(result, mc, a)));
     }
 }

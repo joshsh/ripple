@@ -13,7 +13,7 @@ import org.openrdf.rio.RDFHandlerException;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SesameOutputAdapter implements RDFSink {
-    private RDFHandler handler;
+    private final RDFHandler handler;
 
     private final Sink<Statement> stSink;
     private final Sink<Namespace> nsSink;
@@ -22,33 +22,27 @@ public class SesameOutputAdapter implements RDFSink {
     public SesameOutputAdapter(final RDFHandler handler) {
         this.handler = handler;
 
-        stSink = new Sink<Statement>() {
-            public void put(final Statement st) throws RippleException {
-                try {
-                    handler.handleStatement(st);
-                } catch (RDFHandlerException e) {
-                    throw new RippleException(e);
-                }
+        stSink = st -> {
+            try {
+                handler.handleStatement(st);
+            } catch (RDFHandlerException e) {
+                throw new RippleException(e);
             }
         };
 
-        nsSink = new Sink<Namespace>() {
-            public void put(final Namespace ns) throws RippleException {
-                try {
-                    handler.handleNamespace(ns.getPrefix(), ns.getName());
-                } catch (RDFHandlerException e) {
-                    throw new RippleException(e);
-                }
+        nsSink = ns -> {
+            try {
+                handler.handleNamespace(ns.getPrefix(), ns.getName());
+            } catch (RDFHandlerException e) {
+                throw new RippleException(e);
             }
         };
 
-        cmtSink = new Sink<String>() {
-            public void put(final String comment) throws RippleException {
-                try {
-                    handler.handleComment(comment);
-                } catch (RDFHandlerException e) {
-                    throw new RippleException(e);
-                }
+        cmtSink = comment -> {
+            try {
+                handler.handleComment(comment);
+            } catch (RDFHandlerException e) {
+                throw new RippleException(e);
             }
         };
     }

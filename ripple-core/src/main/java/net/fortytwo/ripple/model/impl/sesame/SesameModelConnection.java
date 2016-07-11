@@ -22,11 +22,11 @@ import net.fortytwo.ripple.model.RippleType;
 import net.fortytwo.ripple.model.StackMapping;
 import net.fortytwo.ripple.model.StatementPatternQuery;
 import net.fortytwo.ripple.model.types.NumericType;
+import org.openrdf.model.IRI;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.model.vocabulary.RDF;
@@ -42,6 +42,8 @@ import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailConnectionListener;
 import org.openrdf.sail.SailException;
 import org.openrdf.sail.SailReadOnlyException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -50,22 +52,20 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SesameModelConnection implements ModelConnection {
-    private static final Logger logger = Logger.getLogger(ModelConnection.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(ModelConnection.class);
 
     // instantiate this factory lazily, for the sake of Android applications which don't support javax
     private static DatatypeFactory DATATYPE_FACTORY;
 
-    protected final SesameModel model;
-    protected SailConnection sailConnection;
-    protected final RDFDiffSink listenerSink;
-    protected final ValueFactory valueFactory;
+    private final SesameModel model;
+    private SailConnection sailConnection;
+    private final RDFDiffSink listenerSink;
+    private final ValueFactory valueFactory;
     private final TaskSet taskSet = new TaskSet();
     private final RippleComparator comparator;
 
@@ -91,27 +91,32 @@ public class SesameModelConnection implements ModelConnection {
         comparator = new RippleComparator(this);
     }
 
-    public Model getModel() {
-        return model;
-    }
-
     public ValueFactory getValueFactory() {
         return valueFactory;
     }
 
+    @Override
+    public Model getModel() {
+        return model;
+    }
+
+    @Override
     public void toList(final Object v,
                        final Sink<RippleList> sink) throws RippleException {
         SesameList.from(v, sink, this);
     }
 
+    @Override
     public RippleList list() {
         return SesameList.nilList();
     }
 
+    @Override
     public void finish() throws RippleException {
         taskSet.waitUntilEmpty();
     }
 
+    @Override
     public void close() throws RippleException {
         closed = true;
 
@@ -128,17 +133,19 @@ public class SesameModelConnection implements ModelConnection {
      * Returns the ModelConnection to a normal state after an Exception has
      * been thrown.
      */
+    @Override
     public void reset(final boolean rollback) throws RippleException {
         closeSailConnection(rollback);
         openSailConnection();
     }
 
+    @Override
     public void commit() throws RippleException {
         try {
             sailConnection.commit();
             sailConnection.begin();
         } catch (SailReadOnlyException e) {
-            handleSailReadOnlyException(e);
+            handleSailReadOnlyException();
         } catch (Throwable t) {
             throw new RippleException(t);
         }
@@ -166,7 +173,7 @@ public class SesameModelConnection implements ModelConnection {
 
         RippleType type = model.getTypeOf(v);
         if (null == type) {
-            logger.warning("no type for object of class " + v.getClass());
+            logger.warn("no type for object of class " + v.getClass());
             return null;
         } else {
             return type.toRDF(v, this);
@@ -181,7 +188,7 @@ public class SesameModelConnection implements ModelConnection {
 
         RippleType type = model.getTypeOf(v);
         if (null == type) {
-            logger.warning("no type for object of class " + v.getClass());
+            logger.warn("no type for object of class " + v.getClass());
 
             // TODO: temporary
             return null;
@@ -200,69 +207,21 @@ public class SesameModelConnection implements ModelConnection {
         return sailConnection;
     }
 
-    private synchronized void openSailConnection()
-            throws RippleException {
-        try {
-            sailConnection = model.sail.getConnection();
-            sailConnection.begin();
-
-// FIXME: this doesn't give the LexiconUpdater any information about namespaces
-// FIXME: removed because SailConnectionListener is no longer supported by arbitrary Sails... you would need to wrap
-//        the Sail in a notifying Sail... but this still wouldn't give you namespace updates.
-            if (null != listenerSink && sailConnection instanceof NotifyingSailConnection) {
-                SailConnectionListener listener
-                        = new SailConnectionListenerAdapter(listenerSink);
-
-                ((NotifyingSailConnection) sailConnection).addConnectionListener(listener);
-            }
-        } catch (Throwable t) {
-            throw new RippleException(t);
-        }
-    }
-
-    private synchronized void closeSailConnection(final boolean rollback)
-            throws RippleException {
-        try {
-            if (sailConnection.isOpen()) {
-                if (rollback) {
-                    sailConnection.rollback();
-                }
-
-                sailConnection.close();
-            } else {
-                // Don't throw an exception: we could easily end up in a loop.
-                logger.severe("tried to close an already-closed connection");
-            }
-        } catch (SailReadOnlyException e) {
-            handleSailReadOnlyException(e);
-        } catch (Throwable t) {
-            throw new RippleException(t);
-        }
-    }
-
-    private Literal castToLiteral(final Value v) throws RippleException {
-        if (v instanceof Literal) {
-            return (Literal) v;
-        } else {
-            throw new RippleException("value " + v + " is not a Literal");
-        }
-    }
-
     // Note: everything apart from xsd:true is considered false.
     // Eventually, this method may throw a type mismatch exception if it is
     // given a value other than "true"^^xsd:boolean or "false"^^xsd:boolean.
 
+    @Override
     public boolean toBoolean(final Object rv) throws RippleException {
         if (rv instanceof Boolean) {
             return (Boolean) rv;
         } else {
             Value rdf = toRDF(rv);
             if (null != rdf) {
-                Value vl = rdf;
-                if (vl instanceof Literal) {
-                    URI datatype = ((Literal) vl).getDatatype();
+                if (rdf instanceof Literal) {
+                    IRI datatype = ((Literal) rdf).getDatatype();
                     return (null != datatype && XMLSchema.BOOLEAN.equals(datatype)
-                            && ((Literal) vl).getLabel().equals("true"));
+                            && ((Literal) rdf).getLabel().equals("true"));
                 }
             }
 
@@ -270,6 +229,7 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
+    @Override
     public Number toNumber(final Object instance) throws RippleException {
         RippleType type = model.getTypeOf(instance);
         if (null == type) {
@@ -283,6 +243,7 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
+    @Override
     public Date toDate(final Object v) throws RippleException {
         Literal l = castToLiteral(toRDF(v));
 
@@ -290,6 +251,7 @@ public class SesameModelConnection implements ModelConnection {
         return c.toGregorianCalendar().getTime();
     }
 
+    @Override
     public String toString(final Object v) {
         return v instanceof String
                 ? (String) v
@@ -298,6 +260,7 @@ public class SesameModelConnection implements ModelConnection {
                 : v.toString();
     }
 
+    @Override
     public void add(final Object subj, final Object pred, final Object obj, Object... contexts)
             throws RippleException {
         ensureOpen();
@@ -307,7 +270,7 @@ public class SesameModelConnection implements ModelConnection {
         Value objValue = toRDF(obj);
 
         if (!(subjValue instanceof Resource)
-                || !(predValue instanceof URI)) {
+                || !(predValue instanceof IRI)) {
             return;
         }
 
@@ -315,7 +278,7 @@ public class SesameModelConnection implements ModelConnection {
             // Trick to be able to iterate through contexts even if none are given
             if (0 == contexts.length) {
                 sailConnection.addStatement(
-                        (Resource) subjValue, (URI) predValue, objValue);
+                        (Resource) subjValue, (IRI) predValue, objValue);
             } else {
                 for (Object context : contexts) {
                     Value contextValue;
@@ -335,17 +298,18 @@ public class SesameModelConnection implements ModelConnection {
                     }
 
                     sailConnection.addStatement(
-                            (Resource) subjValue, (URI) predValue, objValue, (Resource) contextValue);
+                            (Resource) subjValue, (IRI) predValue, objValue, (Resource) contextValue);
                 }
             }
         } catch (SailReadOnlyException e) {
-            handleSailReadOnlyException(e);
+            handleSailReadOnlyException();
         } catch (SailException e) {
             reset(true);
             throw new RippleException(e);
         }
     }
 
+    @Override
     public void remove(final Object subj,
                        final Object pred,
                        final Object obj,
@@ -368,7 +332,7 @@ public class SesameModelConnection implements ModelConnection {
             predValue = null;
         } else {
             predValue = toRDF(pred);
-            if (!(predValue instanceof URI)) {
+            if (!(predValue instanceof IRI)) {
                 return;
             }
         }
@@ -383,7 +347,7 @@ public class SesameModelConnection implements ModelConnection {
             // Trick to be able to iterate through contexts even if none are given
             if (0 == contexts.length) {
                 sailConnection.removeStatements(
-                        (Resource) subjValue, (URI) predValue, objValue);
+                        (Resource) subjValue, (IRI) predValue, objValue);
             } else {
                 for (Object context : contexts) {
                     Value contextValue;
@@ -403,11 +367,11 @@ public class SesameModelConnection implements ModelConnection {
                     }
 
                     sailConnection.removeStatements(
-                            (Resource) subjValue, (URI) predValue, objValue, (Resource) contextValue);
+                            (Resource) subjValue, (IRI) predValue, objValue, (Resource) contextValue);
                 }
             }
         } catch (SailReadOnlyException e) {
-            handleSailReadOnlyException(e);
+            handleSailReadOnlyException();
         } catch (SailException e) {
             reset(true);
             throw new RippleException(e);
@@ -443,22 +407,24 @@ public class SesameModelConnection implements ModelConnection {
         return count;
     }
 
+    @Override
     public RippleComparator getComparator() {
         return comparator;
     }
 
-    public URI valueOf(final java.net.URI s) throws RippleException {
+    @Override
+    public IRI valueOf(final java.net.URI s) throws RippleException {
         try {
-// return canonicalize(valueFactory.createURI(s));
-            // Note: do NOT automatically canonicalize values.  Sometimes one needs the original URI (e.g. so as to
+            // Note: do NOT automatically canonicalize values.  Sometimes one needs the original IRI (e.g. so as to
             // remove statements), and not the native object it maps to.
-            return valueFactory.createURI(s.toString());
+            return valueFactory.createIRI(s.toString());
         } catch (Throwable t) {
             reset(true);
             throw new RippleException(t);
         }
     }
 
+    @Override
     public Literal valueOf(final Date d) throws RippleException {
         // synchronize on the only other static member
         synchronized (logger) {
@@ -477,12 +443,13 @@ public class SesameModelConnection implements ModelConnection {
         return valueFactory.createLiteral(xml);
     }
 
+    @Override
     public Object canonicalValue(final Value v) {
         return model.specialValues.get(v);
     }
 
-    public Literal valueOf(final String s, final String language)
-            throws RippleException {
+    @Override
+    public Literal valueOf(final String s, final String language) throws RippleException {
         try {
             return valueFactory.createLiteral(s, language);
         } catch (Throwable t) {
@@ -491,7 +458,8 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
-    public Literal valueOf(final String s, final URI dataType)
+    @Override
+    public Literal valueOf(final String s, final IRI dataType)
             throws RippleException {
         try {
             return valueFactory.createLiteral(s, dataType);
@@ -501,6 +469,7 @@ public class SesameModelConnection implements ModelConnection {
         }
     }
 
+    @Override
     public void setNamespace(final String prefix, final String ns, final boolean override)
             throws RippleException {
         ensureOpen();
@@ -518,10 +487,268 @@ public class SesameModelConnection implements ModelConnection {
                 }
             }
         } catch (SailReadOnlyException e) {
-            handleSailReadOnlyException(e);
+            handleSailReadOnlyException();
         } catch (Throwable t) {
             reset(true);
             throw new RippleException(t);
+        }
+    }
+
+    @Override
+    public void query(final StatementPatternQuery query,
+                      final Sink sink,
+                      final boolean asynchronous) throws RippleException {
+        ensureOpen();
+
+        if (asynchronous) {
+            QueryTask task = new QueryTask(query, sink);
+            taskSet.add(task);
+        } else {
+            GetStatementsQuery sesameQuery;
+
+            try {
+                sesameQuery = new GetStatementsQuery(query, this);
+            } catch (GetStatementsQuery.InvalidQueryException e) {
+                logger.warn("invalid query: " + e.getMessage(), e);
+                return;
+            }
+
+            Sink<Value> valueSink = val -> sink.accept(canonicalValue(val));
+
+            try {
+                sesameQuery.getValues(sailConnection, valueSink);
+            } catch (RippleException e) {
+                reset(true);
+                throw e;
+            }
+        }
+    }
+
+    @Override
+    public Source<Namespace> getNamespaces() throws RippleException {
+        ensureOpen();
+
+        Collector<Namespace> results = new Collector<>();
+        Source<Namespace> source;
+
+        try {
+            source = new CloseableIterationSource<>(
+                    (CloseableIteration<Namespace, SailException>) sailConnection.getNamespaces());
+        } catch (SailException e) {
+            throw new RippleException(e);
+        }
+
+        source.writeTo(results);
+
+        return results;
+    }
+
+    //FIXME: Statements should be absent from the ModelConnection API
+    @Override
+    public void getStatements(final Value subj,
+                              final Value pred,
+                              final Value obj,
+                              final Sink<Statement> sink)
+            throws RippleException {
+        ensureOpen();
+
+        Value rdfSubj = (null == subj) ? null : subj;
+        Value rdfPred = (null == pred) ? null : pred;
+        Value rdfObj = (null == obj) ? null : obj;
+
+        if ((null == rdfSubj || rdfSubj instanceof Resource)
+                && (null == rdfPred || rdfPred instanceof IRI)) {
+            // Note: we must collect results in a buffer before putting anything
+            //       into the sink, as inefficient as that is, because otherwise
+            //       we might end up opening another RepositoryResult before
+            //       the one below closes, which currently causes Sesame to
+            //       deadlock.  Even using a separate RepositoryConnection for
+            //       each RepositoryResult doesn't seem to help.
+            Buffer<Statement> buffer = new Buffer<>(sink);
+            CloseableIteration<? extends Statement, SailException> stmtIter;
+
+            //TODO: use CloseableIterationSource
+
+            try {
+                // Perform the query and collect results.
+                stmtIter = sailConnection.getStatements(
+                        (Resource) rdfSubj, (IRI) rdfPred, rdfObj, false);
+                //stmtIter.enableDuplicateFilter();
+                try {
+                    while (stmtIter.hasNext()) {
+                        Statement st = stmtIter.next();
+                        try {
+                            buffer.accept(st);
+                        } catch (RippleException e) {
+                            // Soft fail
+                            logger.warn("buffer failure", e);
+                        }
+                    }
+                } finally {
+                    stmtIter.close();
+                }
+            } catch (SailException e) {
+                throw new RippleException(e);
+            }
+
+            buffer.flush();
+        }
+    }
+
+    @Override
+    public CloseableIteration<? extends BindingSet, QueryEvaluationException> evaluate(final String query)
+            throws RippleException {
+        ensureOpen();
+
+        SPARQLParser parser = new SPARQLParser();
+
+        boolean useInference = false;
+        // FIXME
+        String baseIRI = "http://example.org/bogusBaseIRI/";
+
+        ParsedQuery pq;
+        try {
+            pq = parser.parseQuery(query, baseIRI);
+        } catch (MalformedQueryException e) {
+            throw new RippleException(e);
+        }
+
+        MapBindingSet bindings = new MapBindingSet();
+
+        try {
+            return sailConnection.evaluate(pq.getTupleExpr(), pq.getDataset(), bindings, useInference);
+        } catch (SailException e) {
+            throw new RippleException(e);
+        }
+    }
+
+    @Override
+    public Source<Object> getContexts() {
+        ensureOpen();
+
+        return sink -> {
+            try {
+                CloseableIteration<? extends Resource, SailException> iter
+                        = sailConnection.getContextIDs();
+
+                while (iter.hasNext()) {
+                    sink.accept(iter.next());
+                }
+
+                iter.close();
+            } catch (SailException e) {
+                throw new RippleException(e);
+            }
+        };
+    }
+
+    @Override
+    public void internalize(final RippleList list) throws RippleException {
+        ensureOpen();
+
+        Collector<Statement> buffer = new Collector<>();
+
+        // Handle circular lists (in the unlikely event that some implementation allows them) sanely.
+        // TODO: handle list containment cycles (e.g. list containing a list containing the original list) as well.
+        // These are actually more likely than circular lists.
+        Set<Value> alreadyInterned = new HashSet<>();
+
+        RippleList cur = list;
+        Value id = toRDF(cur);
+        while (!cur.isNil()) {
+            if (alreadyInterned.contains(id)) {
+                break;
+            } else {
+                alreadyInterned.add(id);
+            }
+
+            Value firstRdf = toRDF(cur.getFirst());
+
+            if (null == firstRdf) {
+                System.err.println("list item has no RDF identity: " + cur.getFirst());
+                return;
+            }
+
+            if (cur.getFirst() instanceof RippleList) {
+                internalize((RippleList) cur.getFirst());
+            }
+
+            RippleList rest = cur.getRest();
+            Value restRdf = toRDF(rest);
+
+            buffer.accept(
+                    valueFactory.createStatement((Resource) id, RDF.TYPE, RDF.LIST));
+            buffer.accept(
+                    valueFactory.createStatement((Resource) id, RDF.FIRST, firstRdf));
+            buffer.accept(
+                    valueFactory.createStatement((Resource) id, RDF.REST, restRdf));
+
+            cur = rest;
+            id = restRdf;
+        }
+
+        RDFImporter importer = new RDFImporter(this);
+        buffer.writeTo(importer.statementSink());
+
+    }
+
+    private synchronized void openSailConnection()
+            throws RippleException {
+        try {
+            sailConnection = model.sail.getConnection();
+            sailConnection.begin();
+
+// FIXME: this doesn't give the LexiconUpdater any information about namespaces
+// FIXME: removed because SailConnectionListener is no longer supported by arbitrary Sails... you would need to wrap
+//        the Sail in a notifying Sail... but this still wouldn't give you namespace updates.
+            if (null != listenerSink && sailConnection instanceof NotifyingSailConnection) {
+                SailConnectionListener listener
+                        = new SailConnectionListenerAdapter(listenerSink);
+
+                ((NotifyingSailConnection) sailConnection).addConnectionListener(listener);
+            }
+        } catch (Throwable t) {
+            throw new RippleException(t);
+        }
+    }
+
+    private synchronized void closeSailConnection(final boolean rollback)
+            throws RippleException {
+        try {
+            if (sailConnection.isOpen()) {
+                if (rollback) {
+                    sailConnection.rollback();
+                }
+
+                sailConnection.close();
+            } else {
+                // Don't throw an exception: we could easily end up in a loop.
+                logger.error("tried to close an already-closed connection");
+            }
+        } catch (SailReadOnlyException e) {
+            handleSailReadOnlyException();
+        } catch (Throwable t) {
+            throw new RippleException(t);
+        }
+    }
+
+    private Literal castToLiteral(final Value v) throws RippleException {
+        if (v instanceof Literal) {
+            return (Literal) v;
+        } else {
+            throw new RippleException("value " + v + " is not a Literal");
+        }
+    }
+
+    private void handleSailReadOnlyException() {
+        // For now, ignore these exceptions.
+    }
+
+    // if the connection is closed, and a thread tries to access it, bail out ASAP before something confusing happens
+    // use this method with methods which read from or write to the Sail
+    private void ensureOpen() {
+        if (closed) {
+            throw new IllegalStateException("connection closed");
         }
     }
 
@@ -548,222 +775,8 @@ public class SesameModelConnection implements ModelConnection {
 
         protected void stopProtected() {
             synchronized (query) {
-                sink = new NullSink<T>();
+                sink = new NullSink<>();
             }
-        }
-    }
-
-    public void query(final StatementPatternQuery query,
-                      final Sink sink,
-                      final boolean asynchronous) throws RippleException {
-        ensureOpen();
-
-        if (asynchronous) {
-            QueryTask task = new QueryTask(query, sink);
-            taskSet.add(task);
-        } else {
-            GetStatementsQuery sesameQuery;
-
-            try {
-                sesameQuery = new GetStatementsQuery(query, this);
-            } catch (GetStatementsQuery.InvalidQueryException e) {
-                logger.fine("invalid query: " + e.getMessage());
-                return;
-            }
-
-            Sink<Value> valueSink = new Sink<Value>() {
-                public void put(final Value val) throws RippleException {
-                    //System.out.println("got value: " + val);
-                    sink.put(canonicalValue(val));
-                }
-            };
-
-            try {
-                sesameQuery.getValues(sailConnection, valueSink);
-            } catch (RippleException e) {
-                reset(true);
-                throw e;
-            }
-            //getStatements( query.subject, query.predicate, query.object, stSink, query.includeInferred );
-        }
-    }
-
-    public Source<Namespace> getNamespaces() throws RippleException {
-        ensureOpen();
-
-        Collector<Namespace> results = new Collector<Namespace>();
-        Source<Namespace> source;
-
-        try {
-            source = new CloseableIterationSource<Namespace, SailException>(
-                    (CloseableIteration<Namespace, SailException>) sailConnection.getNamespaces());
-        } catch (SailException e) {
-            throw new RippleException(e);
-        }
-
-        source.writeTo(results);
-
-        return results;
-    }
-
-    //FIXME: Statements should be absent from the ModelConnection API
-    public void getStatements(final Value subj,
-                              final Value pred,
-                              final Value obj,
-                              final Sink<Statement> sink)
-            throws RippleException {
-        ensureOpen();
-
-        Value rdfSubj = (null == subj) ? null : subj;
-        Value rdfPred = (null == pred) ? null : pred;
-        Value rdfObj = (null == obj) ? null : obj;
-
-        if ((null == rdfSubj || rdfSubj instanceof Resource)
-                && (null == rdfPred || rdfPred instanceof URI)) {
-            // Note: we must collect results in a buffer before putting anything
-            //       into the sink, as inefficient as that is, because otherwise
-            //       we might end up opening another RepositoryResult before
-            //       the one below closes, which currently causes Sesame to
-            //       deadlock.  Even using a separate RepositoryConnection for
-            //       each RepositoryResult doesn't seem to help.
-            Buffer<Statement> buffer = new Buffer<Statement>(sink);
-            CloseableIteration<? extends Statement, SailException> stmtIter = null;
-
-            //TODO: use CloseableIterationSource
-
-            try {
-                // Perform the query and collect results.
-                stmtIter = sailConnection.getStatements(
-                        (Resource) rdfSubj, (URI) rdfPred, rdfObj, false);
-                //stmtIter.enableDuplicateFilter();
-                try {
-                    while (stmtIter.hasNext()) {
-                        Statement st = stmtIter.next();
-                        try {
-                            buffer.put(st);
-                        } catch (RippleException e) {
-                            // Soft fail
-                            logger.log(Level.WARNING, "buffer failure", e);
-                        }
-                    }
-                } finally {
-                    stmtIter.close();
-                }
-            } catch (SailException e) {
-                throw new RippleException(e);
-            }
-
-            buffer.flush();
-        }
-    }
-
-    public CloseableIteration<? extends BindingSet, QueryEvaluationException> evaluate(final String query)
-            throws RippleException {
-        ensureOpen();
-
-        SPARQLParser parser = new SPARQLParser();
-
-        boolean useInference = false;
-        // FIXME
-        String baseURI = "http://example.org/bogusBaseURI/";
-
-        ParsedQuery pq;
-        try {
-            pq = parser.parseQuery(query, baseURI);
-        } catch (MalformedQueryException e) {
-            throw new RippleException(e);
-        }
-
-        MapBindingSet bindings = new MapBindingSet();
-
-        try {
-            return sailConnection.evaluate(pq.getTupleExpr(), pq.getDataset(), bindings, useInference);
-        } catch (SailException e) {
-            throw new RippleException(e);
-        }
-    }
-
-    public Source<Object> getContexts()
-            throws RippleException {
-        ensureOpen();
-
-        return new Source<Object>() {
-            public void writeTo(Sink<Object> sink) throws RippleException {
-                try {
-                    CloseableIteration<? extends Resource, SailException> iter
-                            = sailConnection.getContextIDs();
-
-                    while (iter.hasNext()) {
-                        sink.put(iter.next());
-                    }
-
-                    iter.close();
-                } catch (SailException e) {
-                    throw new RippleException(e);
-                }
-            }
-        };
-    }
-
-    private void handleSailReadOnlyException(final SailReadOnlyException e) {
-        // For now, ignore these exceptions.
-    }
-
-    public boolean internalize(final RippleList list) throws RippleException {
-        ensureOpen();
-
-        Collector<Statement> buffer = new Collector<Statement>();
-
-        // Handle circular lists (in the unlikely event that some implementation allows them) sanely.
-        // TODO: handle list containment cycles (e.g. list containing a list containing the original list) as well.
-        // These are actually more likely than circular lists.
-        Set<Value> alreadyInterned = new HashSet<Value>();
-
-        RippleList cur = list;
-        Value id = toRDF(cur);
-        while (!cur.isNil()) {
-            if (alreadyInterned.contains(id)) {
-                break;
-            } else {
-                alreadyInterned.add(id);
-            }
-
-            Value firstRdf = toRDF(cur.getFirst());
-
-            if (null == firstRdf) {
-                System.err.println("list item has no RDF identity: " + cur.getFirst());
-                return false;
-            }
-
-            if (cur.getFirst() instanceof RippleList) {
-                internalize((RippleList) cur.getFirst());
-            }
-
-            RippleList rest = cur.getRest();
-            Value restRdf = toRDF(rest);
-
-            buffer.put(
-                    valueFactory.createStatement((Resource) id, RDF.TYPE, RDF.LIST));
-            buffer.put(
-                    valueFactory.createStatement((Resource) id, RDF.FIRST, firstRdf));
-            buffer.put(
-                    valueFactory.createStatement((Resource) id, RDF.REST, restRdf));
-
-            cur = rest;
-            id = restRdf;
-        }
-
-        RDFImporter importer = new RDFImporter(this);
-        buffer.writeTo(importer.statementSink());
-
-        return true;
-    }
-
-    // if the connection is closed, and a thread tries to access it, bail out ASAP before something confusing happens
-    // use this method with methods which read from or write to the Sail
-    private void ensureOpen() {
-        if (closed) {
-            throw new IllegalStateException("connection closed");
         }
     }
 }

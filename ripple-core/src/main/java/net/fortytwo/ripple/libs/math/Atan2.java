@@ -20,8 +20,7 @@ public class Atan2 extends PrimitiveStackMapping {
         return IDENTIFIERS;
     }
 
-    public Atan2()
-            throws RippleException {
+    public Atan2() {
         super();
     }
 
@@ -51,7 +50,7 @@ public class Atan2 extends PrimitiveStackMapping {
         if (x != 0 || y != 0) {
             result = Math.atan2(x, y);
 
-            solutions.put(
+            solutions.accept(
                     stack.push(result));
         }
     }

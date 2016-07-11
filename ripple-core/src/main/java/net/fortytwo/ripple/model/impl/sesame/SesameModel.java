@@ -24,8 +24,11 @@ import net.fortytwo.ripple.model.types.StackMappingType;
 import net.fortytwo.ripple.model.types.StackMappingWrapperType;
 import net.fortytwo.ripple.model.types.StringLiteralType;
 import net.fortytwo.ripple.model.types.StringType;
-import net.fortytwo.ripple.model.types.URIType;
+import net.fortytwo.ripple.model.types.IRIType;
+import org.openrdf.IsolationLevel;
 import org.openrdf.sail.Sail;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,7 +38,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
-import java.util.logging.Logger;
 
 /**
  * A Ripple <code>Model</code> implementation using the Sesame RDF toolkit.
@@ -43,22 +45,22 @@ import java.util.logging.Logger;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class SesameModel implements Model {
-    private static final Logger logger = Logger.getLogger(SesameModel.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(SesameModel.class);
 
     private final Map<Class, List<RippleType>> registeredTypes;
     private final Set<Class> unmappedTypes;
 
     final Sail sail;
-    final Set<ModelConnection> openConnections = new LinkedHashSet<ModelConnection>();
+    final Set<ModelConnection> openConnections = new LinkedHashSet<>();
     SpecialValueMap specialValues;
 
     public SesameModel(final Sail sail) throws RippleException {
         this.sail = sail;
 
-        logger.fine("instantiating SesameModel");
+        logger.info("instantiating SesameModel");
 
-        unmappedTypes = new HashSet<Class>();
-        registeredTypes = new HashMap<Class, List<RippleType>>();
+        unmappedTypes = new HashSet<>();
+        registeredTypes = new HashMap<>();
 
         // register string-typed literals before other literal types
         register(new StringLiteralType());
@@ -79,7 +81,7 @@ public class SesameModel implements Model {
         register(new StackMappingType());
         register(new StackMappingWrapperType());
         register(new StringType());
-        register(new URIType());
+        register(new IRIType());
 
         ModelConnection mc = createConnection();
         try {
@@ -134,7 +136,7 @@ public class SesameModel implements Model {
                     sb.append(mc);
                 }
 
-                logger.warning(sb.toString());
+                logger.warn(sb.toString());
 
                 for (ModelConnection mc : openConnections) {
                     mc.reset(true);
@@ -158,7 +160,7 @@ public class SesameModel implements Model {
         for (Class c : (Iterable<Class>) type.getInstanceClasses()) {
             List<RippleType> types = registeredTypes.get(c);
             if (null == types) {
-                types = new LinkedList<RippleType>();
+                types = new LinkedList<>();
                 registeredTypes.put(c, types);
             }
             types.add(type);
@@ -181,7 +183,7 @@ public class SesameModel implements Model {
             }
 
             // ...before attempting to discover a mapped superclass or inherited interface
-            types = findTypes(c, new Stack<Class>());
+            types = findTypes(c, new Stack<>());
             if (null == types) {
                 return null;
             }
@@ -208,7 +210,7 @@ public class SesameModel implements Model {
         List<RippleType> types = registeredTypes.get(c);
         if (null != types) {
             for (Class d : hierarchy) {
-                List<RippleType> newTypes = new LinkedList<RippleType>();
+                List<RippleType> newTypes = new LinkedList<>();
                 newTypes.addAll(types);
                 registeredTypes.put(d, newTypes);
             }
@@ -238,5 +240,15 @@ public class SesameModel implements Model {
         hierarchy.pop();
         unmappedTypes.add(c);
         return null;
+    }
+
+    @Override
+    public List<IsolationLevel> getSupportedIsolationLevels() {
+        return sail.getSupportedIsolationLevels();
+    }
+
+    @Override
+    public IsolationLevel getDefaultIsolationLevel() {
+        return sail.getDefaultIsolationLevel();
     }
 }

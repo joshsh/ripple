@@ -1,7 +1,6 @@
 package net.fortytwo.linkeddata.dereferencers;
 
 import net.fortytwo.linkeddata.Dereferencer;
-import net.fortytwo.ripple.RippleException;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StreamRepresentation;
 
@@ -17,14 +16,14 @@ import java.nio.channels.WritableByteChannel;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class JarURIDereferencer implements Dereferencer {
-    public Representation dereference(final String uri) throws RippleException {
+    public Representation dereference(final String uri) {
         return new JarRepresentation(uri);
     }
 
     private class JarRepresentation extends StreamRepresentation {
         private InputStream inputStream;
 
-        public JarRepresentation(final String uri) throws RippleException {
+        public JarRepresentation(final String uri) {
             super(FileURIDereferencer.findMediaType(uri));
 
             JarURLConnection jc;
@@ -34,7 +33,7 @@ public class JarURIDereferencer implements Dereferencer {
                 jc = (JarURLConnection) (new URL(uri).openConnection());
                 inputStream = jc.getInputStream();
             } catch (IOException e) {
-                throw new RippleException(e);
+                throw new IllegalArgumentException(e);
             }
         }
 
