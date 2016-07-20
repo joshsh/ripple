@@ -160,14 +160,9 @@ public class RippleComparator implements Comparator<Object> {
         }
     }
 
-
     private int compareStringLiteral(final Object o1,
                                      final Object o2) throws RippleException {
-        Literal o1Lit = (Literal) modelConnection.toRDF(o1);
-        Literal o2Lit = (Literal) modelConnection.toRDF(o2);
-
-        return o1Lit.getLabel().compareTo(
-                o2Lit.getLabel());
+        return getLabelOf(o1).compareTo(getLabelOf(o2));
     }
 
     private int compareStringLiteralWithLanguageTag(final Object o1,
@@ -347,6 +342,16 @@ public class RippleComparator implements Comparator<Object> {
             }
 
             return 0;
+        }
+    }
+
+    private String getLabelOf(Object stringObject) {
+        if (stringObject instanceof Literal) {
+            return ((Literal) stringObject).getLabel();
+        } else if (stringObject instanceof String) {
+            return (String) stringObject;
+        } else {
+            throw new IllegalStateException();
         }
     }
 
