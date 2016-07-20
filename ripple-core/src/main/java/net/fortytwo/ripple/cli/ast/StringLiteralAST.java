@@ -10,15 +10,15 @@ import net.fortytwo.ripple.query.QueryEngine;
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class PlainLiteralAST implements AST<RippleList> {
+public class StringLiteralAST implements AST<RippleList> {
     private final String value, language;
 
-    public PlainLiteralAST(final String value) {
+    public StringLiteralAST(final String value) {
         this.value = value;
         language = null;
     }
 
-    public PlainLiteralAST(final String value, final String language) {
+    public StringLiteralAST(final String value, final String language) {
         this.value = value;
         this.language = language;
     }

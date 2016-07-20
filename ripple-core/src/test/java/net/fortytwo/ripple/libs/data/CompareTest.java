@@ -1,13 +1,7 @@
 package net.fortytwo.ripple.libs.data;
 
-import net.fortytwo.ripple.model.RippleList;
 import net.fortytwo.ripple.test.RippleTestCase;
 import org.junit.Test;
-
-import java.util.Collection;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
@@ -47,10 +41,10 @@ public class CompareTest extends RippleTestCase {
         assertLt("\"bar\"", "\"foo\"");
         assertGt("\"foo\"", "\"bar\"");
 
-        assertGt("\"foo\"", "\"foo\"@en");
-        assertGt("\"foobar\"", "\"foo\"@en");
-        assertLt("\"foo\"@en", "\"foo\"");
-        assertLt("\"foo\"@en", "\"foobar\"");
+        assertLt("\"foo\"", "\"foo\"@en");
+        assertLt("\"foobar\"", "\"foo\"@en");
+        assertGt("\"foo\"@en", "\"foo\"");
+        assertGt("\"foo\"@en", "\"foobar\"");
         assertEq("\"foo\"@en", "\"foo\"@en");
         assertLt("\"foo\"@en", "\"foobar\"@en");
         assertLt("\"foo\"@de", "\"foo\"@en");

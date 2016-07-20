@@ -18,7 +18,7 @@ public class LanguageTaggedLiteralType extends RDFValueType<Literal> {
 
     @Override
     public Category getCategory() {
-        return Category.PLAIN_LITERAL_WITH_LANGUAGE_TAG;
+        return Category.STRING_LITERAL_WITH_LANGUAGE_TAG;
     }
 
     @Override
