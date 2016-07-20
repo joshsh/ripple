@@ -4,10 +4,11 @@ import net.fortytwo.flow.Collector;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.types.NumericType;
 import net.fortytwo.ripple.util.ModelConnectionHelper;
+import org.openrdf.model.IRI;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
 import org.openrdf.model.Value;
+import org.openrdf.model.vocabulary.XMLSchema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,7 +52,7 @@ public class RippleComparator implements Comparator<Object> {
             RippleType.Category o1Cat = findCategory(o1, o1Type);
             RippleType.Category o2Cat = findCategory(o2, o2Type);
 
-            // recognize URIs or blank nodes representing lists as equivalent to native lists
+            // recognize IRIs or blank nodes representing lists as equivalent to native lists
             if (o1Cat == RippleType.Category.OTHER_RESOURCE
                     && ModelConnectionHelper.isRDFList(o1, modelConnection)) {
                 o1Cat = RippleType.Category.LIST;
@@ -114,19 +115,21 @@ public class RippleComparator implements Comparator<Object> {
             Value sesameValue = (Value) value;
 
             if (sesameValue instanceof Literal) {
-                URI datatype = ((Literal) sesameValue).getDatatype();
+                IRI datatype = ((Literal) sesameValue).getDatatype();
 
                 if (null == datatype) {
-                    Optional<String> language = ((Literal) sesameValue).getLanguage();
-
-                    if (language.isPresent()) {
-                        return RippleType.Category.PLAIN_LITERAL_WITH_LANGUAGE_TAG;
-                    } else {
-                        return RippleType.Category.PLAIN_LITERAL_WITHOUT_LANGUAGE_TAG;
-                    }
+                    throw new IllegalStateException();
                 } else {
                     if (NumericType.isNumericLiteral((Literal) sesameValue)) {
                         return RippleType.Category.NUMERIC_TYPED_LITERAL;
+                    } else if (datatype.equals(XMLSchema.STRING)) {
+                        Optional<String> language = ((Literal) sesameValue).getLanguage();
+
+                        if (language.isPresent()) {
+                            return RippleType.Category.PLAIN_LITERAL_WITH_LANGUAGE_TAG;
+                        } else {
+                            return RippleType.Category.PLAIN_LITERAL_WITHOUT_LANGUAGE_TAG;
+                        }
                     } else {
                         return RippleType.Category.OTHER_TYPED_LITERAL;
                     }

@@ -167,8 +167,6 @@ public abstract class RippleTestCase {
         if (0 == size) {
             return;
         }
-//for (RippleList l : expected) {System.out.println("expected: " + l);}
-//for (RippleList l : actual) {System.out.println("actual: " + l);}
 
         // Sort the results.
         RippleList[] expArray = new RippleList[size];
