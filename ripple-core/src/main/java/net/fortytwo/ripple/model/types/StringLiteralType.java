@@ -20,7 +20,7 @@ public class StringLiteralType extends RDFValueType<Literal> {
 
     @Override
     public Category getCategory() {
-        return Category.STRING_TYPED_LITERAL;
+        return Category.STRING_LITERAL_WITHOUT_LANGUAGE_TAG;
     }
 
     @Override

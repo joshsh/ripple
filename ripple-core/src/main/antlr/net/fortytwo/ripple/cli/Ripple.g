@@ -19,7 +19,7 @@ import net.fortytwo.ripple.cli.ast.LambdaAST;
 import net.fortytwo.ripple.cli.ast.ListAST;
 import net.fortytwo.ripple.cli.ast.NumberAST;
 import net.fortytwo.ripple.cli.ast.OperatorAST;
-import net.fortytwo.ripple.cli.ast.PlainLiteralAST;
+import net.fortytwo.ripple.cli.ast.StringLiteralAST;
 import net.fortytwo.ripple.cli.ast.QNameAST;
 import net.fortytwo.ripple.cli.ast.TemplateAST;
 import net.fortytwo.ripple.cli.ast.TypedLiteralAST;
@@ -498,7 +498,7 @@ nt_Literal returns [ AST r ]
 		    String label = unescape( t.getText() );
 
 			r = ( null == dataType )
-				? new PlainLiteralAST( label, adapter.getLanguageTag() )
+				? new StringLiteralAST( label, adapter.getLanguageTag() )
 				: new TypedLiteralAST( label, dataType );
 		}
 	| r=nt_Number

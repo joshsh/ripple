@@ -38,7 +38,7 @@ public class BooleanType extends SimpleType<Boolean> {
 
     @Override
     public Category getCategory() {
-        return Category.OTHER_TYPED_LITERAL;
+        return Category.OTHER_LITERAL;
     }
 
     @Override

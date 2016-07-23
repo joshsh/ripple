@@ -14,12 +14,12 @@ public interface RippleType<T> {
     enum Category {
         KEYVALUE_VALUE,
         LIST,
-        NUMERIC_TYPED_LITERAL,
+        NUMERIC_LITERAL,
         OPERATOR,
         OTHER_RESOURCE,  // Note: includes PrimitiveStackMapping
-        OTHER_TYPED_LITERAL,
-        PLAIN_LITERAL_WITHOUT_LANGUAGE_TAG,
-        PLAIN_LITERAL_WITH_LANGUAGE_TAG,
+        OTHER_LITERAL,
+        STRING_LITERAL_WITHOUT_LANGUAGE_TAG,
+        STRING_LITERAL_WITH_LANGUAGE_TAG,
         STRING_TYPED_LITERAL,
     }
 

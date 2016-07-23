@@ -58,7 +58,7 @@ public abstract class NumericType<T> implements RippleType<T> {
 
     @Override
     public RippleType.Category getCategory() {
-        return RippleType.Category.NUMERIC_TYPED_LITERAL;
+        return RippleType.Category.NUMERIC_LITERAL;
     }
 
     protected void printTo(final Number instance,

@@ -25,7 +25,6 @@ public class StringType extends SimpleType<String> {
 
     @Override
     public Value toRDF(String instance, ModelConnection mc) throws RippleException {
-        //return ((SesameModelConnection) mc).getValueFactory().createLiteral(instance);
         return ((SesameModelConnection) mc).getValueFactory().createLiteral(instance, XMLSchema.STRING);
     }
 
@@ -42,7 +41,7 @@ public class StringType extends SimpleType<String> {
 
     @Override
     public Category getCategory() {
-        return Category.STRING_TYPED_LITERAL;
+        return Category.STRING_LITERAL_WITHOUT_LANGUAGE_TAG;
     }
 
     @Override

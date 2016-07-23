@@ -4,10 +4,11 @@ import net.fortytwo.flow.Collector;
 import net.fortytwo.ripple.RippleException;
 import net.fortytwo.ripple.model.types.NumericType;
 import net.fortytwo.ripple.util.ModelConnectionHelper;
+import org.openrdf.model.IRI;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
 import org.openrdf.model.Value;
+import org.openrdf.model.vocabulary.XMLSchema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,10 +49,10 @@ public class RippleComparator implements Comparator<Object> {
             }
 
             // if the objects have different types, look for equivalence relations
-            RippleType.Category o1Cat = findCategory(o1, o1Type);
-            RippleType.Category o2Cat = findCategory(o2, o2Type);
+            RippleType.Category o1Cat = categoryOf(o1, o1Type);
+            RippleType.Category o2Cat = categoryOf(o2, o2Type);
 
-            // recognize URIs or blank nodes representing lists as equivalent to native lists
+            // recognize IRIs or blank nodes representing lists as equivalent to native lists
             if (o1Cat == RippleType.Category.OTHER_RESOURCE
                     && ModelConnectionHelper.isRDFList(o1, modelConnection)) {
                 o1Cat = RippleType.Category.LIST;
@@ -65,13 +66,13 @@ public class RippleComparator implements Comparator<Object> {
 
             if (0 == c) {
                 switch (o1Cat) {
-                    case PLAIN_LITERAL_WITHOUT_LANGUAGE_TAG:
-                        return comparePlainLiteralWithoutLanguageTag(o1, o2);
-                    case PLAIN_LITERAL_WITH_LANGUAGE_TAG:
-                        return comparePlainLiteralWithLanguageTag(o1, o2);
-                    case NUMERIC_TYPED_LITERAL:
+                    case STRING_LITERAL_WITHOUT_LANGUAGE_TAG:
+                        return compareStringLiteral(o1, o2);
+                    case STRING_LITERAL_WITH_LANGUAGE_TAG:
+                        return compareStringLiteralWithLanguageTag(o1, o2);
+                    case NUMERIC_LITERAL:
                         return compareNumericTypedLiteral(o1, o2, o1Type, o2Type);
-                    case OTHER_TYPED_LITERAL:
+                    case OTHER_LITERAL:
                         return compareOtherTypedLiteral(o1, o2);
                     case LIST:
                         return compareList(o1, o2);
@@ -81,8 +82,6 @@ public class RippleComparator implements Comparator<Object> {
                         return compareOperator(o1, o2, o1Type, o2Type);
                     case OTHER_RESOURCE:
                         return compareOtherResource(o1, o2);
-                    case STRING_TYPED_LITERAL:
-                        return compareStringTypedLiteral(o1, o2);
                     default:
                         throw new IllegalStateException();
                 }
@@ -105,54 +104,69 @@ public class RippleComparator implements Comparator<Object> {
         }
     }
 
-    private RippleType.Category findCategory(final Object value, final RippleType type) throws RippleException {
+    private RippleType.Category categoryOf(final Object value, final RippleType type) throws RippleException {
         if (null != type) {
             return type.getCategory();
         }
 
         if (value instanceof Value) {
-            Value sesameValue = (Value) value;
-
-            if (sesameValue instanceof Literal) {
-                URI datatype = ((Literal) sesameValue).getDatatype();
-
-                if (null == datatype) {
-                    Optional<String> language = ((Literal) sesameValue).getLanguage();
-
-                    if (language.isPresent()) {
-                        return RippleType.Category.PLAIN_LITERAL_WITH_LANGUAGE_TAG;
-                    } else {
-                        return RippleType.Category.PLAIN_LITERAL_WITHOUT_LANGUAGE_TAG;
-                    }
-                } else {
-                    if (NumericType.isNumericLiteral((Literal) sesameValue)) {
-                        return RippleType.Category.NUMERIC_TYPED_LITERAL;
-                    } else {
-                        return RippleType.Category.OTHER_TYPED_LITERAL;
-                    }
-                }
-            } else if (sesameValue instanceof Resource) {
-                if (ModelConnectionHelper.isRDFList(sesameValue, modelConnection)) {
-                    return RippleType.Category.LIST;
-                } else {
-                    return RippleType.Category.OTHER_RESOURCE;
-                }
-            } else {
-                throw new RippleException("Sesame value has unrecognized class: " + sesameValue);
-            }
+            return categoryOfValue((Value) value);
         } else {
             throw new IllegalStateException("no category for value: " + value);
         }
     }
 
-    private int comparePlainLiteralWithoutLanguageTag(final Object o1,
-                                                      final Object o2) throws RippleException {
-        return modelConnection.toRDF(o1).stringValue().compareTo(
-                modelConnection.toRDF(o2).stringValue());
+    private RippleType.Category categoryOfValue(final Value value) throws RippleException {
+        if (value instanceof Literal) {
+            return categoryOfLiteral((Literal) value);
+        } else if (value instanceof Resource) {
+            return categoryOfResource((Resource) value);
+        } else {
+            throw new RippleException("Sesame value has unrecognized class: " + value);
+        }
     }
 
-    private int comparePlainLiteralWithLanguageTag(final Object o1,
-                                                   final Object o2) throws RippleException {
+    private RippleType.Category categoryOfLiteral(final Literal value) {
+        IRI datatype = value.getDatatype();
+
+        if (null == datatype) {
+            throw new IllegalStateException();
+        } else {
+            if (NumericType.isNumericLiteral(value)) {
+                return RippleType.Category.NUMERIC_LITERAL;
+            } else if (datatype.equals(XMLSchema.STRING)) {
+                return categoryOfStringLiteral(value);
+            } else {
+                return RippleType.Category.OTHER_LITERAL;
+            }
+        }
+    }
+
+    private RippleType.Category categoryOfStringLiteral(final Literal value) {
+        Optional<String> language = value.getLanguage();
+
+        if (language.isPresent()) {
+            return RippleType.Category.STRING_LITERAL_WITH_LANGUAGE_TAG;
+        } else {
+            return RippleType.Category.STRING_LITERAL_WITHOUT_LANGUAGE_TAG;
+        }
+    }
+
+    private RippleType.Category categoryOfResource(Resource value) throws RippleException {
+        if (ModelConnectionHelper.isRDFList(value, modelConnection)) {
+            return RippleType.Category.LIST;
+        } else {
+            return RippleType.Category.OTHER_RESOURCE;
+        }
+    }
+
+    private int compareStringLiteral(final Object o1,
+                                     final Object o2) throws RippleException {
+        return getLabelOf(o1).compareTo(getLabelOf(o2));
+    }
+
+    private int compareStringLiteralWithLanguageTag(final Object o1,
+                                                    final Object o2) throws RippleException {
         Literal o1Lit = (Literal) modelConnection.toRDF(o1);
         Literal o2Lit = (Literal) modelConnection.toRDF(o2);
 
@@ -175,15 +189,6 @@ public class RippleComparator implements Comparator<Object> {
         }
 
         return NumericType.compare(((NumericType) o1Type).findNumber(o1), ((NumericType) o2Type).findNumber(o2));
-    }
-
-    private int compareStringTypedLiteral(final Object o1,
-                                          final Object o2) throws RippleException {
-        Literal o1Lit = (Literal) modelConnection.toRDF(o1);
-        Literal o2Lit = (Literal) modelConnection.toRDF(o2);
-
-        return o1Lit.getLabel().compareTo(
-                o2Lit.getLabel());
     }
 
     private int compareOtherTypedLiteral(final Object o1,
@@ -337,6 +342,16 @@ public class RippleComparator implements Comparator<Object> {
             }
 
             return 0;
+        }
+    }
+
+    private String getLabelOf(Object stringObject) {
+        if (stringObject instanceof Literal) {
+            return ((Literal) stringObject).getLabel();
+        } else if (stringObject instanceof String) {
+            return (String) stringObject;
+        } else {
+            throw new IllegalStateException();
         }
     }
 

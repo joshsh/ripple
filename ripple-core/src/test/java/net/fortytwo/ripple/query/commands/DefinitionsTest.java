@@ -2,7 +2,7 @@ package net.fortytwo.ripple.query.commands;
 
 import info.aduna.iteration.CloseableIteration;
 import net.fortytwo.ripple.cli.ast.ListAST;
-import net.fortytwo.ripple.cli.ast.PlainLiteralAST;
+import net.fortytwo.ripple.cli.ast.StringLiteralAST;
 import net.fortytwo.ripple.query.Command;
 import net.fortytwo.ripple.query.QueryEngine;
 import net.fortytwo.ripple.test.RippleTestCase;
@@ -32,9 +32,9 @@ public class DefinitionsTest extends RippleTestCase {
         QueryEngine qe = getTestQueryEngine();
 
         ListAST foobar = new ListAST(
-                new PlainLiteralAST("foo"), new ListAST(new PlainLiteralAST("bar"), new ListAST()));
+                new StringLiteralAST("foo"), new ListAST(new StringLiteralAST("bar"), new ListAST()));
         ListAST foobar2 = new ListAST(
-                new PlainLiteralAST("foo2"), new ListAST(new PlainLiteralAST("bar2"), new ListAST()));
+                new StringLiteralAST("foo2"), new ListAST(new StringLiteralAST("bar2"), new ListAST()));
         IRI foobarUri = sail.getValueFactory().createIRI(qe.getLexicon().getDefaultNamespace() + "foobar");
         Literal foo = sail.getValueFactory().createLiteral("foo", XMLSchema.STRING);
         Literal foo2 = sail.getValueFactory().createLiteral("foo2", XMLSchema.STRING);
