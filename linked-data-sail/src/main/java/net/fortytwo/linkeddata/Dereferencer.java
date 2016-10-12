@@ -16,4 +16,3 @@ public interface Dereferencer {
     // TODO: this method throws an exception, while Rdfizer.handle does not
     Representation dereference(String uri);
 }
-
