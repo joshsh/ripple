@@ -41,7 +41,11 @@ public final class RDFUtils {
         return hashedUri(docUri);
     }
 
-    public static URL iriToUrl(final String iriStr) throws MalformedURLException {
-        return new URL(iriStr);
+    public static URL iriToUrl(final String iriStr) {
+        try {
+            return new URL(iriStr);
+        } catch (MalformedURLException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 }
