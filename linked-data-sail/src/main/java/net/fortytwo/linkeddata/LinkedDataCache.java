@@ -7,8 +7,6 @@ import net.fortytwo.linkeddata.rdfizers.ImageRdfizer;
 import net.fortytwo.linkeddata.rdfizers.VerbatimRdfizer;
 import net.fortytwo.linkeddata.sail.LinkedDataSail;
 import net.fortytwo.linkeddata.util.RDFUtils;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import org.openrdf.model.IRI;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
@@ -24,6 +22,8 @@ import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
 import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -44,7 +44,7 @@ import java.util.function.Consumer;
  * @author Joshua Shinavier (http://fortytwo.net)
  */
 public class LinkedDataCache {
-    private static final Logger logger = Logger.getLogger(LinkedDataCache.class);
+    private static final Logger logger = LoggerFactory.getLogger(LinkedDataCache.class);
 
     private static final ValueFactory constValueFactory = SimpleValueFactory.getInstance();
 
@@ -184,7 +184,7 @@ public class LinkedDataCache {
 
         int capacity = Integer.valueOf(LinkedDataSail.getProperty(LinkedDataSail.MEMORY_CACHE_CAPACITY, "10000"));
         if (capacity < MINIMUM_CAPACITY) {
-            logger.log(Level.WARN, "LinkedDataSail.MEMORY_CACHE_CAPACITY is suspiciously low. Using "
+            logger.warn("LinkedDataSail.MEMORY_CACHE_CAPACITY is suspiciously low. Using "
                     + MINIMUM_CAPACITY);
         }
 
@@ -498,7 +498,7 @@ public class LinkedDataCache {
             msg.append(", rdfizer: ").append(memo.getRdfizer());
             msg.append("): ").append(status);
 
-            logger.info(msg);
+            logger.info(msg.toString());
         }
 
         return status;
