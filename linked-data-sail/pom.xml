@@ -23,11 +23,6 @@
             <version>${sesame.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.restlet.jse</groupId>
-            <artifactId>org.restlet</artifactId>
-            <version>${restlet.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-queryalgebra-evaluation</artifactId>
             <version>${sesame.version}</version>

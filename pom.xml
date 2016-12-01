@@ -50,7 +50,6 @@
     <properties>
         <httpcomponents.version>4.5.2</httpcomponents.version>
         <junit.version>4.12</junit.version>
-        <restlet.version>2.2.2</restlet.version>
         <ripple.version>1.5-SNAPSHOT</ripple.version>
         <sesame.version>4.1.2</sesame.version>
         <sesametools.version>1.10</sesametools.version>

@@ -1,7 +1,5 @@
 package net.fortytwo.linkeddata;
 
-import org.restlet.data.MediaType;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -45,7 +43,7 @@ public class CacheEntry {
 
     private Status status;
     private Date timestamp;
-    private MediaType mediaType;
+    private String mediaType;
     private String dereferencer;
     private String rdfizer;
 
@@ -87,7 +85,7 @@ public class CacheEntry {
         return timestamp;
     }
 
-    public MediaType getMediaType() {
+    public String getMediaType() {
         return mediaType;
     }
 
@@ -150,7 +148,8 @@ public class CacheEntry {
         this.status = status;
     }
 
-    public void setMediaType(final MediaType mt) {
+    public void setMediaType(final
+                             String mt) {
         this.mediaType = mt;
     }
 
@@ -172,7 +171,7 @@ public class CacheEntry {
                 this.timestamp = TIMESTAMP_FORMAT.parse(value);
                 break;
             case MEDIATYPE:
-                this.mediaType = new MediaType(value);
+                this.mediaType = value;
                 break;
             case DEREFERENCER:
                 this.dereferencer = value;

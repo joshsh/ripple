@@ -1,5 +1,6 @@
 package net.fortytwo.linkeddata.dereferencers;
 
+import net.fortytwo.linkeddata.LinkedDataCache;
 import net.fortytwo.linkeddata.RedirectManager;
 import net.fortytwo.linkeddata.util.HTTPUtils;
 import net.fortytwo.linkeddata.util.RDFUtils;
@@ -9,23 +10,18 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.openrdf.sail.SailException;
-import org.restlet.data.MediaType;
-import org.restlet.representation.StreamRepresentation;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.channels.ReadableByteChannel;
-import java.nio.channels.WritableByteChannel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)
  */
-public class HTTPRepresentation extends StreamRepresentation {
+public class HTTPRepresentation extends LinkedDataCache.Representation {
     private static final Logger logger = Logger.getLogger(HTTPRepresentation.class.getName());
 
     private final InputStream inputStream;
@@ -56,35 +52,24 @@ public class HTTPRepresentation extends StreamRepresentation {
         setMediaType(findMediaType(iri, response));
     }
 
-    public ReadableByteChannel getChannel() throws IOException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public InputStream getStream() throws IOException {
+    @Override
+    public InputStream getStream() {
         return inputStream;
     }
 
-    public void write(final OutputStream outputStream) throws IOException {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public void write(final WritableByteChannel writableByteChannel) throws IOException {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    private MediaType findMediaType(final String iri, final HttpResponse response) throws InvalidResponseException {
+    private String findMediaType(final String iri, final HttpResponse response) throws InvalidResponseException {
         Header contentTypeHeader = response.getFirstHeader(HTTPUtils.CONTENT_TYPE);
         if (null == contentTypeHeader) {
             throw new InvalidResponseException("no content-type header served for resource <"
                     + StringUtils.escapeURIString(iri) + ">");
         }
 
-        String mtStr = contentTypeHeader.getValue().split(";")[0];
-        if (null == mtStr || 0 == mtStr.length()) {
+        String mediaType = contentTypeHeader.getValue().split(";")[0];
+        if (null == mediaType || 0 == mediaType.length()) {
             throw new InvalidResponseException("no media type found for resource <"
                     + StringUtils.escapeURIString(iri) + ">");
         }
-        return new MediaType(mtStr);
+        return mediaType;
     }
 
     private HttpResponse dereference(final String iri, final RedirectManager redirects, final String acceptHeader) throws IOException {

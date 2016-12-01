@@ -20,12 +20,11 @@ import org.openrdf.rio.RDFParserRegistry;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailConnection;
 import org.openrdf.sail.SailException;
-import org.restlet.data.MediaType;
-import org.restlet.representation.Representation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -87,7 +86,7 @@ public class LinkedDataCache {
     private CacheExpirationPolicy expirationPolicy;
 
     // Maps media types to Rdfizers
-    private final Map<MediaType, MediaTypeInfo> rdfizers
+    private final Map<String, MediaTypeInfo> rdfizers
             = new HashMap<>();
 
     // Maps IRI schemes to Dereferencers
@@ -147,7 +146,7 @@ public class LinkedDataCache {
         addDereferencer("jar", new JarURIDereferencer());
     }
 
-    private void addVerbatimRdfizers(){
+    private void addVerbatimRdfizers() {
         RDFParser.DatatypeHandling datatypeHandling = getDatatypeHandling();
 
         Map<RDFFormat, Rdfizer> rdfizerMap = new HashMap<>();
@@ -157,20 +156,20 @@ public class LinkedDataCache {
             rdfizerMap.put(format, rdfizer);
             for (String type : format.getMIMETypes()) {
                 double qualityFactor = type.equals("application/rdf+xml") ? 1.0 : 0.5;
-                addRdfizer(new MediaType(type), rdfizer, qualityFactor);
+                addRdfizer(type, rdfizer, qualityFactor);
             }
         }
 
-        addRdfizer(new MediaType("text/xml"), rdfizerMap.get(RDFFormat.RDFXML), 0.25);
+        addRdfizer("text/xml", rdfizerMap.get(RDFFormat.RDFXML), 0.25);
     }
 
     private void addMediaRdfizers() {
         // Additional rdfizers
         Rdfizer imageRdfizer = new ImageRdfizer();
         // Mainstream EXIF-compatible image types: JPEG, TIFF
-        addRdfizer(MediaType.IMAGE_JPEG, imageRdfizer, 0.4);
-        addRdfizer(new MediaType("image/tiff"), imageRdfizer, 0.4);
-        addRdfizer(new MediaType("image/tiff-fx"), imageRdfizer, 0.4);
+        addRdfizer("image/jpeg", imageRdfizer, 0.4);
+        addRdfizer("image/tiff", imageRdfizer, 0.4);
+        addRdfizer("image/tiff-fx", imageRdfizer, 0.4);
 
         // TODO: add an EXIF-based Rdfizer for RIFF WAV audio files
     }
@@ -247,7 +246,7 @@ public class LinkedDataCache {
                     sb.append(", ");
                 }
 
-                sb.append(m.mediaType.getName());
+                sb.append(m.mediaType);
                 double quality = m.quality;
                 if (1.0 != quality) {
                     sb.append(";q=").append(quality);
@@ -269,7 +268,7 @@ public class LinkedDataCache {
      *                      the client's preference for the given media type.
      *                      This value is used for HTTP content negotiation.
      */
-    private void addRdfizer(final MediaType mediaType,
+    private void addRdfizer(final String mediaType,
                             final Rdfizer rdfizer,
                             final double qualityFactor) {
         logger.info("adding RDFizer for media type " + mediaType + ": " + rdfizer);
@@ -310,8 +309,8 @@ public class LinkedDataCache {
     /**
      * Retrieves caching metadata for a URI, possibly dereferencing a document from the Web first.
      *
-     * @param iri the IRI to look up and possibly dereference
-     * @param sailConnection  a connection to a Sail
+     * @param iri            the IRI to look up and possibly dereference
+     * @param sailConnection a connection to a Sail
      */
     public void retrieve(final IRI iri,
                          final SailConnection sailConnection) throws IOException {
@@ -520,7 +519,7 @@ public class LinkedDataCache {
         return dref;
     }
 
-    private Rdfizer chooseRdfizer(final MediaType mediaType) {
+    private Rdfizer chooseRdfizer(final String mediaType) {
         MediaTypeInfo rq = rdfizers.get(mediaType);
         return (null == rq) ? null : rq.rdfizer;
     }
@@ -540,7 +539,7 @@ public class LinkedDataCache {
     }
 
     private class MediaTypeInfo {
-        MediaType mediaType;
+        String mediaType;
         public double quality;
         public Rdfizer rdfizer;
     }
@@ -646,5 +645,23 @@ public class LinkedDataCache {
         public void accept(Statement st) {
             handler.handleStatement(st);
         }
+    }
+
+    public static abstract class Representation {
+        private String mediaType;
+
+        protected Representation(String mediaType) {
+            this.mediaType = mediaType;
+        }
+
+        public String getMediaType() {
+            return mediaType;
+        }
+
+        public void setMediaType(final String mediaType) {
+            this.mediaType = mediaType;
+        }
+
+        public abstract InputStream getStream();
     }
 }
