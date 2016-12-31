@@ -5,6 +5,7 @@ import org.apache.http.HttpRequest;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
@@ -54,6 +55,7 @@ public class HTTPUtils {
                 .build();
 
         HttpClientBuilder builder = HttpClients.custom()
+                .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
                 .setDefaultRequestConfig(defaultRequestConfig)
                         //.disableAutomaticRetries()
                         //.disableConnectionState()
@@ -90,7 +92,11 @@ public class HTTPUtils {
      * making too many requests, too quickly, of the same host.
      * TODO: request and respect robots.txt, if present.
      *
-     * @return the amount of time, in milliseconds, that is spent idling for the sake of crawler etiquette
+     * @return the amount of time spent idling for the sake of crawler etiquette
+     * This is the amount of time, in milliseconds, which was spent on a courtesy delay
+     * (to avoid overloading remote servers) while creating this representation, as opposed
+     * to time spent waiting for a response from the remote server or receiving packet data.
+     * This is potentially important for response time analysis.
      */
     public static long throttleHttpRequest(final HttpRequest method) {
         String uri = method.getRequestLine().getUri();

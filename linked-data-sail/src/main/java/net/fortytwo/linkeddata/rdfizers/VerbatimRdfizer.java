@@ -2,6 +2,7 @@ package net.fortytwo.linkeddata.rdfizers;
 
 import net.fortytwo.linkeddata.CacheEntry;
 import net.fortytwo.linkeddata.Rdfizer;
+import org.apache.commons.io.IOUtils;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFHandler;
 import org.openrdf.rio.RDFHandlerException;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 
 /**
  * @author Joshua Shinavier (http://fortytwo.net)

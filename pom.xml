@@ -11,7 +11,7 @@
 
     <groupId>net.fortytwo.ripple</groupId>
     <artifactId>ripple-all</artifactId>
-    <version>1.4</version>
+    <version>1.5</version>
     <packaging>pom</packaging>
     <name>Ripple</name>
     <description>Semantic Web scripting language</description>
@@ -46,12 +46,10 @@
         </developer>
     </developers>
 
-    <!-- note: *not* compatible with Android 2.2.1 -->
     <properties>
         <httpcomponents.version>4.5.2</httpcomponents.version>
         <junit.version>4.12</junit.version>
-        <restlet.version>2.2.2</restlet.version>
-        <ripple.version>1.4</ripple.version>
+        <ripple.version>1.5</ripple.version>
         <sesame.version>4.1.2</sesame.version>
         <sesametools.version>1.10</sesametools.version>
         <slf4j.version>1.7.10</slf4j.version>

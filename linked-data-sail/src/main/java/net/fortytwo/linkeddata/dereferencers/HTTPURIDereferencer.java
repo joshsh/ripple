@@ -6,7 +6,6 @@ import net.fortytwo.linkeddata.RedirectManager;
 import net.fortytwo.linkeddata.util.StringUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.restlet.representation.Representation;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -38,7 +37,7 @@ public class HTTPURIDereferencer implements Dereferencer {
 
     }
 
-    public Representation dereference(final String uri) {
+    public LinkedDataCache.Representation dereference(final String uri) {
         // Don't dereference a URI which appears to point to a file which is not
         // an RDF document.
         int l = uri.lastIndexOf('.');

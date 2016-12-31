@@ -70,8 +70,6 @@ public abstract class PrimitiveStackMapping implements StackMapping {
         }
 
         rdfEquivalent = v;
-
-// typeAnnotation = new FunctionTypeAnnotation( v, mc );
     }
 
     public String toString() {

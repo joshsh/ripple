@@ -1,7 +1,5 @@
 package net.fortytwo.linkeddata;
 
-import org.restlet.representation.Representation;
-
 /**
  * An object which fetches documents based on URI (for example, Web documents via HTTP).
  *
@@ -14,6 +12,5 @@ public interface Dereferencer {
      * (for example, if the URI redirects to a document which has already been retrieved)
      */
     // TODO: this method throws an exception, while Rdfizer.handle does not
-    Representation dereference(String uri);
+    LinkedDataCache.Representation dereference(String uri);
 }
-
