@@ -46,7 +46,6 @@
         </developer>
     </developers>
 
-    <!-- note: *not* compatible with Android 2.2.1 -->
     <properties>
         <httpcomponents.version>4.5.2</httpcomponents.version>
         <junit.version>4.12</junit.version>
